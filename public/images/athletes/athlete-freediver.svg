@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800">
+  <defs>
+    <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="7"/>
+      <feColorMatrix values="0 0 0 0 0.6 0 0 0 0 0.55 0 0 0 0 0.48 0 0 0 0.06 0"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+    <radialGradient id="bg" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#F8F6F1"/>
+      <stop offset="100%" stop-color="#F4EFE6"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="800" fill="url(#bg)" rx="12"/>
+  <!-- Wave 1 - top -->
+  <path d="M 40,260 Q 115,220 190,260 Q 265,300 340,260 Q 415,220 490,260 Q 530,280 560,260" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.3"/>
+  <!-- Wave 2 -->
+  <path d="M 40,330 Q 115,370 190,330 Q 265,290 340,330 Q 415,370 490,330 Q 530,310 560,330" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.35"/>
+  <!-- Wave 3 - middle, rust accent -->
+  <path d="M 40,400 Q 115,350 190,400 Q 265,450 340,400 Q 415,350 490,400 Q 530,425 560,400" fill="none" stroke="#A0522D" stroke-width="1.5" opacity="0.45"/>
+  <!-- Wave 4 -->
+  <path d="M 40,470 Q 115,430 190,470 Q 265,510 340,470 Q 415,430 490,470 Q 530,490 560,470" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.35"/>
+  <!-- Wave 5 - bottom -->
+  <path d="M 40,540 Q 115,580 190,540 Q 265,500 340,540 Q 415,580 490,540 Q 530,520 560,540" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.3"/>
+  <!-- Intersection circles between waves -->
+  <!-- Wave 1 and Wave 2 intersections -->
+  <circle cx="152" cy="280" r="3.5" fill="none" stroke="#0A0A0A" stroke-width="0.8" opacity="0.35"/>
+  <circle cx="228" cy="280" r="3.5" fill="none" stroke="#0A0A0A" stroke-width="0.8" opacity="0.35"/>
+  <circle cx="378" cy="280" r="3.5" fill="none" stroke="#0A0A0A" stroke-width="0.8" opacity="0.35"/>
+  <circle cx="452" cy="280" r="3.5" fill="none" stroke="#0A0A0A" stroke-width="0.8" opacity="0.35"/>
+  <!-- Wave 2 and Wave 3 intersections -->
+  <circle cx="115" cy="358" r="4" fill="#A0522D" opacity="0.4"/>
+  <circle cx="265" cy="358" r="4" fill="#A0522D" opacity="0.4"/>
+  <circle cx="415" cy="358" r="4" fill="#A0522D" opacity="0.4"/>
+  <!-- Wave 3 and Wave 4 intersections -->
+  <circle cx="152" cy="430" r="4" fill="#A0522D" opacity="0.4"/>
+  <circle cx="340" cy="430" r="4" fill="#A0522D" opacity="0.4"/>
+  <circle cx="490" cy="430" r="4" fill="#A0522D" opacity="0.4"/>
+  <!-- Wave 4 and Wave 5 intersections -->
+  <circle cx="115" cy="490" r="3.5" fill="none" stroke="#0A0A0A" stroke-width="0.8" opacity="0.35"/>
+  <circle cx="265" cy="490" r="3.5" fill="none" stroke="#0A0A0A" stroke-width="0.8" opacity="0.35"/>
+  <circle cx="415" cy="490" r="3.5" fill="none" stroke="#0A0A0A" stroke-width="0.8" opacity="0.35"/>
+  <!-- Small dots at wave endpoints -->
+  <circle cx="40" cy="260" r="2" fill="#0A0A0A" opacity="0.25"/>
+  <circle cx="560" cy="260" r="2" fill="#0A0A0A" opacity="0.25"/>
+  <circle cx="40" cy="540" r="2" fill="#0A0A0A" opacity="0.25"/>
+  <circle cx="560" cy="540" r="2" fill="#0A0A0A" opacity="0.25"/>
+  <!-- Label -->
+  <text x="300" y="740" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0A0A0A" opacity="0.4" letter-spacing="6">E-COMMERCE</text>
+  <!-- Grain overlay -->
+  <rect width="600" height="800" filter="url(#grain)" opacity="0.5" rx="12"/>
+</svg>

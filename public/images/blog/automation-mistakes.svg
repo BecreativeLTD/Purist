@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 720" width="1400" height="720" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#F8F6F1"/>
+      <stop offset="100%" stop-color="#EDE5D5"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.7" cy="0.3" r="0.5">
+      <stop offset="0%" stop-color="#c4847e" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#c4847e" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="5"/>
+      <feColorMatrix values="0 0 0 0 0.6  0 0 0 0 0.55  0 0 0 0 0.48  0 0 0 0.05 0"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+  <rect width="1400" height="720" fill="url(#bg)"/>
+  <rect width="1400" height="720" fill="url(#glow)"/>
+
+  <!-- 7 warning marks -->
+  <g fill="none" stroke="#E8B4B0">
+    <g transform="translate(750,160)" opacity="0.7">
+      <circle cx="0" cy="0" r="38" stroke-width="1.5"/>
+      <line x1="0" y1="-18" x2="0" y2="8" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="0" cy="18" r="3" fill="#E8B4B0"/>
+    </g>
+    <g transform="translate(860,240)" opacity="0.5">
+      <circle cx="0" cy="0" r="28" stroke-width="1.2"/>
+      <line x1="0" y1="-13" x2="0" y2="5" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="0" cy="13" r="2.5" fill="#E8B4B0"/>
+    </g>
+    <g transform="translate(960,180)" opacity="0.4">
+      <circle cx="0" cy="0" r="22" stroke-width="1"/>
+      <line x1="0" y1="-10" x2="0" y2="4" stroke-width="1.8" stroke-linecap="round"/>
+      <circle cx="0" cy="10" r="2" fill="#E8B4B0"/>
+    </g>
+    <g transform="translate(1060,310)" opacity="0.35">
+      <circle cx="0" cy="0" r="18" stroke-width="0.9"/>
+    </g>
+    <g transform="translate(1150,200)" opacity="0.25">
+      <circle cx="0" cy="0" r="14" stroke-width="0.8"/>
+    </g>
+    <g transform="translate(1220,350)" opacity="0.2">
+      <circle cx="0" cy="0" r="11" stroke-width="0.7"/>
+    </g>
+    <g transform="translate(1280,250)" opacity="0.15">
+      <circle cx="0" cy="0" r="8" stroke-width="0.6"/>
+    </g>
+  </g>
+
+  <!-- Large 7 -->
+  <text x="620" y="430" font-family="Georgia, serif" font-size="200" fill="#E8B4B0" opacity="0.07" font-weight="bold">7</text>
+
+  <text x="80" y="620" font-family="Inter, sans-serif" font-size="13" fill="#c4847e" letter-spacing="5" font-weight="500">AUTOMATION MISTAKES</text>
+  <text x="80" y="668" font-family="Georgia, serif" font-size="34" fill="#0A0A0A" font-weight="400">PURIST · Guide</text>
+  <rect width="1400" height="720" filter="url(#grain)" opacity="0.5"/>
+</svg>

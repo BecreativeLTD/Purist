@@ -1,0 +1,177 @@
+---
+const columns = [
+  {
+    title: 'Services',
+    links: [
+      { name: 'Automation Pro', href: '/products/foundation-pro' },
+      { name: 'The Full Stack', href: '/products/founder-stack' },
+      { name: 'AI Agent Deploy', href: '/products/longevity-protocol' },
+      { name: 'All services', href: '/collections/all' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { name: 'About us', href: '/pages/about-us' },
+      { name: 'Our approach', href: '/pages/impact' },
+      { name: 'How it works', href: '/pages/science' },
+      { name: 'Press', href: '/pages/press' },
+    ],
+  },
+  {
+    title: 'Learn',
+    links: [
+      { name: 'Client stories', href: '/pages/wall-of-health' },
+      { name: 'Industries', href: '/pages/ingredients' },
+      { name: 'Reliability & monitoring', href: '/pages/quality' },
+      { name: 'Partner program', href: '/pages/ambassador-program' },
+      { name: 'PURIST vs DIY automation', href: '/pages/purist-vs-green-powders' },
+      { name: 'PURIST vs hiring in-house', href: '/pages/purist-vs-multivitamins' },
+      { name: 'PURIST vs other agencies', href: '/pages/purist-vs-meal-replacements' },
+    ],
+  },
+  {
+    title: 'Support',
+    links: [
+      { name: 'FAQs', href: '/pages/faq' },
+      { name: 'Project status', href: '/pages/track' },
+      { name: 'Refund policy', href: '/pages/returns' },
+      { name: 'Contact us', href: '/pages/contact-us' },
+    ],
+  },
+  {
+    title: 'Community',
+    links: [
+      { name: 'LinkedIn', href: '#' },
+      { name: 'Twitter / X', href: '#' },
+      { name: 'TikTok', href: '#' },
+      { name: 'YouTube', href: '#' },
+      { name: 'GitHub', href: '#' },
+      { name: 'Refer a client', href: '/pages/refer' },
+    ],
+  },
+];
+---
+
+<footer class="bg-brand-black text-white relative overflow-hidden">
+  <!-- Top: newsletter + nav columns -->
+  <div class="container-x relative z-10 pt-16 lg:pt-20 pb-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
+      <div class="lg:col-span-4">
+        <!-- Trust stats row -->
+        <div class="flex gap-6 mb-6">
+          {[
+            { n: '312+', l: 'Clients' },
+            { n: '14h', l: 'Saved/wk' },
+            { n: '99.97%', l: 'Uptime' },
+          ].map((s) => (
+            <div>
+              <p class="font-display text-xl leading-none text-white">{s.n}</p>
+              <p class="text-[10px] tracking-wider uppercase text-white/40 mt-1">{s.l}</p>
+            </div>
+          ))}
+        </div>
+
+        <h2 class="font-display text-2xl lg:text-3xl leading-tight mb-4 text-balance">
+          Automation insights, <em class="font-medium">delivered weekly.</em>
+        </h2>
+        <p class="text-sm text-white/60 mb-6 max-w-md leading-relaxed">
+          Real workflow templates, automation teardowns, and ROI case studies from 312+ deployments. No fluff. Unsubscribe anytime.
+        </p>
+        <form
+          class="flex flex-col sm:flex-row gap-3 max-w-md"
+          onsubmit="event.preventDefault(); this.querySelector('button').textContent='✓ You\'re in'; this.querySelector('input').disabled = true;"
+        >
+          <input
+            type="email"
+            required
+            placeholder="your@company.com"
+            aria-label="Email address"
+            class="flex-1 bg-white/5 border border-white/15 focus:border-white rounded-button px-4 py-3 text-sm outline-none transition placeholder:text-white/30 disabled:opacity-50"
+          />
+          <button
+            type="submit"
+            class="bg-white text-brand-black px-5 py-3 rounded-button text-sm font-medium hover:bg-white/90 transition shrink-0"
+          >
+            Join 2,400+
+          </button>
+        </form>
+        <p class="text-[11px] text-white/35 mt-3">
+          Joined by ops leads, founders, and automation engineers. Weekly, no spam.
+        </p>
+      </div>
+
+      <div class="lg:col-span-8 grid grid-cols-2 md:grid-cols-5 gap-8">
+        {columns.map((col) => (
+          <div>
+            <p class="text-[11px] uppercase tracking-[0.15em] font-medium text-white/50 mb-4">{col.title}</p>
+            <ul class="space-y-2.5">
+              {col.links.map((l) => (
+                <li>
+                  <a href={l.href} class="text-sm text-white/90 hover:text-white transition">
+                    {l.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Bottom row: legal links -->
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pt-8 border-t border-white/10 text-xs text-white/60">
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+        <span>© 2026 PURIST®</span>
+        <a href="/pages/privacy-policy" class="hover:text-white transition">Privacy policy</a>
+        <a href="/pages/terms-of-service" class="hover:text-white transition">Terms of service</a>
+        <a href="/pages/accessibility" class="hover:text-white transition">Accessibility</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Giant wordmark watermark -->
+  <div class="relative -mt-4 select-none pointer-events-none">
+    <div class="container-x">
+      <p
+        class="font-display font-medium leading-[0.85] tracking-[-0.02em] text-brand-pink/70"
+        style="font-size: clamp(6rem, 22vw, 22rem);"
+        aria-hidden="true"
+      >
+        PURIST<span class="align-super text-[0.25em] font-medium">®</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- FDA disclaimer in bordered box -->
+  <div class="container-x relative z-10 pb-10">
+    <div class="border border-white/20 rounded-card px-6 lg:px-12 py-6 lg:py-8 mt-4">
+      <p class="text-center text-xs lg:text-sm text-white/70 leading-relaxed max-w-4xl mx-auto">
+        <strong class="text-white/90">*Results vary based on business size, industry and existing systems.</strong>
+        Reported metrics are based on aggregated client data and may not reflect your specific outcomes.
+        All automations are deployed on your own infrastructure. PURIST does not store your business data
+        beyond what is required for workflow execution and monitoring.
+      </p>
+    </div>
+
+    <p class="text-center text-[11px] text-white/40 mt-4">
+      **Free automation audit available for new clients only.
+    </p>
+  </div>
+
+  <!-- Accessibility commitment -->
+  <div class="bg-white/[0.02] border-t border-white/10">
+    <div class="container-x py-8">
+      <p class="text-[11px] uppercase tracking-[0.15em] font-medium text-white/50 mb-3">
+        Our commitment to accessibility
+      </p>
+      <p class="text-xs text-white/50 leading-relaxed max-w-4xl">
+        PURIST is committed to making this site usable for people of all abilities. We design and
+        build against WCAG 2.1 Level AA as our minimum standard. If you encounter a barrier on
+        this site, email <a href="mailto:hello@purist.example" class="underline underline-offset-4 hover:text-white/80">hello@purist.example</a>
+        with a description of the issue and the page where you saw it. Read our full
+        <a href="/pages/accessibility" class="underline underline-offset-4 hover:text-white/80">accessibility statement</a>.
+      </p>
+    </div>
+  </div>
+</footer>

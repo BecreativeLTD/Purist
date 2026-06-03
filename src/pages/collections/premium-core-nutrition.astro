@@ -1,0 +1,76 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import StarRating from '~/components/ui/StarRating.astro';
+import Button from '~/components/ui/Button.astro';
+import productsData from '~/data/products.json';
+import { formatPrice } from '~/lib/format';
+
+// Premium Core Nutrition = Foundation Pro + Longevity Protocol (no merch, no stack)
+const products = productsData.products.filter((p) =>
+  p.id === 'foundation-pro' || p.id === 'longevity-protocol',
+);
+---
+
+<ShopLayout
+  title="Premium automation services – PURIST"
+  description="The two core services at the heart of the PURIST system: Automation Pro and AI Agent Deploy."
+>
+  <header class="bg-brand-cream">
+    <div class="container-x py-16 lg:py-20 max-w-3xl mx-auto text-center">
+      <p class="eyebrow mb-4">Premium automation services</p>
+      <h1 class="font-display text-4xl lg:text-5xl xl:text-6xl leading-tight tracking-tight mb-6 text-balance">
+        The two services at <em class="font-medium">the heart of the system.</em>
+      </h1>
+      <p class="text-base lg:text-lg text-brand-gray-600 text-pretty">
+        Automation Pro handles your core workflows. AI Agent Deploy adds intelligent
+        routing and conversational AI. Bundle them as The Full Stack.
+      </p>
+    </div>
+  </header>
+
+  <section class="container-x py-16 lg:py-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
+      {products.map((p) => (
+        <article class="group/card flex flex-col rounded-card overflow-hidden bg-brand-cream hover:bg-brand-beige transition">
+          <a href={`/products/${p.slug}`} class="block aspect-square overflow-hidden bg-white">
+            <img
+              src={p.images[0]}
+              alt={`${p.title} packaging`}
+              class="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-[1.02]"
+              loading="lazy"
+            />
+          </a>
+          <div class="p-6 lg:p-8 flex flex-col flex-1">
+            <p class="eyebrow mb-2">{p.eyebrow}</p>
+            <h2 class="font-display text-2xl mb-2 leading-tight">
+              <a href={`/products/${p.slug}`} class="hover:opacity-70 transition">{p.title}</a>
+            </h2>
+            <div class="mb-3">
+              <StarRating rating={p.rating} size="sm" reviewCount={p.reviewCount} />
+            </div>
+            <p class="text-sm text-brand-gray-600 mb-5 text-pretty flex-1">{p.shortDescription}</p>
+            <div class="flex items-baseline gap-3 mb-5">
+              <span class="font-display text-xl">From {formatPrice(p.price.subscription)}/mo</span>
+              {p.price.discount > 0 && (
+                <span class="text-[10px] uppercase tracking-wider bg-brand-green/15 text-brand-green px-2 py-0.5 rounded font-medium">
+                  {p.price.discount}% off
+                </span>
+              )}
+            </div>
+            <Button href={`/products/${p.slug}`} full>View {p.title} →</Button>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-brand-beige py-16 lg:py-20 text-center">
+    <div class="container-x max-w-2xl">
+      <p class="eyebrow mb-4">Save 30%</p>
+      <h2 class="font-display text-3xl lg:text-4xl mb-6 leading-tight text-balance">
+        Get them together as <em class="font-medium">The Full Stack.</em>
+      </h2>
+      <Button href="/products/founder-stack" size="lg">View The Full Stack →</Button>
+    </div>
+  </section>
+</ShopLayout>

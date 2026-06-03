@@ -1,0 +1,71 @@
+---
+const kpis = [
+  { value: 95, suffix: '%', label: 'Less manual work', body: 'Clients eliminated nearly all repetitive data entry.' },
+  { value: 85, suffix: '%', label: 'Faster response', body: 'Clients reduced lead and support response times.' },
+  { value: 80, suffix: '%', label: 'Fewer errors', body: 'Clients saw dramatic reduction in human-caused mistakes.' },
+  { value: 20, suffix: 'h+', label: 'Hours saved weekly', body: 'Average time reclaimed per team per week.' },
+];
+---
+
+<section class="bg-brand-beige py-20 lg:py-28">
+  <div class="container-x">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <p class="eyebrow mb-4">Client results across 500+ deployments</p>
+      <h2 class="font-display text-h1 text-balance">
+        The numbers behind the automation.
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+      {kpis.map((k) => (
+        <div class="bg-white rounded-card p-6 lg:p-8 text-center scroll-fade">
+          <p
+            class="font-display text-5xl lg:text-6xl mb-2 leading-none"
+            data-counter
+            data-target={k.value}
+            data-suffix={k.suffix}
+          >0{k.suffix}</p>
+          <p class="font-display text-lg mb-2">{k.label}</p>
+          <p class="text-xs text-brand-gray-600 leading-relaxed">{k.body}</p>
+        </div>
+      ))}
+    </div>
+
+    <p class="mt-10 text-center text-xs text-brand-gray-600 max-w-2xl mx-auto">
+      Results based on aggregated client data across 500+ workflow deployments in
+      healthcare, real estate, agencies and e-commerce verticals.
+    </p>
+  </div>
+</section>
+
+<script>
+  function animateCounters() {
+    const els = document.querySelectorAll<HTMLElement>('[data-counter]:not([data-counter-done])');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          const target = parseFloat(el.dataset.target || '0');
+          const suffix = el.dataset.suffix || '';
+          const duration = 1400;
+          const start = performance.now();
+          function tick(now: number) {
+            const t = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - t, 3);
+            const value = Math.round(target * eased);
+            el.textContent = `${value}${suffix}`;
+            if (t < 1) requestAnimationFrame(tick);
+            else el.dataset.counterDone = 'true';
+          }
+          requestAnimationFrame(tick);
+          observer.unobserve(el);
+        });
+      },
+      { threshold: 0.4 },
+    );
+    els.forEach((el) => observer.observe(el));
+  }
+  animateCounters();
+  document.addEventListener('astro:page-load', animateCounters);
+</script>

@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8F6F1"/>
+      <stop offset="50%" stop-color="#F4EFE6"/>
+      <stop offset="100%" stop-color="#EDE5D5"/>
+    </linearGradient>
+        <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="1"/>
+      <feColorMatrix values="0 0 0 0 0.6 0 0 0 0 0.55 0 0 0 0 0.48 0 0 0 0.06 0"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="6" flood-color="#0A0A0A" flood-opacity="0.08"/>
+    </filter>
+    <radialGradient id="rustCenter" cx="50%" cy="50%" r="30%">
+      <stop offset="0%" stop-color="#A0522D" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#A0522D" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="url(#bg)"/>
+  <g filter="url(#shadow)">
+    <!-- Grid of dots - 7x7 mesh with intensity radiating from center -->
+    <circle cx="160" cy="160" r="1.5" fill="#0A0A0A" opacity="0.15"/>
+    <circle cx="240" cy="160" r="1.5" fill="#0A0A0A" opacity="0.18"/>
+    <circle cx="320" cy="160" r="1.5" fill="#0A0A0A" opacity="0.2"/>
+    <circle cx="400" cy="160" r="1.8" fill="#0A0A0A" opacity="0.22"/>
+    <circle cx="480" cy="160" r="1.5" fill="#0A0A0A" opacity="0.2"/>
+    <circle cx="560" cy="160" r="1.5" fill="#0A0A0A" opacity="0.18"/>
+    <circle cx="640" cy="160" r="1.5" fill="#0A0A0A" opacity="0.15"/>
+    <circle cx="160" cy="240" r="1.5" fill="#0A0A0A" opacity="0.18"/>
+    <circle cx="240" cy="240" r="1.8" fill="#0A0A0A" opacity="0.22"/>
+    <circle cx="320" cy="240" r="2" fill="#0A0A0A" opacity="0.25"/>
+    <circle cx="400" cy="240" r="2" fill="#0A0A0A" opacity="0.28"/>
+    <circle cx="480" cy="240" r="2" fill="#0A0A0A" opacity="0.25"/>
+    <circle cx="560" cy="240" r="1.8" fill="#0A0A0A" opacity="0.22"/>
+    <circle cx="640" cy="240" r="1.5" fill="#0A0A0A" opacity="0.18"/>
+    <circle cx="160" cy="320" r="1.5" fill="#0A0A0A" opacity="0.2"/>
+    <circle cx="240" cy="320" r="2" fill="#0A0A0A" opacity="0.25"/>
+    <circle cx="320" cy="320" r="2.5" fill="#0A0A0A" opacity="0.3"/>
+    <circle cx="400" cy="320" r="2.5" fill="#A0522D" opacity="0.35"/>
+    <circle cx="480" cy="320" r="2.5" fill="#0A0A0A" opacity="0.3"/>
+    <circle cx="560" cy="320" r="2" fill="#0A0A0A" opacity="0.25"/>
+    <circle cx="640" cy="320" r="1.5" fill="#0A0A0A" opacity="0.2"/>
+    <circle cx="160" cy="400" r="1.8" fill="#0A0A0A" opacity="0.22"/>
+    <circle cx="240" cy="400" r="2" fill="#0A0A0A" opacity="0.28"/>
+    <circle cx="320" cy="400" r="2.5" fill="#A0522D" opacity="0.35"/>
+    <circle cx="400" cy="400" r="4" fill="#A0522D" opacity="0.6"/>
+    <circle cx="480" cy="400" r="2.5" fill="#A0522D" opacity="0.35"/>
+    <circle cx="560" cy="400" r="2" fill="#0A0A0A" opacity="0.28"/>
+    <circle cx="640" cy="400" r="1.8" fill="#0A0A0A" opacity="0.22"/>
+    <circle cx="160" cy="480" r="1.5" fill="#0A0A0A" opacity="0.2"/>
+    <circle cx="240" cy="480" r="2" fill="#0A0A0A" opacity="0.25"/>
+    <circle cx="320" cy="480" r="2.5" fill="#0A0A0A" opacity="0.3"/>
+    <circle cx="400" cy="480" r="2.5" fill="#A0522D" opacity="0.35"/>
+    <circle cx="480" cy="480" r="2.5" fill="#0A0A0A" opacity="0.3"/>
+    <circle cx="560" cy="480" r="2" fill="#0A0A0A" opacity="0.25"/>
+    <circle cx="640" cy="480" r="1.5" fill="#0A0A0A" opacity="0.2"/>
+    <circle cx="160" cy="560" r="1.5" fill="#0A0A0A" opacity="0.18"/>
+    <circle cx="240" cy="560" r="1.8" fill="#0A0A0A" opacity="0.22"/>
+    <circle cx="320" cy="560" r="2" fill="#0A0A0A" opacity="0.25"/>
+    <circle cx="400" cy="560" r="2" fill="#0A0A0A" opacity="0.28"/>
+    <circle cx="480" cy="560" r="2" fill="#0A0A0A" opacity="0.25"/>
+    <circle cx="560" cy="560" r="1.8" fill="#0A0A0A" opacity="0.22"/>
+    <circle cx="640" cy="560" r="1.5" fill="#0A0A0A" opacity="0.18"/>
+    <circle cx="160" cy="640" r="1.5" fill="#0A0A0A" opacity="0.15"/>
+    <circle cx="240" cy="640" r="1.5" fill="#0A0A0A" opacity="0.18"/>
+    <circle cx="320" cy="640" r="1.5" fill="#0A0A0A" opacity="0.2"/>
+    <circle cx="400" cy="640" r="1.8" fill="#0A0A0A" opacity="0.22"/>
+    <circle cx="480" cy="640" r="1.5" fill="#0A0A0A" opacity="0.2"/>
+    <circle cx="560" cy="640" r="1.5" fill="#0A0A0A" opacity="0.18"/>
+    <circle cx="640" cy="640" r="1.5" fill="#0A0A0A" opacity="0.15"/>
+    <!-- Horizontal connecting lines -->
+    <line x1="240" y1="320" x2="560" y2="320" stroke="#0A0A0A" stroke-width="0.25" opacity="0.1"/>
+    <line x1="240" y1="400" x2="320" y2="400" stroke="#A0522D" stroke-width="0.3" opacity="0.12"/>
+    <line x1="320" y1="400" x2="400" y2="400" stroke="#A0522D" stroke-width="0.4" opacity="0.18"/>
+    <line x1="400" y1="400" x2="480" y2="400" stroke="#A0522D" stroke-width="0.4" opacity="0.18"/>
+    <line x1="480" y1="400" x2="560" y2="400" stroke="#A0522D" stroke-width="0.3" opacity="0.12"/>
+    <line x1="240" y1="480" x2="560" y2="480" stroke="#0A0A0A" stroke-width="0.25" opacity="0.1"/>
+    <!-- Vertical connecting lines -->
+    <line x1="320" y1="240" x2="320" y2="560" stroke="#0A0A0A" stroke-width="0.25" opacity="0.1"/>
+    <line x1="400" y1="240" x2="400" y2="320" stroke="#A0522D" stroke-width="0.3" opacity="0.12"/>
+    <line x1="400" y1="320" x2="400" y2="400" stroke="#A0522D" stroke-width="0.4" opacity="0.18"/>
+    <line x1="400" y1="400" x2="400" y2="480" stroke="#A0522D" stroke-width="0.4" opacity="0.18"/>
+    <line x1="400" y1="480" x2="400" y2="560" stroke="#A0522D" stroke-width="0.3" opacity="0.12"/>
+    <line x1="480" y1="240" x2="480" y2="560" stroke="#0A0A0A" stroke-width="0.25" opacity="0.1"/>
+    <!-- Diagonal connections near center -->
+    <line x1="320" y1="320" x2="400" y2="400" stroke="#A0522D" stroke-width="0.2" opacity="0.1"/>
+    <line x1="480" y1="320" x2="400" y2="400" stroke="#A0522D" stroke-width="0.2" opacity="0.1"/>
+    <line x1="320" y1="480" x2="400" y2="400" stroke="#A0522D" stroke-width="0.2" opacity="0.1"/>
+    <line x1="480" y1="480" x2="400" y2="400" stroke="#A0522D" stroke-width="0.2" opacity="0.1"/>
+    <!-- Center glow -->
+    <circle cx="400" cy="400" r="80" fill="url(#rustCenter)"/>
+  </g>
+  <rect width="800" height="800" filter="url(#grain)" opacity="0.5"/>
+</svg>

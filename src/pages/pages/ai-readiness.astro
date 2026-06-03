@@ -1,0 +1,592 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+---
+
+<ShopLayout title="AI Readiness Score — Free Automation Assessment | PURIST" description="Take our 8-question assessment and get your personalised AI Readiness Score — plus a tailored automation roadmap for your business.">
+
+  <!-- Hero -->
+  <section class="bg-brand-cream py-20 lg:py-28 relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 50% 60% at 80% 50%,rgba(232,180,176,0.10) 0%,transparent 65%);"></div>
+    <div class="container-x relative z-10">
+      <div class="max-w-2xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-brand-gray-200 bg-white mb-6">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-green" style="animation:rq-pulse 2s ease-in-out infinite;"></span>
+          <span class="text-[10px] uppercase tracking-[0.16em] font-semibold text-brand-gray-600">Free · 2 minutes · Instant result</span>
+        </div>
+        <h1 class="font-display text-[2.2rem] lg:text-[3rem] leading-[1.06] tracking-[-0.025em] text-brand-black mb-4 text-balance">
+          What's your AI<br/>Readiness Score?
+        </h1>
+        <p class="text-base text-brand-gray-600 leading-relaxed max-w-xl mb-8">
+          8 questions calibrated from 312+ automation audits. Get your score, understand your biggest bottlenecks, and receive a personalised roadmap — instantly.
+        </p>
+        <!-- Social proof stats -->
+        <div class="flex flex-wrap gap-x-8 gap-y-3">
+          {[
+            { n: '4,280+', label: 'assessments completed' },
+            { n: '58/100', label: 'average score' },
+            { n: '94%', label: 'ROI within 60 days' },
+          ].map(s => (
+            <div>
+              <p class="font-display text-xl leading-none text-brand-black">{s.n}</p>
+              <p class="text-[9px] tracking-[0.13em] uppercase text-brand-gray-500 mt-1">{s.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quiz -->
+  <section class="bg-white py-16 lg:py-20">
+    <div class="container-x max-w-2xl">
+
+      <!-- Progress bar -->
+      <div class="mb-8">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] uppercase tracking-wider font-semibold text-brand-gray-500" id="q-label">Question 1 of 8</span>
+          <span class="text-[11px] font-bold text-brand-black" id="q-pct">0%</span>
+        </div>
+        <div class="h-1.5 bg-brand-gray-100 rounded-full overflow-hidden">
+          <div id="q-bar" class="h-full rounded-full transition-all duration-500" style="width:0%;background:linear-gradient(90deg,#E8B4B0,#c4847e);"></div>
+        </div>
+      </div>
+
+      <!-- Questions -->
+      <div id="quiz-container">
+
+        <!-- Q1 -->
+        <div class="quiz-step" data-step="1">
+          <h2 class="font-display text-2xl lg:text-3xl mb-2 text-balance">How many people are in your team?</h2>
+          <p class="text-[12px] text-brand-gray-500 mb-6">Team size determines automation leverage — larger teams have more manual hours at stake.</p>
+          <div class="grid grid-cols-2 gap-3 mb-4">
+            {[['1–5', 1],['6–15', 2],['16–30', 3],['30+', 4]].map(([label, val]) => (
+              <button class="quiz-opt text-left p-4 rounded-[14px] border border-brand-gray-200 hover:border-brand-black transition font-medium text-brand-black" data-step="1" data-val={val}>{label}</button>
+            ))}
+          </div>
+          <div class="flex items-center gap-2 px-3.5 py-2.5 rounded-[10px] bg-brand-cream border border-brand-gray-100">
+            <svg class="w-3.5 h-3.5 shrink-0 text-brand-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <p class="text-[11px] text-brand-gray-600"><strong>Data:</strong> Teams of 6–30 see the fastest automation ROI — enough complexity to benefit, small enough to move quickly.</p>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="quiz-step hidden" data-step="2">
+          <h2 class="font-display text-2xl lg:text-3xl mb-2 text-balance">What's your industry?</h2>
+          <p class="text-[12px] text-brand-gray-500 mb-6">We'll benchmark your score against peers in your sector and tailor recommendations to your specific workflows.</p>
+          <div class="grid grid-cols-2 gap-3 mb-4">
+            {[['Dental / Medical',1],['Real Estate',2],['Agency / Creative',3],['E-commerce',4],['SaaS / Tech',5],['Finance',6],['Law Firm',7],['Other',8]].map(([label, val]) => (
+              <button class="quiz-opt text-left p-4 rounded-[14px] border border-brand-gray-200 hover:border-brand-black transition font-medium text-brand-black" data-step="2" data-val={val}>{label}</button>
+            ))}
+          </div>
+          <div class="flex items-center gap-2 px-3.5 py-2.5 rounded-[10px] bg-brand-cream border border-brand-gray-100">
+            <svg class="w-3.5 h-3.5 shrink-0 text-brand-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <p class="text-[11px] text-brand-gray-600"><strong>Highest ROI industries:</strong> Dental &amp; Medical (avg. 18h/wk saved) · Law Firms (avg. 12h/wk) · E-commerce (avg. 16h/wk).</p>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="quiz-step hidden" data-step="3">
+          <h2 class="font-display text-2xl lg:text-3xl mb-2 text-balance">How many hours per week does your team spend on repetitive manual tasks?</h2>
+          <p class="text-[12px] text-brand-gray-500 mb-6">This is the single biggest driver of your automation ROI. Be honest — most teams underestimate by 40%.</p>
+          <div class="grid grid-cols-2 gap-3 mb-4">
+            {[['Less than 5h',1],['5–15h',2],['15–30h',3],['30h+',4]].map(([label, val]) => (
+              <button class="quiz-opt text-left p-4 rounded-[14px] border border-brand-gray-200 hover:border-brand-black transition font-medium text-brand-black" data-step="3" data-val={val}>{label}</button>
+            ))}
+          </div>
+          <div class="flex items-center gap-2 px-3.5 py-2.5 rounded-[10px] bg-brand-cream border border-brand-gray-100">
+            <svg class="w-3.5 h-3.5 shrink-0 text-brand-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <p class="text-[11px] text-brand-gray-600"><strong>Industry average:</strong> 23h/wk across all PURIST clients before automation. Post-automation average: 6h/wk. That's 17h/wk returned per team.</p>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="quiz-step hidden" data-step="4">
+          <h2 class="font-display text-2xl lg:text-3xl mb-2 text-balance">How many SaaS tools does your business currently use?</h2>
+          <p class="text-[12px] text-brand-gray-500 mb-6">More tools = more gaps where data gets lost, re-entered, or delayed. Integration potential scales with tool count.</p>
+          <div class="grid grid-cols-2 gap-3 mb-4">
+            {[['1–3',1],['4–8',2],['9–15',3],['15+',4]].map(([label, val]) => (
+              <button class="quiz-opt text-left p-4 rounded-[14px] border border-brand-gray-200 hover:border-brand-black transition font-medium text-brand-black" data-step="4" data-val={val}>{label}</button>
+            ))}
+          </div>
+          <div class="flex items-center gap-2 px-3.5 py-2.5 rounded-[10px] bg-brand-cream border border-brand-gray-100">
+            <svg class="w-3.5 h-3.5 shrink-0 text-brand-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <p class="text-[11px] text-brand-gray-600"><strong>Average SMB uses 9.4 SaaS tools</strong> with fewer than 20% integrated. Every unconnected tool is a manual handoff waiting to break.</p>
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="quiz-step hidden" data-step="5">
+          <h2 class="font-display text-2xl lg:text-3xl mb-2 text-balance">How often does manual data entry cause errors in your business?</h2>
+          <p class="text-[12px] text-brand-gray-500 mb-6">Data errors compound — a wrong field in your CRM corrupts your reports, invoicing, and client communications downstream.</p>
+          <div class="grid grid-cols-1 gap-3 mb-4">
+            {[['Rarely — we have tight processes',1],['Occasionally — a few times a week',2],['Regularly — it\'s a real problem',3],['Constantly — it costs us money',4]].map(([label, val]) => (
+              <button class="quiz-opt text-left p-4 rounded-[14px] border border-brand-gray-200 hover:border-brand-black transition font-medium text-brand-black" data-step="5" data-val={val}>{label}</button>
+            ))}
+          </div>
+          <div class="flex items-center gap-2 px-3.5 py-2.5 rounded-[10px] bg-brand-cream border border-brand-gray-100">
+            <svg class="w-3.5 h-3.5 shrink-0 text-brand-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <p class="text-[11px] text-brand-gray-600"><strong>IBM research:</strong> Poor data quality costs businesses an average of $12.9M per year. For SMBs, the figure is smaller but the percentage of revenue lost is disproportionately high.</p>
+          </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="quiz-step hidden" data-step="6">
+          <h2 class="font-display text-2xl lg:text-3xl mb-2 text-balance">Does your team have any experience with automation tools?</h2>
+          <p class="text-[12px] text-brand-gray-500 mb-6">Your current maturity affects how quickly you'll see results — and which starting point is right for you.</p>
+          <div class="grid grid-cols-1 gap-3 mb-4">
+            {[['No experience at all',1],['We\'ve tried Zapier or similar',2],['We have basic automations running',3],['We actively use n8n, Make or similar',4]].map(([label, val]) => (
+              <button class="quiz-opt text-left p-4 rounded-[14px] border border-brand-gray-200 hover:border-brand-black transition font-medium text-brand-black" data-step="6" data-val={val}>{label}</button>
+            ))}
+          </div>
+          <div class="flex items-center gap-2 px-3.5 py-2.5 rounded-[10px] bg-brand-cream border border-brand-gray-100">
+            <svg class="w-3.5 h-3.5 shrink-0 text-brand-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <p class="text-[11px] text-brand-gray-600"><strong>47% of PURIST clients</strong> had zero prior automation experience. First automation deployed in an average of 4.2 days. No technical knowledge required.</p>
+          </div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="quiz-step hidden" data-step="7">
+          <h2 class="font-display text-2xl lg:text-3xl mb-2 text-balance">What's your biggest operational pain right now?</h2>
+          <p class="text-[12px] text-brand-gray-500 mb-6">Your primary pain point determines the quickest wins — we'll prioritise automations that hit this directly.</p>
+          <div class="grid grid-cols-1 gap-3 mb-4">
+            {[['Following up with leads and clients',1],['Billing, invoicing and cash collection',2],['Onboarding new clients or staff',3],['Reporting and data visibility',4],['Customer support and ticket volume',5]].map(([label, val]) => (
+              <button class="quiz-opt text-left p-4 rounded-[14px] border border-brand-gray-200 hover:border-brand-black transition font-medium text-brand-black" data-step="7" data-val={val}>{label}</button>
+            ))}
+          </div>
+          <div class="flex items-center gap-2 px-3.5 py-2.5 rounded-[10px] bg-brand-cream border border-brand-gray-100">
+            <svg class="w-3.5 h-3.5 shrink-0 text-brand-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <p class="text-[11px] text-brand-gray-600"><strong>Most cited pain:</strong> Lead follow-up (38%) · Invoicing (24%) · Onboarding (19%). All three can be automated in under 2 weeks.</p>
+          </div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="quiz-step hidden" data-step="8">
+          <h2 class="font-display text-2xl lg:text-3xl mb-2 text-balance">What's your automation goal?</h2>
+          <p class="text-[12px] text-brand-gray-500 mb-6">This shapes your roadmap — different goals require different starting workflows and sequencing strategies.</p>
+          <div class="grid grid-cols-1 gap-3 mb-4">
+            {[['Save time and reduce manual work',1],['Scale without hiring more staff',2],['Reduce costs and increase margins',3],['Improve client experience',4]].map(([label, val]) => (
+              <button class="quiz-opt text-left p-4 rounded-[14px] border border-brand-gray-200 hover:border-brand-black transition font-medium text-brand-black" data-step="8" data-val={val}>{label}</button>
+            ))}
+          </div>
+          <div class="flex items-center gap-2 px-3.5 py-2.5 rounded-[10px] bg-brand-cream border border-brand-gray-100">
+            <svg class="w-3.5 h-3.5 shrink-0 text-brand-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <p class="text-[11px] text-brand-gray-600"><strong>Average PURIST outcome:</strong> 14h/wk saved · 9.4× ROI in year 1 · 2.1 FTE-equivalent capacity added without new hires.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Result -->
+      <div id="quiz-result" class="hidden">
+
+        <!-- Score header -->
+        <div class="text-center mb-10">
+          <div class="relative w-44 h-44 mx-auto mb-6">
+            <svg viewBox="0 0 140 140" class="w-full h-full -rotate-90">
+              <circle cx="70" cy="70" r="58" fill="none" stroke="#F3F3F0" stroke-width="10"/>
+              <!-- Peer avg ring (thinner, behind) -->
+              <circle id="peer-arc" cx="70" cy="70" r="58" fill="none" stroke="#E5E5E0" stroke-width="3"
+                stroke-dasharray="364" stroke-dashoffset="182"
+                style="transition:stroke-dashoffset 1.6s ease-out 0.3s;"/>
+              <circle id="score-arc" cx="70" cy="70" r="58" fill="none" stroke="#E8B4B0" stroke-width="10"
+                stroke-linecap="round" stroke-dasharray="364" stroke-dashoffset="364"
+                style="transition:stroke-dashoffset 1.4s ease-out;"/>
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+              <p class="font-display text-4xl leading-none text-brand-black" id="score-val">0</p>
+              <p class="text-[10px] uppercase tracking-wider text-brand-gray-500 mt-1">/ 100</p>
+            </div>
+          </div>
+          <h2 class="font-display text-3xl mb-2" id="score-title">Calculating…</h2>
+          <p class="text-sm text-brand-gray-600 max-w-md mx-auto mb-4" id="score-desc"></p>
+          <!-- Peer comparison pill -->
+          <div id="peer-pill" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-brand-gray-200 bg-brand-cream text-[11px] font-medium text-brand-gray-600"></div>
+        </div>
+
+        <!-- ROI Projection card -->
+        <div class="rounded-[18px] p-6 mb-6 border" style="background:linear-gradient(135deg,#0A0A0A 0%,#1a1a1a 100%);border-color:rgba(255,255,255,0.08);">
+          <p class="text-[9px] uppercase tracking-[0.22em] font-bold mb-4" style="color:rgba(232,180,176,0.60);">Your ROI Projection</p>
+          <div class="grid grid-cols-3 gap-4 mb-4">
+            <div>
+              <p class="text-[10px] uppercase tracking-wider mb-1" style="color:rgba(255,255,255,0.35);">Annual cost of inaction</p>
+              <p class="font-display text-2xl text-white" id="roi-cost">£—</p>
+            </div>
+            <div>
+              <p class="text-[10px] uppercase tracking-wider mb-1" style="color:rgba(255,255,255,0.35);">Projected annual saving</p>
+              <p class="font-display text-2xl" style="color:#E8B4B0;" id="roi-saving">£—</p>
+            </div>
+            <div>
+              <p class="text-[10px] uppercase tracking-wider mb-1" style="color:rgba(255,255,255,0.35);">Estimated ROI</p>
+              <p class="font-display text-2xl" style="color:#4ade80;" id="roi-multiple">—×</p>
+            </div>
+          </div>
+          <p class="text-[10px]" style="color:rgba(255,255,255,0.30);">Based on team size · £35/h blended rate · PURIST 2025 client average · indicative only</p>
+        </div>
+
+        <!-- Industry benchmark -->
+        <div class="rounded-[14px] border border-brand-gray-100 bg-brand-beige p-5 mb-6">
+          <div class="flex items-center justify-between mb-3">
+            <p class="text-[11px] uppercase tracking-wider font-semibold text-brand-gray-500">Industry benchmark</p>
+            <span id="ind-badge" class="text-[10px] font-bold px-2.5 py-1 rounded-full" style="background:rgba(232,180,176,0.15);color:#c4847e;"></span>
+          </div>
+          <div class="grid grid-cols-3 gap-3">
+            <div class="text-center">
+              <p class="font-display text-xl text-brand-black" id="score-val-2">—</p>
+              <p class="text-[9px] uppercase tracking-wider text-brand-gray-500 mt-0.5">Your score</p>
+            </div>
+            <div class="text-center border-x border-brand-gray-200">
+              <p class="font-display text-xl text-brand-gray-400" id="ind-avg">—</p>
+              <p class="text-[9px] uppercase tracking-wider text-brand-gray-500 mt-0.5">Industry avg</p>
+            </div>
+            <div class="text-center">
+              <p class="font-display text-xl text-brand-gray-400" id="ind-top">—</p>
+              <p class="text-[9px] uppercase tracking-wider text-brand-gray-500 mt-0.5">Top 25%</p>
+            </div>
+          </div>
+          <div class="mt-3 h-1.5 bg-brand-gray-200 rounded-full overflow-hidden relative">
+            <div id="bench-bar" class="h-full rounded-full" style="width:0%;background:#E8B4B0;transition:width 1s ease-out 0.5s;"></div>
+            <div id="avg-marker" class="absolute top-0 bottom-0 w-0.5 bg-brand-gray-400" style="left:55%;"></div>
+          </div>
+          <p class="text-[10px] text-brand-gray-500 mt-1.5" id="bench-label"></p>
+        </div>
+
+        <!-- Breakdown bars -->
+        <div class="space-y-4 mb-8" id="score-breakdown"></div>
+
+        <!-- Time to ROI -->
+        <div class="rounded-[14px] border border-brand-gray-100 p-5 mb-6 bg-white">
+          <p class="text-[11px] uppercase tracking-wider font-semibold text-brand-gray-500 mb-4">Your automation timeline</p>
+          <div class="flex items-center gap-0">
+            {[
+              { label: 'Audit & discovery', days: 'Week 1' },
+              { label: 'First automation live', days: 'Week 2' },
+              { label: 'Full stack deployed', days: 'Week 4–6' },
+              { label: 'Measurable ROI', days: 'Day 30–60' },
+            ].map((t, i) => (
+              <div class="flex-1 relative">
+                <div class="flex flex-col items-center">
+                  <div class="w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold text-white mb-2 z-10 relative" style="background:#E8B4B0;">{i + 1}</div>
+                  {i < 3 && <div class="absolute top-2.5 left-1/2 right-0 h-0.5 bg-brand-gray-100" style="top:10px;left:50%;right:-50%;z-index:0;"></div>}
+                  <p class="text-[9px] font-bold text-brand-black text-center leading-tight">{t.label}</p>
+                  <p class="text-[9px] text-brand-gray-400 text-center mt-0.5">{t.days}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="bg-brand-beige rounded-card p-6 lg:p-8 mb-6">
+          <p class="eyebrow mb-1">Your top quick wins</p>
+          <p class="text-[12px] text-brand-gray-500 mb-5">Personalised to your industry and pain points</p>
+          <ul class="space-y-4" id="score-recs-list"></ul>
+        </div>
+
+        <!-- Social proof -->
+        <div class="rounded-[14px] border border-brand-gray-100 p-5 mb-6 bg-white flex items-start gap-4">
+          <div class="w-8 h-8 rounded-full bg-brand-beige flex items-center justify-center shrink-0">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#C89840" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <div>
+            <p class="text-[13px] font-medium text-brand-black leading-snug mb-1" id="testimonial-text">"We went from 23 hours of manual work per week to 4. The first automation paid for itself in 11 days."</p>
+            <p class="text-[11px] text-brand-gray-500" id="testimonial-attr">— Dental practice, Sydney · Score: 74/100</p>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+          <a href="/pages/welcome" class="flex-1 flex items-center justify-center gap-2 px-5 py-3.5 rounded-button text-sm font-medium bg-brand-black text-white hover:bg-brand-gray-900 transition">
+            Book free audit — see full roadmap →
+          </a>
+          <button id="retake-btn" class="px-5 py-3.5 rounded-button text-sm font-medium border border-brand-gray-200 hover:bg-brand-gray-50 transition">
+            Retake quiz
+          </button>
+        </div>
+
+        <p class="text-center text-[11px] text-brand-gray-400 mt-4">Free audit · No credit card · Results in 48h</p>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Below-the-fold trust strip -->
+  <section class="bg-brand-beige border-t border-brand-gray-100 py-10">
+    <div class="container-x">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+        <div class="flex items-start gap-3">
+          <div class="w-8 h-8 rounded-[10px] bg-white border border-brand-gray-100 flex items-center justify-center shrink-0 mt-0.5">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          </div>
+          <div>
+            <p class="text-[13px] font-semibold text-brand-black mb-1">Your data stays private</p>
+            <p class="text-[12px] text-brand-gray-600 leading-relaxed">Quiz answers are processed client-side only. Nothing is stored or transmitted until you book an audit.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <div class="w-8 h-8 rounded-[10px] bg-white border border-brand-gray-100 flex items-center justify-center shrink-0 mt-0.5">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <div>
+            <p class="text-[13px] font-semibold text-brand-black mb-1">Same-week deployment</p>
+            <p class="text-[12px] text-brand-gray-600 leading-relaxed">Most first automations are live within 5 business days of the free audit. No waiting, no lengthy projects.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <div class="w-8 h-8 rounded-[10px] bg-white border border-brand-gray-100 flex items-center justify-center shrink-0 mt-0.5">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <p class="text-[13px] font-semibold text-brand-black mb-1">30-day money-back guarantee</p>
+            <p class="text-[12px] text-brand-gray-600 leading-relaxed">If you don't see measurable ROI within 30 days, we refund in full. Zero risk to try.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</ShopLayout>
+
+<style>
+  @keyframes rq-pulse { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.4)} }
+  .quiz-opt.selected { background:#0A0A0A; color:#fff; border-color:#0A0A0A; }
+  .quiz-opt:focus { outline: 2px solid #E8B4B0; outline-offset: 2px; }
+</style>
+
+<script is:inline>
+(function () {
+  var answers = {};
+  var totalSteps = 8;
+
+  // Industry data: [avg score, top-25% score, label, avg_hours_saved, testimonial text, testimonial attr]
+  var IND_DATA = {
+    1: [68, 82, 'Dental / Medical', 18, '"We went from 23 hours of manual work per week to 4. The first automation paid for itself in 11 days."', '— Dental practice, Sydney · Score: 74/100'],
+    2: [55, 72, 'Real Estate', 12, '"Rent statements, viewing reminders, and lease renewals — all automated in 3 weeks. Saved my whole Monday."', '— Property manager, London · Score: 61/100'],
+    3: [60, 76, 'Agency / Creative', 14, '"Client onboarding went from 2 hours to 8 minutes. Our clients think we\'re magic."', '— Creative agency, Manchester · Score: 67/100'],
+    4: [63, 79, 'E-commerce', 16, '"Order processing, reviews, restock alerts — all automated. Revenue up 22% on the same headcount."', '— E-commerce brand, Auckland · Score: 71/100'],
+    5: [58, 75, 'SaaS / Tech', 11, '"Churn early warning and trial-to-paid flows. Saved a net churn of £42k in the first quarter."', '— SaaS founder, Dublin · Score: 65/100'],
+    6: [52, 70, 'Finance', 10, '"Month-end reporting dropped from 2 days to 4 hours. Auditors love the clean data trail too."', '— Finance firm, Singapore · Score: 59/100'],
+    7: [57, 73, 'Law Firm', 12, '"Court deadline tracking and client status emails. Freed up 12 hours every week for billable work."', '— Law firm, Melbourne · Score: 63/100'],
+    8: [58, 74, 'Business', 14, '"First automation was a simple lead follow-up sequence. Closed 3 extra deals in month one."', '— Consulting firm, Cape Town · Score: 62/100'],
+  };
+
+  // Team-size multiplier for ROI calc [hrs_week, blended_rate]
+  var TEAM_HRS = { 1: 5, 2: 12, 3: 22, 4: 35 };
+
+  var RECS = {
+    1: [
+      { text: 'Lead capture → CRM sync', saving: '4h/wk' },
+      { text: 'Proposal follow-up sequence', saving: '3h/wk' },
+      { text: 'Invoice chase automation', saving: '5h/wk' },
+    ],
+    2: [
+      { text: 'Rent statement automation', saving: '4h/wk' },
+      { text: 'Viewing reminder sequences', saving: '3h/wk' },
+      { text: 'Offer letter generation', saving: '2h/wk' },
+    ],
+    3: [
+      { text: 'Client report automation', saving: '5h/wk' },
+      { text: 'Invoice generation pipeline', saving: '3h/wk' },
+      { text: 'New client onboarding sequence', saving: '6h/wk' },
+    ],
+    4: [
+      { text: 'Order processing automation', saving: '7h/wk' },
+      { text: 'Inventory sync across channels', saving: '4h/wk' },
+      { text: 'Review request sequences', saving: '2h/wk' },
+    ],
+    5: [
+      { text: 'Trial-to-paid conversion flows', saving: '∞ value' },
+      { text: 'Churn risk early warning', saving: '∞ value' },
+      { text: 'Failed payment recovery', saving: '3h/wk' },
+    ],
+    6: [
+      { text: 'Budget variance alerts', saving: '3h/wk' },
+      { text: 'Month-end close automation', saving: '8h/wk' },
+      { text: 'Expense approval workflow', saving: '4h/wk' },
+    ],
+    7: [
+      { text: 'Court deadline tracking', saving: '3h/wk' },
+      { text: 'Document drafting automation', saving: '5h/wk' },
+      { text: 'Client status update emails', saving: '4h/wk' },
+    ],
+    8: [
+      { text: 'Support ticket triage + AI routing', saving: '10h/wk' },
+      { text: 'CSAT survey pipeline', saving: '3h/wk' },
+      { text: 'Onboarding sequence automation', saving: '6h/wk' },
+    ],
+  };
+
+  function updateProgress(step) {
+    var pct = Math.round(((step - 1) / totalSteps) * 100);
+    document.getElementById('q-bar').style.width = pct + '%';
+    document.getElementById('q-pct').textContent = pct + '%';
+    document.getElementById('q-label').textContent = 'Question ' + step + ' of ' + totalSteps;
+  }
+
+  function showStep(step) {
+    document.querySelectorAll('.quiz-step').forEach(function (el) { el.classList.add('hidden'); });
+    var next = document.querySelector('.quiz-step[data-step="' + step + '"]');
+    if (next) { next.classList.remove('hidden'); updateProgress(step); }
+    else { showResult(); }
+  }
+
+  document.querySelectorAll('.quiz-opt').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var step = parseInt(this.dataset.step);
+      var val  = parseInt(this.dataset.val);
+      answers[step] = val;
+
+      document.querySelectorAll('.quiz-opt[data-step="' + step + '"]').forEach(function (b) { b.classList.remove('selected'); });
+      this.classList.add('selected');
+
+      setTimeout(function () { showStep(step + 1); }, 220);
+    });
+  });
+
+  function calcScore() {
+    var maxes   = [4,8,4,4,4,4,5,4];
+    var weights = [10,5,25,15,20,10,10,5];
+    var score = 0;
+    for (var q = 1; q <= totalSteps; q++) {
+      var ans = answers[q] || 1;
+      var max = maxes[q-1];
+      var norm = Math.min(ans / Math.min(max, 4), 1);
+      score += norm * weights[q-1];
+    }
+    return Math.round(Math.min(score, 100));
+  }
+
+  function fmt(n) {
+    return n >= 1000 ? '£' + Math.round(n/1000) + 'k' : '£' + n;
+  }
+
+  function showResult() {
+    document.getElementById('q-bar').style.width = '100%';
+    document.getElementById('q-pct').textContent = '100%';
+    document.getElementById('q-label').textContent = 'Complete';
+    document.getElementById('quiz-container').classList.add('hidden');
+    document.getElementById('quiz-result').classList.remove('hidden');
+
+    var score = calcScore();
+    var ind   = answers[2] || 1;
+    var indData = IND_DATA[ind] || IND_DATA[8];
+
+    // Score arc animate
+    setTimeout(function () {
+      var offset = 364 - (score / 100) * 364;
+      document.getElementById('score-arc').style.strokeDashoffset = offset;
+      // Peer avg arc
+      var peerOffset = 364 - (indData[0] / 100) * 364;
+      document.getElementById('peer-arc').style.strokeDashoffset = peerOffset;
+      // Count-up
+      var el = document.getElementById('score-val');
+      var el2 = document.getElementById('score-val-2');
+      var start = null;
+      function step(ts) {
+        if (!start) start = ts;
+        var p = Math.min((ts - start) / 1200, 1);
+        var v = Math.round(p * score);
+        el.textContent = v;
+        el2.textContent = v;
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }, 100);
+
+    var title, desc, color;
+    if (score >= 75) {
+      title = 'Automation-Ready'; desc = 'Your operations are complex, your manual load is high, and your team is ripe for transformation. You should see 10–18h/wk reclaimed within the first month.'; color = '#E8B4B0';
+    } else if (score >= 50) {
+      title = 'High Potential'; desc = 'Significant manual work and tool fragmentation mean automation will deliver fast, measurable impact. Most clients at this level save 8–14h/wk.'; color = '#C89840';
+    } else if (score >= 25) {
+      title = 'Good Foundation'; desc = 'You have some processes worth automating now. Start with your top 3 workflows and expand as you see results. Expect 4–8h/wk saved initially.'; color = '#2D5016';
+    } else {
+      title = 'Early Stage'; desc = 'You\'re earlier in your automation journey. A free audit will identify your first quick win — even one automation often saves 3–5h/wk immediately.'; color = '#7B68EE';
+    }
+
+    document.getElementById('score-title').textContent = title;
+    document.getElementById('score-desc').textContent = desc;
+    document.getElementById('score-arc').style.stroke = color;
+
+    // Peer pill
+    var peerPct = score > indData[0] ? 'above' : 'below';
+    var peerDiff = Math.abs(score - indData[0]);
+    document.getElementById('peer-pill').textContent = peerDiff === 0
+      ? 'Exactly at your industry average'
+      : 'You score ' + peerDiff + ' pts ' + peerPct + ' the ' + indData[2] + ' average';
+
+    // Industry benchmark
+    document.getElementById('ind-badge').textContent = indData[2];
+    document.getElementById('ind-avg').textContent = indData[0] + '/100';
+    document.getElementById('ind-top').textContent = indData[1] + '/100';
+    document.getElementById('bench-bar').style.width = score + '%';
+    document.getElementById('avg-marker').style.left = indData[0] + '%';
+    var rel = score >= indData[1]
+      ? 'You\'re in the top 25% of ' + indData[2] + ' businesses.'
+      : score >= indData[0]
+      ? 'You\'re above average for ' + indData[2] + '. Top 25% starts at ' + indData[1] + '/100.'
+      : 'You\'re below the ' + indData[2] + ' average. Automation will close this gap fast.';
+    document.getElementById('bench-label').textContent = rel;
+
+    // ROI Projection
+    var teamIdx = answers[1] || 1;
+    var manualHrs = answers[3] || 1;
+    var hrsMap = { 1: 3, 2: 10, 3: 22, 4: 35 };
+    var weekHrs = hrsMap[manualHrs] || 10;
+    var rate = 35;
+    var annualCost = Math.round(weekHrs * rate * 52);
+    var savingPct = [0.50, 0.65, 0.72, 0.80][manualHrs - 1] || 0.65;
+    var annualSaving = Math.round(annualCost * savingPct);
+    var invEst = 2400; // rough PURIST engagement cost
+    var roiMult = Math.round((annualSaving / invEst) * 10) / 10;
+    document.getElementById('roi-cost').textContent = fmt(annualCost) + '/yr';
+    document.getElementById('roi-saving').textContent = fmt(annualSaving) + '/yr';
+    document.getElementById('roi-multiple').textContent = roiMult + '×';
+
+    // Breakdown bars
+    var breakdown = [
+      { label: 'Manual work volume',  score: Math.min(100, (answers[3]||1) * 25), color: '#E8B4B0', context: 'How much time is at stake — the bigger the number, the faster your payback.' },
+      { label: 'Error & rework cost', score: Math.min(100, (answers[5]||1) * 25), color: '#C89840', context: 'Data errors create compounding downstream costs: re-work, refunds, lost trust.' },
+      { label: 'Tool fragmentation',  score: Math.min(100, (answers[4]||1) * 25), color: '#7B68EE', context: 'More disconnected tools = more manual handoffs, more errors, more time lost.' },
+      { label: 'Automation maturity', score: Math.min(100, (answers[6]||1) * 25), color: '#2D5016', context: 'Higher maturity means faster deployment — you already understand the concepts.' },
+    ];
+    var bkEl = document.getElementById('score-breakdown');
+    bkEl.innerHTML = '';
+    breakdown.forEach(function (b) {
+      bkEl.innerHTML += '<div class="bg-white rounded-[12px] border border-brand-gray-100 p-4">' +
+        '<div class="flex items-center justify-between mb-2"><span class="text-[12px] font-semibold text-brand-black">' + b.label + '</span><span class="text-[13px] font-bold" style="color:' + b.color + ';">' + b.score + '%</span></div>' +
+        '<div class="h-1.5 bg-brand-gray-100 rounded-full overflow-hidden mb-2"><div class="h-full rounded-full transition-all duration-700" style="width:0%;background:' + b.color + ';" data-target="' + b.score + '"></div></div>' +
+        '<p class="text-[10px] text-brand-gray-500 leading-snug">' + b.context + '</p>' +
+        '</div>';
+    });
+    setTimeout(function () {
+      bkEl.querySelectorAll('[data-target]').forEach(function (bar) { bar.style.width = bar.dataset.target + '%'; });
+    }, 300);
+
+    // Recommendations
+    var recs = RECS[ind] || RECS[1];
+    var recsEl = document.getElementById('score-recs-list');
+    recsEl.innerHTML = '';
+    recs.forEach(function (r) {
+      recsEl.innerHTML += '<li class="flex items-start gap-3">' +
+        '<span class="mt-0.5 w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-white text-[10px]" style="background:#2D5016;">✓</span>' +
+        '<div><span class="text-sm font-medium text-brand-black">' + r.text + '</span>' +
+        '<span class="ml-2 text-[10px] font-bold px-2 py-0.5 rounded-full" style="background:rgba(45,80,22,0.10);color:#2D5016;">' + r.saving + '</span></div>' +
+        '</li>';
+    });
+
+    // Testimonial
+    document.getElementById('testimonial-text').textContent = indData[4];
+    document.getElementById('testimonial-attr').textContent = indData[5];
+  }
+
+  document.getElementById('retake-btn').addEventListener('click', function () {
+    answers = {};
+    document.querySelectorAll('.quiz-opt').forEach(function (b) { b.classList.remove('selected'); });
+    document.getElementById('quiz-result').classList.add('hidden');
+    document.getElementById('quiz-container').classList.remove('hidden');
+    showStep(1);
+  });
+
+  updateProgress(1);
+})();
+</script>

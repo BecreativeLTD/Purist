@@ -1,0 +1,245 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import blogData from '~/data/blog.json';
+
+export function getStaticPaths() {
+  return blogData.articles.map((a) => ({
+    params: { slug: a.slug },
+    props: { article: a },
+  }));
+}
+
+const { article } = Astro.props;
+const { categories, articles } = blogData;
+const category = categories.find((c) => c.id === article.category);
+const related = articles
+  .filter((a) => a.id !== article.id && a.category === article.category)
+  .slice(0, 3);
+const moreArticles = related.length > 0
+  ? related
+  : articles.filter((a) => a.id !== article.id).slice(0, 3);
+
+// Split body into paragraphs, detect headings (lines starting with ##)
+const paragraphs = article.body.split('\n\n');
+---
+
+<ShopLayout
+  title={`${article.title} – PURIST`}
+  description={article.excerpt}
+>
+
+<!-- ═══════════════════════════════════════════════
+     ARTICLE HERO
+════════════════════════════════════════════════ -->
+<header class="relative overflow-hidden" style="background:#0A0A0A;">
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 80% at 70% 50%,rgba(232,180,176,0.06) 0%,transparent 70%);"/>
+
+  <div class="container-x relative z-10 pt-10 pb-0">
+    <!-- Breadcrumb -->
+    <nav aria-label="Breadcrumb" class="mb-8">
+      <ol class="flex items-center gap-2 flex-wrap">
+        <li>
+          <a href="/" class="text-[10px] font-medium transition" style="color:rgba(255,255,255,0.3);" onmouseover="this.style.color='rgba(255,255,255,0.65)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">Home</a>
+        </li>
+        <li aria-hidden="true" style="color:rgba(255,255,255,0.18);font-size:10px;">/</li>
+        <li>
+          <a href="/pages/blog" class="text-[10px] font-medium transition" style="color:rgba(255,255,255,0.3);" onmouseover="this.style.color='rgba(255,255,255,0.65)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">Blog</a>
+        </li>
+        <li aria-hidden="true" style="color:rgba(255,255,255,0.18);font-size:10px;">/</li>
+        <li class="text-[10px] truncate max-w-[200px] sm:max-w-xs" style="color:rgba(255,255,255,0.42);">{article.title}</li>
+      </ol>
+    </nav>
+
+    <div class="max-w-2xl mb-10">
+      <!-- Category + reading time -->
+      <div class="flex items-center gap-3 mb-5">
+        <span class="text-[9px] uppercase tracking-[0.2em] font-bold px-3 py-1.5 rounded-full" style="background:rgba(232,180,176,0.12);color:#E8B4B0;border:1px solid rgba(232,180,176,0.22);">
+          {category?.name ?? article.category}
+        </span>
+        <span class="text-[10px]" style="color:rgba(255,255,255,0.25);">{article.readingTime}</span>
+      </div>
+
+      <h1 class="font-display text-[2rem] lg:text-[2.8rem] leading-[1.1] tracking-[-0.025em] text-white mb-5 text-balance">
+        {article.title}
+      </h1>
+      <p class="text-[15px] lg:text-base leading-relaxed mb-8" style="color:rgba(255,255,255,0.42);">
+        {article.excerpt}
+      </p>
+
+      <!-- Author row -->
+      <div class="flex items-center gap-3 pb-10">
+        <div class="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(232,180,176,0.15);border:1px solid rgba(232,180,176,0.25);color:#E8B4B0;">
+          {article.author.split(' ').map((w: string) => w[0]).join('').slice(0,2).toUpperCase()}
+        </div>
+        <div>
+          <p class="text-[11.5px] font-semibold" style="color:rgba(255,255,255,0.75);">{article.author}</p>
+          <p class="text-[9.5px]" style="color:rgba(255,255,255,0.28);">{article.date}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero image — full width, bleeds to edges -->
+  <div class="relative overflow-hidden" style="aspect-ratio:21/8;min-height:280px;">
+    <img src={article.image} alt="" class="absolute inset-0 w-full h-full object-cover" loading="eager"/>
+    <div class="absolute inset-0" style="background:linear-gradient(0deg,#0A0A0A 0%,transparent 40%);"/>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════
+     ARTICLE BODY
+════════════════════════════════════════════════ -->
+<article class="bg-white py-16 lg:py-24">
+  <div class="container-x">
+    <div class="grid lg:grid-cols-[1fr_640px_1fr] gap-0">
+      <!-- Empty left col -->
+      <div class="hidden lg:block"/>
+      <!-- Content column -->
+      <div class="max-w-[640px] mx-auto w-full">
+
+        <!-- Drop cap first paragraph -->
+        {paragraphs.map((para, i) => (
+          i === 0 ? (
+            <p class="text-[17px] lg:text-[18px] leading-[1.75] text-brand-black mb-6 first-para"
+               style="font-feature-settings:'kern' 1,'liga' 1;">
+              <span class="float-left font-display text-[4.2rem] leading-[0.85] mr-2 mt-1.5" style="color:#0A0A0A;line-height:0.82;">{para[0]}</span>{para.slice(1)}
+            </p>
+          ) : (
+            <p class="text-[16px] lg:text-[17px] leading-[1.8] mb-6" style="color:rgba(10,10,10,0.78);">{para}</p>
+          )
+        ))}
+
+        <!-- Divider -->
+        <div class="my-12 flex items-center gap-4">
+          <div class="flex-1 h-px" style="background:rgba(10,10,10,0.08);"/>
+          <div class="flex gap-1.5">
+            <span class="w-1 h-1 rounded-full" style="background:rgba(10,10,10,0.2);"/>
+            <span class="w-1 h-1 rounded-full" style="background:rgba(10,10,10,0.1);"/>
+            <span class="w-1 h-1 rounded-full" style="background:rgba(10,10,10,0.06);"/>
+          </div>
+          <div class="flex-1 h-px" style="background:rgba(10,10,10,0.08);"/>
+        </div>
+
+        <!-- Share row -->
+        <div class="flex items-center gap-5">
+          <span class="text-[10.5px] font-semibold uppercase tracking-[0.14em]" style="color:rgba(10,10,10,0.3);">Share</span>
+          {[
+            { label: 'Twitter / X', icon: 'M4 4l16 0M4 4l7 8v5m0 0l-3 3m3-3l3 3m-3-3v-5M20 4l-7 8' },
+            { label: 'LinkedIn', icon: 'M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z M4 6a2 2 0 100-4 2 2 0 000 4z' },
+            { label: 'Email', icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
+          ].map(s => (
+            <a href="#"
+               class="flex items-center gap-1.5 text-[10.5px] font-medium transition-all duration-150"
+               style="color:rgba(10,10,10,0.4);"
+               onmouseover="this.style.color='rgba(10,10,10,0.9)'"
+               onmouseout="this.style.color='rgba(10,10,10,0.4)'"
+               aria-label={s.label}
+            >
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d={s.icon}/>
+              </svg>
+              {s.label}
+            </a>
+          ))}
+        </div>
+      </div>
+      <!-- Empty right col -->
+      <div class="hidden lg:block"/>
+    </div>
+  </div>
+</article>
+
+<!-- ═══════════════════════════════════════════════
+     RELATED ARTICLES
+════════════════════════════════════════════════ -->
+{moreArticles.length > 0 && (
+  <section style="background:#F8F6F1;border-top:1px solid rgba(10,10,10,0.07);" class="py-16 lg:py-24">
+    <div class="container-x">
+      <div class="flex items-end justify-between mb-10">
+        <div>
+          <p class="text-[9px] uppercase tracking-[0.26em] font-bold mb-2" style="color:rgba(10,10,10,0.35);">Continue reading</p>
+          <h2 class="font-display text-2xl lg:text-3xl leading-tight tracking-[-0.02em]">More from the blog.</h2>
+        </div>
+        <a href="/pages/blog"
+           class="hidden sm:flex items-center gap-1.5 text-[11px] font-semibold transition-all duration-150"
+           style="color:rgba(10,10,10,0.4);"
+           onmouseover="this.style.color='#0A0A0A'"
+           onmouseout="this.style.color='rgba(10,10,10,0.4)'"
+        >
+          View all
+          <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 7h10M8 3l4 4-4 4"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">
+        {moreArticles.map((a) => (
+          <article
+            class="group/card flex flex-col rounded-[18px] overflow-hidden transition-all duration-200"
+            style="background:#fff;border:1px solid rgba(10,10,10,0.07);"
+            onmouseover="this.style.boxShadow='0 8px 28px rgba(10,10,10,0.09)';this.style.transform='translateY(-2px)'"
+            onmouseout="this.style.boxShadow='';this.style.transform=''"
+          >
+            <a href={`/pages/blog/${a.slug}`} class="block relative overflow-hidden" style="aspect-ratio:16/9;">
+              <img src={a.image} alt={a.title}
+                   class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-[1.04]"
+                   loading="lazy"/>
+              <div class="absolute inset-0" style="background:linear-gradient(180deg,transparent 40%,rgba(10,10,10,0.3) 100%);"/>
+              <span class="absolute bottom-3 left-3 text-[8.5px] uppercase tracking-[0.15em] font-bold px-2.5 py-1 rounded-full" style="background:rgba(10,10,10,0.55);color:rgba(255,255,255,0.85);backdrop-filter:blur(6px);">
+                {categories.find((c) => c.id === a.category)?.name ?? a.category}
+              </span>
+            </a>
+            <div class="p-5 flex flex-col flex-1">
+              <h3 class="font-display text-[17px] leading-snug tracking-[-0.01em] mb-2 text-brand-black">
+                <a href={`/pages/blog/${a.slug}`} class="hover:opacity-70 transition">{a.title}</a>
+              </h3>
+              <p class="text-[12px] leading-relaxed line-clamp-2 flex-1" style="color:rgba(10,10,10,0.48);">{a.excerpt}</p>
+              <div class="flex items-center gap-2 mt-4 pt-4 text-[10px]" style="border-top:1px solid rgba(10,10,10,0.06);color:rgba(10,10,10,0.35);">
+                <span>{a.date}</span>
+                <span>·</span>
+                <span>{a.readingTime}</span>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<!-- ═══════════════════════════════════════════════
+     CTA STRIP
+════════════════════════════════════════════════ -->
+<section class="relative overflow-hidden py-16 lg:py-20" style="background:#0A0A0A;">
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 50% 70% at 75% 50%,rgba(232,180,176,0.06) 0%,transparent 70%);"/>
+  <div class="container-x relative z-10 text-center max-w-2xl mx-auto">
+    <p class="text-[9px] uppercase tracking-[0.26em] font-bold mb-4" style="color:rgba(232,180,176,0.5);">From the audit to the deployment</p>
+    <h2 class="font-display text-3xl lg:text-4xl text-white leading-tight tracking-[-0.02em] mb-8 text-balance">
+      Try the automation<br/><em class="font-medium" style="color:#E8B4B0;">these articles are about.</em>
+    </h2>
+    <a href="/pages/welcome"
+       class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-[13px] font-semibold transition-all duration-150"
+       style="background:#E8B4B0;color:#0A0A0A;"
+       onmouseover="this.style.background='#d9a09b'"
+       onmouseout="this.style.background='#E8B4B0'"
+    >
+      Book your free audit
+      <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 8h10M9 4l4 4-4 4"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: article.title,
+  description: article.excerpt,
+  author: { '@type': 'Person', name: article.author },
+  datePublished: article.date,
+  image: new URL(article.image, Astro.site).toString(),
+})}/>
+
+</ShopLayout>

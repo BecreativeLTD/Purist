@@ -1,0 +1,210 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 720" width="900" height="720" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <radialGradient id="coreGlow" cx="50%" cy="50%" r="30%">
+      <stop offset="0%" stop-color="#A0522D" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#A0522D" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="tlGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#A0522D" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#A0522D" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="brGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2D5016" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#2D5016" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <style>
+    @keyframes rotateCW  { from { transform: rotate(0deg);   } to { transform: rotate(360deg);  } }
+    @keyframes rotateCCW { from { transform: rotate(0deg);   } to { transform: rotate(-360deg); } }
+    @keyframes pulse     { 0%,100% { opacity:0.55; r:5.5; } 50% { opacity:0.9; r:7.5; } }
+    @keyframes pulseS    { 0%,100% { opacity:0.35; r:4;   } 50% { opacity:0.7; r:5.5; } }
+    @keyframes fadeOrbit { 0%,100% { opacity:0.10; } 50% { opacity:0.20; } }
+    @keyframes fadeOrbit2{ 0%,100% { opacity:0.08; } 50% { opacity:0.18; } }
+    @keyframes nodePulse { 0%,100% { opacity:0.35; } 50% { opacity:0.75; } }
+    @keyframes nodePulse2{ 0%,100% { opacity:0.30; } 50% { opacity:0.65; } }
+
+    .ring-cw   { transform-origin:490px 360px; animation:rotateCW  30s linear infinite; }
+    .ring-ccw  { transform-origin:490px 360px; animation:rotateCCW 24s linear infinite; }
+    .ring-cw2  { transform-origin:490px 360px; animation:rotateCW  42s linear infinite; }
+    .ring-ccw2 { transform-origin:490px 360px; animation:rotateCCW 52s linear infinite; }
+    .ring-cw3  { transform-origin:490px 360px; animation:rotateCW  18s linear infinite; }
+
+    .ring-tl   { transform-origin:170px 150px; animation:rotateCW  34s linear infinite; }
+    .ring-br   { transform-origin:780px 590px; animation:rotateCCW 28s linear infinite; }
+
+    .focal     { animation:pulse 4s ease-in-out infinite; }
+    .focal-s   { animation:pulseS 6s ease-in-out infinite; }
+
+    .ob1 { animation:fadeOrbit  8s ease-in-out infinite; }
+    .ob2 { animation:fadeOrbit2 11s ease-in-out infinite 2s; }
+    .ob3 { animation:fadeOrbit  9s ease-in-out infinite 5s; }
+    .ob4 { animation:fadeOrbit2 13s ease-in-out infinite 1s; }
+
+    .nb1 { animation:nodePulse  5s ease-in-out infinite; }
+    .nb2 { animation:nodePulse2 7s ease-in-out infinite 1.5s; }
+    .nb3 { animation:nodePulse  6s ease-in-out infinite 3s; }
+    .nb4 { animation:nodePulse2 8s ease-in-out infinite 4s; }
+  </style>
+
+  <!-- No background — fully transparent -->
+
+  <!-- Ambient glows (soft blobs, no bg) -->
+  <ellipse cx="490" cy="360" rx="160" ry="130" fill="url(#coreGlow)"/>
+  <ellipse cx="170" cy="150" rx="60"  ry="55"  fill="url(#tlGlow)"/>
+  <ellipse cx="780" cy="590" rx="55"  ry="50"  fill="url(#brGlow)"/>
+
+  <!-- ── STATIC STRUCTURE RINGS ── -->
+  <circle cx="490" cy="360" r="320" fill="none" stroke="#0A0A0A" stroke-width="0.3" opacity="0.06"/>
+  <circle cx="490" cy="360" r="170" fill="none" stroke="#0A0A0A" stroke-width="0.4" opacity="0.11"/>
+  <circle cx="490" cy="360" r="28"  fill="none" stroke="#0A0A0A" stroke-width="0.7" opacity="0.20"/>
+
+  <!-- ── ANIMATED DASHED RINGS ── -->
+  <circle class="ring-cw" cx="490" cy="360" r="270"
+          fill="none" stroke="#A0522D" stroke-width="0.7" opacity="0.18"
+          stroke-dasharray="20 10"/>
+  <circle class="ring-ccw" cx="490" cy="360" r="220"
+          fill="none" stroke="#0A0A0A" stroke-width="0.5" opacity="0.13"
+          stroke-dasharray="14 7"/>
+  <circle class="ring-cw2" cx="490" cy="360" r="120"
+          fill="none" stroke="#2D5016" stroke-width="0.65" opacity="0.20"
+          stroke-dasharray="9 11"/>
+  <circle class="ring-ccw2" cx="490" cy="360" r="70"
+          fill="none" stroke="#A0522D" stroke-width="0.8" opacity="0.25"
+          stroke-dasharray="6 8"/>
+  <!-- Extra fast inner ring -->
+  <circle class="ring-cw3" cx="490" cy="360" r="44"
+          fill="none" stroke="#0A0A0A" stroke-width="0.45" opacity="0.14"
+          stroke-dasharray="3 6"/>
+
+  <!-- ── FOCAL POINT ── -->
+  <circle class="focal" cx="490" cy="360" r="5.5" fill="#A0522D" opacity="0.55"/>
+  <circle cx="490" cy="360" r="2" fill="#0A0A0A" opacity="0.65"/>
+
+  <!-- ── AXES ── -->
+  <line x1="50"  y1="360" x2="930" y2="360" stroke="#0A0A0A" stroke-width="0.35" opacity="0.08"/>
+  <line x1="490" y1="20"  x2="490" y2="700" stroke="#0A0A0A" stroke-width="0.35" opacity="0.08"/>
+  <line x1="150" y1="40"  x2="830" y2="680" stroke="#0A0A0A" stroke-width="0.22" opacity="0.05"/>
+  <line x1="830" y1="40"  x2="150" y2="680" stroke="#0A0A0A" stroke-width="0.22" opacity="0.05"/>
+  <line x1="490" y1="40"  x2="900" y2="580" stroke="#A0522D" stroke-width="0.18" opacity="0.07"/>
+  <line x1="490" y1="40"  x2="80"  y2="580" stroke="#A0522D" stroke-width="0.18" opacity="0.07"/>
+  <line x1="490" y1="680" x2="900" y2="140" stroke="#2D5016" stroke-width="0.18" opacity="0.07"/>
+  <line x1="490" y1="680" x2="80"  y2="140" stroke="#2D5016" stroke-width="0.18" opacity="0.07"/>
+
+  <!-- ── RADIAL SPOKES ── -->
+  <line x1="490" y1="360" x2="490" y2="90"  stroke="#0A0A0A" stroke-width="0.22" opacity="0.09"/>
+  <line x1="490" y1="360" x2="840" y2="310" stroke="#A0522D" stroke-width="0.22" opacity="0.09"/>
+  <line x1="490" y1="360" x2="800" y2="540" stroke="#0A0A0A" stroke-width="0.22" opacity="0.09"/>
+  <line x1="490" y1="360" x2="490" y2="660" stroke="#2D5016" stroke-width="0.22" opacity="0.09"/>
+  <line x1="490" y1="360" x2="130" y2="310" stroke="#A0522D" stroke-width="0.22" opacity="0.09"/>
+  <line x1="490" y1="360" x2="160" y2="540" stroke="#0A0A0A" stroke-width="0.22" opacity="0.09"/>
+
+  <!-- ── OUTER RING NODES ── -->
+  <circle cx="490" cy="90"  r="4.5" fill="#0A0A0A" opacity="0.38"/>
+  <circle class="nb1" cx="740" cy="127" r="3.5" fill="#A0522D" opacity="0.45"/>
+  <circle cx="840" cy="310" r="4"   fill="#0A0A0A" opacity="0.35"/>
+  <circle class="nb2" cx="800" cy="540" r="3.5" fill="#2D5016" opacity="0.40"/>
+  <circle cx="620" cy="660" r="4"   fill="#0A0A0A" opacity="0.38"/>
+  <circle class="nb3" cx="360" cy="660" r="3.5" fill="#A0522D" opacity="0.40"/>
+  <circle cx="160" cy="540" r="4"   fill="#0A0A0A" opacity="0.35"/>
+  <circle class="nb4" cx="130" cy="310" r="3.5" fill="#2D5016" opacity="0.40"/>
+  <circle cx="240" cy="127" r="4"   fill="#0A0A0A" opacity="0.38"/>
+
+  <!-- ── MIDDLE RING NODES ── -->
+  <circle class="nb2" cx="490" cy="190" r="3.5" fill="#A0522D" opacity="0.48"/>
+  <circle cx="640" cy="212" r="3"   fill="#0A0A0A" opacity="0.40"/>
+  <circle class="nb3" cx="720" cy="340" r="3.5" fill="#2D5016" opacity="0.44"/>
+  <circle cx="680" cy="490" r="3"   fill="#0A0A0A" opacity="0.38"/>
+  <circle class="nb1" cx="560" cy="570" r="3.5" fill="#A0522D" opacity="0.46"/>
+  <circle cx="400" cy="578" r="3"   fill="#0A0A0A" opacity="0.38"/>
+  <circle class="nb4" cx="290" cy="516" r="3.5" fill="#2D5016" opacity="0.44"/>
+  <circle cx="248" cy="400" r="3"   fill="#0A0A0A" opacity="0.38"/>
+  <circle class="nb2" cx="290" cy="256" r="3.5" fill="#A0522D" opacity="0.46"/>
+  <circle cx="400" cy="200" r="3"   fill="#0A0A0A" opacity="0.38"/>
+
+  <!-- ── INNER NODES ── -->
+  <circle cx="490" cy="290" r="2.5" fill="#A0522D" opacity="0.52"/>
+  <circle cx="552" cy="314" r="2.5" fill="#0A0A0A" opacity="0.45"/>
+  <circle cx="558" cy="392" r="2.5" fill="#2D5016" opacity="0.50"/>
+  <circle cx="514" cy="428" r="2.5" fill="#0A0A0A" opacity="0.45"/>
+  <circle cx="450" cy="422" r="2.5" fill="#A0522D" opacity="0.50"/>
+  <circle cx="424" cy="370" r="2.5" fill="#2D5016" opacity="0.48"/>
+  <circle cx="432" cy="308" r="2.5" fill="#0A0A0A" opacity="0.45"/>
+
+  <!-- ── ANIMATED ORBITAL ARCS ── -->
+  <path class="ob1" d="M490,90 Q660,95 740,127" fill="none" stroke="#0A0A0A" stroke-width="0.35"/>
+  <path class="ob2" d="M740,127 Q810,200 840,310" fill="none" stroke="#A0522D" stroke-width="0.35"/>
+  <path class="ob3" d="M840,310 Q840,430 800,540" fill="none" stroke="#0A0A0A" stroke-width="0.35"/>
+  <path class="ob4" d="M800,540 Q720,620 620,660" fill="none" stroke="#2D5016" stroke-width="0.35"/>
+  <path class="ob1" d="M620,660 Q490,690 360,660" fill="none" stroke="#0A0A0A" stroke-width="0.35"/>
+  <path class="ob2" d="M360,660 Q230,620 160,540" fill="none" stroke="#A0522D" stroke-width="0.35"/>
+  <path class="ob3" d="M160,540 Q120,430 130,310" fill="none" stroke="#0A0A0A" stroke-width="0.35"/>
+  <path class="ob4" d="M130,310 Q155,200 240,127" fill="none" stroke="#2D5016" stroke-width="0.35"/>
+  <path class="ob1" d="M240,127 Q340,90 490,90" fill="none" stroke="#0A0A0A" stroke-width="0.35"/>
+
+  <path class="ob2" d="M490,190 Q580,196 640,212" fill="none" stroke="#A0522D" stroke-width="0.28"/>
+  <path class="ob3" d="M640,212 Q700,270 720,340" fill="none" stroke="#0A0A0A" stroke-width="0.28"/>
+  <path class="ob4" d="M720,340 Q715,420 680,490" fill="none" stroke="#2D5016" stroke-width="0.28"/>
+  <path class="ob1" d="M680,490 Q630,540 560,570" fill="none" stroke="#0A0A0A" stroke-width="0.28"/>
+  <path class="ob2" d="M560,570 Q490,590 400,578" fill="none" stroke="#A0522D" stroke-width="0.28"/>
+  <path class="ob3" d="M400,578 Q320,555 290,516" fill="none" stroke="#0A0A0A" stroke-width="0.28"/>
+  <path class="ob4" d="M290,516 Q255,460 248,400" fill="none" stroke="#2D5016" stroke-width="0.28"/>
+  <path class="ob1" d="M248,400 Q252,320 290,256" fill="none" stroke="#0A0A0A" stroke-width="0.28"/>
+  <path class="ob2" d="M290,256 Q340,210 400,200" fill="none" stroke="#A0522D" stroke-width="0.28"/>
+  <path class="ob3" d="M400,200 Q450,192 490,190" fill="none" stroke="#0A0A0A" stroke-width="0.28"/>
+
+  <!-- ── SECONDARY SATELLITE CIRCLES ── -->
+  <circle cx="170" cy="150" r="80" fill="none" stroke="#0A0A0A" stroke-width="0.32" opacity="0.07"/>
+  <circle class="ring-tl" cx="170" cy="150" r="50"
+          fill="none" stroke="#A0522D" stroke-width="0.5" opacity="0.16"
+          stroke-dasharray="7 6"/>
+  <circle cx="170" cy="150" r="22" fill="none" stroke="#0A0A0A" stroke-width="0.42" opacity="0.14"/>
+  <circle class="focal-s" cx="170" cy="150" r="4" fill="#A0522D" opacity="0.38"/>
+  <line x1="220" y1="166" x2="320" y2="210" stroke="#0A0A0A" stroke-width="0.22" opacity="0.08"/>
+
+  <circle cx="780" cy="590" r="70" fill="none" stroke="#0A0A0A" stroke-width="0.32" opacity="0.07"/>
+  <circle class="ring-br" cx="780" cy="590" r="42"
+          fill="none" stroke="#2D5016" stroke-width="0.5" opacity="0.16"
+          stroke-dasharray="6 7"/>
+  <circle cx="780" cy="590" r="16" fill="none" stroke="#0A0A0A" stroke-width="0.42" opacity="0.14"/>
+  <circle class="focal-s" cx="780" cy="590" r="3.5" fill="#2D5016" opacity="0.38"/>
+  <line x1="724" y1="576" x2="650" y2="540" stroke="#0A0A0A" stroke-width="0.22" opacity="0.08"/>
+
+  <!-- ── GEOMETRIC POLYGONS ── -->
+  <path d="M490,140 L680,250 L680,470 L490,580 L300,470 L300,250 Z"
+        fill="none" stroke="#0A0A0A" stroke-width="0.38" opacity="0.07"/>
+  <path d="M490,240 L610,360 L490,480 L370,360 Z"
+        fill="none" stroke="#A0522D" stroke-width="0.42" opacity="0.10"/>
+  <path d="M490,190 L637,445 L343,445 Z"
+        fill="none" stroke="#0A0A0A" stroke-width="0.32" opacity="0.08"/>
+  <path d="M490,530 L343,275 L637,275 Z"
+        fill="none" stroke="#2D5016" stroke-width="0.32" opacity="0.08"/>
+
+  <!-- ── TICK MARKS ── -->
+  <line x1="490" y1="240" x2="490" y2="248" stroke="#0A0A0A" stroke-width="0.5" opacity="0.22"/>
+  <line x1="594" y1="270" x2="598" y2="277" stroke="#0A0A0A" stroke-width="0.5" opacity="0.22"/>
+  <line x1="654" y1="360" x2="662" y2="360" stroke="#0A0A0A" stroke-width="0.5" opacity="0.22"/>
+  <line x1="610" y1="464" x2="606" y2="471" stroke="#0A0A0A" stroke-width="0.5" opacity="0.22"/>
+  <line x1="490" y1="480" x2="490" y2="488" stroke="#0A0A0A" stroke-width="0.5" opacity="0.22"/>
+  <line x1="370" y1="464" x2="374" y2="471" stroke="#0A0A0A" stroke-width="0.5" opacity="0.22"/>
+  <line x1="318" y1="360" x2="326" y2="360" stroke="#0A0A0A" stroke-width="0.5" opacity="0.22"/>
+  <line x1="370" y1="256" x2="374" y2="249" stroke="#0A0A0A" stroke-width="0.5" opacity="0.22"/>
+
+  <!-- ── CROP MARKS ── -->
+  <line x1="40"  y1="40"  x2="90"  y2="40"  stroke="#0A0A0A" stroke-width="0.28" opacity="0.09"/>
+  <line x1="40"  y1="40"  x2="40"  y2="90"  stroke="#0A0A0A" stroke-width="0.28" opacity="0.09"/>
+  <line x1="860" y1="40"  x2="810" y2="40"  stroke="#0A0A0A" stroke-width="0.28" opacity="0.09"/>
+  <line x1="860" y1="40"  x2="860" y2="90"  stroke="#0A0A0A" stroke-width="0.28" opacity="0.09"/>
+  <line x1="40"  y1="680" x2="90"  y2="680" stroke="#0A0A0A" stroke-width="0.28" opacity="0.09"/>
+  <line x1="40"  y1="680" x2="40"  y2="630" stroke="#0A0A0A" stroke-width="0.28" opacity="0.09"/>
+  <line x1="860" y1="680" x2="810" y2="680" stroke="#0A0A0A" stroke-width="0.28" opacity="0.09"/>
+  <line x1="860" y1="680" x2="860" y2="630" stroke="#0A0A0A" stroke-width="0.28" opacity="0.09"/>
+
+  <!-- ── FINE GRID ── -->
+  <line x1="200" y1="40" x2="200" y2="680" stroke="#0A0A0A" stroke-width="0.12" opacity="0.035"/>
+  <line x1="350" y1="40" x2="350" y2="680" stroke="#0A0A0A" stroke-width="0.12" opacity="0.035"/>
+  <line x1="630" y1="40" x2="630" y2="680" stroke="#0A0A0A" stroke-width="0.12" opacity="0.035"/>
+  <line x1="780" y1="40" x2="780" y2="680" stroke="#0A0A0A" stroke-width="0.12" opacity="0.035"/>
+  <line x1="40"  y1="180" x2="860" y2="180" stroke="#0A0A0A" stroke-width="0.12" opacity="0.035"/>
+  <line x1="40"  y1="540" x2="860" y2="540" stroke="#0A0A0A" stroke-width="0.12" opacity="0.035"/>
+</svg>

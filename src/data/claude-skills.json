@@ -1,0 +1,101 @@
+{
+  "totalSkills": 329,
+  "categories": [
+    {
+      "id": "engineering-core",
+      "name": "Engineering — Core",
+      "count": 32,
+      "icon": "M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4",
+      "color": "#A0522D",
+      "skills": ["Architecture Design", "Frontend Dev", "Backend Engineering", "Fullstack", "QA Automation", "DevOps", "SecOps", "AI/ML Engineering", "Data Engineering", "Playwright Testing", "Security Suite", "Accessibility Audit"]
+    },
+    {
+      "id": "engineering-powerful",
+      "name": "Engineering — POWERFUL",
+      "count": 45,
+      "icon": "M13 10V3L4 14h7v7l9-11h-7z",
+      "color": "#A0522D",
+      "skills": ["Agent Designer", "RAG Architect", "Database Designer", "CI/CD Pipeline Builder", "MCP Server Builder", "PR Review Expert", "API Design Reviewer", "Dependency Auditor", "Release Manager", "Observability Designer", "Performance Profiler", "Incident Commander", "Tech Debt Tracker"]
+    },
+    {
+      "id": "product",
+      "name": "Product",
+      "count": 13,
+      "icon": "M9 3v2m6-2v2M9 19v2m6-2v2M3 9h2m14 0h2M3 15h2m14 0h2M7 7h10v10H7z",
+      "color": "#2D5016",
+      "skills": ["Product Manager", "Agile PO", "UX Researcher", "UI Designer", "Landing Page Generator", "SaaS Scaffolder", "Analytics Specialist", "Experiment Designer", "Apple HIG Expert"]
+    },
+    {
+      "id": "marketing",
+      "name": "Marketing",
+      "count": 45,
+      "icon": "M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z",
+      "color": "#A0522D",
+      "skills": ["Content Pod (8)", "SEO & AEO Pod (6)", "CRO Pod (6)", "Channels Pod (6)", "Growth Pod (4)", "Intelligence Pod (4)", "Sales Pod (2)", "E-E-A-T Auditing", "Citation Tracking"]
+    },
+    {
+      "id": "research",
+      "name": "Research",
+      "count": 8,
+      "icon": "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z",
+      "color": "#2D5016",
+      "skills": ["Research Orchestrator", "Pulse Specialist", "Literature Review", "Grants Finder", "Entity Dossier", "Patent Explorer", "Course Syllabus Curator", "NotebookLM Automation"]
+    },
+    {
+      "id": "c-level",
+      "name": "C-Level Advisory",
+      "count": 28,
+      "icon": "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4",
+      "color": "#0A0A0A",
+      "skills": ["CEO Advisor", "CTO Advisor", "CFO Advisor", "CMO Advisor", "COO Advisor", "CPO Advisor", "CHRO Advisor", "CRO Advisor", "Board Facilitation", "Orchestration"]
+    },
+    {
+      "id": "regulatory",
+      "name": "Regulatory & QM",
+      "count": 14,
+      "icon": "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
+      "color": "#A0522D",
+      "skills": ["ISO 13485", "MDR 2017/745", "FDA Compliance", "ISO 27001", "GDPR", "SOC 2", "CAPA Management", "Risk Management"]
+    },
+    {
+      "id": "project-management",
+      "name": "Project Management",
+      "count": 9,
+      "icon": "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01",
+      "color": "#2D5016",
+      "skills": ["Senior PM", "Scrum Master", "Jira Specialist", "Confluence Expert", "Atlassian Admin"]
+    },
+    {
+      "id": "business",
+      "name": "Business & Growth",
+      "count": 5,
+      "icon": "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6",
+      "color": "#A0522D",
+      "skills": ["Customer Success", "Sales Engineer", "Revenue Operations", "Contracts & Proposals", "BizDev Toolkit"]
+    },
+    {
+      "id": "productivity",
+      "name": "Productivity",
+      "count": 6,
+      "icon": "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",
+      "color": "#0A0A0A",
+      "skills": ["Brain-Dump Capture", "Inbox Setup", "Inbox Triage", "Reflection Journaling", "Handoff Coordinator", "Andreessen Mode"]
+    },
+    {
+      "id": "finance",
+      "name": "Finance",
+      "count": 3,
+      "icon": "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
+      "color": "#2D5016",
+      "skills": ["Financial Analyst", "SaaS Metrics Coach", "Business Investment Advisor"]
+    },
+    {
+      "id": "playwright",
+      "name": "Playwright Pro",
+      "count": 12,
+      "icon": "M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z",
+      "color": "#A0522D",
+      "skills": ["Test Generation", "Flaky Test Fixing", "Cypress Migration", "Selenium Migration", "TestRail Integration", "BrowserStack Integration"]
+    }
+  ]
+}

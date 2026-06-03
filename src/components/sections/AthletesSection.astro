@@ -1,0 +1,19 @@
+---
+import athletesData from '~/data/athletes.json';
+import AthletesCarousel from './AthletesCarousel.tsx';
+const { athletes } = athletesData;
+---
+
+<section class="bg-brand-cream py-20 lg:py-28">
+  <div class="container-x">
+    <div class="max-w-3xl mb-12">
+      <p class="eyebrow mb-4">Trusted by industry leaders</p>
+      <h2 class="font-display text-h1 text-balance">
+        Dentists. Agencies. Property managers. Scaling startups.<br />
+        <em class="font-medium">They all run on PURIST.</em>
+      </h2>
+    </div>
+
+    <AthletesCarousel client:visible athletes={athletes} />
+  </div>
+</section>

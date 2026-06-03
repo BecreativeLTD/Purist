@@ -1,0 +1,71 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import Button from '~/components/ui/Button.astro';
+
+const perks = [
+  { title: '15% revenue share', body: 'On every client you refer who signs up. No caps, no thresholds, paid monthly for the life of the client.' },
+  { title: 'Free automation audit', body: 'Every referral gets a complimentary workflow audit — making your recommendation easy and risk-free.' },
+  { title: 'Co-branded content', body: 'Case studies, landing pages and educational material — designed with you, for your audience.' },
+  { title: 'Direct line', body: 'A real partner manager who picks up the phone. No anonymous portal, no twenty-day waits.' },
+];
+---
+
+<ShopLayout
+  title="Partner program – PURIST"
+  description="Earn 15% revenue share by referring clients to PURIST. Built for agencies, consultants, IT providers and creators."
+>
+  <header class="bg-brand-cream">
+    <div class="container-x py-16 lg:py-20 max-w-3xl mx-auto text-center">
+      <p class="eyebrow mb-4">Partner program</p>
+      <h1 class="font-display text-4xl lg:text-5xl xl:text-6xl leading-tight tracking-tight mb-6 text-balance">
+        Join the partners who grow <em class="font-medium">with their clients.</em>
+      </h1>
+      <p class="text-base lg:text-lg text-brand-gray-600 text-pretty">
+        Agencies, consultants, IT providers, and creators who already recommend the PURIST
+        standard. Real results, real income, real impact.
+      </p>
+    </div>
+  </header>
+
+  <section class="bg-white py-20 lg:py-28">
+    <div class="container-x grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
+      {perks.map((p) => (
+        <article class="bg-brand-cream rounded-card p-8 scroll-fade">
+          <h2 class="font-display text-xl mb-3 leading-snug">{p.title}</h2>
+          <p class="text-sm text-brand-gray-600 leading-relaxed">{p.body}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-brand-beige py-20 lg:py-28">
+    <div class="container-x max-w-xl mx-auto">
+      <p class="eyebrow mb-4 text-center">Apply</p>
+      <h2 class="font-display text-3xl lg:text-4xl mb-8 text-center leading-tight">
+        Tell us about yourself.
+      </h2>
+      <form class="space-y-4 bg-white rounded-card p-6 lg:p-8" onsubmit="event.preventDefault(); this.querySelector('[data-success]').classList.remove('hidden'); this.querySelector('button[type=submit]').disabled = true;">
+        <label class="block">
+          <span class="block text-xs text-brand-gray-600 mb-1.5">Full name</span>
+          <input type="text" required class="w-full bg-white border border-brand-gray-200 rounded-button px-4 py-3 text-sm focus:border-brand-black focus:outline-none transition" />
+        </label>
+        <label class="block">
+          <span class="block text-xs text-brand-gray-600 mb-1.5">Email</span>
+          <input type="email" required class="w-full bg-white border border-brand-gray-200 rounded-button px-4 py-3 text-sm focus:border-brand-black focus:outline-none transition" />
+        </label>
+        <label class="block">
+          <span class="block text-xs text-brand-gray-600 mb-1.5">Your business / specialty</span>
+          <input type="text" placeholder="e.g. IT consulting · dental industry · 50+ clients" required class="w-full bg-white border border-brand-gray-200 rounded-button px-4 py-3 text-sm focus:border-brand-black focus:outline-none transition" />
+        </label>
+        <label class="block">
+          <span class="block text-xs text-brand-gray-600 mb-1.5">Why PURIST?</span>
+          <textarea rows="4" required class="w-full bg-white border border-brand-gray-200 rounded-button px-4 py-3 text-sm focus:border-brand-black focus:outline-none transition resize-y"></textarea>
+        </label>
+        <Button type="submit" full>Submit application →</Button>
+        <p data-success class="hidden bg-brand-green/15 text-brand-green text-sm p-4 rounded-card">
+          ✓ Demo mode — application captured client-side only.
+        </p>
+      </form>
+    </div>
+  </section>
+</ShopLayout>

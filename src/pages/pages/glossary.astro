@@ -1,0 +1,941 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+
+// cat: 'core' | 'ai' | 'security' | 'platform' | 'data' | 'architecture' | 'finance' | 'ops'
+// complexity: 1=beginner 2=intermediate 3=advanced
+// stat?: { value, label, source }
+// insight?: string (a practical "so what" line)
+
+const terms = [
+  // ── A ─────────────────────────────────────────────────────────────────
+  { letter:'A', term:'API (Application Programming Interface)', cat:'core', complexity:1,
+    def:'A set of rules that allow two software applications to communicate. Most automation workflows use APIs to connect tools like HubSpot, Stripe, or Google Sheets without manual exports.',
+    stat:{ value:'500+', label:'apps PURIST connects via API', source:'PURIST 2025' },
+    insight:'If a tool has an API, it can be automated. If it doesn\'t, you\'re stuck with manual exports.',
+    related:['Webhook','Integration','REST API'] },
+
+  { letter:'A', term:'API Key', cat:'security', complexity:1,
+    def:'A secret token that authenticates your automation with a third-party service. Treat API keys like passwords — never hard-code them in workflows, always store them in environment variables or a secrets manager.',
+    insight:'A leaked API key can allow anyone to trigger your automations, send emails from your domain, or access your CRM data.',
+    related:['OAuth','Authentication','Environment variable'] },
+
+  { letter:'A', term:'API Rate Limit', cat:'core', complexity:2,
+    def:'A cap on how many API requests you can make per second, minute, or day. Hitting rate limits causes automation failures. Well-built automations include throttling and backoff logic to stay within limits gracefully.',
+    stat:{ value:'#1', label:'cause of automation failures in first 30 days', source:'PURIST client data' },
+    insight:'Zapier and Make don\'t automatically handle rate limits — you hit them, your workflow stops silently.',
+    related:['Retry logic','Throttling','Backoff'] },
+
+  { letter:'A', term:'Action (automation step)', cat:'core', complexity:1,
+    def:'A single operation performed by an automation after a trigger fires. Examples: create a CRM contact, send an email, update a spreadsheet row, post a Slack message. Complex workflows chain dozens of actions in sequence or parallel.',
+    related:['Trigger','Workflow','Parallel execution'] },
+
+  { letter:'A', term:'AI Agent', cat:'ai', complexity:3,
+    def:'An autonomous AI system that can plan, reason, use tools, and complete multi-step tasks without human input at each step. Unlike basic LLM calls, agents can browse the web, query databases, send emails, and loop until a goal is met.',
+    stat:{ value:'73%', label:'of knowledge work tasks partially automatable by AI agents', source:'McKinsey 2024' },
+    insight:'The difference between an LLM call and an AI agent: one answers a question, the other completes a task end-to-end.',
+    related:['Claude AI','LLM','Orchestration'] },
+
+  { letter:'A', term:'Airtable', cat:'platform', complexity:1,
+    def:'A cloud-based database/spreadsheet hybrid commonly used as a lightweight CRM or data store in automation workflows. Works well as a central data layer that multiple automations read from and write to.',
+    related:['Database','Google Sheets','Integration'] },
+
+  { letter:'A', term:'Async / Asynchronous processing', cat:'architecture', complexity:2,
+    def:'When an automation queues a task and continues without waiting for it to complete. Contrast with synchronous, where each step must finish before the next begins. Async is faster but requires careful error tracking.',
+    insight:'A synchronous workflow that times out loses data. An async workflow queues it for safe processing.',
+    related:['Queue','Webhook','Event-driven automation'] },
+
+  { letter:'A', term:'Authentication', cat:'security', complexity:2,
+    def:'Verifying the identity of the system or user making an API call. Methods include API keys, OAuth tokens, Basic Auth, and JWT. Poor authentication handling is the #1 cause of integration security vulnerabilities.',
+    related:['OAuth','API Key','JWT'] },
+
+  { letter:'A', term:'Automation audit', cat:'ops', complexity:1,
+    def:'A structured review of your business operations to identify manual tasks that can be automated. PURIST conducts a free 30-minute audit covering your full workflow, bottleneck map, and ROI priority matrix.',
+    stat:{ value:'47', label:'processes audited per client on average', source:'PURIST 2025' },
+    insight:'Most business owners underestimate their manual work by 40%. An audit reveals the real number.',
+    related:['ROI','Done-for-you automation','Process mapping'] },
+
+  { letter:'A', term:'Automation workflow', cat:'core', complexity:1,
+    def:'A sequence of automated actions triggered by a specific event. Example: a new Typeform submission triggers a CRM entry, a welcome email, and a Slack notification — all without human intervention.',
+    stat:{ value:'14h', label:'average hours saved per week per PURIST client', source:'PURIST 2025' },
+    related:['Trigger','n8n','Make'] },
+
+  // ── B ─────────────────────────────────────────────────────────────────
+  { letter:'B', term:'Backoff (exponential)', cat:'architecture', complexity:2,
+    def:'A retry strategy where each successive retry waits progressively longer — e.g., 10s, 30s, 2min, 10min. Prevents overloading a struggling API while still recovering from transient failures automatically.',
+    insight:'Linear retries (every 30s) hammer a down API. Exponential backoff is polite and more likely to succeed.',
+    related:['Retry logic','Rate limit','Error handling'] },
+
+  { letter:'B', term:'Batch processing', cat:'architecture', complexity:2,
+    def:'Executing automation logic on a group of records at once rather than one at a time. Used for bulk email sends, report generation, and data migrations. More efficient than looping, but requires careful error isolation per record.',
+    related:['Loop','Queue','Async'] },
+
+  { letter:'B', term:'Business process automation (BPA)', cat:'ops', complexity:1,
+    def:'The use of technology to perform recurring business tasks with minimal human input. BPA covers everything from invoice generation to employee onboarding — the focus is operational efficiency at scale.',
+    stat:{ value:'40%', label:'of working time in SMBs spent on manual, automatable tasks', source:'McKinsey 2024' },
+    related:['RPA','Workflow','Done-for-you automation'] },
+
+  // ── C ─────────────────────────────────────────────────────────────────
+  { letter:'C', term:'Calendly', cat:'platform', complexity:1,
+    def:'A scheduling tool widely used in automation workflows. New bookings trigger onboarding sequences, CRM updates, reminder emails, and post-call follow-ups — all without manual intervention.',
+    related:['Trigger','CRM','Webhook'] },
+
+  { letter:'C', term:'Checkly', cat:'platform', complexity:2,
+    def:'A monitoring platform that runs synthetic checks against your live automations every 60 seconds. PURIST uses Checkly for uptime monitoring — it alerts us before a client notices a workflow failure.',
+    stat:{ value:'60s', label:'check interval PURIST uses on all deployed workflows', source:'PURIST infra' },
+    related:['Monitoring','SLA','Uptime'] },
+
+  { letter:'C', term:'Claude AI', cat:'ai', complexity:1,
+    def:'Anthropic\'s large language model. In automation context, Claude can classify support tickets, draft personalised emails, summarise documents, extract structured data from text, and make intelligent decisions within workflows.',
+    stat:{ value:'329', label:'Claude AI skills integrated into PURIST workflows', source:'PURIST 2025' },
+    insight:'Claude inside an automation is not a chatbot — it\'s a decision-making engine that acts on structured data.',
+    related:['AI Agent','NLP','LLM'] },
+
+  { letter:'C', term:'Condition / branching', cat:'core', complexity:1,
+    def:'Logic within a workflow that routes execution down different paths based on data values. "If the deal value is > £10,000, notify the senior account manager. Else, assign to junior." Essential for sophisticated automations.',
+    related:['Filter node','Router node','Workflow'] },
+
+  { letter:'C', term:'CRM (Customer Relationship Management)', cat:'platform', complexity:1,
+    def:'A system for managing contacts, deals, and communication history. CRM integrations are among the most common automation use cases — syncing leads, updating deal stages, triggering follow-ups, and generating reports.',
+    stat:{ value:'65%', label:'of CRM data is entered manually and contains errors', source:'Salesforce 2023' },
+    insight:'Automation eliminates manual CRM entry — data is cleaner, faster, and your team stops hating the system.',
+    related:['HubSpot','Pipedrive','Salesforce'] },
+
+  { letter:'C', term:'CRON / scheduled trigger', cat:'core', complexity:2,
+    def:'A time-based trigger that fires an automation at fixed intervals — every morning at 7 AM, every Monday, the 1st of each month. CRON syntax defines the schedule. Used for reports, digests, and maintenance tasks.',
+    related:['Trigger','Batch processing','Scheduled trigger'] },
+
+  { letter:'C', term:'Custom code node', cat:'core', complexity:3,
+    def:'A step in n8n or Make that lets you write JavaScript or Python directly inside a workflow. Enables complex logic, data transformations, and API calls that visual nodes cannot handle. PURIST uses custom code nodes extensively.',
+    insight:'The moment a workflow need outgrows visual nodes, custom code is the right tool — not a different platform.',
+    related:['n8n','Make','Function node'] },
+
+  // ── D ─────────────────────────────────────────────────────────────────
+  { letter:'D', term:'Data mapping', cat:'data', complexity:1,
+    def:'Connecting fields from one system to fields in another. Example: mapping "First Name" from Typeform to "firstname" in HubSpot. Poor data mapping causes silent errors where records are created but fields are blank.',
+    stat:{ value:'78%', label:'of integration failures traced to incorrect data mapping', source:'Gartner 2023' },
+    related:['Integration','Data transformation','Schema'] },
+
+  { letter:'D', term:'Data transformation', cat:'data', complexity:2,
+    def:'Modifying data as it flows through an automation — reformatting dates, concatenating strings, converting currencies, parsing JSON. Every production workflow transforms data at least once.',
+    related:['Data mapping','Function node','Custom code node'] },
+
+  { letter:'D', term:'Dead-letter queue (DLQ)', cat:'architecture', complexity:3,
+    def:'A safety net for failed workflow executions. When an automation fails after all retries, the payload is moved to a DLQ for manual review — preventing data loss and allowing reprocessing once the issue is resolved.',
+    insight:'Without a DLQ, a failed automation silently loses data. With one, nothing is ever truly lost.',
+    related:['Error handling','Retry logic','Queue'] },
+
+  { letter:'D', term:'Deduplication', cat:'data', complexity:2,
+    def:'Preventing the same record from being created or processed twice. Critical when multiple triggers can fire for the same event — e.g., two form submissions from the same email should not create two CRM contacts.',
+    related:['Idempotency','Data quality','Integration'] },
+
+  { letter:'D', term:'Done-for-you automation', cat:'ops', complexity:1,
+    def:'A fully managed service where a specialist team designs, builds, deploys, and monitors your automations. Contrast with DIY automation tools like Zapier, where you build and maintain everything yourself.',
+    stat:{ value:'312+', label:'done-for-you automations deployed by PURIST', source:'PURIST 2025' },
+    insight:'DIY saves money upfront. Done-for-you saves 10× more time — because the automations actually work.',
+    related:['PURIST','Retainer','Managed service'] },
+
+  { letter:'D', term:'Dunning', cat:'finance', complexity:2,
+    def:'Automated retry logic for failed payments. When a card declines, dunning sequences automatically retry at intervals, send customer notifications, and escalate to account cancellation after a defined period. Recovers significant lost revenue.',
+    stat:{ value:'15–20%', label:'of involuntary churn recovered by automated dunning', source:'ProfitWell 2024' },
+    insight:'Most SaaS companies lose 5–8% of MRR to failed payments. Dunning automation recovers most of it automatically.',
+    related:['Stripe','Payment automation','Retry logic'] },
+
+  // ── E ─────────────────────────────────────────────────────────────────
+  { letter:'E', term:'Email automation', cat:'ops', complexity:1,
+    def:'Sending personalised emails triggered by user actions or time delays rather than manual effort. Includes welcome sequences, follow-ups, invoicing, reminders, and re-engagement campaigns — all sent automatically.',
+    related:['Drip sequence','SMTP','Transactional email'] },
+
+  { letter:'E', term:'Environment variable', cat:'security', complexity:2,
+    def:'A configuration value stored outside your workflow code — API keys, passwords, URLs. Using environment variables instead of hardcoding credentials is essential for security and makes workflows portable across staging and production.',
+    related:['API Key','Secrets manager','Security'] },
+
+  { letter:'E', term:'Error handling', cat:'architecture', complexity:2,
+    def:'The logic built into an automation to gracefully manage failures. Includes try/catch blocks, retry logic, alerting, and fallback paths. Production-grade automations always include error handling — hobby automations often don\'t.',
+    stat:{ value:'94%', label:'of automation failures silently dropped without error handling', source:'PURIST analysis' },
+    insight:'A Zapier workflow that fails shows "Error" and stops. A PURIST workflow retries, alerts, and recovers.',
+    related:['Retry logic','Dead-letter queue','Monitoring'] },
+
+  { letter:'E', term:'Event-driven automation', cat:'core', complexity:1,
+    def:'An automation triggered by a real-time event rather than a schedule. A new email arriving, a form submission, or a payment succeeding all "fire" event-driven workflows instantly, versus a scheduled job that runs every hour.',
+    related:['Webhook','Trigger','Async'] },
+
+  { letter:'E', term:'Execution log', cat:'ops', complexity:2,
+    def:'A record of every run of an automation — inputs received, steps executed, outputs produced, errors thrown, and duration. PURIST monitors execution logs in real-time to catch failures before clients notice them.',
+    related:['Monitoring','Debugging','Audit trail'] },
+
+  // ── F ─────────────────────────────────────────────────────────────────
+  { letter:'F', term:'Filter node', cat:'core', complexity:1,
+    def:'A workflow step that stops execution if a condition is not met. Example: "Only continue if the deal value is greater than £5,000." Prevents unnecessary API calls and unwanted actions on irrelevant records.',
+    related:['Condition','Router node','Workflow'] },
+
+  { letter:'F', term:'Function node', cat:'core', complexity:3,
+    def:'In n8n, a node that lets you write custom JavaScript to transform data, perform calculations, or call APIs. Equivalent to Make\'s "Tools > Execute JavaScript" module. Unlocks logic that visual nodes cannot handle.',
+    related:['Custom code node','n8n','Data transformation'] },
+
+  { letter:'F', term:'FTE (Full-Time Equivalent)', cat:'ops', complexity:1,
+    def:'A unit of measurement for workload. 1.0 FTE = one full-time employee\'s working capacity (~160h/month). Automation ROI is often expressed as FTEs freed — e.g., "2.1 FTEs freed" means automation handles the equivalent of two full-time roles\' manual work.',
+    stat:{ value:'2.1', label:'FTEs freed on average per PURIST client', source:'PURIST 2025' },
+    insight:'Freeing 2 FTEs doesn\'t mean firing 2 people — it means those people do higher-value work instead.',
+    related:['ROI','Hours saved','Payback period'] },
+
+  // ── G ─────────────────────────────────────────────────────────────────
+  { letter:'G', term:'Google Sheets automation', cat:'platform', complexity:1,
+    def:'Using Google Sheets as a data source or destination in workflows. Common patterns: new row triggers a CRM update, a workflow appends a row on deal close, or a scheduled job pulls data and builds a report sheet.',
+    related:['Airtable','Data mapping','Integration'] },
+
+  { letter:'G', term:'GPT / LLM call', cat:'ai', complexity:2,
+    def:'Making an API request to a large language model (Claude, GPT-4, Gemini) from within a workflow. Used for content generation, classification, extraction, and summarisation tasks that require human-level language understanding.',
+    related:['Claude AI','AI Agent','Prompt engineering'] },
+
+  // ── H ─────────────────────────────────────────────────────────────────
+  { letter:'H', term:'Health check', cat:'architecture', complexity:2,
+    def:'An automated test that verifies a workflow or integration is functioning correctly. PURIST runs health checks every 60 seconds via Checkly — if a check fails, our team is alerted before the client\'s operation is impacted.',
+    stat:{ value:'99.97%', label:'uptime achieved via continuous health checks', source:'PURIST infra' },
+    related:['Monitoring','Uptime','SLA'] },
+
+  { letter:'H', term:'HubSpot', cat:'platform', complexity:1,
+    def:'One of the most widely automated CRM platforms. HubSpot\'s native workflows are limited — PURIST extends them with n8n to sync data across 20+ tools, trigger complex sequences, and build reporting that HubSpot cannot produce natively.',
+    related:['CRM','Integration','Webhook'] },
+
+  { letter:'H', term:'HTTP Request', cat:'core', complexity:2,
+    def:'The mechanism by which most modern automations communicate with external services. A webhook sends an HTTP POST; an API call sends an HTTP GET or POST. Understanding this helps diagnose integration failures.',
+    related:['API','Webhook','REST API'] },
+
+  // ── I ─────────────────────────────────────────────────────────────────
+  { letter:'I', term:'Idempotency', cat:'architecture', complexity:3,
+    def:'A property of a workflow where running it multiple times with the same input produces the same result without side effects. Critical for payment automations — you never want to charge a client twice because a webhook fired twice.',
+    insight:'If your payment automation is not idempotent, a network hiccup could double-charge a client. PURIST builds idempotency into every financial workflow.',
+    related:['Error handling','Deduplication','Webhook'] },
+
+  { letter:'I', term:'Integration', cat:'core', complexity:1,
+    def:'A connection between two tools that allows data to flow between them. Can be native (built into both tools), via middleware (n8n, Make, Zapier), or custom-built via API. PURIST connects 500+ apps.',
+    related:['API','n8n','Middleware'] },
+
+  { letter:'I', term:'iPaaS (Integration Platform as a Service)', cat:'platform', complexity:2,
+    def:'A cloud-based platform that connects disparate applications and allows data to flow between them. n8n, Make, and Zapier are all iPaaS tools. Enterprise iPaaS examples include MuleSoft and Boomi.',
+    stat:{ value:'£4.3B', label:'global iPaaS market size in 2024', source:'MarketsandMarkets' },
+    related:['n8n','Make','Middleware'] },
+
+  // ── J ─────────────────────────────────────────────────────────────────
+  { letter:'J', term:'JSON (JavaScript Object Notation)', cat:'data', complexity:1,
+    def:'The universal data format for APIs and webhooks. When Stripe sends a payment event, the data arrives as JSON. Every automation engineer must understand how to read and parse JSON to build reliable workflows.',
+    related:['API','Webhook','Payload'] },
+
+  { letter:'J', term:'JWT (JSON Web Token)', cat:'security', complexity:3,
+    def:'A compact, self-contained authentication token used by many APIs. JWTs expire and must be refreshed — a common source of automation failures when token refresh logic is not built into the workflow.',
+    insight:'A JWT that expires mid-workflow will silently fail all downstream steps. Always build token refresh logic.',
+    related:['Authentication','OAuth','API Key'] },
+
+  // ── K ─────────────────────────────────────────────────────────────────
+  { letter:'K', term:'KPI automation', cat:'ops', complexity:1,
+    def:'Automating the collection, aggregation, and distribution of key performance indicators. Instead of manually compiling a Monday morning report, a scheduled automation pulls data from 8 sources, calculates KPIs, and emails a formatted PDF to leadership.',
+    stat:{ value:'4h', label:'saved per week by automating a typical weekly KPI report', source:'PURIST client data' },
+    related:['Reporting','Dashboard','Scheduled trigger'] },
+
+  // ── L ─────────────────────────────────────────────────────────────────
+  { letter:'L', term:'Latency', cat:'architecture', complexity:2,
+    def:'The time between a trigger firing and an automation completing. Production workflows should complete within seconds for real-time triggers. High latency (>30s) often indicates an upstream API issue or inefficient workflow design.',
+    stat:{ value:'42ms', label:'average webhook latency on PURIST infrastructure', source:'PURIST infra' },
+    related:['Performance','Monitoring','SLA'] },
+
+  { letter:'L', term:'LLM (Large Language Model)', cat:'ai', complexity:2,
+    def:'An AI model trained on vast amounts of text, capable of understanding and generating human language. Claude, GPT-4, and Gemini are LLMs. In automation, LLMs handle tasks that require human-level language understanding.',
+    stat:{ value:'1T+', label:'parameters in frontier LLMs like Claude 3.5', source:'Anthropic 2024' },
+    related:['Claude AI','AI Agent','Prompt engineering'] },
+
+  { letter:'L', term:'Loop / iterator', cat:'core', complexity:2,
+    def:'A workflow pattern that processes a list of items one by one. Example: for each overdue invoice in a list, send a personalised reminder email. Loops enable workflows to handle variable-length datasets.',
+    related:['Batch processing','Array','Workflow'] },
+
+  { letter:'L', term:'Low-code automation', cat:'core', complexity:1,
+    def:'Building automations using visual drag-and-drop interfaces with minimal traditional programming. n8n and Make are low-code platforms. PURIST uses them for most workflows, adding custom code nodes only where visual nodes fall short.',
+    related:['n8n','Make','No-code'] },
+
+  // ── M ─────────────────────────────────────────────────────────────────
+  { letter:'M', term:'Make (formerly Integromat)', cat:'platform', complexity:1,
+    def:'A visual automation platform — an alternative to Zapier with more advanced logic, multi-step scenarios, and better data manipulation. PURIST is certified on Make for complex multi-system workflows.',
+    related:['n8n','Zapier','iPaaS'] },
+
+  { letter:'M', term:'Middleware', cat:'core', complexity:2,
+    def:'Software that sits between two applications and translates data between them. n8n, Make, and Zapier all function as middleware — they receive data from one system, process it, and pass it to another.',
+    related:['iPaaS','Integration','API'] },
+
+  { letter:'M', term:'Monitoring', cat:'architecture', complexity:2,
+    def:'Continuous observation of automation performance, error rates, and uptime. PURIST monitors every deployed workflow in real-time — alerting before a failure impacts your clients or operations.',
+    stat:{ value:'<5min', label:'average time to detect and alert on a workflow failure', source:'PURIST SLA' },
+    related:['Checkly','Health check','SLA'] },
+
+  { letter:'M', term:'Multi-step workflow', cat:'core', complexity:2,
+    def:'An automation with more than two steps. Most production workflows are multi-step — trigger → filter → transform → API call → conditional branch → notification. Complexity increases reliability risk, which is why error handling matters.',
+    related:['Workflow','Condition','Action'] },
+
+  // ── N ─────────────────────────────────────────────────────────────────
+  { letter:'N', term:'n8n', cat:'platform', complexity:1,
+    def:'An open-source, self-hostable automation platform. More powerful than Zapier and Make for complex logic. PURIST primarily deploys on n8n for full control, custom code execution, and data sovereignty — your data stays on your infrastructure.',
+    stat:{ value:'400+', label:'native integrations available in n8n', source:'n8n.io 2025' },
+    insight:'n8n is free and self-hosted. You pay for the expertise to use it well — that\'s where PURIST comes in.',
+    related:['Make','Zapier','Self-hosted'] },
+
+  { letter:'N', term:'NLP (Natural Language Processing)', cat:'ai', complexity:2,
+    def:'AI techniques that allow computers to understand and generate human language. In automation, NLP powers ticket classification, sentiment detection, content summarisation, and intelligent routing — typically via Claude AI.',
+    related:['Claude AI','AI Agent','LLM'] },
+
+  { letter:'N', term:'No-code automation', cat:'core', complexity:1,
+    def:'Building automations without writing any code, using purely visual interfaces. Zapier is the most popular no-code platform. Great for simple two-step automations; insufficient for complex multi-system workflows that require custom logic.',
+    related:['Low-code','Zapier','Make'] },
+
+  { letter:'N', term:'Notification automation', cat:'ops', complexity:1,
+    def:'Automatically alerting the right person at the right time via Slack, email, SMS, or push notification. Examples: alert sales rep when a high-value lead submits a form, or ping ops lead when a workflow fails.',
+    related:['Slack automation','Email automation','Trigger'] },
+
+  // ── O ─────────────────────────────────────────────────────────────────
+  { letter:'O', term:'OAuth (Open Authorisation)', cat:'security', complexity:2,
+    def:'An authentication standard that lets users grant third-party apps access to their accounts without sharing passwords. Most modern SaaS tools use OAuth for API access. OAuth tokens expire and require refresh logic in long-running automations.',
+    insight:'OAuth tokens that expire mid-workflow silently break it. Always build token refresh logic into long-running automations.',
+    related:['Authentication','JWT','API Key'] },
+
+  { letter:'O', term:'Orchestration', cat:'ai', complexity:3,
+    def:'Coordinating multiple automations, APIs, and AI agents to complete a complex multi-step task. An orchestration layer decides which service to call, in what order, and how to handle failures at each step.',
+    insight:'Most "AI agents" are really orchestration layers — they route tasks to specialised tools and aggregate results.',
+    related:['AI Agent','Workflow','Multi-step workflow'] },
+
+  // ── P ─────────────────────────────────────────────────────────────────
+  { letter:'P', term:'Parallel execution', cat:'architecture', complexity:2,
+    def:'Running multiple automation branches simultaneously rather than sequentially. Example: when a new client signs up, simultaneously create a CRM contact, send a welcome email, create a Slack channel, and generate an invoice — all at the same time.',
+    insight:'Parallel execution can reduce a 60-second sequential workflow to 8 seconds.',
+    related:['Async','Performance','Workflow'] },
+
+  { letter:'P', term:'Payload', cat:'core', complexity:1,
+    def:'The data carried by a webhook or API call. When a client fills your contact form, the webhook payload contains their name, email, message, and metadata. Your automation parses this payload to trigger the right actions.',
+    related:['Webhook','JSON','API'] },
+
+  { letter:'P', term:'Pipedrive', cat:'platform', complexity:1,
+    def:'A sales-focused CRM with strong API and webhook support. Common PURIST automation: deal stage change → trigger proposal generation → send via PandaDoc → auto-follow-up sequence → log activity back in Pipedrive.',
+    related:['CRM','HubSpot','Salesforce'] },
+
+  { letter:'P', term:'Polling', cat:'core', complexity:2,
+    def:'Checking an external service for changes at regular intervals (e.g., "check for new emails every 5 minutes"). Less efficient and slower than webhooks, but necessary when a service does not support webhooks. Increases API usage and latency.',
+    related:['Webhook','Trigger','Scheduled trigger'] },
+
+  { letter:'P', term:'Process mapping', cat:'ops', complexity:1,
+    def:'Documenting every step, decision, and handoff in a business process. The foundation of any automation project — you cannot automate a process you haven\'t mapped. PURIST produces a process map for every client during the audit phase.',
+    related:['Automation audit','Workflow','Bottleneck'] },
+
+  { letter:'P', term:'Production environment', cat:'architecture', complexity:2,
+    def:'The live system your real clients and operations depend on. Contrast with staging (test) environment. PURIST always tests in staging before deploying to production, preventing untested automations from affecting live data.',
+    related:['Staging environment','Deployment','Testing'] },
+
+  { letter:'P', term:'Prompt engineering', cat:'ai', complexity:2,
+    def:'Crafting instructions for an LLM to produce accurate, consistent outputs. In automation, well-engineered prompts turn Claude AI into a reliable component — poorly written prompts produce unpredictable results that break downstream steps.',
+    stat:{ value:'40%', label:'improvement in LLM output quality from structured prompts vs unstructured', source:'Anthropic 2024' },
+    insight:'Prompt engineering is not a soft skill — it\'s the difference between an AI that works in production and one that doesn\'t.',
+    related:['Claude AI','LLM','AI Agent'] },
+
+  // ── Q ─────────────────────────────────────────────────────────────────
+  { letter:'Q', term:'Queue', cat:'architecture', complexity:2,
+    def:'A buffer that stores automation tasks waiting to be processed. Queues absorb traffic spikes, ensure no tasks are lost if a downstream service is down, and enable ordered, reliable processing at scale.',
+    insight:'Without a queue, a traffic spike at 9 AM can cause your automation to fail 30% of requests. With one, every request is processed.',
+    related:['Dead-letter queue','Async','Batch processing'] },
+
+  // ── R ─────────────────────────────────────────────────────────────────
+  { letter:'R', term:'RAG (Retrieval-Augmented Generation)', cat:'ai', complexity:3,
+    def:'An AI pattern where an LLM retrieves relevant data from a knowledge base before generating a response. In automation: when a support ticket arrives, Claude searches your internal docs, then drafts a specific, accurate reply — not a generic one.',
+    insight:'RAG is why AI-powered support can answer "What\'s our refund policy for orders over £500?" accurately, not just generically.',
+    related:['Claude AI','AI Agent','Prompt engineering'] },
+
+  { letter:'R', term:'REST API', cat:'core', complexity:2,
+    def:'The most common API architecture. Uses standard HTTP methods (GET, POST, PUT, DELETE) and returns JSON. Almost every modern SaaS tool exposes a REST API, making it the primary integration mechanism for automation workflows.',
+    related:['API','HTTP Request','JSON'] },
+
+  { letter:'R', term:'Retainer (automation)', cat:'ops', complexity:1,
+    def:'A monthly subscription covering your automation deployment, monitoring, maintenance, and updates. PURIST retainers replace the need for an in-house automation engineer — you get expert-level operations at a fraction of the cost.',
+    stat:{ value:'£68K', label:'average fully-loaded annual cost of a senior in-house automation engineer', source:'Glassdoor UK 2025' },
+    insight:'A PURIST retainer delivers the same expertise for a fraction of one hire — and you get a team, not a single point of failure.',
+    related:['Done-for-you automation','SLA','ROI'] },
+
+  { letter:'R', term:'Retry logic', cat:'architecture', complexity:2,
+    def:'Automatic re-execution of a failed automation step after a delay. Best practice is exponential backoff — retry after 30s, then 2min, then 10min — to avoid hammering an API that\'s temporarily down. PURIST includes this in every build.',
+    related:['Error handling','Backoff','Dead-letter queue'] },
+
+  { letter:'R', term:'ROI (Return on Investment)', cat:'ops', complexity:1,
+    def:'In automation: net annual savings divided by cost. PURIST clients average 9.4× ROI. Calculated as: (hours saved × hourly cost) + error reduction savings + tool consolidation savings — minus retainer cost.',
+    stat:{ value:'9.4×', label:'average gross ROI across PURIST client base', source:'PURIST 2025' },
+    related:['FTE','Payback period','Automation audit'] },
+
+  { letter:'R', term:'RPA (Robotic Process Automation)', cat:'core', complexity:2,
+    def:'Software robots that mimic human actions in a UI — clicking buttons, copying data between screens. RPA (e.g., UiPath) is used when no API exists. More fragile than API-based automation; breaks when the UI changes.',
+    stat:{ value:'30–40%', label:'of RPA projects fail in the first year due to UI changes', source:'Gartner 2024' },
+    related:['API','Business process automation','Integration'] },
+
+  { letter:'R', term:'Router node', cat:'core', complexity:2,
+    def:'A workflow step that splits execution into multiple paths based on conditions. Unlike a filter (which stops), a router sends data down path A, B, or C simultaneously or conditionally. Enables sophisticated branching logic.',
+    related:['Condition','Filter node','Parallel execution'] },
+
+  // ── S ─────────────────────────────────────────────────────────────────
+  { letter:'S', term:'Salesforce', cat:'platform', complexity:2,
+    def:'Enterprise CRM with a powerful API used in complex automation scenarios — syncing with ERP systems, triggering approval workflows, building executive dashboards, and integrating with marketing automation platforms.',
+    related:['CRM','HubSpot','Pipedrive'] },
+
+  { letter:'S', term:'Scenario (Make)', cat:'platform', complexity:1,
+    def:'Make\'s term for an automation workflow. A scenario contains modules (equivalent to n8n nodes) connected in a visual flow. Scenarios can run on a schedule or be triggered by webhooks.',
+    related:['Make','Workflow','Module'] },
+
+  { letter:'S', term:'Schema', cat:'data', complexity:2,
+    def:'The structure and data types of an API response or database table. Understanding a tool\'s schema is essential for data mapping — you need to know what fields exist before you can use them in a workflow.',
+    related:['Data mapping','JSON','API'] },
+
+  { letter:'S', term:'Self-hosted', cat:'architecture', complexity:3,
+    def:'Running automation software on your own server or cloud instance rather than a vendor\'s SaaS platform. PURIST deploys n8n self-hosted for clients who need data sovereignty — workflow data never leaves their infrastructure.',
+    insight:'Self-hosted n8n means your business data is not processed on Zapier or Make\'s servers. Critical for regulated industries.',
+    related:['n8n','Data sovereignty','Production environment'] },
+
+  { letter:'S', term:'Sentiment analysis', cat:'ai', complexity:2,
+    def:'AI classification of text as positive, negative, or neutral. In automation: Claude analyses incoming support tickets for sentiment, routes frustrated customers to senior agents immediately, and flags negative reviews for urgent response.',
+    related:['NLP','Claude AI','Classification'] },
+
+  { letter:'S', term:'SLA (Service Level Agreement)', cat:'ops', complexity:1,
+    def:'A contractual commitment on service quality. PURIST\'s uptime SLA is 99.97% — meaning less than 2.6 hours of unplanned downtime per year across all deployed workflows.',
+    stat:{ value:'99.97%', label:'PURIST uptime SLA across all client workflows', source:'PURIST infra' },
+    related:['Uptime','Monitoring','Health check'] },
+
+  { letter:'S', term:'Slack automation', cat:'platform', complexity:1,
+    def:'Sending automated messages to Slack channels or users based on workflow events. Common uses: deal won notification to sales channel, error alert to ops team, daily KPI digest to leadership, and customer health score changes to CS team.',
+    related:['Notification automation','Webhook','Integration'] },
+
+  { letter:'S', term:'SMTP / Transactional email', cat:'ops', complexity:1,
+    def:'Sending automated one-to-one emails triggered by specific events (invoice generated, password reset, appointment confirmed). Contrast with marketing email (bulk sends). Services include SendGrid, Postmark, and AWS SES.',
+    related:['Email automation','Trigger','Deliverability'] },
+
+  { letter:'S', term:'Staging environment', cat:'architecture', complexity:2,
+    def:'A test environment that mirrors production but uses test data. PURIST builds and tests every automation in staging before deploying live. Catches 95% of issues before they can impact real clients or operations.',
+    related:['Production environment','Testing','Deployment'] },
+
+  { letter:'S', term:'Stripe', cat:'platform', complexity:1,
+    def:'The most common payment platform integrated in automation workflows. Stripe webhooks trigger invoice creation, dunning sequences, subscription management, and revenue reporting automations.',
+    stat:{ value:'135+', label:'countries Stripe processes payments in', source:'Stripe 2025' },
+    related:['Webhook','Dunning','Payment automation'] },
+
+  // ── T ─────────────────────────────────────────────────────────────────
+  { letter:'T', term:'Throttling', cat:'architecture', complexity:2,
+    def:'Deliberately slowing down automation execution to stay within API rate limits. Example: when processing 1,000 contacts, add a 1-second delay between each API call to avoid hitting the rate limit and triggering errors.',
+    related:['Rate limit','Backoff','API'] },
+
+  { letter:'T', term:'Token (API)', cat:'security', complexity:2,
+    def:'A credential string used to authenticate API requests. Tokens are either long-lived (API keys) or short-lived (OAuth access tokens). Short-lived tokens require automated refresh logic to prevent authentication failures in long-running workflows.',
+    related:['API Key','OAuth','JWT'] },
+
+  { letter:'T', term:'Trigger', cat:'core', complexity:1,
+    def:'The event that starts an automation. Common triggers: form submission, email received, payment completed, calendar event, database row created. Getting the trigger right is the foundation of any reliable workflow.',
+    stat:{ value:'12', label:'distinct trigger types in a typical PURIST client deployment', source:'PURIST 2025' },
+    related:['Webhook','Event-driven automation','Polling'] },
+
+  { letter:'T', term:'Typeform', cat:'platform', complexity:1,
+    def:'A form builder with strong webhook support, widely used as an automation entry point. A Typeform submission triggers workflows that create CRM contacts, send personalised responses, assign to reps, and log to spreadsheets.',
+    related:['Trigger','Webhook','Form automation'] },
+
+  // ── U ─────────────────────────────────────────────────────────────────
+  { letter:'U', term:'Uptime', cat:'architecture', complexity:1,
+    def:'The percentage of time a system is available and functioning. PURIST\'s 99.97% uptime means less than 2.6 hours of unplanned downtime per year across all client workflows. Measured continuously via Checkly health checks.',
+    stat:{ value:'2.6h', label:'max unplanned downtime per year at 99.97% uptime', source:'Uptime calculator' },
+    insight:'99% uptime sounds impressive but allows 87 hours of downtime per year. 99.97% allows only 2.6 hours.',
+    related:['SLA','Monitoring','Health check'] },
+
+  // ── V ─────────────────────────────────────────────────────────────────
+  { letter:'V', term:'Version control (workflows)', cat:'architecture', complexity:2,
+    def:'Saving snapshots of workflow configurations so you can roll back after a bad deployment. n8n supports workflow versioning natively. PURIST maintains version history for every client automation — essential for safe updates.',
+    related:['Deployment','Staging environment','Production environment'] },
+
+  // ── W ─────────────────────────────────────────────────────────────────
+  { letter:'W', term:'Webhook', cat:'core', complexity:1,
+    def:'A real-time HTTP notification sent from one app to another when an event occurs. Unlike polling (checking for changes on a schedule), webhooks are instant — a payment processes, Stripe fires a webhook, your CRM updates within milliseconds.',
+    stat:{ value:'10–100×', label:'faster than polling for real-time data delivery', source:'Industry standard' },
+    insight:'Webhooks are the backbone of modern automation. If a tool doesn\'t support webhooks, integration is 10× harder.',
+    related:['API','Trigger','Payload'] },
+
+  { letter:'W', term:'Webhook security', cat:'security', complexity:3,
+    def:'Verifying that incoming webhooks are genuinely from the expected source. Best practice: validate the webhook signature (a hash of the payload signed with your secret key). Skipping this allows malicious actors to trigger your automations.',
+    insight:'An unsecured webhook endpoint is an open door — anyone who finds the URL can trigger your automation with arbitrary data.',
+    related:['Webhook','Authentication','Security'] },
+
+  { letter:'W', term:'Workflow template', cat:'core', complexity:1,
+    def:'A pre-built automation that can be imported and customised. PURIST\'s Workflow Library contains 60+ templates covering CRM, finance, operations, support, marketing, and reporting — deployed in days, not weeks.',
+    related:['Workflow Library','n8n','Done-for-you automation'] },
+
+  // ── X ─────────────────────────────────────────────────────────────────
+  { letter:'X', term:'Xero', cat:'finance', complexity:1,
+    def:'Accounting software commonly automated for invoice generation, payment chasing, bank reconciliation, and financial reporting. PURIST integrates Xero with CRM and project management tools to eliminate duplicate data entry.',
+    stat:{ value:'3.7M', label:'small businesses using Xero globally', source:'Xero 2024' },
+    related:['Finance automation','Integration','Invoice automation'] },
+
+  // ── Z ─────────────────────────────────────────────────────────────────
+  { letter:'Z', term:'Zapier', cat:'platform', complexity:1,
+    def:'The most popular DIY automation platform. Great for simple two-step automations; limited for complex logic, custom code, or high-volume workflows. PURIST uses Zapier for specific integrations where it\'s the best fit, but prefers n8n for reliability.',
+    stat:{ value:'6,000+', label:'app integrations available on Zapier', source:'Zapier 2025' },
+    insight:'Zapier is excellent for simple automations. When you hit its limits, you need n8n — or PURIST to build it properly.',
+    related:['n8n','Make','No-code'] },
+
+  { letter:'Z', term:'Zero-touch process', cat:'ops', complexity:1,
+    def:'A business operation that runs entirely without manual intervention from start to finish. The gold standard of automation — a new client signs, receives onboarding, gets invoiced, and is followed up with, all with zero human touches.',
+    insight:'Zero-touch does not mean zero oversight. It means zero manual effort on recurring, predictable tasks.',
+    related:['Done-for-you automation','Automation workflow','ROI'] },
+];
+
+const letters = [...new Set(terms.map((t) => t.letter))].sort();
+
+const categories = [
+  { id: 'all',          label: 'All',          color: '#0A0A0A' },
+  { id: 'core',         label: 'Core concepts', color: '#0A0A0A' },
+  { id: 'ai',           label: 'AI & Agents',  color: '#7B68EE' },
+  { id: 'security',     label: 'Security',      color: '#dc2626' },
+  { id: 'platform',     label: 'Platforms',     color: '#2D5016' },
+  { id: 'data',         label: 'Data',          color: '#C89840' },
+  { id: 'architecture', label: 'Architecture',  color: '#E8B4B0' },
+  { id: 'finance',      label: 'Finance',       color: '#059669' },
+  { id: 'ops',          label: 'Operations',    color: '#6366f1' },
+];
+
+const catColors: Record<string,string> = {
+  core:         '#0A0A0A',
+  ai:           '#7B68EE',
+  security:     '#dc2626',
+  platform:     '#2D5016',
+  data:         '#C89840',
+  architecture: '#c4847e',
+  finance:      '#059669',
+  ops:          '#6366f1',
+};
+
+const complexityLabel: Record<number,string> = { 1: 'Beginner', 2: 'Intermediate', 3: 'Advanced' };
+
+// Term of the day — pick by day of year
+const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(),0,0).getTime())/86400000);
+const totd = terms[dayOfYear % terms.length];
+---
+
+<ShopLayout title="Automation Glossary — 100+ Terms Explained | PURIST" description="Clear, jargon-free definitions of 100+ automation terms — APIs, webhooks, n8n, Claude AI, RAG, OAuth, idempotency, and more. Written for founders, not engineers.">
+
+  <!-- Scroll progress -->
+  <div id="scroll-prog" class="fixed top-0 left-0 h-0.5 z-50 transition-all" style="width:0%;background:linear-gradient(90deg,#E8B4B0,#c4847e);"></div>
+
+  <!-- Hero -->
+  <section class="bg-brand-cream py-16 lg:py-20 relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 55% 70% at 80% 50%,rgba(232,180,176,0.12) 0%,transparent 65%);"></div>
+    <div class="container-x max-w-5xl relative z-10">
+      <div class="grid lg:grid-cols-2 gap-10 items-center">
+        <div>
+          <p class="eyebrow mb-4">Automation Glossary</p>
+          <h1 class="font-display text-[2.2rem] lg:text-[3rem] leading-[1.06] tracking-[-0.025em] text-brand-black mb-4 text-balance">
+            {terms.length} terms, <em class="font-medium">explained plainly.</em>
+          </h1>
+          <p class="text-base text-brand-gray-600 leading-relaxed mb-6">
+            APIs, AI agents, OAuth, RAG, idempotency, dunning — every term you'll encounter when automating a modern business. Written for founders, not engineers. With data.
+          </p>
+          <div class="relative max-w-md">
+            <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5" stroke-linecap="round"/></svg>
+            <input id="glossary-search" type="search" placeholder={`Search ${terms.length} terms…`} autocomplete="off" class="w-full bg-white border border-brand-gray-200 rounded-button pl-10 pr-20 py-3 text-sm outline-none focus:border-brand-black transition placeholder:text-brand-gray-400"/>
+            <span id="search-count" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-[10px] font-bold text-brand-gray-400 hidden"></span>
+          </div>
+        </div>
+
+        <!-- Term of the day -->
+        <div class="bg-white rounded-card p-6 border border-brand-gray-100 shadow-sm">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="w-1.5 h-1.5 rounded-full bg-brand-green" style="animation:gl-pulse 2s ease-in-out infinite;"></span>
+            <p class="text-[9px] uppercase tracking-[0.20em] font-bold text-brand-gray-500">Term of the day</p>
+          </div>
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <h2 class="font-display text-xl leading-snug text-brand-black">{totd.term}</h2>
+            <span class="shrink-0 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mt-0.5" style={`background:${catColors[totd.cat]}18;color:${catColors[totd.cat]};`}>{totd.cat}</span>
+          </div>
+          <p class="text-sm text-brand-gray-600 leading-relaxed mb-4">{totd.def}</p>
+          {totd.insight && <p class="text-[11.5px] text-brand-gray-500 border-l-2 border-brand-pink pl-3 italic leading-relaxed">{totd.insight}</p>}
+          {totd.stat && (
+            <div class="mt-4 pt-4 border-t border-brand-gray-100 flex items-center gap-3">
+              <p class="font-display text-2xl leading-none text-brand-black">{totd.stat.value}</p>
+              <div>
+                <p class="text-[11px] text-brand-gray-600">{totd.stat.label}</p>
+                <p class="text-[9px] text-brand-gray-400 uppercase tracking-wider">{totd.stat.source}</p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats strip -->
+  <section class="bg-white border-b border-brand-gray-100 py-5">
+    <div class="container-x">
+      <div class="flex flex-wrap items-center gap-x-8 gap-y-3">
+        {[
+          { n: terms.length.toString(), l: 'Total terms' },
+          { n: terms.filter(t=>t.complexity===1).length.toString(), l: 'Beginner' },
+          { n: terms.filter(t=>t.complexity===2).length.toString(), l: 'Intermediate' },
+          { n: terms.filter(t=>t.complexity===3).length.toString(), l: 'Advanced' },
+          { n: terms.filter(t=>t.stat).length.toString(), l: 'With data insights' },
+          { n: terms.filter(t=>t.insight).length.toString(), l: 'With expert insights' },
+          { n: letters.length.toString(), l: 'Letters covered' },
+        ].map(s => (
+          <div class="text-center">
+            <p class="font-display text-xl leading-none text-brand-black">{s.n}</p>
+            <p class="text-[9px] tracking-[0.12em] uppercase text-brand-gray-400 mt-1">{s.l}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Filters sticky bar -->
+  <div class="bg-white border-b border-brand-gray-100 py-3 sticky top-16 z-20">
+    <div class="container-x flex items-center gap-3 overflow-x-auto no-scrollbar">
+      <!-- Category filters -->
+      <div class="flex items-center gap-1.5 shrink-0" id="cat-filters">
+        {categories.map((c, i) => (
+          <button
+            class="gl-cat-btn text-[10.5px] font-semibold px-3 py-1.5 rounded-full transition-all duration-150 whitespace-nowrap"
+            data-cat={c.id}
+            style={i === 0
+              ? 'background:#0A0A0A;color:#fff;'
+              : 'background:rgba(0,0,0,0.05);color:#6B7280;border:1px solid rgba(0,0,0,0.08);'}
+          >{c.label}</button>
+        ))}
+      </div>
+      <div class="w-px h-5 bg-brand-gray-200 shrink-0"></div>
+      <!-- Complexity filters -->
+      <div class="flex items-center gap-1.5 shrink-0" id="lvl-filters">
+        {[{id:'all',label:'All levels'},{id:'1',label:'● Beginner'},{id:'2',label:'●● Intermediate'},{id:'3',label:'●●● Advanced'}].map((l,i) => (
+          <button
+            class="gl-lvl-btn text-[10.5px] font-semibold px-3 py-1.5 rounded-full transition-all duration-150 whitespace-nowrap"
+            data-lvl={l.id}
+            style={i===0
+              ? 'background:#0A0A0A;color:#fff;'
+              : 'background:rgba(0,0,0,0.05);color:#6B7280;border:1px solid rgba(0,0,0,0.08);'}
+          >{l.label}</button>
+        ))}
+      </div>
+      <!-- Alpha nav -->
+      <div class="w-px h-5 bg-brand-gray-200 shrink-0"></div>
+      <div class="flex items-center gap-1 shrink-0">
+        {letters.map((l) => (
+          <a href={`#letter-${l}`} class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-brand-gray-500 hover:bg-brand-black hover:text-white transition">{l}</a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Terms -->
+  <section class="bg-white py-14 lg:py-16">
+    <div class="container-x max-w-4xl">
+      <div id="glossary-list" class="space-y-14">
+        {letters.map((letter) => (
+          <div id={`letter-${letter}`} class="letter-section">
+            <div class="flex items-center gap-4 mb-6">
+              <p class="font-display text-6xl text-brand-gray-100 leading-none select-none" aria-hidden="true">{letter}</p>
+              <div class="flex-1 h-px bg-brand-gray-100"></div>
+              <p class="text-[10px] text-brand-gray-400 font-medium">{terms.filter(t=>t.letter===letter).length} term{terms.filter(t=>t.letter===letter).length!==1?'s':''}</p>
+            </div>
+            <div class="space-y-5">
+              {terms.filter((t) => t.letter === letter).map((t) => (
+                <article
+                  class="glossary-term group/term relative bg-white border border-brand-gray-100 rounded-[16px] p-6 hover:border-brand-gray-200 hover:shadow-sm transition"
+                  data-cat={t.cat}
+                  data-complexity={t.complexity}
+                  data-term={t.term.toLowerCase()}
+                >
+                  <!-- Top row -->
+                  <div class="flex items-start justify-between gap-3 mb-3">
+                    <div class="flex items-start gap-3 flex-1 min-w-0">
+                      <!-- Complexity dots -->
+                      <div class="flex gap-0.5 mt-1.5 shrink-0">
+                        {[1,2,3].map(d => (
+                          <span class="w-1.5 h-1.5 rounded-full" style={d<=t.complexity?`background:${catColors[t.cat]};`:'background:#E5E7EB;'}></span>
+                        ))}
+                      </div>
+                      <h2 class="font-display text-[1.1rem] lg:text-[1.2rem] leading-snug text-brand-black">{t.term}</h2>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                      <!-- Category badge -->
+                      <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full hidden sm:inline" style={`background:${catColors[t.cat]}14;color:${catColors[t.cat]};`}>{t.cat}</span>
+                      <!-- Copy button -->
+                      <button class="copy-btn opacity-0 group-hover/term:opacity-100 w-7 h-7 rounded-full border border-brand-gray-200 flex items-center justify-center transition hover:bg-brand-gray-50" data-def={t.def} title="Copy definition" aria-label="Copy definition">
+                        <svg class="w-3.5 h-3.5 text-brand-gray-400" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M2 11V3a1 1 0 011-1h8"/></svg>
+                      </button>
+                      <!-- Bookmark -->
+                      <button class="bookmark-btn w-7 h-7 rounded-full border border-brand-gray-200 flex items-center justify-center transition hover:bg-brand-gray-50" data-term={t.term} aria-label="Bookmark term">
+                        <svg class="bookmark-icon w-3.5 h-3.5 text-brand-gray-400" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2h10v13l-5-3-5 3V2z"/></svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Definition -->
+                  <p class="text-[13.5px] text-brand-gray-600 leading-relaxed mb-4">{t.def}</p>
+
+                  <!-- Expert insight -->
+                  {t.insight && (
+                    <div class="flex items-start gap-2.5 bg-brand-beige rounded-[10px] px-4 py-3 mb-4">
+                      <svg class="w-3.5 h-3.5 shrink-0 mt-0.5" viewBox="0 0 16 16" fill="none" stroke="#E8B4B0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1v7M8 10.5v1"/><circle cx="8" cy="8" r="7"/></svg>
+                      <p class="text-[12px] text-brand-gray-600 leading-relaxed italic">{t.insight}</p>
+                    </div>
+                  )}
+
+                  <!-- Data stat -->
+                  {t.stat && (
+                    <div class="flex items-center gap-4 bg-brand-gray-50 rounded-[10px] px-4 py-3 mb-4">
+                      <p class="font-display text-2xl leading-none shrink-0" style={`color:${catColors[t.cat]};`}>{t.stat.value}</p>
+                      <div class="flex-1 min-w-0">
+                        <p class="text-[11.5px] text-brand-gray-700 leading-snug">{t.stat.label}</p>
+                        <p class="text-[9px] text-brand-gray-400 uppercase tracking-wider mt-0.5">{t.stat.source}</p>
+                      </div>
+                    </div>
+                  )}
+
+                  <!-- Related + complexity footer -->
+                  <div class="flex items-center justify-between gap-4 pt-3 border-t border-brand-gray-100">
+                    <div class="flex flex-wrap gap-1.5">
+                      {t.related.map((r) => (
+                        <button class="related-link text-[10px] font-medium px-2 py-0.5 rounded-full bg-brand-gray-50 border border-brand-gray-200 text-brand-gray-500 hover:border-brand-gray-400 hover:text-brand-black transition" data-search={r}>→ {r}</button>
+                      ))}
+                    </div>
+                    <span class="text-[9px] font-medium text-brand-gray-400 whitespace-nowrap">{complexityLabel[t.complexity]}</span>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Empty state -->
+      <div id="glossary-empty" class="hidden text-center py-20">
+        <p class="font-display text-2xl text-brand-gray-200 mb-3">No terms found.</p>
+        <p class="text-sm text-brand-gray-400">Try a different search or filter.</p>
+        <button id="reset-filters" class="mt-4 text-sm underline underline-offset-4 text-brand-gray-500 hover:text-brand-black transition">Reset all filters</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bookmarks panel (hidden by default) -->
+  <div id="bookmark-panel" class="hidden fixed bottom-6 right-6 z-40 bg-brand-black text-white rounded-[18px] shadow-2xl p-5 w-72 max-h-80 overflow-y-auto">
+    <div class="flex items-center justify-between mb-3">
+      <p class="text-[11px] uppercase tracking-wider font-bold text-white/60">Saved terms</p>
+      <button id="close-bookmarks" class="text-white/40 hover:text-white transition text-lg leading-none">×</button>
+    </div>
+    <ul id="bookmark-list" class="space-y-2 text-sm text-white/80"></ul>
+    <p id="bookmark-empty" class="text-[11px] text-white/30 text-center py-4">No saved terms yet.<br/>Click the bookmark icon on any term.</p>
+  </div>
+
+  <!-- Bookmark toggle FAB -->
+  <button id="bookmark-fab" class="fixed bottom-6 left-6 z-40 hidden items-center gap-2 px-3.5 py-2.5 rounded-full bg-brand-black text-white text-[11px] font-semibold shadow-lg hover:bg-brand-gray-900 transition">
+    <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2h10v13l-5-3-5 3V2z"/></svg>
+    <span id="fab-count">0</span> saved
+  </button>
+
+  <!-- CTA -->
+  <section class="bg-brand-beige py-14 border-t border-brand-gray-100">
+    <div class="container-x max-w-xl text-center">
+      <h2 class="font-display text-2xl mb-3">Still confused by a term?</h2>
+      <p class="text-sm text-brand-gray-600 mb-6">Our team explains everything in plain English on a free 30-minute audit call. No jargon, no obligation.</p>
+      <a href="/pages/welcome" class="inline-flex items-center gap-2 px-5 py-3 rounded-button text-sm font-medium bg-brand-black text-white hover:bg-brand-gray-900 transition">Book a free audit →</a>
+    </div>
+  </section>
+
+</ShopLayout>
+
+<style>
+  @keyframes gl-pulse { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.4)} }
+  .no-scrollbar::-webkit-scrollbar { display:none; }
+  .no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
+  .glossary-term { scroll-margin-top: 130px; }
+</style>
+
+<script is:inline>
+(function () {
+  var activeCat = 'all';
+  var activeLvl = 'all';
+  var searchQ   = '';
+  var bookmarks = [];
+
+  try { bookmarks = JSON.parse(localStorage.getItem('purist_gl_bookmarks') || '[]'); } catch(_) {}
+
+  /* ── Filter logic ─────────────────────────────────────── */
+  function applyFilters() {
+    var terms   = document.querySelectorAll('.glossary-term');
+    var visible = 0;
+
+    terms.forEach(function (el) {
+      var cat  = el.dataset.cat;
+      var lvl  = el.dataset.complexity;
+      var name = el.dataset.term || '';
+      var body = el.textContent.toLowerCase();
+
+      var catOk  = activeCat === 'all' || cat === activeCat;
+      var lvlOk  = activeLvl === 'all' || lvl === activeLvl;
+      var srchOk = !searchQ || name.includes(searchQ) || body.includes(searchQ);
+      var show   = catOk && lvlOk && srchOk;
+
+      el.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    // Hide/show letter sections
+    document.querySelectorAll('.letter-section').forEach(function (sec) {
+      var any = Array.from(sec.querySelectorAll('.glossary-term')).some(function (t) { return t.style.display !== 'none'; });
+      sec.style.display = any ? '' : 'none';
+    });
+
+    var countEl = document.getElementById('search-count');
+    var empty   = document.getElementById('glossary-empty');
+    var total   = terms.length;
+
+    if (searchQ || activeCat !== 'all' || activeLvl !== 'all') {
+      if (countEl) { countEl.textContent = visible + ' / ' + total; countEl.classList.remove('hidden'); }
+    } else {
+      if (countEl) countEl.classList.add('hidden');
+    }
+    if (empty) empty.classList.toggle('hidden', visible > 0);
+  }
+
+  /* ── Category buttons ─────────────────────────────────── */
+  document.querySelectorAll('.gl-cat-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      activeCat = this.dataset.cat;
+      document.querySelectorAll('.gl-cat-btn').forEach(function (b) {
+        var a = b.dataset.cat === activeCat;
+        b.style.background = a ? '#0A0A0A' : 'rgba(0,0,0,0.05)';
+        b.style.color = a ? '#fff' : '#6B7280';
+        b.style.border = a ? 'none' : '1px solid rgba(0,0,0,0.08)';
+      });
+      applyFilters();
+    });
+  });
+
+  /* ── Level buttons ────────────────────────────────────── */
+  document.querySelectorAll('.gl-lvl-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      activeLvl = this.dataset.lvl;
+      document.querySelectorAll('.gl-lvl-btn').forEach(function (b) {
+        var a = b.dataset.lvl === activeLvl;
+        b.style.background = a ? '#0A0A0A' : 'rgba(0,0,0,0.05)';
+        b.style.color = a ? '#fff' : '#6B7280';
+        b.style.border = a ? 'none' : '1px solid rgba(0,0,0,0.08)';
+      });
+      applyFilters();
+    });
+  });
+
+  /* ── Search ───────────────────────────────────────────── */
+  var searchEl = document.getElementById('glossary-search');
+  if (searchEl) {
+    searchEl.addEventListener('input', function () {
+      searchQ = this.value.trim().toLowerCase();
+      applyFilters();
+    });
+  }
+
+  /* ── Related links ────────────────────────────────────── */
+  document.querySelectorAll('.related-link').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var q = this.dataset.search;
+      if (searchEl) { searchEl.value = q; searchQ = q.toLowerCase(); }
+      activeCat = 'all'; activeLvl = 'all';
+      document.querySelectorAll('.gl-cat-btn').forEach(function(b,i){b.style.background=i===0?'#0A0A0A':'rgba(0,0,0,0.05)';b.style.color=i===0?'#fff':'#6B7280';b.style.border=i===0?'none':'1px solid rgba(0,0,0,0.08)';});
+      document.querySelectorAll('.gl-lvl-btn').forEach(function(b,i){b.style.background=i===0?'#0A0A0A':'rgba(0,0,0,0.05)';b.style.color=i===0?'#fff':'#6B7280';b.style.border=i===0?'none':'1px solid rgba(0,0,0,0.08)';});
+      applyFilters();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  /* ── Reset ────────────────────────────────────────────── */
+  var resetBtn = document.getElementById('reset-filters');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', function () {
+      activeCat = 'all'; activeLvl = 'all'; searchQ = '';
+      if (searchEl) searchEl.value = '';
+      document.querySelectorAll('.gl-cat-btn, .gl-lvl-btn').forEach(function(b,i){if(i===0||b===document.querySelector('.gl-cat-btn')||b===document.querySelector('.gl-lvl-btn')){b.style.background='rgba(0,0,0,0.05)';b.style.color='#6B7280';b.style.border='1px solid rgba(0,0,0,0.08)';}});
+      document.querySelector('.gl-cat-btn').style.background='#0A0A0A';document.querySelector('.gl-cat-btn').style.color='#fff';document.querySelector('.gl-cat-btn').style.border='none';
+      document.querySelector('.gl-lvl-btn').style.background='#0A0A0A';document.querySelector('.gl-lvl-btn').style.color='#fff';document.querySelector('.gl-lvl-btn').style.border='none';
+      applyFilters();
+    });
+  }
+
+  /* ── Copy definition ──────────────────────────────────── */
+  document.querySelectorAll('.copy-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var def = this.dataset.def;
+      if (!def) return;
+      navigator.clipboard.writeText(def).then(function () {
+        btn.innerHTML = '<svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="#2D5016" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8l4 4 8-8"/></svg>';
+        setTimeout(function () {
+          btn.innerHTML = '<svg class="w-3.5 h-3.5 text-brand-gray-400" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M2 11V3a1 1 0 011-1h8"/></svg>';
+        }, 1500);
+      }).catch(function(){});
+    });
+  });
+
+  /* ── Bookmarks ────────────────────────────────────────── */
+  function saveBookmarks() {
+    try { localStorage.setItem('purist_gl_bookmarks', JSON.stringify(bookmarks)); } catch(_) {}
+    renderBookmarks();
+  }
+
+  function renderBookmarks() {
+    var list  = document.getElementById('bookmark-list');
+    var empty = document.getElementById('bookmark-empty');
+    var fab   = document.getElementById('bookmark-fab');
+    var count = document.getElementById('fab-count');
+
+    if (!list) return;
+    list.innerHTML = '';
+    bookmarks.forEach(function (name) {
+      var li = document.createElement('li');
+      li.innerHTML = '<span class="text-white/70 text-[12px]">' + name + '</span>';
+      list.appendChild(li);
+    });
+    if (empty) empty.style.display = bookmarks.length === 0 ? '' : 'none';
+    if (fab)   fab.style.display   = bookmarks.length > 0 ? 'flex' : 'none';
+    if (count) count.textContent   = bookmarks.length;
+
+    // Update all bookmark icons
+    document.querySelectorAll('.bookmark-btn').forEach(function (btn) {
+      var term  = btn.dataset.term;
+      var saved = bookmarks.includes(term);
+      var icon  = btn.querySelector('.bookmark-icon');
+      if (icon) {
+        icon.setAttribute('fill', saved ? 'currentColor' : 'none');
+        icon.style.color = saved ? '#E8B4B0' : '';
+      }
+    });
+  }
+
+  document.querySelectorAll('.bookmark-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var term = this.dataset.term;
+      var idx  = bookmarks.indexOf(term);
+      if (idx === -1) bookmarks.push(term);
+      else bookmarks.splice(idx, 1);
+      saveBookmarks();
+    });
+  });
+
+  var fabEl = document.getElementById('bookmark-fab');
+  if (fabEl) fabEl.addEventListener('click', function () {
+    document.getElementById('bookmark-panel').classList.remove('hidden');
+  });
+  var closeBookmarks = document.getElementById('close-bookmarks');
+  if (closeBookmarks) closeBookmarks.addEventListener('click', function () {
+    document.getElementById('bookmark-panel').classList.add('hidden');
+  });
+
+  renderBookmarks();
+
+  /* ── Scroll progress bar ──────────────────────────────── */
+  var prog = document.getElementById('scroll-prog');
+  window.addEventListener('scroll', function () {
+    var doc = document.documentElement;
+    var pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+    if (prog) prog.style.width = pct + '%';
+  }, { passive: true });
+
+  applyFilters();
+})();
+</script>

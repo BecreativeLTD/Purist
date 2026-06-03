@@ -1,0 +1,59 @@
+---
+import integrationsData from '~/data/n8n-integrations.json';
+import Button from '~/components/ui/Button.astro';
+const { totalNodes, categories } = integrationsData;
+---
+
+<section class="bg-white py-20 lg:py-28">
+  <div class="container-x">
+    <div class="max-w-3xl mb-14">
+      <p class="eyebrow mb-4">n8n Integration Engine</p>
+      <h2 class="font-display text-h1 mb-4 text-balance">
+        {totalNodes}+ nodes. <em class="font-medium">Your entire stack, connected.</em>
+      </h2>
+      <p class="text-sm text-brand-gray-600 max-w-lg leading-relaxed">
+        Every PURIST workflow runs on n8n — the open-source automation platform trusted by
+        enterprises worldwide. Connect any tool with production-grade reliability.
+      </p>
+    </div>
+
+    <!-- Stats row -->
+    <div class="flex items-center gap-8 mb-12">
+      <div>
+        <span class="font-display text-3xl text-brand-black tabular-nums">{totalNodes}+</span>
+        <span class="text-[10px] text-brand-gray-600 uppercase tracking-widest ml-1.5">Nodes</span>
+      </div>
+      <div class="w-px h-8 bg-brand-gray-200"></div>
+      <div>
+        <span class="font-display text-3xl text-brand-black tabular-nums">{categories.length}</span>
+        <span class="text-[10px] text-brand-gray-600 uppercase tracking-widest ml-1.5">Categories</span>
+      </div>
+      <div class="w-px h-8 bg-brand-gray-200"></div>
+      <div>
+        <span class="font-display text-3xl text-brand-black">∞</span>
+        <span class="text-[10px] text-brand-gray-600 uppercase tracking-widest ml-1.5">Combinations</span>
+      </div>
+    </div>
+
+    <!-- Categories grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-10">
+      {categories.map((cat) => (
+        <div class="bg-brand-cream/50 rounded-card p-5 hover:bg-brand-cream transition">
+          <h3 class="text-sm font-medium text-brand-black mb-3">{cat.name}</h3>
+          <div class="flex flex-wrap gap-1">
+            {cat.nodes.map((node) => (
+              <span class="text-[10px] text-brand-gray-600 bg-white px-2 py-0.5 rounded border border-brand-gray-100">
+                {node}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="flex flex-wrap gap-3">
+      <Button href="/pages/science">See architecture →</Button>
+      <Button href="/collections/all" variant="secondary">Explore plans →</Button>
+    </div>
+  </div>
+</section>

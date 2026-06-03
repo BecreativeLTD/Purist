@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800">
+  <defs>
+    <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="5"/>
+      <feColorMatrix values="0 0 0 0 0.6 0 0 0 0 0.55 0 0 0 0 0.48 0 0 0 0.06 0"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+    <radialGradient id="bg" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#F8F6F1"/>
+      <stop offset="100%" stop-color="#F4EFE6"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="800" fill="url(#bg)" rx="12"/>
+  <!-- 5 layered rectangles at slight rotations, decreasing in size -->
+  <!-- Outermost - largest -->
+  <rect x="100" y="170" width="400" height="460" rx="16" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.25" transform="rotate(-6, 300, 400)"/>
+  <!-- Second -->
+  <rect x="140" y="210" width="320" height="380" rx="14" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.3" transform="rotate(-3, 300, 400)"/>
+  <!-- Third - center -->
+  <rect x="180" y="250" width="240" height="300" rx="12" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.35" transform="rotate(0, 300, 400)"/>
+  <!-- Fourth -->
+  <rect x="215" y="285" width="170" height="230" rx="10" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.4" transform="rotate(3, 300, 400)"/>
+  <!-- Innermost - rust accent -->
+  <rect x="248" y="318" width="104" height="164" rx="8" fill="none" stroke="#A0522D" stroke-width="1.5" opacity="0.5" transform="rotate(6, 300, 400)"/>
+  <!-- Center dot -->
+  <circle cx="300" cy="400" r="4" fill="#A0522D" opacity="0.5"/>
+  <!-- Subtle corner details on outermost -->
+  <circle cx="110" cy="180" r="2" fill="#0A0A0A" opacity="0.2"/>
+  <circle cx="490" cy="180" r="2" fill="#0A0A0A" opacity="0.2"/>
+  <circle cx="110" cy="620" r="2" fill="#0A0A0A" opacity="0.2"/>
+  <circle cx="490" cy="620" r="2" fill="#0A0A0A" opacity="0.2"/>
+  <!-- Label -->
+  <text x="300" y="740" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0A0A0A" opacity="0.4" letter-spacing="6">TECHNOLOGY</text>
+  <!-- Grain overlay -->
+  <rect width="600" height="800" filter="url(#grain)" opacity="0.5" rx="12"/>
+</svg>

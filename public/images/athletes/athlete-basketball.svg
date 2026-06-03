@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800">
+  <defs>
+    <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="2"/>
+      <feColorMatrix values="0 0 0 0 0.6 0 0 0 0 0.55 0 0 0 0 0.48 0 0 0 0.06 0"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+    <radialGradient id="bg" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#F8F6F1"/>
+      <stop offset="100%" stop-color="#F4EFE6"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="800" fill="url(#bg)" rx="12"/>
+  <!-- Central hexagon with rust accent -->
+  <polygon points="300,270 380,316 380,408 300,454 220,408 220,316" fill="none" stroke="#A0522D" stroke-width="1.5" opacity="0.5"/>
+  <!-- Top hexagon -->
+  <polygon points="300,110 380,156 380,248 300,294 220,248 220,156" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.35"/>
+  <!-- Top-right hexagon -->
+  <polygon points="440,190 520,236 520,328 440,374 360,328 360,236" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.35"/>
+  <!-- Bottom-right hexagon -->
+  <polygon points="440,350 520,396 520,488 440,534 360,488 360,396" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.35"/>
+  <!-- Bottom hexagon -->
+  <polygon points="300,430 380,476 380,568 300,614 220,568 220,476" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.35"/>
+  <!-- Bottom-left hexagon -->
+  <polygon points="160,350 240,396 240,488 160,534 80,488 80,396" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.35"/>
+  <!-- Top-left hexagon -->
+  <polygon points="160,190 240,236 240,328 160,374 80,328 80,236" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.35"/>
+  <!-- Connecting lines between hexagons -->
+  <line x1="300" y1="270" x2="300" y2="294" stroke="#0A0A0A" stroke-width="0.6" opacity="0.3"/>
+  <line x1="380" y1="316" x2="360" y2="328" stroke="#0A0A0A" stroke-width="0.6" opacity="0.3"/>
+  <line x1="380" y1="408" x2="360" y2="396" stroke="#0A0A0A" stroke-width="0.6" opacity="0.3"/>
+  <line x1="300" y1="454" x2="300" y2="476" stroke="#0A0A0A" stroke-width="0.6" opacity="0.3"/>
+  <line x1="220" y1="408" x2="240" y2="396" stroke="#0A0A0A" stroke-width="0.6" opacity="0.3"/>
+  <line x1="220" y1="316" x2="240" y2="328" stroke="#0A0A0A" stroke-width="0.6" opacity="0.3"/>
+  <!-- Vertex dots on central hexagon -->
+  <circle cx="300" cy="270" r="3" fill="#A0522D" opacity="0.5"/>
+  <circle cx="380" cy="316" r="3" fill="#A0522D" opacity="0.5"/>
+  <circle cx="380" cy="408" r="3" fill="#A0522D" opacity="0.5"/>
+  <circle cx="300" cy="454" r="3" fill="#A0522D" opacity="0.5"/>
+  <circle cx="220" cy="408" r="3" fill="#A0522D" opacity="0.5"/>
+  <circle cx="220" cy="316" r="3" fill="#A0522D" opacity="0.5"/>
+  <!-- Vertex dots on outer hexagons -->
+  <circle cx="300" cy="110" r="2.5" fill="#0A0A0A" opacity="0.35"/>
+  <circle cx="380" cy="156" r="2.5" fill="#0A0A0A" opacity="0.35"/>
+  <circle cx="220" cy="156" r="2.5" fill="#0A0A0A" opacity="0.35"/>
+  <circle cx="520" cy="236" r="2.5" fill="#0A0A0A" opacity="0.35"/>
+  <circle cx="520" cy="328" r="2.5" fill="#0A0A0A" opacity="0.35"/>
+  <circle cx="520" cy="396" r="2.5" fill="#0A0A0A" opacity="0.35"/>
+  <circle cx="520" cy="488" r="2.5" fill="#0A0A0A" opacity="0.35"/>
+  <circle cx="440" cy="534" r="2.5" fill="#0A0A0A" opacity="0.35"/>
+  <circle cx="380" cy="568" r="2.5" fill="#0A0A0A" opacity="0.35"/>
+  <circle cx="220" cy="568" r="2.5" fill="#0A0A0A" opacity="0.35"/>
+  <circle cx="160" cy="534" r="2.5" fill="#0A0A0A" opacity="0.35"/>
+  <circle cx="80" cy="488" r="2.5" fill="#0A0A0A" opacity="0.35"/>
+  <circle cx="80" cy="396" r="2.5" fill="#0A0A0A" opacity="0.35"/>
+  <circle cx="80" cy="328" r="2.5" fill="#0A0A0A" opacity="0.35"/>
+  <circle cx="80" cy="236" r="2.5" fill="#0A0A0A" opacity="0.35"/>
+  <circle cx="160" cy="190" r="2.5" fill="#0A0A0A" opacity="0.35"/>
+  <!-- Label -->
+  <text x="300" y="740" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0A0A0A" opacity="0.4" letter-spacing="6">HEALTHCARE</text>
+  <!-- Grain overlay -->
+  <rect width="600" height="800" filter="url(#grain)" opacity="0.5" rx="12"/>
+</svg>

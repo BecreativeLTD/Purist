@@ -1,0 +1,46 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import FounderNote from '~/components/sections/FounderNote.astro';
+import ScientificBoard from '~/components/sections/ScientificBoard.astro';
+import CharityPartnership from '~/components/sections/CharityPartnership.astro';
+
+const principles = [
+  { n: '01', title: 'Answer to the data first.', body: 'Every automation decision starts with your metrics. We build what the numbers justify — not what sounds impressive in a pitch.' },
+  { n: '02', title: 'Deploy the full workflow.', body: 'No half-built integrations, no orphaned automations. Every workflow ships with monitoring, error handling, and documentation.' },
+  { n: '03', title: 'Earn the right to run daily.', body: 'A workflow that runs your business has to be reliable enough to trust 24/7, for years. We stress-test against our own operations first.' },
+];
+---
+
+<ShopLayout
+  title="About us – PURIST"
+  description="PURIST builds production-grade workflow automations and AI agents for dental, real estate, agencies and e-commerce. Here's why and how."
+>
+  <header class="bg-brand-cream">
+    <div class="container-x py-16 lg:py-20 max-w-3xl mx-auto text-center">
+      <p class="eyebrow mb-4">About PURIST</p>
+      <h1 class="font-display text-4xl lg:text-5xl xl:text-6xl leading-tight tracking-tight mb-6 text-balance">
+        Automation we would deploy <em class="font-medium">in our own business.</em>
+      </h1>
+      <p class="text-base lg:text-lg text-brand-gray-600 text-pretty">
+        PURIST is built around one rule — never deploy a workflow we would not trust to
+        run our own operations. The rest follows from there.
+      </p>
+    </div>
+  </header>
+
+  <section class="bg-white py-20 lg:py-28">
+    <div class="container-x grid lg:grid-cols-3 gap-8 lg:gap-10">
+      {principles.map((p) => (
+        <article class="scroll-fade">
+          <p class="font-display text-5xl text-brand-gray-200 mb-4">{p.n}</p>
+          <h2 class="font-display text-xl mb-3 leading-snug">{p.title}</h2>
+          <p class="text-sm text-brand-gray-600 leading-relaxed">{p.body}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <FounderNote />
+  <ScientificBoard />
+  <CharityPartnership />
+</ShopLayout>

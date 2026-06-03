@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8F6F1"/>
+      <stop offset="50%" stop-color="#F4EFE6"/>
+      <stop offset="100%" stop-color="#EDE5D5"/>
+    </linearGradient>
+        <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="1"/>
+      <feColorMatrix values="0 0 0 0 0.6 0 0 0 0 0.55 0 0 0 0 0.48 0 0 0 0.06 0"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="8" flood-color="#0A0A0A" flood-opacity="0.08"/>
+    </filter>
+    <radialGradient id="rustGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#A0522D" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#A0522D" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="url(#bg)"/>
+  <g filter="url(#shadow)">
+    <!-- Horizontal flowing curves sweeping left to right -->
+    <path d="M60,200 Q200,180 350,250 Q500,320 650,280 Q750,260 780,240" fill="none" stroke="#0A0A0A" stroke-width="0.6" opacity="0.15"/>
+    <path d="M40,280 Q180,260 320,330 Q460,400 600,360 Q720,330 770,310" fill="none" stroke="#A0522D" stroke-width="0.7" opacity="0.18"/>
+    <path d="M50,360 Q190,340 340,400 Q490,460 640,420 Q740,390 780,380" fill="none" stroke="#0A0A0A" stroke-width="0.5" opacity="0.12"/>
+    <path d="M30,440 Q170,420 330,480 Q490,540 650,500 Q750,470 780,460" fill="none" stroke="#2D5016" stroke-width="0.6" opacity="0.15"/>
+    <path d="M60,520 Q200,500 350,560 Q500,620 650,580 Q740,560 770,540" fill="none" stroke="#0A0A0A" stroke-width="0.5" opacity="0.12"/>
+    <path d="M40,600 Q180,580 330,630 Q480,680 640,650 Q730,630 760,620" fill="none" stroke="#A0522D" stroke-width="0.6" opacity="0.15"/>
+    <!-- Nodes along the flows -->
+    <circle cx="120" cy="270" r="4" fill="#0A0A0A" opacity="0.35"/>
+    <circle cx="220" cy="310" r="3" fill="#A0522D" opacity="0.4"/>
+    <circle cx="350" cy="360" r="5" fill="#A0522D" opacity="0.35"/>
+    <circle cx="400" cy="400" r="6" fill="#A0522D" opacity="0.5"/>
+    <circle cx="490" cy="440" r="4" fill="#2D5016" opacity="0.4"/>
+    <circle cx="580" cy="390" r="3.5" fill="#0A0A0A" opacity="0.35"/>
+    <circle cx="650" cy="420" r="3" fill="#A0522D" opacity="0.38"/>
+    <circle cx="280" cy="450" r="3.5" fill="#0A0A0A" opacity="0.3"/>
+    <circle cx="170" cy="380" r="3" fill="#2D5016" opacity="0.35"/>
+    <circle cx="520" cy="320" r="3.5" fill="#0A0A0A" opacity="0.3"/>
+    <circle cx="680" cy="560" r="3" fill="#A0522D" opacity="0.35"/>
+    <circle cx="130" cy="540" r="3.5" fill="#0A0A0A" opacity="0.3"/>
+    <!-- Vertical connecting threads -->
+    <path d="M220,310 Q230,380 280,450" fill="none" stroke="#0A0A0A" stroke-width="0.3" opacity="0.12"/>
+    <path d="M350,360 Q380,380 400,400" fill="none" stroke="#A0522D" stroke-width="0.4" opacity="0.15"/>
+    <path d="M400,400 Q440,420 490,440" fill="none" stroke="#2D5016" stroke-width="0.4" opacity="0.15"/>
+    <path d="M520,320 Q560,355 580,390" fill="none" stroke="#0A0A0A" stroke-width="0.3" opacity="0.12"/>
+    <path d="M120,270 Q140,330 170,380" fill="none" stroke="#0A0A0A" stroke-width="0.3" opacity="0.1"/>
+    <path d="M650,420 Q660,490 680,560" fill="none" stroke="#A0522D" stroke-width="0.3" opacity="0.12"/>
+    <path d="M130,540 Q200,510 280,450" fill="none" stroke="#2D5016" stroke-width="0.3" opacity="0.1"/>
+    <!-- Elliptical arcs for depth -->
+    <ellipse cx="350" cy="400" rx="180" ry="120" fill="none" stroke="#0A0A0A" stroke-width="0.3" opacity="0.06"/>
+    <ellipse cx="450" cy="400" rx="180" ry="120" fill="none" stroke="#A0522D" stroke-width="0.3" opacity="0.06"/>
+    <!-- Central glow -->
+    <circle cx="400" cy="400" r="60" fill="url(#rustGlow)"/>
+  </g>
+  <rect width="800" height="800" filter="url(#grain)" opacity="0.5"/>
+</svg>

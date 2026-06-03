@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="5"/>
+      <feColorMatrix values="0 0 0 0 0.6 0 0 0 0 0.55 0 0 0 0 0.48 0 0 0 0.06 0"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+    <radialGradient id="bg" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#F8F6F1"/>
+      <stop offset="100%" stop-color="#F4EFE6"/>
+    </radialGradient>
+    <marker id="arr" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
+      <path d="M0,0.5 L4,2.5 L0,4.5" fill="none" stroke="#0A0A0A" stroke-width="0.7" opacity="0.45"/>
+    </marker>
+  </defs>
+  <rect width="400" height="400" fill="url(#bg)" rx="12"/>
+
+  <!-- Outer orbital (brand consistency) -->
+  <circle cx="200" cy="190" r="148" fill="none" stroke="#0A0A0A" stroke-width="0.4" opacity="0.06"/>
+  <circle cx="200" cy="190" r="158" fill="none" stroke="#A0522D" stroke-width="0.3" opacity="0.04" stroke-dasharray="3 7"/>
+
+  <!-- ── SPC / Control chart ─────────────────────────────── -->
+
+  <!-- Chart frame -->
+  <rect x="88" y="105" width="224" height="160" rx="4" fill="none" stroke="#0A0A0A" stroke-width="0.5" opacity="0.08"/>
+
+  <!-- Vertical grid lines (subtle) -->
+  <line x1="116" y1="108" x2="116" y2="262" stroke="#0A0A0A" stroke-width="0.3" opacity="0.07"/>
+  <line x1="144" y1="108" x2="144" y2="262" stroke="#0A0A0A" stroke-width="0.3" opacity="0.07"/>
+  <line x1="172" y1="108" x2="172" y2="262" stroke="#0A0A0A" stroke-width="0.3" opacity="0.07"/>
+  <line x1="200" y1="108" x2="200" y2="262" stroke="#0A0A0A" stroke-width="0.3" opacity="0.07"/>
+  <line x1="228" y1="108" x2="228" y2="262" stroke="#0A0A0A" stroke-width="0.3" opacity="0.07"/>
+  <line x1="256" y1="108" x2="256" y2="262" stroke="#0A0A0A" stroke-width="0.3" opacity="0.07"/>
+  <line x1="284" y1="108" x2="284" y2="262" stroke="#0A0A0A" stroke-width="0.3" opacity="0.07"/>
+
+  <!-- X-axis baseline -->
+  <line x1="88" y1="262" x2="312" y2="262" stroke="#0A0A0A" stroke-width="0.7" opacity="0.15"/>
+
+  <!-- UCL line (dashed, terracotta) -->
+  <line x1="88" y1="132" x2="312" y2="132" stroke="#A0522D" stroke-width="0.8" opacity="0.40" stroke-dasharray="3.5 5"/>
+  <!-- Mean / µ line (solid, dark) -->
+  <line x1="88" y1="185" x2="312" y2="185" stroke="#0A0A0A" stroke-width="1" opacity="0.22"/>
+  <!-- LCL line (dashed, terracotta) -->
+  <line x1="88" y1="238" x2="312" y2="238" stroke="#A0522D" stroke-width="0.8" opacity="0.40" stroke-dasharray="3.5 5"/>
+
+  <!-- UCL label -->
+  <text x="318" y="136" font-family="Inter,sans-serif" font-size="8" fill="#A0522D" opacity="0.55" font-weight="600">UCL</text>
+  <!-- Mean label -->
+  <text x="318" y="189" font-family="Inter,sans-serif" font-size="9" fill="#0A0A0A" opacity="0.30">μ</text>
+  <!-- LCL label -->
+  <text x="318" y="242" font-family="Inter,sans-serif" font-size="8" fill="#A0522D" opacity="0.55" font-weight="600">LCL</text>
+
+  <!-- ── Process line (before optimisation) — dashed, muted ── -->
+  <polyline
+    points="100,215 116,188 130,222 144,196 158,175 172,210 186,230 200,158 214,195 228,215 242,178 256,200 270,220 284,190 300,205"
+    fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.18" stroke-dasharray="3 4" stroke-linejoin="round"/>
+
+  <!-- ── Process line (after optimisation) — solid, intentional curve coming in control ── -->
+  <polyline
+    points="100,218 116,200 130,210 144,192 158,178 172,188 186,180 200,172 214,182 228,184 242,183 256,186 270,185 284,184 300,185"
+    fill="none" stroke="#0A0A0A" stroke-width="2" opacity="0.55" stroke-linejoin="round" stroke-linecap="round"/>
+
+  <!-- Data points on the optimised line (getting tighter as they approach mean) -->
+  <circle cx="100" cy="218" r="3.5" fill="#A0522D" opacity="0.40"/>
+  <circle cx="116" cy="200" r="3"   fill="#0A0A0A" opacity="0.35"/>
+  <circle cx="130" cy="210" r="3"   fill="#0A0A0A" opacity="0.35"/>
+  <circle cx="144" cy="192" r="3"   fill="#0A0A0A" opacity="0.38"/>
+  <circle cx="158" cy="178" r="3"   fill="#A0522D" opacity="0.50"/>
+  <circle cx="172" cy="188" r="3"   fill="#0A0A0A" opacity="0.40"/>
+  <circle cx="186" cy="180" r="3"   fill="#0A0A0A" opacity="0.42"/>
+  <circle cx="200" cy="172" r="3.5" fill="#A0522D" opacity="0.60"/>
+  <circle cx="214" cy="182" r="3"   fill="#0A0A0A" opacity="0.42"/>
+  <circle cx="228" cy="184" r="2.8" fill="#0A0A0A" opacity="0.44"/>
+  <circle cx="242" cy="183" r="2.8" fill="#0A0A0A" opacity="0.46"/>
+  <circle cx="256" cy="186" r="2.8" fill="#0A0A0A" opacity="0.50"/>
+  <circle cx="270" cy="185" r="3"   fill="#2D5016" opacity="0.65"/>
+  <circle cx="284" cy="184" r="3"   fill="#2D5016" opacity="0.65"/>
+  <circle cx="300" cy="185" r="3.5" fill="#2D5016" opacity="0.75"/>
+
+  <!-- ── Bottom metric row ──────────────────────────────────── -->
+  <!-- Process sigma label -->
+  <text x="100" y="285" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6B6B" opacity="0.5" letter-spacing="0.3">BEFORE</text>
+  <text x="100" y="294" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6B6B" opacity="0.5" letter-spacing="0.3">OPTIMISATION</text>
+  <!-- Sigma levels -->
+  <text x="200" y="285" font-family="Inter,sans-serif" font-size="7.5" fill="#A0522D" opacity="0.60" letter-spacing="0.3" text-anchor="middle">PROCESS VARIATION</text>
+
+  <!-- Defect rate bar (before) -->
+  <rect x="100" y="298" width="90" height="5" rx="2.5" fill="#A0522D" opacity="0.15"/>
+  <rect x="100" y="298" width="72" height="5" rx="2.5" fill="#A0522D" opacity="0.35"/>
+
+  <!-- Defect rate bar (after) -->
+  <rect x="210" y="298" width="90" height="5" rx="2.5" fill="#2D5016" opacity="0.12"/>
+  <rect x="210" y="298" width="22" height="5" rx="2.5" fill="#2D5016" opacity="0.45"/>
+
+  <text x="195" y="302" font-family="Inter,sans-serif" font-size="7" fill="#6B6B6B" opacity="0.35" text-anchor="middle">→</text>
+
+  <text x="210" y="312" font-family="Inter,sans-serif" font-size="7.5" fill="#2D5016" opacity="0.55" letter-spacing="0.3">AFTER</text>
+
+  <!-- Sigma 6 badge -->
+  <rect x="272" y="307" width="30" height="14" rx="3" fill="#A0522D" opacity="0.08"/>
+  <text x="287" y="317" font-family="Inter,sans-serif" font-size="8" fill="#A0522D" opacity="0.65" font-weight="700" text-anchor="middle">6σ</text>
+
+  <!-- Role label -->
+  <text x="200" y="368" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#6B6B6B" letter-spacing="0.5">Operations Strategist</text>
+
+  <!-- Grain overlay -->
+  <rect width="400" height="400" filter="url(#grain)" opacity="0.5" rx="12"/>
+</svg>

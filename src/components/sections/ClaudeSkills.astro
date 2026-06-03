@@ -1,0 +1,59 @@
+---
+import skillsData from '~/data/claude-skills.json';
+const { totalSkills, categories } = skillsData;
+---
+
+<section class="bg-brand-black py-20 lg:py-28 text-white">
+  <div class="container-x">
+    <div class="max-w-3xl mb-14">
+      <p class="text-[11px] uppercase tracking-[0.2em] text-brand-rust mb-4 font-medium">Powered by Claude AI</p>
+      <h2 class="font-display text-h1 mb-4 text-balance text-white">
+        {totalSkills} production skills. <em class="font-medium text-brand-rust">Zero dependencies.</em>
+      </h2>
+      <p class="text-sm text-white/45 max-w-lg leading-relaxed">
+        Every deployment is backed by the most comprehensive Claude AI skill library —
+        architecture, compliance, marketing, finance. Production-verified. Open-source.
+      </p>
+    </div>
+
+    <!-- Metrics strip -->
+    <div class="flex items-center gap-10 mb-14 pb-8 border-b border-white/[0.06]">
+      <div>
+        <span class="font-display text-4xl text-brand-rust tabular-nums">{totalSkills}</span>
+        <span class="text-[10px] text-white/30 uppercase tracking-widest ml-2">Skills</span>
+      </div>
+      <div>
+        <span class="font-display text-4xl text-white/70 tabular-nums">{categories.length}</span>
+        <span class="text-[10px] text-white/30 uppercase tracking-widest ml-2">Domains</span>
+      </div>
+      <div>
+        <span class="font-display text-4xl text-white/70 tabular-nums">402</span>
+        <span class="text-[10px] text-white/30 uppercase tracking-widest ml-2">CLI Tools</span>
+      </div>
+    </div>
+
+    <!-- Categories -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-px bg-white/[0.04] rounded-card overflow-hidden border border-white/[0.06]">
+      {categories.map((cat) => (
+        <div class="bg-brand-black p-5 hover:bg-white/[0.02] transition-colors">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-sm font-medium text-white/80">{cat.name}</span>
+            <span class="text-[10px] text-white/25 tabular-nums">{cat.count}</span>
+          </div>
+          <div class="flex flex-wrap gap-1">
+            {cat.skills.slice(0, 4).map((skill) => (
+              <span class="text-[10px] text-white/35">{skill}</span>
+            ))}
+            {cat.skills.length > 4 && (
+              <span class="text-[10px] text-brand-rust/60">+{cat.skills.length - 4}</span>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <p class="mt-8 text-[11px] text-white/20 text-center">
+      Open-source · <a href="https://github.com/alirezarezvani/claude-skills" target="_blank" rel="noopener" class="underline underline-offset-2 hover:text-white/40 transition">github.com/alirezarezvani/claude-skills</a>
+    </p>
+  </div>
+</section>

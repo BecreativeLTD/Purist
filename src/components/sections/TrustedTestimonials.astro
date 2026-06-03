@@ -1,0 +1,92 @@
+---
+import reviewsData from '~/data/testimonials.json';
+const { miniTestimonials } = reviewsData;
+---
+
+<section class="bg-brand-cream py-20 lg:py-28 overflow-hidden">
+  <div class="container-x">
+    <div class="text-center max-w-3xl mx-auto mb-12 scroll-fade">
+      <span class="inline-block bg-white/80 backdrop-blur rounded-full text-[11px] tracking-[0.15em] uppercase font-medium px-4 py-1.5 mb-6">
+        Trusted by the best
+      </span>
+      <h2 class="font-display text-3xl lg:text-4xl xl:text-5xl mb-4 leading-tight text-balance">
+        Founders, operators, agency owners, scaling teams<br/>
+        — and <em class="font-medium">500+ workflows deployed.</em>
+      </h2>
+      <p class="text-sm text-brand-gray-600">
+        500+ workflows deployed · 50,000+ hours saved annually
+      </p>
+    </div>
+
+    <!-- Scrollable card strip -->
+    <div class="relative -mx-4 sm:mx-0">
+      <div
+        class="flex gap-4 lg:gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-hide px-4 sm:px-0 pb-2"
+        style="scrollbar-width: none;"
+        id="testimonial-track"
+      >
+        {miniTestimonials.map((t, i) => (
+          <article
+            class="t-card shrink-0 snap-start w-[78%] sm:w-[42%] lg:w-[24%] rounded-2xl overflow-hidden bg-white border border-brand-gray-100/80 group/card flex flex-col"
+            style={`box-shadow: 0 2px 12px rgba(0,0,0,0.05); animation: t-rise 0.55s cubic-bezier(0.22,1,0.36,1) both; animation-delay: ${i * 90}ms;`}
+          >
+            <!-- Quote -->
+            <div class="px-5 pt-5 pb-4 shrink-0">
+              <svg class="w-3.5 h-3.5 mb-2.5 text-brand-pink" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M6 17h3l2-4V7H5v6h3l-2 4zm8 0h3l2-4V7h-6v6h3l-2 4z"/>
+              </svg>
+              <p class="text-[13px] leading-snug text-brand-black/75 line-clamp-3">
+                &ldquo;{t.quote}&rdquo;
+              </p>
+            </div>
+
+            <!-- Art — img fills the space directly, no wrapper box -->
+            <div class="flex-1 overflow-hidden transition-transform duration-700 ease-out group-hover/card:scale-[1.025]">
+              <img
+                src={t.image}
+                alt={t.name}
+                class="w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
+
+            <!-- Identity strip -->
+            <div class="px-5 py-4 border-t border-brand-gray-100 shrink-0">
+              <p class="font-display text-[15px] leading-tight text-brand-black">{t.name}</p>
+              <p class="text-[10px] uppercase tracking-[0.13em] text-brand-gray-400 mt-0.5">{t.role}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <!-- Stats footer -->
+    <div class="grid grid-cols-3 gap-4 lg:gap-8 max-w-3xl mx-auto pt-14 mt-8 border-t border-brand-gray-200">
+      {[
+        { v: '500+', l: 'Workflows deployed' },
+        { v: '50K+', l: 'Hours saved annually' },
+        { v: '4.8/5', l: 'Average rating' },
+      ].map((s) => (
+        <div class="text-center">
+          <p class="font-display text-3xl lg:text-5xl">{s.v}</p>
+          <p class="text-[11px] tracking-[0.15em] uppercase text-brand-gray-600 mt-2">{s.l}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes t-rise {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .t-card {
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .t-card:hover {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+    transform: translateY(-3px);
+  }
+</style>

@@ -1,0 +1,150 @@
+{
+  "reviews": [
+    {
+      "id": "r1",
+      "name": "Sarah M.",
+      "verified": true,
+      "rating": 5,
+      "date": "2 weeks ago",
+      "title": "Six weeks in and the ROI is clear",
+      "text": "I was sceptical about automation agencies. The honest report after six weeks is that my team stopped doing data entry entirely and our lead response time dropped from 4 hours to 8 minutes. The setup was genuinely painless.",
+      "flavor": "Dental & Healthcare"
+    },
+    {
+      "id": "r2",
+      "name": "Marcus T.",
+      "verified": true,
+      "rating": 5,
+      "date": "3 weeks ago",
+      "title": "Finally a system I trust",
+      "text": "I used to juggle eight separate tools. One deployment replaced all of it. The error monitoring is the reason I stayed — nothing breaks silently.",
+      "flavor": "Real Estate & Property"
+    },
+    {
+      "id": "r3",
+      "name": "Elena R.",
+      "verified": true,
+      "rating": 5,
+      "date": "1 month ago",
+      "title": "Time savings hit first",
+      "text": "I did not expect this. Within two weeks we saved 20 hours per week on admin. Knock-on effect on team morale, client satisfaction and revenue.",
+      "flavor": "Agencies & Consulting"
+    },
+    {
+      "id": "r4",
+      "name": "James K.",
+      "verified": true,
+      "rating": 5,
+      "date": "1 month ago",
+      "title": "Worth every dollar",
+      "text": "Not the cheapest, but I priced out hiring a junior ops person and it is genuinely better value. The fact that nothing breaks is the real ROI.",
+      "flavor": "E-commerce & Retail"
+    },
+    {
+      "id": "r5",
+      "name": "Priya S.",
+      "verified": true,
+      "rating": 4,
+      "date": "5 weeks ago",
+      "title": "Huge improvement on onboarding",
+      "text": "Client onboarding used to take 14 days. Now it takes 3. Took one star off because we needed a couple of tweaks after launch — but the team fixed them same day.",
+      "flavor": "Dental & Healthcare"
+    },
+    {
+      "id": "r6",
+      "name": "David L.",
+      "verified": true,
+      "rating": 5,
+      "date": "6 weeks ago",
+      "title": "Most transparent agency I have used",
+      "text": "I reviewed the documentation three times before signing. The workflows are fully documented. No black-box magic. That alone made me a retainer client.",
+      "flavor": "Real Estate & Property"
+    },
+    {
+      "id": "r7",
+      "name": "Anna B.",
+      "verified": true,
+      "rating": 5,
+      "date": "2 months ago",
+      "title": "My business partner signed up too",
+      "text": "Started for the lead automation. Stayed for everything else. My partner watched the results for a month and then asked me to set it up for his company too.",
+      "flavor": "Agencies & Consulting"
+    },
+    {
+      "id": "r8",
+      "name": "Thomas H.",
+      "verified": true,
+      "rating": 5,
+      "date": "2 months ago",
+      "title": "Subtle, then undeniable",
+      "text": "First week, nothing dramatic. Week three I realised I had not opened a spreadsheet in two weeks. That was the moment I knew this was working.",
+      "flavor": "E-commerce & Retail"
+    }
+  ],
+  "miniTestimonials": [
+    {
+      "id": "m1",
+      "name": "Sarah Chen",
+      "company": "Meridian Advisory",
+      "role": "Chief Operating Officer · Consulting",
+      "image": "/images/testimonials/m1.svg",
+      "quote": "Workflow by workflow, the most reliable automation partner we have worked with. Every system we handed off now runs itself."
+    },
+    {
+      "id": "m2",
+      "name": "Marcus Webb",
+      "company": "BuildStack",
+      "role": "CTO · B2B SaaS",
+      "image": "/images/testimonials/m2.svg",
+      "quote": "What I would have built internally if we had six months. PURIST shipped it in three weeks and monitors it 24/7."
+    },
+    {
+      "id": "m3",
+      "name": "Julia Ferreira",
+      "company": "Marché Goods",
+      "role": "Head of DTC Operations",
+      "image": "/images/testimonials/m3.svg",
+      "quote": "Daily backbone of our entire fulfilment stack. 500+ orders processed automatically, zero manual entry. Non-negotiable."
+    },
+    {
+      "id": "m4",
+      "name": "Tom Bradley",
+      "company": "Apex Creative Studio",
+      "role": "Founder · Digital Marketing Agency",
+      "image": "/images/testimonials/m4.svg",
+      "quote": "Battle-tested across 45 client accounts. Our entire ops team runs on PURIST workflows. It is embedded in how we deliver."
+    },
+    {
+      "id": "m5",
+      "name": "Natasha Okonkwo",
+      "company": "Independent",
+      "role": "Fractional COO",
+      "image": "/images/testimonials/m5.svg",
+      "quote": "The first automation partner I have actively recommended to my own clients. Reliability standards higher than most in-house teams."
+    },
+    {
+      "id": "m6",
+      "name": "David Lascelles",
+      "company": "Momentum Partners",
+      "role": "Business Growth Consultant",
+      "image": "/images/testimonials/m6.svg",
+      "quote": "Measurable efficiency gains across every client I referred. The ROI is visible within the first 30 days, every time."
+    },
+    {
+      "id": "m7",
+      "name": "Priya Mehta",
+      "company": "Stackr",
+      "role": "Founder & CEO · SaaS",
+      "image": "/images/testimonials/m7.svg",
+      "quote": "The documentation shows how much care went into the architecture. The uptime confirms it every month. Built properly, not just fast."
+    },
+    {
+      "id": "m8",
+      "name": "Alex Drummond",
+      "company": "Highland Hospitality Group",
+      "role": "Operations Director · 6 Locations",
+      "image": "/images/testimonials/m8.svg",
+      "quote": "I stopped rotating agencies after the second PURIST workflow. It is the operational foundation every business unit now runs on."
+    }
+  ]
+}

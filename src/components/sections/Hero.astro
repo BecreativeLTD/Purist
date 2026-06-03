@@ -1,0 +1,862 @@
+---
+import StarRating from '~/components/ui/StarRating.astro';
+import Button from '~/components/ui/Button.astro';
+
+// ── Precision geometry: 24-tick ring at r=146 (between mid-hex r=164 and diamond r=118) ──
+// Every 15°, starting from North (top), clockwise. Major ticks every 4 (= 60° → hex alignment)
+const ticks24 = Array.from({ length: 24 }, (_, i) => {
+  const a = (i / 24) * 2 * Math.PI;
+  const s = Math.sin(a), c = Math.cos(a);
+  const major = i % 4 === 0;
+  const r1 = 138, r2 = major ? 153 : 146;
+  return {
+    x1: +(300 + r1 * s).toFixed(2), y1: +(300 - r1 * c).toFixed(2),
+    x2: +(300 + r2 * s).toFixed(2), y2: +(300 - r2 * c).toFixed(2),
+    major,
+  };
+});
+
+// ── Pentagon inscribed at r=100 (top vertex = North) ──
+const penta = Array.from({ length: 5 }, (_, i) => {
+  const a = (i / 5) * 2 * Math.PI;
+  return `${+(300 + 100 * Math.sin(a)).toFixed(1)},${+(300 - 100 * Math.cos(a)).toFixed(1)}`;
+}).join(' ');
+---
+
+<section class="relative bg-brand-cream overflow-hidden">
+  <!-- Background texture -->
+  <div class="absolute inset-0 z-0">
+    <img
+      src="/images/hero/hero-bg.svg"
+      alt=""
+      class="w-full h-full object-cover"
+      loading="eager"
+      fetchpriority="high"
+      role="presentation"
+    />
+    <div class="absolute inset-0 bg-gradient-to-r from-brand-cream/95 via-brand-cream/50 to-transparent"></div>
+  </div>
+
+  <div class="container-x relative z-10 py-16 lg:py-24 xl:py-32 min-h-[680px] flex items-center">
+    <div class="grid lg:grid-cols-2 gap-10 xl:gap-16 items-center w-full">
+
+      <!-- Left: copy -->
+      <div>
+        <div class="flex items-center gap-3 mb-6">
+          <span class="px-3 py-1 bg-white/90 backdrop-blur rounded-full text-[11px] tracking-wider uppercase font-medium">
+            PURIST × Automation Intelligence
+          </span>
+        </div>
+
+        <h1 class="font-display text-balance text-brand-black mb-6 leading-[1.05] tracking-tight text-4xl sm:text-5xl lg:text-[3.5rem] xl:text-[4rem]">
+          Your business runs itself. <em class="font-medium">You focus on growth.</em>
+        </h1>
+
+        <p class="text-base lg:text-lg text-brand-gray-900/80 mb-8 max-w-xl text-pretty">
+          Production-grade automations powered by 329 Claude AI skills and n8n workflows —
+          trusted by dental practices, law firms and scaling agencies worldwide.
+        </p>
+
+        <div class="flex items-center gap-3 mb-8">
+          <StarRating rating={4.8} showValue reviewCount={312} />
+        </div>
+
+        <div class="flex flex-wrap gap-3 mb-8">
+          <Button href="/collections/all" size="lg">
+            Book a free automation audit →
+          </Button>
+          <Button href="/pages/dashboard" variant="secondary" size="lg">
+            Client dashboard →
+          </Button>
+        </div>
+
+        <!-- Stats strip — count-up on load -->
+        <div id="hero-stats" class="flex flex-wrap gap-x-7 gap-y-3 mb-6">
+          <div>
+            <p class="font-display text-lg leading-none text-brand-black hero-stat-val" data-target="312" data-suffix="+" data-decimals="0">0+</p>
+            <p class="text-[9px] tracking-[0.13em] uppercase text-brand-gray-500 mt-1">Businesses automated</p>
+          </div>
+          <div>
+            <p class="font-display text-lg leading-none text-brand-black hero-stat-val" data-target="14" data-suffix="h/wk" data-decimals="0">0h/wk</p>
+            <p class="text-[9px] tracking-[0.13em] uppercase text-brand-gray-500 mt-1">Saved on average</p>
+          </div>
+          <div>
+            <p class="font-display text-lg leading-none text-brand-black hero-stat-val" data-target="99.97" data-suffix="%" data-decimals="2">0%</p>
+            <p class="text-[9px] tracking-[0.13em] uppercase text-brand-gray-500 mt-1">Uptime SLA</p>
+          </div>
+          <div>
+            <p class="font-display text-lg leading-none text-brand-black hero-stat-val" data-target="9.4" data-suffix="×" data-decimals="1">0×</p>
+            <p class="text-[9px] tracking-[0.13em] uppercase text-brand-gray-500 mt-1">Average ROI</p>
+          </div>
+        </div>
+
+        <script is:inline>
+        (function () {
+          function easeOutExpo(t) { return t === 1 ? 1 : 1 - Math.pow(2, -10 * t); }
+
+          function animateStat(el) {
+            var target   = parseFloat(el.dataset.target);
+            var suffix   = el.dataset.suffix || '';
+            var decimals = parseInt(el.dataset.decimals || '0', 10);
+            var duration = 1400;
+            var start    = null;
+
+            function step(ts) {
+              if (!start) start = ts;
+              var progress = Math.min((ts - start) / duration, 1);
+              var eased    = easeOutExpo(progress);
+              var val      = eased * target;
+              el.textContent = val.toFixed(decimals) + suffix;
+              if (progress < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+          }
+
+          function run() {
+            var els = document.querySelectorAll('.hero-stat-val');
+            els.forEach(function (el) { animateStat(el); });
+          }
+
+          /* Fire on first intersection (hero always visible on load, but safe) */
+          var wrap = document.getElementById('hero-stats');
+          if (!wrap) return;
+          if ('IntersectionObserver' in window) {
+            var io = new IntersectionObserver(function (entries, obs) {
+              if (entries[0].isIntersecting) { run(); obs.disconnect(); }
+            }, { threshold: 0.3 });
+            io.observe(wrap);
+          } else {
+            run();
+          }
+        })();
+        </script>
+
+        <ul class="flex flex-wrap gap-x-6 gap-y-2 text-xs text-brand-gray-600">
+          <li class="flex items-center gap-1.5">
+            <span class="text-brand-green">✓</span> 329 Claude AI skills integrated
+          </li>
+          <li class="flex items-center gap-1.5">
+            <span class="text-brand-green">✓</span> n8n, Make & Zapier certified
+          </li>
+          <li class="flex items-center gap-1.5">
+            <span class="text-brand-green">✓</span> Deployed in 5–10 business days
+          </li>
+        </ul>
+      </div>
+
+      <!-- Right: inline animated SVG — viewBox 600×600 for perfect circles -->
+      <div class="hidden lg:flex items-center justify-center">
+        <div class="relative w-full max-w-[700px]">
+
+          <!-- Atmospheric CSS glow behind SVG -->
+          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full pointer-events-none"
+               style="background:radial-gradient(ellipse,rgba(160,82,45,0.10) 0%,transparent 65%);filter:blur(44px);"></div>
+
+          <!--
+            CENTER: cx=300 cy=300
+            All ring animations use transform-origin:300px 300px in CSS.
+            Static geometry computed from hex/diamond/pentagon inscribed at precise radii.
+          -->
+          <svg viewBox="0 0 800 764" xmlns="http://www.w3.org/2000/svg"
+               class="w-full h-auto" aria-hidden="true" role="presentation">
+
+            <defs>
+              <clipPath id="hc"><rect width="600" height="600"/></clipPath>
+
+              <!-- Dual radial glow: warm center + wide halo -->
+              <radialGradient id="hfg" cx="50%" cy="50%" r="50%">
+                <stop offset="0%"   stop-color="#E8B4B0" stop-opacity="0.32"/>
+                <stop offset="45%"  stop-color="#E8B4B0" stop-opacity="0.10"/>
+                <stop offset="100%" stop-color="#E8B4B0" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="hfg2" cx="50%" cy="50%" r="50%">
+                <stop offset="0%"   stop-color="#E8B4B0" stop-opacity="0.16"/>
+                <stop offset="100%" stop-color="#E8B4B0" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+
+            <style>
+              /* ── Base rotations ───────────────────────────────── */
+              @keyframes hcw  { to { transform: rotate( 360deg); } }
+              @keyframes hccw { to { transform: rotate(-360deg); } }
+
+              /* ── Focal pulse ──────────────────────────────────── */
+              @keyframes hfp { 0%,100%{r:6;   opacity:0.65} 50%{r:9.8; opacity:1.00} }
+              @keyframes hmp { 0%,100%{r:3.4; opacity:0.44} 50%{r:5.4; opacity:0.90} }
+              @keyframes hmp2{ 0%,100%{r:2.6; opacity:0.40} 50%{r:4.0; opacity:0.80} }
+
+              /* ── Arc fades ────────────────────────────────────── */
+              @keyframes harc  { 0%,100%{opacity:0.10} 50%{opacity:0.38} }
+              @keyframes harc2 { 0%,100%{opacity:0.08} 50%{opacity:0.30} }
+
+              /* ── Node blink (6 stagger phases) ───────────────── */
+              @keyframes hnb  { 0%,100%{opacity:0.28} 50%{opacity:0.84} }
+
+              /* ── Text groups: subtle breathe only ───────────── */
+              @keyframes htx  { 0%,100%{opacity:0.85} 50%{opacity:1.0} }
+
+              /* ── Data stream (dashes marching outward) ─────────── */
+              @keyframes hds  { from{stroke-dashoffset:0} to{stroke-dashoffset:-28} }
+
+              /* ── Expanding pulse rings ─────────────────────────── */
+              @keyframes hpr  { 0%{transform:scale(0.03);opacity:0.50} 100%{transform:scale(1);opacity:0} }
+
+              /* ── Scanline top→bottom ─────────────────────────── */
+              @keyframes hsl  { 0%{transform:translateY(-258px)} 100%{transform:translateY(258px)} }
+
+              /* ── 8 animated concentric rings ─────────────────── */
+              .hr1 { transform-origin:300px 300px; animation:hcw  32s linear infinite; }
+              .hr2 { transform-origin:300px 300px; animation:hccw 24s linear infinite; }
+              .hr3 { transform-origin:300px 300px; animation:hccw 38s linear infinite 2s; }
+              .hr4 { transform-origin:300px 300px; animation:hcw  48s linear infinite; }
+              .hr5 { transform-origin:300px 300px; animation:hcw  20s linear infinite 5s; }
+              .hr6 { transform-origin:300px 300px; animation:hccw 17s linear infinite; }
+              .hr7 { transform-origin:300px 300px; animation:hcw  12s linear infinite; }
+              .hr8 { transform-origin:300px 300px; animation:hccw  8s linear infinite; }
+
+              /* ── Radar sweeps ────────────────────────────────── */
+              .hsw  { transform-origin:300px 300px; animation:hcw  7s linear infinite; }
+              .hsw2 { transform-origin:300px 300px; animation:hcw 11s linear infinite 3.5s; }
+
+              /* ── 5 satellites ────────────────────────────────── */
+              .hs1  { transform-origin: 62px  78px;  animation:hcw  36s linear infinite; }
+              .hs2  { transform-origin:538px  78px;  animation:hccw 30s linear infinite; }
+              .hs3  { transform-origin:300px 548px;  animation:hcw  40s linear infinite; }
+              .hs4  { transform-origin: 62px 522px;  animation:hccw 34s linear infinite 6s; }
+              .hs5  { transform-origin:538px 522px;  animation:hcw  28s linear infinite 11s; }
+
+              /* ── 4 orbiting nodes (rotate trick) ─────────────── */
+              .horb1 { transform-origin:300px 300px; animation:hcw  22s linear infinite; }
+              .horb2 { transform-origin:300px 300px; animation:hcw  35s linear infinite 6s; }
+              .horb3 { transform-origin:300px 300px; animation:hccw 28s linear infinite 12s; }
+              .horb4 { transform-origin:300px 300px; animation:hcw  16s linear infinite 3s; }
+
+              /* ── Focal / mini pulse ───────────────────────────── */
+              .hfp  { animation:hfp  3.2s ease-in-out infinite; }
+              .hmp  { animation:hmp  4.8s ease-in-out infinite; }
+              .hmp2 { animation:hmp2 3.6s ease-in-out infinite 1.4s; }
+
+              /* ── Arc fades (12 staggered) ────────────────────── */
+              .ha1  { animation:harc   9s ease-in-out infinite; }
+              .ha2  { animation:harc2 13s ease-in-out infinite 3.2s; }
+              .ha3  { animation:harc   8s ease-in-out infinite 6.5s; }
+              .ha4  { animation:harc2 12s ease-in-out infinite 1.8s; }
+              .ha5  { animation:harc  11s ease-in-out infinite 5.0s; }
+              .ha6  { animation:harc2  7s ease-in-out infinite 8.5s; }
+
+              /* ── Node blinks (8 stagger phases) ──────────────── */
+              .hn1  { animation:hnb 4.5s ease-in-out infinite; }
+              .hn2  { animation:hnb 6.2s ease-in-out infinite 1.0s; }
+              .hn3  { animation:hnb 5.5s ease-in-out infinite 2.5s; }
+              .hn4  { animation:hnb 7.8s ease-in-out infinite 3.5s; }
+              .hn5  { animation:hnb 3.8s ease-in-out infinite 0.5s; }
+              .hn6  { animation:hnb 6.9s ease-in-out infinite 5.2s; }
+              .hn7  { animation:hnb 5.1s ease-in-out infinite 7.0s; }
+              .hn8  { animation:hnb 4.2s ease-in-out infinite 9.3s; }
+
+              /* ── 5 text groups (20s cycle, 4s stagger each) ─── */
+              .ht1  { animation:htx 20s ease-in-out infinite; }
+              .ht2  { animation:htx 20s ease-in-out infinite  4.0s; }
+              .ht3  { animation:htx 20s ease-in-out infinite  8.0s; }
+              .ht4  { animation:htx 20s ease-in-out infinite 12.0s; }
+              .ht5  { animation:htx 20s ease-in-out infinite 16.0s; }
+
+              /* ── Data streams (6 spokes) ──────────────────────── */
+              .hds1 { animation:hds 1.5s linear infinite; }
+              .hds2 { animation:hds 1.9s linear infinite 0.5s; }
+              .hds3 { animation:hds 2.4s linear infinite 1.1s; }
+              .hds4 { animation:hds 2.1s linear infinite 0.3s; }
+              .hds5 { animation:hds 1.7s linear infinite 0.8s; }
+              .hds6 { animation:hds 2.7s linear infinite 1.6s; }
+
+              /* ── Pulse rings ──────────────────────────────────── */
+              .hpr  { transform-origin:300px 300px; animation:hpr 3.8s ease-out infinite; }
+              .hpr2 { transform-origin:300px 300px; animation:hpr 3.8s ease-out infinite 1.27s; }
+              .hpr3 { transform-origin:300px 300px; animation:hpr 3.8s ease-out infinite 2.53s; }
+
+              /* ── Scanline ─────────────────────────────────────── */
+              .hsl  { transform-origin:300px 300px; animation:hsl 10s linear infinite; }
+            </style>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- CIRCLE DIAGRAM — scaled 1.13× to restore size    -->
+            <!-- ════════════════════════════════════════════════ -->
+            <g transform="translate(300,300) scale(1.13) translate(-300,-300)">
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- BLUEPRINT GRID                                    -->
+            <!-- ════════════════════════════════════════════════ -->
+            <g clip-path="url(#hc)" stroke="#0A0A0A" stroke-width="0.15" opacity="0.03">
+              <line x1="100" y1="0" x2="100" y2="600"/>
+              <line x1="200" y1="0" x2="200" y2="600"/>
+              <line x1="300" y1="0" x2="300" y2="600"/>
+              <line x1="400" y1="0" x2="400" y2="600"/>
+              <line x1="500" y1="0" x2="500" y2="600"/>
+              <line x1="0" y1="100" x2="600" y2="100"/>
+              <line x1="0" y1="200" x2="600" y2="200"/>
+              <line x1="0" y1="300" x2="600" y2="300"/>
+              <line x1="0" y1="400" x2="600" y2="400"/>
+              <line x1="0" y1="500" x2="600" y2="500"/>
+            </g>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- ATMOSPHERIC FOCAL GLOW                           -->
+            <!-- ════════════════════════════════════════════════ -->
+            <circle cx="300" cy="300" r="220" fill="url(#hfg2)" opacity="0.6"/>
+            <circle cx="300" cy="300" r="130" fill="url(#hfg)"/>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- STATIC SCAFFOLD RINGS — precise radii            -->
+            <!-- ════════════════════════════════════════════════ -->
+            <g fill="none" stroke="#0A0A0A">
+              <circle cx="300" cy="300" r="282" stroke-width="0.35" opacity="0.05"/>
+              <circle cx="300" cy="300" r="258" stroke-width="0.20" opacity="0.04"/>
+              <circle cx="300" cy="300" r="240" stroke-width="0.20" opacity="0.04"/>
+              <circle cx="300" cy="300" r="215" stroke-width="0.20" opacity="0.04"/>
+              <circle cx="300" cy="300" r="196" stroke-width="0.20" opacity="0.04"/>
+              <circle cx="300" cy="300" r="178" stroke-width="0.25" opacity="0.06"/>
+              <circle cx="300" cy="300" r="164" stroke-width="0.20" opacity="0.04"/>
+              <circle cx="300" cy="300" r="146" stroke-width="0.20" opacity="0.04"/>
+              <circle cx="300" cy="300" r="130" stroke-width="0.20" opacity="0.04"/>
+              <circle cx="300" cy="300" r="118" stroke-width="0.30" opacity="0.08"/>
+              <circle cx="300" cy="300" r="100" stroke-width="0.20" opacity="0.04"/>
+              <circle cx="300" cy="300" r="84"  stroke-width="0.20" opacity="0.04"/>
+              <circle cx="300" cy="300" r="62"  stroke-width="0.20" opacity="0.05"/>
+              <circle cx="300" cy="300" r="44"  stroke-width="0.55" opacity="0.14"/>
+              <circle cx="300" cy="300" r="26"  stroke-width="0.45" opacity="0.12"/>
+              <circle cx="300" cy="300" r="14"  stroke-width="0.40" opacity="0.10"/>
+            </g>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- 8 ANIMATED RINGS — perfect concentric circles    -->
+            <!-- ════════════════════════════════════════════════ -->
+
+            <!-- r=258 CW rust — outermost -->
+            <circle class="hr1" cx="300" cy="300" r="258"
+              fill="none" stroke="#E8B4B0" stroke-width="1.20" opacity="0.30"
+              stroke-dasharray="28 14"/>
+
+            <!-- r=215 CCW black -->
+            <circle class="hr2" cx="300" cy="300" r="215"
+              fill="none" stroke="#0A0A0A" stroke-width="0.85" opacity="0.22"
+              stroke-dasharray="16 11"/>
+
+            <!-- r=196 CCW pink — very slow outer ring -->
+            <circle class="hr3" cx="300" cy="300" r="196"
+              fill="none" stroke="#E8B4B0" stroke-width="0.55" opacity="0.25"
+              stroke-dasharray="22 7"/>
+
+            <!-- r=164 CW green — mid hex -->
+            <circle class="hr4" cx="300" cy="300" r="164"
+              fill="none" stroke="#2D5016" stroke-width="1.10" opacity="0.42"
+              stroke-dasharray="11 13"/>
+
+            <!-- r=130 CW rust — inner mid -->
+            <circle class="hr5" cx="300" cy="300" r="130"
+              fill="none" stroke="#E8B4B0" stroke-width="0.80" opacity="0.30"
+              stroke-dasharray="9 8"/>
+
+            <!-- r=118 CCW rust — diamond -->
+            <circle class="hr6" cx="300" cy="300" r="118"
+              fill="none" stroke="#E8B4B0" stroke-width="1.05" opacity="0.32"
+              stroke-dasharray="7 9"/>
+
+            <!-- r=74 CW black — inner fast -->
+            <circle class="hr7" cx="300" cy="300" r="74"
+              fill="none" stroke="#0A0A0A" stroke-width="0.70" opacity="0.26"
+              stroke-dasharray="4 7"/>
+
+            <!-- r=50 CCW rust — innermost fast -->
+            <circle class="hr8" cx="300" cy="300" r="50"
+              fill="none" stroke="#E8B4B0" stroke-width="0.80" opacity="0.28"
+              stroke-dasharray="3 5"/>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- GEOMETRIC OVERLAYS                               -->
+            <!-- ════════════════════════════════════════════════ -->
+
+            <!-- Outer hexagon (r=258) — black, thin -->
+            <polygon points="300,42 523,171 523,429 300,558 77,429 77,171"
+              fill="none" stroke="#0A0A0A" stroke-width="0.50" opacity="0.11"
+              stroke-dasharray="32 8"/>
+
+            <!-- Mid hexagon (r=164) — pink/brand -->
+            <polygon points="300,136 442,218 442,382 300,464 158,382 158,218"
+              fill="none" stroke="#E8B4B0" stroke-width="0.62" opacity="0.26"
+              stroke-dasharray="22 6"/>
+
+            <!-- Diamond (r=118) — green, rotated 45° feel -->
+            <polygon points="300,182 418,300 300,418 182,300"
+              fill="none" stroke="#2D5016" stroke-width="0.56" opacity="0.24"
+              stroke-dasharray="14 5"/>
+
+            <!-- Inner pentagon (r=100) — black subtle -->
+            <polygon points={penta}
+              fill="none" stroke="#0A0A0A" stroke-width="0.44" opacity="0.14"
+              stroke-dasharray="10 4"/>
+
+            <!-- Star of David — two triangles, distinct colors + animated opacity -->
+            <polygon points="300,136 158,382 442,382"
+              fill="none" stroke="#E8B4B0" stroke-width="0.68" opacity="0.32"
+              stroke-dasharray="18 6" class="hn2"/>
+            <polygon points="300,464 442,218 158,218"
+              fill="none" stroke="#2D5016" stroke-width="0.68" opacity="0.32"
+              stroke-dasharray="18 6" class="hn5"/>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- RADIAL SPOKES — 6-fold (all through center)      -->
+            <!-- ════════════════════════════════════════════════ -->
+            <g stroke="#0A0A0A" stroke-width="0.32" opacity="0.10">
+              <line x1="300" y1="300" x2="300" y2="42"/>   <!-- N  -->
+              <line x1="300" y1="300" x2="523" y2="171"/>  <!-- NE -->
+              <line x1="300" y1="300" x2="523" y2="429"/>  <!-- SE -->
+              <line x1="300" y1="300" x2="300" y2="558"/>  <!-- S  -->
+              <line x1="300" y1="300" x2="77"  y2="429"/>  <!-- SW -->
+              <line x1="300" y1="300" x2="77"  y2="171"/>  <!-- NW -->
+            </g>
+            <!-- Color accent spokes -->
+            <line x1="300" y1="300" x2="523" y2="171" stroke="#E8B4B0" stroke-width="0.45" opacity="0.18"/>
+            <line x1="300" y1="300" x2="77"  y2="429" stroke="#2D5016" stroke-width="0.45" opacity="0.18"/>
+            <line x1="300" y1="300" x2="300" y2="42"  stroke="#0A0A0A" stroke-width="0.42" opacity="0.14"/>
+            <line x1="300" y1="300" x2="523" y2="429" stroke="#E8B4B0" stroke-width="0.32" opacity="0.12"/>
+            <line x1="300" y1="300" x2="77"  y2="171" stroke="#2D5016" stroke-width="0.32" opacity="0.12"/>
+            <line x1="300" y1="300" x2="300" y2="558" stroke="#0A0A0A" stroke-width="0.32" opacity="0.10"/>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- RADAR SWEEP 1 — rust, 7s, with comet trail       -->
+            <!-- ════════════════════════════════════════════════ -->
+            <g class="hsw">
+              <!-- Main sweep -->
+              <line x1="300" y1="300" x2="300" y2="44"
+                stroke="#E8B4B0" stroke-width="1.25" opacity="0.30" stroke-linecap="round"/>
+              <!-- Comet trail (static offsets = CCW from sweep head) -->
+              <line transform="rotate(-5,300,300)"  x1="300" y1="300" x2="300" y2="44"
+                stroke="#E8B4B0" stroke-width="0.90" opacity="0.20" stroke-linecap="round"/>
+              <line transform="rotate(-12,300,300)" x1="300" y1="300" x2="300" y2="44"
+                stroke="#E8B4B0" stroke-width="0.65" opacity="0.12" stroke-linecap="round"/>
+              <line transform="rotate(-24,300,300)" x1="300" y1="300" x2="300" y2="44"
+                stroke="#E8B4B0" stroke-width="0.40" opacity="0.07" stroke-linecap="round"/>
+              <line transform="rotate(-42,300,300)" x1="300" y1="300" x2="300" y2="44"
+                stroke="#E8B4B0" stroke-width="0.22" opacity="0.03" stroke-linecap="round"/>
+              <!-- Tip node -->
+              <circle cx="300" cy="50" r="3.5" fill="#E8B4B0" opacity="0.55"/>
+              <circle cx="300" cy="50" r="1.6" fill="#E8B4B0" opacity="0.88"/>
+            </g>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- RADAR SWEEP 2 — green, 11s, with comet trail     -->
+            <!-- ════════════════════════════════════════════════ -->
+            <g class="hsw2">
+              <line x1="300" y1="300" x2="300" y2="44"
+                stroke="#2D5016" stroke-width="0.85" opacity="0.22" stroke-linecap="round"/>
+              <line transform="rotate(-7,300,300)"  x1="300" y1="300" x2="300" y2="44"
+                stroke="#2D5016" stroke-width="0.58" opacity="0.14" stroke-linecap="round"/>
+              <line transform="rotate(-18,300,300)" x1="300" y1="300" x2="300" y2="44"
+                stroke="#2D5016" stroke-width="0.35" opacity="0.07" stroke-linecap="round"/>
+              <line transform="rotate(-35,300,300)" x1="300" y1="300" x2="300" y2="44"
+                stroke="#2D5016" stroke-width="0.18" opacity="0.03" stroke-linecap="round"/>
+              <circle cx="300" cy="52" r="2.6" fill="#2D5016" opacity="0.38"/>
+            </g>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- 24-TICK RING at r=146 (hex-aligned major ticks)  -->
+            <!-- ════════════════════════════════════════════════ -->
+            {ticks24.map(t => (
+              <line
+                x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}
+                stroke={t.major ? '#E8B4B0' : '#0A0A0A'}
+                stroke-width={t.major ? '0.90' : '0.55'}
+                opacity={t.major ? '0.36' : '0.18'}
+                stroke-linecap="round"
+              />
+            ))}
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- ORBITAL ARC FADES — outer + mid hex edges        -->
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- Outer hex edges — true circular arcs A r r 0 0,1 on r=258 -->
+            <path class="ha1" d="M300,42   A258,258 0 0,1 523,171" fill="none" stroke="#0A0A0A" stroke-width="0.52"/>
+            <path class="ha2" d="M523,171  A258,258 0 0,1 523,429" fill="none" stroke="#E8B4B0" stroke-width="0.52"/>
+            <path class="ha3" d="M523,429  A258,258 0 0,1 300,558" fill="none" stroke="#0A0A0A" stroke-width="0.52"/>
+            <path class="ha4" d="M300,558  A258,258 0 0,1 77,429"  fill="none" stroke="#2D5016" stroke-width="0.60"/>
+            <path class="ha5" d="M77,429   A258,258 0 0,1 77,171"  fill="none" stroke="#0A0A0A" stroke-width="0.52"/>
+            <path class="ha6" d="M77,171   A258,258 0 0,1 300,42"  fill="none" stroke="#E8B4B0" stroke-width="0.52"/>
+            <!-- Mid hex edges — true circular arcs on r=164 -->
+            <path class="ha3" d="M300,136  A164,164 0 0,1 442,218" fill="none" stroke="#E8B4B0" stroke-width="0.38"/>
+            <path class="ha4" d="M442,218  A164,164 0 0,1 442,382" fill="none" stroke="#0A0A0A" stroke-width="0.38"/>
+            <path class="ha5" d="M442,382  A164,164 0 0,1 300,464" fill="none" stroke="#2D5016" stroke-width="0.46"/>
+            <path class="ha6" d="M300,464  A164,164 0 0,1 158,382" fill="none" stroke="#0A0A0A" stroke-width="0.38"/>
+            <path class="ha1" d="M158,382  A164,164 0 0,1 158,218" fill="none" stroke="#E8B4B0" stroke-width="0.38"/>
+            <path class="ha2" d="M158,218  A164,164 0 0,1 300,136" fill="none" stroke="#0A0A0A" stroke-width="0.38"/>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- OUTER HEX NODES — r=258                         -->
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- N top -->
+            <circle cx="300" cy="42"  r="5.8" fill="#0A0A0A" opacity="0.44"/>
+            <circle cx="300" cy="42"  r="9.5" fill="none" stroke="#0A0A0A" stroke-width="0.40" opacity="0.12"/>
+            <!-- NE -->
+            <circle class="hn1" cx="523" cy="171" r="5.2" fill="#E8B4B0" opacity="0.62"/>
+            <circle cx="523" cy="171" r="8.5" fill="none" stroke="#E8B4B0" stroke-width="0.38" opacity="0.16"/>
+            <!-- SE -->
+            <circle class="hn2" cx="523" cy="429" r="5.2" fill="#2D5016" opacity="0.56"/>
+            <circle cx="523" cy="429" r="8.5" fill="none" stroke="#2D5016" stroke-width="0.38" opacity="0.14"/>
+            <!-- S bottom -->
+            <circle cx="300" cy="558" r="5.8" fill="#0A0A0A" opacity="0.44"/>
+            <circle cx="300" cy="558" r="9.5" fill="none" stroke="#0A0A0A" stroke-width="0.40" opacity="0.12"/>
+            <!-- SW -->
+            <circle class="hn3" cx="77"  cy="429" r="5.2" fill="#E8B4B0" opacity="0.56"/>
+            <circle cx="77"  cy="429" r="8.5" fill="none" stroke="#E8B4B0" stroke-width="0.38" opacity="0.14"/>
+            <!-- NW -->
+            <circle class="hn4" cx="77"  cy="171" r="5.2" fill="#2D5016" opacity="0.60"/>
+            <circle cx="77"  cy="171" r="8.5" fill="none" stroke="#2D5016" stroke-width="0.38" opacity="0.16"/>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- MID HEX NODES — r=164                           -->
+            <!-- ════════════════════════════════════════════════ -->
+            <circle class="hn5" cx="300" cy="136" r="4.2" fill="#E8B4B0" opacity="0.60"/>
+            <circle cx="300" cy="136" r="7.0" fill="none" stroke="#E8B4B0" stroke-width="0.36" opacity="0.18"/>
+            <circle cx="442" cy="218" r="3.6"              fill="#0A0A0A" opacity="0.46"/>
+            <circle class="hn6" cx="442" cy="382" r="4.2" fill="#2D5016" opacity="0.54"/>
+            <circle cx="300" cy="464" r="4.2"              fill="#0A0A0A" opacity="0.44"/>
+            <circle class="hn7" cx="158" cy="382" r="4.2" fill="#E8B4B0" opacity="0.54"/>
+            <circle cx="158" cy="218" r="3.6"              fill="#0A0A0A" opacity="0.46"/>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- DIAMOND NODES — r=118 N/E/S/W                   -->
+            <!-- ════════════════════════════════════════════════ -->
+            <circle class="hn1" cx="300" cy="182" r="3.8" fill="#E8B4B0" opacity="0.54"/>
+            <circle cx="300" cy="182" r="6.5" fill="none" stroke="#E8B4B0" stroke-width="0.35" opacity="0.16"/>
+            <circle class="hn3" cx="418" cy="300" r="3.8" fill="#2D5016" opacity="0.52"/>
+            <circle cx="418" cy="300" r="6.5" fill="none" stroke="#2D5016" stroke-width="0.35" opacity="0.14"/>
+            <circle class="hn5" cx="300" cy="418" r="3.8" fill="#E8B4B0" opacity="0.54"/>
+            <circle class="hn4" cx="182" cy="300" r="3.8" fill="#2D5016" opacity="0.52"/>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- INNER CLUSTER — 8 small nodes on inner geometry  -->
+            <!-- ════════════════════════════════════════════════ -->
+            <circle class="hn8" cx="300" cy="252" r="2.8" fill="#E8B4B0" opacity="0.60"/>
+            <circle cx="352" cy="268" r="2.2" fill="#0A0A0A" opacity="0.48"/>
+            <circle class="hn7" cx="370" cy="318" r="2.2" fill="#2D5016" opacity="0.54"/>
+            <circle cx="352" cy="368" r="2.2" fill="#0A0A0A" opacity="0.48"/>
+            <circle class="hn8" cx="300" cy="384" r="2.8" fill="#E8B4B0" opacity="0.54"/>
+            <circle cx="248" cy="368" r="2.2" fill="#2D5016" opacity="0.52"/>
+            <circle cx="230" cy="318" r="2.2" fill="#0A0A0A" opacity="0.48"/>
+            <circle class="hn6" cx="248" cy="268" r="2.2" fill="#E8B4B0" opacity="0.52"/>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- 4 ORBITING NODES (CSS rotate trick)             -->
+            <!-- The node is placed at N of its orbit radius.     -->
+            <!-- When the group rotates, it orbits the center.    -->
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- Orbit on r=164 ring, rust -->
+            <g class="horb1">
+              <circle cx="300" cy="136" r="4.5" fill="#E8B4B0" opacity="0.72"/>
+              <circle cx="300" cy="136" r="7.5" fill="none" stroke="#E8B4B0" stroke-width="0.50" opacity="0.28"/>
+            </g>
+            <!-- Orbit on r=215 ring, black -->
+            <g class="horb2">
+              <circle cx="300" cy="85" r="3.5" fill="#0A0A0A" opacity="0.58"/>
+              <circle cx="300" cy="85" r="6.0" fill="none" stroke="#0A0A0A" stroke-width="0.40" opacity="0.20"/>
+            </g>
+            <!-- Orbit on r=258 ring CCW, green -->
+            <g class="horb3">
+              <circle cx="300" cy="42" r="4.0" fill="#2D5016" opacity="0.62"/>
+              <circle cx="300" cy="42" r="7.0" fill="none" stroke="#2D5016" stroke-width="0.45" opacity="0.22"/>
+            </g>
+            <!-- Orbit on r=118 ring, starting E, rust -->
+            <g class="horb4">
+              <circle cx="418" cy="300" r="3.0" fill="#E8B4B0" opacity="0.68"/>
+              <circle cx="418" cy="300" r="5.5" fill="none" stroke="#E8B4B0" stroke-width="0.40" opacity="0.24"/>
+            </g>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- PRECISION TICK MARKS — 12 ticks on r=118        -->
+            <!-- ════════════════════════════════════════════════ -->
+            <g stroke="#0A0A0A" stroke-width="0.72" opacity="0.28" stroke-linecap="round">
+              <line x1="418" y1="300" x2="426" y2="300"/>
+              <line x1="402" y1="241" x2="409" y2="237"/>
+              <line x1="359" y1="198" x2="363" y2="191"/>
+              <line x1="300" y1="182" x2="300" y2="174"/>
+              <line x1="241" y1="198" x2="237" y2="191"/>
+              <line x1="198" y1="241" x2="191" y2="237"/>
+              <line x1="182" y1="300" x2="174" y2="300"/>
+              <line x1="198" y1="359" x2="191" y2="363"/>
+              <line x1="241" y1="402" x2="237" y2="409"/>
+              <line x1="300" y1="418" x2="300" y2="426"/>
+              <line x1="359" y1="402" x2="363" y2="409"/>
+              <line x1="402" y1="359" x2="409" y2="363"/>
+            </g>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- DATA STREAMS — all 6 spokes, dashes marching out -->
+            <!-- ════════════════════════════════════════════════ -->
+            <line class="hds1" x1="300" y1="300" x2="523" y2="171"
+              stroke="#E8B4B0" stroke-width="1.0" stroke-dasharray="5 10" opacity="0.28"/>
+            <line class="hds2" x1="300" y1="300" x2="77"  y2="429"
+              stroke="#2D5016" stroke-width="1.0" stroke-dasharray="5 10" opacity="0.28"/>
+            <line class="hds3" x1="300" y1="300" x2="300" y2="42"
+              stroke="#0A0A0A" stroke-width="0.8" stroke-dasharray="4 10" opacity="0.20"/>
+            <line class="hds4" x1="300" y1="300" x2="523" y2="429"
+              stroke="#E8B4B0" stroke-width="0.8" stroke-dasharray="4 10" opacity="0.20"/>
+            <line class="hds5" x1="300" y1="300" x2="77"  y2="171"
+              stroke="#2D5016" stroke-width="0.8" stroke-dasharray="4 10" opacity="0.20"/>
+            <line class="hds6" x1="300" y1="300" x2="300" y2="558"
+              stroke="#0A0A0A" stroke-width="0.7" stroke-dasharray="3 10" opacity="0.16"/>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- PULSE RINGS — 3 staggered expanding from center  -->
+            <!-- ════════════════════════════════════════════════ -->
+            <circle class="hpr"  cx="300" cy="300" r="118" fill="none" stroke="#E8B4B0" stroke-width="0.90" opacity="0.70"/>
+            <circle class="hpr2" cx="300" cy="300" r="118" fill="none" stroke="#E8B4B0" stroke-width="0.90" opacity="0.70"/>
+            <circle class="hpr3" cx="300" cy="300" r="118" fill="none" stroke="#E8B4B0" stroke-width="0.90" opacity="0.70"/>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- SATELLITE SYSTEMS — 3 corner clusters            -->
+            <!-- ════════════════════════════════════════════════ -->
+
+            <!-- TL satellite (62, 78) ← NW outer hex vertex -->
+            <line x1="62" y1="78" x2="77" y2="171"
+              stroke="#0A0A0A" stroke-width="0.28" opacity="0.10"/>
+            <circle cx="62" cy="78" r="72"  fill="none" stroke="#0A0A0A" stroke-width="0.26" opacity="0.05"/>
+            <circle class="hs1" cx="62" cy="78" r="48"
+              fill="none" stroke="#E8B4B0" stroke-width="0.72" opacity="0.24" stroke-dasharray="7 6"/>
+            <circle cx="62" cy="78" r="26"  fill="none" stroke="#0A0A0A" stroke-width="0.44" opacity="0.14"/>
+            <circle cx="62" cy="78" r="12"  fill="none" stroke="#E8B4B0" stroke-width="0.34" opacity="0.12"/>
+            <circle class="hmp"  cx="62" cy="78" r="4.0" fill="#E8B4B0" opacity="0.52"/>
+            <circle cx="62" cy="78" r="1.8" fill="#0A0A0A" opacity="0.76"/>
+            <!-- Satellite nodes -->
+            <circle class="hn5" cx="62" cy="30"  r="3.2" fill="#E8B4B0" opacity="0.46"/>
+            <circle cx="110" cy="78" r="2.6"              fill="#0A0A0A" opacity="0.38"/>
+            <circle class="hn6" cx="62" cy="126" r="3.2" fill="#0A0A0A" opacity="0.42"/>
+            <circle cx="14"  cy="78" r="2.6"              fill="#E8B4B0" opacity="0.38"/>
+
+            <!-- TR satellite (538, 78) ← NE outer hex vertex -->
+            <line x1="538" y1="78" x2="523" y2="171"
+              stroke="#0A0A0A" stroke-width="0.28" opacity="0.10"/>
+            <circle cx="538" cy="78" r="72"  fill="none" stroke="#0A0A0A" stroke-width="0.26" opacity="0.05"/>
+            <circle class="hs2" cx="538" cy="78" r="48"
+              fill="none" stroke="#2D5016" stroke-width="0.72" opacity="0.24" stroke-dasharray="6 7"/>
+            <circle cx="538" cy="78" r="26"  fill="none" stroke="#0A0A0A" stroke-width="0.44" opacity="0.14"/>
+            <circle cx="538" cy="78" r="12"  fill="none" stroke="#2D5016" stroke-width="0.34" opacity="0.12"/>
+            <circle class="hmp2" cx="538" cy="78" r="4.0" fill="#2D5016" opacity="0.48"/>
+            <circle cx="538" cy="78" r="1.8" fill="#0A0A0A" opacity="0.76"/>
+            <!-- Satellite nodes -->
+            <circle class="hn3" cx="538" cy="30"  r="3.2" fill="#2D5016" opacity="0.46"/>
+            <circle cx="586" cy="78" r="2.6"              fill="#0A0A0A" opacity="0.38"/>
+            <circle class="hn1" cx="538" cy="126" r="3.2" fill="#0A0A0A" opacity="0.42"/>
+            <circle cx="490" cy="78" r="2.6"              fill="#2D5016" opacity="0.38"/>
+
+            <!-- Bottom satellite (300, 548) ← S outer hex vertex -->
+            <line x1="300" y1="548" x2="300" y2="558"
+              stroke="#0A0A0A" stroke-width="0.28" opacity="0.10"/>
+            <circle cx="300" cy="548" r="62"  fill="none" stroke="#0A0A0A" stroke-width="0.26" opacity="0.05"/>
+            <circle class="hs3" cx="300" cy="548" r="42"
+              fill="none" stroke="#E8B4B0" stroke-width="0.72" opacity="0.24" stroke-dasharray="5 8"/>
+            <circle cx="300" cy="548" r="22"  fill="none" stroke="#0A0A0A" stroke-width="0.44" opacity="0.14"/>
+            <circle cx="300" cy="548" r="10"  fill="none" stroke="#E8B4B0" stroke-width="0.34" opacity="0.12"/>
+            <circle class="hmp"  cx="300" cy="548" r="3.4" fill="#E8B4B0" opacity="0.46"/>
+            <circle cx="300" cy="548" r="1.6" fill="#0A0A0A" opacity="0.76"/>
+            <!-- Satellite nodes -->
+            <circle class="hn4" cx="300" cy="506" r="3.2" fill="#E8B4B0" opacity="0.44"/>
+            <circle cx="342" cy="548" r="2.6"              fill="#0A0A0A" opacity="0.38"/>
+            <circle class="hn2" cx="300" cy="590" r="3.2" fill="#0A0A0A" opacity="0.38"/>
+            <circle cx="258" cy="548" r="2.6"              fill="#E8B4B0" opacity="0.38"/>
+
+            <!-- BL satellite (62, 522) ← SW outer hex vertex (77,429) -->
+            <line x1="62" y1="522" x2="77" y2="429"
+              stroke="#0A0A0A" stroke-width="0.28" opacity="0.10"/>
+            <circle cx="62" cy="522" r="72"  fill="none" stroke="#0A0A0A" stroke-width="0.26" opacity="0.05"/>
+            <circle class="hs4" cx="62" cy="522" r="48"
+              fill="none" stroke="#E8B4B0" stroke-width="0.72" opacity="0.24" stroke-dasharray="7 6"/>
+            <circle cx="62" cy="522" r="26"  fill="none" stroke="#0A0A0A" stroke-width="0.44" opacity="0.14"/>
+            <circle cx="62" cy="522" r="12"  fill="none" stroke="#E8B4B0" stroke-width="0.34" opacity="0.12"/>
+            <circle class="hmp"  cx="62" cy="522" r="4.0" fill="#E8B4B0" opacity="0.52"/>
+            <circle cx="62" cy="522" r="1.8" fill="#0A0A0A" opacity="0.76"/>
+            <circle class="hn7" cx="62" cy="570" r="3.2" fill="#E8B4B0" opacity="0.46"/>
+            <circle cx="110" cy="522" r="2.6"              fill="#0A0A0A" opacity="0.38"/>
+            <circle class="hn8" cx="62" cy="474" r="3.2" fill="#0A0A0A" opacity="0.42"/>
+            <circle cx="14"  cy="522" r="2.6"              fill="#E8B4B0" opacity="0.38"/>
+
+            <!-- BR satellite (538, 522) ← SE outer hex vertex (523,429) -->
+            <line x1="538" y1="522" x2="523" y2="429"
+              stroke="#0A0A0A" stroke-width="0.28" opacity="0.10"/>
+            <circle cx="538" cy="522" r="72"  fill="none" stroke="#0A0A0A" stroke-width="0.26" opacity="0.05"/>
+            <circle class="hs5" cx="538" cy="522" r="48"
+              fill="none" stroke="#2D5016" stroke-width="0.72" opacity="0.24" stroke-dasharray="6 7"/>
+            <circle cx="538" cy="522" r="26"  fill="none" stroke="#0A0A0A" stroke-width="0.44" opacity="0.14"/>
+            <circle cx="538" cy="522" r="12"  fill="none" stroke="#2D5016" stroke-width="0.34" opacity="0.12"/>
+            <circle class="hmp2" cx="538" cy="522" r="4.0" fill="#2D5016" opacity="0.48"/>
+            <circle cx="538" cy="522" r="1.8" fill="#0A0A0A" opacity="0.76"/>
+            <circle class="hn5" cx="538" cy="570" r="3.2" fill="#2D5016" opacity="0.46"/>
+            <circle cx="586" cy="522" r="2.6"              fill="#0A0A0A" opacity="0.38"/>
+            <circle class="hn6" cx="538" cy="474" r="3.2" fill="#0A0A0A" opacity="0.42"/>
+            <circle cx="490" cy="522" r="2.6"              fill="#2D5016" opacity="0.38"/>
+
+            <!-- Satellite pentagon connector (all 5) -->
+            <path class="ha2" d="M62,78 L538,78 L538,522 L62,522 Z"
+              fill="none" stroke="#0A0A0A" stroke-width="0.20" opacity="0.04"/>
+            <path class="ha4" d="M62,78 L300,548 L538,78"
+              fill="none" stroke="#0A0A0A" stroke-width="0.20" opacity="0.04"/>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- FOCAL CENTER — multi-ring eye                    -->
+            <!-- ════════════════════════════════════════════════ -->
+            <circle cx="300" cy="300" r="22"  fill="none" stroke="#E8B4B0" stroke-width="0.65" opacity="0.20"/>
+            <circle cx="300" cy="300" r="16"  fill="none" stroke="#E8B4B0" stroke-width="0.50" opacity="0.18"/>
+            <circle cx="300" cy="300" r="10"  fill="none" stroke="#E8B4B0" stroke-width="0.42" opacity="0.20"/>
+            <circle class="hfp" cx="300" cy="300" r="6.5" fill="#E8B4B0" opacity="0.70"/>
+            <circle cx="300" cy="300" r="2.6" fill="#0A0A0A" opacity="0.90"/>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- 5 FLOATING DATA LABEL GROUPS — staggered fade    -->
+            <!-- ════════════════════════════════════════════════ -->
+
+            <!-- ── STATIC VERTEX LABELS — pill badges, clear of halo rings ────── -->
+            <g font-family="ui-monospace,monospace" text-rendering="geometricPrecision">
+
+              <!-- N: ACTIVE -->
+              <text x="300" y="23" font-size="9.5" fill="#0A0A0A" text-anchor="middle" letter-spacing="2.5" font-weight="700" opacity="0.80">ACTIVE</text>
+
+              <!-- NE: SYNC -->
+              <text x="523" y="154" font-size="9.5" fill="#E8B4B0" text-anchor="middle" letter-spacing="2.2" font-weight="700" opacity="0.92">SYNC</text>
+
+              <!-- SE: n8n CLOUD -->
+              <text x="523" y="466" font-size="9.5" fill="#2D5016" text-anchor="middle" letter-spacing="2.0" font-weight="700" opacity="0.88">n8n CLOUD</text>
+
+              <!-- S: 24/7 LIVE -->
+              <text x="300" y="580" font-size="9.5" fill="#0A0A0A" text-anchor="middle" letter-spacing="2.2" font-weight="700" opacity="0.80">24/7 LIVE</text>
+
+              <!-- SW: DEPLOY -->
+              <text x="77" y="466" font-size="9.5" fill="#E8B4B0" text-anchor="middle" letter-spacing="2.0" font-weight="700" opacity="0.88">DEPLOY</text>
+
+              <!-- NW: 329 SKILLS -->
+              <text x="77" y="154" font-size="9.5" fill="#2D5016" text-anchor="middle" letter-spacing="2.0" font-weight="700" opacity="0.88">329 SKILLS</text>
+
+              <!-- Corner labels (no pill backgrounds) -->
+              <text x="83" y="19" font-size="8" fill="#E8B4B0" text-anchor="middle" letter-spacing="1.8" font-weight="600" opacity="0.85">AI AGENT</text>
+              <text x="538" y="19" font-size="8" fill="#0A0A0A" text-anchor="middle" letter-spacing="1.6" font-weight="600" opacity="0.80">$168K SAVED</text>
+              <text x="111" y="585" font-size="8" fill="#E8B4B0" text-anchor="middle" letter-spacing="1.6" font-weight="600" opacity="0.80">CLAUDE OPUS 4.7</text>
+              <text x="538" y="585" font-size="8" fill="#0A0A0A" text-anchor="middle" letter-spacing="1.6" font-weight="600" opacity="0.80">99.5% SLA</text>
+
+            </g>
+
+            </g><!-- end scale group -->
+
+            <!-- ── RIGHT-SIDE METRICS SCALE — outside the circle ── -->
+            <g font-family="ui-monospace,monospace" text-rendering="geometricPrecision">
+
+              <!-- Connector lines: scaled ring right edge → scale bar -->
+              <!-- After 1.13× scale: y=175→159, ring_x≈555 ; y=255→249, ring_x≈587 -->
+              <line x1="555" y1="159" x2="648" y2="159" stroke="#0A0A0A" stroke-width="0.4" opacity="0.18" stroke-dasharray="3 3"/>
+              <line x1="587" y1="249" x2="648" y2="249" stroke="#0A0A0A" stroke-width="0.4" opacity="0.18" stroke-dasharray="3 3"/>
+              <line x1="587" y1="351" x2="648" y2="351" stroke="#0A0A0A" stroke-width="0.4" opacity="0.18" stroke-dasharray="3 3"/>
+              <line x1="555" y1="441" x2="648" y2="441" stroke="#0A0A0A" stroke-width="0.4" opacity="0.18" stroke-dasharray="3 3"/>
+
+              <!-- Vertical scale bar -->
+              <line x1="650" y1="150" x2="650" y2="450" stroke="#0A0A0A" stroke-width="0.5" opacity="0.20"/>
+
+              <!-- Tick marks + metrics -->
+
+              <!-- #1 executions/month -->
+              <line x1="644" y1="159" x2="656" y2="159" stroke="#0A0A0A" stroke-width="0.6" opacity="0.30"/>
+              <text x="663" y="156" font-size="11" fill="#0A0A0A" font-weight="700" letter-spacing="0.1" opacity="0.90">142,847</text>
+              <text x="663" y="166" font-size="6.5" fill="#888" letter-spacing="0.6" opacity="0.80">EXECUTIONS / MO</text>
+
+              <!-- #2 uptime -->
+              <line x1="644" y1="249" x2="656" y2="249" stroke="#E8B4B0" stroke-width="0.7" opacity="0.60"/>
+              <text x="663" y="246" font-size="11" fill="#0A0A0A" font-weight="700" letter-spacing="0.1" opacity="0.90">99.7%</text>
+              <text x="663" y="256" font-size="6.5" fill="#888" letter-spacing="0.6" opacity="0.80">UPTIME SLA</text>
+
+              <!-- #3 hours saved -->
+              <line x1="644" y1="351" x2="656" y2="351" stroke="#2D5016" stroke-width="0.7" opacity="0.50"/>
+              <text x="663" y="348" font-size="11" fill="#2D5016" font-weight="700" letter-spacing="0.1" opacity="0.90">1,247 h</text>
+              <text x="663" y="358" font-size="6.5" fill="#888" letter-spacing="0.6" opacity="0.80">SAVED / MO</text>
+
+              <!-- #4 ROI -->
+              <line x1="644" y1="441" x2="656" y2="441" stroke="#E8B4B0" stroke-width="0.7" opacity="0.60"/>
+              <text x="663" y="438" font-size="11" fill="#0A0A0A" font-weight="700" letter-spacing="0.1" opacity="0.90">9.4× ROI</text>
+              <text x="663" y="448" font-size="6.5" fill="#888" letter-spacing="0.6" opacity="0.80">PER $ INVESTED</text>
+
+            </g>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- HORIZONTAL SCANLINE — sweeps top to bottom       -->
+            <!-- ════════════════════════════════════════════════ -->
+            <line class="hsl" x1="56" y1="300" x2="544" y2="300"
+              stroke="#E8B4B0" stroke-width="0.42" opacity="0.12"/>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- CENTRE CROSSHAIR — 4-gap precision mark          -->
+            <!-- ════════════════════════════════════════════════ -->
+            <g stroke="#0A0A0A" stroke-width="0.52" opacity="0.22" stroke-linecap="round">
+              <line x1="284" y1="300" x2="293" y2="300"/>
+              <line x1="307" y1="300" x2="316" y2="300"/>
+              <line x1="300" y1="284" x2="300" y2="293"/>
+              <line x1="300" y1="307" x2="300" y2="316"/>
+            </g>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- CROP MARKS — precision corners                   -->
+            <!-- ════════════════════════════════════════════════ -->
+            <g stroke="#0A0A0A" stroke-width="0.30" opacity="0.10">
+              <line x1="8"   y1="8"   x2="52"  y2="8"/>
+              <line x1="8"   y1="8"   x2="8"   y2="52"/>
+              <line x1="592" y1="8"   x2="548" y2="8"/>
+              <line x1="592" y1="8"   x2="592" y2="52"/>
+              <line x1="8"   y1="592" x2="52"  y2="592"/>
+              <line x1="8"   y1="592" x2="8"   y2="548"/>
+              <line x1="592" y1="592" x2="548" y2="592"/>
+              <line x1="592" y1="592" x2="592" y2="548"/>
+            </g>
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- LEGEND — same style as right-side metrics scale  -->
+            <!-- ════════════════════════════════════════════════ -->
+            <g font-family="ui-monospace,monospace" text-rendering="geometricPrecision">
+
+              <!-- Dashed enclosure rect — spans full diagram width -->
+              <rect x="8" y="650" width="720" height="104" rx="3"
+                fill="none" stroke="#0A0A0A" stroke-width="0.5" opacity="0.15"
+                stroke-dasharray="3.5 3"/>
+
+              <!-- ── Item 1: Automation nodes ── -->
+              <circle cx="28" cy="674" r="5.2" fill="#E8B4B0" opacity="0.82"/>
+              <text x="39" y="679" font-size="11" fill="#0A0A0A"
+                letter-spacing="0.8" font-weight="600" opacity="0.65">AUTOMATION NODES</text>
+
+              <!-- ── Item 2: AI skill clusters ── -->
+              <circle cx="222" cy="674" r="5.2" fill="#2D5016" opacity="0.80"/>
+              <text x="233" y="679" font-size="11" fill="#0A0A0A"
+                letter-spacing="0.8" font-weight="600" opacity="0.65">AI SKILL CLUSTERS</text>
+
+              <!-- ── Item 3: Live data streams ── -->
+              <line x1="414" y1="674" x2="436" y2="674"
+                stroke="#E8B4B0" stroke-width="1.6" stroke-dasharray="3 2" opacity="0.72"/>
+              <text x="443" y="679" font-size="11" fill="#0A0A0A"
+                letter-spacing="0.8" font-weight="600" opacity="0.65">LIVE DATA STREAMS</text>
+
+              <!-- ── Item 4: Radar sweep ── -->
+              <circle cx="604" cy="674" r="6.5" fill="none"
+                stroke="rgba(10,10,10,0.18)" stroke-width="0.8"/>
+              <line x1="604" y1="667.5" x2="604" y2="680.5"
+                stroke="#E8B4B0" stroke-width="1" opacity="0.55"/>
+              <text x="617" y="679" font-size="11" fill="#0A0A0A"
+                letter-spacing="0.8" font-weight="600" opacity="0.65">RADAR SWEEP</text>
+
+              <!-- ── Description lines ── -->
+              <text x="39" y="700" font-size="8.5" fill="#888"
+                letter-spacing="0.5" opacity="0.68">Each orbit ring represents a workflow tier — Claude AI at the core, live cloud deployment at the outer ring.</text>
+              <text x="39" y="715" font-size="8.5" fill="#888"
+                letter-spacing="0.5" opacity="0.68">Dashed streams show data flowing in real time across 329 active automations.</text>
+
+            </g>
+
+          </svg>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,52 @@
+---
+import advisorsData from '~/data/scientific-advisors.json';
+const { advisors, featuredQuote } = advisorsData;
+const featured = advisors.find((a) => a.id === featuredQuote.advisorId);
+---
+
+<section class="bg-white py-20 lg:py-28">
+  <div class="container-x">
+    <div class="max-w-3xl mb-12">
+      <p class="eyebrow mb-4">Your AI-powered engineering team</p>
+      <h2 class="font-display text-h1 mb-4 text-balance">
+        Nine specialists. <em class="font-medium">One mission.</em>
+      </h2>
+      <p class="text-base text-brand-gray-600 max-w-xl text-pretty">
+        Our team combines automation architects, AI engineers, data specialists and operations
+        strategists — each bringing deep domain expertise to every deployment.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-16">
+      {advisors.map((a) => (
+        <article class="group/card scroll-fade">
+          <div class="aspect-square rounded-image overflow-hidden bg-brand-sand mb-4">
+            <img
+              src={a.image}
+              alt={`${a.name} — ${a.specialty}`}
+              class="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-[1.03]"
+              loading="lazy"
+            />
+          </div>
+          <h3 class="font-display text-sm mb-1 leading-tight">{a.name}</h3>
+          <p class="text-[11px] text-brand-gray-600 leading-snug">{a.credentials}</p>
+        </article>
+      ))}
+    </div>
+
+    {featured && (
+      <figure class="bg-brand-cream rounded-card p-8 lg:p-12 max-w-4xl mx-auto">
+        <svg class="w-8 h-8 text-brand-rust mb-4" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M6 17h3l2-4V7H5v6h3l-2 4zm8 0h3l2-4V7h-6v6h3l-2 4z" />
+        </svg>
+        <blockquote class="font-display text-xl lg:text-2xl leading-snug mb-6 text-balance">
+          {featuredQuote.text}
+        </blockquote>
+        <figcaption>
+          <p class="font-medium">{featured.name}</p>
+          <p class="text-sm text-brand-gray-600">{featured.credentials}</p>
+        </figcaption>
+      </figure>
+    )}
+  </div>
+</section>

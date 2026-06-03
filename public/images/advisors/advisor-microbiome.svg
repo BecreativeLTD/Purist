@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="1"/>
+      <feColorMatrix values="0 0 0 0 0.6 0 0 0 0 0.55 0 0 0 0 0.48 0 0 0 0.06 0"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+    <radialGradient id="bg" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#F8F6F1"/>
+      <stop offset="100%" stop-color="#F4EFE6"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#bg)" rx="12"/>
+  <!-- Outer orbital -->
+  <circle cx="200" cy="185" r="145" fill="none" stroke="#0A0A0A" stroke-width="0.4" opacity="0.07"/>
+  <circle cx="200" cy="185" r="155" fill="none" stroke="#A0522D" stroke-width="0.3" opacity="0.05" stroke-dasharray="3 7"/>
+  <!-- Gear/cog shape made of dots and lines - 12 teeth -->
+  <!-- Outer gear dots (12 points) -->
+  <circle cx="200" cy="120" r="3" fill="#A0522D" opacity="0.8"/>
+  <circle cx="233" cy="126" r="3" fill="#A0522D" opacity="0.8"/>
+  <circle cx="257" cy="148" r="3" fill="#A0522D" opacity="0.8"/>
+  <circle cx="265" cy="180" r="3" fill="#A0522D" opacity="0.8"/>
+  <circle cx="257" cy="212" r="3" fill="#A0522D" opacity="0.8"/>
+  <circle cx="233" cy="234" r="3" fill="#A0522D" opacity="0.8"/>
+  <circle cx="200" cy="240" r="3" fill="#A0522D" opacity="0.8"/>
+  <circle cx="167" cy="234" r="3" fill="#A0522D" opacity="0.8"/>
+  <circle cx="143" cy="212" r="3" fill="#A0522D" opacity="0.8"/>
+  <circle cx="135" cy="180" r="3" fill="#A0522D" opacity="0.8"/>
+  <circle cx="143" cy="148" r="3" fill="#A0522D" opacity="0.8"/>
+  <circle cx="167" cy="126" r="3" fill="#A0522D" opacity="0.8"/>
+  <!-- Outer gear connecting lines -->
+  <polygon points="200,120 233,126 257,148 265,180 257,212 233,234 200,240 167,234 143,212 135,180 143,148 167,126" fill="none" stroke="#0A0A0A" stroke-width="0.8" opacity="0.35"/>
+  <!-- Inner gear ring dots (6 points) -->
+  <circle cx="200" cy="148" r="2.2" fill="#A0522D" opacity="0.6"/>
+  <circle cx="230" cy="163" r="2.2" fill="#A0522D" opacity="0.6"/>
+  <circle cx="230" cy="197" r="2.2" fill="#A0522D" opacity="0.6"/>
+  <circle cx="200" cy="212" r="2.2" fill="#A0522D" opacity="0.6"/>
+  <circle cx="170" cy="197" r="2.2" fill="#A0522D" opacity="0.6"/>
+  <circle cx="170" cy="163" r="2.2" fill="#A0522D" opacity="0.6"/>
+  <!-- Inner hexagon -->
+  <polygon points="200,148 230,163 230,197 200,212 170,197 170,163" fill="none" stroke="#A0522D" stroke-width="1" opacity="0.35"/>
+  <!-- Spoke lines connecting inner to outer -->
+  <line x1="200" y1="120" x2="200" y2="148" stroke="#0A0A0A" stroke-width="0.7" opacity="0.3"/>
+  <line x1="257" y1="148" x2="230" y2="163" stroke="#0A0A0A" stroke-width="0.7" opacity="0.3"/>
+  <line x1="265" y1="180" x2="230" y2="180" stroke="#0A0A0A" stroke-width="0.7" opacity="0.3"/>
+  <line x1="257" y1="212" x2="230" y2="197" stroke="#0A0A0A" stroke-width="0.7" opacity="0.3"/>
+  <line x1="200" y1="240" x2="200" y2="212" stroke="#0A0A0A" stroke-width="0.7" opacity="0.3"/>
+  <line x1="143" y1="212" x2="170" y2="197" stroke="#0A0A0A" stroke-width="0.7" opacity="0.3"/>
+  <line x1="135" y1="180" x2="170" y2="180" stroke="#0A0A0A" stroke-width="0.7" opacity="0.3"/>
+  <line x1="143" y1="148" x2="170" y2="163" stroke="#0A0A0A" stroke-width="0.7" opacity="0.3"/>
+  <!-- Center hub -->
+  <circle cx="200" cy="180" r="12" fill="none" stroke="#A0522D" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="200" cy="180" r="4" fill="#A0522D" opacity="0.85"/>
+  <!-- Outer tooth extensions (small lines radiating out) -->
+  <line x1="200" y1="120" x2="200" y2="110" stroke="#A0522D" stroke-width="1.2" opacity="0.5"/>
+  <line x1="265" y1="180" x2="275" y2="180" stroke="#A0522D" stroke-width="1.2" opacity="0.5"/>
+  <line x1="200" y1="240" x2="200" y2="250" stroke="#A0522D" stroke-width="1.2" opacity="0.5"/>
+  <line x1="135" y1="180" x2="125" y2="180" stroke="#A0522D" stroke-width="1.2" opacity="0.5"/>
+  <line x1="257" y1="148" x2="264" y2="140" stroke="#A0522D" stroke-width="1.2" opacity="0.5"/>
+  <line x1="257" y1="212" x2="264" y2="220" stroke="#A0522D" stroke-width="1.2" opacity="0.5"/>
+  <line x1="143" y1="212" x2="136" y2="220" stroke="#A0522D" stroke-width="1.2" opacity="0.5"/>
+  <line x1="143" y1="148" x2="136" y2="140" stroke="#A0522D" stroke-width="1.2" opacity="0.5"/>
+  <!-- Role label -->
+  <text x="200" y="368" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#6B6B6B" letter-spacing="0.5">Lead Automation Architect</text>
+  <!-- Grain -->
+  <rect width="400" height="400" filter="url(#grain)" opacity="0.5" rx="12"/>
+</svg>

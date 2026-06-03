@@ -1,0 +1,53 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import AsFeaturedIn from '~/components/sections/AsFeaturedIn.astro';
+import Button from '~/components/ui/Button.astro';
+
+const releases = [
+  { date: 'May 2026', title: 'PURIST reaches 500+ production deployments.', summary: 'Milestone across dental, real estate, agencies, e-commerce, legal and staffing industries.' },
+  { date: 'February 2026', title: 'PURIST launches AI Agent Deploy for dental practices.', summary: 'Conversational AI agents handle patient scheduling, insurance verification, and follow-ups.' },
+  { date: 'November 2025', title: 'PURIST expands to real estate automation.', summary: 'Property management workflows, tenant screening, and maintenance routing now available.' },
+];
+---
+
+<ShopLayout
+  title="Press – PURIST"
+  description="PURIST press releases, media kit, and press contact. 500+ automation deployments across 6 industries."
+>
+  <header class="bg-brand-cream">
+    <div class="container-x py-16 lg:py-20 max-w-3xl mx-auto text-center">
+      <p class="eyebrow mb-4">Press</p>
+      <h1 class="font-display text-4xl lg:text-5xl xl:text-6xl leading-tight tracking-tight mb-6 text-balance">
+        For journalists and editors.
+      </h1>
+      <p class="text-base text-brand-gray-600 mb-8">
+        Press kit, founder bios, brand assets and product imagery.<br/>
+        Media enquiries: <a href="mailto:press@purist.example" class="underline underline-offset-4 hover:opacity-70">press@purist.example</a>
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <Button size="lg">Download press kit (ZIP, 24 MB)</Button>
+        <Button href="/pages/contact-us" variant="secondary" size="lg">Contact press team</Button>
+      </div>
+    </div>
+  </header>
+
+  <AsFeaturedIn />
+
+  <section class="bg-white py-20 lg:py-28">
+    <div class="container-x max-w-3xl mx-auto">
+      <p class="eyebrow mb-4">Recent releases</p>
+      <h2 class="font-display text-3xl mb-10">Announcements</h2>
+      <div class="divide-y divide-brand-gray-100 border-y border-brand-gray-100">
+        {releases.map((r) => (
+          <article class="py-6 flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-8">
+            <p class="text-xs text-brand-gray-600 sm:w-32 shrink-0 pt-1">{r.date}</p>
+            <div>
+              <h3 class="font-display text-lg mb-1 leading-snug">{r.title}</h3>
+              <p class="text-sm text-brand-gray-600">{r.summary}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</ShopLayout>

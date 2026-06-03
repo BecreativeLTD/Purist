@@ -1,0 +1,52 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import Button from '~/components/ui/Button.astro';
+
+const howItWorks = [
+  { n: '01', title: 'Share your link', body: 'Sign in and grab your unique referral link from your account dashboard.' },
+  { n: '02', title: 'They book an audit', body: 'Anyone using your link gets a free automation audit — zero risk for them.' },
+  { n: '03', title: 'You both win', body: 'You earn $200 in service credit per qualified referral. No cap.' },
+];
+---
+
+<ShopLayout
+  title="Refer a client – PURIST"
+  description="Give a free automation audit. Earn $200. Help the businesses you know save 20+ hours per week."
+>
+  <header class="bg-brand-cream">
+    <div class="container-x py-16 lg:py-20 max-w-3xl mx-auto text-center">
+      <p class="eyebrow mb-4">Refer a client</p>
+      <h1 class="font-display text-4xl lg:text-5xl xl:text-6xl leading-tight tracking-tight mb-6 text-balance">
+        Give a free audit. Earn $200. <em class="font-medium">For everyone.</em>
+      </h1>
+      <p class="text-base lg:text-lg text-brand-gray-600 text-pretty mb-8">
+        The fastest way to share PURIST with the businesses you work with. They get a free
+        automation audit. You get $200 in service credit. Everyone wins.
+      </p>
+      <Button size="lg">Sign in to get your link →</Button>
+    </div>
+  </header>
+
+  <section class="bg-white py-20 lg:py-28">
+    <div class="container-x grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+      {howItWorks.map((s) => (
+        <article class="text-center scroll-fade">
+          <p class="font-display text-5xl text-brand-gray-200 mb-3">{s.n}</p>
+          <h2 class="font-display text-xl mb-2 leading-snug">{s.title}</h2>
+          <p class="text-sm text-brand-gray-600 leading-relaxed">{s.body}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-brand-beige py-16 lg:py-20 text-center">
+    <div class="container-x max-w-2xl">
+      <h2 class="font-display text-2xl lg:text-3xl mb-4 leading-tight">Fine print</h2>
+      <p class="text-sm text-brand-gray-600 leading-relaxed">
+        Referral credit posts to your account once the referred client signs their first monthly
+        plan and the 30-day guarantee window closes. Credit can be used on any service plan.
+        One referral per new client. Full terms on the <a href="/pages/terms-of-service" class="underline underline-offset-4 hover:opacity-70">terms of service</a> page.
+      </p>
+    </div>
+  </section>
+</ShopLayout>

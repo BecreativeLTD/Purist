@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800">
+  <defs>
+    <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="3"/>
+      <feColorMatrix values="0 0 0 0 0.6 0 0 0 0 0.55 0 0 0 0 0.48 0 0 0 0.06 0"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+    <radialGradient id="bg" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#F8F6F1"/>
+      <stop offset="100%" stop-color="#F4EFE6"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="800" fill="url(#bg)" rx="12"/>
+  <!-- Arc from top-left corner -->
+  <path d="M 0,100 Q 300,500 600,100" fill="none" stroke="#0A0A0A" stroke-width="1.2" opacity="0.35"/>
+  <!-- Arc from top-right corner -->
+  <path d="M 500,0 Q 200,400 500,800" fill="none" stroke="#0A0A0A" stroke-width="1.2" opacity="0.35"/>
+  <!-- Arc from bottom-left corner -->
+  <path d="M 100,0 Q 400,400 100,800" fill="none" stroke="#0A0A0A" stroke-width="1.2" opacity="0.35"/>
+  <!-- Arc from bottom-right corner -->
+  <path d="M 0,700 Q 300,300 600,700" fill="none" stroke="#0A0A0A" stroke-width="1.2" opacity="0.35"/>
+  <!-- Intersection points with small circles -->
+  <circle cx="300" cy="300" r="5" fill="none" stroke="#A0522D" stroke-width="1" opacity="0.5"/>
+  <circle cx="220" cy="380" r="5" fill="none" stroke="#A0522D" stroke-width="1" opacity="0.5"/>
+  <circle cx="380" cy="380" r="5" fill="none" stroke="#A0522D" stroke-width="1" opacity="0.5"/>
+  <circle cx="300" cy="500" r="5" fill="none" stroke="#A0522D" stroke-width="1" opacity="0.5"/>
+  <circle cx="180" cy="280" r="4" fill="none" stroke="#0A0A0A" stroke-width="0.8" opacity="0.3"/>
+  <circle cx="420" cy="280" r="4" fill="none" stroke="#0A0A0A" stroke-width="0.8" opacity="0.3"/>
+  <circle cx="180" cy="520" r="4" fill="none" stroke="#0A0A0A" stroke-width="0.8" opacity="0.3"/>
+  <circle cx="420" cy="520" r="4" fill="none" stroke="#0A0A0A" stroke-width="0.8" opacity="0.3"/>
+  <!-- Rust accent lines at key intersections -->
+  <line x1="220" y1="380" x2="380" y2="380" stroke="#A0522D" stroke-width="0.8" opacity="0.4"/>
+  <line x1="300" y1="300" x2="300" y2="500" stroke="#A0522D" stroke-width="0.8" opacity="0.4"/>
+  <!-- Small dots at intersections -->
+  <circle cx="300" cy="300" r="2.5" fill="#A0522D" opacity="0.5"/>
+  <circle cx="300" cy="500" r="2.5" fill="#A0522D" opacity="0.5"/>
+  <circle cx="220" cy="380" r="2.5" fill="#0A0A0A" opacity="0.4"/>
+  <circle cx="380" cy="380" r="2.5" fill="#0A0A0A" opacity="0.4"/>
+  <!-- Label -->
+  <text x="300" y="740" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#0A0A0A" opacity="0.4" letter-spacing="6">REAL ESTATE</text>
+  <!-- Grain overlay -->
+  <rect width="600" height="800" filter="url(#grain)" opacity="0.5" rx="12"/>
+</svg>

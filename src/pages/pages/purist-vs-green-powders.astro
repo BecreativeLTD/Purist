@@ -1,0 +1,81 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import GoldStandardComparison from '~/components/sections/GoldStandardComparison.astro';
+import ClinicalKPIs from '~/components/sections/ClinicalKPIs.astro';
+import NSFCertification from '~/components/sections/NSFCertification.astro';
+import Button from '~/components/ui/Button.astro';
+
+const differences = [
+  { you_get: 'Production-grade workflows with 24/7 monitoring', they_offer: 'Fragile automations that break at 3 AM with no alerts' },
+  { you_get: 'Deployed by certified engineers in 5-10 days', they_offer: '40+ hours learning the tool yourself — if you finish' },
+  { you_get: '99.5% uptime SLA with incident response', they_offer: 'No SLA — you are your own support team' },
+  { you_get: 'Full error handling, retry logic, and rollback', they_offer: 'When it breaks, you Google the fix' },
+  { you_get: '30-day money-back guarantee', they_offer: 'Free to start, expensive to maintain (your time is not free)' },
+];
+---
+
+<ShopLayout
+  title="PURIST vs DIY automation – PURIST"
+  description="n8n, Make, and Zapier are free — so why pay for automation? The plumber paradox explained. Compare DIY vs production-grade PURIST deployments."
+>
+  <header class="bg-brand-cream">
+    <div class="container-x py-16 lg:py-20 max-w-3xl mx-auto text-center">
+      <p class="eyebrow mb-4">Compare</p>
+      <h1 class="font-display text-4xl lg:text-5xl xl:text-6xl leading-tight tracking-tight mb-6 text-balance">
+        PURIST vs <em class="font-medium">DIY automation.</em>
+      </h1>
+      <p class="text-base lg:text-lg text-brand-gray-600 text-pretty">
+        n8n, Make, and Zapier are free to start — so why pay for automation?
+        The same reason you call a plumber instead of watching YouTube tutorials when
+        your pipes burst. The tools are free. The expertise is not.
+      </p>
+    </div>
+  </header>
+
+  <section class="bg-white py-20 lg:py-28">
+    <div class="container-x max-w-4xl mx-auto">
+      <p class="eyebrow text-center mb-4">The honest comparison</p>
+      <h2 class="font-display text-3xl lg:text-4xl mb-12 text-center text-balance">
+        Where the two categories <em class="font-medium">part ways.</em>
+      </h2>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-brand-gray-200 border border-brand-gray-200 rounded-card overflow-hidden">
+        <div class="bg-brand-cream p-6 lg:p-8">
+          <p class="eyebrow mb-4">PURIST managed automation</p>
+          <ul class="space-y-3">
+            {differences.map((d) => (
+              <li class="flex items-start gap-3 text-sm">
+                <span class="text-brand-green mt-0.5 shrink-0">✓</span>
+                <span>{d.you_get}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="bg-white p-6 lg:p-8">
+          <p class="eyebrow mb-4">DIY with free tools</p>
+          <ul class="space-y-3">
+            {differences.map((d) => (
+              <li class="flex items-start gap-3 text-sm text-brand-gray-600">
+                <span class="text-brand-gray-400 mt-0.5 shrink-0">—</span>
+                <span>{d.they_offer}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <GoldStandardComparison />
+  <ClinicalKPIs />
+  <NSFCertification />
+
+  <section class="bg-brand-beige py-16 lg:py-20 text-center">
+    <div class="container-x max-w-2xl">
+      <h2 class="font-display text-3xl lg:text-4xl mb-6 leading-tight text-balance">
+        Stop Googling error messages. <em class="font-medium">Let us handle it.</em>
+      </h2>
+      <Button href="/pages/welcome" size="lg">Book your free audit →</Button>
+    </div>
+  </section>
+</ShopLayout>

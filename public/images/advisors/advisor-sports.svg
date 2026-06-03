@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="1"/>
+      <feColorMatrix values="0 0 0 0 0.6 0 0 0 0 0.55 0 0 0 0 0.48 0 0 0 0.06 0"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+    <radialGradient id="bg" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#F8F6F1"/>
+      <stop offset="100%" stop-color="#F4EFE6"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#bg)" rx="12"/>
+  <!-- Outer orbital -->
+  <circle cx="200" cy="185" r="145" fill="none" stroke="#0A0A0A" stroke-width="0.4" opacity="0.07"/>
+  <circle cx="200" cy="185" r="155" fill="none" stroke="#A0522D" stroke-width="0.3" opacity="0.05" stroke-dasharray="3 7"/>
+  <!-- Funnel shape -->
+  <!-- Wide top -->
+  <line x1="130" y1="120" x2="270" y2="120" stroke="#0A0A0A" stroke-width="1.8" opacity="0.6"/>
+  <!-- Left slope -->
+  <line x1="130" y1="120" x2="180" y2="250" stroke="#0A0A0A" stroke-width="1.2" opacity="0.5"/>
+  <!-- Right slope -->
+  <line x1="270" y1="120" x2="220" y2="250" stroke="#0A0A0A" stroke-width="1.2" opacity="0.5"/>
+  <!-- Bottom -->
+  <line x1="180" y1="250" x2="220" y2="250" stroke="#0A0A0A" stroke-width="1.8" opacity="0.6"/>
+  <!-- Horizontal stage lines -->
+  <line x1="145" y1="152" x2="255" y2="152" stroke="#A0522D" stroke-width="0.7" opacity="0.35" stroke-dasharray="3 4"/>
+  <line x1="158" y1="185" x2="242" y2="185" stroke="#A0522D" stroke-width="0.7" opacity="0.35" stroke-dasharray="3 4"/>
+  <line x1="172" y1="218" x2="228" y2="218" stroke="#A0522D" stroke-width="0.7" opacity="0.35" stroke-dasharray="3 4"/>
+  <!-- Flow lines (curved paths going down through funnel) -->
+  <path d="M155,120 Q165,145 175,152 Q185,160 190,185 Q195,210 195,250" fill="none" stroke="#A0522D" stroke-width="0.6" opacity="0.25"/>
+  <path d="M200,120 Q200,145 200,152 Q200,170 200,185 Q200,218 200,250" fill="none" stroke="#A0522D" stroke-width="0.8" opacity="0.3"/>
+  <path d="M245,120 Q235,145 225,152 Q215,160 210,185 Q205,210 205,250" fill="none" stroke="#A0522D" stroke-width="0.6" opacity="0.25"/>
+  <!-- Stage dots -->
+  <circle cx="200" cy="120" r="3" fill="#0A0A0A" opacity="0.7"/>
+  <circle cx="200" cy="152" r="2.5" fill="#A0522D" opacity="0.6"/>
+  <circle cx="200" cy="185" r="2.5" fill="#A0522D" opacity="0.6"/>
+  <circle cx="200" cy="218" r="2.5" fill="#A0522D" opacity="0.6"/>
+  <circle cx="200" cy="250" r="3.5" fill="#A0522D" opacity="0.8"/>
+  <!-- Side dots at stage intersections -->
+  <circle cx="145" cy="152" r="2" fill="#0A0A0A" opacity="0.4"/>
+  <circle cx="255" cy="152" r="2" fill="#0A0A0A" opacity="0.4"/>
+  <circle cx="158" cy="185" r="2" fill="#0A0A0A" opacity="0.4"/>
+  <circle cx="242" cy="185" r="2" fill="#0A0A0A" opacity="0.4"/>
+  <circle cx="172" cy="218" r="2" fill="#0A0A0A" opacity="0.4"/>
+  <circle cx="228" cy="218" r="2" fill="#0A0A0A" opacity="0.4"/>
+  <!-- Corner accent dots -->
+  <circle cx="130" cy="120" r="3" fill="#0A0A0A" opacity="0.6"/>
+  <circle cx="270" cy="120" r="3" fill="#0A0A0A" opacity="0.6"/>
+  <circle cx="180" cy="250" r="2.5" fill="#0A0A0A" opacity="0.5"/>
+  <circle cx="220" cy="250" r="2.5" fill="#0A0A0A" opacity="0.5"/>
+  <!-- Drop line from bottom -->
+  <line x1="200" y1="250" x2="200" y2="270" stroke="#A0522D" stroke-width="1" opacity="0.4"/>
+  <circle cx="200" cy="274" r="2" fill="#A0522D" opacity="0.5"/>
+  <!-- Role label -->
+  <text x="200" y="368" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#6B6B6B" letter-spacing="0.5">CRM &amp; Sales Automation</text>
+  <!-- Grain -->
+  <rect width="400" height="400" filter="url(#grain)" opacity="0.5" rx="12"/>
+</svg>

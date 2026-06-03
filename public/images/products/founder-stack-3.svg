@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8F6F1"/>
+      <stop offset="50%" stop-color="#F4EFE6"/>
+      <stop offset="100%" stop-color="#EDE5D5"/>
+    </linearGradient>
+        <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="1"/>
+      <feColorMatrix values="0 0 0 0 0.6 0 0 0 0 0.55 0 0 0 0 0.48 0 0 0 0.06 0"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="3" stdDeviation="10" flood-color="#0A0A0A" flood-opacity="0.07"/>
+    </filter>
+    <radialGradient id="circleA" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#A0522D" stop-opacity="0.08"/>
+      <stop offset="70%" stop-color="#A0522D" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#A0522D" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="circleB" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0A0A0A" stop-opacity="0.06"/>
+      <stop offset="70%" stop-color="#0A0A0A" stop-opacity="0.03"/>
+      <stop offset="100%" stop-color="#0A0A0A" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="circleC" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2D5016" stop-opacity="0.07"/>
+      <stop offset="70%" stop-color="#2D5016" stop-opacity="0.03"/>
+      <stop offset="100%" stop-color="#2D5016" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="url(#bg)"/>
+  <g filter="url(#shadow)">
+    <!-- Large overlapping translucent circles -->
+    <circle cx="320" cy="340" r="200" fill="url(#circleA)"/>
+    <circle cx="320" cy="340" r="200" fill="none" stroke="#A0522D" stroke-width="0.8" opacity="0.2"/>
+    <circle cx="500" cy="380" r="180" fill="url(#circleB)"/>
+    <circle cx="500" cy="380" r="180" fill="none" stroke="#0A0A0A" stroke-width="0.7" opacity="0.18"/>
+    <circle cx="380" cy="500" r="160" fill="url(#circleC)"/>
+    <circle cx="380" cy="500" r="160" fill="none" stroke="#2D5016" stroke-width="0.7" opacity="0.18"/>
+    <!-- Connecting paths between circle centers -->
+    <path d="M320,340 Q410,340 500,380" fill="none" stroke="#0A0A0A" stroke-width="0.5" opacity="0.2"/>
+    <path d="M500,380 Q450,440 380,500" fill="none" stroke="#A0522D" stroke-width="0.5" opacity="0.2"/>
+    <path d="M380,500 Q340,420 320,340" fill="none" stroke="#2D5016" stroke-width="0.5" opacity="0.2"/>
+    <!-- Center nodes -->
+    <circle cx="320" cy="340" r="5" fill="#A0522D" opacity="0.5"/>
+    <circle cx="500" cy="380" r="4.5" fill="#0A0A0A" opacity="0.45"/>
+    <circle cx="380" cy="500" r="4" fill="#2D5016" opacity="0.5"/>
+    <!-- Intersection area emphasis -->
+    <circle cx="400" cy="400" r="4" fill="#A0522D" opacity="0.4"/>
+    <circle cx="400" cy="400" r="25" fill="none" stroke="#A0522D" stroke-width="0.4" opacity="0.15"/>
+    <!-- Subtle satellite nodes -->
+    <circle cx="180" cy="240" r="2.5" fill="#0A0A0A" opacity="0.25"/>
+    <circle cx="250" cy="180" r="2" fill="#A0522D" opacity="0.25"/>
+    <circle cx="620" cy="300" r="2.5" fill="#0A0A0A" opacity="0.25"/>
+    <circle cx="660" cy="420" r="2" fill="#A0522D" opacity="0.2"/>
+    <circle cx="300" cy="650" r="2.5" fill="#2D5016" opacity="0.25"/>
+    <circle cx="480" cy="620" r="2" fill="#0A0A0A" opacity="0.2"/>
+    <!-- Thin connecting threads to satellites -->
+    <path d="M320,340 Q250,290 180,240" fill="none" stroke="#0A0A0A" stroke-width="0.25" opacity="0.1"/>
+    <path d="M320,340 Q280,260 250,180" fill="none" stroke="#A0522D" stroke-width="0.25" opacity="0.1"/>
+    <path d="M500,380 Q560,340 620,300" fill="none" stroke="#0A0A0A" stroke-width="0.25" opacity="0.1"/>
+    <path d="M500,380 Q580,400 660,420" fill="none" stroke="#A0522D" stroke-width="0.25" opacity="0.08"/>
+    <path d="M380,500 Q340,575 300,650" fill="none" stroke="#2D5016" stroke-width="0.25" opacity="0.1"/>
+    <path d="M380,500 Q430,560 480,620" fill="none" stroke="#0A0A0A" stroke-width="0.25" opacity="0.08"/>
+  </g>
+  <rect width="800" height="800" filter="url(#grain)" opacity="0.5"/>
+</svg>

@@ -1,0 +1,21 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import CartPageContent from '~/components/cart/CartPageContent.tsx';
+---
+
+<ShopLayout
+  title="Your bag – PURIST"
+  description="Review your bag before checkout."
+  noindex
+>
+  <section class="container-x py-12 lg:py-20">
+    <header class="max-w-2xl mb-12">
+      <p class="eyebrow mb-3">Your bag</p>
+      <h1 class="font-display text-h1 leading-tight tracking-tight">
+        Review your order
+      </h1>
+    </header>
+
+    <CartPageContent client:load />
+  </section>
+</ShopLayout>

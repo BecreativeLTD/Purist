@@ -1,0 +1,217 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="vbase" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F4EFE6"/>
+      <stop offset="100%" stop-color="#EDE5D5"/>
+    </linearGradient>
+    <radialGradient id="vspot" cx="0.5" cy="0.45" r="0.5">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="dashBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0A0A0A"/>
+      <stop offset="100%" stop-color="#141414"/>
+    </linearGradient>
+    <filter id="vgrain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4"/>
+      <feColorMatrix values="0 0 0 0 0.6  0 0 0 0 0.55  0 0 0 0 0.48  0 0 0 0.05 0"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+    <filter id="playShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="12"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.3"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="dashShadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="16"/>
+      <feOffset dx="0" dy="8"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.2"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Cream background -->
+  <rect width="1200" height="675" fill="url(#vbase)"/>
+  <rect width="1200" height="675" fill="url(#vspot)"/>
+
+  <!-- Abstract dashboard frame -->
+  <g transform="translate(140, 60)" filter="url(#dashShadow)">
+    <!-- Dashboard outer frame -->
+    <rect x="0" y="0" width="920" height="540" rx="12" fill="url(#dashBg)"/>
+
+    <!-- Bezel highlight -->
+    <rect x="1" y="1" width="918" height="538" rx="11" fill="none" stroke="#FFFFFF" stroke-width="0.5" opacity="0.06"/>
+
+    <!-- Dashboard screen area -->
+    <rect x="14" y="14" width="892" height="500" rx="6" fill="#111111"/>
+
+    <!-- Top bar -->
+    <rect x="14" y="14" width="892" height="34" rx="6" fill="#1a1a1a"/>
+    <rect x="14" y="42" width="892" height="6" fill="#1a1a1a"/>
+    <!-- Window controls -->
+    <circle cx="36" cy="31" r="4" fill="#A0522D" opacity="0.6"/>
+    <circle cx="52" cy="31" r="4" fill="#F8F6F1" opacity="0.12"/>
+    <circle cx="68" cy="31" r="4" fill="#F8F6F1" opacity="0.12"/>
+    <!-- Title -->
+    <text x="460" y="36" text-anchor="middle" font-family="Georgia, serif" font-size="11"
+          fill="#F8F6F1" letter-spacing="2.5" opacity="0.4">PURIST AUTOMATION</text>
+
+    <!-- Sidebar -->
+    <rect x="14" y="48" width="160" height="466" fill="#141414"/>
+    <!-- Sidebar items -->
+    <g opacity="0.25">
+      <rect x="30" y="70" width="100" height="6" rx="3" fill="#F8F6F1"/>
+      <rect x="30" y="94" width="80" height="6" rx="3" fill="#F8F6F1"/>
+      <rect x="30" y="118" width="110" height="6" rx="3" fill="#A0522D"/>
+      <rect x="30" y="142" width="70" height="6" rx="3" fill="#F8F6F1"/>
+      <rect x="30" y="166" width="90" height="6" rx="3" fill="#F8F6F1"/>
+      <rect x="30" y="200" width="120" height="1" fill="#F8F6F1" opacity="0.3"/>
+      <rect x="30" y="220" width="85" height="6" rx="3" fill="#F8F6F1"/>
+      <rect x="30" y="244" width="95" height="6" rx="3" fill="#F8F6F1"/>
+    </g>
+
+    <!-- Main content area: workflow visualization -->
+    <g transform="translate(200, 70)">
+      <!-- Workflow canvas area -->
+      <rect x="0" y="0" width="680" height="420" rx="4" fill="#0f0f0f"/>
+
+      <!-- Grid dots (subtle) -->
+      <g fill="#FFFFFF" opacity="0.04">
+        <circle cx="40" cy="40" r="1"/><circle cx="80" cy="40" r="1"/><circle cx="120" cy="40" r="1"/>
+        <circle cx="160" cy="40" r="1"/><circle cx="200" cy="40" r="1"/><circle cx="240" cy="40" r="1"/>
+        <circle cx="280" cy="40" r="1"/><circle cx="320" cy="40" r="1"/><circle cx="360" cy="40" r="1"/>
+        <circle cx="400" cy="40" r="1"/><circle cx="440" cy="40" r="1"/><circle cx="480" cy="40" r="1"/>
+        <circle cx="520" cy="40" r="1"/><circle cx="560" cy="40" r="1"/><circle cx="600" cy="40" r="1"/>
+        <circle cx="640" cy="40" r="1"/>
+        <circle cx="40" cy="80" r="1"/><circle cx="80" cy="80" r="1"/><circle cx="120" cy="80" r="1"/>
+        <circle cx="160" cy="80" r="1"/><circle cx="200" cy="80" r="1"/><circle cx="240" cy="80" r="1"/>
+        <circle cx="280" cy="80" r="1"/><circle cx="320" cy="80" r="1"/><circle cx="360" cy="80" r="1"/>
+        <circle cx="400" cy="80" r="1"/><circle cx="440" cy="80" r="1"/><circle cx="480" cy="80" r="1"/>
+        <circle cx="520" cy="80" r="1"/><circle cx="560" cy="80" r="1"/><circle cx="600" cy="80" r="1"/>
+        <circle cx="640" cy="80" r="1"/>
+        <circle cx="40" cy="120" r="1"/><circle cx="80" cy="120" r="1"/><circle cx="120" cy="120" r="1"/>
+        <circle cx="160" cy="120" r="1"/><circle cx="200" cy="120" r="1"/><circle cx="240" cy="120" r="1"/>
+        <circle cx="280" cy="120" r="1"/><circle cx="320" cy="120" r="1"/><circle cx="360" cy="120" r="1"/>
+        <circle cx="400" cy="120" r="1"/><circle cx="440" cy="120" r="1"/><circle cx="480" cy="120" r="1"/>
+        <circle cx="520" cy="120" r="1"/><circle cx="560" cy="120" r="1"/><circle cx="600" cy="120" r="1"/>
+        <circle cx="640" cy="120" r="1"/>
+        <circle cx="40" cy="160" r="1"/><circle cx="80" cy="160" r="1"/><circle cx="120" cy="160" r="1"/>
+        <circle cx="160" cy="160" r="1"/><circle cx="200" cy="160" r="1"/><circle cx="240" cy="160" r="1"/>
+        <circle cx="280" cy="160" r="1"/><circle cx="320" cy="160" r="1"/><circle cx="360" cy="160" r="1"/>
+        <circle cx="400" cy="160" r="1"/><circle cx="440" cy="160" r="1"/><circle cx="480" cy="160" r="1"/>
+        <circle cx="520" cy="160" r="1"/><circle cx="560" cy="160" r="1"/><circle cx="600" cy="160" r="1"/>
+        <circle cx="640" cy="160" r="1"/>
+        <circle cx="40" cy="200" r="1"/><circle cx="80" cy="200" r="1"/><circle cx="120" cy="200" r="1"/>
+        <circle cx="160" cy="200" r="1"/><circle cx="200" cy="200" r="1"/><circle cx="240" cy="200" r="1"/>
+        <circle cx="280" cy="200" r="1"/><circle cx="320" cy="200" r="1"/><circle cx="360" cy="200" r="1"/>
+        <circle cx="400" cy="200" r="1"/><circle cx="440" cy="200" r="1"/><circle cx="480" cy="200" r="1"/>
+        <circle cx="520" cy="200" r="1"/><circle cx="560" cy="200" r="1"/><circle cx="600" cy="200" r="1"/>
+        <circle cx="640" cy="200" r="1"/>
+        <circle cx="40" cy="240" r="1"/><circle cx="80" cy="240" r="1"/><circle cx="120" cy="240" r="1"/>
+        <circle cx="160" cy="240" r="1"/><circle cx="200" cy="240" r="1"/><circle cx="240" cy="240" r="1"/>
+        <circle cx="280" cy="240" r="1"/><circle cx="320" cy="240" r="1"/><circle cx="360" cy="240" r="1"/>
+        <circle cx="400" cy="240" r="1"/><circle cx="440" cy="240" r="1"/><circle cx="480" cy="240" r="1"/>
+        <circle cx="520" cy="240" r="1"/><circle cx="560" cy="240" r="1"/><circle cx="600" cy="240" r="1"/>
+        <circle cx="640" cy="240" r="1"/>
+      </g>
+
+      <!-- Workflow connection lines -->
+      <g stroke="#A0522D" stroke-width="1.5" fill="none" opacity="0.35">
+        <path d="M 120 100 C 180 100 200 170 260 170"/>
+        <path d="M 340 170 C 400 170 400 100 460 100"/>
+        <path d="M 340 170 C 400 170 400 260 460 260"/>
+        <path d="M 540 100 L 600 100"/>
+        <path d="M 540 260 L 600 260"/>
+        <path d="M 260 210 L 260 300"/>
+      </g>
+
+      <!-- Workflow nodes -->
+      <!-- Trigger -->
+      <g transform="translate(80, 70)">
+        <rect x="0" y="0" width="80" height="60" rx="10" fill="#1a1a1a" stroke="#A0522D" stroke-width="1.2"/>
+        <polygon points="30,18 48,30 30,42" fill="#A0522D" opacity="0.6"/>
+      </g>
+
+      <!-- Process -->
+      <g transform="translate(220, 140)">
+        <rect x="0" y="0" width="80" height="60" rx="10" fill="#1a1a1a" stroke="#F8F6F1" stroke-width="0.7" opacity="0.8"/>
+        <rect x="18" y="18" width="44" height="4" rx="2" fill="#F8F6F1" opacity="0.25"/>
+        <rect x="18" y="28" width="32" height="4" rx="2" fill="#F8F6F1" opacity="0.15"/>
+        <rect x="18" y="38" width="38" height="4" rx="2" fill="#A0522D" opacity="0.3"/>
+      </g>
+
+      <!-- Action A -->
+      <g transform="translate(420, 70)">
+        <rect x="0" y="0" width="80" height="60" rx="10" fill="#1a1a1a" stroke="#F8F6F1" stroke-width="0.7" opacity="0.8"/>
+        <circle cx="40" cy="30" r="12" fill="none" stroke="#2D5016" stroke-width="1" opacity="0.5"/>
+        <path d="M 36 30 L 44 30 M 40 26 L 40 34" stroke="#2D5016" stroke-width="1" opacity="0.5"/>
+      </g>
+
+      <!-- Action B -->
+      <g transform="translate(420, 230)">
+        <rect x="0" y="0" width="80" height="60" rx="10" fill="#1a1a1a" stroke="#F8F6F1" stroke-width="0.7" opacity="0.8"/>
+        <rect x="20" y="18" width="40" height="24" rx="3" fill="none" stroke="#F8F6F1" stroke-width="0.6" opacity="0.3"/>
+        <rect x="26" y="24" width="20" height="3" rx="1" fill="#A0522D" opacity="0.4"/>
+        <rect x="26" y="32" width="14" height="3" rx="1" fill="#A0522D" opacity="0.3"/>
+      </g>
+
+      <!-- Output nodes -->
+      <g transform="translate(560, 70)">
+        <rect x="0" y="0" width="80" height="60" rx="10" fill="#1a1a1a" stroke="#A0522D" stroke-width="1"/>
+        <path d="M 34 30 L 46 30 M 44 26 L 48 30 L 44 34" stroke="#A0522D" stroke-width="1" opacity="0.5"/>
+      </g>
+      <g transform="translate(560, 230)">
+        <rect x="0" y="0" width="80" height="60" rx="10" fill="#1a1a1a" stroke="#A0522D" stroke-width="1"/>
+        <path d="M 34 30 L 46 30 M 44 26 L 48 30 L 44 34" stroke="#A0522D" stroke-width="1" opacity="0.5"/>
+      </g>
+
+      <!-- Stats row at bottom -->
+      <g transform="translate(20, 340)">
+        <rect x="0" y="0" width="640" height="60" rx="6" fill="#141414"/>
+        <!-- Metric blocks -->
+        <rect x="20" y="12" width="50" height="5" rx="2" fill="#F8F6F1" opacity="0.15"/>
+        <rect x="20" y="24" width="80" height="8" rx="2" fill="#A0522D" opacity="0.35"/>
+        <rect x="20" y="38" width="40" height="4" rx="2" fill="#2D5016" opacity="0.3"/>
+
+        <rect x="140" y="0" width="1" height="60" fill="#F8F6F1" opacity="0.04"/>
+
+        <rect x="160" y="12" width="50" height="5" rx="2" fill="#F8F6F1" opacity="0.15"/>
+        <rect x="160" y="24" width="70" height="8" rx="2" fill="#2D5016" opacity="0.3"/>
+        <rect x="160" y="38" width="55" height="4" rx="2" fill="#A0522D" opacity="0.2"/>
+
+        <rect x="280" y="0" width="1" height="60" fill="#F8F6F1" opacity="0.04"/>
+
+        <rect x="300" y="12" width="50" height="5" rx="2" fill="#F8F6F1" opacity="0.15"/>
+        <rect x="300" y="24" width="90" height="8" rx="2" fill="#A0522D" opacity="0.3"/>
+        <rect x="300" y="38" width="60" height="4" rx="2" fill="#F8F6F1" opacity="0.1"/>
+
+        <rect x="440" y="0" width="1" height="60" fill="#F8F6F1" opacity="0.04"/>
+
+        <rect x="460" y="12" width="50" height="5" rx="2" fill="#F8F6F1" opacity="0.15"/>
+        <rect x="460" y="24" width="65" height="8" rx="2" fill="#2D5016" opacity="0.35"/>
+        <rect x="460" y="38" width="45" height="4" rx="2" fill="#A0522D" opacity="0.2"/>
+      </g>
+    </g>
+
+    <!-- Bottom bar -->
+    <rect x="14" y="502" width="892" height="12" rx="3" fill="#1a1a1a"/>
+  </g>
+
+  <!-- PLAY BUTTON — centered over everything -->
+  <g transform="translate(600, 337)" filter="url(#playShadow)">
+    <!-- Outer ring -->
+    <circle cx="0" cy="0" r="48" fill="#0A0A0A" opacity="0.85"/>
+    <circle cx="0" cy="0" r="48" fill="none" stroke="#F8F6F1" stroke-width="1.5" opacity="0.3"/>
+    <!-- Inner ring -->
+    <circle cx="0" cy="0" r="42" fill="none" stroke="#A0522D" stroke-width="1" opacity="0.4"/>
+    <!-- Play triangle -->
+    <polygon points="-12,-18 18,0 -12,18" fill="#F8F6F1" opacity="0.9"/>
+  </g>
+
+  <!-- Caption -->
+  <text x="600" y="640" text-anchor="middle" font-family="Georgia, serif" font-size="16"
+        fill="#0A0A0A" opacity="0.35" letter-spacing="3">SEE PURIST IN ACTION</text>
+
+  <!-- Grain overlay -->
+  <rect width="1200" height="675" filter="url(#vgrain)" opacity="0.6"/>
+</svg>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="10"/>
+      <feColorMatrix values="0 0 0 0 0.6 0 0 0 0 0.55 0 0 0 0 0.48 0 0 0 0.06 0"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+    <radialGradient id="bg" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#F8F6F1"/>
+      <stop offset="100%" stop-color="#F4EFE6"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#bg)" rx="12"/>
+  <!-- Outer triangle with rust stroke -->
+  <polygon points="200,60 350,320 50,320" fill="none" stroke="#A0522D" stroke-width="1.5" opacity="0.5"/>
+  <!-- Inner triangle -->
+  <polygon points="200,140 300,280 100,280" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.4"/>
+  <!-- Connecting lines between triangles -->
+  <line x1="200" y1="60" x2="200" y2="140" stroke="#0A0A0A" stroke-width="0.6" opacity="0.3"/>
+  <line x1="350" y1="320" x2="300" y2="280" stroke="#0A0A0A" stroke-width="0.6" opacity="0.3"/>
+  <line x1="50" y1="320" x2="100" y2="280" stroke="#0A0A0A" stroke-width="0.6" opacity="0.3"/>
+  <!-- Center dot -->
+  <circle cx="200" cy="230" r="4" fill="#A0522D" opacity="0.5"/>
+  <!-- Vertex dots outer -->
+  <circle cx="200" cy="60" r="3" fill="#A0522D" opacity="0.4"/>
+  <circle cx="350" cy="320" r="3" fill="#A0522D" opacity="0.4"/>
+  <circle cx="50" cy="320" r="3" fill="#A0522D" opacity="0.4"/>
+  <!-- Vertex dots inner -->
+  <circle cx="200" cy="140" r="2.5" fill="#0A0A0A" opacity="0.35"/>
+  <circle cx="300" cy="280" r="2.5" fill="#0A0A0A" opacity="0.35"/>
+  <circle cx="100" cy="280" r="2.5" fill="#0A0A0A" opacity="0.35"/>
+  <!-- Midpoint details -->
+  <circle cx="275" cy="190" r="2" fill="#0A0A0A" opacity="0.25"/>
+  <circle cx="125" cy="190" r="2" fill="#0A0A0A" opacity="0.25"/>
+  <circle cx="200" cy="320" r="2" fill="#0A0A0A" opacity="0.25"/>
+  <!-- Grain overlay -->
+  <rect width="400" height="400" filter="url(#grain)" opacity="0.5" rx="12"/>
+</svg>

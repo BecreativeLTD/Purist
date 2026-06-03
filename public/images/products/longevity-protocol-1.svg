@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8F6F1"/>
+      <stop offset="50%" stop-color="#F4EFE6"/>
+      <stop offset="100%" stop-color="#EDE5D5"/>
+    </linearGradient>
+        <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="1"/>
+      <feColorMatrix values="0 0 0 0 0.6 0 0 0 0 0.55 0 0 0 0 0.48 0 0 0 0.06 0"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="8" flood-color="#0A0A0A" flood-opacity="0.08"/>
+    </filter>
+    <radialGradient id="centerGlow" cx="50%" cy="50%" r="25%">
+      <stop offset="0%" stop-color="#A0522D" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#A0522D" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="url(#bg)"/>
+  <g filter="url(#shadow)">
+    <!-- Organic branching pattern - mycelium/neuron -->
+    <!-- Central node -->
+    <circle cx="400" cy="400" r="6" fill="#A0522D" opacity="0.5"/>
+    <circle cx="400" cy="400" r="40" fill="url(#centerGlow)"/>
+    <!-- Primary branches from center -->
+    <!-- Branch 1 - upper right -->
+    <path d="M400,400 Q440,360 480,320" fill="none" stroke="#0A0A0A" stroke-width="0.8" opacity="0.2"/>
+    <path d="M480,320 Q510,290 540,260" fill="none" stroke="#0A0A0A" stroke-width="0.6" opacity="0.15"/>
+    <path d="M540,260 Q570,230 600,200" fill="none" stroke="#0A0A0A" stroke-width="0.4" opacity="0.1"/>
+    <path d="M480,320 Q520,330 560,340" fill="none" stroke="#A0522D" stroke-width="0.4" opacity="0.12"/>
+    <path d="M560,340 Q590,350 620,360" fill="none" stroke="#A0522D" stroke-width="0.3" opacity="0.08"/>
+    <path d="M540,260 Q560,250 590,230" fill="none" stroke="#0A0A0A" stroke-width="0.3" opacity="0.08"/>
+    <path d="M540,260 Q550,280 570,300" fill="none" stroke="#2D5016" stroke-width="0.3" opacity="0.1"/>
+    <!-- Branch 2 - upper left -->
+    <path d="M400,400 Q360,350 310,300" fill="none" stroke="#0A0A0A" stroke-width="0.8" opacity="0.2"/>
+    <path d="M310,300 Q270,260 230,220" fill="none" stroke="#0A0A0A" stroke-width="0.5" opacity="0.14"/>
+    <path d="M230,220 Q200,190 170,160" fill="none" stroke="#0A0A0A" stroke-width="0.35" opacity="0.08"/>
+    <path d="M310,300 Q280,310 240,330" fill="none" stroke="#2D5016" stroke-width="0.4" opacity="0.12"/>
+    <path d="M240,330 Q210,345 180,360" fill="none" stroke="#2D5016" stroke-width="0.3" opacity="0.08"/>
+    <path d="M230,220 Q210,210 180,200" fill="none" stroke="#0A0A0A" stroke-width="0.25" opacity="0.07"/>
+    <path d="M230,220 Q250,200 260,180" fill="none" stroke="#A0522D" stroke-width="0.3" opacity="0.08"/>
+    <!-- Branch 3 - lower right -->
+    <path d="M400,400 Q440,450 490,500" fill="none" stroke="#0A0A0A" stroke-width="0.7" opacity="0.18"/>
+    <path d="M490,500 Q530,540 570,580" fill="none" stroke="#A0522D" stroke-width="0.5" opacity="0.14"/>
+    <path d="M570,580 Q600,610 630,640" fill="none" stroke="#A0522D" stroke-width="0.35" opacity="0.08"/>
+    <path d="M490,500 Q520,490 560,480" fill="none" stroke="#0A0A0A" stroke-width="0.35" opacity="0.1"/>
+    <path d="M570,580 Q590,570 620,560" fill="none" stroke="#2D5016" stroke-width="0.25" opacity="0.08"/>
+    <!-- Branch 4 - lower left -->
+    <path d="M400,400 Q350,460 300,520" fill="none" stroke="#0A0A0A" stroke-width="0.7" opacity="0.18"/>
+    <path d="M300,520 Q260,570 220,610" fill="none" stroke="#2D5016" stroke-width="0.5" opacity="0.14"/>
+    <path d="M220,610 Q190,640 160,660" fill="none" stroke="#2D5016" stroke-width="0.3" opacity="0.08"/>
+    <path d="M300,520 Q270,530 240,540" fill="none" stroke="#0A0A0A" stroke-width="0.35" opacity="0.1"/>
+    <path d="M300,520 Q320,550 340,580" fill="none" stroke="#A0522D" stroke-width="0.3" opacity="0.08"/>
+    <!-- Branch 5 - straight up -->
+    <path d="M400,400 Q395,340 390,280" fill="none" stroke="#0A0A0A" stroke-width="0.6" opacity="0.15"/>
+    <path d="M390,280 Q385,230 380,180" fill="none" stroke="#A0522D" stroke-width="0.4" opacity="0.1"/>
+    <path d="M380,180 Q375,150 370,120" fill="none" stroke="#A0522D" stroke-width="0.3" opacity="0.07"/>
+    <path d="M390,280 Q420,260 440,240" fill="none" stroke="#0A0A0A" stroke-width="0.3" opacity="0.08"/>
+    <!-- Branch 6 - straight down -->
+    <path d="M400,400 Q410,470 420,540" fill="none" stroke="#0A0A0A" stroke-width="0.6" opacity="0.15"/>
+    <path d="M420,540 Q430,600 440,660" fill="none" stroke="#2D5016" stroke-width="0.4" opacity="0.1"/>
+    <path d="M420,540 Q390,560 360,580" fill="none" stroke="#0A0A0A" stroke-width="0.3" opacity="0.08"/>
+    <!-- Endpoint dots -->
+    <circle cx="600" cy="200" r="2" fill="#0A0A0A" opacity="0.2"/>
+    <circle cx="620" cy="360" r="1.5" fill="#A0522D" opacity="0.25"/>
+    <circle cx="590" cy="230" r="1.5" fill="#0A0A0A" opacity="0.18"/>
+    <circle cx="570" cy="300" r="1.5" fill="#2D5016" opacity="0.2"/>
+    <circle cx="170" cy="160" r="2" fill="#0A0A0A" opacity="0.2"/>
+    <circle cx="180" cy="360" r="1.5" fill="#2D5016" opacity="0.22"/>
+    <circle cx="180" cy="200" r="1.5" fill="#0A0A0A" opacity="0.18"/>
+    <circle cx="260" cy="180" r="1.5" fill="#A0522D" opacity="0.2"/>
+    <circle cx="630" cy="640" r="2" fill="#A0522D" opacity="0.22"/>
+    <circle cx="620" cy="560" r="1.5" fill="#2D5016" opacity="0.18"/>
+    <circle cx="560" cy="480" r="1.5" fill="#0A0A0A" opacity="0.18"/>
+    <circle cx="160" cy="660" r="2" fill="#2D5016" opacity="0.22"/>
+    <circle cx="240" cy="540" r="1.5" fill="#0A0A0A" opacity="0.18"/>
+    <circle cx="340" cy="580" r="1.5" fill="#A0522D" opacity="0.18"/>
+    <circle cx="370" cy="120" r="1.5" fill="#A0522D" opacity="0.2"/>
+    <circle cx="440" cy="240" r="1.5" fill="#0A0A0A" opacity="0.18"/>
+    <circle cx="440" cy="660" r="1.5" fill="#2D5016" opacity="0.2"/>
+    <circle cx="360" cy="580" r="1.5" fill="#0A0A0A" opacity="0.15"/>
+  </g>
+  <rect width="800" height="800" filter="url(#grain)" opacity="0.5"/>
+</svg>

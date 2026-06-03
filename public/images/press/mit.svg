@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 180" width="600" height="180">
+  <rect width="600" height="180" fill="transparent"/>
+  <text x="300" y="100" text-anchor="middle"
+        font-family="'Arial Black', 'Helvetica Neue', sans-serif" font-size="52"
+        fill="#1a1a1a" font-weight="900" letter-spacing="1">MIT</text>
+  <text x="300" y="142" text-anchor="middle"
+        font-family="'Helvetica Neue', Arial, sans-serif" font-size="22"
+        fill="#1a1a1a" font-weight="500" letter-spacing="3">TECHNOLOGY REVIEW</text>
+</svg>

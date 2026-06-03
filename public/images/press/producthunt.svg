@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 180" width="600" height="180">
+  <rect width="600" height="180" fill="transparent"/>
+  <circle cx="60" cy="90" r="50" fill="#1a1a1a"/>
+  <path d="M46 65h22c9.9 0 18 8.1 18 18s-8.1 18-18 18H62v17H46V65zm16 24h6c3.3 0 6-2.7 6-6s-2.7-6-6-6h-6v12z" fill="white"/>
+  <text x="320" y="106" text-anchor="middle"
+        font-family="'Helvetica Neue', Arial, sans-serif" font-size="46"
+        fill="#1a1a1a" font-weight="700" letter-spacing="-0.5">Product Hunt</text>
+</svg>

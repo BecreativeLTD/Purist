@@ -1,0 +1,107 @@
+---
+import ingredientsData from '~/data/ingredients.json';
+import Button from '~/components/ui/Button.astro';
+const { vsGreens } = ingredientsData;
+const visible = vsGreens.rows.slice(0, 11);
+---
+
+<section class="bg-brand-cream py-20 lg:py-28">
+  <div class="container-x">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <p class="eyebrow mb-4">Head-to-head comparison</p>
+      <h2 class="font-display text-3xl lg:text-4xl xl:text-5xl mb-4 leading-tight text-balance">{vsGreens.title}</h2>
+      <p class="text-base text-brand-gray-600 text-pretty">{vsGreens.subtitle}</p>
+    </div>
+
+    <div class="bg-white rounded-card overflow-hidden shadow-sm border border-brand-gray-100">
+      <!-- Column headers with product images -->
+      <div class="grid grid-cols-[1.2fr_1fr_1fr] items-end gap-px bg-brand-gray-100">
+        <div class="bg-white p-6 lg:p-8">
+          <p class="text-[10px] uppercase tracking-[0.15em] font-medium text-brand-gray-600">
+            {vsGreens.columns[0]}
+          </p>
+        </div>
+
+        <!-- PURIST column with jar image -->
+        <div class="bg-white px-4 pt-6 lg:pt-8 pb-5 text-center">
+          <div class="w-24 h-32 lg:w-28 lg:h-36 mx-auto mb-3 rounded-image overflow-hidden bg-brand-cream/60">
+            <img
+              src="/images/products/foundation-pro-1.svg"
+              alt="PURIST Automation Pro"
+              class="w-full h-full object-cover scale-110"
+              loading="lazy"
+            />
+          </div>
+          <p class="text-[10px] uppercase tracking-[0.15em] font-medium text-brand-black">
+            {vsGreens.columns[1]}
+          </p>
+        </div>
+
+        <!-- Competitor column — abstract "DIY complexity" in neutral grays -->
+        <div class="bg-white px-4 pt-6 lg:pt-8 pb-5 text-center">
+          <div class="w-24 h-32 lg:w-28 lg:h-36 mx-auto mb-3 rounded-image overflow-hidden bg-brand-gray-100/50 flex items-center justify-center">
+            <svg viewBox="0 0 100 130" class="w-20 h-28 p-2" aria-hidden="true">
+              <!-- Screen -->
+              <rect x="12" y="8"  width="76" height="52" rx="4" fill="#e5e7eb"/>
+              <rect x="16" y="12" width="68" height="44" rx="2" fill="#f9fafb"/>
+              <!-- Code lines — chaotic lengths -->
+              <rect x="20" y="18" width="30" height="2" rx="1" fill="#d1d5db"/>
+              <rect x="20" y="23" width="52" height="2" rx="1" fill="#9ca3af"/>
+              <rect x="20" y="28" width="20" height="2" rx="1" fill="#d1d5db"/>
+              <rect x="20" y="33" width="42" height="2" rx="1" fill="#9ca3af"/>
+              <rect x="20" y="38" width="28" height="2" rx="1" fill="#d1d5db"/>
+              <rect x="20" y="43" width="36" height="2" rx="1" fill="#9ca3af"/>
+              <!-- Error badge top-right corner of screen -->
+              <circle cx="74" cy="24" r="9" fill="#fef2f2"/>
+              <line x1="70" y1="20" x2="78" y2="28" stroke="#f87171" stroke-width="2" stroke-linecap="round"/>
+              <line x1="78" y1="20" x2="70" y2="28" stroke="#f87171" stroke-width="2" stroke-linecap="round"/>
+              <!-- Monitor stand -->
+              <rect x="44" y="60" width="12" height="12" rx="1" fill="#d1d5db"/>
+              <rect x="32" y="72" width="36" height="5" rx="2" fill="#9ca3af"/>
+              <!-- "40h to learn" label -->
+              <rect x="12" y="84" width="76" height="36" rx="4" fill="#f3f4f6"/>
+              <text x="50" y="100" font-size="13" fill="#374151" text-anchor="middle"
+                font-family="ui-monospace,monospace" font-weight="700">40 hours</text>
+              <text x="50" y="113" font-size="8" fill="#9ca3af" text-anchor="middle"
+                font-family="ui-monospace,monospace" letter-spacing="0.8">to learn it yourself</text>
+            </svg>
+          </div>
+          <p class="text-[10px] uppercase tracking-[0.15em] font-medium text-brand-gray-600">
+            {vsGreens.columns[2]}
+          </p>
+        </div>
+      </div>
+
+      <!-- Rows -->
+      <div class="divide-y divide-brand-gray-100">
+        {visible.map((row) => (
+          <div class="grid grid-cols-[1.2fr_1fr_1fr] items-center py-4 px-2">
+            <p class="font-medium text-sm px-4 lg:px-6">{row.name}</p>
+            <div class="px-4 text-center bg-brand-cream/30 py-3 mx-1 rounded-md">
+              <div class="inline-flex items-baseline gap-2 flex-wrap justify-center">
+                <span class="inline-flex items-center gap-1.5 text-[11px] font-medium text-brand-green">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                    <circle cx="8" cy="8" r="8" fill="currentColor" opacity="0.15"/>
+                    <path d="M4 8l3 3 5-6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  {row.delta}
+                </span>
+                <span class="text-xs uppercase tracking-wider text-brand-gray-600">more</span>
+              </div>
+              <p class="font-medium text-sm mt-1">{row.ours}</p>
+            </div>
+            <div class="px-4 text-center">
+              <p class="text-sm text-brand-gray-600">{row.theirs}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="mt-8 text-center">
+      <Button variant="secondary" size="sm">
+        See all {vsGreens.totalCount} capabilities
+      </Button>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,78 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import NineOrganSystems from '~/components/sections/NineOrganSystems.astro';
+import Button from '~/components/ui/Button.astro';
+
+const differences = [
+  { you_get: 'Month-to-month billing — cancel anytime', they_offer: '6-12 month contracts with early termination fees' },
+  { you_get: '$799-1,499/mo for a full automation stack', they_offer: '$5K-15K/month for generic "digital transformation"' },
+  { you_get: 'Industry-specific workflows (dental, real estate, agencies, e-commerce)', they_offer: 'One-size-fits-all templates adapted from other industries' },
+  { you_get: 'Deployed in 5-10 business days', they_offer: '3-6 month "discovery and implementation" phases' },
+  { you_get: 'You own everything — no vendor lock-in', they_offer: 'Proprietary systems you cannot take with you' },
+];
+---
+
+<ShopLayout
+  title="PURIST vs other automation agencies – PURIST"
+  description="Most agencies charge $5K-15K/month with 6-month contracts. PURIST delivers faster, cheaper, with no lock-in. Here is the difference."
+>
+  <header class="bg-brand-cream">
+    <div class="container-x py-16 lg:py-20 max-w-3xl mx-auto text-center">
+      <p class="eyebrow mb-4">Compare</p>
+      <h1 class="font-display text-4xl lg:text-5xl xl:text-6xl leading-tight tracking-tight mb-6 text-balance">
+        PURIST vs <em class="font-medium">other agencies.</em>
+      </h1>
+      <p class="text-base lg:text-lg text-brand-gray-600 text-pretty">
+        Most automation agencies charge premium rates for generic solutions and lock you
+        into long contracts. PURIST delivers industry-specific workflows at a fraction of the
+        cost, deployed in days instead of months — with no lock-in.
+      </p>
+    </div>
+  </header>
+
+  <section class="bg-white py-20 lg:py-28">
+    <div class="container-x max-w-4xl mx-auto">
+      <p class="eyebrow text-center mb-4">Different approaches entirely</p>
+      <h2 class="font-display text-3xl lg:text-4xl mb-12 text-center text-balance">
+        One delivers <em class="font-medium">in days.</em><br/>
+        The other <em class="font-medium">in quarters.</em>
+      </h2>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-brand-gray-200 border border-brand-gray-200 rounded-card overflow-hidden">
+        <div class="bg-brand-cream p-6 lg:p-8">
+          <p class="eyebrow mb-4">PURIST managed automation</p>
+          <ul class="space-y-3">
+            {differences.map((d) => (
+              <li class="flex items-start gap-3 text-sm">
+                <span class="text-brand-green mt-0.5 shrink-0">✓</span>
+                <span>{d.you_get}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="bg-white p-6 lg:p-8">
+          <p class="eyebrow mb-4">Traditional automation agency</p>
+          <ul class="space-y-3">
+            {differences.map((d) => (
+              <li class="flex items-start gap-3 text-sm text-brand-gray-600">
+                <span class="text-brand-gray-400 mt-0.5 shrink-0">—</span>
+                <span>{d.they_offer}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <NineOrganSystems />
+
+  <section class="bg-brand-beige py-16 lg:py-20 text-center">
+    <div class="container-x max-w-2xl">
+      <h2 class="font-display text-3xl lg:text-4xl mb-6 leading-tight text-balance">
+        Stop overpaying for slow delivery. <em class="font-medium">Get results in days.</em>
+      </h2>
+      <Button href="/pages/welcome" size="lg">Book your free audit →</Button>
+    </div>
+  </section>
+</ShopLayout>

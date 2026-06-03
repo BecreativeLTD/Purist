@@ -1,0 +1,49 @@
+{
+  "faqs": [
+    {
+      "id": "guarantee",
+      "question": "How does the money-back guarantee work?",
+      "answer": "All plans include a 30-day guarantee. If your automations do not deliver measurable time or cost savings within 30 days, contact us and we will refund the setup fee — no questions asked. We can only honour one guarantee redemption per company."
+    },
+    {
+      "id": "subscription",
+      "question": "How does the monthly retainer work?",
+      "answer": "Pick a plan (Automation Pro, AI Agent Deploy, or The Full Stack), pick your industry vertical, and we deploy within 5–10 business days. You can pause, upgrade, downgrade or cancel from your dashboard at any time. There are no lock-in periods and no cancellation fees."
+    },
+    {
+      "id": "whats-new",
+      "question": "Why pay when n8n and Make are free?",
+      "answer": "The tools are free. The expertise is not. YouTube has unlimited plumbing tutorials, yet plumbers still charge $150/hour. 56% of businesses lack anyone capable of building reliable automations. We handle strategy, custom builds, error handling, monitoring and ongoing maintenance — so you get results in days, not months of trial and error."
+    },
+    {
+      "id": "what-is-it",
+      "question": "What is Automation Pro?",
+      "answer": "A done-for-you automation deployment covering 12 core business workflows — lead capture, CRM sync, email sequences, invoicing, onboarding, support routing and reporting — built on n8n, Make or Zapier depending on your stack. Designed to consolidate scattered manual processes into one reliable system."
+    },
+    {
+      "id": "testing",
+      "question": "Are your automations production-tested?",
+      "answer": "Yes. Every workflow is tested in staging before deployment, monitored for errors in real-time, and comes with full documentation. We run automated health checks and alert you before something breaks. All integrations include error handling, retry logic and dead-letter queues."
+    },
+    {
+      "id": "taste",
+      "question": "What industries do you specialise in?",
+      "answer": "We have pre-built workflow templates for dental practices, real estate and property management, agencies and consulting firms, and e-commerce. Each vertical package includes industry-specific automations, integrations and compliance considerations. Custom verticals available on request."
+    },
+    {
+      "id": "results-speed",
+      "question": "How quickly will I see real results?",
+      "answer": "Most clients see their first automations live within 5–10 business days. Time savings are typically measurable in week one — our average client reports 14 hours per week reclaimed within the first month. We track every workflow's execution count and error rate in your client dashboard so you always have evidence of impact."
+    },
+    {
+      "id": "existing-tools",
+      "question": "Do you work with my existing tools?",
+      "answer": "Yes. We integrate with 500+ apps including HubSpot, Salesforce, Pipedrive, Google Workspace, Microsoft 365, Xero, QuickBooks, Calendly, Stripe, Shopify, and most industry-specific platforms. During your free audit we map your existing stack and build automations that connect the tools you already use — no forced migrations."
+    },
+    {
+      "id": "data-security",
+      "question": "Is my business data safe?",
+      "answer": "All automations are deployed on your own infrastructure or your dedicated cloud instance. We do not store your business data beyond what is required for workflow execution and monitoring. Every deployment includes GDPR-compliant data handling, and enterprise plans include full compliance documentation. Our uptime is monitored at 99.97% SLA."
+    }
+  ]
+}

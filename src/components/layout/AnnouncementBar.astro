@@ -1,0 +1,46 @@
+---
+const items = [
+  '312+ businesses automated — avg. 14h/week saved',
+  'Deployed in 5–10 business days · 30-day money-back guarantee',
+  'Dental · Real Estate · Agencies · E-commerce · Covered',
+  '99.97% uptime SLA · Monitored 24/7 by our ops team',
+  'n8n · Make · Claude AI · 500+ workflow templates',
+  'Free automation audit — limited to 5 spots this week',
+];
+---
+
+<div class="bg-brand-black text-white" style="font-size:11px; line-height:1;">
+  <div class="flex items-center justify-between overflow-hidden" style="height:34px;">
+
+    <!-- LEFT: scrolling marquee -->
+    <div class="flex-1 overflow-hidden relative" style="mask-image:linear-gradient(to right,transparent 0%,black 4%,black 96%,transparent 100%);">
+      <div class="flex items-center gap-0 whitespace-nowrap will-change-transform" style="animation:ab-scroll 70s linear infinite;">
+        {[...items, ...items, ...items].map((t) => (
+          <span class="opacity-80 tracking-wide px-8 shrink-0">{t}</span>
+        ))}
+        {[...items, ...items, ...items].map((t) => (
+          <span class="opacity-80 tracking-wide px-8 shrink-0" aria-hidden="true">{t}</span>
+        ))}
+      </div>
+    </div>
+
+    <!-- RIGHT: get started only -->
+    <div class="shrink-0 flex items-center border-l border-white/15">
+      <a
+        href="/pages/welcome"
+        class="flex items-center gap-1 px-5 bg-white text-brand-black font-semibold hover:bg-brand-cream transition-colors duration-150 tracking-wide"
+        style="height:34px;"
+      >
+        Get started →
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  @keyframes ab-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+</style>

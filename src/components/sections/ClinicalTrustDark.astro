@@ -1,0 +1,153 @@
+---
+import advisorsData from '~/data/scientific-advisors.json';
+const { advisors, featuredQuote } = advisorsData;
+const featured = advisors.find((a) => a.id === featuredQuote.advisorId);
+
+const kpis = [
+  {
+    value: '95%',
+    body: 'of clients eliminated manual data entry completely',
+    svg: `<svg class="w-5 h-5 text-brand-pink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+    </svg>`,
+  },
+  {
+    value: '85%',
+    body: 'of clients reduced response times by over 80%',
+    svg: `<svg class="w-5 h-5 text-brand-pink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="10"/>
+      <polyline points="12 6 12 12 16 14"/>
+    </svg>`,
+  },
+  {
+    value: '80%',
+    body: 'of clients reported fewer operational errors',
+    svg: `<svg class="w-5 h-5 text-brand-pink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"/>
+      <path d="M9 12l2 2 4-4"/>
+    </svg>`,
+  },
+  {
+    value: '20h+',
+    body: 'average hours saved per team per week',
+    svg: `<svg class="w-5 h-5 text-brand-pink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="2" y="3" width="20" height="14" rx="2"/>
+      <path d="M8 21h8M12 17v4"/>
+      <path d="M7 8h3v3H7z" stroke-width="1.2"/>
+      <path d="M14 8h3M14 11h3"/>
+    </svg>`,
+  },
+];
+
+const badges = [
+  {
+    label: 'n8n Certified',
+    svg: `<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M8.56 14.3L7 22l5-3 5 3-1.56-7.7"/></svg>`,
+  },
+  {
+    label: 'Production-tested',
+    svg: `<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
+  },
+  {
+    label: '500+ deployments',
+    svg: `<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
+  },
+  {
+    label: 'SOC 2 ready',
+    svg: `<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>`,
+  },
+  {
+    label: '99.5% uptime SLA',
+    svg: `<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
+  },
+];
+---
+
+<section class="relative bg-brand-black text-white overflow-hidden">
+  <!-- Atmospheric background -->
+  <div class="absolute inset-0 -z-0 opacity-50">
+    <img src="/images/hero/charity-bg.svg" alt="" aria-hidden="true" class="w-full h-full object-cover" loading="lazy"/>
+  </div>
+  <div class="absolute inset-0 bg-gradient-to-b from-brand-black via-brand-black/95 to-brand-black -z-0"></div>
+
+  <div class="container-x relative z-10 py-20 lg:py-28">
+    <div class="text-center max-w-3xl mx-auto mb-14">
+      <span class="inline-block border border-white/20 rounded-full text-[11px] tracking-[0.15em] uppercase font-medium text-brand-pink px-4 py-1.5 mb-6">
+        Production-proven · Continuously monitored
+      </span>
+      <h2 class="font-display text-3xl lg:text-4xl xl:text-5xl mb-4 leading-tight text-balance">
+        Trusted by scaling <em class="font-medium">businesses and operators.</em>
+      </h2>
+      <p class="text-base text-white/70 max-w-2xl mx-auto leading-relaxed">
+        Backed by 500+ production deployments and continuously monitored to meet the highest standards in operational reliability.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
+      <!-- LEFT: clinical results -->
+      <div>
+        <p class="text-[11px] uppercase tracking-[0.15em] font-medium text-brand-pink mb-5">Client results</p>
+        <div class="grid grid-cols-2 gap-3 lg:gap-4">
+          {kpis.map((k) => (
+            <article class="bg-white/[0.04] border border-white/10 rounded-card p-5 lg:p-6 scroll-fade">
+              <div class="mb-3" set:html={k.svg}/>
+              <p class="font-display text-3xl lg:text-4xl mb-3 text-brand-pink">{k.value}</p>
+              <p class="text-[11px] uppercase tracking-[0.12em] text-white/70 leading-snug">{k.body}</p>
+            </article>
+          ))}
+        </div>
+        <p class="text-[11px] text-white/40 italic mt-4">Aggregated data from 500+ deployments</p>
+      </div>
+
+      <!-- RIGHT: NSF + featured testimonial -->
+      <div class="space-y-4">
+        <p class="text-[11px] uppercase tracking-[0.15em] font-medium text-brand-pink mb-5">Trust & certification</p>
+
+        <article class="bg-white/[0.04] border border-white/10 rounded-card p-6 flex items-start gap-5 scroll-fade">
+          <div class="w-14 h-14 lg:w-16 lg:h-16 rounded-lg bg-brand-rust/20 flex items-center justify-center shrink-0">
+            <svg class="w-7 h-7 lg:w-8 lg:h-8 text-brand-rust" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z" stroke-linejoin="round"/>
+              <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-display text-lg mb-3">Production-Grade Reliability</h3>
+            <ul class="space-y-1.5 text-sm text-white/80">
+              <li class="flex items-center gap-2"><span class="text-brand-pink">•</span> 99.5% uptime SLA guaranteed</li>
+              <li class="flex items-center gap-2"><span class="text-brand-pink">•</span> 24/7 automated monitoring & alerts</li>
+              <li class="flex items-center gap-2"><span class="text-brand-pink">•</span> Full error handling & retry logic</li>
+            </ul>
+          </div>
+        </article>
+
+        {featured && (
+          <article class="bg-white/[0.04] border border-white/10 rounded-card p-6 flex items-start gap-5 scroll-fade">
+            <img src={featured.image} alt={featured.name} class="w-16 h-16 lg:w-20 lg:h-20 rounded-full object-cover bg-brand-sand shrink-0"/>
+            <div>
+              <svg class="w-5 h-5 text-brand-pink mb-2" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M6 17h3l2-4V7H5v6h3l-2 4zm8 0h3l2-4V7h-6v6h3l-2 4z"/>
+              </svg>
+              <blockquote class="text-sm text-white/90 leading-relaxed italic mb-3">
+                &ldquo;{featuredQuote.text}&rdquo;
+              </blockquote>
+              <p class="font-medium text-sm">{featured.name}</p>
+              <p class="text-[11px] text-white/60">{featured.credentials}</p>
+            </div>
+          </article>
+        )}
+      </div>
+    </div>
+
+    <!-- Trust badges row -->
+    <div class="mt-14 pt-10 border-t border-white/10">
+      <div class="flex flex-wrap items-center justify-center gap-3 lg:gap-4">
+        {badges.map((b) => (
+          <span class="inline-flex items-center gap-2 bg-white/[0.04] border border-white/10 rounded-full px-4 py-2 text-xs text-white/80">
+            <span class="opacity-60" aria-hidden="true" set:html={b.svg}/>
+            <span class="uppercase tracking-wider text-[10px] font-medium">{b.label}</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

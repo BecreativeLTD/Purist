@@ -1,0 +1,112 @@
+---
+import productsData from '~/data/products.json';
+import Button from '~/components/ui/Button.astro';
+import { formatPrice } from '~/lib/format';
+const { products } = productsData;
+---
+
+<section class="bg-white py-20 lg:py-28">
+  <div class="container-x">
+    <div class="max-w-2xl mb-12">
+      <p class="eyebrow mb-4">The system</p>
+      <h2 class="font-display text-h1 text-balance">
+        Three plans. <em class="font-medium">One complete operations stack.</em>
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {products.map((p, idx) => (
+        <article class={`group/card relative flex flex-col rounded-card overflow-hidden border border-brand-gray-100 hover:border-brand-gray-200 transition ${idx === 0 ? 'lg:row-span-1 bg-brand-cream' : 'bg-white'}`}>
+          {p.badge && (
+            <div class="absolute top-4 left-4 z-10 bg-brand-black text-white text-[10px] tracking-wider uppercase px-2.5 py-1 rounded">
+              {p.badge}
+            </div>
+          )}
+
+          <a href={`/products/${p.slug}`} class="block aspect-square overflow-hidden bg-brand-sand">
+            <img
+              src={p.images[0]}
+              alt={`${p.title} packaging`}
+              class="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-[1.02]"
+              loading="lazy"
+            />
+          </a>
+
+          <div class="p-6 lg:p-8 flex flex-col flex-1">
+            <p class="eyebrow mb-2">{p.eyebrow}</p>
+            <h3 class="font-display text-2xl mb-3">
+              <a href={`/products/${p.slug}`} class="hover:opacity-70 transition">{p.title}</a>
+            </h3>
+            <p class="text-sm text-brand-gray-600 mb-4 text-pretty">{p.shortDescription}</p>
+
+            <div class="flex items-baseline gap-3 mb-5">
+              <span class="font-display text-2xl">From {formatPrice(p.price.subscription)}/mo</span>
+              {p.price.discount > 0 && (
+                <span class="text-[11px] uppercase tracking-wider bg-brand-green/10 text-brand-green px-2 py-0.5 rounded font-medium">
+                  {p.price.discount}% OFF
+                </span>
+              )}
+            </div>
+            <p class="text-xs text-brand-gray-600 -mt-3 mb-5">
+              ≈ {formatPrice(p.price.perServing)} per day
+            </p>
+
+            <ul class="space-y-2 mb-6 text-sm flex-1">
+              {p.bullets.map((b) => (
+                <li class="flex items-start gap-2">
+                  <span class="text-brand-green mt-0.5">✓</span>
+                  <span class="text-brand-black/80">{b}</span>
+                </li>
+              ))}
+            </ul>
+
+            <Button href={`/products/${p.slug}`} full>
+              Get started with {p.title} →
+            </Button>
+            <a
+              href={`/products/${p.slug}`}
+              class="text-xs text-center mt-3 underline underline-offset-4 hover:opacity-70"
+            >
+              {p.id === 'foundation-pro'
+                ? 'Also included in The Full Stack →'
+                : 'See full workflow details →'}
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- Enterprise row -->
+    <div class="mt-6 rounded-card border border-brand-gray-100 bg-brand-black text-white p-8 lg:p-10 grid lg:grid-cols-12 gap-6 lg:gap-10 items-center">
+      <div class="lg:col-span-2 flex items-center justify-center lg:justify-start">
+        <div class="w-16 h-16 rounded-[18px] flex items-center justify-center" style="background:rgba(232,180,176,0.10);border:1px solid rgba(232,180,176,0.18);">
+          <svg class="w-7 h-7" viewBox="0 0 28 28" fill="none" stroke="#E8B4B0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="8" width="22" height="17" rx="3"/>
+            <path d="M9 8V6a5 5 0 0 1 10 0v2"/>
+            <circle cx="14" cy="16.5" r="2.5"/>
+            <path d="M14 19v3"/>
+          </svg>
+        </div>
+      </div>
+      <div class="lg:col-span-7">
+        <p class="text-[10px] uppercase tracking-[0.20em] font-medium mb-2" style="color:rgba(232,180,176,0.60);">Enterprise</p>
+        <h3 class="font-display text-2xl lg:text-3xl mb-2 text-white">Multi-location. Multi-team. <em class="font-medium" style="color:#E8B4B0;">Custom-built.</em></h3>
+        <p class="text-sm leading-relaxed" style="color:rgba(255,255,255,0.55);">
+          White-glove deployment for groups, franchises, and high-volume operations. Dedicated engineer, SLA above 99.97%, compliance documentation, and priority response.
+        </p>
+      </div>
+      <div class="lg:col-span-3 flex flex-col gap-3 items-start lg:items-end">
+        <a
+          href="/pages/contact-us"
+          class="inline-flex items-center gap-2 px-5 py-3 rounded-button text-sm font-medium transition"
+          style="background:#E8B4B0;color:#0A0A0A;"
+          onmouseover="this.style.background='#d9a09b'"
+          onmouseout="this.style.background='#E8B4B0'"
+        >
+          Talk to our team →
+        </a>
+        <p class="text-[11px]" style="color:rgba(255,255,255,0.30);">Custom pricing · POC in 72h</p>
+      </div>
+    </div>
+  </div>
+</section>

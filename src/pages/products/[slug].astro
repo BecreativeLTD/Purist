@@ -1,0 +1,215 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import StarRating from '~/components/ui/StarRating.astro';
+import ProductGallery from '~/components/product/ProductGallery.tsx';
+import ProductForm from '~/components/product/ProductForm.tsx';
+import ProductAccordion from '~/components/product/ProductAccordion.tsx';
+import IngredientComparison from '~/components/sections/IngredientComparison.astro';
+import NineOrganSystems from '~/components/sections/NineOrganSystems.astro';
+import ClinicalKPIs from '~/components/sections/ClinicalKPIs.astro';
+import VerifiedReviews from '~/components/sections/VerifiedReviews.astro';
+import GoldStandardComparison from '~/components/sections/GoldStandardComparison.astro';
+import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
+import FAQSection from '~/components/sections/FAQSection.astro';
+import WhatYoullFeel from '~/components/sections/WhatYoullFeel.astro';
+import ScientificBoard from '~/components/sections/ScientificBoard.astro';
+import CellularScience from '~/components/sections/CellularScience.astro';
+import ClinicalTrustDark from '~/components/sections/ClinicalTrustDark.astro';
+import StickyAddToCart from '~/components/product/StickyAddToCart.tsx';
+import productsData from '~/data/products.json';
+import { formatPrice } from '~/lib/format';
+
+export function getStaticPaths() {
+  return productsData.products.map((p) => ({
+    params: { slug: p.slug },
+    props: { product: p },
+  }));
+}
+
+const { product } = Astro.props;
+
+const accordionSections = [
+  {
+    id: 'description',
+    title: 'Description',
+    body: product.longDescription,
+  },
+  {
+    id: 'features',
+    title: 'Full feature list',
+    body: product.id === 'longevity-protocol'
+      ? `Conversational AI agents, intelligent lead scoring, document processing, and predictive analytics. Custom-trained on your business data with human-in-the-loop safeguards.\n\nNo vendor lock-in. Full documentation and handoff included.`
+      : product.id === 'founder-stack'
+      ? `Automation Pro (9 core workflows) + AI Agent Deploy (4 AI capabilities). Both production-tested with 24/7 monitoring and 99.5% uptime SLA.\n\nFull workflow specifications available on the individual service pages.`
+      : `Nine core automated workflows across your entire operation: lead capture, CRM sync, email sequences, invoicing, reporting, client onboarding, AI support routing, smart scheduling, and backup & monitoring.\n\nNo vendor lock-in. No hidden fees. Full documentation included.`,
+  },
+  {
+    id: 'how-it-works',
+    title: 'How it works',
+    body: `We start with a free audit of your current workflows. Within 5-10 business days, your automations are live in production.\n\nEvery deployment includes 24/7 monitoring, error handling, and a dedicated Slack channel for support. Allow one to two weeks to see the full impact on your operations.`,
+  },
+  {
+    id: 'guarantee',
+    title: 'Guarantee & terms',
+    body: `30-day money-back guarantee on every plan. If your automations do not deliver measurable ROI, we refund your first month — no questions asked.\n\nMonth-to-month billing. Cancel anytime. You own everything we build.`,
+  },
+];
+---
+
+<ShopLayout
+  title={`${product.title} – PURIST`}
+  description={product.shortDescription}
+>
+  <nav aria-label="Breadcrumb" class="container-x py-4 text-xs text-brand-gray-600">
+    <ol class="flex items-center gap-1.5 flex-wrap">
+      <li><a href="/" class="hover:text-brand-black transition">Home</a></li>
+      <li aria-hidden="true">/</li>
+      <li><a href="/collections/all" class="hover:text-brand-black transition">Services</a></li>
+      <li aria-hidden="true">/</li>
+      <li class="text-brand-black">{product.title}</li>
+    </ol>
+  </nav>
+
+  <section class="container-x grid lg:grid-cols-2 gap-8 lg:gap-16 pt-4 pb-16 lg:pb-24">
+    <div class="lg:sticky lg:top-24 lg:self-start">
+      <ProductGallery client:load images={product.images} title={product.title} />
+    </div>
+
+    <div class="max-w-xl">
+      {product.badge && (
+        <span class="inline-block bg-brand-black text-white text-[10px] tracking-wider uppercase px-2.5 py-1 rounded mb-4">
+          {product.badge}
+        </span>
+      )}
+      <p class="eyebrow mb-3">{product.eyebrow}</p>
+      <h1 class="font-display text-3xl lg:text-4xl xl:text-5xl leading-tight tracking-tight mb-4">
+        {product.title}
+      </h1>
+
+      <a href="#reviews" class="inline-flex items-center gap-2 mb-6 hover:opacity-70 transition">
+        <StarRating rating={product.rating} size="sm" />
+        <span class="text-xs text-brand-gray-600 underline underline-offset-4">
+          {product.reviewCount.toLocaleString()} verified reviews
+        </span>
+      </a>
+
+      <div class="flex items-baseline gap-3 mb-4">
+        <span class="font-display text-2xl">From {formatPrice(product.price.subscription)}/mo</span>
+        <span class="line-through text-sm text-brand-gray-400">
+          {formatPrice(product.price.oneTime)}
+        </span>
+        {product.price.discount > 0 && (
+          <span class="text-[10px] uppercase tracking-wider bg-brand-green/15 text-brand-green px-2 py-0.5 rounded font-medium">
+            {product.price.discount}% off
+          </span>
+        )}
+      </div>
+
+      <p class="text-base text-brand-gray-600 mb-8 leading-relaxed text-pretty">
+        {product.shortDescription}
+      </p>
+
+      <ProductForm
+        client:load
+        productId={product.id}
+        title={product.title}
+        image={product.images[0]}
+        flavors={product.flavors}
+        priceSubscription={product.price.subscription}
+        priceOneTime={product.price.oneTime}
+        discount={product.price.discount}
+        perServing={product.price.perServing}
+      />
+
+      <!-- Tax deductible pill -->
+      <div class="mt-6 flex items-center gap-3 p-3 bg-brand-cream rounded-card text-xs lg:text-sm">
+        <span class="inline-flex w-7 h-7 items-center justify-center rounded-md bg-brand-rust/10 text-brand-rust shrink-0">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <rect x="3" y="6" width="18" height="13" rx="2" stroke-linejoin="round"/>
+            <path d="M3 10h18" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <p class="leading-snug">
+          <strong>Tax-deductible business expense</strong> — automation services qualify as an operational cost.
+        </p>
+      </div>
+
+      <!-- 3 trust icons row -->
+      <div class="grid grid-cols-3 gap-2 mt-6 text-center">
+        <div class="border border-brand-gray-200 rounded-card p-4">
+          <svg class="w-6 h-6 mx-auto mb-2 text-brand-rust" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z" stroke-linejoin="round"/>
+            <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <p class="text-[11px] font-medium leading-tight">30-day money back</p>
+        </div>
+        <div class="border border-brand-gray-200 rounded-card p-4">
+          <svg class="w-6 h-6 mx-auto mb-2 text-brand-rust" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M3 8h11v9H3z" stroke-linejoin="round"/>
+            <path d="M14 11h4l3 3v3h-7z" stroke-linejoin="round"/>
+            <circle cx="7" cy="18" r="2"/>
+            <circle cx="17" cy="18" r="2"/>
+          </svg>
+          <p class="text-[11px] font-medium leading-tight">99.5% uptime SLA</p>
+        </div>
+        <div class="border border-brand-gray-200 rounded-card p-4">
+          <svg class="w-6 h-6 mx-auto mb-2 text-brand-rust" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M10 9v6M14 9v6" stroke-linecap="round"/>
+          </svg>
+          <p class="text-[11px] font-medium leading-tight">Cancel anytime</p>
+        </div>
+      </div>
+
+      <div class="mt-10">
+        <ProductAccordion client:load sections={accordionSections} defaultOpen="description" />
+      </div>
+    </div>
+  </section>
+
+  <WhatYoullFeel />
+  <NineOrganSystems />
+  {product.id !== 'foundation-pro' && <CellularScience />}
+  {product.id === 'foundation-pro' && <IngredientComparison />}
+  <ClinicalTrustDark />
+  <GoldStandardComparison />
+  <ScientificBoard />
+  <div id="reviews"><VerifiedReviews /></div>
+  <MoneyBackGuarantee />
+  <FAQSection />
+
+  <!-- Sticky bottom add-to-cart bar -->
+  <StickyAddToCart
+    client:load
+    productId={product.id}
+    title={product.title}
+    image={product.images[0]}
+    defaultPrice={product.price.subscription}
+    perServing={product.price.perServing}
+    defaultFlavor={product.flavors[0]?.name}
+  />
+
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: product.title,
+      description: product.shortDescription,
+      image: product.images,
+      brand: { '@type': 'Brand', name: 'PURIST' },
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: product.rating,
+        reviewCount: product.reviewCount,
+      },
+      offers: {
+        '@type': 'Offer',
+        price: product.price.subscription,
+        priceCurrency: product.price.currency,
+        availability: 'https://schema.org/InStock',
+      },
+    })}
+  />
+</ShopLayout>

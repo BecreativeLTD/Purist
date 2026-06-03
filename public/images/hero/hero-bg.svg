@@ -1,0 +1,231 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 1400" width="2400" height="1400" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Base gradient -->
+    <linearGradient id="bgBase" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0%" stop-color="#F8F6F1"/>
+      <stop offset="40%" stop-color="#F4EFE6"/>
+      <stop offset="100%" stop-color="#EDE5D5"/>
+    </linearGradient>
+
+    <!-- Warm radial glow - center right -->
+    <radialGradient id="warmGlow1" cx="0.65" cy="0.4" r="0.45">
+      <stop offset="0%" stop-color="#A0522D" stop-opacity="0.07"/>
+      <stop offset="60%" stop-color="#A0522D" stop-opacity="0.03"/>
+      <stop offset="100%" stop-color="#A0522D" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Warm radial glow - top left -->
+    <radialGradient id="warmGlow2" cx="0.2" cy="0.25" r="0.35">
+      <stop offset="0%" stop-color="#A0522D" stop-opacity="0.05"/>
+      <stop offset="70%" stop-color="#A0522D" stop-opacity="0.02"/>
+      <stop offset="100%" stop-color="#A0522D" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Warm radial glow - bottom -->
+    <radialGradient id="warmGlow3" cx="0.45" cy="0.85" r="0.4">
+      <stop offset="0%" stop-color="#A0522D" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#A0522D" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Green subtle glow -->
+    <radialGradient id="greenGlow" cx="0.8" cy="0.7" r="0.3">
+      <stop offset="0%" stop-color="#2D5016" stop-opacity="0.03"/>
+      <stop offset="100%" stop-color="#2D5016" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Grain filter -->
+        <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="1"/>
+      <feColorMatrix values="0 0 0 0 0.6 0 0 0 0 0.55 0 0 0 0 0.48 0 0 0 0.06 0"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+
+    <!-- Soft blur for background elements -->
+    <filter id="softBlur">
+      <feGaussianBlur stdDeviation="2"/>
+    </filter>
+
+    <filter id="gentleBlur">
+      <feGaussianBlur stdDeviation="0.8"/>
+    </filter>
+  </defs>
+
+  <!-- Base background -->
+  <rect width="2400" height="1400" fill="url(#bgBase)"/>
+
+  <!-- Warm glows -->
+  <rect width="2400" height="1400" fill="url(#warmGlow1)"/>
+  <rect width="2400" height="1400" fill="url(#warmGlow2)"/>
+  <rect width="2400" height="1400" fill="url(#warmGlow3)"/>
+  <rect width="2400" height="1400" fill="url(#greenGlow)"/>
+
+  <!-- Concentric circles - background accent top right -->
+  <g opacity="0.04" fill="none" stroke="#A0522D" stroke-width="0.5">
+    <circle cx="1800" cy="280" r="60"/>
+    <circle cx="1800" cy="280" r="100"/>
+    <circle cx="1800" cy="280" r="140"/>
+    <circle cx="1800" cy="280" r="180"/>
+    <circle cx="1800" cy="280" r="220"/>
+  </g>
+
+  <!-- Concentric circles - background accent bottom left -->
+  <g opacity="0.03" fill="none" stroke="#A0522D" stroke-width="0.5">
+    <circle cx="400" cy="1100" r="80"/>
+    <circle cx="400" cy="1100" r="130"/>
+    <circle cx="400" cy="1100" r="180"/>
+    <circle cx="400" cy="1100" r="230"/>
+  </g>
+
+  <!-- Concentric circles - center subtle -->
+  <g opacity="0.025" fill="none" stroke="#0A0A0A" stroke-width="0.3">
+    <circle cx="1200" cy="650" r="200"/>
+    <circle cx="1200" cy="650" r="260"/>
+    <circle cx="1200" cy="650" r="320"/>
+  </g>
+
+  <!-- Flowing curve 1 - primary elegant arc -->
+  <path d="M -100 900 Q 400 600, 800 650 T 1600 500 T 2500 550"
+        fill="none" stroke="#A0522D" stroke-width="0.8" opacity="0.08" filter="url(#gentleBlur)"/>
+
+  <!-- Flowing curve 2 -->
+  <path d="M -50 1000 Q 500 750, 900 780 T 1700 620 T 2500 680"
+        fill="none" stroke="#A0522D" stroke-width="0.6" opacity="0.06" filter="url(#gentleBlur)"/>
+
+  <!-- Flowing curve 3 - upper region -->
+  <path d="M 0 350 Q 300 280, 700 320 T 1400 250 T 2100 300 T 2500 280"
+        fill="none" stroke="#A0522D" stroke-width="0.5" opacity="0.05"/>
+
+  <!-- Flowing curve 4 - delicate -->
+  <path d="M -100 500 C 200 420, 500 550, 900 480 S 1500 380, 1900 450 S 2300 400, 2500 420"
+        fill="none" stroke="#A0522D" stroke-width="0.4" opacity="0.04"/>
+
+  <!-- Flowing curve 5 - crossing arc -->
+  <path d="M 200 1200 C 600 800, 1000 700, 1400 750 S 2000 600, 2400 700"
+        fill="none" stroke="#0A0A0A" stroke-width="0.3" opacity="0.04"/>
+
+  <!-- Flowing curve 6 - green accent -->
+  <path d="M 800 1300 C 1000 1000, 1300 900, 1600 950 S 2100 800, 2500 900"
+        fill="none" stroke="#2D5016" stroke-width="0.4" opacity="0.04"/>
+
+  <!-- Network graph - abstract connectivity cluster 1 (center-right) -->
+  <g opacity="0.06" filter="url(#gentleBlur)">
+    <!-- Nodes -->
+    <circle cx="1450" cy="520" r="3" fill="#A0522D"/>
+    <circle cx="1580" cy="470" r="2.5" fill="#A0522D"/>
+    <circle cx="1520" cy="600" r="2" fill="#A0522D"/>
+    <circle cx="1650" cy="550" r="3.5" fill="#A0522D"/>
+    <circle cx="1380" cy="620" r="2" fill="#A0522D"/>
+    <circle cx="1700" cy="480" r="1.8" fill="#A0522D"/>
+    <circle cx="1550" cy="380" r="2.2" fill="#A0522D"/>
+    <!-- Connections -->
+    <line x1="1450" y1="520" x2="1580" y2="470" stroke="#A0522D" stroke-width="0.4"/>
+    <line x1="1580" y1="470" x2="1650" y2="550" stroke="#A0522D" stroke-width="0.3"/>
+    <line x1="1450" y1="520" x2="1520" y2="600" stroke="#A0522D" stroke-width="0.3"/>
+    <line x1="1520" y1="600" x2="1650" y2="550" stroke="#A0522D" stroke-width="0.4"/>
+    <line x1="1380" y1="620" x2="1450" y2="520" stroke="#A0522D" stroke-width="0.3"/>
+    <line x1="1580" y1="470" x2="1700" y2="480" stroke="#A0522D" stroke-width="0.3"/>
+    <line x1="1550" y1="380" x2="1580" y2="470" stroke="#A0522D" stroke-width="0.3"/>
+    <line x1="1550" y1="380" x2="1450" y2="520" stroke="#A0522D" stroke-width="0.25"/>
+    <line x1="1380" y1="620" x2="1520" y2="600" stroke="#A0522D" stroke-width="0.25"/>
+    <line x1="1700" y1="480" x2="1650" y2="550" stroke="#A0522D" stroke-width="0.25"/>
+  </g>
+
+  <!-- Network graph - abstract connectivity cluster 2 (left) -->
+  <g opacity="0.045">
+    <circle cx="550" cy="450" r="2.5" fill="#0A0A0A"/>
+    <circle cx="650" cy="400" r="2" fill="#0A0A0A"/>
+    <circle cx="700" cy="500" r="3" fill="#0A0A0A"/>
+    <circle cx="480" cy="520" r="1.8" fill="#0A0A0A"/>
+    <circle cx="600" cy="560" r="2.2" fill="#0A0A0A"/>
+    <circle cx="750" cy="420" r="1.5" fill="#0A0A0A"/>
+    <line x1="550" y1="450" x2="650" y2="400" stroke="#0A0A0A" stroke-width="0.3"/>
+    <line x1="650" y1="400" x2="700" y2="500" stroke="#0A0A0A" stroke-width="0.25"/>
+    <line x1="550" y1="450" x2="700" y2="500" stroke="#0A0A0A" stroke-width="0.3"/>
+    <line x1="480" y1="520" x2="550" y2="450" stroke="#0A0A0A" stroke-width="0.25"/>
+    <line x1="600" y1="560" x2="700" y2="500" stroke="#0A0A0A" stroke-width="0.25"/>
+    <line x1="600" y1="560" x2="480" y2="520" stroke="#0A0A0A" stroke-width="0.2"/>
+    <line x1="650" y1="400" x2="750" y2="420" stroke="#0A0A0A" stroke-width="0.2"/>
+  </g>
+
+  <!-- Network graph - small cluster 3 (upper area) -->
+  <g opacity="0.035">
+    <circle cx="1050" cy="250" r="2" fill="#A0522D"/>
+    <circle cx="1130" cy="210" r="1.5" fill="#A0522D"/>
+    <circle cx="1100" cy="310" r="2.5" fill="#A0522D"/>
+    <circle cx="1180" cy="280" r="1.8" fill="#A0522D"/>
+    <line x1="1050" y1="250" x2="1130" y2="210" stroke="#A0522D" stroke-width="0.3"/>
+    <line x1="1050" y1="250" x2="1100" y2="310" stroke="#A0522D" stroke-width="0.25"/>
+    <line x1="1130" y1="210" x2="1180" y2="280" stroke="#A0522D" stroke-width="0.25"/>
+    <line x1="1100" y1="310" x2="1180" y2="280" stroke="#A0522D" stroke-width="0.3"/>
+  </g>
+
+  <!-- Long-distance hairline connections between clusters -->
+  <g opacity="0.025" stroke="#A0522D" stroke-width="0.3" stroke-dasharray="4,8" fill="none">
+    <line x1="750" y1="420" x2="1050" y2="250"/>
+    <line x1="1180" y1="280" x2="1450" y2="520"/>
+    <path d="M 700 500 C 900 600, 1100 550, 1380 620"/>
+  </g>
+
+  <!-- Floating particles - scattered across canvas -->
+  <!-- Top region -->
+  <circle cx="180" cy="120" r="1.5" fill="#A0522D" opacity="0.06"/>
+  <circle cx="350" cy="80" r="1" fill="#A0522D" opacity="0.04"/>
+  <circle cx="520" cy="160" r="2" fill="#0A0A0A" opacity="0.03"/>
+  <circle cx="900" cy="100" r="1.2" fill="#A0522D" opacity="0.05"/>
+  <circle cx="1350" cy="130" r="1.8" fill="#0A0A0A" opacity="0.03"/>
+  <circle cx="1600" cy="90" r="1" fill="#A0522D" opacity="0.04"/>
+  <circle cx="1900" cy="150" r="1.5" fill="#A0522D" opacity="0.05"/>
+  <circle cx="2100" cy="100" r="2" fill="#0A0A0A" opacity="0.03"/>
+  <circle cx="2300" cy="180" r="1.2" fill="#A0522D" opacity="0.04"/>
+
+  <!-- Middle region -->
+  <circle cx="100" cy="650" r="1.8" fill="#A0522D" opacity="0.04"/>
+  <circle cx="300" cy="750" r="1.2" fill="#0A0A0A" opacity="0.03"/>
+  <circle cx="850" cy="680" r="2" fill="#A0522D" opacity="0.04"/>
+  <circle cx="1000" cy="550" r="1" fill="#2D5016" opacity="0.04"/>
+  <circle cx="1250" cy="480" r="1.5" fill="#A0522D" opacity="0.035"/>
+  <circle cx="1900" cy="600" r="2.2" fill="#A0522D" opacity="0.04"/>
+  <circle cx="2050" cy="500" r="1.3" fill="#0A0A0A" opacity="0.03"/>
+  <circle cx="2200" cy="650" r="1.8" fill="#A0522D" opacity="0.035"/>
+
+  <!-- Lower region -->
+  <circle cx="150" cy="1050" r="1.5" fill="#A0522D" opacity="0.04"/>
+  <circle cx="600" cy="950" r="2" fill="#0A0A0A" opacity="0.025"/>
+  <circle cx="950" cy="1000" r="1.2" fill="#A0522D" opacity="0.04"/>
+  <circle cx="1100" cy="900" r="1.8" fill="#2D5016" opacity="0.03"/>
+  <circle cx="1400" cy="950" r="1" fill="#A0522D" opacity="0.035"/>
+  <circle cx="1750" cy="880" r="2" fill="#A0522D" opacity="0.04"/>
+  <circle cx="2000" cy="1000" r="1.5" fill="#0A0A0A" opacity="0.03"/>
+  <circle cx="2250" cy="920" r="1.3" fill="#A0522D" opacity="0.035"/>
+
+  <!-- Bottom particles -->
+  <circle cx="250" cy="1250" r="1" fill="#A0522D" opacity="0.03"/>
+  <circle cx="700" cy="1200" r="1.5" fill="#0A0A0A" opacity="0.025"/>
+  <circle cx="1300" cy="1180" r="1.8" fill="#A0522D" opacity="0.03"/>
+  <circle cx="1850" cy="1220" r="1.2" fill="#A0522D" opacity="0.03"/>
+  <circle cx="2100" cy="1150" r="2" fill="#0A0A0A" opacity="0.025"/>
+
+  <!-- Additional scattered micro-dots -->
+  <circle cx="440" cy="330" r="0.8" fill="#A0522D" opacity="0.05"/>
+  <circle cx="1680" cy="340" r="0.8" fill="#A0522D" opacity="0.04"/>
+  <circle cx="2000" cy="350" r="1" fill="#0A0A0A" opacity="0.03"/>
+  <circle cx="320" cy="850" r="0.8" fill="#2D5016" opacity="0.035"/>
+  <circle cx="1950" cy="780" r="0.8" fill="#A0522D" opacity="0.04"/>
+  <circle cx="780" cy="200" r="0.6" fill="#A0522D" opacity="0.04"/>
+  <circle cx="1480" cy="750" r="0.7" fill="#0A0A0A" opacity="0.03"/>
+
+  <!-- Subtle ground plane line near bottom -->
+  <line x1="0" y1="1300" x2="2400" y2="1300" stroke="#A0522D" stroke-width="0.5" opacity="0.06"/>
+  <line x1="0" y1="1302" x2="2400" y2="1302" stroke="#A0522D" stroke-width="0.3" opacity="0.03"/>
+
+  <!-- Very subtle horizon fade below ground line -->
+  <rect x="0" y="1300" width="2400" height="100" fill="url(#bgBase)" opacity="0.3"/>
+  <linearGradient id="groundFade" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#A0522D" stop-opacity="0.02"/>
+    <stop offset="100%" stop-color="#A0522D" stop-opacity="0"/>
+  </linearGradient>
+  <rect x="0" y="1300" width="2400" height="100" fill="url(#groundFade)"/>
+
+  <!-- Grain texture overlay -->
+  <rect width="2400" height="1400" filter="url(#grain)" opacity="0.4"/>
+</svg>

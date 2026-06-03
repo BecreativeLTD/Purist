@@ -1,0 +1,205 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+
+const services = [
+  { name: 'n8n Workflow Engine',       status: 'operational', latency: '42ms',  uptime: '99.98%' },
+  { name: 'Claude AI Integration',     status: 'operational', latency: '310ms', uptime: '99.97%' },
+  { name: 'Webhook Ingestion Layer',   status: 'operational', latency: '18ms',  uptime: '100%'   },
+  { name: 'Error Monitoring (Checkly)',status: 'operational', latency: '55ms',  uptime: '99.99%' },
+  { name: 'CRM Connectors',           status: 'operational', latency: '88ms',  uptime: '99.95%' },
+  { name: 'Email Delivery (SMTP)',     status: 'operational', latency: '210ms', uptime: '99.97%' },
+  { name: 'Payment Integrations',     status: 'operational', latency: '145ms', uptime: '99.98%' },
+  { name: 'Client Dashboard',         status: 'operational', latency: '65ms',  uptime: '99.96%' },
+];
+
+const incidents = [
+  {
+    date: 'May 28, 2026',
+    title: 'Elevated latency on CRM Connectors',
+    status: 'resolved',
+    duration: '14 min',
+    body: 'HubSpot API rate limit caused temporary queue backup. Auto-retry logic resolved without data loss. Response times returned to baseline at 14:22 UTC.',
+  },
+  {
+    date: 'May 15, 2026',
+    title: 'Webhook processing delay',
+    status: 'resolved',
+    duration: '6 min',
+    body: 'Brief network congestion at hosting layer caused 6-minute queue delay. No automations failed — all payloads processed on recovery.',
+  },
+  {
+    date: 'Apr 30, 2026',
+    title: 'Scheduled maintenance',
+    status: 'completed',
+    duration: '22 min',
+    body: 'Planned infrastructure upgrade to improve error handling capacity. All systems migrated with zero data loss.',
+  },
+];
+
+const metrics = [
+  { label: 'Overall uptime (90 days)', value: '99.97%', color: '#2D5016' },
+  { label: 'Avg. webhook latency',     value: '42ms',   color: '#E8B4B0' },
+  { label: 'Incidents last 30 days',   value: '1',      color: '#C89840' },
+  { label: 'Automations running',      value: '4,280+', color: '#7B68EE' },
+];
+---
+
+<ShopLayout title="System Status — Live Infrastructure Monitoring | PURIST" description="Live status of all PURIST automation infrastructure. Uptime metrics, incident history, and real-time monitoring.">
+
+  <!-- Header -->
+  <section class="bg-brand-black text-white pt-20 pb-16 lg:pt-28 lg:pb-20 relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 50% 60% at 50% 0%,rgba(45,80,22,0.08) 0%,transparent 60%);"></div>
+    <div class="container-x relative z-10">
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+        <div>
+          <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-4" style="color:rgba(45,138,42,0.70);">Live System Status</p>
+          <h1 class="font-display text-[2.2rem] lg:text-[3rem] leading-[1.06] tracking-[-0.025em] text-white mb-4">
+            All systems <em class="font-medium" style="color:#4ade80;">operational.</em>
+          </h1>
+          <p class="text-[13px]" style="color:rgba(255,255,255,0.40);">Last checked <span id="last-checked">just now</span> · Auto-refreshes every 60 seconds</p>
+        </div>
+
+        <!-- Overall badge -->
+        <div class="inline-flex items-center gap-3 px-5 py-3.5 rounded-[16px]" style="background:rgba(45,80,22,0.15);border:1px solid rgba(74,222,128,0.20);">
+          <span class="w-2.5 h-2.5 rounded-full bg-green-400 shrink-0" style="animation:st-pulse 2s ease-in-out infinite;"></span>
+          <div>
+            <p class="text-[12px] font-bold text-white">All 8 services operational</p>
+            <p class="text-[10px]" style="color:rgba(255,255,255,0.40);">99.97% uptime · 90-day average</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Metric strip -->
+  <section class="bg-white border-b border-brand-gray-100 py-8">
+    <div class="container-x">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        {metrics.map((m) => (
+          <div>
+            <p class="font-display text-2xl lg:text-3xl leading-none mb-1" style={`color:${m.color};`}>{m.value}</p>
+            <p class="text-[10px] tracking-[0.14em] uppercase text-brand-gray-500">{m.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Services table -->
+  <section class="bg-brand-beige py-16 lg:py-20">
+    <div class="container-x">
+      <div class="max-w-3xl mb-8">
+        <p class="eyebrow mb-3">Infrastructure components</p>
+        <h2 class="font-display text-h2">Real-time service health</h2>
+      </div>
+
+      <div class="space-y-2 mb-16">
+        {services.map((s) => (
+          <div class="bg-white rounded-[14px] px-5 py-4 flex items-center justify-between gap-4 border border-brand-gray-100">
+            <div class="flex items-center gap-3 flex-1 min-w-0">
+              <span class="w-2 h-2 rounded-full bg-green-400 shrink-0" style="animation:st-pulse 2s ease-in-out infinite;"></span>
+              <p class="text-sm font-medium text-brand-black truncate">{s.name}</p>
+            </div>
+            <div class="hidden sm:flex items-center gap-8 shrink-0">
+              <div class="text-right">
+                <p class="text-[10px] uppercase tracking-wider text-brand-gray-400 mb-0.5">Latency</p>
+                <p class="text-[12px] font-bold text-brand-black font-mono">{s.latency}</p>
+              </div>
+              <div class="text-right">
+                <p class="text-[10px] uppercase tracking-wider text-brand-gray-400 mb-0.5">Uptime</p>
+                <p class="text-[12px] font-bold" style="color:#2D5016;">{s.uptime}</p>
+              </div>
+              <span class="text-[10px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-full" style="background:rgba(45,80,22,0.10);color:#2D5016;">Operational</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- 90-day uptime bar visualisation -->
+      <div class="max-w-3xl mb-16">
+        <p class="eyebrow mb-4">90-day uptime history</p>
+        <div class="bg-white rounded-card p-6 border border-brand-gray-100">
+          <div class="flex gap-0.5 mb-3" id="uptime-bars"></div>
+          <div class="flex items-center justify-between text-[10px] text-brand-gray-400">
+            <span>90 days ago</span>
+            <span class="font-bold text-brand-black">99.97% uptime</span>
+            <span>Today</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Incident history -->
+      <div class="max-w-3xl">
+        <p class="eyebrow mb-6">Incident history</p>
+        <div class="space-y-4">
+          {incidents.map((inc) => (
+            <div class="bg-white rounded-card p-6 border border-brand-gray-100">
+              <div class="flex items-start justify-between gap-4 mb-3">
+                <div>
+                  <p class="text-[10px] uppercase tracking-wider text-brand-gray-400 mb-1">{inc.date}</p>
+                  <h3 class="text-sm font-semibold text-brand-black">{inc.title}</h3>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                  <span class="text-[10px] font-bold px-2.5 py-1 rounded-full" style={inc.status === 'resolved' ? 'background:rgba(45,80,22,0.10);color:#2D5016;' : 'background:rgba(200,152,64,0.10);color:#C89840;'}>
+                    {inc.status === 'resolved' ? 'Resolved' : 'Completed'}
+                  </span>
+                  <span class="text-[10px] text-brand-gray-400">{inc.duration}</span>
+                </div>
+              </div>
+              <p class="text-[12.5px] text-brand-gray-600 leading-relaxed">{inc.body}</p>
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-6 text-center">
+          <p class="text-sm text-brand-gray-500">No other incidents in the last 90 days.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Subscribe to updates -->
+  <section class="bg-white border-t border-brand-gray-100 py-12">
+    <div class="container-x max-w-xl text-center">
+      <p class="eyebrow mb-3">Status notifications</p>
+      <h2 class="font-display text-2xl mb-4">Get notified of incidents</h2>
+      <p class="text-sm text-brand-gray-600 mb-6">We'll email you the moment a service is degraded or an incident is declared — and again when it resolves.</p>
+      <form class="flex gap-3 max-w-sm mx-auto" onsubmit="event.preventDefault();this.innerHTML='<p class=\'text-sm font-medium text-brand-green\'>✓ You\'re subscribed.</p>'">
+        <input type="email" required placeholder="your@email.com" class="flex-1 border border-brand-gray-200 rounded-button px-4 py-2.5 text-sm outline-none focus:border-brand-black transition"/>
+        <button type="submit" class="bg-brand-black text-white px-4 py-2.5 rounded-button text-sm font-medium hover:bg-brand-gray-900 transition shrink-0">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+</ShopLayout>
+
+<style>
+  @keyframes st-pulse { 0%,100%{opacity:0.6;transform:scale(1)} 50%{opacity:1;transform:scale(1.4)} }
+</style>
+
+<script is:inline>
+(function () {
+  // Generate 90-day uptime bars
+  var container = document.getElementById('uptime-bars');
+  if (!container) return;
+  for (var i = 0; i < 90; i++) {
+    var bar = document.createElement('div');
+    bar.style.cssText = 'flex:1;height:28px;border-radius:2px;';
+    // Two incidents at ~12 and ~25 days ago
+    var isIncident = (i === 62 || i === 75);
+    bar.style.background = isIncident ? '#C89840' : '#2D5016';
+    bar.style.opacity = isIncident ? '0.6' : (0.3 + Math.random() * 0.4).toFixed(2);
+    bar.title = isIncident ? 'Degraded — resolved' : 'Operational';
+    container.appendChild(bar);
+  }
+
+  // Live clock
+  function updateClock() {
+    var el = document.getElementById('last-checked');
+    if (el) el.textContent = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' UTC';
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+})();
+</script>

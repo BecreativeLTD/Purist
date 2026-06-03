@@ -1,0 +1,1970 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import skillsData from '~/data/claude-skills.json';
+const { totalSkills, categories } = skillsData;
+
+const layers = [
+  { id: 'all',     label: 'All components', count: 62, dot: '#888'    },
+  { id: 'trigger', label: 'Trigger layer',  count: 10, dot: '#E8B4B0' },
+  { id: 'ai',      label: 'AI Brain',       count: 10, dot: '#C8B99A' },
+  { id: 'logic',   label: 'Logic engine',   count: 10, dot: '#888'    },
+  { id: 'connect', label: 'Integrations',   count: 13, dot: '#2D5016' },
+  { id: 'data',    label: 'Data layer',     count: 9,  dot: '#7B68EE' },
+  { id: 'monitor', label: 'Monitoring',     count: 10, dot: '#C89840' },
+];
+
+interface StackItem {
+  layer: string;
+  layerLabel: string;
+  name: string;
+  tagline: string;
+  usage: number;          // % of deployments that use this
+  metric: { v: string; l: string };
+  description: string;
+  details: string;
+  why: string;            // why PURIST chose this
+  alternatives: string;  // what we considered / benchmarked against
+  tags: string[];
+  compatibleWith: string[];
+  svg: string;
+}
+
+const layerMeta: Record<string, { color: string; accent: string; bg: string; desc: string }> = {
+  trigger: { color: '#c4847e', accent: '#E8B4B0', bg: 'rgba(232,180,176,0.06)', desc: 'What wakes the workflow. Every automation starts with a signal.' },
+  ai:      { color: '#8a7a5e', accent: '#C8B99A', bg: 'rgba(200,185,154,0.06)', desc: 'The cognitive layer. Claude reads, decides, writes, and routes.' },
+  logic:   { color: '#3a3a3a', accent: '#0A0A0A', bg: 'rgba(10,10,10,0.04)',    desc: 'Orchestration and branching. The wiring between every component.' },
+  connect: { color: '#2D5016', accent: '#2D5016', bg: 'rgba(45,80,22,0.05)',    desc: 'Pushes and pulls data across every tool your team uses.' },
+  data:    { color: '#5248b8', accent: '#7B68EE', bg: 'rgba(123,104,238,0.05)', desc: 'Persistence, queuing, and secrets. The infrastructure beneath every flow.' },
+  monitor: { color: '#a07830', accent: '#C89840', bg: 'rgba(160,120,48,0.05)', desc: 'Watches everything, 24/7. Alerts before your clients notice.' },
+};
+
+const stack: StackItem[] = [
+  // ── TRIGGER LAYER ───────────────────────────────────────────────────────────
+  {
+    layer: 'trigger', layerLabel: 'Trigger Layer',
+    name: 'Webhook Events',
+    tagline: 'The nerve impulse',
+    usage: 78,
+    metric: { v: '<50ms', l: 'avg. response latency' },
+    description: 'Every form submission, payment, or CRM update fires an instant HTTP event that wakes your workflow. No polling, no delay — pure real-time signal propagation.',
+    details: 'We validate HMAC signatures on all incoming webhooks, implement exponential backoff on delivery failures (3× retry over 90s), and buffer burst traffic with Redis queues to prevent cascade overload. Each endpoint is scoped to a single workflow and rotated every 90 days.',
+    why: 'Webhooks are the lowest-latency, most reliable trigger mechanism for event-driven automation. They eliminate polling overhead and give us sub-100ms end-to-end activation.',
+    alternatives: 'Polling (discarded — introduces 15–60s lag and wastes API quota). Message queues like SQS are used upstream for durability but webhooks remain the client-facing trigger.',
+    tags: ['Real-time', 'HTTP', 'Event-driven', 'HMAC-signed'],
+    compatibleWith: ['n8n Workflows', 'Claude AI', 'Make'],
+    svg: `<circle cx="60" cy="60" r="34" fill="none" stroke="#E8B4B0" stroke-width="0.7" stroke-dasharray="6 4" opacity="0.5"/>
+          <circle cx="60" cy="60" r="22" fill="none" stroke="#E8B4B0" stroke-width="0.9" opacity="0.6"/>
+          <circle cx="60" cy="60" r="11" fill="none" stroke="#E8B4B0" stroke-width="1.1"/>
+          <circle cx="60" cy="60" r="4" fill="#E8B4B0" opacity="0.9"/>
+          <line x1="60" y1="26" x2="60" y2="16" stroke="#E8B4B0" stroke-width="1" stroke-linecap="round"/>
+          <line x1="84" y1="36" x2="91" y2="29" stroke="#E8B4B0" stroke-width="1" stroke-linecap="round"/>
+          <line x1="94" y1="60" x2="104" y2="60" stroke="#E8B4B0" stroke-width="1" stroke-linecap="round"/>`,
+  },
+  {
+    layer: 'trigger', layerLabel: 'Trigger Layer',
+    name: 'Scheduled Jobs',
+    tagline: 'Precision time execution',
+    usage: 62,
+    metric: { v: '99.98%', l: 'on-time delivery rate' },
+    description: 'Cron-based automation that fires at exact intervals — midnight reports, weekly digests, monthly billing runs. Reliable to the second, with drift detection built in.',
+    details: 'Jobs run on a distributed task queue with leader election to prevent duplicate fires. Each job has a dead-man switch: if it misses its scheduled window by more than 120 seconds, an on-call alert fires automatically. Job history is stored for 30 days.',
+    why: 'Scheduled triggers cover the 38% of automation that is time-driven rather than event-driven. They are essential for reporting, billing, and periodic data sync.',
+    alternatives: 'Native cron (no retry, no monitoring, no distributed coordination). Cloud schedulers like AWS EventBridge provide the reliability layer we need at scale.',
+    tags: ['Cron', 'Distributed', 'Dead-man switch'],
+    compatibleWith: ['n8n Workflows', 'Custom Code', 'Execution Logs'],
+    svg: `<circle cx="60" cy="60" r="34" fill="none" stroke="#0A0A0A" stroke-width="0.7" opacity="0.2"/>
+          <line x1="60" y1="60" x2="60" y2="30" stroke="#0A0A0A" stroke-width="1.6" stroke-linecap="round" opacity="0.8"/>
+          <line x1="60" y1="60" x2="78" y2="72" stroke="#0A0A0A" stroke-width="1.1" stroke-linecap="round" opacity="0.7"/>
+          <circle cx="60" cy="60" r="3.5" fill="#0A0A0A" opacity="0.8"/>
+          ${[0,45,90,135,180,225,270,315].map(a=>`<line x1="${+(60+30*Math.sin(a*Math.PI/180)).toFixed(1)}" y1="${+(60-30*Math.cos(a*Math.PI/180)).toFixed(1)}" x2="${+(60+36*Math.sin(a*Math.PI/180)).toFixed(1)}" y2="${+(60-36*Math.cos(a*Math.PI/180)).toFixed(1)}" stroke="#0A0A0A" stroke-width="${a%90===0?1:0.6}" opacity="${a%90===0?0.5:0.25}" stroke-linecap="round"/>`).join('')}`,
+  },
+  {
+    layer: 'trigger', layerLabel: 'Trigger Layer',
+    name: 'Form Capture',
+    tagline: 'Every signal, caught',
+    usage: 55,
+    metric: { v: '100%', l: 'lead capture rate' },
+    description: 'Typeform, Jotform, HubSpot forms, and native HTML — every submission is a workflow trigger. Deduplication, validation, and instant routing, all automated.',
+    details: 'We instrument forms with a unified webhook listener that normalises disparate field schemas into a canonical payload format. Duplicates are fingerprinted and suppressed within a 5-minute window. Invalid submissions are quarantined and flagged for manual review.',
+    why: 'Forms are the highest-intent entry point for new leads and client data. Zero-latency capture means we act on data while intent is highest.',
+    alternatives: 'Email parsing (too brittle). Manual export from form tools (introduces 24–48h lag). Unified webhook capture eliminates both failure modes.',
+    tags: ['Multi-platform', 'Deduplication', 'Canonical schema'],
+    compatibleWith: ['CRM Sync', 'Claude AI', 'Slack & Teams'],
+    svg: `<rect x="26" y="18" width="68" height="84" rx="5" fill="none" stroke="#2D5016" stroke-width="1" opacity="0.55"/>
+          <line x1="36" y1="36" x2="84" y2="36" stroke="#2D5016" stroke-width="0.8" opacity="0.4"/>
+          <line x1="36" y1="50" x2="84" y2="50" stroke="#2D5016" stroke-width="0.8" opacity="0.4"/>
+          <line x1="36" y1="64" x2="74" y2="64" stroke="#2D5016" stroke-width="0.8" opacity="0.4"/>
+          <rect x="36" y="76" width="48" height="14" rx="3" fill="none" stroke="#2D5016" stroke-width="0.9" opacity="0.7"/>
+          <line x1="52" y1="83" x2="68" y2="83" stroke="#2D5016" stroke-width="1" stroke-linecap="round" opacity="0.8"/>`,
+  },
+
+  // ── TRIGGER LAYER additions ─────────────────────────────────────────────────
+  {
+    layer: 'trigger', layerLabel: 'Trigger Layer',
+    name: 'Email Parser',
+    tagline: 'Inbound email as workflow input',
+    usage: 48,
+    metric: { v: '98.6%', l: 'parse accuracy' },
+    description: 'Every inbound email becomes a structured workflow trigger. Subject, sender, body, attachments and metadata are parsed and normalised into a clean JSON payload — instantly.',
+    details: 'We provision a dedicated inbound address per client (e.g. intake@client.purist.io) routed through a parsing layer that extracts named entities, attachments, and intent classification before handing off to the orchestration layer.',
+    why: 'Email remains the most common channel for inbound requests in professional services. Parsing it automatically eliminates the human triage step that creates the most delay.',
+    alternatives: 'Manual reading and copy-paste (adds 15–45 min per email). IMAP polling (slow, unreliable). Inbound webhooks from email providers (Postmark, Sendgrid) give us real-time push with no polling.',
+    tags: ['Inbound', 'Entity extraction', 'Attachment handling', 'Real-time'],
+    compatibleWith: ['Claude AI', 'CRM Sync', 'Slack & Teams'],
+    svg: `<rect x="18" y="30" width="84" height="60" rx="5" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.6"/>
+          <polyline points="18,34 60,62 102,34" fill="none" stroke="#E8B4B0" stroke-width="0.9" opacity="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="18" y1="82" x2="42" y2="62" stroke="#E8B4B0" stroke-width="0.6" opacity="0.3"/>
+          <line x1="102" y1="82" x2="78" y2="62" stroke="#E8B4B0" stroke-width="0.6" opacity="0.3"/>
+          <circle cx="60" cy="62" r="4" fill="#E8B4B0" opacity="0.5"/>`,
+  },
+  {
+    layer: 'trigger', layerLabel: 'Trigger Layer',
+    name: 'Database CDC',
+    tagline: 'Change data capture',
+    usage: 29,
+    metric: { v: '<200ms', l: 'change propagation lag' },
+    description: 'Detects row-level changes in your database — inserts, updates, deletes — and fires a workflow instantly. No polling, no missed events, no custom triggers to maintain.',
+    details: 'We use Postgres logical replication (pgoutput plugin) to stream WAL events into a change capture pipeline. Each change event is enriched with before/after state and published to a workflow trigger. Works with any table, any schema, zero application-layer changes required.',
+    why: 'When source-of-truth data lives in a database, polling for changes introduces lag and wastes resources. CDC gives us event-driven precision with no application code changes.',
+    alternatives: 'Application-level hooks (requires code changes on client side). Scheduled polling (introduces lag, expensive at high frequency). WAL-based CDC is zero-overhead and catches every change.',
+    tags: ['Postgres WAL', 'Row-level events', 'Before/after state', 'Zero-polling'],
+    compatibleWith: ['PostgreSQL', 'n8n Workflows', 'Error Handler'],
+    svg: `<ellipse cx="60" cy="40" rx="32" ry="10" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.6"/>
+          <line x1="28" y1="40" x2="28" y2="70" stroke="#E8B4B0" stroke-width="1" opacity="0.4"/>
+          <line x1="92" y1="40" x2="92" y2="70" stroke="#E8B4B0" stroke-width="1" opacity="0.4"/>
+          <ellipse cx="60" cy="70" rx="32" ry="10" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.4"/>
+          <line x1="92" y1="55" x2="106" y2="55" stroke="#E8B4B0" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+          <polygon points="103,51 110,55 103,59" fill="#E8B4B0" opacity="0.6"/>`,
+  },
+  {
+    layer: 'trigger', layerLabel: 'Trigger Layer',
+    name: 'API Polling',
+    tagline: 'Smart polling for legacy platforms',
+    usage: 22,
+    metric: { v: '60s', l: 'max check interval' },
+    description: 'For platforms that don\'t support webhooks, we poll their APIs on a smart interval — only firing a workflow when something actually changed. No false triggers, no wasted runs.',
+    details: 'Each poller stores a fingerprint (hash or cursor) of the last seen state. Calls are made on an exponential backoff schedule during quiet periods and tightened during active hours. Rate limits are respected per-provider with a shared token bucket.',
+    why: 'Some platforms — legacy CRMs, older SaaS tools, custom internal APIs — have no webhook support. Smart polling bridges that gap without hammering APIs or creating false triggers.',
+    alternatives: 'Webhooks (preferred — used when available). Naive fixed-interval polling (wastes API quota, hits rate limits). Smart fingerprint polling is the safe fallback with minimal overhead.',
+    tags: ['Fingerprint diffing', 'Rate-limit aware', 'Adaptive interval', 'Legacy support'],
+    compatibleWith: ['n8n Workflows', 'Redis Queue', 'Scheduled Jobs'],
+    svg: `<line x1="16" y1="54" x2="104" y2="54" stroke="#E8B4B0" stroke-width="0.8" opacity="0.3" stroke-linecap="round"/>
+          <circle cx="28" cy="54" r="3.5" fill="none" stroke="#E8B4B0" stroke-width="1.1" opacity="0.38"/>
+          <circle cx="50" cy="54" r="3.5" fill="none" stroke="#E8B4B0" stroke-width="1.1" opacity="0.44"/>
+          <circle cx="72" cy="54" r="5" fill="#E8B4B0" opacity="0.6"/>
+          <circle cx="94" cy="54" r="3.5" fill="none" stroke="#E8B4B0" stroke-width="1.1" opacity="0.26" stroke-dasharray="2 2"/>
+          <circle cx="72" cy="54" r="14" fill="none" stroke="#E8B4B0" stroke-width="0.7" opacity="0.18" stroke-dasharray="2 3"/>
+          <line x1="28" y1="48" x2="28" y2="44" stroke="#E8B4B0" stroke-width="0.9" opacity="0.3" stroke-linecap="round"/>
+          <line x1="50" y1="48" x2="50" y2="44" stroke="#E8B4B0" stroke-width="0.9" opacity="0.35" stroke-linecap="round"/>
+          <line x1="72" y1="43" x2="72" y2="37" stroke="#E8B4B0" stroke-width="1.1" opacity="0.62" stroke-linecap="round"/>
+          <line x1="40" y1="72" x2="64" y2="72" stroke="#E8B4B0" stroke-width="1" opacity="0.5" stroke-linecap="round"/>
+          <line x1="36" y1="79" x2="68" y2="79" stroke="#E8B4B0" stroke-width="1" opacity="0.3" stroke-linecap="round"/>
+          <line x1="44" y1="65" x2="60" y2="65" stroke="#E8B4B0" stroke-width="1" opacity="0.64" stroke-linecap="round"/>`,
+  },
+
+  // ── AI BRAIN ────────────────────────────────────────────────────────────────
+  {
+    layer: 'ai', layerLabel: 'AI Brain',
+    name: 'Claude AI',
+    tagline: 'The cognitive core',
+    usage: 91,
+    metric: { v: '94%', l: 'autonomous task accuracy' },
+    description: 'Reads emails, extracts structured data, classifies intent, writes professional replies, and makes multi-step routing decisions. The reasoning layer behind every intelligent workflow.',
+    details: "Claude runs via Anthropic's Messages API with tool_use enabled. It can query live databases, call external APIs, and chain sub-tasks across multiple turns. Every system prompt is version-controlled in Git and validated against a regression suite before any production deployment. Prompts are A/B tested for accuracy on representative traffic samples.",
+    why: 'Claude outperforms alternatives on complex instruction-following, long-context reasoning, and structured output generation — the three capabilities most critical to business automation.',
+    alternatives: 'GPT-4 (tested — lower instruction adherence on multi-constraint tasks). Mistral/Llama (tested — excellent for classification but not reliable for open-ended generation). Claude is our primary for generation; lightweight classifiers handle latency-sensitive routing.',
+    tags: ['Anthropic', 'Tool use', 'Version-controlled prompts', 'A/B tested'],
+    compatibleWith: ['Webhook Events', 'n8n Workflows', 'CRM Sync', 'Slack & Teams'],
+    svg: `<polygon points="60,18 92,42 80,80 40,80 28,42" fill="none" stroke="#C8B99A" stroke-width="1.1"/>
+          <circle cx="60" cy="52" r="16" fill="none" stroke="#C8B99A" stroke-width="0.8" stroke-dasharray="3 2"/>
+          <circle cx="60" cy="52" r="6" fill="none" stroke="#C8B99A" stroke-width="1.2"/>
+          <circle cx="60" cy="52" r="2.5" fill="#C8B99A" opacity="0.9"/>
+          <line x1="60" y1="36" x2="60" y2="18" stroke="#C8B99A" stroke-width="0.6" opacity="0.4"/>
+          <line x1="74" y1="63" x2="80" y2="80" stroke="#C8B99A" stroke-width="0.6" opacity="0.4"/>
+          <line x1="46" y1="63" x2="40" y2="80" stroke="#C8B99A" stroke-width="0.6" opacity="0.4"/>`,
+  },
+  {
+    layer: 'ai', layerLabel: 'AI Brain',
+    name: 'Custom Classifier',
+    tagline: 'Intent detection at scale',
+    usage: 44,
+    metric: { v: '97.3%', l: 'F1 classification score' },
+    description: 'Fine-tuned embedding models that categorise inbound requests, label support tickets, detect urgency, and segment leads — faster than any LLM and without per-token cost.',
+    details: 'Classifiers are trained on 30 days of real production traffic before any client goes live. We use sentence-transformer embeddings + a lightweight logistic head. Monthly retraining with active learning automatically incorporates edge cases the model got wrong.',
+    why: 'For high-volume, latency-sensitive classification (>500 events/hour), a fine-tuned classifier is 20× faster and 98% cheaper than routing every request through Claude.',
+    alternatives: 'Claude for all classification (too slow at scale, cost-prohibitive at volume). Rule-based regex (too brittle, breaks on paraphrase). Fine-tuned classifiers hit the accuracy/cost/latency sweet spot.',
+    tags: ['Embeddings', 'Fine-tuned', 'Active learning', 'Low latency'],
+    compatibleWith: ['Claude AI', 'n8n Workflows', 'Error Handler'],
+    svg: `<rect x="18" y="30" width="84" height="60" rx="4" fill="none" stroke="#0A0A0A" stroke-width="0.7" opacity="0.2"/>
+          ${[0,1,2].map(i=>`<rect x="28" y="${42+i*16}" width="${24+i*10}" height="8" rx="2" fill="#0A0A0A" opacity="${0.08+i*0.07}"/>`).join('')}
+          <circle cx="90" cy="46" r="7" fill="none" stroke="#2D5016" stroke-width="1"/>
+          <circle cx="90" cy="66" r="7" fill="none" stroke="#C8B99A" stroke-width="1"/>
+          <circle cx="90" cy="86" r="7" fill="none" stroke="#0A0A0A" stroke-width="0.8" opacity="0.3"/>
+          <line x1="52" y1="46" x2="83" y2="46" stroke="#0A0A0A" stroke-width="0.5" opacity="0.2"/>
+          <line x1="62" y1="66" x2="83" y2="66" stroke="#0A0A0A" stroke-width="0.5" opacity="0.2"/>`,
+  },
+
+  // ── LOGIC ENGINE ────────────────────────────────────────────────────────────
+  {
+    layer: 'logic', layerLabel: 'Logic Engine',
+    name: 'n8n Workflows',
+    tagline: 'The orchestration backbone',
+    usage: 96,
+    metric: { v: '500+', l: 'production flows' },
+    description: 'Self-hosted, open-source workflow orchestration. Visual canvas, 400+ native integrations, full Git version control, and 90-day execution replay. Every flow is auditable.',
+    details: 'Our n8n instances run on dedicated infrastructure with per-client multi-tenant isolation. Workflows are exported as JSON and deployed via CI/CD pipeline — no manual editor changes in production. Execution logs are retained for 90 days with full payload replay for debugging.',
+    why: 'n8n is the only orchestrator that combines visual accessibility, open-source auditability, self-hosting for data residency, and enterprise-grade execution reliability.',
+    alternatives: 'Zapier (no self-hosting, limited code nodes, expensive at volume). Make (better for complex branching — we use both). Temporal (excellent for stateful workflows but requires significant engineering overhead).',
+    tags: ['Self-hosted', 'Open source', 'Git-backed', 'Multi-tenant'],
+    compatibleWith: ['Webhook Events', 'Claude AI', 'All integration tools'],
+    svg: `<circle cx="25"  cy="60" r="9" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.5"/>
+          <circle cx="60"  cy="32" r="9" fill="none" stroke="#E8B4B0" stroke-width="1.1"/>
+          <circle cx="60"  cy="88" r="9" fill="none" stroke="#2D5016" stroke-width="1.1"/>
+          <circle cx="95"  cy="60" r="9" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.5"/>
+          <circle cx="60"  cy="60" r="6" fill="none" stroke="#C8B99A" stroke-width="0.8" stroke-dasharray="2 2" opacity="0.7"/>
+          <line x1="34" y1="56" x2="51" y2="38" stroke="#0A0A0A" stroke-width="0.7" opacity="0.35"/>
+          <line x1="34" y1="64" x2="51" y2="82" stroke="#0A0A0A" stroke-width="0.7" opacity="0.35"/>
+          <line x1="69" y1="38" x2="86" y2="54" stroke="#0A0A0A" stroke-width="0.7" opacity="0.35"/>
+          <line x1="69" y1="82" x2="86" y2="66" stroke="#0A0A0A" stroke-width="0.7" opacity="0.35"/>`,
+  },
+  {
+    layer: 'logic', layerLabel: 'Logic Engine',
+    name: 'Make (Integromat)',
+    tagline: 'Complex scenario engine',
+    usage: 38,
+    metric: { v: '47', l: 'max modules per scenario' },
+    description: 'Multi-branch, conditional logic with native error handling and data stores. Handles the most intricate business rules where visual clarity of branching matters.',
+    details: 'Make handles our most structurally complex scenarios — multi-path conditional trees with parallel branches and synchronisation points. We use Make\'s Data Stores as lightweight state management for asynchronous multi-step workflows that span hours or days.',
+    why: 'Make\'s visual representation of complex branching scenarios is clearer than n8n for flows with 5+ conditional branches. Its native data stores eliminate the need for an external database in some scenarios.',
+    alternatives: 'n8n for most flows (we use n8n as primary). Zapier (insufficient branching control). Custom code (overkill for scenarios Make handles natively).',
+    tags: ['Visual', 'Multi-branch', 'Data stores', 'Parallel'],
+    compatibleWith: ['Webhook Events', 'CRM Sync', 'Slack & Teams'],
+    svg: `<line x1="14" y1="60" x2="42" y2="60" stroke="#E8B4B0" stroke-width="1" stroke-linecap="round"/>
+          <circle cx="50" cy="60" r="8" fill="none" stroke="#E8B4B0" stroke-width="1.1"/>
+          <line x1="58" y1="55" x2="76" y2="38" stroke="#E8B4B0" stroke-width="0.9" opacity="0.7"/>
+          <line x1="58" y1="65" x2="76" y2="82" stroke="#E8B4B0" stroke-width="0.9" opacity="0.7"/>
+          <circle cx="84" cy="34" r="8" fill="none" stroke="#0A0A0A" stroke-width="0.9" opacity="0.45"/>
+          <circle cx="84" cy="86" r="8" fill="none" stroke="#2D5016" stroke-width="0.9"/>
+          <line x1="92" y1="34" x2="106" y2="34" stroke="#0A0A0A" stroke-width="0.7" opacity="0.35" stroke-linecap="round"/>
+          <line x1="92" y1="86" x2="106" y2="86" stroke="#2D5016" stroke-width="0.7" stroke-linecap="round"/>`,
+  },
+  {
+    layer: 'logic', layerLabel: 'Logic Engine',
+    name: 'Custom Code Nodes',
+    tagline: 'No ceiling, no compromise',
+    usage: 72,
+    metric: { v: '0', l: 'logic constraints' },
+    description: 'When visual nodes hit their ceiling, we write JavaScript or Python. Full async, external libraries, cryptography, data transforms — any logic, zero constraints.',
+    details: 'Code nodes run in sandboxed V8 isolates (n8n) or Python 3.11 containers with CPU and memory limits. Secrets are injected at runtime from HashiCorp Vault — never hardcoded. Every custom node is peer-reviewed, unit-tested, and lint-checked before merge to main.',
+    why: 'Approximately 28% of real-world automation logic cannot be cleanly expressed in visual nodes. Custom code gives us unlimited flexibility while still running inside the orchestration layer.',
+    alternatives: 'External microservices (adds network hop, latency, and ops overhead). Serverless functions (cold-start latency problematic for time-sensitive flows). In-node code eliminates both issues.',
+    tags: ['JavaScript', 'Python', 'Sandboxed', 'Vault-injected secrets'],
+    compatibleWith: ['n8n Workflows', 'Make', 'Error Handler'],
+    svg: `<rect x="16" y="24" width="88" height="72" rx="5" fill="none" stroke="#0A0A0A" stroke-width="0.8" opacity="0.2"/>
+          <line x1="16" y1="38" x2="104" y2="38" stroke="#0A0A0A" stroke-width="0.4" opacity="0.15"/>
+          <circle cx="26" cy="31" r="3" fill="#E8B4B0" opacity="0.5"/>
+          <circle cx="36" cy="31" r="3" fill="#C8B99A" opacity="0.4"/>
+          <circle cx="46" cy="31" r="3" fill="#2D5016" opacity="0.35"/>
+          <rect x="26" y="46" width="36" height="7" rx="2" fill="#2D5016" opacity="0.22"/>
+          <rect x="68" y="46" width="18" height="7" rx="2" fill="#E8B4B0" opacity="0.16"/>
+          <rect x="30" y="59" width="52" height="7" rx="2" fill="#E8B4B0" opacity="0.18"/>
+          <rect x="26" y="72" width="22" height="7" rx="2" fill="#C8B99A" opacity="0.18"/>
+          <rect x="54" y="72" width="30" height="7" rx="2" fill="#0A0A0A" opacity="0.1"/>`,
+  },
+
+  // ── INTEGRATION LAYER ───────────────────────────────────────────────────────
+  {
+    layer: 'connect', layerLabel: 'Integration Layer',
+    name: 'CRM Sync',
+    tagline: 'Your pipeline, on autopilot',
+    usage: 84,
+    metric: { v: '100%', l: 'bidirectional data fidelity' },
+    description: 'Bidirectional sync with HubSpot, Salesforce, Pipedrive, and Close. Contacts, deals, activities, and custom fields stay in lockstep — no manual entry, ever.',
+    details: 'CRM sync uses each platform\'s native REST API with OAuth 2.0 and refresh-token rotation. Field-level conflict resolution uses a last-write-wins strategy with a full audit log. API rate limits are managed with a token-bucket queue — zero records are dropped under burst conditions.',
+    why: 'CRM is the operational source of truth for 84% of our clients. Keeping it in sync automatically eliminates the single biggest source of data errors in client businesses.',
+    alternatives: 'Zapier CRM integrations (uni-directional, no conflict resolution). Native CRM automations (siloed within one platform). Unified sync with custom conflict logic covers all edge cases.',
+    tags: ['HubSpot', 'Salesforce', 'OAuth 2.0', 'Conflict-resolved'],
+    compatibleWith: ['Form Capture', 'Claude AI', 'Slack & Teams'],
+    svg: `<ellipse cx="32" cy="42" rx="18" ry="7" fill="none" stroke="#E8B4B0" stroke-width="1.1" opacity="0.65"/>
+          <line x1="14" y1="42" x2="14" y2="62" stroke="#E8B4B0" stroke-width="1.1" opacity="0.5"/>
+          <line x1="50" y1="42" x2="50" y2="62" stroke="#E8B4B0" stroke-width="1.1" opacity="0.5"/>
+          <ellipse cx="32" cy="62" rx="18" ry="7" fill="none" stroke="#E8B4B0" stroke-width="1.1" opacity="0.42"/>
+          <ellipse cx="88" cy="42" rx="18" ry="7" fill="none" stroke="#2D5016" stroke-width="1.1" opacity="0.6"/>
+          <line x1="70" y1="42" x2="70" y2="62" stroke="#2D5016" stroke-width="1.1" opacity="0.45"/>
+          <line x1="106" y1="42" x2="106" y2="62" stroke="#2D5016" stroke-width="1.1" opacity="0.45"/>
+          <ellipse cx="88" cy="62" rx="18" ry="7" fill="none" stroke="#2D5016" stroke-width="1.1" opacity="0.38"/>
+          <line x1="53" y1="48" x2="67" y2="48" stroke="#C8B99A" stroke-width="1.1" stroke-linecap="round" opacity="0.55"/>
+          <polygon points="65,44.5 69,48 65,51.5" fill="#C8B99A" opacity="0.5"/>
+          <line x1="67" y1="56" x2="53" y2="56" stroke="#C8B99A" stroke-width="1.1" stroke-linecap="round" opacity="0.42"/>
+          <polygon points="55,52.5 51,56 55,59.5" fill="#C8B99A" opacity="0.38"/>`,
+  },
+  {
+    layer: 'connect', layerLabel: 'Integration Layer',
+    name: 'Google Workspace',
+    tagline: 'Documents that write themselves',
+    usage: 67,
+    metric: { v: '4.2h', l: 'saved per document cycle' },
+    description: 'Sheets auto-update. Docs are drafted by Claude. Drive files are organised by workflow. Gmail sequences reply, follow up, and close loops without human input.',
+    details: 'Server-to-server operations use service accounts. User-delegated actions use OAuth with fine-grained scope selection — no unnecessary permissions. Sheets serve as lightweight transactional databases for tabular state; Docs API is used for template rendering and mail-merge at scale.',
+    why: 'Google Workspace is the operational layer for 67% of our clients. Automating it eliminates hours of copy-paste work per team per week.',
+    alternatives: 'Microsoft 365 (we support this too — same patterns, different APIs). Native Google Apps Script (no external integration, brittle, hard to monitor). Our approach keeps all logic in the central orchestration layer.',
+    tags: ['Sheets', 'Gmail', 'Drive', 'Docs API', 'Service accounts'],
+    compatibleWith: ['n8n Workflows', 'Claude AI', 'Scheduled Jobs'],
+    svg: `<rect x="16" y="18" width="38" height="44" rx="2.5" fill="none" stroke="#2D5016" stroke-width="1" opacity="0.55"/>
+          <polyline points="44,18 44,28 54,28" fill="none" stroke="#2D5016" stroke-width="0.9" opacity="0.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="24" y1="36" x2="46" y2="36" stroke="#2D5016" stroke-width="0.8" opacity="0.38" stroke-linecap="round"/>
+          <line x1="24" y1="43" x2="46" y2="43" stroke="#2D5016" stroke-width="0.8" opacity="0.3" stroke-linecap="round"/>
+          <line x1="24" y1="50" x2="38" y2="50" stroke="#2D5016" stroke-width="0.8" opacity="0.22" stroke-linecap="round"/>
+          <rect x="66" y="18" width="38" height="44" rx="2.5" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.5"/>
+          <line x1="66" y1="30" x2="104" y2="30" stroke="#E8B4B0" stroke-width="0.7" opacity="0.32"/>
+          <line x1="85" y1="18" x2="85" y2="62" stroke="#E8B4B0" stroke-width="0.7" opacity="0.28"/>
+          <rect x="70" y="34" width="11" height="9" rx="1" fill="#E8B4B0" opacity="0.2"/>
+          <rect x="89" y="34" width="11" height="9" rx="1" fill="#E8B4B0" opacity="0.1"/>
+          <rect x="16" y="72" width="38" height="26" rx="2.5" fill="none" stroke="#C8B99A" stroke-width="1" opacity="0.5"/>
+          <polyline points="16,74 35,83 54,74" fill="none" stroke="#C8B99A" stroke-width="0.9" opacity="0.42" stroke-linecap="round" stroke-linejoin="round"/>
+          <polygon points="85,72 104,98 66,98" fill="none" stroke="#7B68EE" stroke-width="1" opacity="0.42" stroke-linejoin="round"/>
+          <line x1="85" y1="83" x2="96" y2="98" stroke="#7B68EE" stroke-width="0.6" opacity="0.25"/>`,
+  },
+  {
+    layer: 'connect', layerLabel: 'Integration Layer',
+    name: 'Slack & Teams',
+    tagline: 'The human-in-the-loop channel',
+    usage: 71,
+    metric: { v: '<2s', l: 'alert delivery time' },
+    description: 'Approvals, summaries, and escalation alerts delivered where your team already works. Interactive Slack buttons let humans approve, reject, or escalate directly in-channel.',
+    details: 'Messages use Block Kit for structured, interactive layouts. The Events API handles slash commands and button callbacks. Each bot is scoped to the minimum necessary permissions — no broad workspace scopes. Message delivery is guaranteed via webhook retry; timeouts trigger SMS escalation.',
+    why: 'Keeping humans in the loop for critical decisions is a design principle, not a limitation. Slack/Teams is where decisions are made — not in a separate approval dashboard.',
+    alternatives: 'Email approvals (too slow, no interactivity). Custom approval portals (adoption friction, requires separate login). In-channel interactive messages achieve the highest response rates.',
+    tags: ['Block Kit', 'Interactive', 'SMS fallback', 'Scoped permissions'],
+    compatibleWith: ['Error Handler', 'Claude AI', 'Uptime Guardian'],
+    svg: `<rect x="18" y="18" width="84" height="84" rx="10" fill="none" stroke="#0A0A0A" stroke-width="0.9" opacity="0.12"/>
+          <rect x="18" y="18" width="84" height="24" rx="10" fill="#0A0A0A" opacity="0.04"/>
+          <rect x="18" y="36" width="84" height="6" fill="#0A0A0A" opacity="0.02"/>
+          <circle cx="32" cy="30" r="6.5" fill="#2D5016" opacity="0.3"/>
+          <line x1="43" y1="27" x2="74" y2="27" stroke="#0A0A0A" stroke-width="1.5" opacity="0.28" stroke-linecap="round"/>
+          <line x1="43" y1="33" x2="63" y2="33" stroke="#0A0A0A" stroke-width="0.9" opacity="0.16" stroke-linecap="round"/>
+          <line x1="28" y1="52" x2="84" y2="52" stroke="#0A0A0A" stroke-width="1" opacity="0.18" stroke-linecap="round"/>
+          <line x1="28" y1="62" x2="74" y2="62" stroke="#0A0A0A" stroke-width="0.8" opacity="0.13" stroke-linecap="round"/>
+          <rect x="22" y="74" width="36" height="16" rx="6" fill="none" stroke="#2D5016" stroke-width="1.4" opacity="0.75"/>
+          <polyline points="30,82 35,87 46,76" fill="none" stroke="#2D5016" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+          <rect x="62" y="74" width="28" height="16" rx="6" fill="none" stroke="#c4847e" stroke-width="1.4" opacity="0.65"/>
+          <line x1="69" y1="78" x2="82" y2="88" stroke="#c4847e" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+          <line x1="82" y1="78" x2="69" y2="88" stroke="#c4847e" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>`,
+  },
+
+  // ── DATA LAYER ──────────────────────────────────────────────────────────────
+  {
+    layer: 'data', layerLabel: 'Data Layer',
+    name: 'PostgreSQL',
+    tagline: 'Persistent state & audit trail',
+    usage: 74,
+    metric: { v: '<8ms', l: 'avg. query latency' },
+    description: 'The relational backbone for state that must survive workflow restarts. Client data, execution history, job status, and custom tables — all structured, indexed, and queryable.',
+    details: 'Each client environment runs in an isolated schema with row-level security. We use connection pooling via PgBouncer to handle burst concurrency without exhausting connections. Automated daily backups with point-in-time recovery to any second within the last 7 days.',
+    why: 'Relational data integrity matters when workflows span hours or days and must survive restarts, retries, and partial failures. A proper database eliminates the class of bugs caused by in-memory state loss.',
+    alternatives: 'In-memory state in n8n (lost on restart). MongoDB (schema-less is a liability when data contracts must be enforced). SQLite (no concurrent writes at scale). PostgreSQL gives us ACID guarantees at any volume.',
+    tags: ['ACID', 'Row-level security', 'Point-in-time recovery', 'PgBouncer'],
+    compatibleWith: ['n8n Workflows', 'Custom Code', 'Execution Logs'],
+    svg: `<ellipse cx="60" cy="36" rx="36" ry="12" fill="none" stroke="#7B68EE" stroke-width="1" opacity="0.7"/>
+          <line x1="24" y1="36" x2="24" y2="60" stroke="#7B68EE" stroke-width="1" opacity="0.5"/>
+          <line x1="96" y1="36" x2="96" y2="60" stroke="#7B68EE" stroke-width="1" opacity="0.5"/>
+          <ellipse cx="60" cy="60" rx="36" ry="12" fill="none" stroke="#7B68EE" stroke-width="1" opacity="0.5"/>
+          <line x1="24" y1="60" x2="24" y2="84" stroke="#7B68EE" stroke-width="1" opacity="0.35"/>
+          <line x1="96" y1="60" x2="96" y2="84" stroke="#7B68EE" stroke-width="1" opacity="0.35"/>
+          <ellipse cx="60" cy="84" rx="36" ry="12" fill="none" stroke="#7B68EE" stroke-width="1" opacity="0.35"/>`,
+  },
+  {
+    layer: 'data', layerLabel: 'Data Layer',
+    name: 'Redis Queue',
+    tagline: 'Sub-millisecond throughput',
+    usage: 58,
+    metric: { v: '1M+', l: 'events queued / day' },
+    description: 'High-throughput message queuing for burst traffic absorption, pub/sub event distribution, and distributed locking to prevent duplicate workflow executions.',
+    details: 'Redis runs in sentinel mode for automatic failover. We use Redis Streams for durable message queuing (unlike standard pub/sub, messages persist until acknowledged). Distributed locks use SETNX with TTL to prevent race conditions in concurrent workflow scenarios.',
+    why: 'When webhook bursts arrive faster than workflows can process them, Redis absorbs the spike without losing a single event. It also solves the "duplicate execution" problem that plagues distributed cron systems.',
+    alternatives: 'In-process queues (lost on restart). RabbitMQ (operationally heavier for our use case). SQS (adds network latency, cost at high volume). Redis hits the right balance of speed, durability, and operational simplicity.',
+    tags: ['Redis Streams', 'Sentinel HA', 'Pub/sub', 'Distributed lock'],
+    compatibleWith: ['Webhook Events', 'Scheduled Jobs', 'Error Handler'],
+    svg: `<rect x="20" y="46" width="80" height="28" rx="4" fill="none" stroke="#7B68EE" stroke-width="1" opacity="0.6"/>
+          <rect x="20" y="30" width="80" height="12" rx="3" fill="none" stroke="#7B68EE" stroke-width="0.8" opacity="0.35"/>
+          <rect x="20" y="62" width="80" height="12" rx="3" fill="none" stroke="#7B68EE" stroke-width="0.8" opacity="0.35"/>
+          <line x1="34" y1="56" x2="50" y2="56" stroke="#7B68EE" stroke-width="1.2" stroke-linecap="round" opacity="0.8"/>
+          <line x1="56" y1="56" x2="66" y2="56" stroke="#7B68EE" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+          <line x1="72" y1="56" x2="78" y2="56" stroke="#7B68EE" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/>`,
+  },
+  {
+    layer: 'data', layerLabel: 'Data Layer',
+    name: 'Vault Secrets',
+    tagline: 'Zero hardcoded credentials',
+    usage: 100,
+    metric: { v: '0', l: 'hardcoded secrets' },
+    description: 'HashiCorp Vault manages all API keys, tokens, and credentials. Secrets are injected at runtime, rotated automatically, and never appear in logs, code, or environment variables.',
+    details: 'Every client deployment has an isolated Vault namespace. Dynamic secrets are generated per-workflow-run for supported services (AWS, database). All secret access is logged with who accessed what and when. Secrets expire after a configurable TTL and are automatically rotated.',
+    why: 'Credential leakage is the leading cause of automation security incidents. Vault eliminates the entire attack surface of hardcoded or environment-variable secrets.',
+    alternatives: 'Environment variables (readable by any process, easy to leak in logs). .env files (version control accidents). AWS Secrets Manager (vendor lock-in). Vault gives us platform-agnostic, auditable, zero-trust secrets management.',
+    tags: ['Dynamic secrets', 'Auto-rotation', 'Audit log', 'Per-client namespace'],
+    compatibleWith: ['Custom Code', 'n8n Workflows', 'Execution Logs'],
+    svg: `<rect x="30" y="46" width="60" height="48" rx="4" fill="none" stroke="#7B68EE" stroke-width="1" opacity="0.55"/>
+          <path d="M42 46V36a18 18 0 1136 0v10" fill="none" stroke="#7B68EE" stroke-width="1" opacity="0.5" stroke-linecap="round"/>
+          <circle cx="60" cy="66" r="7" fill="none" stroke="#7B68EE" stroke-width="1.2" opacity="0.8"/>
+          <line x1="60" y1="73" x2="60" y2="82" stroke="#7B68EE" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>`,
+  },
+
+  // ── MONITORING LAYER ────────────────────────────────────────────────────────
+  {
+    layer: 'monitor', layerLabel: 'Monitoring Layer',
+    name: 'Uptime Guardian',
+    tagline: '99.5% SLA, enforced',
+    usage: 100,
+    metric: { v: '99.7%', l: 'average client uptime' },
+    description: 'Synthetic health checks run every 60 seconds from 3 geographic regions. Downtime is detected and escalated before your client ever notices a problem.',
+    details: 'We run 3-region synthetic checks (EU, US-East, AP-SE). Alerting follows a tiered escalation: Slack notification → SMS at 3 minutes → voice call at 7 minutes. Every incident is logged with a severity rating and linked to a postmortem entry within 24 hours.',
+    why: 'Automated workflows that fail silently are worse than no automation. Uptime monitoring is non-negotiable on every deployment — it is the insurance policy that backs our 99.5% SLA guarantee.',
+    alternatives: 'Client-managed monitoring (conflict of interest and expertise gap). Simple ping checks (insufficient — we need workflow-level health, not just server ping). Synthetic workflow execution tests catch logic failures that pings never would.',
+    tags: ['3-region', 'Synthetic checks', 'SLA-backed', 'Postmortem log'],
+    compatibleWith: ['Error Handler', 'Slack & Teams', 'Execution Logs'],
+    svg: `<polyline points="14,75 32,75 40,38 50,68 60,50 70,62 80,44 90,56 106,38" fill="none" stroke="#2D5016" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="14" y1="80" x2="106" y2="80" stroke="#0A0A0A" stroke-width="0.4" opacity="0.2"/>
+          <circle cx="80" cy="44" r="4" fill="#2D5016" opacity="0.7"/>
+          <circle cx="40" cy="38" r="3" fill="#E8B4B0" opacity="0.6"/>`,
+  },
+  {
+    layer: 'monitor', layerLabel: 'Monitoring Layer',
+    name: 'Error Handler',
+    tagline: 'Nothing fails silently',
+    usage: 100,
+    metric: { v: '<4 min', l: 'P95 recovery time' },
+    description: 'Dead letter queues, exponential-backoff retries, and real-time anomaly alerts. Every error is caught, classified, logged, and acted upon — automatically.',
+    details: 'Our error taxonomy has four levels: retryable (auto-retry ×3 with backoff), degraded (partial execution + human alert), critical (halt + immediate escalation), and data error (quarantine record for manual review). Error rates are trended weekly; spikes trigger automated root-cause reports.',
+    why: 'Silent failures erode trust faster than any other issue. Our zero-tolerance error policy means clients never discover a problem through their own data — we always know first.',
+    alternatives: 'Relying on native tool error handling (inconsistent, non-standard alerts). Global try-catch without taxonomy (hides error patterns). Tiered error classification enables smart automation of recovery decisions.',
+    tags: ['Dead letter queue', '4-level taxonomy', 'Auto-retry', 'Anomaly trending'],
+    compatibleWith: ['n8n Workflows', 'Uptime Guardian', 'Execution Logs'],
+    svg: `<circle cx="60" cy="52" r="32" fill="none" stroke="#E8B4B0" stroke-width="0.7" opacity="0.35" stroke-dasharray="5 4"/>
+          <circle cx="60" cy="52" r="20" fill="none" stroke="#E8B4B0" stroke-width="0.5" opacity="0.25" stroke-dasharray="3 3"/>
+          <line x1="60" y1="32" x2="60" y2="48" stroke="#0A0A0A" stroke-width="1.6" stroke-linecap="round" opacity="0.8"/>
+          <circle cx="60" cy="53" r="3" fill="#0A0A0A" opacity="0.7"/>
+          <line x1="42" y1="76" x2="78" y2="76" stroke="#E8B4B0" stroke-width="0.8" opacity="0.5" stroke-linecap="round"/>`,
+  },
+  {
+    layer: 'monitor', layerLabel: 'Monitoring Layer',
+    name: 'Execution Logs',
+    tagline: 'Full audit trail, always',
+    usage: 100,
+    metric: { v: '90 days', l: 'searchable log retention' },
+    description: 'Every workflow run is logged with inputs, outputs, duration, decision trace, and error state. Compliance-ready, full-text searchable, and replayable for debugging.',
+    details: 'Logs are structured JSON, streamed to a time-series store via Fluent Bit, and indexed for full-text search with sub-second query times. PII fields are automatically redacted using a configurable masking policy before any log is persisted. Logs are retained for 90 days and archived to cold storage for 12 months.',
+    why: 'Auditability is a core promise to enterprise clients. Logs are the only way to answer "what happened and why" when a decision is questioned weeks later.',
+    alternatives: 'Native tool logs (siloed, no cross-flow correlation). Application logs only (missing business context). Centralised structured logs with business-level metadata enable both debugging and compliance reporting.',
+    tags: ['Structured JSON', 'PII-redacted', 'Full-text search', '12-month archive'],
+    compatibleWith: ['Error Handler', 'Uptime Guardian', 'Scheduled Jobs'],
+    svg: `<rect x="18" y="18" width="84" height="84" rx="5" fill="none" stroke="#0A0A0A" stroke-width="0.6" opacity="0.18"/>
+          ${[0,1,2,3,4].map(i=>`<line x1="28" y1="${34+i*13}" x2="${52+i*5}" y2="${34+i*13}" stroke="#0A0A0A" stroke-width="0.8" opacity="${0.2+i*0.07}" stroke-linecap="round"/>`).join('')}
+          <circle cx="86" cy="34"  r="5" fill="#2D5016" opacity="0.55"/>
+          <circle cx="86" cy="47"  r="5" fill="#E8B4B0" opacity="0.55"/>
+          <circle cx="86" cy="60"  r="5" fill="#0A0A0A" opacity="0.18"/>
+          <circle cx="86" cy="73"  r="5" fill="#2D5016" opacity="0.40"/>
+          <circle cx="86" cy="86"  r="5" fill="#E8B4B0" opacity="0.30"/>`,
+  },
+
+  // ── TRIGGER (4 more → total 10) ─────────────────────────────────────────────
+  {
+    layer: 'trigger', layerLabel: 'Trigger Layer',
+    name: 'SMS Inbound',
+    tagline: 'Text messages as workflow input',
+    usage: 31,
+    metric: { v: '<3s', l: 'trigger latency' },
+    description: 'Inbound SMS from clients, leads, or patients fires a workflow instantly. Keywords, sender numbers, and message body are parsed and routed — no human triage required.',
+    details: 'We provision dedicated virtual numbers via Twilio or Vonage. Incoming messages are pushed via webhook, normalised into a canonical payload, and classified by intent using a lightweight NLP model before routing. Opt-out STOP handling is automatic and compliant.',
+    why: 'SMS has a 98% open rate and is the preferred channel for time-sensitive client communication in healthcare and hospitality. Automating inbound SMS triage eliminates the biggest delay in customer response workflows.',
+    alternatives: 'Email parsing (lower open rate, slower). Manual phone answering (labour-intensive, not scalable). Inbound SMS webhooks give us the fastest possible trigger for mobile-first workflows.',
+    tags: ['Twilio', 'NLP intent', 'STOP compliance', 'Virtual numbers'],
+    compatibleWith: ['Claude AI', 'CRM Sync', 'Slack & Teams'],
+    svg: `<rect x="34" y="18" width="52" height="84" rx="8" fill="none" stroke="#E8B4B0" stroke-width="1.1" opacity="0.55"/>
+          <line x1="46" y1="38" x2="74" y2="38" stroke="#E8B4B0" stroke-width="0.8" opacity="0.4"/>
+          <line x1="46" y1="50" x2="74" y2="50" stroke="#E8B4B0" stroke-width="0.8" opacity="0.35"/>
+          <line x1="46" y1="62" x2="64" y2="62" stroke="#E8B4B0" stroke-width="0.8" opacity="0.3"/>
+          <circle cx="60" cy="88" r="4" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.5"/>`,
+  },
+  {
+    layer: 'trigger', layerLabel: 'Trigger Layer',
+    name: 'Calendar Events',
+    tagline: 'Time-bound action triggers',
+    usage: 41,
+    metric: { v: '±0s', l: 'trigger precision' },
+    description: 'Google Calendar and Outlook bookings fire workflows the moment they are created, modified, or approaching. Automated reminders, pre-meeting prep, and post-meeting follow-ups run without manual intervention.',
+    details: 'We use the Calendar API push notification channel (not polling) for instant event delivery. Each event payload is enriched with attendee data from the CRM before routing. Time-based triggers fire at configurable offsets — 1 hour before, 10 minutes before, 30 minutes after.',
+    why: 'Calendar is the highest-signal data source for predicting when a client interaction is about to happen. Triggering preparation workflows from calendar events is more reliable and timely than email-based triggers.',
+    alternatives: 'Polling Calendar API every 5 minutes (introduces lag, burns API quota). Email confirmation parsing (too brittle). Push notifications give us real-time calendar event triggers without overhead.',
+    tags: ['Google Calendar', 'Outlook', 'Push notifications', 'Time-offset triggers'],
+    compatibleWith: ['CRM Sync', 'Claude AI', 'Slack & Teams'],
+    svg: `<rect x="20" y="22" width="80" height="76" rx="5" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.5"/>
+          <line x1="20" y1="40" x2="100" y2="40" stroke="#E8B4B0" stroke-width="0.8" opacity="0.35"/>
+          <line x1="38" y1="16" x2="38" y2="28" stroke="#E8B4B0" stroke-width="1.4" stroke-linecap="round" opacity="0.5"/>
+          <line x1="82" y1="16" x2="82" y2="28" stroke="#E8B4B0" stroke-width="1.4" stroke-linecap="round" opacity="0.5"/>
+          <rect x="38" y="52" width="14" height="14" rx="2" fill="#E8B4B0" opacity="0.35"/>
+          <rect x="58" y="52" width="14" height="14" rx="2" fill="none" stroke="#E8B4B0" stroke-width="0.8" opacity="0.3"/>`,
+  },
+  {
+    layer: 'trigger', layerLabel: 'Trigger Layer',
+    name: 'Payment Events',
+    tagline: 'Revenue actions, automated',
+    usage: 52,
+    metric: { v: '100%', l: 'payment event capture' },
+    description: 'Stripe, PayPal, and GoCardless payment webhooks trigger onboarding, receipt generation, subscription management, and dunning workflows the moment a payment succeeds or fails.',
+    details: 'We subscribe to the full Stripe event stream and filter to the relevant event types per workflow (charge.succeeded, invoice.payment_failed, customer.subscription.deleted). All webhook payloads are HMAC-verified before processing. Failed payment events trigger a multi-step dunning sequence within 60 seconds.',
+    why: 'Payment events are the most high-stakes triggers in any business automation. Acting on them instantly — not hours later — is the difference between recovering a failed payment and losing a customer.',
+    alternatives: 'Daily reconciliation reports (introduces 24h lag). Manual monitoring of payment dashboard (human error, unsustainable at scale). Real-time webhooks are the only acceptable architecture for revenue-critical events.',
+    tags: ['Stripe', 'HMAC-verified', 'Dunning automation', 'Subscription lifecycle'],
+    compatibleWith: ['CRM Sync', 'Slack & Teams', 'Error Handler'],
+    svg: `<rect x="18" y="30" width="84" height="60" rx="6" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.5"/>
+          <line x1="18" y1="46" x2="102" y2="46" stroke="#E8B4B0" stroke-width="0.8" opacity="0.35"/>
+          <rect x="28" y="56" width="30" height="8" rx="2" fill="#E8B4B0" opacity="0.25"/>
+          <rect x="66" y="56" width="16" height="8" rx="2" fill="none" stroke="#E8B4B0" stroke-width="0.8" opacity="0.4"/>
+          <line x1="28" y1="74" x2="44" y2="74" stroke="#E8B4B0" stroke-width="1.2" opacity="0.4" stroke-linecap="round"/>`,
+  },
+  {
+    layer: 'trigger', layerLabel: 'Trigger Layer',
+    name: 'File Drop Watcher',
+    tagline: 'Detect new files, act instantly',
+    usage: 24,
+    metric: { v: '<10s', l: 'detection latency' },
+    description: 'Monitors Google Drive, Dropbox, and S3 folders. When a new file appears — a contract, report, or dataset — a workflow fires to process, classify, route, or notify.',
+    details: 'We use Drive/Dropbox change tokens (not polling) for near-instant detection. S3 uses EventBridge rules on the bucket. Each detected file is scanned for type and size, then routed to the appropriate processing workflow. Supported: PDF extraction, CSV ingestion, image classification.',
+    why: 'File-based data entry is common in professional services. Watching for new files eliminates the "check the shared drive and process it" manual step that delays operations by hours.',
+    alternatives: 'Scheduled polling every 15 minutes (introduces lag). Manual file checking (unreliable, time-consuming). Change token-based watchers give us instant detection at zero polling cost.',
+    tags: ['Drive', 'S3 EventBridge', 'Change tokens', 'Multi-format'],
+    compatibleWith: ['Claude AI', 'n8n Workflows', 'PostgreSQL'],
+    svg: `<rect x="22" y="24" width="60" height="72" rx="4" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.5"/>
+          <polyline points="62,24 82,24 82,50 62,50" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.4"/>
+          <line x1="62" y1="24" x2="62" y2="50" stroke="#E8B4B0" stroke-width="0.8" opacity="0.3"/>
+          <line x1="32" y1="52" x2="62" y2="52" stroke="#E8B4B0" stroke-width="0.7" opacity="0.3"/>
+          <line x1="32" y1="62" x2="58" y2="62" stroke="#E8B4B0" stroke-width="0.7" opacity="0.25"/>
+          <circle cx="92" cy="78" r="10" fill="none" stroke="#E8B4B0" stroke-width="1.1" opacity="0.5"/>
+          <line x1="92" y1="72" x2="92" y2="78" stroke="#E8B4B0" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+          <circle cx="92" cy="80.5" r="1.5" fill="#E8B4B0" opacity="0.6"/>`,
+  },
+
+  // ── AI BRAIN (8 more → total 10) ────────────────────────────────────────────
+  {
+    layer: 'ai', layerLabel: 'AI Brain',
+    name: 'Document Extractor',
+    tagline: 'Structured data from any document',
+    usage: 58,
+    metric: { v: '96.4%', l: 'field extraction accuracy' },
+    description: 'PDFs, contracts, invoices, and forms are fed to Claude, which extracts structured fields — dates, names, amounts, clause types — and outputs validated JSON ready for downstream use.',
+    details: 'Documents are preprocessed with OCR when needed (Textract for scanned PDFs), then passed to Claude with a schema-anchored extraction prompt. Extracted fields are validated against expected types and ranges before being written to the database. Confidence scores flag low-certainty extractions for human review.',
+    why: 'Document processing is the single most labour-intensive manual task in professional services. Claude\'s long-context window and instruction-following precision make it the best available model for reliable field extraction.',
+    alternatives: 'AWS Textract alone (layout extraction only, no semantic understanding). Traditional regex parsers (brittle, break on format variation). Claude with a structured output prompt handles variation and context that no traditional parser can match.',
+    tags: ['Claude', 'OCR', 'Schema-anchored', 'Confidence scoring'],
+    compatibleWith: ['File Drop Watcher', 'PostgreSQL', 'CRM Sync'],
+    svg: `<rect x="20" y="16" width="64" height="88" rx="4" fill="none" stroke="#C8B99A" stroke-width="1" opacity="0.5"/>
+          <line x1="30" y1="34" x2="74" y2="34" stroke="#C8B99A" stroke-width="0.7" opacity="0.35"/>
+          <line x1="30" y1="46" x2="74" y2="46" stroke="#C8B99A" stroke-width="0.7" opacity="0.3"/>
+          <line x1="30" y1="58" x2="60" y2="58" stroke="#C8B99A" stroke-width="0.7" opacity="0.25"/>
+          <rect x="30" y="68" width="20" height="10" rx="2" fill="#C8B99A" opacity="0.25"/>
+          <rect x="54" y="68" width="20" height="10" rx="2" fill="#C8B99A" opacity="0.18"/>
+          <line x1="84" y1="50" x2="98" y2="50" stroke="#C8B99A" stroke-width="1" opacity="0.4" stroke-linecap="round"/>
+          <polygon points="95,46 102,50 95,54" fill="#C8B99A" opacity="0.4"/>`,
+  },
+  {
+    layer: 'ai', layerLabel: 'AI Brain',
+    name: 'Email Composer',
+    tagline: 'On-brand replies at scale',
+    usage: 67,
+    metric: { v: '4.7/5', l: 'client message quality score' },
+    description: 'Claude drafts personalised outbound emails — follow-ups, proposals, check-ins, responses — in your brand voice, with client-specific context injected from the CRM at send time.',
+    details: 'Each email generation call includes: brand voice guidelines, historical email tone samples, client name and company, deal stage context, and any specific instructions. Outputs are reviewed by a secondary validation prompt that checks for hallucinations, tone mismatches, and factual errors before delivery.',
+    why: 'Email writing is the highest-volume communication task in most professional service businesses. AI-drafted emails — when properly constrained by context — achieve quality scores that clients cannot distinguish from human-written messages.',
+    alternatives: 'Mail merge templates (no personalisation, obviously mechanical). Human copywriting at scale (cost-prohibitive). Claude with rich context injection produces genuinely personalised messages at automation speed.',
+    tags: ['Brand voice', 'CRM context injection', 'Dual-review pipeline', 'On-brand'],
+    compatibleWith: ['CRM Sync', 'Email Parser', 'Google Workspace'],
+    svg: `<rect x="16" y="26" width="88" height="68" rx="5" fill="none" stroke="#C8B99A" stroke-width="1" opacity="0.5"/>
+          <polyline points="16,32 60,62 104,32" fill="none" stroke="#C8B99A" stroke-width="1" opacity="0.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="46" y1="70" x2="60" y2="62" stroke="#C8B99A" stroke-width="0.6" opacity="0.25"/>
+          <line x1="74" y1="70" x2="60" y2="62" stroke="#C8B99A" stroke-width="0.6" opacity="0.25"/>
+          <line x1="32" y1="74" x2="48" y2="74" stroke="#C8B99A" stroke-width="1" opacity="0.3" stroke-linecap="round"/>
+          <line x1="54" y1="74" x2="72" y2="74" stroke="#C8B99A" stroke-width="1" opacity="0.2" stroke-linecap="round"/>`,
+  },
+  {
+    layer: 'ai', layerLabel: 'AI Brain',
+    name: 'Report Generator',
+    tagline: 'Data-to-narrative, automated',
+    usage: 43,
+    metric: { v: '3.2h', l: 'saved per report cycle' },
+    description: 'Structured data in — polished narrative report out. Claude transforms raw metrics, logs, and spreadsheet data into coherent client-facing reports, executive summaries, and operational digests.',
+    details: 'Reports are generated from a structured data payload (JSON metrics) plus a report template prompt that defines sections, tone, and output format. The same system generates HTML for email delivery, Markdown for Notion export, and DOCX via Pandoc for Word-compatible output.',
+    why: 'Report writing consumes 3-5 hours per week per account manager in service businesses. Automating it with Claude frees the team to focus on strategic client conversations instead of formatting spreadsheets.',
+    alternatives: 'Looker Studio / Google Data Studio (visual dashboards, no narrative). Human-written reports (time-intensive, inconsistent quality). Claude with a well-structured data payload produces better-formatted reports than most humans do in the time saved.',
+    tags: ['Multi-format output', 'Narrative generation', 'Template-driven', 'Pandoc'],
+    compatibleWith: ['Google Workspace', 'PostgreSQL', 'Scheduled Jobs'],
+    svg: `<rect x="18" y="18" width="60" height="84" rx="4" fill="none" stroke="#C8B99A" stroke-width="1" opacity="0.5"/>
+          ${[0,1,2,3,4].map(i=>`<line x1="28" y1="${34+i*13}" x2="${42+i*6}" y2="${34+i*13}" stroke="#C8B99A" stroke-width="0.8" opacity="${0.35-i*0.03}" stroke-linecap="round"/>`).join('')}
+          <rect x="82" y="28" width="20" height="64" rx="3" fill="none" stroke="#C8B99A" stroke-width="1" opacity="0.3"/>
+          <rect x="82" y="68" width="20" height="24" rx="3" fill="#C8B99A" opacity="0.2"/>`,
+  },
+  {
+    layer: 'ai', layerLabel: 'AI Brain',
+    name: 'Intent Router',
+    tagline: 'Smart request triage',
+    usage: 51,
+    metric: { v: '97.1%', l: 'routing accuracy' },
+    description: 'Analyses inbound messages — emails, form submissions, chat — and routes them to the correct workflow branch based on intent, urgency, and category. No manual sorting required.',
+    details: 'The router runs a two-model pipeline: a fast lightweight classifier for obvious cases (handles ~80% of traffic in <100ms) and Claude for ambiguous inputs requiring contextual reasoning. Confidence thresholds determine which model handles each request. Unknown intents are escalated to a human review queue.',
+    why: 'Manual triage of inbound requests is the most consistent bottleneck we see in growing businesses. A well-tuned intent router eliminates that bottleneck completely and routes requests more accurately than a human triage agent.',
+    alternatives: 'Rules-based keyword routing (breaks on paraphrase and novel phrasing). Single LLM for all routing (expensive and slow for high-volume use cases). Two-model hybrid gives speed and accuracy at the right cost point.',
+    tags: ['Two-model pipeline', 'Confidence threshold', 'Escalation path', 'Low latency'],
+    compatibleWith: ['Email Parser', 'Webhook Events', 'Claude AI'],
+    svg: `<circle cx="28" cy="60" r="10" fill="none" stroke="#C8B99A" stroke-width="1" opacity="0.5"/>
+          <line x1="38" y1="60" x2="58" y2="46" stroke="#C8B99A" stroke-width="0.9" opacity="0.4"/>
+          <line x1="38" y1="60" x2="58" y2="60" stroke="#C8B99A" stroke-width="0.9" opacity="0.4"/>
+          <line x1="38" y1="60" x2="58" y2="74" stroke="#C8B99A" stroke-width="0.9" opacity="0.4"/>
+          <circle cx="68" cy="46" r="8" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.5"/>
+          <circle cx="68" cy="60" r="8" fill="none" stroke="#C8B99A" stroke-width="1" opacity="0.5"/>
+          <circle cx="68" cy="74" r="8" fill="none" stroke="#2D5016" stroke-width="1" opacity="0.4"/>
+          <line x1="76" y1="46" x2="90" y2="46" stroke="#E8B4B0" stroke-width="1" opacity="0.3" stroke-linecap="round"/>
+          <line x1="76" y1="60" x2="90" y2="60" stroke="#C8B99A" stroke-width="1" opacity="0.3" stroke-linecap="round"/>
+          <line x1="76" y1="74" x2="90" y2="74" stroke="#2D5016" stroke-width="1" opacity="0.3" stroke-linecap="round"/>`,
+  },
+  {
+    layer: 'ai', layerLabel: 'AI Brain',
+    name: 'Summariser',
+    tagline: 'Long input, sharp output',
+    usage: 39,
+    metric: { v: '89%', l: 'key-point retention rate' },
+    description: 'Transforms long documents, meeting transcripts, email threads, and support tickets into concise structured summaries — action items extracted, decisions highlighted, context preserved.',
+    details: 'We use Claude\'s full 200k context window for document-length inputs. Outputs follow a fixed schema: TL;DR (2 sentences), key decisions, action items with owner and date, open questions. The same pipeline serves meeting notes, weekly digest automation, and client brief summarisation.',
+    why: 'Knowledge workers spend an average of 2.5 hours per day reading and synthesising information. Automated summarisation reclaims that time without losing the signal — when the prompt and output schema are properly designed.',
+    alternatives: 'GPT-3.5 (faster but lower quality on dense business documents). Extractive summarisation (misses implicit meaning). Claude\'s instruction-following and 200k context make it the only model suitable for long professional document summarisation.',
+    tags: ['200k context', 'Action item extraction', 'Fixed output schema', 'Multi-format'],
+    compatibleWith: ['Email Parser', 'Google Workspace', 'Slack & Teams'],
+    svg: `<line x1="20" y1="30" x2="100" y2="30" stroke="#C8B99A" stroke-width="0.7" opacity="0.3"/>
+          <line x1="20" y1="40" x2="100" y2="40" stroke="#C8B99A" stroke-width="0.7" opacity="0.28"/>
+          <line x1="20" y1="50" x2="100" y2="50" stroke="#C8B99A" stroke-width="0.7" opacity="0.25"/>
+          <line x1="20" y1="60" x2="80" y2="60" stroke="#C8B99A" stroke-width="0.7" opacity="0.2"/>
+          <line x1="20" y1="70" x2="90" y2="70" stroke="#C8B99A" stroke-width="0.7" opacity="0.18"/>
+          <line x1="24" y1="86" x2="24" y2="96" stroke="#C8B99A" stroke-width="1" opacity="0.4"/>
+          <line x1="30" y1="80" x2="30" y2="96" stroke="#C8B99A" stroke-width="1" opacity="0.5"/>
+          <line x1="36" y1="84" x2="36" y2="96" stroke="#C8B99A" stroke-width="1" opacity="0.45"/>
+          <line x1="42" y1="76" x2="42" y2="96" stroke="#C8B99A" stroke-width="1" opacity="0.6"/>
+          <line x1="48" y1="82" x2="48" y2="96" stroke="#C8B99A" stroke-width="1" opacity="0.5"/>`,
+  },
+  {
+    layer: 'ai', layerLabel: 'AI Brain',
+    name: 'RAG Pipeline',
+    tagline: 'AI grounded in your data',
+    usage: 33,
+    metric: { v: '4.8×', l: 'fewer hallucinations vs base LLM' },
+    description: 'Retrieval-Augmented Generation connects Claude to your internal knowledge base — SOPs, contracts, product docs, FAQs — so it answers with your specific information, not general training data.',
+    details: 'Documents are chunked, embedded (text-embedding-3-large), and stored in pgvector. At query time, relevant chunks are retrieved by cosine similarity and injected into the Claude prompt as grounding context. Source citations are returned with every response for auditability.',
+    why: 'Base LLMs know nothing about your business, your clients, or your proprietary processes. RAG bridges that gap, enabling AI agents to answer specific questions about your operations with accuracy and transparency.',
+    alternatives: 'Fine-tuning (expensive, static — knowledge goes stale). Full-context stuffing (exceeds context limits for large knowledge bases). Vector retrieval is the only scalable architecture for grounded AI that stays current as your knowledge base grows.',
+    tags: ['pgvector', 'text-embedding-3', 'Source citations', 'Dynamic context'],
+    compatibleWith: ['Claude AI', 'PostgreSQL', 'Custom Code Nodes'],
+    svg: `<rect x="16" y="20" width="40" height="80" rx="4" fill="none" stroke="#C8B99A" stroke-width="1" opacity="0.4"/>
+          ${[0,1,2,3].map(i=>`<line x1="22" y1="${34+i*16}" x2="50" y2="${34+i*16}" stroke="#C8B99A" stroke-width="0.7" opacity="${0.3+i*0.05}" stroke-linecap="round"/>`).join('')}
+          <line x1="56" y1="60" x2="72" y2="50" stroke="#C8B99A" stroke-width="0.9" opacity="0.4"/>
+          <line x1="56" y1="60" x2="72" y2="60" stroke="#C8B99A" stroke-width="0.9" opacity="0.4"/>
+          <line x1="56" y1="60" x2="72" y2="70" stroke="#C8B99A" stroke-width="0.9" opacity="0.35"/>
+          <circle cx="80" cy="50" r="6" fill="#C8B99A" opacity="0.35"/>
+          <circle cx="80" cy="60" r="6" fill="#C8B99A" opacity="0.25"/>
+          <circle cx="80" cy="70" r="6" fill="#C8B99A" opacity="0.2"/>
+          <line x1="86" y1="52" x2="100" y2="42" stroke="#C8B99A" stroke-width="0.8" opacity="0.35"/>
+          <circle cx="104" cy="40" r="6" fill="none" stroke="#C8B99A" stroke-width="1" opacity="0.6"/>`,
+  },
+  {
+    layer: 'ai', layerLabel: 'AI Brain',
+    name: 'Lead Scorer',
+    tagline: 'Prioritise your pipeline automatically',
+    usage: 27,
+    metric: { v: '2.1×', l: 'conversion rate lift' },
+    description: 'Claude analyses lead behaviour, email engagement, company firmographics, and fit signals to produce a numeric score and a natural-language explanation of why each lead is prioritised.',
+    details: 'Scoring runs nightly or on trigger (e.g. new form submission). The model evaluates 12-18 signals: pages visited, email opens, company size, industry, deal fit score, and response time. Scores are written back to the CRM with a reasoning field that sales teams can read and trust.',
+    why: 'Manually prioritising a pipeline of 100+ leads daily is impossible. An AI scoring model that explains its reasoning is more trusted and more accurate than black-box ML scoring tools, because reps can validate the logic.',
+    alternatives: 'HubSpot predictive lead scoring (black box, no reasoning). Manual prioritisation (scales poorly). Claude-based scoring with readable explanations has 80% higher adoption by sales teams than unexplained ML models.',
+    tags: ['12-18 signal model', 'CRM write-back', 'Readable reasoning', 'Nightly or on-trigger'],
+    compatibleWith: ['CRM Sync', 'Email Parser', 'PostgreSQL'],
+    svg: `<line x1="16" y1="38" x2="16" y2="84" stroke="#C8B99A" stroke-width="0.8" opacity="0.25" stroke-linecap="round"/>
+          <polygon points="13.5,38 16,32 18.5,38" fill="#C8B99A" opacity="0.35"/>
+          <rect x="20" y="32" width="64" height="11" rx="3.5" fill="#C8B99A" opacity="0.08"/>
+          <rect x="20" y="32" width="52" height="11" rx="3.5" fill="#E8B4B0" opacity="0.38"/>
+          <circle cx="94" cy="37.5" r="8.5" fill="none" stroke="#E8B4B0" stroke-width="1.4" opacity="0.65"/>
+          <circle cx="94" cy="37.5" r="3.2" fill="#E8B4B0" opacity="0.65"/>
+          <rect x="20" y="51" width="64" height="11" rx="3.5" fill="#C8B99A" opacity="0.06"/>
+          <rect x="20" y="51" width="34" height="11" rx="3.5" fill="#C8B99A" opacity="0.3"/>
+          <circle cx="94" cy="56.5" r="8.5" fill="none" stroke="#C8B99A" stroke-width="1.1" opacity="0.45"/>
+          <circle cx="94" cy="56.5" r="3.2" fill="#C8B99A" opacity="0.32"/>
+          <rect x="20" y="70" width="64" height="11" rx="3.5" fill="#C8B99A" opacity="0.05"/>
+          <rect x="20" y="70" width="16" height="11" rx="3.5" fill="#C8B99A" opacity="0.18"/>
+          <circle cx="94" cy="75.5" r="8.5" fill="none" stroke="#0A0A0A" stroke-width="0.8" opacity="0.18"/>
+          <line x1="20" y1="89" x2="84" y2="89" stroke="#C8B99A" stroke-width="0.4" opacity="0.18"/>`,
+  },
+  {
+    layer: 'ai', layerLabel: 'AI Brain',
+    name: 'Compliance Checker',
+    tagline: 'AI-powered policy enforcement',
+    usage: 18,
+    metric: { v: '99.2%', l: 'policy violation detection rate' },
+    description: 'Scans outbound communications, contracts, and generated content for regulatory and brand compliance issues before they are sent or published — automatically, at every step.',
+    details: 'Claude is given the compliance ruleset as system context and evaluates each piece of content against it. Violations are classified by severity (block/warn/flag). GDPR personal data mentions in email drafts, contract clauses that exceed authority thresholds, and off-brand messaging are all detected before output.',
+    why: 'A single compliance failure can cost more than an entire year of automation services. Embedding compliance review into the workflow — not as a separate step — ensures no output bypasses review under deadline pressure.',
+    alternatives: 'Dedicated compliance platforms (expensive, siloed). Human review (bottleneck, not scalable). Claude with a well-designed compliance prompt is cost-effective, fast, and sufficiently accurate for first-line review.',
+    tags: ['GDPR', 'Severity classification', 'Block/warn/flag', 'Pre-send review'],
+    compatibleWith: ['Email Composer', 'Document Extractor', 'Execution Logs'],
+    svg: `<path d="M60 14 L92 28 V56 C92 74 78 88 60 96 C42 88 28 74 28 56 V28 Z" fill="none" stroke="#C8B99A" stroke-width="1.1" opacity="0.5"/>
+          <polyline points="46,56 56,66 76,44" fill="none" stroke="#C8B99A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>`,
+  },
+
+  // ── LOGIC ENGINE (7 more → total 10) ────────────────────────────────────────
+  {
+    layer: 'logic', layerLabel: 'Logic Engine',
+    name: 'Conditional Branching',
+    tagline: 'Any path your business requires',
+    usage: 94,
+    metric: { v: '∞', l: 'branch depth' },
+    description: 'Multi-condition IF/ELSE trees that evaluate data, scores, flags, and history to route workflows through the correct path. Any decision logic expressible in Boolean algebra runs here.',
+    details: 'Branches evaluate against static values, calculated fields, regex patterns, and external data lookups. Complex conditions are written as custom expression evaluators when the visual branch UI reaches its limit. All branch paths are logged with the evaluated condition for debugging.',
+    why: 'Business logic is inherently conditional. An automation that cannot branch is a linear script — useful for exactly one scenario. Rich conditional logic is the capability that separates real automation from simple triggers.',
+    alternatives: 'Simple yes/no branching in basic automation tools (insufficient for business logic). SQL-based routing (correct but over-engineered for workflow decisions). n8n\'s expression engine handles the full spectrum from simple comparisons to complex multi-field evaluations.',
+    tags: ['Multi-condition', 'Regex evaluation', 'External lookup', 'Full audit log'],
+    compatibleWith: ['n8n Workflows', 'Make', 'Custom Code Nodes'],
+    svg: `<circle cx="24" cy="60" r="6" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.4"/>
+          <line x1="30" y1="60" x2="50" y2="60" stroke="#0A0A0A" stroke-width="0.9" opacity="0.3"/>
+          <polygon points="50,50 72,60 50,70" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.4"/>
+          <line x1="72" y1="54" x2="86" y2="40" stroke="#0A0A0A" stroke-width="0.9" opacity="0.3"/>
+          <line x1="72" y1="66" x2="86" y2="80" stroke="#0A0A0A" stroke-width="0.9" opacity="0.3"/>
+          <circle cx="92" cy="38" r="6" fill="none" stroke="#2D5016" stroke-width="1" opacity="0.5"/>
+          <circle cx="92" cy="82" r="6" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.5"/>
+          <line x1="98" y1="38" x2="110" y2="38" stroke="#2D5016" stroke-width="0.8" opacity="0.3" stroke-linecap="round"/>
+          <line x1="98" y1="82" x2="110" y2="82" stroke="#E8B4B0" stroke-width="0.8" opacity="0.3" stroke-linecap="round"/>`,
+  },
+  {
+    layer: 'logic', layerLabel: 'Logic Engine',
+    name: 'Retry & Backoff',
+    tagline: 'Self-healing execution layer',
+    usage: 100,
+    metric: { v: '99.96%', l: 'eventual success rate' },
+    description: 'Every external API call is wrapped with exponential backoff retry logic. Transient failures self-heal; persistent failures escalate to the dead letter queue with full context preserved.',
+    details: 'Retry policy: 3 attempts with backoff intervals of 10s, 60s, 300s. Retryable errors (429, 503, timeout) are distinguished from fatal errors (400, 401, 404) — fatal errors bypass retry and route directly to the error taxonomy handler. All retry attempts are logged with timestamps and error codes.',
+    why: 'External APIs fail transiently. Without retry logic, every transient failure becomes a visible error. With it, 99%+ of these failures self-resolve within 5 minutes without any human involvement.',
+    alternatives: 'No retry (visible failure rate proportional to upstream API instability). Naive immediate retry (triggers rate-limiting, makes things worse). Exponential backoff is the industry-standard approach and eliminates >99% of visible transient failures.',
+    tags: ['3-attempt backoff', 'Error taxonomy', 'Rate-limit aware', 'Dead letter queue'],
+    compatibleWith: ['n8n Workflows', 'Error Handler', 'Redis Queue'],
+    svg: `<path d="M76 36 A30 30 0 1 0 82 64" fill="none" stroke="#0A0A0A" stroke-width="1.2" opacity="0.35" stroke-linecap="round"/>
+          <polygon points="78,28 86,38 90,27" fill="#0A0A0A" opacity="0.3"/>
+          <line x1="50" y1="60" x2="58" y2="60" stroke="#0A0A0A" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+          <line x1="63" y1="60" x2="68" y2="60" stroke="#0A0A0A" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+          <line x1="73" y1="60" x2="76" y2="60" stroke="#0A0A0A" stroke-width="1.5" stroke-linecap="round" opacity="0.2"/>`,
+  },
+  {
+    layer: 'logic', layerLabel: 'Logic Engine',
+    name: 'Rate Limiter',
+    tagline: 'Never breach a third-party limit',
+    usage: 82,
+    metric: { v: '0', l: 'API rate limit violations' },
+    description: 'A shared token bucket enforces per-provider rate limits across all concurrent workflows. Burst traffic is queued and metered — no API ever receives more calls per second than its documented limit.',
+    details: 'Each third-party API has a named rate limit profile (requests per minute, per hour, per day). Token buckets are stored in Redis and consumed atomically. When a bucket is empty, the requesting workflow is queued in Redis with a wake-up at the refill interval. This guarantees zero limit violations regardless of concurrent workflow count.',
+    why: 'API rate limit violations cause silent workflow failures that are hard to diagnose. Proactive enforcement — before the limit is hit, not after — eliminates this entire failure class.',
+    alternatives: 'Catch 429 errors and retry (reactive — still causes failures during spikes). Per-workflow limits (doesn\'t account for concurrent workflows sharing the same API quota). Shared token bucket is the only approach that correctly manages quota across the entire deployment.',
+    tags: ['Token bucket', 'Redis-backed', 'Per-provider profiles', 'Zero violations'],
+    compatibleWith: ['Redis Queue', 'n8n Workflows', 'Error Handler'],
+    svg: `<circle cx="60" cy="44" r="26" fill="none" stroke="#0A0A0A" stroke-width="0.8" opacity="0.25" stroke-dasharray="5 4"/>
+          <rect x="42" y="54" width="36" height="22" rx="3" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.35"/>
+          <line x1="50" y1="58" x2="50" y2="72" stroke="#0A0A0A" stroke-width="1.8" stroke-linecap="round" opacity="0.5"/>
+          <line x1="60" y1="56" x2="60" y2="72" stroke="#0A0A0A" stroke-width="1.8" stroke-linecap="round" opacity="0.4"/>
+          <line x1="70" y1="60" x2="70" y2="72" stroke="#0A0A0A" stroke-width="1.8" stroke-linecap="round" opacity="0.3"/>`,
+  },
+  {
+    layer: 'logic', layerLabel: 'Logic Engine',
+    name: 'Data Transformer',
+    tagline: 'Any schema to any schema',
+    usage: 88,
+    metric: { v: '400+', l: 'field maps deployed' },
+    description: 'Translates data between the schemas of connected systems. CRM field names become invoice fields, webhook payloads become database rows, API responses become Slack messages.',
+    details: 'Transformations are defined as declarative mapping specs (JSON Schema input → output). Simple remaps use n8n\'s expression engine; complex transforms (array flattening, conditional field construction, date normalisation) use custom code nodes. All specs are version-controlled and tested against sample payloads before deployment.',
+    why: 'Every system speaks a different data language. The transformation layer is the glue that makes integrations work reliably when two systems use different field names, formats, or structures for the same concept.',
+    alternatives: 'Hardcoded field maps in integration code (brittle, hard to maintain). Manual data entry between systems (the problem we\'re solving). Declarative mapping specs are human-readable, version-controllable, and testable.',
+    tags: ['Declarative specs', 'JSON Schema', 'Version-controlled', 'Sample-tested'],
+    compatibleWith: ['n8n Workflows', 'CRM Sync', 'Custom Code Nodes'],
+    svg: `<rect x="16" y="36" width="36" height="48" rx="3" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.45"/>
+          <rect x="68" y="36" width="36" height="48" rx="3" fill="none" stroke="#2D5016" stroke-width="1" opacity="0.45"/>
+          <line x1="22" y1="50" x2="46" y2="50" stroke="#E8B4B0" stroke-width="0.7" opacity="0.35"/>
+          <line x1="22" y1="60" x2="46" y2="60" stroke="#E8B4B0" stroke-width="0.7" opacity="0.3"/>
+          <line x1="22" y1="70" x2="38" y2="70" stroke="#E8B4B0" stroke-width="0.7" opacity="0.25"/>
+          <line x1="74" y1="50" x2="98" y2="50" stroke="#2D5016" stroke-width="0.7" opacity="0.35"/>
+          <line x1="74" y1="62" x2="98" y2="62" stroke="#2D5016" stroke-width="0.7" opacity="0.3"/>
+          <path d="M52 48 L58 44 L64 48 M58 44 L58 76 L52 72 M58 76 L64 72" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.3" stroke-linecap="round" stroke-linejoin="round"/>`,
+  },
+  {
+    layer: 'logic', layerLabel: 'Logic Engine',
+    name: 'Parallel Execution',
+    tagline: 'Multiple actions, one trigger',
+    usage: 56,
+    metric: { v: '4×', l: 'avg. execution speed gain' },
+    description: 'When a workflow needs to trigger multiple independent actions — send email, update CRM, notify Slack, write to database — they run in parallel instead of sequentially, slashing total execution time.',
+    details: 'Parallel branches in n8n fan out to independent execution threads. A synchronisation node waits for all branches to complete before proceeding. Failed branches are isolated — a Slack API timeout does not block the CRM update. Results from all branches are merged for downstream use.',
+    why: 'Sequential execution of independent steps compounds latency unnecessarily. Three 500ms API calls take 1.5s sequentially and 500ms in parallel. For human-visible workflows, that difference matters. For high-volume batch processing, it matters even more.',
+    alternatives: 'Sequential step execution (simple but slow). Microservice fan-out (over-engineered for most use cases). n8n\'s native parallel branches handle 90% of parallelism requirements without extra infrastructure.',
+    tags: ['Fan-out/fan-in', 'Branch isolation', 'Result merging', 'Sync node'],
+    compatibleWith: ['n8n Workflows', 'CRM Sync', 'Slack & Teams'],
+    svg: `<circle cx="22" cy="60" r="7" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.4"/>
+          <line x1="29" y1="56" x2="50" y2="40" stroke="#0A0A0A" stroke-width="0.9" opacity="0.3"/>
+          <line x1="29" y1="60" x2="50" y2="60" stroke="#0A0A0A" stroke-width="0.9" opacity="0.3"/>
+          <line x1="29" y1="64" x2="50" y2="80" stroke="#0A0A0A" stroke-width="0.9" opacity="0.3"/>
+          <circle cx="57" cy="40" r="7" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.5"/>
+          <circle cx="57" cy="60" r="7" fill="none" stroke="#C8B99A" stroke-width="1" opacity="0.5"/>
+          <circle cx="57" cy="80" r="7" fill="none" stroke="#2D5016" stroke-width="1" opacity="0.45"/>
+          <line x1="64" y1="44" x2="85" y2="58" stroke="#0A0A0A" stroke-width="0.9" opacity="0.25"/>
+          <line x1="64" y1="60" x2="85" y2="60" stroke="#0A0A0A" stroke-width="0.9" opacity="0.25"/>
+          <line x1="64" y1="76" x2="85" y2="62" stroke="#0A0A0A" stroke-width="0.9" opacity="0.25"/>
+          <circle cx="92" cy="60" r="7" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.35"/>`,
+  },
+  {
+    layer: 'logic', layerLabel: 'Logic Engine',
+    name: 'State Machine',
+    tagline: 'Multi-step workflows with memory',
+    usage: 34,
+    metric: { v: '∞', l: 'workflow duration' },
+    description: 'Long-running workflows that span hours, days, or weeks — approval chains, onboarding sequences, contract lifecycle — are managed as stateful machines that persist state between steps.',
+    details: 'State is persisted in PostgreSQL with a workflow_id, current_state, and context JSON. Transitions are triggered by events (webhook, time, manual action). Each state has defined allowed transitions and entry/exit actions. Workflows can pause and resume after any step without data loss.',
+    why: 'Stateless workflows cannot handle processes that take longer than a single execution. Client onboarding, contract approval chains, and sales nurture sequences all require state persistence. Without it, the automation breaks the moment it needs to wait for a human response.',
+    alternatives: 'In-memory state (lost on restart). Make Data Stores (limited size, no complex querying). PostgreSQL-backed state machines give us unlimited duration, complex querying, and ACID durability.',
+    tags: ['PostgreSQL-backed', 'Event-driven transitions', 'Pause/resume', 'Unlimited duration'],
+    compatibleWith: ['PostgreSQL', 'Webhook Events', 'n8n Workflows'],
+    svg: `<circle cx="20" cy="60" r="10" fill="#0A0A0A" opacity="0.2"/>
+          <line x1="30" y1="60" x2="44" y2="60" stroke="#0A0A0A" stroke-width="1.1" opacity="0.28" stroke-linecap="round"/>
+          <polygon points="42,57 48,60 42,63" fill="#0A0A0A" opacity="0.28"/>
+          <rect x="48" y="50" width="24" height="20" rx="5" fill="none" stroke="#0A0A0A" stroke-width="1.2" opacity="0.45"/>
+          <line x1="53" y1="57" x2="68" y2="57" stroke="#0A0A0A" stroke-width="0.9" opacity="0.3" stroke-linecap="round"/>
+          <line x1="53" y1="63" x2="64" y2="63" stroke="#0A0A0A" stroke-width="0.7" opacity="0.22" stroke-linecap="round"/>
+          <line x1="72" y1="60" x2="86" y2="60" stroke="#0A0A0A" stroke-width="1.1" opacity="0.28" stroke-linecap="round"/>
+          <polygon points="84,57 90,60 84,63" fill="#0A0A0A" opacity="0.28"/>
+          <circle cx="98" cy="60" r="10" fill="none" stroke="#2D5016" stroke-width="1.4" opacity="0.7"/>
+          <circle cx="98" cy="60" r="5.5" fill="#2D5016" opacity="0.25"/>
+          <path d="M54 50 Q60 36 68 50" fill="none" stroke="#E8B4B0" stroke-width="1.1" opacity="0.55" stroke-linecap="round" stroke-dasharray="3 2.5"/>
+          <polygon points="65,47 70,51 65,54" fill="#E8B4B0" opacity="0.5"/>
+          <line x1="20" y1="82" x2="98" y2="82" stroke="#0A0A0A" stroke-width="0.4" opacity="0.1"/>
+          <line x1="20" y1="82" x2="72" y2="82" stroke="#2D5016" stroke-width="1.4" opacity="0.35" stroke-linecap="round"/>
+          <circle cx="72" cy="82" r="2.5" fill="#2D5016" opacity="0.4"/>`,
+  },
+  {
+    layer: 'logic', layerLabel: 'Logic Engine',
+    name: 'Deduplication Engine',
+    tagline: 'One record per reality',
+    usage: 71,
+    metric: { v: '99.9%', l: 'duplicate suppression rate' },
+    description: 'Prevents the same event, record, or workflow from being processed twice — even under webhook retry, race conditions, or duplicate form submissions.',
+    details: 'Each inbound event is fingerprinted (SHA-256 of key fields). The fingerprint is checked against a Redis idempotency store with a 24-hour TTL. Duplicate fingerprints are suppressed before the workflow runs. For long-running workflows, state machine locking prevents concurrent execution of the same workflow_id.',
+    why: 'Duplicate processing is one of the most common silent bugs in automation. It causes duplicate CRM entries, double-charged payments, and over-sent emails. Idempotent processing is a fundamental correctness requirement, not an optimisation.',
+    alternatives: 'Database unique constraints alone (catches duplicates after the fact, at the cost of errors). Application-level checks on every workflow (inconsistent implementation across flows). Centralised idempotency store is the only architecture that guarantees deduplication across all workflows.',
+    tags: ['SHA-256 fingerprint', 'Redis TTL', 'Idempotent', 'Race-condition-safe'],
+    compatibleWith: ['Webhook Events', 'Redis Queue', 'n8n Workflows'],
+    svg: `<circle cx="44" cy="48" r="20" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.25"/>
+          <circle cx="76" cy="48" r="20" fill="none" stroke="#0A0A0A" stroke-width="1" opacity="0.25"/>
+          <circle cx="60" cy="72" r="20" fill="none" stroke="#2D5016" stroke-width="1.1" opacity="0.4"/>
+          <circle cx="60" cy="60" r="5" fill="#0A0A0A" opacity="0.15"/>
+          <line x1="57" y1="58" x2="63" y2="62" stroke="#E8B4B0" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+          <line x1="63" y1="58" x2="57" y2="62" stroke="#E8B4B0" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>`,
+  },
+
+  // ── INTEGRATION LAYER (10 more → total 13) ───────────────────────────────────
+  {
+    layer: 'connect', layerLabel: 'Integration Layer',
+    name: 'Microsoft 365',
+    tagline: 'Full Office ecosystem automation',
+    usage: 44,
+    metric: { v: '5.1h', l: 'saved per week per user' },
+    description: 'Outlook, Teams, SharePoint, OneDrive, and Excel — fully automated. Calendar-driven workflows, Teams message delivery, SharePoint document management, and Excel data extraction all covered.',
+    details: 'Uses the Microsoft Graph API with delegated permissions (OAuth 2.0). We use application permissions only for server-to-server operations. SharePoint list updates are used as lightweight databases for clients already invested in the M365 ecosystem. Excel data extraction uses the workbook/worksheets API to pull structured data without file download.',
+    why: 'For enterprises standardised on Microsoft 365, building automation against the M365 stack eliminates adoption friction. Graph API covers 95% of M365 capabilities with a single authentication context.',
+    alternatives: 'Google Workspace (same patterns, different stack — we support both). Direct IMAP/SMTP for Outlook (limited to email, no calendar/Teams/SharePoint). Graph API is the right abstraction for the full M365 surface area.',
+    tags: ['Graph API', 'OAuth delegated', 'SharePoint', 'Teams Bot Framework'],
+    compatibleWith: ['Claude AI', 'n8n Workflows', 'CRM Sync'],
+    svg: `<rect x="18" y="28" width="40" height="64" rx="3" fill="none" stroke="#2D5016" stroke-width="1" opacity="0.45"/>
+          <rect x="62" y="28" width="40" height="64" rx="3" fill="none" stroke="#7B68EE" stroke-width="1" opacity="0.35"/>
+          <line x1="28" y1="44" x2="48" y2="44" stroke="#2D5016" stroke-width="0.7" opacity="0.4"/>
+          <line x1="28" y1="54" x2="44" y2="54" stroke="#2D5016" stroke-width="0.7" opacity="0.35"/>
+          <line x1="72" y1="44" x2="92" y2="44" stroke="#7B68EE" stroke-width="0.7" opacity="0.35"/>
+          <line x1="72" y1="54" x2="88" y2="54" stroke="#7B68EE" stroke-width="0.7" opacity="0.3"/>
+          <line x1="58" y1="60" x2="62" y2="60" stroke="#0A0A0A" stroke-width="1" opacity="0.25"/>`,
+  },
+  {
+    layer: 'connect', layerLabel: 'Integration Layer',
+    name: 'Stripe Payments',
+    tagline: 'Full revenue lifecycle automation',
+    usage: 48,
+    metric: { v: '<60s', l: 'dunning sequence trigger' },
+    description: 'Subscription creation, invoice generation, payment capture, dunning sequences, and churn prevention workflows — all triggered by real-time Stripe webhook events.',
+    details: 'We subscribe to the complete Stripe event stream and fan out relevant event types to named workflow triggers. Dunning sequences use smart timing: first retry at 3 days, second at 7 days, cancellation at 14 days — all configurable. Revenue data is synced to PostgreSQL nightly for reporting.',
+    why: 'Payment processing is too high-stakes for manual management. Automated dunning sequences alone recover an average of 4-7% of churned MRR that would otherwise be lost to failed payments.',
+    alternatives: 'Stripe\'s built-in Smart Retries (limited, no customisation). Manual dunning emails (inconsistent, slow). Custom webhook-driven dunning gives full control over timing, messaging, and escalation logic.',
+    tags: ['Full event stream', 'Smart dunning', 'Revenue sync', 'HMAC-verified'],
+    compatibleWith: ['CRM Sync', 'Email Composer', 'PostgreSQL'],
+    svg: `<rect x="20" y="30" width="80" height="60" rx="5" fill="none" stroke="#2D5016" stroke-width="1" opacity="0.5"/>
+          <line x1="20" y1="48" x2="100" y2="48" stroke="#2D5016" stroke-width="0.8" opacity="0.3"/>
+          <circle cx="38" cy="39" r="5" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.5"/>
+          <rect x="28" y="58" width="20" height="10" rx="2" fill="none" stroke="#2D5016" stroke-width="0.8" opacity="0.45"/>
+          <rect x="54" y="58" width="14" height="10" rx="2" fill="none" stroke="#2D5016" stroke-width="0.8" opacity="0.35"/>
+          <rect x="74" y="58" width="10" height="10" rx="2" fill="none" stroke="#2D5016" stroke-width="0.8" opacity="0.3"/>`,
+  },
+  {
+    layer: 'connect', layerLabel: 'Integration Layer',
+    name: 'Twilio SMS/Voice',
+    tagline: 'Programmatic communications at scale',
+    usage: 36,
+    metric: { v: '98.4%', l: 'SMS delivery rate' },
+    description: 'Outbound SMS, WhatsApp Business API, and voice call automation. Appointment reminders, two-factor codes, payment alerts, and emergency escalations all delivered programmatically.',
+    details: 'Each client deployment uses a dedicated number pool to protect sender reputation. Messages use E.164 number formatting with automatic country detection. Delivery webhooks update the database record for each message. Undeliverable numbers are flagged automatically after 2 failed attempts.',
+    why: 'SMS has 10× the open rate of email. For time-sensitive communications — appointment reminders, payment failures, security alerts — SMS is the only reliable channel. Building it into the automation stack rather than as a manual step changes responsiveness fundamentally.',
+    alternatives: 'Email-only communications (50% lower open rate, much slower read time). VOIP manual calling (not scalable). WhatsApp Business API requires a BSP partner — Twilio provides that with a single integration point for SMS, WhatsApp, and voice.',
+    tags: ['E.164 format', 'Delivery webhooks', 'Number pool', 'WhatsApp Business API'],
+    compatibleWith: ['Scheduled Jobs', 'Payment Events', 'CRM Sync'],
+    svg: `<circle cx="60" cy="54" r="28" fill="none" stroke="#2D5016" stroke-width="1" opacity="0.45"/>
+          <path d="M48 46 L48 62 Q48 68 54 68 L66 68 Q72 68 72 62 L72 46 Q72 40 66 40 L54 40 Q48 40 48 46 Z" fill="none" stroke="#2D5016" stroke-width="1.1" opacity="0.5"/>
+          <line x1="54" y1="74" x2="52" y2="82" stroke="#2D5016" stroke-width="1" opacity="0.35" stroke-linecap="round"/>
+          <line x1="66" y1="74" x2="68" y2="82" stroke="#2D5016" stroke-width="1" opacity="0.35" stroke-linecap="round"/>`,
+  },
+  {
+    layer: 'connect', layerLabel: 'Integration Layer',
+    name: 'Airtable & Notion',
+    tagline: 'Modern no-code databases, automated',
+    usage: 41,
+    metric: { v: 'Real-time', l: 'data sync latency' },
+    description: 'Airtable bases and Notion databases serve as operational hubs for many of our clients. We automate creation, updating, and querying of records — keeping them in sync with every workflow.',
+    details: 'Airtable uses the REST API with cursor-based pagination for bulk record operations. Notion uses the Blocks API for rich content and the Database API for structured records. Both support real-time webhook notifications for record changes. We use Airtable as a lightweight project management backend for clients who prefer it over PostgreSQL.',
+    why: 'Many clients have built operational workflows around Airtable or Notion before engaging us. Integrating with what they already use — rather than migrating them to a new system — reduces adoption risk and delivers ROI faster.',
+    alternatives: 'Migrating clients to PostgreSQL (technically superior but high disruption cost). Ignoring existing tools (leaves automation gaps). Meeting clients where their data lives is a faster path to value.',
+    tags: ['Webhook notifications', 'Cursor pagination', 'Notion Blocks API', 'Real-time sync'],
+    compatibleWith: ['n8n Workflows', 'Claude AI', 'CRM Sync'],
+    svg: `<rect x="16" y="24" width="42" height="72" rx="4" fill="none" stroke="#2D5016" stroke-width="1" opacity="0.5"/>
+          <rect x="62" y="24" width="42" height="72" rx="4" fill="none" stroke="#7B68EE" stroke-width="1" opacity="0.45"/>
+          <line x1="22" y1="38" x2="52" y2="38" stroke="#2D5016" stroke-width="0.7" opacity="0.3"/>
+          <line x1="22" y1="48" x2="52" y2="48" stroke="#2D5016" stroke-width="0.7" opacity="0.25"/>
+          <line x1="22" y1="58" x2="48" y2="58" stroke="#2D5016" stroke-width="0.7" opacity="0.2"/>
+          <circle cx="77" cy="42" r="7" fill="none" stroke="#7B68EE" stroke-width="1" opacity="0.4"/>
+          <rect x="68" y="54" width="22" height="8" rx="2" fill="none" stroke="#7B68EE" stroke-width="0.8" opacity="0.35"/>
+          <rect x="68" y="66" width="18" height="8" rx="2" fill="none" stroke="#7B68EE" stroke-width="0.8" opacity="0.3"/>`,
+  },
+  {
+    layer: 'connect', layerLabel: 'Integration Layer',
+    name: 'Typeform / JotForm',
+    tagline: 'High-conversion forms, wired in',
+    usage: 53,
+    metric: { v: '<1s', l: 'submission-to-workflow lag' },
+    description: 'Every Typeform or JotForm submission triggers a workflow within one second. Multi-step conditional forms, file uploads, and signature captures are all processed automatically.',
+    details: 'We configure native webhook delivery on all form platforms. Submissions are normalised from platform-specific schemas to canonical format. File uploads are transferred to S3 and a secure download URL is injected into the workflow payload. Duplicate submission fingerprinting runs on all high-volume forms.',
+    why: 'Forms are the primary lead capture and data collection surface for most service businesses. Zero-latency processing of form submissions is the difference between responding to a lead in 60 seconds versus 60 minutes.',
+    alternatives: 'CSV export from form platforms (introduces hours of lag). Native form platform automations (siloed, limited logic). Webhook-native form integration is the correct architecture for any form-heavy workflow.',
+    tags: ['Native webhooks', 'File upload handling', 'Deduplication', 'Schema normalisation'],
+    compatibleWith: ['Claude AI', 'CRM Sync', 'Email Composer'],
+    svg: `<rect x="24" y="16" width="72" height="88" rx="5" fill="none" stroke="#2D5016" stroke-width="1" opacity="0.5"/>
+          <line x1="34" y1="34" x2="86" y2="34" stroke="#2D5016" stroke-width="0.8" opacity="0.3"/>
+          <line x1="34" y1="48" x2="86" y2="48" stroke="#2D5016" stroke-width="0.8" opacity="0.28"/>
+          <line x1="34" y1="62" x2="86" y2="62" stroke="#2D5016" stroke-width="0.8" opacity="0.25"/>
+          <rect x="34" y="74" width="52" height="16" rx="3" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.5"/>
+          <line x1="48" y1="82" x2="72" y2="82" stroke="#E8B4B0" stroke-width="1" stroke-linecap="round" opacity="0.5"/>`,
+  },
+  {
+    layer: 'connect', layerLabel: 'Integration Layer',
+    name: 'Intercom / Crisp',
+    tagline: 'Live chat wired to your workflow',
+    usage: 28,
+    metric: { v: '<4s', l: 'AI response generation' },
+    description: 'Inbound chat messages trigger AI-assisted response suggestions, conversation tagging, and escalation workflows. Claude drafts replies that agents can send with one click.',
+    details: 'We use Intercom\'s webhooks for new conversations and message events. Claude receives the full conversation context and generates a suggested reply following brand voice guidelines. The suggestion is posted as an internal note in Intercom — the agent decides whether to send it. Escalation triggers fire when sentiment scores fall below threshold.',
+    why: 'Support teams lose an average of 40% of their time writing responses to common questions. AI-assisted drafts reduce response time and improve consistency without removing human judgment from the process.',
+    alternatives: 'Full AI automation of support responses (inappropriate for complex or sensitive conversations). Canned responses (static, unhelpful for nuanced enquiries). Assisted drafts with human approval is the right balance for professional service businesses.',
+    tags: ['Webhook events', 'Draft suggestions', 'Sentiment escalation', 'Internal notes'],
+    compatibleWith: ['Claude AI', 'Slack & Teams', 'CRM Sync'],
+    svg: `<rect x="20" y="28" width="80" height="64" rx="8" fill="none" stroke="#2D5016" stroke-width="1" opacity="0.5"/>
+          <circle cx="38" cy="52" r="8" fill="#2D5016" opacity="0.2"/>
+          <line x1="50" y1="48" x2="88" y2="48" stroke="#2D5016" stroke-width="0.9" opacity="0.3" stroke-linecap="round"/>
+          <line x1="50" y1="58" x2="78" y2="58" stroke="#2D5016" stroke-width="0.7" opacity="0.22" stroke-linecap="round"/>
+          <rect x="32" y="68" width="56" height="12" rx="3" fill="none" stroke="#C8B99A" stroke-width="0.9" opacity="0.45"/>`,
+  },
+  {
+    layer: 'connect', layerLabel: 'Integration Layer',
+    name: 'QuickBooks / Xero',
+    tagline: 'Accounting on autopilot',
+    usage: 38,
+    metric: { v: '100%', l: 'invoice delivery automation' },
+    description: 'Invoice creation, payment reconciliation, expense categorisation, and client statement generation — all triggered automatically from workflow events without touching the accounting platform manually.',
+    details: 'We use the QuickBooks Online REST API and Xero API with OAuth 2.0. Invoice creation is triggered by deal close events in the CRM. Payment events from Stripe write receipt records to the accounting platform automatically. Monthly statement PDFs are generated and emailed to clients without human involvement.',
+    why: 'Accounting reconciliation is among the highest-cost manual admin tasks in any service business. Automating it eliminates both the time cost and the error rate of manual entry.',
+    alternatives: 'Manual accounting entry (typical monthly time cost: 8-15 hours). Third-party sync tools like Zapier\'s QuickBooks connector (limited, uni-directional). Direct API integration covers the full data model with bidirectional sync and proper error handling.',
+    tags: ['OAuth 2.0', 'CRM-triggered invoicing', 'Payment reconciliation', 'Statement automation'],
+    compatibleWith: ['Stripe Payments', 'CRM Sync', 'Google Workspace'],
+    svg: `<circle cx="60" cy="54" r="32" fill="none" stroke="#2D5016" stroke-width="0.8" opacity="0.3" stroke-dasharray="5 4"/>
+          <line x1="60" y1="30" x2="60" y2="50" stroke="#2D5016" stroke-width="1.4" stroke-linecap="round" opacity="0.5"/>
+          <circle cx="60" cy="54" r="3.5" fill="#2D5016" opacity="0.5"/>
+          <path d="M38 76 L52 56 L64 64 L80 40 L92 48" fill="none" stroke="#2D5016" stroke-width="1.5" opacity="0.55" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="52" cy="56" r="2.5" fill="#2D5016" opacity="0.5"/>
+          <circle cx="64" cy="64" r="2.5" fill="#2D5016" opacity="0.45"/>
+          <circle cx="80" cy="40" r="3" fill="#2D5016" opacity="0.65"/>
+          <line x1="36" y1="82" x2="94" y2="82" stroke="#0A0A0A" stroke-width="0.4" opacity="0.15"/>
+          <rect x="38" y="78" width="8" height="4" rx="1" fill="#2D5016" opacity="0.18"/>
+          <rect x="50" y="74" width="8" height="8" rx="1" fill="#2D5016" opacity="0.2"/>
+          <rect x="62" y="70" width="8" height="12" rx="1" fill="#2D5016" opacity="0.22"/>
+          <circle cx="84" cy="32" r="10" fill="none" stroke="#C8B99A" stroke-width="1.2" opacity="0.6"/>
+          <line x1="84" y1="25" x2="84" y2="39" stroke="#C8B99A" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
+          <line x1="80" y1="28.5" x2="88" y2="28.5" stroke="#C8B99A" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+          <line x1="80" y1="35.5" x2="88" y2="35.5" stroke="#C8B99A" stroke-width="1" stroke-linecap="round" opacity="0.5"/>`,
+  },
+  {
+    layer: 'connect', layerLabel: 'Integration Layer',
+    name: 'Zapier Bridge',
+    tagline: 'Reach the long tail of integrations',
+    usage: 19,
+    metric: { v: '5,000+', l: 'apps reachable via bridge' },
+    description: 'For platforms with no direct API or n8n connector, a Zapier webhook bridge extends our reach to 5,000+ apps — while keeping the orchestration logic in our stack.',
+    details: 'We use Zapier only as a thin translation layer — a webhook in, an action out. All logic, branching, error handling, and monitoring stays in our n8n/Make stack. This avoids Zapier\'s task limits and data routing constraints while still reaching its massive connector library for legacy platforms.',
+    why: 'Some platforms — niche CRMs, industry-specific tools, legacy software — have no viable API and no n8n connector. Zapier\'s connector library solves that without requiring us to build custom connectors for every edge case.',
+    alternatives: 'Building custom connectors (weeks of development per integration). Asking clients to migrate away from their existing tools (high disruption). Zapier as a translation-only bridge gives us breadth without compromising our architecture.',
+    tags: ['Webhook bridge', 'Logic stays in-stack', '5,000+ apps', 'Edge-case coverage'],
+    compatibleWith: ['n8n Workflows', 'Webhook Events', 'Error Handler'],
+    svg: `<rect x="12" y="38" width="34" height="44" rx="4" fill="none" stroke="#2D5016" stroke-width="1.1" opacity="0.5"/>
+          <line x1="20" y1="52" x2="38" y2="52" stroke="#2D5016" stroke-width="0.8" opacity="0.38" stroke-linecap="round"/>
+          <line x1="20" y1="60" x2="38" y2="60" stroke="#2D5016" stroke-width="0.8" opacity="0.28" stroke-linecap="round"/>
+          <line x1="20" y1="68" x2="30" y2="68" stroke="#2D5016" stroke-width="0.8" opacity="0.18" stroke-linecap="round"/>
+          <rect x="74" y="38" width="34" height="44" rx="4" fill="none" stroke="#E8B4B0" stroke-width="1.1" opacity="0.5"/>
+          <line x1="82" y1="52" x2="100" y2="52" stroke="#E8B4B0" stroke-width="0.8" opacity="0.38" stroke-linecap="round"/>
+          <line x1="82" y1="60" x2="100" y2="60" stroke="#E8B4B0" stroke-width="0.8" opacity="0.28" stroke-linecap="round"/>
+          <line x1="82" y1="68" x2="92" y2="68" stroke="#E8B4B0" stroke-width="0.8" opacity="0.18" stroke-linecap="round"/>
+          <rect x="46" y="50" width="28" height="20" rx="3.5" fill="none" stroke="#C8B99A" stroke-width="1.2" opacity="0.62"/>
+          <circle cx="52" cy="60" r="2.5" fill="#C8B99A" opacity="0.4"/>
+          <circle cx="60" cy="60" r="2.5" fill="#C8B99A" opacity="0.58"/>
+          <circle cx="68" cy="60" r="2.5" fill="#C8B99A" opacity="0.32"/>
+          <line x1="46" y1="58" x2="36" y2="56" stroke="#C8B99A" stroke-width="0.8" opacity="0.28" stroke-linecap="round"/>
+          <line x1="46" y1="62" x2="36" y2="64" stroke="#C8B99A" stroke-width="0.8" opacity="0.28" stroke-linecap="round"/>
+          <line x1="74" y1="58" x2="84" y2="56" stroke="#C8B99A" stroke-width="0.8" opacity="0.28" stroke-linecap="round"/>
+          <line x1="74" y1="62" x2="84" y2="64" stroke="#C8B99A" stroke-width="0.8" opacity="0.28" stroke-linecap="round"/>`,
+  },
+  {
+    layer: 'connect', layerLabel: 'Integration Layer',
+    name: 'Custom REST Bridge',
+    tagline: 'Any API, any auth scheme',
+    usage: 46,
+    metric: { v: '100%', l: 'API coverage via custom connector' },
+    description: 'For platforms with public APIs but no pre-built connector, we build a custom REST bridge in 1-3 days. Authentication, pagination, rate limiting, and error handling are all abstracted away.',
+    details: 'Custom bridges are implemented as reusable n8n HTTP Request node configurations or as standalone micro-APIs (Node.js/Express, deployed serverless). Each bridge includes an integration test suite that fires against the real API in staging. Auth schemes covered: API key, OAuth 2.0, JWT, HMAC, Basic auth.',
+    why: 'Pre-built connectors cover 80% of use cases. The remaining 20% — industry-specific platforms, internal APIs, partner APIs — require custom bridges. Having a standard bridge architecture means we build each one in days, not weeks.',
+    alternatives: 'Asking clients to switch to better-integrated platforms (not always possible). Giving up on integrations that don\'t have pre-built connectors (leaves automation gaps). A standard custom bridge architecture makes no integration truly out of reach.',
+    tags: ['All auth schemes', 'Node.js micro-API', 'Integration tested', 'Serverless deployment'],
+    compatibleWith: ['n8n Workflows', 'Vault Secrets', 'Error Handler'],
+    svg: `<rect x="16" y="40" width="32" height="40" rx="3" fill="none" stroke="#2D5016" stroke-width="1" opacity="0.4"/>
+          <rect x="72" y="40" width="32" height="40" rx="3" fill="none" stroke="#2D5016" stroke-width="1" opacity="0.4"/>
+          <rect x="40" y="50" width="40" height="20" rx="2" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.5"/>
+          <line x1="48" y1="60" x2="72" y2="60" stroke="#E8B4B0" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+          <line x1="24" y1="52" x2="40" y2="56" stroke="#0A0A0A" stroke-width="0.7" opacity="0.2"/>
+          <line x1="24" y1="68" x2="40" y2="64" stroke="#0A0A0A" stroke-width="0.7" opacity="0.2"/>
+          <line x1="80" y1="56" x2="96" y2="52" stroke="#0A0A0A" stroke-width="0.7" opacity="0.2"/>
+          <line x1="80" y1="64" x2="96" y2="68" stroke="#0A0A0A" stroke-width="0.7" opacity="0.2"/>`,
+  },
+  {
+    layer: 'connect', layerLabel: 'Integration Layer',
+    name: 'Shopify / WooCommerce',
+    tagline: 'E-commerce operations, automated',
+    usage: 22,
+    metric: { v: '0', l: 'manual order updates' },
+    description: 'Order events, inventory changes, abandoned cart triggers, and customer segments — wired into automated fulfilment notification, review request, and re-engagement workflows.',
+    details: 'We use Shopify\'s Webhooks API and Admin GraphQL API. Order events trigger: fulfilment status emails, review request sequences at day 7 post-delivery, and loyalty reward calculations. Inventory webhooks fire low-stock alerts at configurable thresholds. All customer-facing messages use Shopify customer data for personalisation.',
+    why: 'E-commerce stores generate hundreds of automatable events per day. Manual management of even a fraction of them is unsustainable. Post-purchase automation alone — review requests and re-engagement — typically delivers 15-25% additional revenue from the existing customer base.',
+    alternatives: 'Shopify native automations (Flow) — limited logic, no external integrations. Klaviyo alone — excellent for email but siloed from the operational stack. Full integration with the orchestration layer connects e-commerce events to every system the business uses.',
+    tags: ['Shopify Webhooks', 'Admin GraphQL', 'Post-purchase flows', 'Inventory alerts'],
+    compatibleWith: ['Email Composer', 'Twilio SMS', 'CRM Sync'],
+    svg: `<rect x="22" y="20" width="76" height="80" rx="5" fill="none" stroke="#2D5016" stroke-width="1" opacity="0.45"/>
+          <path d="M44 20 L44 12 Q44 8 48 8 L72 8 Q80 8 80 16 L80 20" fill="none" stroke="#2D5016" stroke-width="1" opacity="0.35" stroke-linecap="round"/>
+          <line x1="32" y1="46" x2="88" y2="46" stroke="#2D5016" stroke-width="0.7" opacity="0.3"/>
+          <circle cx="46" cy="64" r="9" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.45"/>
+          <circle cx="74" cy="64" r="9" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.45"/>`,
+  },
+
+  // ── DATA LAYER (6 more → total 9) ────────────────────────────────────────────
+  {
+    layer: 'data', layerLabel: 'Data Layer',
+    name: 'pgvector',
+    tagline: 'AI-native vector storage',
+    usage: 33,
+    metric: { v: '<20ms', l: 'nearest-neighbour query' },
+    description: 'The PostgreSQL extension that enables semantic similarity search. Stores embeddings for documents, emails, and client data — powering RAG pipelines, duplicate detection, and semantic routing.',
+    details: 'pgvector is installed as an extension on our existing PostgreSQL instances, keeping embedding storage and relational data in the same ACID-compliant database. We use IVFFlat indexes for approximate nearest-neighbour search with a balance of accuracy and performance tuned to each dataset size.',
+    why: 'Keeping vector storage in PostgreSQL rather than a separate vector database eliminates operational complexity, avoids another service to monitor and scale, and allows vector queries to be joined with relational data in a single query.',
+    alternatives: 'Pinecone (dedicated vector DB — adds operational overhead and another paid service). Chroma (development-only, not production-hardened). pgvector in our existing Postgres gives us production-grade vector storage at zero additional infrastructure cost.',
+    tags: ['IVFFlat index', 'ACID-compliant', 'Single-DB architecture', 'Semantic search'],
+    compatibleWith: ['PostgreSQL', 'RAG Pipeline', 'Claude AI'],
+    svg: `<ellipse cx="60" cy="36" rx="32" ry="10" fill="none" stroke="#7B68EE" stroke-width="1" opacity="0.6"/>
+          <line x1="28" y1="36" x2="28" y2="60" stroke="#7B68EE" stroke-width="1" opacity="0.45"/>
+          <line x1="92" y1="36" x2="92" y2="60" stroke="#7B68EE" stroke-width="1" opacity="0.45"/>
+          <ellipse cx="60" cy="60" rx="32" ry="10" fill="none" stroke="#7B68EE" stroke-width="1" opacity="0.4"/>
+          <line x1="44" y1="52" x2="76" y2="48" stroke="#C8B99A" stroke-width="0.8" opacity="0.4" stroke-linecap="round"/>
+          <line x1="40" y1="56" x2="72" y2="54" stroke="#C8B99A" stroke-width="0.8" opacity="0.3" stroke-linecap="round"/>
+          <circle cx="76" cy="48" r="3" fill="#C8B99A" opacity="0.5"/>`,
+  },
+  {
+    layer: 'data', layerLabel: 'Data Layer',
+    name: 'S3 Object Store',
+    tagline: 'Unlimited file storage, structured',
+    usage: 54,
+    metric: { v: '99.999999999%', l: 'data durability (11 nines)' },
+    description: 'All workflow-generated files — reports, extracted documents, email attachments, generated images — are stored in S3 with structured naming, lifecycle policies, and time-limited access URLs.',
+    details: 'We enforce bucket policies that block public access by default. Files are organised into per-client, per-workflow prefixes with automatic lifecycle policies: transition to Glacier after 90 days, delete after 12 months. Time-limited pre-signed URLs (15-minute TTL) are generated on demand for any file access — no static public links.',
+    why: 'Storing workflow-generated files in the database or in-memory is architecturally incorrect. S3 provides unlimited, durable, cost-effective object storage with fine-grained access control that scales to any volume.',
+    alternatives: 'Database BLOB storage (costly at scale, degrades query performance). File system storage (lost on container restart, not distributed). S3 is the de facto standard for production file storage.',
+    tags: ['Private by default', 'Lifecycle policies', 'Pre-signed URLs', 'Glacier archival'],
+    compatibleWith: ['File Drop Watcher', 'Document Extractor', 'Execution Logs'],
+    svg: `<rect x="18" y="22" width="84" height="76" rx="4" fill="none" stroke="#7B68EE" stroke-width="0.8" opacity="0.4"/>
+          <line x1="18" y1="44" x2="102" y2="44" stroke="#7B68EE" stroke-width="0.6" opacity="0.3"/>
+          <rect x="28" y="54" width="20" height="24" rx="2" fill="none" stroke="#7B68EE" stroke-width="0.9" opacity="0.45"/>
+          <rect x="52" y="54" width="20" height="24" rx="2" fill="none" stroke="#7B68EE" stroke-width="0.9" opacity="0.4"/>
+          <rect x="76" y="54" width="16" height="24" rx="2" fill="none" stroke="#7B68EE" stroke-width="0.9" opacity="0.35"/>
+          <line x1="30" y1="30" x2="42" y2="30" stroke="#7B68EE" stroke-width="1" opacity="0.35" stroke-linecap="round"/>`,
+  },
+  {
+    layer: 'data', layerLabel: 'Data Layer',
+    name: 'Event Sourcing',
+    tagline: 'Immutable history of every change',
+    usage: 28,
+    metric: { v: '100%', l: 'state reconstructability' },
+    description: 'Every state change in high-value workflows is stored as an immutable event. The full history of any record, workflow, or decision can be replayed or audited at any point in time.',
+    details: 'Events are appended to an append-only PostgreSQL table with a workflow_id, event_type, payload, and timestamp. Current state is projected from the event stream using a materialised view that is refreshed on each new event. This gives us both queryable current state and full historical audit without additional infrastructure.',
+    why: 'For workflows that make consequential decisions — approvals, payments, communications — being able to reconstruct exactly what happened and why is a compliance and debugging superpower. Standard CRUD databases overwrite history; event sourcing preserves it.',
+    alternatives: 'Standard database updates (no history). Git-based audit logs (developer-friendly but not queryable). Append-only event tables with materialised view projection is the practical production implementation that serves both audit and query needs.',
+    tags: ['Append-only', 'Event replay', 'Materialised view', 'Compliance-ready'],
+    compatibleWith: ['PostgreSQL', 'Execution Logs', 'State Machine'],
+    svg: `<line x1="24" y1="50" x2="96" y2="50" stroke="#7B68EE" stroke-width="1" opacity="0.4"/>
+          ${[0,1,2,3,4].map(i=>`<circle cx="${28+i*16}" cy="50" r="${4+i*0.5}" fill="none" stroke="#7B68EE" stroke-width="1" opacity="${0.5-i*0.05}"/>`)
+            .join('')}
+          <line x1="28" y1="46" x2="28" y2="36" stroke="#7B68EE" stroke-width="0.8" opacity="0.4" stroke-linecap="round"/>
+          <line x1="44" y1="46" x2="44" y2="38" stroke="#7B68EE" stroke-width="0.8" opacity="0.35" stroke-linecap="round"/>
+          <line x1="60" y1="46" x2="60" y2="34" stroke="#7B68EE" stroke-width="0.8" opacity="0.4" stroke-linecap="round"/>
+          <rect x="20" y="62" width="76" height="18" rx="3" fill="none" stroke="#7B68EE" stroke-width="0.7" opacity="0.25"/>`,
+  },
+  {
+    layer: 'data', layerLabel: 'Data Layer',
+    name: 'Encrypted Cache',
+    tagline: 'Fast access, zero data exposure',
+    usage: 44,
+    metric: { v: '<1ms', l: 'cache read latency' },
+    description: 'AES-256 encrypted Redis cache stores frequently accessed but sensitive data — AI responses, external API results, and session context — for rapid re-use without repeated API calls.',
+    details: 'Cache entries are encrypted at the application layer before being written to Redis. Cache keys are hashed to prevent metadata leakage. TTLs are set per data type: AI responses (5 min), CRM data (15 min), static config (24h). Cache invalidation hooks ensure stale data is never served after an update event.',
+    why: 'Repeating identical AI or external API calls within short windows is wasteful and expensive. An encrypted cache reduces latency by 10-50× for repeated queries and cuts API costs significantly for high-volume deployments.',
+    alternatives: 'No caching (every query hits the API — expensive and slow). Unencrypted cache (exposes sensitive data if Redis is compromised). Application-layer encryption before write is the correct approach for sensitive data in a shared cache.',
+    tags: ['AES-256', 'Application-layer encryption', 'Hashed keys', 'Per-type TTL'],
+    compatibleWith: ['Redis Queue', 'Claude AI', 'RAG Pipeline'],
+    svg: `<rect x="18" y="42" width="84" height="24" rx="4" fill="none" stroke="#7B68EE" stroke-width="1.1" opacity="0.5"/>
+          <line x1="18" y1="54" x2="102" y2="54" stroke="#7B68EE" stroke-width="0.5" opacity="0.2"/>
+          <rect x="24" y="46" width="14" height="6" rx="1.5" fill="#7B68EE" opacity="0.22"/>
+          <rect x="44" y="46" width="14" height="6" rx="1.5" fill="#7B68EE" opacity="0.3"/>
+          <rect x="64" y="46" width="14" height="6" rx="1.5" fill="#7B68EE" opacity="0.15"/>
+          <rect x="84" y="46" width="10" height="6" rx="1.5" fill="none" stroke="#7B68EE" stroke-width="0.7" opacity="0.25"/>
+          <rect x="46" y="68" width="28" height="22" rx="3.5" fill="none" stroke="#7B68EE" stroke-width="1.1" opacity="0.65"/>
+          <path d="M52 68V62a8 8 0 0116 0v6" fill="none" stroke="#7B68EE" stroke-width="1.1" opacity="0.52" stroke-linecap="round"/>
+          <circle cx="60" cy="78" r="3.5" fill="none" stroke="#7B68EE" stroke-width="1.2" opacity="0.82"/>
+          <line x1="60" y1="81.5" x2="60" y2="86" stroke="#7B68EE" stroke-width="1.3" stroke-linecap="round" opacity="0.72"/>`,
+  },
+  {
+    layer: 'data', layerLabel: 'Data Layer',
+    name: 'Data Warehouse',
+    tagline: 'Cross-client analytics at scale',
+    usage: 21,
+    metric: { v: '<2s', l: 'aggregate query on 10M rows' },
+    description: 'BigQuery or Redshift stores historical workflow execution data across all client deployments. Cross-client benchmark analytics, ROI reporting, and anomaly detection all run here.',
+    details: 'Data is streamed from production PostgreSQL to the warehouse via CDC pipeline (Debezium). Schemas are normalised to a common event model before ingestion. dbt transforms power the analytics layer. Client-facing ROI dashboards are generated from warehouse aggregations and delivered as scheduled reports.',
+    why: 'Operational databases are optimised for writes, not analytics. Running complex aggregate queries against production PostgreSQL degrades live workflow performance. A separate warehouse gives unlimited analytical flexibility without production impact.',
+    alternatives: 'Running analytics on production PostgreSQL (degrades live performance, scaling problem). Google Sheets as analytics layer (insufficient for cross-client benchmarking). A dedicated warehouse is the right architecture once data volume exceeds what a single production instance can query efficiently.',
+    tags: ['BigQuery/Redshift', 'dbt transforms', 'CDC ingestion', 'ROI dashboards'],
+    compatibleWith: ['PostgreSQL', 'Execution Logs', 'Scheduled Jobs'],
+    svg: `<rect x="14" y="20" width="92" height="80" rx="4" fill="none" stroke="#7B68EE" stroke-width="0.9" opacity="0.4"/>
+          <rect x="14" y="20" width="92" height="14" rx="4" fill="#7B68EE" opacity="0.07"/>
+          <line x1="14" y1="34" x2="106" y2="34" stroke="#7B68EE" stroke-width="0.6" opacity="0.3"/>
+          <line x1="37" y1="20" x2="37" y2="100" stroke="#7B68EE" stroke-width="0.5" opacity="0.2"/>
+          <line x1="60" y1="20" x2="60" y2="100" stroke="#7B68EE" stroke-width="0.5" opacity="0.2"/>
+          <line x1="83" y1="20" x2="83" y2="100" stroke="#7B68EE" stroke-width="0.5" opacity="0.2"/>
+          <line x1="14" y1="51" x2="106" y2="51" stroke="#7B68EE" stroke-width="0.4" opacity="0.18"/>
+          <line x1="14" y1="68" x2="106" y2="68" stroke="#7B68EE" stroke-width="0.4" opacity="0.14"/>
+          <rect x="18" y="39" width="15" height="7" rx="1.5" fill="#7B68EE" opacity="0.28"/>
+          <rect x="41" y="39" width="15" height="7" rx="1.5" fill="#C8B99A" opacity="0.28"/>
+          <rect x="64" y="39" width="15" height="7" rx="1.5" fill="#7B68EE" opacity="0.18"/>
+          <rect x="18" y="56" width="15" height="7" rx="1.5" fill="#7B68EE" opacity="0.2"/>
+          <rect x="41" y="56" width="10" height="7" rx="1.5" fill="#C8B99A" opacity="0.18"/>
+          <rect x="64" y="56" width="15" height="7" rx="1.5" fill="#7B68EE" opacity="0.12"/>
+          <rect x="18" y="73" width="15" height="7" rx="1.5" fill="#7B68EE" opacity="0.14"/>
+          <rect x="41" y="73" width="15" height="7" rx="1.5" fill="#C8B99A" opacity="0.1"/>`,
+  },
+  {
+    layer: 'data', layerLabel: 'Data Layer',
+    name: 'Backup & Recovery',
+    tagline: 'Zero data loss, always',
+    usage: 100,
+    metric: { v: '<30 min', l: 'RTO for full restoration' },
+    description: 'Automated daily encrypted backups with point-in-time recovery, cross-region replication, and tested restoration procedures. Every client\'s data is recoverable to any second within the last 7 days.',
+    details: 'PostgreSQL WAL archiving to S3 enables point-in-time recovery (PITR) to any second within a 7-day window. Daily snapshots are replicated to a second AWS region. Restoration drills run monthly — actual recovery time is tested, not just estimated. Recovery runbooks are documented and stored outside the primary infrastructure.',
+    why: 'Backup without tested recovery is not backup — it is a false sense of security. We test restoration monthly because untested backups fail when you need them most.',
+    alternatives: 'Daily snapshots only (no point-in-time recovery between snapshots). Single-region storage (vulnerable to regional outages). WAL-based PITR with cross-region replication and monthly restoration tests is the only architecture we deploy in production.',
+    tags: ['WAL archiving', 'PITR 7 days', 'Cross-region replication', 'Monthly drill'],
+    compatibleWith: ['PostgreSQL', 'S3 Object Store', 'Execution Logs'],
+    svg: `<ellipse cx="60" cy="28" rx="28" ry="9" fill="none" stroke="#7B68EE" stroke-width="1.1" opacity="0.55"/>
+          <line x1="32" y1="28" x2="32" y2="46" stroke="#7B68EE" stroke-width="1.1" opacity="0.42"/>
+          <line x1="88" y1="28" x2="88" y2="46" stroke="#7B68EE" stroke-width="1.1" opacity="0.42"/>
+          <ellipse cx="60" cy="46" rx="28" ry="9" fill="none" stroke="#7B68EE" stroke-width="0.9" opacity="0.35"/>
+          <path d="M88 66 A30 30 0 1 0 32 66" fill="none" stroke="#7B68EE" stroke-width="1.2" opacity="0.48" stroke-linecap="round"/>
+          <polygon points="32,60 28,68 38,70" fill="#7B68EE" opacity="0.48"/>
+          <polyline points="48,80 56,90 74,70" fill="none" stroke="#2D5016" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" opacity="0.65"/>`,
+  },
+
+  // ── MONITORING LAYER (7 more → total 10) ─────────────────────────────────────
+  {
+    layer: 'monitor', layerLabel: 'Monitoring Layer',
+    name: 'Metrics Dashboard',
+    tagline: 'Live operational visibility',
+    usage: 88,
+    metric: { v: 'Real-time', l: 'dashboard refresh rate' },
+    description: 'Grafana dashboards give clients and our team a live view of workflow throughput, error rates, API latency percentiles, and business KPIs — all in one screen.',
+    details: 'Metrics are pushed to Prometheus via a custom n8n telemetry plugin. Grafana queries Prometheus for workflow-level metrics (runs per minute, p50/p95/p99 latency, error rate by workflow_id) and PostgreSQL for business KPIs (leads processed, invoices sent, appointments booked). Dashboards are embedded in a client portal accessible without Grafana login.',
+    why: 'You cannot improve what you cannot see. Operational dashboards are the accountability layer that makes automation visible to the business — not just to the technical team.',
+    alternatives: 'Spreadsheet-based reporting (static, manual, 24h lag). n8n\'s native execution dashboard (too technical, workflow-scoped). Grafana with Prometheus gives us production-grade observability with the flexibility to show business metrics alongside technical metrics.',
+    tags: ['Prometheus', 'Grafana', 'p50/p95/p99', 'Client portal embed'],
+    compatibleWith: ['Execution Logs', 'Uptime Guardian', 'Error Handler'],
+    svg: `<rect x="12" y="18" width="96" height="72" rx="5" fill="none" stroke="#C89840" stroke-width="0.8" opacity="0.4"/>
+          <line x1="12" y1="34" x2="108" y2="34" stroke="#C89840" stroke-width="0.5" opacity="0.25"/>
+          <polyline points="22,72 34,54 44,62 56,46 68,58 80,44 92,52 100,44" fill="none" stroke="#C89840" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+          <circle cx="56" cy="46" r="3" fill="#C89840" opacity="0.5"/>
+          <line x1="12" y1="80" x2="108" y2="80" stroke="#C89840" stroke-width="0.5" opacity="0.2"/>`,
+  },
+  {
+    layer: 'monitor', layerLabel: 'Monitoring Layer',
+    name: 'Alert Escalation',
+    tagline: 'Right person, right channel, right time',
+    usage: 100,
+    metric: { v: '3 levels', l: 'escalation tiers' },
+    description: 'A tiered escalation system that routes alerts to Slack, then SMS, then voice call — automatically — as the severity and response time increase. No alert goes unacknowledged.',
+    details: 'Tier 1 (Slack): all alerts. 3-minute SLA for acknowledgement. Tier 2 (SMS): if Slack alert is unacknowledged at 3 minutes — engineer on call receives SMS. Tier 3 (Voice): if SMS is unacknowledged at 7 minutes — automated voice call via Twilio Programmable Voice. All acknowledgements are logged with timestamp.',
+    why: 'Alerts that only fire in one channel fail when that channel is missed. A tiered escalation guarantees that every critical alert reaches a human within 10 minutes — regardless of what the engineer is doing.',
+    alternatives: 'Email alerts only (too slow, too easy to miss). PagerDuty (excellent but expensive for smaller deployments). Our custom Twilio-backed escalation pipeline achieves PagerDuty-class reliability at a fraction of the cost.',
+    tags: ['3-tier escalation', 'Twilio voice', 'SMS fallback', 'Acknowledgement log'],
+    compatibleWith: ['Uptime Guardian', 'Error Handler', 'Slack & Teams'],
+    svg: `<circle cx="28" cy="60" r="10" fill="none" stroke="#C89840" stroke-width="1.2" opacity="0.7"/>
+          <line x1="38" y1="60" x2="52" y2="52" stroke="#C89840" stroke-width="0.9" opacity="0.5"/>
+          <circle cx="60" cy="50" r="8" fill="none" stroke="#C89840" stroke-width="1" opacity="0.55"/>
+          <line x1="68" y1="50" x2="80" y2="44" stroke="#C89840" stroke-width="0.9" opacity="0.4"/>
+          <circle cx="88" cy="42" r="7" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.5"/>
+          <line x1="38" y1="64" x2="52" y2="68" stroke="#C89840" stroke-width="0.7" opacity="0.3"/>
+          <circle cx="60" cy="70" r="6" fill="none" stroke="#0A0A0A" stroke-width="0.8" opacity="0.2"/>`,
+  },
+  {
+    layer: 'monitor', layerLabel: 'Monitoring Layer',
+    name: 'SLA Tracker',
+    tagline: 'Guarantee enforced automatically',
+    usage: 92,
+    metric: { v: '99.72%', l: 'avg. SLA adherence across clients' },
+    description: 'Automatically tracks workflow execution times against committed SLA windows. Breaches trigger alerts before the client notices, and monthly SLA reports are generated and delivered automatically.',
+    details: 'Each workflow has a defined p95 SLA in the configuration. The SLA tracker measures actual p95 latency over rolling 24h and 30-day windows. When p95 approaches the SLA threshold (at 80%), a performance review alert fires — proactively, before a breach occurs. Monthly SLA reports are auto-generated as PDFs and delivered to the client.',
+    why: 'SLA accountability is a differentiator in the automation market. Clients rarely see SLA reporting — we provide it automatically because it demonstrates that our systems perform at the level we promise, not just on paper.',
+    alternatives: 'Manual SLA tracking in spreadsheets (never kept up to date). No SLA commitments (low trust with enterprise clients). Automated SLA tracking with proactive alerts and monthly reporting is the professional standard that enterprise procurement teams expect.',
+    tags: ['Rolling p95', '80% early warning', 'PDF auto-report', '30-day window'],
+    compatibleWith: ['Metrics Dashboard', 'Execution Logs', 'Uptime Guardian'],
+    svg: `<circle cx="60" cy="60" r="38" fill="none" stroke="#C89840" stroke-width="0.6" opacity="0.18" stroke-dasharray="6 5"/>
+          <path d="M22 60 A38 38 0 0 1 98 60" fill="none" stroke="#C89840" stroke-width="3" opacity="0.10" stroke-linecap="round"/>
+          <path d="M22 60 A38 38 0 0 1 97.5 57.5" fill="none" stroke="#C89840" stroke-width="3" opacity="0.55" stroke-linecap="round"/>
+          <circle cx="60" cy="60" r="4.5" fill="#C89840" opacity="0.7"/>
+          <line x1="60" y1="60" x2="94" y2="55" stroke="#0A0A0A" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+          <line x1="22" y1="60" x2="29" y2="60" stroke="#C89840" stroke-width="1.3" opacity="0.45" stroke-linecap="round"/>
+          <line x1="60" y1="22" x2="60" y2="29" stroke="#C89840" stroke-width="1.3" opacity="0.35" stroke-linecap="round"/>
+          <line x1="98" y1="60" x2="91" y2="60" stroke="#C89840" stroke-width="1.3" opacity="0.45" stroke-linecap="round"/>
+          <circle cx="22" cy="60" r="2.5" fill="#C89840" opacity="0.4"/>
+          <circle cx="98" cy="60" r="2.5" fill="#C89840" opacity="0.4"/>
+          <line x1="38" y1="88" x2="82" y2="88" stroke="#C89840" stroke-width="0.5" opacity="0.2"/>
+          <line x1="38" y1="88" x2="81" y2="88" stroke="#C89840" stroke-width="1.8" opacity="0.5" stroke-linecap="round"/>
+          <circle cx="81" cy="88" r="2.5" fill="#C89840" opacity="0.6"/>`,
+  },
+  {
+    layer: 'monitor', layerLabel: 'Monitoring Layer',
+    name: 'Cost Monitor',
+    tagline: 'AI spend under control, always',
+    usage: 76,
+    metric: { v: '±3%', l: 'cost forecast accuracy' },
+    description: 'Tracks token consumption, API call costs, and infrastructure spend per workflow and per client. Budget alerts fire before overage, and monthly cost breakdowns are generated automatically.',
+    details: 'Claude API costs are tracked via usage metadata in the API response. AWS and infrastructure costs are pulled from billing APIs nightly. Per-workflow cost attribution is calculated using execution trace data. Budget alerts at 80% and 95% of monthly allocation fire to the engineering team and client account manager.',
+    why: 'Without cost monitoring, a single runaway workflow can generate unexpected bills in hours. Budget tracking at the workflow level gives us the visibility to optimise before costs become a problem and demonstrate ROI to clients with precision.',
+    alternatives: 'Cloud billing dashboards alone (too aggregated, no per-workflow attribution). Manual cost review monthly (too slow to catch overage). Per-workflow cost attribution with proactive budget alerts is the only architecture that gives us cost control at the granularity that matters.',
+    tags: ['Token tracking', 'Per-workflow attribution', 'Budget alerts at 80/95%', 'Monthly breakdown'],
+    compatibleWith: ['Execution Logs', 'Claude AI', 'Metrics Dashboard'],
+    svg: `<rect x="18" y="24" width="84" height="72" rx="5" fill="none" stroke="#C89840" stroke-width="0.8" opacity="0.4"/>
+          ${[0,1,2,3,4].map(i=>`<rect x="${26+i*14}" y="${70-i*8}" width="10" height="${8+i*8}" rx="2" fill="#C89840" opacity="${0.12+i*0.06}"/>`).join('')}
+          <line x1="18" y1="80" x2="102" y2="80" stroke="#C89840" stroke-width="0.5" opacity="0.2"/>
+          <line x1="18" y1="42" x2="102" y2="42" stroke="#C89840" stroke-width="0.4" opacity="0.15" stroke-dasharray="4 3"/>`,
+  },
+  {
+    layer: 'monitor', layerLabel: 'Monitoring Layer',
+    name: 'Anomaly Detector',
+    tagline: 'Catch what rules miss',
+    usage: 64,
+    metric: { v: '94%', l: 'anomaly detection precision' },
+    description: 'Statistical process control detects workflow behaviour that deviates from established baseline — sudden drops in execution volume, unexpected latency spikes, unusual error rate patterns.',
+    details: 'Baselines are computed as rolling 14-day means with standard deviation bands. Alerts fire when a metric deviates by more than 2σ from baseline for 3+ consecutive measurements. The detector distinguishes expected variation (daily/weekly seasonality) from true anomalies using a seasonal decomposition model.',
+    why: 'Rule-based monitoring catches known failure modes. Anomaly detection catches unknown ones — the unexpected error pattern that no one thought to write a rule for. It is the complement to threshold alerts, not a replacement.',
+    alternatives: 'Threshold alerts only (miss novel failure modes). ML-based anomaly detection (over-engineered for most deployments). Statistical SPC (sigma-based control charts) is the right balance of sensitivity and precision for operational automation monitoring.',
+    tags: ['2σ threshold', 'Seasonal decomposition', 'Rolling 14-day baseline', 'Statistical SPC'],
+    compatibleWith: ['Metrics Dashboard', 'Alert Escalation', 'Execution Logs'],
+    svg: `<line x1="14" y1="72" x2="106" y2="72" stroke="#0A0A0A" stroke-width="0.4" opacity="0.15"/>
+          <line x1="14" y1="60" x2="106" y2="60" stroke="#C89840" stroke-width="0.5" opacity="0.2" stroke-dasharray="5 4"/>
+          <line x1="14" y1="84" x2="106" y2="84" stroke="#C89840" stroke-width="0.5" opacity="0.2" stroke-dasharray="5 4"/>
+          <polyline points="14,70 26,68 38,72 50,70 62,72 70,50 74,36 78,70 86,72 98,70 106,70" fill="none" stroke="#C89840" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+          <circle cx="74" cy="36" r="5" fill="none" stroke="#E8B4B0" stroke-width="1.2" opacity="0.7"/>
+          <circle cx="74" cy="36" r="10" fill="none" stroke="#E8B4B0" stroke-width="0.7" opacity="0.3"/>`,
+  },
+  {
+    layer: 'monitor', layerLabel: 'Monitoring Layer',
+    name: 'Postmortem Engine',
+    tagline: 'Every incident becomes a lesson',
+    usage: 78,
+    metric: { v: '<24h', l: 'postmortem delivery SLA' },
+    description: 'When an incident occurs, the postmortem engine automatically assembles the timeline, affected workflows, root cause candidates, and impact assessment — ready for human review within minutes.',
+    details: 'The engine queries the execution log database for all events in the 30-minute window around the incident. Claude analyses the event sequence to identify the most likely root cause from the error taxonomy. A structured postmortem document is generated with: timeline, impact (records affected, clients affected, SLA breach), root cause hypothesis, and recommended remediation.',
+    why: 'Postmortems are the most powerful tool for improving system reliability over time. Automating the data collection and initial analysis means postmortems actually happen — instead of being skipped when the team is busy recovering from the incident.',
+    alternatives: 'Manual postmortem writing (only happens for major incidents, takes hours). No postmortem culture (incidents repeat indefinitely). Automated postmortem assembly makes it feasible to conduct a lightweight analysis for every incident, not just the catastrophic ones.',
+    tags: ['AI-assisted analysis', '30-min window query', 'Error taxonomy', 'Claude-generated'],
+    compatibleWith: ['Execution Logs', 'Error Handler', 'Uptime Guardian'],
+    svg: `<rect x="16" y="16" width="88" height="88" rx="5" fill="none" stroke="#C89840" stroke-width="0.7" opacity="0.3"/>
+          <line x1="16" y1="36" x2="104" y2="36" stroke="#C89840" stroke-width="0.5" opacity="0.2"/>
+          <line x1="26" y1="50" x2="60" y2="50" stroke="#C89840" stroke-width="0.9" opacity="0.4" stroke-linecap="round"/>
+          <line x1="26" y1="62" x2="74" y2="62" stroke="#C89840" stroke-width="0.9" opacity="0.35" stroke-linecap="round"/>
+          <line x1="26" y1="74" x2="54" y2="74" stroke="#C89840" stroke-width="0.9" opacity="0.3" stroke-linecap="round"/>
+          <circle cx="84" cy="50" r="8" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.45"/>
+          <line x1="81" y1="47" x2="87" y2="53" stroke="#E8B4B0" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+          <line x1="87" y1="47" x2="81" y2="53" stroke="#E8B4B0" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+          <circle cx="84" cy="70" r="8" fill="none" stroke="#2D5016" stroke-width="1" opacity="0.4"/>
+          <polyline points="80,70 83,73 88,67" fill="none" stroke="#2D5016" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>`,
+  },
+  {
+    layer: 'monitor', layerLabel: 'Monitoring Layer',
+    name: 'Compliance Audit Log',
+    tagline: 'Regulator-ready, automatically',
+    usage: 100,
+    metric: { v: '12 months', l: 'searchable audit retention' },
+    description: 'An immutable, tamper-evident log of every data access, workflow decision, API call, and human action — structured for regulatory review and searchable by auditors without technical support.',
+    details: 'Audit events are written to an append-only PostgreSQL table with a HMAC chain — each entry includes a hash of the previous entry, making tampering detectable. PII fields are encrypted in the audit log but searchable via deterministic encryption (for name/email lookups). A read-only auditor role provides full search access without write or delete permissions.',
+    why: 'GDPR, SOC 2, HIPAA, and ISO 27001 all require demonstrable audit trails. Providing a tamper-evident, searchable, 12-month audit log as a standard feature removes one of the biggest enterprise sales objections to automation.',
+    alternatives: 'Application logs (mutable, unstructured, hard to search). Splunk / Datadog (expensive, complex). PostgreSQL append-only with HMAC chain is tamper-evident, queryable, and deployable without additional infrastructure.',
+    tags: ['HMAC-chained', 'PII encrypted', 'Append-only', 'Read-only auditor role'],
+    compatibleWith: ['Execution Logs', 'PostgreSQL', 'Vault Secrets'],
+    svg: `<rect x="18" y="16" width="84" height="88" rx="4" fill="none" stroke="#C89840" stroke-width="0.8" opacity="0.35"/>
+          ${[0,1,2,3,4,5].map(i=>`<line x1="28" y1="${32+i*12}" x2="${54+i*4}" y2="${32+i*12}" stroke="#C89840" stroke-width="0.7" opacity="${0.3+i*0.04}" stroke-linecap="round"/>`).join('')}
+          <rect x="78" y="22" width="18" height="76" rx="3" fill="none" stroke="#C89840" stroke-width="0.8" opacity="0.3"/>
+          <line x1="81" y1="32" x2="93" y2="32" stroke="#C89840" stroke-width="0.6" opacity="0.25"/>
+          <line x1="81" y1="44" x2="93" y2="44" stroke="#C89840" stroke-width="0.6" opacity="0.2"/>
+          <circle cx="87" cy="78" r="5" fill="none" stroke="#2D5016" stroke-width="1" opacity="0.45"/>
+          <polyline points="84,78 87,81 90,75" fill="none" stroke="#2D5016" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>`,
+  },
+];
+
+const layerColors: Record<string, string> = {
+  trigger: 'bg-[#fdf3f2] text-[#c4847e] border border-[#E8B4B0]/40',
+  ai:      'bg-[#f5f0e8] text-[#8a7a5e] border border-[#C8B99A]/40',
+  logic:   'bg-[#f2f2f2] text-[#555] border border-[#0A0A0A]/10',
+  connect: 'bg-[#edf3e8] text-[#2D5016] border border-[#2D5016]/20',
+  data:    'bg-[#f0effe] text-[#5248b8] border border-[#7B68EE]/25',
+  monitor: 'bg-[#fdf6e8] text-[#a07830] border border-[#C89840]/25',
+};
+
+// Group by layer for section rendering
+const groupedLayers = ['trigger','ai','logic','connect','data','monitor'];
+---
+
+<ShopLayout
+  title="Stack DNA — PURIST"
+  description="Every technical component behind a PURIST automation: 62 components, 6 layers, zero black boxes. Full transparency on what we deploy and why."
+>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- HERO                                                           -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div class="bg-brand-black text-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-[0.035]" style="background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);background-size:36px 36px;"/>
+    <svg class="absolute right-0 top-0 h-full opacity-[0.05] pointer-events-none" viewBox="0 0 400 500" aria-hidden="true">
+      <circle cx="400" cy="250" r="180" fill="none" stroke="#E8B4B0" stroke-width="0.8" stroke-dasharray="10 7"/>
+      <circle cx="400" cy="250" r="120" fill="none" stroke="#E8B4B0" stroke-width="0.5" stroke-dasharray="6 5"/>
+      <circle cx="400" cy="250" r="70"  fill="none" stroke="#E8B4B0" stroke-width="0.4" stroke-dasharray="4 4"/>
+      <line x1="400" y1="250" x2="400" y2="70" stroke="#E8B4B0" stroke-width="0.5"/>
+      <line x1="400" y1="250" x2="244" y2="90" stroke="#E8B4B0" stroke-width="0.3"/>
+      <line x1="400" y1="250" x2="220" y2="250" stroke="#E8B4B0" stroke-width="0.3"/>
+    </svg>
+
+    <div class="container-x py-20 lg:py-28 relative">
+      <div class="max-w-3xl">
+        <span class="inline-flex items-center gap-1.5 bg-brand-pink/15 text-brand-pink text-[10px] tracking-[0.15em] uppercase px-3 py-1 rounded-full mb-7 font-medium">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-pink animate-pulse"/>
+          Full-stack transparency
+        </span>
+        <h1 class="font-display text-5xl sm:text-6xl lg:text-7xl leading-[1.02] mb-6 text-balance">
+          Stack DNA
+        </h1>
+        <p class="text-white/50 text-lg leading-relaxed max-w-2xl mb-4">
+          Every component behind a PURIST automation — what it does, why we chose it over alternatives, and what it delivers in production. No black boxes. No mystery tools.
+        </p>
+        <p class="text-white/30 text-sm mb-12">62 components · 6 layers · 500+ production deployments</p>
+
+        <!-- KPI strip -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {([
+            { v: '500+',  l: 'Workflows deployed',  sub: 'across 8 industries',      accent: '#E8B4B0' },
+            { v: '142k',  l: 'Executions / month',  sub: 'avg. across all clients',   accent: '#C8B99A' },
+            { v: '99.7%', l: 'Uptime SLA',           sub: 'enforced & monitored',      accent: '#7B68EE' },
+            { v: '9.4×',  l: 'Average ROI',          sub: 'within 90 days',            accent: '#C89840' },
+          ] as {v:string;l:string;sub:string;accent:string}[]).map(k => (
+            <div class="relative rounded-xl px-5 py-5 overflow-hidden kpi-card" style={`background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);`}>
+              <!-- Left accent bar -->
+              <div class="absolute left-0 top-4 bottom-4 w-[2.5px] rounded-r-full" style={`background:${k.accent};opacity:0.65;`}/>
+              <!-- Ambient glow -->
+              <div class="absolute inset-0 pointer-events-none" style={`background:radial-gradient(ellipse 80% 60% at 0% 50%, ${k.accent}10 0%, transparent 70%);`}/>
+              <div class="relative pl-3">
+                <div class="font-display text-[28px] font-medium text-white leading-none mb-2 tracking-tight">{k.v}</div>
+                <div class="text-white/65 text-[11px] font-medium mb-0.5">{k.l}</div>
+                <div class="text-white/28 text-[9.5px] leading-relaxed">{k.sub}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- STACK FLOW DIAGRAM                                             -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div class="bg-brand-black border-b border-white/[0.06]">
+    <div class="container-x py-14">
+      <div class="flex items-center justify-between mb-12">
+        <div>
+          <p class="text-[9px] tracking-[0.22em] uppercase text-white/30 font-semibold mb-1.5">Architecture</p>
+          <p class="text-white/75 text-[15px] font-medium">How the layers connect</p>
+        </div>
+        <p class="text-[10px] text-white/25 hidden sm:block leading-relaxed text-right max-w-[180px]">Every request flows<br/>through all 6 layers</p>
+      </div>
+      <div class="flex items-center justify-between overflow-x-auto pb-1 gap-0">
+        {([
+          {
+            id:'trigger', label:'Trigger', count:10, color:'#c4847e', bg:'rgba(232,180,176,0.10)', border:'rgba(232,180,176,0.3)',
+            // WiFi / signal pulse — upward arcs from a solid dot. Instantly reads as "event fires"
+            svg:`<circle cx="12" cy="20" r="2.2" fill="currentColor"/>
+                 <path d="M7.76 16.24a6 6 0 0 1 8.48 0"  fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                 <path d="M4.93 13.07a10 10 0 0 1 14.14 0" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity="0.6"/>
+                 <path d="M2.1  10.1 a14 14 0 0 1 19.8  0" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" opacity="0.3"/>`,
+          },
+          {
+            id:'ai', label:'AI Brain', count:10, color:'#8a7a5e', bg:'rgba(200,185,154,0.10)', border:'rgba(200,185,154,0.3)',
+            // Hexagon outline + 6 radiating spokes to center dot — atom / neural core
+            svg:`<path d="M12 2.5 L20.86 7.5 L20.86 17.5 L12 22.5 L3.14 17.5 L3.14 7.5 Z" fill="none" stroke="currentColor" stroke-width="1.3"/>
+                 <circle cx="12" cy="12" r="2.4" fill="currentColor" opacity="0.85"/>
+                 <line x1="12"    y1="9.6"  x2="12"    y2="7.5"  stroke="currentColor" stroke-width="1" opacity="0.45" stroke-linecap="round"/>
+                 <line x1="14.08" y1="10.8" x2="15.88" y2="8.74" stroke="currentColor" stroke-width="1" opacity="0.45" stroke-linecap="round"/>
+                 <line x1="14.08" y1="13.2" x2="15.88" y2="15.26" stroke="currentColor" stroke-width="1" opacity="0.45" stroke-linecap="round"/>
+                 <line x1="12"    y1="14.4" x2="12"    y2="16.5" stroke="currentColor" stroke-width="1" opacity="0.45" stroke-linecap="round"/>
+                 <line x1="9.92"  y1="13.2" x2="8.12"  y2="15.26" stroke="currentColor" stroke-width="1" opacity="0.45" stroke-linecap="round"/>
+                 <line x1="9.92"  y1="10.8" x2="8.12"  y2="8.74"  stroke="currentColor" stroke-width="1" opacity="0.45" stroke-linecap="round"/>`,
+          },
+          {
+            id:'logic', label:'Logic', count:10, color:'#555', bg:'rgba(0,0,0,0.05)', border:'rgba(0,0,0,0.14)',
+            // Git branch — single input, two diverging paths with terminal dots. Universal dev metaphor for branching logic
+            svg:`<circle cx="12" cy="4.5" r="2"  fill="none" stroke="currentColor" stroke-width="1.3"/>
+                 <circle cx="5"  cy="19.5" r="2" fill="none" stroke="currentColor" stroke-width="1.3"/>
+                 <circle cx="19" cy="19.5" r="2" fill="none" stroke="currentColor" stroke-width="1.3"/>
+                 <line x1="12" y1="6.5" x2="12" y2="11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                 <path d="M12 11 C12 15 5 14 5 17.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                 <path d="M12 11 C12 15 19 14 19 17.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>`,
+          },
+          {
+            id:'connect', label:'Integration', count:13, color:'#2D5016', bg:'rgba(45,80,22,0.07)', border:'rgba(45,80,22,0.2)',
+            // Two interlocked rings with a bidirectional exchange arrow — sync, bridge, connect
+            svg:`<path d="M9 7H6.5A4.5 4.5 0 0 0 6.5 17H9"   fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                 <path d="M15 7h2.5A4.5 4.5 0 0 1 17.5 17H15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                 <line x1="9"  y1="10" x2="15" y2="10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                 <line x1="15" y1="14" x2="9"  y2="14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                 <polyline points="13,8 15,10 13,12"   fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+                 <polyline points="11,12 9,14 11,16" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>`,
+          },
+          {
+            id:'data', label:'Data', count:9, color:'#5248b8', bg:'rgba(123,104,238,0.09)', border:'rgba(123,104,238,0.25)',
+            // Database cylinder — 3 shelves, clean ellipses. The canonical data icon, executed precisely
+            svg:`<ellipse cx="12" cy="5.5" rx="8.5" ry="2.8" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                 <path d="M3.5 5.5v5.2c0 1.55 3.81 2.8 8.5 2.8s8.5-1.25 8.5-2.8V5.5" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                 <path d="M3.5 10.7v5.2c0 1.55 3.81 2.8 8.5 2.8s8.5-1.25 8.5-2.8v-5.2" fill="none" stroke="currentColor" stroke-width="1.2"/>`,
+          },
+          {
+            id:'monitor', label:'Monitor', count:10, color:'#a07830', bg:'rgba(200,152,64,0.09)', border:'rgba(200,152,64,0.25)',
+            // Monitor frame + sharp EKG heartbeat + stand. Premium, identifiable, "live watching"
+            svg:`<rect x="2" y="2.5" width="20" height="13.5" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                 <polyline points="4.5,9.5 6.5,9.5 8,6 10,14 12,8 13.5,9.5 16,9.5 18,9.5" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/>
+                 <line x1="9"  y1="19.5" x2="15"  y2="19.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                 <path d="M12 16 L10.5 19.5 M12 16 L13.5 19.5" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>`,
+          },
+        ] as {id:string;label:string;count:number;color:string;bg:string;border:string;svg:string}[]).map((node, i, arr) => (
+          <div class="flex items-center flex-1 min-w-0">
+            <!-- Node -->
+            <div class="shrink-0 flex flex-col items-center gap-3 mx-auto">
+              <!-- Step number -->
+              <span class="text-[8px] font-mono tracking-widest" style="color:rgba(255,255,255,0.25)">0{i+1}</span>
+              <!-- Icon tile -->
+              <div
+                class="relative flex items-center justify-center transition-transform duration-200 hover:scale-105"
+                style={`width:68px;height:68px;border-radius:22px;background:linear-gradient(160deg,${node.color}26 0%,${node.color}05 100%);border:1px solid rgba(255,255,255,${(0.04+i*0.014).toFixed(3)});border-top-color:rgba(255,255,255,${(0.11+i*0.018).toFixed(3)});color:${node.color};box-shadow:0 1px 0 rgba(255,255,255,0.09) inset,0 -1px 0 rgba(0,0,0,0.18) inset,0 10px 36px ${node.color}${Math.round(14+i*4).toString(16).padStart(2,'0')},0 1px 4px rgba(0,0,0,0.45);opacity:${(0.62+i*0.076).toFixed(2)};filter:brightness(${(1.05+i*0.06).toFixed(2)});backdrop-filter:blur(8px);`}
+              >
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" set:html={node.svg}/>
+              </div>
+              <!-- Label + count -->
+              <div class="flex flex-col items-center gap-0.5">
+                <span class="text-[9px] tracking-[0.18em] uppercase font-semibold whitespace-nowrap" style={`color:${node.color};filter:brightness(1.4);`}>{node.label}</span>
+                <span class="text-[8px] tabular-nums leading-none" style="color:rgba(255,255,255,0.3)">{node.count} tools</span>
+              </div>
+            </div>
+
+            {i < arr.length - 1 && (
+              <div class="flex-1 flex items-center pb-5 min-w-[32px] relative" style="padding-left:4px;padding-right:4px;">
+                <!-- Gradient connector line -->
+                <div class="flex-1 h-px relative overflow-visible" style={`background:linear-gradient(90deg,${node.color}45,${arr[i+1].color}45);`}>
+                  <!-- Pulse dot mid-line -->
+                  <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 rounded-full" style={`background:linear-gradient(135deg,${node.color},${arr[i+1].color});opacity:0.6;`}/>
+                </div>
+                <!-- Arrowhead -->
+                <svg width="8" height="8" viewBox="0 0 8 8" fill="none" class="shrink-0 ml-0.5">
+                  <path d="M1 1.5 L6 4 L1 6.5" stroke={arr[i+1].color} stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity="0.65"/>
+                </svg>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- STICKY FILTER BAR                                              -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div class="sticky top-16 z-20 bg-white/98 border-b border-brand-gray-100" style="backdrop-filter:blur(8px);">
+    <div class="container-x">
+      <div class="flex items-stretch overflow-x-auto scrollbar-none" id="layer-tabs">
+        {layers.map((l, i) => (
+          <button
+            type="button"
+            data-layer={l.id}
+            data-dot={l.dot}
+            class:list={[
+              'layer-tab group shrink-0 relative flex items-center gap-2 px-5 py-3.5 transition-all whitespace-nowrap border-b-2',
+              i === 0
+                ? 'border-brand-black'
+                : 'border-transparent hover:border-brand-gray-300',
+            ]}
+          >
+            <!-- Color dot -->
+            <span
+              class="w-2 h-2 rounded-full shrink-0 transition-opacity"
+              style={`background:${l.dot};opacity:${i===0?'1':'0.5'};`}
+            />
+            <!-- Label -->
+            <span class:list={[
+              'text-[9.5px] tracking-[0.12em] uppercase font-bold transition-colors',
+              i === 0 ? 'text-brand-black' : 'text-brand-gray-500 group-hover:text-brand-black',
+            ]}>
+              {l.label}
+            </span>
+            <!-- Count pill -->
+            <span class:list={[
+              'text-[8px] px-1.5 py-0.5 rounded-full font-bold tabular-nums transition-all leading-none',
+              i === 0 ? 'bg-brand-black text-white' : 'bg-brand-gray-200 text-brand-gray-600',
+            ]}>
+              {l.count}
+            </span>
+          </button>
+        ))}
+
+        <!-- Spacer + right action -->
+        <div class="ml-auto flex items-center gap-3 px-4 shrink-0 border-l border-brand-gray-100 ml-auto">
+          <span class="text-[9.5px] text-brand-gray-500 hidden lg:inline">62 components · 6 layers</span>
+          <a href="/pages/welcome" class="text-[9px] tracking-[0.12em] uppercase font-bold text-brand-pink hover:opacity-75 transition whitespace-nowrap">
+            Free audit →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- CARDS — grouped by layer with section header                   -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div class="bg-brand-cream">
+    <div class="container-x py-14 space-y-16">
+
+      {groupedLayers.map(layerId => {
+        const items  = stack.filter(s => s.layer === layerId);
+        const meta   = layerMeta[layerId];
+        const first  = items[0];
+        return (
+          <section class="layer-section" data-layer-section={layerId}>
+            <!-- Layer header -->
+            <div class="flex items-center justify-between gap-8 mb-8 pb-5 border-b border-brand-gray-200">
+              <div class="flex items-center gap-4">
+                <!-- Accent bar -->
+                <div class="w-1 h-10 rounded-full shrink-0" style={`background:${meta.accent};opacity:0.5;`}/>
+                <div>
+                  <span class:list={['text-[8px] tracking-[0.18em] uppercase font-bold px-2.5 py-1 rounded-full mb-2 inline-block', layerColors[layerId]]}>
+                    {first?.layerLabel}
+                  </span>
+                  <p class="text-[12.5px] text-brand-gray-600 max-w-lg leading-relaxed">{meta.desc}</p>
+                </div>
+              </div>
+              <div class="shrink-0 text-right hidden sm:flex flex-col items-end gap-1">
+                <div class="font-display text-4xl font-medium" style={`color:${meta.accent};opacity:0.7;`}>{items.length}</div>
+                <div class="text-[9px] text-brand-gray-500 tracking-[0.14em] uppercase font-medium">of 62 components</div>
+              </div>
+            </div>
+
+            <!-- Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {items.map(item => (
+                <article
+                  class="stack-card group bg-white rounded-2xl overflow-hidden border transition-all duration-300"
+                  style={`box-shadow:0 1px 4px rgba(0,0,0,0.04);border-color:rgba(0,0,0,0.07);--layer-accent:${meta.accent};`}
+                  data-layer={item.layer}
+                >
+                  <!-- Visual area -->
+                  <div class="relative h-38 flex items-center justify-center overflow-hidden" style={`height:148px;background:${meta.bg};`}>
+                    <!-- Radial glow behind illustration -->
+                    <div class="absolute inset-0 pointer-events-none" style={`background:radial-gradient(ellipse 70% 70% at 50% 50%, ${meta.accent}18 0%, transparent 70%);`}/>
+                    <svg viewBox="0 0 120 120" class="w-32 h-32 transition-transform duration-700 group-hover:scale-[1.04]" aria-hidden="true" set:html={item.svg}/>
+
+                    <!-- Usage pill — bottom left -->
+                    <div class="absolute bottom-3 left-3 flex items-center gap-1.5">
+                      <div class="h-1 w-14 rounded-full overflow-hidden" style="background:rgba(0,0,0,0.08);">
+                        <div class="h-full rounded-full transition-all" style={`width:${item.usage}%;background:${meta.accent};opacity:0.7;`}/>
+                      </div>
+                      <span class="text-[9px] font-medium tabular-nums" style={`color:${meta.color};opacity:0.75;`}>{item.usage}%</span>
+                    </div>
+
+                    <!-- Layer badge — top right -->
+                    <span class:list={['absolute top-3 right-3 text-[8px] tracking-[0.1em] uppercase font-semibold px-2 py-0.5 rounded-full', layerColors[item.layer]]}>
+                      {item.layerLabel}
+                    </span>
+                  </div>
+
+                  <!-- Card body -->
+                  <div class="px-5 pt-4 pb-5">
+
+                    <!-- Name row -->
+                    <div class="flex items-start justify-between gap-2 mb-1.5">
+                      <div class="min-w-0">
+                        <h3 class="font-display text-[15px] leading-tight text-brand-black">{item.name}</h3>
+                        <p class="text-[11px] text-brand-gray-500 mt-0.5 leading-tight">{item.tagline}</p>
+                      </div>
+                      <!-- Metric chip -->
+                      <div class="shrink-0 text-right border border-brand-gray-100 rounded-xl px-2.5 py-2" style={`background:${meta.bg};border-left:2px solid ${meta.accent};opacity:1;`}>
+                        <div class="font-display text-sm font-medium leading-none" style={`color:${meta.color};`}>{item.metric.v}</div>
+                        <div class="text-[8px] text-brand-gray-500 mt-1 tracking-wide whitespace-nowrap leading-none">{item.metric.l}</div>
+                      </div>
+                    </div>
+
+                    <p class="text-[12.5px] text-brand-gray-600 leading-relaxed mb-3.5">{item.description}</p>
+
+                    <!-- Works with -->
+                    <div class="mb-3">
+                      <p class="text-[8px] tracking-[0.14em] uppercase text-brand-gray-400 mb-1.5 font-semibold">Works with</p>
+                      <div class="flex flex-wrap gap-1">
+                        {item.compatibleWith.map(c => (
+                          <span class="text-[9px] bg-white border border-brand-gray-100 text-brand-gray-500 px-2 py-0.5 rounded-full leading-tight">{c}</span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <!-- Technical tags -->
+                    <div class="flex flex-wrap gap-1 mb-4">
+                      {item.tags.map(t => (
+                        <span class:list={['text-[8px] tracking-[0.06em] px-2 py-0.5 rounded-full font-medium leading-tight', layerColors[item.layer]]}>{t}</span>
+                      ))}
+                    </div>
+
+                    <!-- Expand button -->
+                    <button
+                      type="button"
+                      class="expand-btn w-full flex items-center justify-between pt-3 border-t border-brand-gray-100 group/btn"
+                      aria-expanded="false"
+                    >
+                      <span class="flex items-center gap-2 text-[10px] tracking-[0.1em] uppercase font-semibold text-brand-black/35 group-hover/btn:text-brand-black/60 transition-colors">
+                        <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
+                          <circle cx="7" cy="7" r="5.5"/>
+                          <line x1="7" y1="4.5" x2="7" y2="7.5"/>
+                          <circle cx="7" cy="9.5" r="0.6" fill="currentColor"/>
+                        </svg>
+                        <span class="expand-label">Engineering depth</span>
+                      </span>
+                      <span class="expand-icon flex items-center justify-center w-5 h-5 rounded-full border border-brand-gray-200 group-hover/btn:border-brand-gray-300 transition-all duration-200 shrink-0">
+                        <svg width="8" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M1 1L4 4L7 1"/>
+                        </svg>
+                      </span>
+                    </button>
+
+                    <!-- Expanded panel -->
+                    <div class="expand-content overflow-hidden" style="max-height:0;transition:max-height 0.4s cubic-bezier(0.4,0,0.2,1);">
+                      <div class="pt-4 space-y-3 pb-2">
+
+                        <!-- How we deploy -->
+                        <div class="rounded-xl p-3.5" style={`background:${meta.bg};`}>
+                          <p class="text-[8px] tracking-[0.16em] uppercase font-bold mb-2" style={`color:${meta.color};opacity:0.8;`}>
+                            ⚙ How we deploy it
+                          </p>
+                          <p class="text-[11px] text-brand-gray-600 leading-[1.75]">{item.details}</p>
+                        </div>
+
+                        <!-- Why -->
+                        <div class="rounded-xl p-3.5 bg-brand-cream border border-brand-gray-100">
+                          <p class="text-[8px] tracking-[0.16em] uppercase font-bold text-brand-black/50 mb-2">
+                            ◆ Why we chose it
+                          </p>
+                          <p class="text-[11px] text-brand-gray-600 leading-[1.75]">{item.why}</p>
+                        </div>
+
+                        <!-- vs. alternatives -->
+                        <div class="rounded-xl p-3.5 bg-white border border-brand-gray-100">
+                          <p class="text-[8px] tracking-[0.16em] uppercase font-bold text-brand-black/50 mb-2">
+                            ⇄ vs. alternatives
+                          </p>
+                          <p class="text-[11px] text-brand-gray-600 leading-[1.75]">{item.alternatives}</p>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        );
+      })}
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- CLAUDE SKILLS                                                   -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div class="bg-brand-black text-white py-20 lg:py-28">
+    <div class="container-x">
+      <!-- Header -->
+      <div class="max-w-3xl mb-14">
+        <span class="inline-flex items-center gap-1.5 bg-brand-pink/15 text-brand-pink text-[10px] tracking-[0.15em] uppercase px-3 py-1 rounded-full mb-6 font-medium">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-pink animate-pulse"/>
+          Powered by Claude
+        </span>
+        <h2 class="font-display text-4xl lg:text-5xl leading-[1.06] mb-5 text-balance">
+          {totalSkills} skills,<br/><em class="font-medium text-brand-pink">one AI layer.</em>
+        </h2>
+        <p class="text-white/45 text-base leading-relaxed">
+          Claude isn't just an email drafter. Across 12 capability categories, it handles architecture reviews, compliance checks, research synthesis, financial analysis, and strategic advisory — all embedded in your workflows without a separate AI subscription or onboarding.
+        </p>
+      </div>
+
+      <!-- Skills grid by category -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {categories.map((cat: { id: string; name: string; count: number; skills: string[] }, idx: number) => {
+          const catAccents = ['#E8B4B0','#C8B99A','#7B68EE','#2D5016','#C89840','#c4847e','#7B68EE','#E8B4B0','#C8B99A','#C89840','#2D5016','#c4847e'];
+          const accent = catAccents[idx % catAccents.length];
+          return (
+            <div class="cat-skill-card group/cat relative rounded-2xl overflow-hidden transition-all duration-300"
+                 style={`background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07);--cat-accent:${accent};`}>
+              <!-- Top edge glow line -->
+              <div class="absolute top-0 left-8 right-8 h-px pointer-events-none" style={`background:linear-gradient(90deg,transparent,${accent}65,transparent);`}/>
+              <!-- Left accent strip -->
+              <div class="absolute left-0 top-5 bottom-5 w-[2.5px] rounded-r-full" style={`background:${accent};opacity:0.5;`}/>
+              <!-- Ambient bg glow -->
+              <div class="absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-500 group-hover/cat:opacity-100" style={`background:radial-gradient(ellipse 70% 50% at 0% 40%, ${accent}0d 0%, transparent 70%);`}/>
+
+              <!-- Header row -->
+              <div class="px-6 pt-6 pb-0 flex items-start justify-between gap-3">
+                <h3 class="font-display text-[15px] leading-snug text-white/85 flex-1 pt-0.5">{cat.name}</h3>
+                <!-- Big count as data accent -->
+                <span class="shrink-0 font-display text-[32px] leading-none font-medium tabular-nums opacity-60" style={`color:${accent};`}>{cat.count}</span>
+              </div>
+
+              <!-- Gradient divider -->
+              <div class="mx-6 mt-3.5 mb-4 h-px" style={`background:linear-gradient(90deg,${accent}35,transparent);`}/>
+
+              <!-- Skills pills -->
+              <div class="px-6 pb-6 flex flex-wrap gap-1.5">
+                {cat.skills.slice(0, 7).map((skill: string, si: number) => (
+                  <span class="text-[9.5px] leading-none px-2.5 py-[5px] rounded-full border transition-all duration-200"
+                        style={`color:rgba(255,255,255,${0.55 - si * 0.04});border-color:rgba(255,255,255,${0.08 - si * 0.005});background:rgba(255,255,255,0.02);`}>{skill}</span>
+                ))}
+                {cat.skills.length > 7 && (
+                  <span class="text-[9px] leading-none px-2 py-[5px]" style="color:rgba(255,255,255,0.2)">+{cat.skills.length - 7} more</span>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <!-- Bottom stat strip -->
+      <div class="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {([
+          { v: '329',   l: 'Total skills',       sub: 'across 12 categories',          accent: '#E8B4B0' },
+          { v: '12',    l: 'Capability domains',  sub: 'engineering to finance',         accent: '#C8B99A' },
+          { v: '200k',  l: 'Context window',      sub: 'tokens per call',                accent: '#7B68EE' },
+          { v: '94%',   l: 'Task accuracy',       sub: 'in production deployment',       accent: '#C89840' },
+        ] as {v:string;l:string;sub:string;accent:string}[]).map(s => (
+          <div class="relative rounded-xl px-5 py-4 overflow-hidden" style={`background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);`}>
+            <div class="absolute left-0 top-3 bottom-3 w-[2.5px] rounded-r-full" style={`background:${s.accent};opacity:0.55;`}/>
+            <div class="absolute inset-0 pointer-events-none" style={`background:radial-gradient(ellipse 80% 50% at 0% 50%, ${s.accent}0e 0%, transparent 70%);`}/>
+            <div class="relative pl-3">
+              <div class="font-display text-[26px] text-white leading-none mb-2 tracking-tight">{s.v}</div>
+              <div class="text-white/55 text-[11px] mb-0.5">{s.l}</div>
+              <div class="text-white/25 text-[9.5px]">{s.sub}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- TRUST STRIP                                                     -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div class="border-t border-brand-gray-100 bg-white py-10">
+    <div class="container-x">
+      <div class="flex flex-wrap items-center justify-center gap-6 lg:gap-10 text-[11px] text-brand-gray-600">
+        {[
+          { icon:'M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z M9 12l2 2 4-4', label:'SOC 2 ready' },
+          { icon:'M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z', label:'n8n Certified partner' },
+          { icon:'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z', label:'99.5% uptime SLA' },
+          { icon:'M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18', label:'Git-backed deployments' },
+          { icon:'M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4', label:'GDPR-compliant logs' },
+        ].map(b => (
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-brand-black/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d={b.icon}/>
+            </svg>
+            {b.label}
+          </span>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- CTA                                                             -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div class="bg-brand-black text-white py-20">
+    <div class="container-x max-w-3xl mx-auto text-center">
+      <span class="inline-flex items-center gap-1.5 bg-brand-pink/15 text-brand-pink text-[10px] tracking-[0.15em] uppercase px-3 py-1 rounded-full mb-7 font-medium">
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-pink animate-pulse"/>
+        Free audit · No commitment
+      </span>
+      <h2 class="font-display text-4xl lg:text-5xl mb-5 text-balance leading-[1.08]">
+        Built for your stack,<br/><em class="font-medium text-brand-pink">not ours.</em>
+      </h2>
+      <p class="text-white/45 text-base max-w-md mx-auto mb-10 leading-relaxed">
+        We select and configure only the components your workflows actually need. No over-engineering, no vendor lock-in — just what works.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a href="/pages/welcome" class="inline-flex items-center gap-2 bg-white text-brand-black px-8 py-3.5 rounded-button text-sm font-medium hover:bg-brand-cream transition">
+          Get your free audit →
+        </a>
+        <a href="/pages/science" class="text-sm text-white/50 hover:text-white transition underline underline-offset-4">
+          See how it works
+        </a>
+      </div>
+    </div>
+  </div>
+
+</ShopLayout>
+
+<style>
+  .stack-card:hover {
+    border-color: color-mix(in srgb, var(--layer-accent) 30%, transparent) !important;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08), 0 0 0 1px color-mix(in srgb, var(--layer-accent) 20%, transparent) !important;
+  }
+  .cat-skill-card:hover {
+    border-color: color-mix(in srgb, var(--cat-accent) 22%, rgba(255,255,255,0.1)) !important;
+    background: rgba(255,255,255,0.04) !important;
+    box-shadow: 0 0 40px color-mix(in srgb, var(--cat-accent) 8%, transparent),
+                0 1px 0 rgba(255,255,255,0.05) inset !important;
+    transform: translateY(-1px);
+  }
+  .kpi-card {
+    transition: box-shadow 0.25s, transform 0.25s;
+  }
+  .kpi-card:hover {
+    box-shadow: 0 4px 24px rgba(0,0,0,0.2), 0 1px 0 rgba(255,255,255,0.06) inset !important;
+    transform: translateY(-1px);
+  }
+</style>
+
+<script>
+  // ── Filter tabs ─────────────────────────────────────────────────
+  const tabs     = document.querySelectorAll<HTMLButtonElement>('.layer-tab');
+  const sections = document.querySelectorAll<HTMLElement>('.layer-section');
+
+  function activateTab(tab: HTMLButtonElement) {
+    const layer = tab.dataset.layer!;
+
+    tabs.forEach(t => {
+      const active = t === tab;
+      const tDot   = t.dataset.dot!;
+
+      // Border: inline style overrides Tailwind, tinted to each layer's accent
+      t.style.borderBottomColor = active ? tDot : 'transparent';
+
+      // Dot
+      const dotEl = t.querySelector<HTMLElement>('span:first-child');
+      if (dotEl) dotEl.style.opacity = active ? '1' : '0.35';
+
+      // Label
+      const labelEl = t.querySelectorAll('span')[1] as HTMLElement;
+      if (labelEl) {
+        labelEl.style.color = active ? '#0A0A0A' : '';
+        labelEl.classList.toggle('text-brand-gray-400', !active);
+      }
+
+      // Count badge: tinted to layer accent when active
+      const badge = t.querySelectorAll('span')[2] as HTMLElement;
+      if (badge) {
+        badge.style.background = active ? tDot : '';
+        badge.style.color      = active ? '#fff' : '';
+        badge.classList.toggle('bg-brand-gray-100',   !active);
+        badge.classList.toggle('text-brand-gray-400', !active);
+      }
+    });
+
+    sections.forEach(sec => {
+      const show = layer === 'all' || sec.dataset.layerSection === layer;
+      sec.style.display = show ? '' : 'none';
+    });
+
+    // Smooth scroll to the selected layer section
+    if (layer !== 'all') {
+      requestAnimationFrame(() => {
+        const target = document.querySelector<HTMLElement>(`[data-layer-section="${layer}"]`);
+        if (target) {
+          const top = target.getBoundingClientRect().top + window.scrollY - 120;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    }
+  }
+
+  tabs.forEach(tab => tab.addEventListener('click', () => activateTab(tab)));
+
+  // ── Smooth expand / collapse ────────────────────────────────────
+  document.querySelectorAll<HTMLButtonElement>('.expand-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const content = btn.nextElementSibling as HTMLElement;
+      const icon    = btn.querySelector<HTMLElement>('.expand-icon');
+      const label   = btn.querySelector<HTMLElement>('.expand-label');
+      const open    = btn.getAttribute('aria-expanded') === 'true';
+
+      btn.setAttribute('aria-expanded', String(!open));
+      content.style.maxHeight = open ? '0' : content.scrollHeight + 'px';
+
+      if (icon)  icon.style.transform = open ? '' : 'rotate(180deg)';
+      if (label) label.textContent    = open ? 'Engineering depth' : 'Collapse';
+    });
+  });
+</script>

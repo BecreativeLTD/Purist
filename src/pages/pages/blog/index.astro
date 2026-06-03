@@ -1,0 +1,231 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import blogData from '~/data/blog.json';
+const { categories, articles } = blogData;
+const featured = articles.find((a) => a.featured) ?? articles[0];
+const rest = articles; // show ALL articles in the grid
+---
+
+<ShopLayout
+  title="The Automation Blog – PURIST"
+  description="Workflow templates, automation case studies, AI agent insights, and the plumber paradox — from our engineering team."
+>
+
+<!-- ═══════════════════════════════════════════════
+     HERO — editorial dark
+════════════════════════════════════════════════ -->
+<header class="relative overflow-hidden" style="background:#0A0A0A;">
+  <!-- Subtle radial glow -->
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 70% 60% at 60% 50%,rgba(232,180,176,0.07) 0%,transparent 70%);"/>
+
+  <div class="container-x relative z-10 py-16 lg:py-24">
+    <div class="max-w-2xl">
+      <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-5" style="color:rgba(232,180,176,0.6);">The Automation Blog</p>
+      <h1 class="font-display text-[2.6rem] lg:text-[3.4rem] leading-[1.08] tracking-[-0.02em] text-white mb-5 text-balance">
+        Stories about<br/><em class="font-medium" style="color:#E8B4B0;">working smarter,</em><br/>not harder.
+      </h1>
+      <p class="text-[15px] lg:text-base leading-relaxed max-w-lg" style="color:rgba(255,255,255,0.42);">
+        Workflow templates, case studies, AI agent insights, and industry guides — from our engineering team and operations strategists.
+      </p>
+    </div>
+  </div>
+
+  <!-- Category tab bar -->
+  <div class="relative z-10 border-t" style="border-color:rgba(255,255,255,0.07);">
+    <div class="container-x">
+      <div class="flex overflow-x-auto gap-px" style="scrollbar-width:none;" id="cat-bar">
+        {categories.map((c, i) => (
+          <a
+            href={c.id === 'all' ? '/pages/blog' : `/pages/blog?cat=${c.id}`}
+            data-cat={c.id}
+            class="cat-btn group shrink-0 flex items-center gap-2 px-4 lg:px-5 py-4 text-left transition-all duration-150 border-b-2 whitespace-nowrap"
+            style={i === 0
+              ? 'border-color:#E8B4B0;color:rgba(255,255,255,0.9);'
+              : 'border-color:transparent;color:rgba(255,255,255,0.35);'}
+          >
+            <svg class="w-3.5 h-3.5 shrink-0 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d={c.icon}/>
+            </svg>
+            <span class="text-[11px] font-semibold tracking-[0.06em] uppercase leading-none">{c.name}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════
+     FEATURED ARTICLE
+════════════════════════════════════════════════ -->
+<section class="bg-brand-cream py-14 lg:py-20">
+  <div class="container-x">
+    <p class="text-[9px] uppercase tracking-[0.26em] font-bold mb-8" style="color:rgba(10,10,10,0.35);">Featured</p>
+    <article class="grid md:grid-cols-[1fr_440px] lg:grid-cols-[1fr_520px] gap-0 rounded-[20px] overflow-hidden" style="background:#0A0A0A;border:1px solid rgba(255,255,255,0.06);">
+      <!-- Image -->
+      <a href={`/pages/blog/${featured.slug}`} class="block relative overflow-hidden" style="min-height:320px;">
+        <img src={featured.image} alt={featured.title}
+             class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-[1.03]"
+             loading="eager"/>
+        <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(10,10,10,0.3) 0%,transparent 60%);"/>
+        <!-- Category badge over image -->
+        <span class="absolute top-5 left-5 text-[9px] uppercase tracking-[0.18em] font-bold px-3 py-1.5 rounded-full" style="background:rgba(10,10,10,0.6);color:#E8B4B0;border:1px solid rgba(232,180,176,0.25);backdrop-filter:blur(8px);">
+          {categories.find((c) => c.id === featured.category)?.name ?? featured.category}
+        </span>
+      </a>
+      <!-- Content -->
+      <div class="p-8 lg:p-12 flex flex-col justify-between" style="background:#0A0A0A;">
+        <div>
+          <div class="flex items-center gap-2 mb-6">
+            <span class="w-1.5 h-1.5 rounded-full" style="background:#E8B4B0;"/>
+            <span class="text-[9px] uppercase tracking-[0.2em] font-semibold" style="color:rgba(255,255,255,0.3);">Editor's pick</span>
+          </div>
+          <h2 class="font-display text-2xl lg:text-3xl leading-tight tracking-[-0.02em] text-white mb-4 text-balance">
+            <a href={`/pages/blog/${featured.slug}`} class="hover:opacity-75 transition">{featured.title}</a>
+          </h2>
+          <p class="text-[14px] leading-relaxed mb-8" style="color:rgba(255,255,255,0.45);">{featured.excerpt}</p>
+        </div>
+        <div>
+          <div class="flex items-center gap-3 mb-6 text-[10.5px]" style="color:rgba(255,255,255,0.3);">
+            <span class="font-semibold" style="color:rgba(255,255,255,0.55);">{featured.author}</span>
+            <span aria-hidden="true">·</span>
+            <span>{featured.date}</span>
+            <span aria-hidden="true">·</span>
+            <span>{featured.readingTime}</span>
+          </div>
+          <a href={`/pages/blog/${featured.slug}`}
+             class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-[11.5px] font-semibold transition-all duration-150"
+             style="background:rgba(232,180,176,0.12);color:#E8B4B0;border:1px solid rgba(232,180,176,0.22);"
+             onmouseover="this.style.background='rgba(232,180,176,0.2)'"
+             onmouseout="this.style.background='rgba(232,180,176,0.12)'"
+          >
+            Read article
+            <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 7h10M8 3l4 4-4 4"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     ARTICLE GRID
+════════════════════════════════════════════════ -->
+<section class="bg-brand-cream pb-20 lg:pb-28" data-article-grid>
+  <div class="container-x">
+    <div class="flex items-center justify-between mb-8">
+      <p class="text-[9px] uppercase tracking-[0.26em] font-bold" style="color:rgba(10,10,10,0.35);">All articles</p>
+      <span class="text-[10.5px]" style="color:rgba(10,10,10,0.3);" id="article-count">{articles.length} articles</span>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+      {rest.map((a) => (
+        <article
+          data-article-card
+          data-cat={a.category}
+          class="group/card flex flex-col rounded-[18px] overflow-hidden transition-all duration-200"
+          style="background:#fff;border:1px solid rgba(10,10,10,0.07);"
+          onmouseover="this.style.boxShadow='0 8px 32px rgba(10,10,10,0.1)';this.style.transform='translateY(-2px)'"
+          onmouseout="this.style.boxShadow='';this.style.transform=''"
+        >
+          <!-- Image — object-contain so PURIST label is never cropped -->
+          <a href={`/pages/blog/${a.slug}`} class="block relative overflow-hidden shrink-0" style="aspect-ratio:16/9;background:#F0EBE3;">
+            <img src={a.image} alt={a.title}
+                 class="absolute inset-0 w-full h-full transition-transform duration-700 group-hover/card:scale-[1.025]"
+                 style="object-fit:contain;object-position:center;"
+                 loading="lazy"/>
+            <!-- Category pill — top-left, not bottom so it doesn't cover the PURIST label -->
+            <span class="absolute top-3 left-3 text-[8.5px] uppercase tracking-[0.15em] font-bold px-2.5 py-1 rounded-full" style="background:rgba(10,10,10,0.55);color:rgba(255,255,255,0.85);backdrop-filter:blur(6px);">
+              {categories.find((c) => c.id === a.category)?.name ?? a.category}
+            </span>
+            {a.featured && (
+              <span class="absolute top-3 right-3 text-[8px] uppercase tracking-[0.15em] font-bold px-2 py-1 rounded-full" style="background:#E8B4B0;color:#0A0A0A;">
+                Featured
+              </span>
+            )}
+          </a>
+          <!-- Body -->
+          <div class="p-5 lg:p-6 flex flex-col flex-1">
+            <h3 class="font-display text-[17px] lg:text-[18px] leading-snug tracking-[-0.01em] mb-2 text-brand-black">
+              <a href={`/pages/blog/${a.slug}`} class="hover:opacity-70 transition">{a.title}</a>
+            </h3>
+            <p class="text-[12px] leading-relaxed flex-1 line-clamp-2 mb-4" style="color:rgba(10,10,10,0.5);">{a.excerpt}</p>
+            <!-- Footer meta -->
+            <div class="flex items-center justify-between pt-4" style="border-top:1px solid rgba(10,10,10,0.06);">
+              <div class="flex items-center gap-2 text-[10px]" style="color:rgba(10,10,10,0.38);">
+                <span class="font-medium" style="color:rgba(10,10,10,0.55);">{a.date}</span>
+                <span aria-hidden="true">·</span>
+                <span>{a.readingTime}</span>
+              </div>
+              <svg class="w-3.5 h-3.5 transition-transform duration-150 group-hover/card:translate-x-0.5 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:rgba(10,10,10,0.28);">
+                <path d="M3 8h10M9 4l4 4-4 4"/>
+              </svg>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     CTA STRIP
+════════════════════════════════════════════════ -->
+<section class="relative overflow-hidden py-16 lg:py-20" style="background:#0A0A0A;">
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 50% 70% at 75% 50%,rgba(232,180,176,0.06) 0%,transparent 70%);"/>
+  <div class="container-x relative z-10 text-center max-w-2xl mx-auto">
+    <p class="text-[9px] uppercase tracking-[0.26em] font-bold mb-4" style="color:rgba(232,180,176,0.5);">From the audit to the deployment</p>
+    <h2 class="font-display text-3xl lg:text-4xl text-white leading-tight tracking-[-0.02em] mb-8 text-balance">
+      Try the automation<br/><em class="font-medium" style="color:#E8B4B0;">these articles are about.</em>
+    </h2>
+    <a href="/pages/welcome"
+       class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-[13px] font-semibold transition-all duration-150"
+       style="background:#E8B4B0;color:#0A0A0A;"
+       onmouseover="this.style.background='#d9a09b'"
+       onmouseout="this.style.background='#E8B4B0'"
+    >
+      Book your free audit
+      <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 8h10M9 4l4 4-4 4"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<style>
+  /* ── Category tab active state ──────────────────────────────────── */
+  .cat-btn.is-active {
+    border-bottom-color: #E8B4B0 !important;
+    color: rgba(255,255,255,0.9) !important;
+  }
+  .cat-btn:not(.is-active):hover {
+    color: rgba(255,255,255,0.62) !important;
+    border-bottom-color: rgba(255,255,255,0.15) !important;
+  }
+  #cat-bar { scrollbar-width: none; }
+  #cat-bar::-webkit-scrollbar { display: none; }
+</style>
+
+<script is:inline>
+  function applyFilter() {
+    const params = new URLSearchParams(location.search);
+    const cat = params.get('cat');
+    const cards = document.querySelectorAll('[data-article-card]');
+    let visible = 0;
+    cards.forEach((el) => {
+      const show = !cat || cat === 'all' || el.dataset.cat === cat;
+      el.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    const countEl = document.getElementById('article-count');
+    if (countEl) countEl.textContent = visible + ' article' + (visible !== 1 ? 's' : '');
+    document.querySelectorAll('.cat-btn[data-cat]').forEach((el) => {
+      el.classList.remove('is-active');
+      if (el.dataset.cat === (cat || 'all')) el.classList.add('is-active');
+    });
+  }
+  applyFilter();
+  document.addEventListener('astro:page-load', applyFilter);
+</script>
+
+</ShopLayout>

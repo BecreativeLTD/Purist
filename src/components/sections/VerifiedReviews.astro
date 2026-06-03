@@ -1,0 +1,46 @@
+---
+import reviewsData from '~/data/testimonials.json';
+import StarRating from '~/components/ui/StarRating.astro';
+import Button from '~/components/ui/Button.astro';
+const { reviews } = reviewsData;
+---
+
+<section class="bg-brand-beige py-20 lg:py-28">
+  <div class="container-x">
+    <div class="max-w-3xl mb-12">
+      <p class="eyebrow mb-4">Verified reviews</p>
+      <h2 class="font-display text-h1 text-balance">
+        Our clients report 95% less manual work.<br />
+        <em class="font-medium">Here is what that actually feels&nbsp;like.</em>
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {reviews.map((r) => (
+        <article class="bg-white rounded-card p-6 flex flex-col scroll-fade">
+          <div class="flex items-center justify-between mb-3">
+            <StarRating rating={r.rating} size="sm" />
+            {r.verified && (
+              <span class="text-[10px] uppercase tracking-wider text-brand-green font-medium">
+                ✓ Verified
+              </span>
+            )}
+          </div>
+          <h3 class="font-display text-base mb-2">{r.title}</h3>
+          <p class="text-sm text-brand-gray-600 leading-relaxed flex-1">{r.text}</p>
+          <div class="flex items-center justify-between mt-4 pt-4 border-t border-brand-gray-100 text-xs text-brand-gray-600">
+            <span class="font-medium text-brand-black">{r.name}</span>
+            <span>{r.date}</span>
+          </div>
+          <p class="text-[11px] text-brand-gray-400 mt-2">Industry: {r.flavor}</p>
+        </article>
+      ))}
+    </div>
+
+    <div class="mt-10 flex justify-center">
+      <Button href="/pages/wall-of-health" variant="secondary">
+        See all client stories
+      </Button>
+    </div>
+  </div>
+</section>

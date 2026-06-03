@@ -1,0 +1,435 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import StarRating from '~/components/ui/StarRating.astro';
+import Button from '~/components/ui/Button.astro';
+import productsData from '~/data/products.json';
+import { formatPrice } from '~/lib/format';
+
+const { products } = productsData;
+
+// Pricing comparison table data
+const comparisonFeatures = [
+  {
+    category: 'Deployment',
+    rows: [
+      { feature: 'Dedicated automation engineer', automation: true, agent: true, full: true },
+      { feature: 'Deployment time', automation: '5–7 days', agent: '7–10 days', full: '7–10 days' },
+      { feature: 'Custom n8n workflows', automation: '12 workflows', agent: '—', full: '12+ workflows' },
+      { feature: 'AI agent setup', automation: '—', agent: '5 agents', full: '5+ agents' },
+      { feature: 'Onboarding session', automation: true, agent: true, full: true },
+    ],
+  },
+  {
+    category: 'Automation Coverage',
+    rows: [
+      { feature: 'Lead capture & CRM sync', automation: true, agent: true, full: true },
+      { feature: 'Email nurture sequences', automation: true, agent: false, full: true },
+      { feature: 'Invoice auto-generation', automation: true, agent: false, full: true },
+      { feature: 'Client onboarding flow', automation: true, agent: true, full: true },
+      { feature: 'Weekly performance reports', automation: true, agent: false, full: true },
+      { feature: 'Data backup & snapshots', automation: true, agent: false, full: true },
+    ],
+  },
+  {
+    category: 'AI Agent Capabilities',
+    rows: [
+      { feature: 'AI lead qualification', automation: false, agent: true, full: true },
+      { feature: 'Conversational support bot', automation: false, agent: true, full: true },
+      { feature: 'Document processing (AI)', automation: false, agent: true, full: true },
+      { feature: 'Smart scheduling assistant', automation: false, agent: true, full: true },
+      { feature: 'Predictive analytics', automation: false, agent: true, full: true },
+      { feature: '329 Claude AI skills', automation: false, agent: true, full: true },
+    ],
+  },
+  {
+    category: 'Integrations',
+    rows: [
+      { feature: 'CRM (HubSpot, Salesforce, etc.)', automation: true, agent: true, full: true },
+      { feature: 'Email (SendGrid, Mailgun)', automation: true, agent: true, full: true },
+      { feature: 'Payments (Stripe, Square)', automation: true, agent: true, full: true },
+      { feature: 'Calendar (Calendly, Google)', automation: true, agent: true, full: true },
+      { feature: 'Slack / Teams notifications', automation: true, agent: true, full: true },
+      { feature: 'Custom API integrations', automation: '2 included', agent: '2 included', full: 'Unlimited' },
+    ],
+  },
+  {
+    category: 'Support & SLA',
+    rows: [
+      { feature: 'Response SLA', automation: '24h', agent: '24h', full: '12h' },
+      { feature: 'Monthly performance review', automation: false, agent: false, full: true },
+      { feature: 'Dedicated CSM', automation: false, agent: false, full: true },
+      { feature: '30-day money-back guarantee', automation: true, agent: true, full: true },
+      { feature: 'Uptime SLA', automation: '99.5%', agent: '99.5%', full: '99.9%' },
+    ],
+  },
+];
+
+const industries = [
+  { id: 'all', label: 'All industries' },
+  { id: 'dental', label: 'Dental & Healthcare' },
+  { id: 'realestate', label: 'Real Estate' },
+  { id: 'agency', label: 'Agencies' },
+  { id: 'ecommerce', label: 'E-commerce' },
+];
+
+const faqs = [
+  {
+    q: 'Can I switch plans after signing up?',
+    a: 'Yes. You can upgrade to The Full Stack at any time — we prorate the difference. Downgrading is available at your next billing cycle.',
+  },
+  {
+    q: 'What does "deployed in 5–10 days" mean?',
+    a: 'We complete your entire automation setup within that window: discovery call, workflow build, integration testing, and go-live. Most clients are live in 7 business days.',
+  },
+  {
+    q: 'Do I need technical knowledge?',
+    a: 'None. We handle everything: architecture, build, integrations, and maintenance. Your team just uses the outputs — the automations run silently in the background.',
+  },
+  {
+    q: 'What tools do you integrate with?',
+    a: 'Any tool with an API. Common integrations: HubSpot, Salesforce, Stripe, Google Workspace, Slack, Calendly, SendGrid, QuickBooks, and 400+ more via n8n.',
+  },
+  {
+    q: 'Is there a setup fee?',
+    a: 'No setup fee for monthly plans. One-time deployment packages are also available if you prefer ownership over a subscription.',
+  },
+  {
+    q: 'What happens after the 30-day guarantee period?',
+    a: 'You continue on your monthly plan. We provide ongoing maintenance, monitoring, and updates included in your subscription — no hidden fees.',
+  },
+];
+---
+
+<ShopLayout
+  title="Pricing & Services – PURIST"
+  description="Workflow automation, AI agents, and full-stack operations for dental, real estate, agencies and e-commerce. Transparent pricing, 30-day guarantee."
+>
+
+  <!-- Header -->
+  <header class="bg-brand-cream border-b border-brand-gray-100">
+    <div class="container-x py-16 lg:py-20 text-center max-w-3xl mx-auto">
+      <p class="eyebrow mb-4">Pricing & plans</p>
+      <h1 class="font-display text-4xl lg:text-5xl xl:text-6xl leading-tight tracking-tight mb-5 text-balance">
+        Three plans. <em class="font-medium">One complete operations stack.</em>
+      </h1>
+      <p class="text-base lg:text-lg text-brand-gray-600 text-pretty max-w-2xl mx-auto">
+        Automation Pro for core workflows. AI Agent Deploy for intelligent automation.
+        Bundle both as The Full Stack — one deployment, complete coverage, best value.
+      </p>
+      <div class="flex items-center justify-center gap-6 mt-6 text-sm text-brand-gray-600">
+        <span class="flex items-center gap-1.5">
+          <span class="text-brand-green">✓</span> 30-day money-back
+        </span>
+        <span class="flex items-center gap-1.5">
+          <span class="text-brand-green">✓</span> Deployed in 5–10 days
+        </span>
+        <span class="flex items-center gap-1.5">
+          <span class="text-brand-green">✓</span> No setup fees
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Plans grid -->
+  <section class="container-x py-16 lg:py-20">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-5">
+      {products.map((p, idx) => (
+        <article class={`relative flex flex-col rounded-card overflow-hidden border transition group/card ${idx === 0 ? 'border-brand-black shadow-xl scale-[1.02] bg-white' : 'border-brand-gray-100 hover:border-brand-gray-200 bg-white'}`}>
+          {p.badge && (
+            <div class={`px-4 py-2.5 text-center text-[10px] tracking-wider uppercase font-medium ${idx === 0 ? 'bg-brand-black text-white' : 'bg-brand-cream text-brand-gray-600'}`}>
+              {p.badge}
+            </div>
+          )}
+
+          <a href={`/products/${p.slug}`} class="block overflow-hidden bg-brand-cream aspect-[4/3]">
+            <img
+              src={p.images[0]}
+              alt={`${p.title}`}
+              class="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-[1.03]"
+              loading="lazy"
+            />
+          </a>
+
+          <div class="p-6 lg:p-7 flex flex-col flex-1">
+            <p class="eyebrow mb-2">{p.eyebrow}</p>
+            <h2 class="font-display text-2xl mb-2 leading-tight">
+              <a href={`/products/${p.slug}`} class="hover:opacity-70 transition">{p.title}</a>
+            </h2>
+            <div class="mb-3">
+              <StarRating rating={p.rating} size="sm" reviewCount={p.reviewCount} />
+            </div>
+            <p class="text-sm text-brand-gray-600 mb-5 text-pretty leading-relaxed">{p.shortDescription}</p>
+
+            <div class="mb-5">
+              <div class="flex items-baseline gap-2.5 mb-1">
+                <span class="font-display text-3xl">{formatPrice(p.price.subscription)}</span>
+                <span class="text-sm text-brand-gray-600">/month</span>
+                {p.price.discount > 0 && (
+                  <span class="text-[10px] uppercase tracking-wider bg-brand-green/10 text-brand-green px-2 py-0.5 rounded font-medium ml-1">
+                    {p.price.discount}% off
+                  </span>
+                )}
+              </div>
+              <p class="text-xs text-brand-gray-600">Or {formatPrice(p.price.oneTime)} one-time deployment</p>
+            </div>
+
+            <ul class="space-y-2 mb-6 flex-1">
+              {p.bullets.map((b) => (
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="text-brand-green mt-0.5 shrink-0">✓</span>
+                  <span class="text-brand-black/80 leading-snug">{b}</span>
+                </li>
+              ))}
+            </ul>
+
+            <Button href={`/products/${p.slug}`} full variant={idx === 0 ? 'primary' : 'secondary'}>
+              Get started →
+            </Button>
+            <p class="text-[11px] text-center text-brand-gray-600 mt-3">
+              30-day money-back guarantee
+            </p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Feature comparison table -->
+  <section class="bg-brand-cream py-16 lg:py-24">
+    <div class="container-x">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <p class="eyebrow mb-4">Compare plans</p>
+        <h2 class="font-display text-3xl lg:text-4xl leading-tight mb-4 text-balance">
+          Everything included. <em class="font-medium">No surprises.</em>
+        </h2>
+        <p class="text-sm text-brand-gray-600">
+          Every feature, every integration, every support tier — side by side.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-card border border-brand-gray-100 overflow-hidden shadow-sm">
+
+        <!-- Sticky column headers -->
+        <div class="grid grid-cols-[2fr_1fr_1fr_1fr] border-b border-brand-gray-100 bg-white sticky top-16 z-10">
+          <div class="p-4 lg:p-5"></div>
+          <div class="p-4 lg:p-5 text-center border-l border-brand-gray-100">
+            <p class="eyebrow mb-1 text-brand-gray-600">Automation Pro</p>
+            <p class="font-display text-xl">$799<span class="text-sm font-sans text-brand-gray-600">/mo</span></p>
+          </div>
+          <div class="p-4 lg:p-5 text-center border-l border-brand-gray-100">
+            <p class="eyebrow mb-1 text-brand-gray-600">AI Agent Deploy</p>
+            <p class="font-display text-xl">$999<span class="text-sm font-sans text-brand-gray-600">/mo</span></p>
+          </div>
+          <div class="p-4 lg:p-5 text-center border-l border-brand-black bg-brand-black">
+            <p class="eyebrow mb-1 text-white/50">The Full Stack</p>
+            <p class="font-display text-xl text-white">$1,499<span class="text-sm font-sans text-white/60">/mo</span></p>
+            <p class="text-[10px] text-brand-rust mt-0.5">Best value</p>
+          </div>
+        </div>
+
+        <!-- Feature rows by category -->
+        {comparisonFeatures.map((section) => (
+          <>
+            <div class="grid grid-cols-[2fr_1fr_1fr_1fr] bg-brand-cream/50 border-b border-brand-gray-100">
+              <div class="px-4 lg:px-5 py-2.5">
+                <p class="text-[10px] font-medium uppercase tracking-widest text-brand-gray-600">{section.category}</p>
+              </div>
+              <div class="border-l border-brand-gray-100"></div>
+              <div class="border-l border-brand-gray-100"></div>
+              <div class="border-l border-brand-black bg-brand-black/5"></div>
+            </div>
+            {section.rows.map((row) => (
+              <div class="grid grid-cols-[2fr_1fr_1fr_1fr] border-b border-brand-gray-100/50 hover:bg-brand-cream/20 transition">
+                <div class="px-4 lg:px-5 py-3">
+                  <p class="text-sm text-brand-black">{row.feature}</p>
+                </div>
+                <div class="px-4 py-3 text-center border-l border-brand-gray-100 flex items-center justify-center">
+                  {row.automation === true ? (
+                    <svg class="w-4 h-4 text-brand-green" viewBox="0 0 16 16" fill="none" aria-label="Included">
+                      <circle cx="8" cy="8" r="7" fill="currentColor" opacity="0.12"/>
+                      <path d="M4.5 8l2.5 2.5L11.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  ) : row.automation === false ? (
+                    <svg class="w-4 h-4 text-brand-gray-300" viewBox="0 0 16 16" fill="none" aria-label="Not included">
+                      <path d="M5 8h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                  ) : (
+                    <span class="text-[11px] text-brand-gray-600 text-center leading-tight">{row.automation}</span>
+                  )}
+                </div>
+                <div class="px-4 py-3 text-center border-l border-brand-gray-100 flex items-center justify-center">
+                  {row.agent === true ? (
+                    <svg class="w-4 h-4 text-brand-green" viewBox="0 0 16 16" fill="none" aria-label="Included">
+                      <circle cx="8" cy="8" r="7" fill="currentColor" opacity="0.12"/>
+                      <path d="M4.5 8l2.5 2.5L11.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  ) : row.agent === false ? (
+                    <svg class="w-4 h-4 text-brand-gray-300" viewBox="0 0 16 16" fill="none" aria-label="Not included">
+                      <path d="M5 8h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                  ) : (
+                    <span class="text-[11px] text-brand-gray-600 text-center leading-tight">{row.agent}</span>
+                  )}
+                </div>
+                <div class="px-4 py-3 text-center border-l border-brand-black bg-brand-black/[0.02] flex items-center justify-center">
+                  {row.full === true ? (
+                    <svg class="w-4 h-4 text-brand-green" viewBox="0 0 16 16" fill="none" aria-label="Included">
+                      <circle cx="8" cy="8" r="7" fill="currentColor" opacity="0.12"/>
+                      <path d="M4.5 8l2.5 2.5L11.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  ) : row.full === false ? (
+                    <svg class="w-4 h-4 text-brand-gray-300" viewBox="0 0 16 16" fill="none" aria-label="Not included">
+                      <path d="M5 8h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                  ) : (
+                    <span class="text-[11px] font-medium text-brand-black text-center leading-tight">{row.full}</span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </>
+        ))}
+
+        <!-- CTA row -->
+        <div class="grid grid-cols-[2fr_1fr_1fr_1fr]">
+          <div class="p-5"></div>
+          <div class="p-4 border-l border-brand-gray-100 flex items-center justify-center">
+            <a href="/products/foundation-pro" class="text-xs text-brand-black underline underline-offset-2 hover:opacity-70 transition text-center">
+              Get started →
+            </a>
+          </div>
+          <div class="p-4 border-l border-brand-gray-100 flex items-center justify-center">
+            <a href="/products/longevity-protocol" class="text-xs text-brand-black underline underline-offset-2 hover:opacity-70 transition text-center">
+              Get started →
+            </a>
+          </div>
+          <div class="p-4 border-l border-brand-black bg-brand-black flex items-center justify-center">
+            <a href="/products/founder-stack" class="text-xs text-white underline underline-offset-2 hover:opacity-80 transition text-center">
+              Get started →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Industry tabs + context -->
+  <section class="bg-white py-16 lg:py-20 border-t border-brand-gray-100">
+    <div class="container-x">
+      <div class="text-center max-w-2xl mx-auto mb-10">
+        <p class="eyebrow mb-4">Built for your industry</p>
+        <h2 class="font-display text-3xl lg:text-4xl leading-tight text-balance">
+          Every plan works out of the box <em class="font-medium">for your vertical.</em>
+        </h2>
+      </div>
+
+      <!-- Industry cards -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {[
+          {
+            id: 'dental',
+            title: 'Dental & Healthcare',
+            icon: '🦷',
+            items: ['Appointment reminders', 'Insurance pre-auth', 'Patient onboarding', 'Recall campaigns', 'Treatment follow-ups'],
+          },
+          {
+            id: 'realestate',
+            title: 'Real Estate',
+            icon: '🏠',
+            items: ['Lead routing to agents', 'Listing alerts', 'Contract doc processing', 'Tenant onboarding', 'Maintenance ticket triage'],
+          },
+          {
+            id: 'agency',
+            title: 'Agencies',
+            icon: '🎯',
+            items: ['Client reporting', 'Project kickoff flows', 'Invoice generation', 'Proposal automation', 'Time-tracking sync'],
+          },
+          {
+            id: 'ecommerce',
+            title: 'E-commerce',
+            icon: '🛍️',
+            items: ['Order confirmation flows', 'Abandoned cart recovery', 'Review requests', 'Inventory alerts', 'Return processing'],
+          },
+        ].map((ind) => (
+          <div class="bg-brand-cream rounded-card p-5 hover:bg-brand-beige transition">
+            <span class="text-2xl mb-3 block" aria-hidden="true">{ind.icon}</span>
+            <h3 class="font-display text-base mb-3 leading-tight">{ind.title}</h3>
+            <ul class="space-y-1.5">
+              {ind.items.map((item) => (
+                <li class="flex items-start gap-1.5 text-xs text-brand-gray-600">
+                  <span class="text-brand-green mt-0.5 shrink-0">✓</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-brand-cream py-16 lg:py-20 border-t border-brand-gray-100">
+    <div class="container-x max-w-3xl mx-auto">
+      <div class="text-center mb-10">
+        <p class="eyebrow mb-4">Pricing FAQ</p>
+        <h2 class="font-display text-3xl lg:text-4xl leading-tight text-balance">
+          Common questions.
+        </h2>
+      </div>
+
+      <div class="space-y-px rounded-card overflow-hidden border border-brand-gray-100">
+        {faqs.map((faq, i) => (
+          <details class="group bg-white">
+            <summary class="flex items-center justify-between gap-4 px-6 py-4 cursor-pointer hover:bg-brand-cream/30 transition list-none">
+              <span class="font-medium text-sm text-brand-black">{faq.q}</span>
+              <svg
+                class="w-4 h-4 text-brand-gray-600 shrink-0 transition-transform group-open:rotate-180"
+                viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"
+              >
+                <path d="M4 6l4 4 4-4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            <div class="px-6 pb-4 pt-1">
+              <p class="text-sm text-brand-gray-600 leading-relaxed">{faq.a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+
+      <div class="mt-8 text-center">
+        <p class="text-sm text-brand-gray-600 mb-3">Still have questions?</p>
+        <Button href="/pages/contact-us" variant="secondary">Talk to the team →</Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Guarantee + CTA -->
+  <section class="bg-brand-black py-16 lg:py-20">
+    <div class="container-x text-center max-w-2xl mx-auto">
+      <div class="w-16 h-16 rounded-full bg-brand-rust/10 flex items-center justify-center mx-auto mb-6">
+        <svg class="w-8 h-8 text-brand-rust" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <p class="eyebrow text-white/40 mb-4">Risk-free start</p>
+      <h2 class="font-display text-3xl lg:text-4xl text-white mb-5 text-balance">
+        30-day money-back guarantee.<br/>
+        <em class="font-medium text-brand-rust">No questions asked.</em>
+      </h2>
+      <p class="text-sm text-white/60 mb-8 leading-relaxed">
+        If your automations don't deliver measurable ROI within 30 days,
+        we refund your first month in full. We're that confident in what we build.
+      </p>
+      <div class="flex flex-wrap gap-3 justify-center">
+        <Button href="/products/founder-stack" size="lg">
+          Start with The Full Stack →
+        </Button>
+        <Button href="/pages/contact-us" variant="secondary" size="lg">
+          Book a free audit →
+        </Button>
+      </div>
+    </div>
+  </section>
+
+</ShopLayout>

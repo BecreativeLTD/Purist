@@ -1,0 +1,71 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import VerifiedReviews from '~/components/sections/VerifiedReviews.astro';
+import TrustedTestimonials from '~/components/sections/TrustedTestimonials.astro';
+import StarRating from '~/components/ui/StarRating.astro';
+import Button from '~/components/ui/Button.astro';
+import reviewsData from '~/data/testimonials.json';
+const { reviews } = reviewsData;
+const ratingBreakdown = [
+  { stars: 5, pct: 88 },
+  { stars: 4, pct: 9 },
+  { stars: 3, pct: 2 },
+  { stars: 2, pct: 1 },
+  { stars: 1, pct: 0 },
+];
+---
+
+<ShopLayout
+  title="Client stories – PURIST"
+  description="500+ automation deployments. 4.8 average rating. See how dental practices, agencies, and e-commerce brands save 20+ hours per week."
+>
+  <header class="bg-brand-cream">
+    <div class="container-x py-16 lg:py-20 text-center max-w-3xl mx-auto">
+      <p class="eyebrow mb-4">Client stories</p>
+      <h1 class="font-display text-4xl lg:text-5xl xl:text-6xl leading-tight tracking-tight mb-6 text-balance">
+        500+ deployments and counting — <em class="font-medium">here's what they say.</em>
+      </h1>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto mt-10 pt-10 border-t border-brand-gray-200/60">
+        <div>
+          <p class="font-display text-4xl mb-1">4.8</p>
+          <StarRating rating={4.8} size="sm" />
+          <p class="text-xs text-brand-gray-600 mt-2">Average rating</p>
+        </div>
+        <div>
+          <p class="font-display text-4xl mb-1">500+</p>
+          <p class="text-xs text-brand-gray-600">Deployments completed</p>
+        </div>
+        <div>
+          <p class="font-display text-4xl mb-1">94%</p>
+          <p class="text-xs text-brand-gray-600">Would recommend</p>
+        </div>
+      </div>
+
+      <div class="max-w-md mx-auto mt-10 space-y-2">
+        {ratingBreakdown.map((r) => (
+          <div class="flex items-center gap-3 text-xs">
+            <span class="w-8 text-left">{r.stars}★</span>
+            <div class="flex-1 h-1.5 bg-white rounded-full overflow-hidden">
+              <div class="h-full bg-brand-black" style={`width: ${r.pct}%`}></div>
+            </div>
+            <span class="w-8 text-right text-brand-gray-600">{r.pct}%</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </header>
+
+  <VerifiedReviews />
+  <TrustedTestimonials />
+
+  <section class="bg-white py-16 lg:py-20 text-center">
+    <div class="container-x max-w-2xl">
+      <p class="eyebrow mb-4">Ready to automate?</p>
+      <h2 class="font-display text-3xl lg:text-4xl mb-6 leading-tight text-balance">
+        Start risk-free. Refunded <em class="font-medium">if you don't see ROI.</em>
+      </h2>
+      <Button href="/pages/welcome" size="lg">Book your free audit →</Button>
+    </div>
+  </section>
+</ShopLayout>

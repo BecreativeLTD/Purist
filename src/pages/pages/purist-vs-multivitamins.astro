@@ -1,0 +1,79 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import NineOrganSystems from '~/components/sections/NineOrganSystems.astro';
+import ClinicalKPIs from '~/components/sections/ClinicalKPIs.astro';
+import Button from '~/components/ui/Button.astro';
+
+const differences = [
+  { you_get: 'Full team of automation engineers, AI specialists, and ops strategists', they_offer: 'One person who also handles IT, marketing, and office Wi-Fi' },
+  { you_get: '$799-1,499/mo — all-inclusive, cancel anytime', they_offer: '$80K-120K/year salary + benefits + equipment + management overhead' },
+  { you_get: 'Deployed in 5-10 business days', they_offer: '3-6 months to hire, onboard, and get productive' },
+  { you_get: '24/7 monitoring — no vacation or sick days', they_offer: 'Single point of failure — what happens when they quit?' },
+  { you_get: '30-day money-back guarantee', they_offer: 'Severance package if it does not work out' },
+];
+---
+
+<ShopLayout
+  title="PURIST vs hiring in-house – PURIST"
+  description="Hiring an automation engineer costs $80K-120K/year. PURIST delivers the same results for $799-1,499/mo with a full team behind it."
+>
+  <header class="bg-brand-cream">
+    <div class="container-x py-16 lg:py-20 max-w-3xl mx-auto text-center">
+      <p class="eyebrow mb-4">Compare</p>
+      <h1 class="font-display text-4xl lg:text-5xl xl:text-6xl leading-tight tracking-tight mb-6 text-balance">
+        PURIST vs <em class="font-medium">hiring in-house.</em>
+      </h1>
+      <p class="text-base lg:text-lg text-brand-gray-600 text-pretty">
+        Hiring an in-house automation engineer sounds like the right move — until you do the
+        math. A full-time hire costs $80K-120K/year, takes months to onboard, and creates a
+        single point of failure. PURIST gives you an entire team for a fraction of the cost.
+      </p>
+    </div>
+  </header>
+
+  <section class="bg-white py-20 lg:py-28">
+    <div class="container-x max-w-4xl mx-auto">
+      <p class="eyebrow text-center mb-4">Side by side</p>
+      <h2 class="font-display text-3xl lg:text-4xl mb-12 text-center text-balance">
+        The same goal. <em class="font-medium">A very different cost structure.</em>
+      </h2>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-brand-gray-200 border border-brand-gray-200 rounded-card overflow-hidden">
+        <div class="bg-brand-cream p-6 lg:p-8">
+          <p class="eyebrow mb-4">PURIST managed automation</p>
+          <ul class="space-y-3">
+            {differences.map((d) => (
+              <li class="flex items-start gap-3 text-sm">
+                <span class="text-brand-green mt-0.5 shrink-0">✓</span>
+                <span>{d.you_get}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="bg-white p-6 lg:p-8">
+          <p class="eyebrow mb-4">In-house hire</p>
+          <ul class="space-y-3">
+            {differences.map((d) => (
+              <li class="flex items-start gap-3 text-sm text-brand-gray-600">
+                <span class="text-brand-gray-400 mt-0.5 shrink-0">—</span>
+                <span>{d.they_offer}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <NineOrganSystems />
+  <ClinicalKPIs />
+
+  <section class="bg-brand-beige py-16 lg:py-20 text-center">
+    <div class="container-x max-w-2xl">
+      <h2 class="font-display text-3xl lg:text-4xl mb-6 leading-tight text-balance">
+        Replace the hiring process with <em class="font-medium">one monthly plan.</em>
+      </h2>
+      <Button href="/pages/welcome" size="lg">Book your free audit →</Button>
+    </div>
+  </section>
+</ShopLayout>
