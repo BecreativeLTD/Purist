@@ -1,7 +1,9 @@
 import { createBrowserClient, createServerClient, parseCookieHeader, serializeCookieHeader } from '@supabase/ssr';
 
-const SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL;
-const SUPABASE_ANON_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+const SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL
+  ?? 'https://xzcvpetgcqsjwrtskadb.supabase.co';
+const SUPABASE_ANON_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+  ?? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6Y3ZwZXRnY3FzandydHNrYWRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0ODUxNjUsImV4cCI6MjA5NjA2MTE2NX0.zU3piiV92mOJJXjgl9rhgnry7SbGpfywev-VWR-qHGQ';
 
 // Browser client — used in client-side scripts
 export function createSupabaseBrowserClient() {
