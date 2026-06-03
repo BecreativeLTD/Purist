@@ -5,34 +5,40 @@ const PROTECTED_ROUTES = ['/pages/dashboard'];
 const AUTH_ROUTES = ['/login'];
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  const { request, redirect, url } = context;
-  const responseHeaders = new Headers();
-  const supabase = createSupabaseServerClient(request, responseHeaders);
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const { url } = context;
 
   const isProtected = PROTECTED_ROUTES.some(r => url.pathname.startsWith(r));
   const isAuthRoute = AUTH_ROUTES.some(r => url.pathname.startsWith(r));
 
-  // Not logged in → redirect to login
-  if (isProtected && !user) {
-    return redirect('/login');
+  // Only run auth check on relevant routes
+  if (!isProtected && !isAuthRoute) {
+    return next();
   }
 
-  // Already logged in → redirect away from login
-  if (isAuthRoute && user) {
-    return redirect('/pages/dashboard');
+  try {
+    const responseHeaders = new Headers();
+    const supabase = createSupabaseServerClient(context.request, responseHeaders);
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (isProtected && !user) {
+      return context.redirect('/login');
+    }
+
+    if (isAuthRoute && user) {
+      return context.redirect('/pages/dashboard');
+    }
+
+    context.locals.user = user;
+
+    const response = await next();
+    responseHeaders.forEach((value, key) => {
+      response.headers.append(key, value);
+    });
+    return response;
+  } catch {
+    if (isProtected) {
+      return context.redirect('/login');
+    }
+    return next();
   }
-
-  // Pass user to all pages via locals
-  context.locals.user = user;
-
-  const response = await next();
-
-  // Forward any auth cookies set by Supabase
-  responseHeaders.forEach((value, key) => {
-    response.headers.append(key, value);
-  });
-
-  return response;
 });

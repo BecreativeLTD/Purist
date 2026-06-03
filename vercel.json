@@ -1,7 +1,6 @@
 {
-  "functions": {
-    "dist/.vercel/output/functions/_render.func/**": {
-      "runtime": "nodejs20.x"
-    }
-  }
+  "framework": "astro",
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install --legacy-peer-deps"
 }
