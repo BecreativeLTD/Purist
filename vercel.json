@@ -1,6 +1,11 @@
 {
   "framework": "astro",
   "buildCommand": "npm run build",
-  "devCommand": "npm run dev",
-  "installCommand": "npm install --legacy-peer-deps"
+  "installCommand": "npm install --legacy-peer-deps",
+  "rewrites": [
+    { "source": "/pages/dashboard", "destination": "/pages/dashboard" },
+    { "source": "/pages/dashboard/(.*)", "destination": "/pages/dashboard/$1" },
+    { "source": "/login", "destination": "/login" },
+    { "source": "/api/auth/(.*)", "destination": "/api/auth/$1" }
+  ]
 }

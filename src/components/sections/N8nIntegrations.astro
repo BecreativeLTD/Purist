@@ -18,20 +18,20 @@ const { totalNodes, categories } = integrationsData;
     </div>
 
     <!-- Stats row -->
-    <div class="flex items-center gap-8 mb-12">
+    <div class="grid grid-cols-3 gap-4 mb-12 max-w-sm sm:max-w-none sm:flex sm:items-center sm:gap-8">
       <div>
-        <span class="font-display text-3xl text-brand-black tabular-nums">{totalNodes}+</span>
-        <span class="text-[10px] text-brand-gray-600 uppercase tracking-widest ml-1.5">Nodes</span>
+        <p class="font-display text-2xl sm:text-3xl text-brand-black tabular-nums">{totalNodes}+</p>
+        <p class="text-[9px] sm:text-[10px] text-brand-gray-600 uppercase tracking-widest mt-0.5">Nodes</p>
       </div>
-      <div class="w-px h-8 bg-brand-gray-200"></div>
+      <div class="hidden sm:block w-px h-8 bg-brand-gray-200"></div>
       <div>
-        <span class="font-display text-3xl text-brand-black tabular-nums">{categories.length}</span>
-        <span class="text-[10px] text-brand-gray-600 uppercase tracking-widest ml-1.5">Categories</span>
+        <p class="font-display text-2xl sm:text-3xl text-brand-black tabular-nums">{categories.length}</p>
+        <p class="text-[9px] sm:text-[10px] text-brand-gray-600 uppercase tracking-widest mt-0.5">Categories</p>
       </div>
-      <div class="w-px h-8 bg-brand-gray-200"></div>
+      <div class="hidden sm:block w-px h-8 bg-brand-gray-200"></div>
       <div>
-        <span class="font-display text-3xl text-brand-black">∞</span>
-        <span class="text-[10px] text-brand-gray-600 uppercase tracking-widest ml-1.5">Combinations</span>
+        <p class="font-display text-2xl sm:text-3xl text-brand-black">∞</p>
+        <p class="text-[9px] sm:text-[10px] text-brand-gray-600 uppercase tracking-widest mt-0.5">Combinations</p>
       </div>
     </div>
 

@@ -13,9 +13,9 @@ const visible = vsGreens.rows.slice(0, 11);
       <p class="text-base text-brand-gray-600 text-pretty">{vsGreens.subtitle}</p>
     </div>
 
-    <div class="bg-white rounded-card overflow-hidden shadow-sm border border-brand-gray-100">
+    <div class="bg-white rounded-card overflow-hidden shadow-sm border border-brand-gray-100 overflow-x-auto">
       <!-- Column headers with product images -->
-      <div class="grid grid-cols-[1.2fr_1fr_1fr] items-end gap-px bg-brand-gray-100">
+      <div class="grid grid-cols-[1.2fr_1fr_1fr] items-end gap-px bg-brand-gray-100 min-w-[360px]">
         <div class="bg-white p-6 lg:p-8">
           <p class="text-[10px] uppercase tracking-[0.15em] font-medium text-brand-gray-600">
             {vsGreens.columns[0]}
