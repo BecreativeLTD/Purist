@@ -1,6 +1,5 @@
 ---
 export const prerender = false;
-import ShopLayout from '~/layouts/ShopLayout.astro';
 import { createSupabaseServerClient } from '~/lib/supabase';
 
 let errorMsg = '';
@@ -9,12 +8,14 @@ let activeTab = 'signin';
 
 if (Astro.request.method === 'POST') {
   try {
-    // Use text() + URLSearchParams — most reliable across all runtimes
     const text = await Astro.request.text();
     const params = new URLSearchParams(text);
+    const action   = params.get('action')   ?? 'signin';
     const email    = params.get('email')    ?? '';
     const password = params.get('password') ?? '';
-    const action   = params.get('action')   ?? 'signin';
+    const fullName = params.get('fullname') ?? '';
+    const company  = params.get('company')  ?? '';
+    const phone    = params.get('phone')    ?? '';
     activeTab = action;
 
     if (!email || !password) {
@@ -24,11 +25,14 @@ if (Astro.request.method === 'POST') {
       const supabase = createSupabaseServerClient(Astro.request, cookieHeaders);
 
       if (action === 'signup') {
-        const { error } = await supabase.auth.signUp({ email, password });
+        const { error } = await supabase.auth.signUp({
+          email, password,
+          options: { data: { full_name: fullName, company, phone } }
+        });
         if (error) {
           errorMsg = error.message;
         } else {
-          successMsg = 'Account created! Check your email to confirm, then sign in.';
+          successMsg = 'Account created! Check your email to confirm your address, then sign in.';
           activeTab = 'signin';
         }
       } else {
@@ -36,7 +40,6 @@ if (Astro.request.method === 'POST') {
         if (error) {
           errorMsg = error.message;
         } else if (data.session) {
-          // Forward all Set-Cookie headers from Supabase
           const redirect = new Headers();
           redirect.set('Location', '/pages/dashboard');
           cookieHeaders.forEach((val, key) => redirect.append(key, val));
@@ -45,121 +48,207 @@ if (Astro.request.method === 'POST') {
       }
     }
   } catch (e: any) {
-    errorMsg = 'Server error: ' + (e?.message ?? 'unknown');
+    errorMsg = e?.message ?? 'An error occurred.';
   }
 }
 ---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign in — PURIST</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&display=swap"/>
+  <link rel="stylesheet" href="/_astro/cart.Yx5gPNFW.css"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #F7F4EF;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+    .wrap { width: 100%; max-width: 420px; }
 
-<ShopLayout title="Sign in — PURIST" description="Sign in to your PURIST dashboard.">
-  <section class="min-h-screen bg-brand-beige flex items-center justify-center px-4 py-20">
-    <div class="w-full max-w-sm">
+    /* Logo */
+    .logo { text-align: center; margin-bottom: 2rem; }
+    .logo a { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 600; color: #0A0A0A; text-decoration: none; letter-spacing: -0.02em; }
+    .logo span { color: #2D5016; }
+    .logo p { font-size: 11px; color: #9ca3af; margin-top: 4px; letter-spacing: 0.05em; text-transform: uppercase; }
 
-      <!-- Logo -->
-      <div class="text-center mb-10">
-        <a href="/" class="font-display text-2xl font-bold text-brand-black tracking-tight">PURIST<span style="color:#2D5016;">.</span></a>
-        <p class="text-[12px] text-brand-gray-500 mt-2">Your automation dashboard</p>
+    /* Tabs */
+    .tabs { display: flex; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; margin-bottom: 1.25rem; }
+    .tab-btn {
+      flex: 1; padding: 11px; font-size: 12.5px; font-weight: 600;
+      border: none; cursor: pointer; background: transparent;
+      color: #6b7280; transition: all 0.18s; letter-spacing: 0.01em;
+    }
+    .tab-btn.active { background: #0A0A0A; color: #fff; }
+
+    /* Card */
+    .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 20px; padding: 2rem; box-shadow: 0 2px 16px rgba(0,0,0,0.06); }
+
+    /* Alert */
+    .alert-err { background: rgba(220,38,38,0.06); border: 1px solid rgba(220,38,38,0.15); color: #dc2626; border-radius: 10px; padding: 10px 14px; font-size: 12px; margin-bottom: 1.25rem; }
+    .alert-ok  { background: rgba(45,80,22,0.06);  border: 1px solid rgba(45,80,22,0.15);  color: #2D5016;  border-radius: 10px; padding: 10px 14px; font-size: 12px; margin-bottom: 1.25rem; }
+
+    /* Form */
+    form { display: flex; flex-direction: column; gap: 1rem; }
+    form.hidden { display: none !important; }
+    .field label { display: block; font-size: 10.5px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+    .field input {
+      width: 100%; border: 1.5px solid #e5e7eb; border-radius: 10px;
+      padding: 11px 14px; font-size: 13.5px; color: #0A0A0A;
+      background: #fafaf8; outline: none; transition: border-color 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+    .field input:focus { border-color: #0A0A0A; background: #fff; }
+    .field input::placeholder { color: #d1d5db; }
+
+    /* Row of 2 inputs */
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+    /* Submit */
+    .btn-submit {
+      width: 100%; padding: 13px; background: #0A0A0A; color: #fff;
+      border: none; border-radius: 10px; font-size: 13.5px; font-weight: 600;
+      cursor: pointer; transition: background 0.15s; letter-spacing: 0.01em;
+      margin-top: 4px;
+    }
+    .btn-submit:hover { background: #222; }
+
+    /* Divider */
+    .divider { display: flex; align-items: center; gap: 10px; margin: 0.25rem 0; }
+    .divider hr { flex: 1; border: none; border-top: 1px solid #f3f4f6; }
+    .divider span { font-size: 10px; color: #d1d5db; }
+
+    /* Trust row */
+    .trust { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1.25rem; }
+    .trust span { font-size: 10px; color: #9ca3af; display: flex; align-items: center; gap: 4px; }
+    .trust span::before { content: '✓'; color: #2D5016; font-weight: 700; }
+
+    /* Footer */
+    .footer { text-align: center; font-size: 10px; color: #9ca3af; margin-top: 1.5rem; }
+    .footer a { color: #9ca3af; }
+    .footer a:hover { color: #0A0A0A; }
+
+    /* Back link */
+    .back { display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 1.5rem; }
+    .back a { font-size: 11px; color: #6b7280; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+    .back a:hover { color: #0A0A0A; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Back -->
+  <div class="back">
+    <a href="/">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 2.5L4 7l4.5 4.5"/></svg>
+      Back to site
+    </a>
+  </div>
+
+  <!-- Logo -->
+  <div class="logo">
+    <a href="/">PURIST<span>.</span></a>
+    <p>Client Portal</p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button type="button" class={`tab-btn ${activeTab === 'signin' ? 'active' : ''}`} onclick="switchTab('signin')" id="tab-signin">Sign in</button>
+    <button type="button" class={`tab-btn ${activeTab === 'signup' ? 'active' : ''}`} onclick="switchTab('signup')" id="tab-signup">Create account</button>
+  </div>
+
+  <!-- Card -->
+  <div class="card">
+
+    {successMsg && <div class="alert-ok">{successMsg}</div>}
+    {errorMsg   && <div class="alert-err">{errorMsg}</div>}
+
+    <!-- ── SIGN IN ── -->
+    <form id="form-signin" method="POST" class={activeTab === 'signup' ? 'hidden' : ''}>
+      <input type="hidden" name="action" value="signin"/>
+      <div class="field">
+        <label>Email address</label>
+        <input type="email" name="email" required autocomplete="email" placeholder="you@company.com"/>
       </div>
-
-      <!-- Tabs -->
-      <div class="flex rounded-xl overflow-hidden border border-brand-gray-200 mb-6 bg-white">
-        <button type="button" id="tab-signin"
-          class={`flex-1 py-2.5 text-[12px] font-semibold transition ${activeTab === 'signin' ? 'bg-brand-black text-white' : 'text-brand-gray-500 hover:text-brand-black'}`}
-          onclick="switchTab('signin')">Sign in</button>
-        <button type="button" id="tab-signup"
-          class={`flex-1 py-2.5 text-[12px] font-semibold transition ${activeTab === 'signup' ? 'bg-brand-black text-white' : 'text-brand-gray-500 hover:text-brand-black'}`}
-          onclick="switchTab('signup')">Create account</button>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" name="password" required autocomplete="current-password" placeholder="••••••••"/>
       </div>
+      <button type="submit" class="btn-submit">Sign in →</button>
+    </form>
 
-      <!-- Card -->
-      <div class="bg-white rounded-2xl border border-brand-gray-100 shadow-sm px-8 py-8">
-
-        {successMsg && (
-          <div class="mb-5 px-4 py-3 rounded-xl text-[12px] font-medium" style="background:rgba(45,80,22,0.06);color:#2D5016;border:1px solid rgba(45,80,22,0.15);">
-            {successMsg}
-          </div>
-        )}
-        {errorMsg && (
-          <div class="mb-5 px-4 py-3 rounded-xl text-[12px] font-medium" style="background:rgba(220,38,38,0.06);color:#DC2626;border:1px solid rgba(220,38,38,0.12);">
-            {errorMsg}
-          </div>
-        )}
-
-        <!-- Sign In form -->
-        <form id="form-signin" method="POST"
-          class={activeTab === 'signup' ? 'hidden' : ''}
-          style="display: flex; flex-direction: column; gap: 1rem;">
-          <input type="hidden" name="action" value="signin"/>
-          <div>
-            <label class="block text-[11px] font-semibold text-brand-gray-600 mb-1.5 tracking-wide uppercase">Email</label>
-            <input type="email" name="email" required autocomplete="email"
-              placeholder="you@company.com"
-              class="w-full border border-brand-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand-black transition bg-white"/>
-          </div>
-          <div>
-            <label class="block text-[11px] font-semibold text-brand-gray-600 mb-1.5 tracking-wide uppercase">Password</label>
-            <input type="password" name="password" required autocomplete="current-password"
-              placeholder="••••••••"
-              class="w-full border border-brand-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand-black transition bg-white"/>
-          </div>
-          <button type="submit"
-            class="w-full bg-brand-black text-white py-3 rounded-xl text-sm font-semibold hover:bg-brand-gray-900 transition">
-            Sign in →
-          </button>
-        </form>
-
-        <!-- Sign Up form -->
-        <form id="form-signup" method="POST"
-          class={activeTab === 'signin' ? 'hidden' : ''}
-          style="display: flex; flex-direction: column; gap: 1rem;">
-          <input type="hidden" name="action" value="signup"/>
-          <div>
-            <label class="block text-[11px] font-semibold text-brand-gray-600 mb-1.5 tracking-wide uppercase">Email</label>
-            <input type="email" name="email" required autocomplete="email"
-              placeholder="you@company.com"
-              class="w-full border border-brand-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand-black transition bg-white"/>
-          </div>
-          <div>
-            <label class="block text-[11px] font-semibold text-brand-gray-600 mb-1.5 tracking-wide uppercase">Password</label>
-            <input type="password" name="password" required autocomplete="new-password"
-              placeholder="Min. 6 characters"
-              class="w-full border border-brand-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand-black transition bg-white"/>
-          </div>
-          <button type="submit"
-            class="w-full bg-brand-black text-white py-3 rounded-xl text-sm font-semibold hover:bg-brand-gray-900 transition">
-            Create account →
-          </button>
-        </form>
-
+    <!-- ── CREATE ACCOUNT ── -->
+    <form id="form-signup" method="POST" class={activeTab === 'signin' ? 'hidden' : ''}>
+      <input type="hidden" name="action" value="signup"/>
+      <div class="row2">
+        <div class="field">
+          <label>Full name</label>
+          <input type="text" name="fullname" required placeholder="Jane Smith"/>
+        </div>
+        <div class="field">
+          <label>Company</label>
+          <input type="text" name="company" placeholder="Acme Ltd"/>
+        </div>
       </div>
-
-      <p class="text-center text-[10px] text-brand-gray-400 mt-6">
-        PURIST Automation Ltd · <a href="/pages/privacy-policy" class="hover:underline">Privacy</a>
+      <div class="field">
+        <label>Work email</label>
+        <input type="email" name="email" required autocomplete="email" placeholder="you@company.com"/>
+      </div>
+      <div class="field">
+        <label>Phone number</label>
+        <input type="tel" name="phone" placeholder="+44 7700 000000"/>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" name="password" required autocomplete="new-password" placeholder="Min. 6 characters"/>
+      </div>
+      <button type="submit" class="btn-submit">Create account →</button>
+      <p style="font-size:10.5px;color:#9ca3af;text-align:center;margin-top:-4px;">
+        By creating an account you agree to our <a href="/pages/terms-of-service" style="color:#6b7280;">Terms</a> and <a href="/pages/privacy-policy" style="color:#6b7280;">Privacy Policy</a>.
       </p>
-    </div>
-  </section>
-</ShopLayout>
+    </form>
+
+  </div>
+
+  <!-- Trust signals -->
+  <div class="trust">
+    <span>30-day guarantee</span>
+    <span>SOC 2 compliant</span>
+    <span>99.9% uptime</span>
+  </div>
+
+  <div class="footer">
+    PURIST Automation Ltd &nbsp;·&nbsp;
+    <a href="/pages/privacy-policy">Privacy</a> &nbsp;·&nbsp;
+    <a href="/pages/terms-of-service">Terms</a>
+  </div>
+
+</div>
 
 <script is:inline>
 function switchTab(tab) {
-  var signin = document.getElementById('form-signin');
-  var signup = document.getElementById('form-signup');
-  var tabSignin = document.getElementById('tab-signin');
-  var tabSignup = document.getElementById('tab-signup');
-
+  var si = document.getElementById('form-signin');
+  var su = document.getElementById('form-signup');
+  var tsi = document.getElementById('tab-signin');
+  var tsu = document.getElementById('tab-signup');
   if (tab === 'signin') {
-    signin.classList.remove('hidden');
-    signup.classList.add('hidden');
-    tabSignin.classList.add('bg-brand-black','text-white');
-    tabSignin.classList.remove('text-brand-gray-500');
-    tabSignup.classList.remove('bg-brand-black','text-white');
-    tabSignup.classList.add('text-brand-gray-500');
+    si.classList.remove('hidden'); su.classList.add('hidden');
+    tsi.classList.add('active');   tsu.classList.remove('active');
   } else {
-    signup.classList.remove('hidden');
-    signin.classList.add('hidden');
-    tabSignup.classList.add('bg-brand-black','text-white');
-    tabSignup.classList.remove('text-brand-gray-500');
-    tabSignin.classList.remove('bg-brand-black','text-white');
-    tabSignin.classList.add('text-brand-gray-500');
+    su.classList.remove('hidden'); si.classList.add('hidden');
+    tsu.classList.add('active');   tsi.classList.remove('active');
   }
 }
 </script>
+</body>
+</html>
