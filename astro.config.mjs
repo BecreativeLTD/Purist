@@ -3,12 +3,12 @@ import tailwind from '@astrojs/tailwind';
 import preact from '@astrojs/preact';
 import sitemap from '@astrojs/sitemap';
 import icon from 'astro-icon';
-import node from '@astrojs/node';
+import vercel from '@astrojs/vercel/serverless';
 
 export default defineConfig({
   site: 'https://purist.example.com',
   output: 'hybrid',
-  adapter: node({ mode: 'standalone' }),
+  adapter: vercel(),
   integrations: [
     tailwind({ applyBaseStyles: false }),
     preact({ compat: true }),
