@@ -3,86 +3,132 @@ export const prerender = false;
 import ShopLayout from '~/layouts/ShopLayout.astro';
 import { createSupabaseServerClient } from '~/lib/supabase';
 
-let errorMsg = Astro.url.searchParams.get('error') ?? '';
+let errorMsg = '';
+let successMsg = '';
+let activeTab = 'signin';
 
-// Handle POST directly in the page (no separate API route needed)
 if (Astro.request.method === 'POST') {
   try {
-    const formData = await Astro.request.formData();
-    const email = formData.get('email')?.toString() ?? '';
-    const password = formData.get('password')?.toString() ?? '';
+    // Use text() + URLSearchParams — most reliable across all runtimes
+    const text = await Astro.request.text();
+    const params = new URLSearchParams(text);
+    const email    = params.get('email')    ?? '';
+    const password = params.get('password') ?? '';
+    const action   = params.get('action')   ?? 'signin';
+    activeTab = action;
 
     if (!email || !password) {
-      errorMsg = 'Please fill all fields';
+      errorMsg = 'Please enter your email and password.';
     } else {
-      const responseHeaders = new Headers();
-      const supabase = createSupabaseServerClient(Astro.request, responseHeaders);
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const cookieHeaders = new Headers();
+      const supabase = createSupabaseServerClient(Astro.request, cookieHeaders);
 
-      if (error) {
-        errorMsg = 'Invalid email or password.';
+      if (action === 'signup') {
+        const { error } = await supabase.auth.signUp({ email, password });
+        if (error) {
+          errorMsg = error.message;
+        } else {
+          successMsg = 'Account created! Check your email to confirm, then sign in.';
+          activeTab = 'signin';
+        }
       } else {
-        // Success — redirect to dashboard, forwarding session cookies
-        return new Response(null, {
-          status: 302,
-          headers: { ...Object.fromEntries(responseHeaders), Location: '/pages/dashboard' },
-        });
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+          errorMsg = error.message;
+        } else if (data.session) {
+          // Forward all Set-Cookie headers from Supabase
+          const redirect = new Headers();
+          redirect.set('Location', '/pages/dashboard');
+          cookieHeaders.forEach((val, key) => redirect.append(key, val));
+          return new Response(null, { status: 302, headers: redirect });
+        }
       }
     }
-  } catch (e) {
-    errorMsg = 'An error occurred. Please try again.';
+  } catch (e: any) {
+    errorMsg = 'Server error: ' + (e?.message ?? 'unknown');
   }
 }
 ---
 
-<ShopLayout title="Login — PURIST" description="Sign in to your PURIST dashboard.">
+<ShopLayout title="Sign in — PURIST" description="Sign in to your PURIST dashboard.">
   <section class="min-h-screen bg-brand-beige flex items-center justify-center px-4 py-20">
     <div class="w-full max-w-sm">
 
       <!-- Logo -->
       <div class="text-center mb-10">
         <a href="/" class="font-display text-2xl font-bold text-brand-black tracking-tight">PURIST<span style="color:#2D5016;">.</span></a>
-        <p class="text-[12px] text-brand-gray-500 mt-2">Sign in to your dashboard</p>
+        <p class="text-[12px] text-brand-gray-500 mt-2">Your automation dashboard</p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="flex rounded-xl overflow-hidden border border-brand-gray-200 mb-6 bg-white">
+        <button type="button" id="tab-signin"
+          class={`flex-1 py-2.5 text-[12px] font-semibold transition ${activeTab === 'signin' ? 'bg-brand-black text-white' : 'text-brand-gray-500 hover:text-brand-black'}`}
+          onclick="switchTab('signin')">Sign in</button>
+        <button type="button" id="tab-signup"
+          class={`flex-1 py-2.5 text-[12px] font-semibold transition ${activeTab === 'signup' ? 'bg-brand-black text-white' : 'text-brand-gray-500 hover:text-brand-black'}`}
+          onclick="switchTab('signup')">Create account</button>
       </div>
 
       <!-- Card -->
       <div class="bg-white rounded-2xl border border-brand-gray-100 shadow-sm px-8 py-8">
 
+        {successMsg && (
+          <div class="mb-5 px-4 py-3 rounded-xl text-[12px] font-medium" style="background:rgba(45,80,22,0.06);color:#2D5016;border:1px solid rgba(45,80,22,0.15);">
+            {successMsg}
+          </div>
+        )}
         {errorMsg && (
           <div class="mb-5 px-4 py-3 rounded-xl text-[12px] font-medium" style="background:rgba(220,38,38,0.06);color:#DC2626;border:1px solid rgba(220,38,38,0.12);">
-            {errorMsg === 'invalid_credentials' ? 'Invalid email or password.' : errorMsg}
+            {errorMsg}
           </div>
         )}
 
-        <form method="POST" class="space-y-4">
+        <!-- Sign In form -->
+        <form id="form-signin" method="POST"
+          class={activeTab === 'signup' ? 'hidden' : ''}
+          style="display: flex; flex-direction: column; gap: 1rem;">
+          <input type="hidden" name="action" value="signin"/>
           <div>
             <label class="block text-[11px] font-semibold text-brand-gray-600 mb-1.5 tracking-wide uppercase">Email</label>
-            <input
-              type="email" name="email" required autocomplete="email"
+            <input type="email" name="email" required autocomplete="email"
               placeholder="you@company.com"
-              class="w-full border border-brand-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand-black transition bg-white"
-            />
+              class="w-full border border-brand-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand-black transition bg-white"/>
           </div>
           <div>
             <label class="block text-[11px] font-semibold text-brand-gray-600 mb-1.5 tracking-wide uppercase">Password</label>
-            <input
-              type="password" name="password" required autocomplete="current-password"
+            <input type="password" name="password" required autocomplete="current-password"
               placeholder="••••••••"
-              class="w-full border border-brand-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand-black transition bg-white"
-            />
+              class="w-full border border-brand-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand-black transition bg-white"/>
           </div>
-
-          <button
-            type="submit"
-            class="w-full bg-brand-black text-white py-3 rounded-xl text-sm font-semibold hover:bg-brand-gray-900 transition mt-2"
-          >
-            Sign in
+          <button type="submit"
+            class="w-full bg-brand-black text-white py-3 rounded-xl text-sm font-semibold hover:bg-brand-gray-900 transition">
+            Sign in →
           </button>
         </form>
 
-        <p class="text-center text-[11px] text-brand-gray-400 mt-6">
-          No account? <a href="/contact" class="text-brand-black font-medium hover:underline">Contact us</a>
-        </p>
+        <!-- Sign Up form -->
+        <form id="form-signup" method="POST"
+          class={activeTab === 'signin' ? 'hidden' : ''}
+          style="display: flex; flex-direction: column; gap: 1rem;">
+          <input type="hidden" name="action" value="signup"/>
+          <div>
+            <label class="block text-[11px] font-semibold text-brand-gray-600 mb-1.5 tracking-wide uppercase">Email</label>
+            <input type="email" name="email" required autocomplete="email"
+              placeholder="you@company.com"
+              class="w-full border border-brand-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand-black transition bg-white"/>
+          </div>
+          <div>
+            <label class="block text-[11px] font-semibold text-brand-gray-600 mb-1.5 tracking-wide uppercase">Password</label>
+            <input type="password" name="password" required autocomplete="new-password"
+              placeholder="Min. 6 characters"
+              class="w-full border border-brand-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-brand-black transition bg-white"/>
+          </div>
+          <button type="submit"
+            class="w-full bg-brand-black text-white py-3 rounded-xl text-sm font-semibold hover:bg-brand-gray-900 transition">
+            Create account →
+          </button>
+        </form>
 
       </div>
 
@@ -92,3 +138,28 @@ if (Astro.request.method === 'POST') {
     </div>
   </section>
 </ShopLayout>
+
+<script is:inline>
+function switchTab(tab) {
+  var signin = document.getElementById('form-signin');
+  var signup = document.getElementById('form-signup');
+  var tabSignin = document.getElementById('tab-signin');
+  var tabSignup = document.getElementById('tab-signup');
+
+  if (tab === 'signin') {
+    signin.classList.remove('hidden');
+    signup.classList.add('hidden');
+    tabSignin.classList.add('bg-brand-black','text-white');
+    tabSignin.classList.remove('text-brand-gray-500');
+    tabSignup.classList.remove('bg-brand-black','text-white');
+    tabSignup.classList.add('text-brand-gray-500');
+  } else {
+    signup.classList.remove('hidden');
+    signin.classList.add('hidden');
+    tabSignup.classList.add('bg-brand-black','text-white');
+    tabSignup.classList.remove('text-brand-gray-500');
+    tabSignin.classList.remove('bg-brand-black','text-white');
+    tabSignin.classList.add('text-brand-gray-500');
+  }
+}
+</script>
