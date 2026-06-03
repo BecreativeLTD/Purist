@@ -10,6 +10,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const isProtected = PROTECTED_ROUTES.some(r => url.pathname.startsWith(r));
   const isAuthRoute = AUTH_ROUTES.some(r => url.pathname.startsWith(r));
 
+  // Skip middleware entirely for POST to /login (form submission handled by the page)
+  if (isAuthRoute && context.request.method === 'POST') {
+    return next();
+  }
+
   // Only run auth check on relevant routes
   if (!isProtected && !isAuthRoute) {
     return next();
