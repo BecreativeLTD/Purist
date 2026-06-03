@@ -8,6 +8,7 @@ export default defineConfig({
   site: 'https://purist.example.com',
   output: 'hybrid',
   adapter: vercel(),
+  image: { service: { entrypoint: 'astro/assets/services/noop' } },
   integrations: [
     tailwind({ applyBaseStyles: false }),
     preact({ compat: true }),

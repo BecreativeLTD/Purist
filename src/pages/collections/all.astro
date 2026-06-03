@@ -207,30 +207,31 @@ const faqs = [
         </p>
       </div>
 
-      <div class="bg-white rounded-card border border-brand-gray-100 overflow-hidden shadow-sm">
+      <div class="overflow-x-auto -mx-4 sm:mx-0">
+      <div class="bg-white rounded-card border border-brand-gray-100 overflow-hidden shadow-sm min-w-[520px]">
 
-        <!-- Sticky column headers -->
-        <div class="grid grid-cols-[2fr_1fr_1fr_1fr] border-b border-brand-gray-100 bg-white sticky top-16 z-10">
-          <div class="p-4 lg:p-5"></div>
-          <div class="p-4 lg:p-5 text-center border-l border-brand-gray-100">
-            <p class="eyebrow mb-1 text-brand-gray-600">Automation Pro</p>
-            <p class="font-display text-xl">$799<span class="text-sm font-sans text-brand-gray-600">/mo</span></p>
+        <!-- Column headers -->
+        <div class="grid grid-cols-[1.6fr_1fr_1fr_1fr] border-b border-brand-gray-100 bg-white sticky top-16 z-10">
+          <div class="p-3 lg:p-5"></div>
+          <div class="p-3 lg:p-5 text-center border-l border-brand-gray-100">
+            <p class="text-[9px] uppercase tracking-widest font-medium text-brand-gray-600 mb-0.5">Auto Pro</p>
+            <p class="font-display text-lg lg:text-xl">$799<span class="text-xs font-sans text-brand-gray-600">/mo</span></p>
           </div>
-          <div class="p-4 lg:p-5 text-center border-l border-brand-gray-100">
-            <p class="eyebrow mb-1 text-brand-gray-600">AI Agent Deploy</p>
-            <p class="font-display text-xl">$999<span class="text-sm font-sans text-brand-gray-600">/mo</span></p>
+          <div class="p-3 lg:p-5 text-center border-l border-brand-gray-100">
+            <p class="text-[9px] uppercase tracking-widest font-medium text-brand-gray-600 mb-0.5">AI Agent</p>
+            <p class="font-display text-lg lg:text-xl">$999<span class="text-xs font-sans text-brand-gray-600">/mo</span></p>
           </div>
-          <div class="p-4 lg:p-5 text-center border-l border-brand-black bg-brand-black">
-            <p class="eyebrow mb-1 text-white/50">The Full Stack</p>
-            <p class="font-display text-xl text-white">$1,499<span class="text-sm font-sans text-white/60">/mo</span></p>
-            <p class="text-[10px] text-brand-rust mt-0.5">Best value</p>
+          <div class="p-3 lg:p-5 text-center border-l border-brand-black bg-brand-black">
+            <p class="text-[9px] uppercase tracking-widest font-medium text-white/50 mb-0.5">Full Stack</p>
+            <p class="font-display text-lg lg:text-xl text-white">$1,499<span class="text-xs font-sans text-white/60">/mo</span></p>
+            <p class="text-[9px] text-brand-rust mt-0.5">Best value</p>
           </div>
         </div>
 
         <!-- Feature rows by category -->
         {comparisonFeatures.map((section) => (
           <>
-            <div class="grid grid-cols-[2fr_1fr_1fr_1fr] bg-brand-cream/50 border-b border-brand-gray-100">
+            <div class="grid grid-cols-[1.6fr_1fr_1fr_1fr] bg-brand-cream/50 border-b border-brand-gray-100">
               <div class="px-4 lg:px-5 py-2.5">
                 <p class="text-[10px] font-medium uppercase tracking-widest text-brand-gray-600">{section.category}</p>
               </div>
@@ -239,9 +240,9 @@ const faqs = [
               <div class="border-l border-brand-black bg-brand-black/5"></div>
             </div>
             {section.rows.map((row) => (
-              <div class="grid grid-cols-[2fr_1fr_1fr_1fr] border-b border-brand-gray-100/50 hover:bg-brand-cream/20 transition">
-                <div class="px-4 lg:px-5 py-3">
-                  <p class="text-sm text-brand-black">{row.feature}</p>
+              <div class="grid grid-cols-[1.6fr_1fr_1fr_1fr] border-b border-brand-gray-100/50 hover:bg-brand-cream/20 transition">
+                <div class="px-3 lg:px-5 py-3">
+                  <p class="text-xs lg:text-sm text-brand-black leading-snug">{row.feature}</p>
                 </div>
                 <div class="px-4 py-3 text-center border-l border-brand-gray-100 flex items-center justify-center">
                   {row.automation === true ? (
@@ -291,7 +292,7 @@ const faqs = [
         ))}
 
         <!-- CTA row -->
-        <div class="grid grid-cols-[2fr_1fr_1fr_1fr]">
+        <div class="grid grid-cols-[1.6fr_1fr_1fr_1fr]">
           <div class="p-5"></div>
           <div class="p-4 border-l border-brand-gray-100 flex items-center justify-center">
             <a href="/products/foundation-pro" class="text-xs text-brand-black underline underline-offset-2 hover:opacity-70 transition text-center">
@@ -309,7 +310,8 @@ const faqs = [
             </a>
           </div>
         </div>
-      </div>
+      </div><!-- end min-w wrapper -->
+      </div><!-- end overflow-x-auto -->
     </div>
   </section>
 
