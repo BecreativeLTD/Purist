@@ -133,11 +133,14 @@ const navLinks = [
   </div>
 </header>
 
+<!-- Chat mobile backdrop -->
+<div id="chat-backdrop"></div>
+
 <!-- ══════════════════════════════════════════
      CHAT PANEL
 ══════════════════════════════════════════ -->
-<div id="chat-panel" style="position:fixed;left:50%;top:64px;z-index:35;width:100%;max-width:460px;transform:translateX(-50%) translateY(-10px);opacity:0;pointer-events:none;transition:opacity 0.22s ease,transform 0.22s ease;padding:0 12px;">
-  <div style="background:#0C0C0C;border:1px solid rgba(255,255,255,0.08);border-radius:16px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,0.50),0 0 0 1px rgba(255,255,255,0.03);">
+<div id="chat-panel" style="position:fixed;z-index:35;opacity:0;pointer-events:none;transition:opacity 0.25s ease,transform 0.25s ease;">
+  <div id="chat-inner" style="background:#0C0C0C;border:1px solid rgba(255,255,255,0.08);overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,0.50),0 0 0 1px rgba(255,255,255,0.03);">
 
     <!-- ── TOP STATS STRIP ── -->
     <div style="display:flex;align-items:center;gap:0;border-bottom:1px solid rgba(255,255,255,0.06);">
@@ -177,7 +180,7 @@ const navLinks = [
     </div>
 
     <!-- ── MESSAGES ── -->
-    <div id="chat-messages" style="display:flex;flex-direction:column;gap:10px;padding:16px;overflow-y:auto;max-height:240px;scroll-behavior:smooth;">
+    <div id="chat-messages" style="display:flex;flex-direction:column;gap:10px;padding:16px;overflow-y:auto;max-height:240px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;">
       <!-- Greeting -->
       <div style="display:flex;flex-direction:column;gap:6px;">
         <div style="font-size:11.5px;line-height:1.55;color:rgba(255,255,255,0.68);background:rgba(255,255,255,0.05);padding:10px 13px;border-radius:4px 12px 12px 12px;max-width:340px;">
@@ -226,6 +229,70 @@ const navLinks = [
   @keyframes tdot { 0%,80%,100%{opacity:0.25;transform:translateY(0)} 40%{opacity:1;transform:translateY(-3px)} }
   @keyframes hd-pulse { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.5)} }
   #chat-quick::-webkit-scrollbar { display:none }
+
+  /* Desktop layout */
+  @media (min-width: 640px) {
+    #chat-panel {
+      left: 50%;
+      top: 64px;
+      width: 100%;
+      max-width: 460px;
+      transform: translateX(-50%) translateY(-10px);
+      padding: 0 12px;
+    }
+    #chat-panel.chat-open {
+      transform: translateX(-50%) translateY(0);
+    }
+    #chat-inner {
+      border-radius: 16px;
+    }
+  }
+
+  /* Mobile: bottom sheet */
+  @media (max-width: 639px) {
+    #chat-panel {
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: auto;
+      transform: translateY(20px);
+      padding: 0;
+    }
+    #chat-panel.chat-open {
+      transform: translateY(0);
+    }
+    #chat-inner {
+      border-radius: 20px 20px 0 0;
+      border-left: none;
+      border-right: none;
+      border-bottom: none;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    #chat-messages {
+      max-height: 38vh !important;
+    }
+  }
+
+  /* Mobile backdrop */
+  #chat-backdrop {
+    display: none;
+  }
+  @media (max-width: 639px) {
+    #chat-backdrop {
+      display: block;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 34;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    #chat-backdrop.chat-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
 </style>
 
 <script is:inline>
@@ -241,26 +308,31 @@ const navLinks = [
   var open  = false;
   var history = []; // conversation context
 
+  var backdrop = document.getElementById('chat-backdrop');
+
   /* ── OPEN / CLOSE ─────────────────────────── */
   function show() {
     open = true;
     panel.style.opacity = '1';
-    panel.style.transform = 'translateX(-50%) translateY(0)';
     panel.style.pointerEvents = 'auto';
+    panel.classList.add('chat-open');
+    if (backdrop) { backdrop.classList.add('chat-open'); }
     chev.style.transform = 'rotate(180deg)';
-    setTimeout(function(){ input && input.focus(); }, 250);
+    setTimeout(function(){ input && input.focus(); }, 300);
   }
   function hide() {
     open = false;
     panel.style.opacity = '0';
-    panel.style.transform = 'translateX(-50%) translateY(-10px)';
     panel.style.pointerEvents = 'none';
+    panel.classList.remove('chat-open');
+    if (backdrop) { backdrop.classList.remove('chat-open'); }
     chev.style.transform = '';
   }
   pill     && pill.addEventListener('click', function(){ open ? hide() : show(); });
   closeBtn && closeBtn.addEventListener('click', hide);
+  if (backdrop) backdrop.addEventListener('click', hide);
   document.addEventListener('click', function(e){
-    if (open && !panel.contains(e.target) && !pill.contains(e.target)) hide();
+    if (open && !panel.contains(e.target) && !pill.contains(e.target) && e.target !== backdrop) hide();
   });
 
   /* ── KNOWLEDGE BASE ───────────────────────── */
