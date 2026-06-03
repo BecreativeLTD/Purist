@@ -175,13 +175,16 @@ const navItems = [
 
 <ShopLayout title="Client Dashboard — PURIST" description="Real-time monitoring of your PURIST automation workflows, AI agents and system health.">
 
+<!-- Mobile sidebar backdrop -->
+<div id="sidebar-backdrop" class="fixed inset-0 z-40 bg-black/60 opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden" onclick="closeSidebar()"></div>
+
 <!-- Full-viewport dashboard shell — sidebar + content own the space below the header -->
 <div id="dashboard-shell" class="flex" style="position:fixed;left:0;right:0;bottom:0;top:64px;z-index:15;">
 
   <!-- ══════════════════════════════════════════════════════════════ -->
   <!-- LEFT SIDEBAR                                                   -->
   <!-- ══════════════════════════════════════════════════════════════ -->
-  <aside id="sidebar" class="w-[260px] shrink-0 flex flex-col overflow-y-auto" style="background:#0C0C0C;border-right:1px solid rgba(255,255,255,0.06);scrollbar-width:none;height:100%;">
+  <aside id="sidebar" class="w-[260px] shrink-0 flex flex-col overflow-y-auto" style="background:#0C0C0C;border-right:1px solid rgba(255,255,255,0.06);scrollbar-width:none;height:100%;position:absolute;top:0;bottom:0;left:0;z-index:50;transform:translateX(-260px);transition:transform 0.3s cubic-bezier(0.32,0.72,0,1);" data-mobile-sidebar="true">
 
     <!-- Pink accent strip -->
     <div class="h-[2px] w-full shrink-0" style="background:linear-gradient(90deg,#E8B4B0 0%,#c4847e 50%,transparent 100%);"/>
@@ -429,7 +432,7 @@ const navItems = [
   <!-- ══════════════════════════════════════════════════════════════ -->
   <!-- MAIN CONTENT                                                   -->
   <!-- ══════════════════════════════════════════════════════════════ -->
-  <div class="flex-1 min-w-0 overflow-y-auto" style="height:100%;">
+  <div class="flex-1 min-w-0 overflow-y-auto" style="height:100%;margin-left:0;transition:margin-left 0.3s cubic-bezier(0.32,0.72,0,1);" id="dash-content">
 
     <!-- ─── VIEW: OVERVIEW ─────────────────────────────────────── -->
     <div class="view-section" data-section="overview">
@@ -438,10 +441,16 @@ const navItems = [
       <div style="background:linear-gradient(180deg,#0A0A0A 0%,#0D0D0B 100%);border-bottom:1px solid rgba(255,255,255,0.05);">
 
         <!-- Top bar -->
-        <div class="px-6 py-4 flex items-center justify-between" style="border-bottom:1px solid rgba(255,255,255,0.04);">
+        <div class="px-4 lg:px-6 py-4 flex items-center justify-between" style="border-bottom:1px solid rgba(255,255,255,0.04);">
           <div class="flex items-center gap-3">
+            <!-- Mobile hamburger -->
+            <button id="sidebar-toggle" type="button" onclick="toggleSidebar()" class="lg:hidden w-8 h-8 flex items-center justify-center rounded-lg shrink-0" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);" aria-label="Menu">
+              <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linecap="round">
+                <path d="M2 4h12M2 8h12M2 12h12"/>
+              </svg>
+            </button>
             <div>
-              <h1 class="font-display text-[17px] text-white leading-tight tracking-[-0.02em]">{client.name}</h1>
+              <h1 class="font-display text-[15px] lg:text-[17px] text-white leading-tight tracking-[-0.02em]">{client.name}</h1>
               <p class="text-[10px] mt-0.5 tabular-nums" style="color:rgba(255,255,255,0.28);">Client since {client.since} · <span id="ov-clock"></span></p>
             </div>
           </div>
@@ -461,7 +470,7 @@ const navItems = [
         </div>
 
         <!-- KPI grid -->
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6" style="border-bottom:1px solid rgba(255,255,255,0.04);">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6" style="border-bottom:1px solid rgba(255,255,255,0.04);">
           {kpis.map((k, i) => {
             const colors = ['#4ade80','#E8B4B0','#4ade80','#4ade80','#4ade80','#E8B4B0'];
             const c = colors[i] || '#E8B4B0';
@@ -1976,6 +1985,16 @@ const navItems = [
     background: rgba(232,180,176,0.18) !important;
     border-color: rgba(232,180,176,0.32) !important;
   }
+  /* ── Mobile sidebar open state ─────────────────────────────────── */
+  @media (min-width: 1024px) {
+    #sidebar {
+      position: relative !important;
+      transform: translateX(0) !important;
+      z-index: auto !important;
+    }
+    #sidebar-backdrop { display: none !important; }
+  }
+
   /* ── Nav active state (JS-set) ─────────────────────────────────── */
   .sidebar-nav.is-active {
     background: linear-gradient(135deg,rgba(232,180,176,0.13),rgba(196,132,126,0.06)) !important;
@@ -2026,8 +2045,38 @@ const navItems = [
 
   (window as any).activateView = activateView;
   navBtns.forEach(btn => {
-    btn.addEventListener('click', () => activateView(btn.dataset.view!));
+    btn.addEventListener('click', () => {
+      activateView(btn.dataset.view!);
+      // Close sidebar on mobile after navigation
+      if (window.innerWidth < 1024) closeSidebar();
+    });
   });
+
+  // ── Mobile sidebar toggle ─────────────────────────────────────────────
+  const sidebar = document.getElementById('sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  let sidebarOpen = false;
+
+  function toggleSidebar() {
+    sidebarOpen ? closeSidebar() : openSidebar();
+  }
+  function openSidebar() {
+    sidebarOpen = true;
+    if (sidebar) sidebar.style.transform = 'translateX(0)';
+    if (backdrop) { backdrop.style.opacity = '1'; backdrop.style.pointerEvents = 'auto'; }
+  }
+  function closeSidebar() {
+    sidebarOpen = false;
+    if (sidebar) sidebar.style.transform = 'translateX(-260px)';
+    if (backdrop) { backdrop.style.opacity = '0'; backdrop.style.pointerEvents = 'none'; }
+  }
+  // On desktop, always show sidebar
+  function handleResize() {
+    if (window.innerWidth >= 1024) { closeSidebar(); }
+  }
+  window.addEventListener('resize', handleResize);
+  (window as any).toggleSidebar = toggleSidebar;
+  (window as any).closeSidebar = closeSidebar;
 
   // ── Announcement bar offset adjustment ────────────────────────────────
   // AnnouncementBar = 34px, Header = 64px. When user scrolls past 34px,
