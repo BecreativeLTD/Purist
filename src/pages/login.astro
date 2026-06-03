@@ -1,8 +1,38 @@
 ---
 export const prerender = false;
 import ShopLayout from '~/layouts/ShopLayout.astro';
+import { createSupabaseServerClient } from '~/lib/supabase';
 
-const error = Astro.url.searchParams.get('error');
+let errorMsg = Astro.url.searchParams.get('error') ?? '';
+
+// Handle POST directly in the page (no separate API route needed)
+if (Astro.request.method === 'POST') {
+  try {
+    const formData = await Astro.request.formData();
+    const email = formData.get('email')?.toString() ?? '';
+    const password = formData.get('password')?.toString() ?? '';
+
+    if (!email || !password) {
+      errorMsg = 'Please fill all fields';
+    } else {
+      const responseHeaders = new Headers();
+      const supabase = createSupabaseServerClient(Astro.request, responseHeaders);
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        errorMsg = 'Invalid email or password.';
+      } else {
+        // Success — redirect to dashboard, forwarding session cookies
+        return new Response(null, {
+          status: 302,
+          headers: { ...Object.fromEntries(responseHeaders), Location: '/pages/dashboard' },
+        });
+      }
+    }
+  } catch (e) {
+    errorMsg = 'An error occurred. Please try again.';
+  }
+}
 ---
 
 <ShopLayout title="Login — PURIST" description="Sign in to your PURIST dashboard.">
@@ -18,13 +48,13 @@ const error = Astro.url.searchParams.get('error');
       <!-- Card -->
       <div class="bg-white rounded-2xl border border-brand-gray-100 shadow-sm px-8 py-8">
 
-        {error && (
+        {errorMsg && (
           <div class="mb-5 px-4 py-3 rounded-xl text-[12px] font-medium" style="background:rgba(220,38,38,0.06);color:#DC2626;border:1px solid rgba(220,38,38,0.12);">
-            {error === 'invalid_credentials' ? 'Invalid email or password.' : error}
+            {errorMsg === 'invalid_credentials' ? 'Invalid email or password.' : errorMsg}
           </div>
         )}
 
-        <form method="POST" action="/api/auth/signin" enctype="application/x-www-form-urlencoded" class="space-y-4">
+        <form method="POST" class="space-y-4">
           <div>
             <label class="block text-[11px] font-semibold text-brand-gray-600 mb-1.5 tracking-wide uppercase">Email</label>
             <input
