@@ -1,4 +1,5 @@
 import { createBrowserClient, createServerClient, parseCookieHeader, serializeCookieHeader } from '@supabase/ssr';
+import ws from 'ws';
 
 const SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL
   ?? 'https://xzcvpetgcqsjwrtskadb.supabase.co';
@@ -13,6 +14,7 @@ export function createSupabaseBrowserClient() {
 // Server client — used in Astro pages / middleware (handles cookies)
 export function createSupabaseServerClient(request: Request, responseHeaders: Headers) {
   return createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    realtime: { transport: ws as any },
     cookies: {
       getAll() {
         return parseCookieHeader(request.headers.get('Cookie') ?? '');
