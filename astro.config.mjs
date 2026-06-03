@@ -13,11 +13,7 @@ export default defineConfig({
     tailwind({ applyBaseStyles: false }),
     preact({ compat: true }),
     sitemap({
-      filter: (page) => !page.includes('/blog/'),
-      serialize(item) {
-        if (!item) return undefined;
-        return { ...item, changefreq: 'weekly', priority: item.url.includes('/products/') ? 0.9 : 0.7 };
-      },
+      filter: (page) => page != null && !page.includes('/blog/'),
     }),
     icon({ iconDir: 'src/icons' }),
   ],
