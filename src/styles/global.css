@@ -9,6 +9,12 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  @media (max-width: 767px) {
+    html {
+      zoom: 0.9;
+    }
+  }
+
   body {
     @apply bg-white text-brand-black font-sans;
     text-rendering: optimizeLegibility;
