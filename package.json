@@ -3,10 +3,11 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
+  "engines": { "node": ">=20.0.0" },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node -e \"import('fs').then(fs=>{const p='.vercel/output/functions/_render.func/.vc-config.json';try{const c=JSON.parse(fs.readFileSync(p));c.runtime='nodejs20.x';fs.writeFileSync(p,JSON.stringify(c,null,'\\t'));console.log('[patch] runtime set to nodejs20.x');}catch(e){}})\"",
     "preview": "astro preview",
     "astro": "astro"
   },
