@@ -74,7 +74,7 @@ Keep it under 200 words. Be direct and actionable.`;
     const notifyEmail = import.meta.env.notifymail || import.meta.env.NOTIFY_EMAIL || 'hello@purist.online';
 
     const notifResult = await resend.emails.send({
-      from: 'PURIST Leads <onboarding@resend.dev>',
+      from: 'PURIST Leads <hello@purist.online>',
       to: [notifyEmail],
       subject: `🔔 New audit request — ${name} · ${company}`,
       html: `
@@ -141,7 +141,7 @@ Keep it under 200 words. Be direct and actionable.`;
 
     // ── 3. Send confirmation email to the lead ───────────────────
     const confirmResult = await resend.emails.send({
-      from: 'PURIST <onboarding@resend.dev>',
+      from: 'PURIST <hello@purist.online>',
       to: [email],
       subject: `Your free audit request — we'll be in touch`,
       html: `
