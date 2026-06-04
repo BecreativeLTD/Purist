@@ -48,7 +48,7 @@ Keep it under 200 words. Be direct and actionable.`;
         headers: {
           'Authorization': `Bearer ${import.meta.env.OPENROUTER_API_KEY}`,
           'Content-Type': 'application/json',
-          'HTTP-Referer': 'https://puristengineering.co',
+          'HTTP-Referer': 'https://purist.online',
           'X-Title': 'PURIST Lead Qualification',
         },
         body: JSON.stringify({
@@ -69,7 +69,7 @@ Keep it under 200 words. Be direct and actionable.`;
 
     // ── 2. Send notification email via Resend ────────────────────
     const resend = new Resend(import.meta.env.RESEND_API_KEY);
-    const notifyEmail = import.meta.env.NOTIFY_EMAIL || 'hello@puristengineering.co';
+    const notifyEmail = import.meta.env.NOTIFY_EMAIL || 'hello@purist.online';
 
     await resend.emails.send({
       from: 'PURIST Leads <onboarding@resend.dev>',
@@ -98,7 +98,7 @@ Keep it under 200 words. Be direct and actionable.`;
 <body>
 <div class="card">
   <h1>New Audit Request</h1>
-  <p class="sub">Submitted via puristengineering.co</p>
+  <p class="sub">Submitted via purist.online</p>
 
   <div class="section">
     <div class="section-title">Lead details</div>
@@ -179,7 +179,7 @@ Keep it under 200 words. Be direct and actionable.`;
 
   <div class="divider"></div>
   <p>Questions before then? Just reply to this email.</p>
-  <a href="https://puristengineering.co/pages/blog" class="cta">Read our automation guides →</a>
+  <a href="https://purist.online/pages/blog" class="cta">Read our automation guides →</a>
 </div>
 </body>
 </html>`,
