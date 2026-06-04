@@ -1,0 +1,14 @@
+# Dev files — not needed on Vercel
+.git
+.github
+node_modules
+.astro
+
+# Local brand assets (large, not served by Vercel)
+/Users/HD/Desktop/PURIST-Brand
+
+# Misc
+*.log
+*.local
+.DS_Store
+.env.local
