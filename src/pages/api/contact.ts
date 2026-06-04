@@ -11,8 +11,8 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), { status: 400 });
     }
 
-    const resend = new Resend(import.meta.env.RESEND_API_KEY);
-    const notifyEmail = import.meta.env.NOTIFY_EMAIL || 'hello@purist.online';
+    const resend = new Resend(import.meta.env.Resend);
+    const notifyEmail = import.meta.env.notifymail || 'hello@purist.online';
 
     // Notification to team
     await resend.emails.send({

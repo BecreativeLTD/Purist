@@ -46,7 +46,7 @@ Keep it under 200 words. Be direct and actionable.`;
       const aiRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${import.meta.env.OPENROUTER_API_KEY}`,
+          'Authorization': `Bearer ${import.meta.env.OpenRouter}`,
           'Content-Type': 'application/json',
           'HTTP-Referer': 'https://purist.online',
           'X-Title': 'PURIST Lead Qualification',
@@ -68,8 +68,8 @@ Keep it under 200 words. Be direct and actionable.`;
     }
 
     // ── 2. Send notification email via Resend ────────────────────
-    const resend = new Resend(import.meta.env.RESEND_API_KEY);
-    const notifyEmail = import.meta.env.NOTIFY_EMAIL || 'hello@purist.online';
+    const resend = new Resend(import.meta.env.Resend);
+    const notifyEmail = import.meta.env.notifymail || 'hello@purist.online';
 
     await resend.emails.send({
       from: 'PURIST Leads <onboarding@resend.dev>',
