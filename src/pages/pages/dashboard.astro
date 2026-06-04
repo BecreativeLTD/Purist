@@ -173,7 +173,7 @@ const navItems = [
 ];
 ---
 
-<ShopLayout title="Client Dashboard — PURIST" description="Real-time monitoring of your PURIST automation workflows, AI agents and system health.">
+<ShopLayout title="Client Dashboard — PURIST" description="Real-time monitoring of your PURIST automation workflows, AI agents and system health." noindex>
 
 <!-- Mobile sidebar backdrop -->
 <div id="sidebar-backdrop" class="fixed inset-0 z-40 bg-black/60 opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden" onclick="closeSidebar()"></div>
@@ -879,7 +879,7 @@ const navItems = [
         </button>
         <div>
           <h1 class="font-display text-xl text-white">Workflows</h1>
-          <p class="text-[10px] text-white/30 mt-1">{workflows.length} workflows · {workflows.filter(w=>w.status==='active').length} active · {workflows.filter(w=>w.status==='paused').length} paused</p>
+          <p class="text-[10px] text-white/50 mt-1">{workflows.length} workflows · {workflows.filter(w=>w.status==='active').length} active · {workflows.filter(w=>w.status==='paused').length} paused</p>
         </div>
       </div>
       <div class="p-3 lg:p-5 bg-brand-cream">
@@ -941,7 +941,7 @@ const navItems = [
         </button>
         <div>
           <h1 class="font-display text-xl text-white">Connectors</h1>
-          <p class="text-[10px] text-white/30 mt-1">{integrations.length} connected · all healthy · last synced 5s ago</p>
+          <p class="text-[10px] text-white/50 mt-1">{integrations.length} connected · all healthy · last synced 5s ago</p>
         </div>
       </div>
       <div class="p-3 lg:p-5 bg-brand-cream space-y-4 lg:space-y-5">
@@ -1154,7 +1154,7 @@ const navItems = [
         </button>
         <div>
           <h1 class="font-display text-xl text-white">AI Agents</h1>
-          <p class="text-[10px] text-white/30 mt-1">Powered by Claude · {aiPerf.completions} completions this month · {aiPerf.accuracy} accuracy</p>
+          <p class="text-[10px] text-white/50 mt-1">Powered by Claude · {aiPerf.completions} completions this month · {aiPerf.accuracy} accuracy</p>
         </div>
       </div>
       <div class="p-3 lg:p-5 bg-brand-cream">
@@ -1246,7 +1246,7 @@ const navItems = [
         </button>
         <div>
           <h1 class="font-display text-xl text-white">Reports</h1>
-          <p class="text-[10px] text-white/30 mt-1">Performance analytics · cost savings · execution trends</p>
+          <p class="text-[10px] text-white/50 mt-1">Performance analytics · cost savings · execution trends</p>
         </div>
       </div>
       <div class="p-3 lg:p-5 bg-brand-cream space-y-4 lg:space-y-5">
@@ -1363,7 +1363,7 @@ const navItems = [
         </button>
         <div>
           <h1 class="font-display text-xl text-white">Alerts</h1>
-          <p class="text-[10px] text-white/30 mt-1">0 open incidents · {alerts.length} resolved in last 30 days</p>
+          <p class="text-[10px] text-white/50 mt-1">0 open incidents · {alerts.length} resolved in last 30 days</p>
         </div>
       </div>
       <div class="p-3 lg:p-5 bg-brand-cream">
@@ -1488,7 +1488,7 @@ const navItems = [
         </button>
         <div>
           <h1 class="font-display text-xl text-white">Settings</h1>
-          <p class="text-[10px] text-white/30 mt-1">Account, API keys, integrations, billing, and report exports</p>
+          <p class="text-[10px] text-white/50 mt-1">Account, API keys, integrations, billing, and report exports</p>
         </div>
       </div>
 

@@ -43,9 +43,11 @@ const ogImage = image
 <meta property="og:site_name" content="PURIST" />
 
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@purist_hq" />
 <meta name="twitter:title" content={fullTitle} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImage} />
+<meta property="og:locale" content="en_GB" />
 
 <script type="application/ld+json" is:inline set:html={JSON.stringify({
   '@context': 'https://schema.org',
@@ -129,24 +131,11 @@ const ogImage = image
       publisher: { '@id': 'https://purist.online/#organization' },
       potentialAction: {
         '@type': 'SearchAction',
-        target: {
-          '@type': 'EntryPoint',
-          urlTemplate: 'https://purist.online/pages/blog?q={search_term_string}',
-        },
-        'query-input': 'required name=search_term_string',
-      },
-    },
-    {
-      '@type': 'SiteLinksSearchBox',
-      url: 'https://purist.online',
-      potentialAction: {
-        '@type': 'SearchAction',
         target: 'https://purist.online/pages/blog?q={search_term_string}',
         'query-input': 'required name=search_term_string',
       },
     },
     {
-      '@context': 'https://schema.org',
       '@type': 'ItemList',
       name: 'PURIST Navigation',
       itemListElement: [

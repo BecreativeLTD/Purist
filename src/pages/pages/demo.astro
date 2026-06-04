@@ -41,13 +41,13 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
         <div>
           <p class="text-[9px] uppercase tracking-[0.24em] font-bold mb-3" style="color:rgba(232,180,176,0.50);">① Workflow canvas</p>
           <h2 class="font-display text-[1.9rem] text-white leading-tight mb-2">Watch an automation<br/><em class="font-medium" style="color:#E8B4B0;">execute — node by node</em></h2>
-          <p class="text-[12px]" style="color:rgba(255,255,255,0.30);">Click any node to inspect its payload. Hit Run to watch it step through.</p>
+          <p class="text-[12px]" style="color:rgba(255,255,255,0.55);">Click any node to inspect its payload. Hit Run to watch it step through.</p>
         </div>
         <!-- Workflow template tabs -->
         <div class="flex gap-1 p-1 rounded-[12px] shrink-0" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);">
           {[{id:'lead',label:'Lead Nurture'},{id:'invoice',label:'Invoice Chase'},{id:'onboarding',label:'Onboarding'}].map((t,i)=>(
             <button class="wf-tab px-3.5 py-1.5 rounded-[9px] text-[11px] font-semibold transition-all" data-wf={t.id}
-              style={i===0 ? 'background:#E8B4B0;color:#0A0A0A;' : 'color:rgba(255,255,255,0.40);'}>
+              style={i===0 ? 'background:#E8B4B0;color:#0A0A0A;' : 'color:rgba(255,255,255,0.60);'}>
               {t.label}
             </button>
           ))}
@@ -65,14 +65,14 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
               <div class="w-2.5 h-2.5 rounded-full" style="background:rgba(255,189,68,0.45);"></div>
               <div class="w-2.5 h-2.5 rounded-full" style="background:rgba(45,196,68,0.45);"></div>
             </div>
-            <span class="text-[10px] font-mono" style="color:rgba(255,255,255,0.25);" id="wf-tab-title">lead-nurture.workflow</span>
+            <span class="text-[10px] font-mono" style="color:rgba(255,255,255,0.55);" id="wf-tab-title">lead-nurture.workflow</span>
           </div>
           <div class="flex items-center gap-3">
             <div id="wf-exec-stats" class="hidden items-center gap-4">
-              <span class="text-[10px]" style="color:rgba(255,255,255,0.35);" id="wf-stat-apis">0 API calls</span>
+              <span class="text-[10px]" style="color:rgba(255,255,255,0.58);" id="wf-stat-apis">0 API calls</span>
               <span class="text-[10px]" style="color:rgba(74,222,128,0.70);" id="wf-stat-time">0ms</span>
             </div>
-            <span class="text-[10px] font-semibold" style="color:rgba(255,255,255,0.25);" id="wf-status-label">Ready</span>
+            <span class="text-[10px] font-semibold" style="color:rgba(255,255,255,0.55);" id="wf-status-label">Ready</span>
             <button id="wf-run-btn" onclick="runWorkflow()"
               class="px-4 py-1.5 rounded-full text-[11px] font-bold transition-all"
               style="background:#E8B4B0;color:#0A0A0A;">
@@ -83,12 +83,12 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
 
         <!-- Workflow meta strip -->
         <div class="flex items-center gap-3 px-5 py-2.5 border-b flex-wrap" style="background:rgba(255,255,255,0.015);border-color:rgba(255,255,255,0.05);">
-          <span class="text-[9.5px] font-mono" style="color:rgba(255,255,255,0.22);" id="wf-meta-nodes">6 nodes</span>
+          <span class="text-[9.5px] font-mono" style="color:rgba(255,255,255,0.50);" id="wf-meta-nodes">6 nodes</span>
           <span style="color:rgba(255,255,255,0.10);">·</span>
-          <span class="text-[9.5px] font-mono" style="color:rgba(255,255,255,0.22);">Manual: <strong id="wf-meta-manual" style="color:rgba(255,255,255,0.42);font-weight:600;">47 min/lead</strong></span>
+          <span class="text-[9.5px] font-mono" style="color:rgba(255,255,255,0.50);">Manual: <strong id="wf-meta-manual" style="color:rgba(255,255,255,0.65);font-weight:600;">47 min/lead</strong></span>
           <span style="color:rgba(255,255,255,0.10);">·</span>
-          <span class="text-[9.5px] font-mono" style="color:rgba(255,255,255,0.22);">Automated: <strong id="wf-meta-time" style="color:rgba(74,222,128,0.70);font-weight:600;">1.8s</strong></span>
-          <span class="ml-auto text-[9.5px] font-mono" style="color:rgba(255,255,255,0.22);">Annual saving: <strong id="wf-meta-saving" style="color:rgba(232,180,176,0.80);font-weight:600;">£38,000/yr</strong></span>
+          <span class="text-[9.5px] font-mono" style="color:rgba(255,255,255,0.50);">Automated: <strong id="wf-meta-time" style="color:rgba(74,222,128,0.70);font-weight:600;">1.8s</strong></span>
+          <span class="ml-auto text-[9.5px] font-mono" style="color:rgba(255,255,255,0.50);">Annual saving: <strong id="wf-meta-saving" style="color:rgba(232,180,176,0.80);font-weight:600;">£38,000/yr</strong></span>
         </div>
 
         <!-- Dot-grid canvas area -->
@@ -121,7 +121,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
               <p class="text-[9px] uppercase tracking-[0.18em] font-bold" style="color:rgba(255,255,255,0.20);">Payload inspector</p>
               <p class="text-[9px] font-mono" style="color:rgba(255,255,255,0.12);">click a node</p>
             </div>
-            <div id="wf-payload" class="font-mono text-[10px] leading-relaxed" style="color:rgba(255,255,255,0.25);">
+            <div id="wf-payload" class="font-mono text-[10px] leading-relaxed" style="color:rgba(255,255,255,0.55);">
               <p>// Select a node to inspect its output</p>
             </div>
           </div>
@@ -873,7 +873,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
   }
   .node-status-text {
     font-size: 9px;
-    color: rgba(255,255,255,0.22);
+    color: rgba(255,255,255,0.50);
     transition: color 0.3s;
     font-weight: 500;
   }
@@ -947,7 +947,7 @@ var WORKFLOWS = {
       { type:'Notify', label:'Sales team alert', color:'#C89840', textColor:'#C89840',
         icons:['M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9','M13.73 21a2 2 0 01-3.46 0'],
         run:'Posting…', done:'✓ Sent', data:'{"channel":"#sales","text":"New lead: Alex Chen — Acme Corp","mention":"@lead-owner"}' },
-      { type:'Wait', label:'24 h delay', color:'#6B7280', textColor:'rgba(255,255,255,0.35)',
+      { type:'Wait', label:'24 h delay', color:'#6B7280', textColor:'rgba(255,255,255,0.58)',
         icons:['M12 22a10 10 0 110-20 10 10 0 010 20z','M12 6v6l4 2'],
         run:'Queuing…', done:'✓ Queued', data:'{"delay":86400,"type":"business_hours","resume_at":"2026-06-01T09:00:00Z"}' },
       { type:'Done', label:'Complete', color:'#2D5016', textColor:'#4ade80',
@@ -959,7 +959,7 @@ var WORKFLOWS = {
       {color:'#7B68EE',text:'→ HubSpot POST /contacts — 201 Created · id:78432 · 312ms'},
       {color:'#E8B4B0',text:'→ Gmail POST /send — 200 OK · template:intro_v3 · 524ms'},
       {color:'#C89840',text:'→ Slack POST /chat.postMessage — 200 OK · #sales · 188ms'},
-      {color:'rgba(255,255,255,0.30)',text:'→ Scheduler: follow-up queued T+24h (business hours)'},
+      {color:'rgba(255,255,255,0.55)',text:'→ Scheduler: follow-up queued T+24h (business hours)'},
       {color:'#4ade80',text:'✓ Complete · 1847ms · 4 API calls · 0 errors'},
     ]
   },
@@ -978,7 +978,7 @@ var WORKFLOWS = {
       { type:'Schedule', label:'Chase sequence', color:'#7B68EE', textColor:'#7B68EE',
         icons:['M8 7V3m8 4V3','M3 11h18','M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'],
         run:'Queuing…', done:'✓ Queued', data:'{"touches":[{"day":7,"type":"reminder"},{"day":14,"type":"escalation"},{"day":30,"type":"final"}]}' },
-      { type:'CRM', label:'Update stage', color:'#6B7280', textColor:'rgba(255,255,255,0.35)',
+      { type:'CRM', label:'Update stage', color:'#6B7280', textColor:'rgba(255,255,255,0.58)',
         icons:['M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2','M12 11a4 4 0 100-8 4 4 0 000 8z'],
         run:'Updating…', done:'✓ Updated', data:'{"deal_id":"D-8821","stage":"Invoice Sent","follow_up_task":true}' },
       { type:'Done', label:'Complete', color:'#2D5016', textColor:'#4ade80',
@@ -990,7 +990,7 @@ var WORKFLOWS = {
       {color:'#C89840',text:'→ Xero POST /invoices — 201 Created · INV-2291 · due 14 Jun'},
       {color:'#E8B4B0',text:'→ Gmail POST /send — 200 OK · PDF attached · tracking on'},
       {color:'#7B68EE',text:'→ Scheduler: 3 chase emails queued (Day 7, 14, 30)'},
-      {color:'rgba(255,255,255,0.30)',text:'→ HubSpot PATCH /deals/D-8821 — stage: Invoice Sent'},
+      {color:'rgba(255,255,255,0.55)',text:'→ HubSpot PATCH /deals/D-8821 — stage: Invoice Sent'},
       {color:'#4ade80',text:'✓ Complete · 2211ms · 5 API calls · 0 errors'},
     ]
   },
@@ -1009,7 +1009,7 @@ var WORKFLOWS = {
       { type:'Sign', label:'DocuSign NDA', color:'#C89840', textColor:'#C89840',
         icons:['M12 20h9','M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z'],
         run:'Sending…', done:'✓ Sent', data:'{"envelope_id":"ENV-9921","template":"onboarding_v3","signers":["emma@novastudio.io"]}' },
-      { type:'Channel', label:'Slack workspace', color:'#6B7280', textColor:'rgba(255,255,255,0.35)',
+      { type:'Channel', label:'Slack workspace', color:'#6B7280', textColor:'rgba(255,255,255,0.58)',
         icons:['M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z'],
         run:'Creating…', done:'✓ Created', data:'{"channel":"client-nova-studio","invited":["pm@purist.co","dev@purist.co","emma@novastudio.io"]}' },
       { type:'Done', label:'Complete', color:'#2D5016', textColor:'#4ade80',
@@ -1021,7 +1021,7 @@ var WORKFLOWS = {
       {color:'#7B68EE',text:'→ Gmail POST /send — 200 OK · welcome pack + access doc'},
       {color:'#E8B4B0',text:'→ Calendly POST /scheduling-links — kick-off invite · 60 min'},
       {color:'#C89840',text:'→ DocuSign POST /envelopes — ENV-9921 created · awaiting sign'},
-      {color:'rgba(255,255,255,0.30)',text:'→ Slack POST /conversations.create — #client-nova-studio · 3 members'},
+      {color:'rgba(255,255,255,0.55)',text:'→ Slack POST /conversations.create — #client-nova-studio · 3 members'},
       {color:'#4ade80',text:'✓ Complete · 3102ms · 6 API calls · 0 errors'},
     ]
   }
@@ -1115,7 +1115,7 @@ function runWorkflow() {
     var dot = c.querySelector('.node-dot');
     var lbl = c.querySelector('.node-status span');
     if (dot) dot.style.background = 'rgba(255,255,255,0.15)';
-    if (lbl) { lbl.textContent = 'Idle'; lbl.style.color = 'rgba(255,255,255,0.25)'; }
+    if (lbl) { lbl.textContent = 'Idle'; lbl.style.color = 'rgba(255,255,255,0.55)'; }
   });
   document.querySelectorAll('.wf-connector').forEach(function(c) { c.classList.remove('done','running'); c.innerHTML = ''; });
 
@@ -1205,7 +1205,7 @@ document.querySelectorAll('.wf-tab').forEach(function(btn) {
     currentWf = this.dataset.wf;
     document.querySelectorAll('.wf-tab').forEach(function(b) {
       b.style.background = 'transparent';
-      b.style.color = 'rgba(255,255,255,0.40)';
+      b.style.color = 'rgba(255,255,255,0.60)';
     });
     this.style.background = '#E8B4B0';
     this.style.color = '#0A0A0A';

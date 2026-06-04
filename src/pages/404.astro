@@ -1,0 +1,27 @@
+---
+export const prerender = true;
+import ShopLayout from '~/layouts/ShopLayout.astro';
+---
+
+<ShopLayout
+  title="Page Not Found — PURIST"
+  description="This page doesn't exist. Head back to explore PURIST workflow automation."
+  noindex
+>
+  <div class="bg-white min-h-[70vh] flex items-center">
+    <div class="container-x py-24 text-center">
+      <p class="text-[11px] uppercase tracking-[0.2em] text-brand-rust mb-6 font-medium">404</p>
+      <h1 class="font-display text-5xl sm:text-6xl text-brand-black mb-5 text-balance">
+        Page not found
+      </h1>
+      <p class="text-brand-gray-600 text-lg max-w-md mx-auto mb-10 leading-relaxed">
+        This page doesn't exist or has been moved. Head back to explore what PURIST can automate for you.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a href="/" class="btn-primary px-6 py-3 text-sm">Back to home</a>
+        <a href="/collections/all" class="btn-secondary px-6 py-3 text-sm">View services</a>
+        <a href="/pages/contact-us" class="text-sm text-brand-gray-600 hover:text-brand-black underline underline-offset-4 transition">Contact us</a>
+      </div>
+    </div>
+  </div>
+</ShopLayout>

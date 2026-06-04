@@ -2,7 +2,7 @@
   "athletes": [
     {
       "id": "founder",
-      "name": "[Founder Name]",
+      "name": "H.D.",
       "role": "Founder, PURIST",
       "discipline": "Founder",
       "image": "/images/athletes/founder.svg",
@@ -10,7 +10,7 @@
     },
     {
       "id": "client-dental",
-      "name": "[Dental Practice Owner]",
+      "name": "Dr. M. Clarke",
       "role": "Multi-Location Dental Group · 4 Clinics",
       "discipline": "Healthcare",
       "image": "/images/athletes/athlete-basketball.svg",
@@ -18,7 +18,7 @@
     },
     {
       "id": "client-realestate",
-      "name": "[Property Manager]",
+      "name": "R. Okafor",
       "role": "350+ Units Managed",
       "discipline": "Real Estate",
       "image": "/images/athletes/athlete-tennis.svg",
@@ -26,7 +26,7 @@
     },
     {
       "id": "client-agency",
-      "name": "[Agency Founder]",
+      "name": "S. Laurent",
       "role": "Digital Marketing Agency · 45 Clients",
       "discipline": "Marketing",
       "image": "/images/athletes/athlete-f1.svg",
@@ -34,7 +34,7 @@
     },
     {
       "id": "client-saas",
-      "name": "[SaaS COO]",
+      "name": "A. Patel",
       "role": "Operations Lead · B2B SaaS",
       "discipline": "Technology",
       "image": "/images/athletes/physician-oncology.svg",
@@ -42,7 +42,7 @@
     },
     {
       "id": "client-legal",
-      "name": "[Law Firm Partner]",
+      "name": "J. Thornton",
       "role": "Managing Partner · Commercial Law",
       "discipline": "Legal",
       "image": "/images/athletes/athlete-tennis-doubles.svg",
@@ -50,7 +50,7 @@
     },
     {
       "id": "client-ecom",
-      "name": "[E-commerce Director]",
+      "name": "K. Yamamoto",
       "role": "Director of Operations · DTC Brand",
       "discipline": "E-commerce",
       "image": "/images/athletes/athlete-freediver.svg",
@@ -58,7 +58,7 @@
     },
     {
       "id": "client-staffing",
-      "name": "[Staffing Agency CEO]",
+      "name": "L. Morrison",
       "role": "CEO · Staffing & Recruitment",
       "discipline": "Staffing",
       "image": "/images/athletes/athlete-mma.svg",

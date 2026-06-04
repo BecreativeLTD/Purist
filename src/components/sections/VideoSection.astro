@@ -622,19 +622,8 @@ const compassTicks = Array.from({length:12}, (_,i) => {
 <script is:inline>
 (function () {
   var tasks = 142847, saved = 168420;
-
-  setInterval(function () {
-    tasks += Math.floor(Math.random() * 3) + 1;
-    saved += Math.floor(Math.random() * 9) + 3;
-    var t = document.getElementById('e-tasks'), s = document.getElementById('e-saved');
-    if (t) t.textContent = tasks.toLocaleString('en-GB');
-    if (s) s.textContent = '\u00a3' + saved.toLocaleString('en-GB');
-  }, 440);
-
-  setInterval(function () {
-    var el = document.getElementById('e-ms');
-    if (el) el.textContent = (172 + Math.floor(Math.random() * 26)) + 'ms';
-  }, 950);
+  var iv1, iv2, iv3;
+  var started = false;
 
   var actions = [
     {t:'CRM',      m:'Contact "J. Holloway" scored \u2014 High intent'},
@@ -662,22 +651,53 @@ const compassTicks = Array.from({length:12}, (_,i) => {
     el.innerHTML =
       '<span style="font-size:7px;font-weight:700;font-family:ui-monospace,monospace;' +
       'color:rgba(232,180,176,0.58);white-space:nowrap;flex-shrink:0;">' + a.t + '</span>' +
-      '<span style="font-size:9px;color:rgba(255,255,255,0.32);overflow:hidden;' +
+      '<span style="font-size:9px;color:rgba(255,255,255,0.50);overflow:hidden;' +
       'text-overflow:ellipsis;white-space:nowrap;">' + a.m + '</span>';
     feed.insertBefore(el, feed.firstChild);
-    // Double rAF ensures transition fires after DOM insertion
     requestAnimationFrame(function () {
       requestAnimationFrame(function () { el.style.opacity = '1'; });
     });
-    // ── BUG FIX: use immediate removal (no async loop) ──
-    // Remove oldest entries synchronously so feed never exceeds 4 items
     while (feed.children.length > 4) {
       var last = feed.lastChild;
       if (last) feed.removeChild(last);
     }
   }
 
-  addAction();
-  setInterval(addAction, 2200);
+  function startIntervals() {
+    if (started) return;
+    started = true;
+    addAction();
+    iv1 = setInterval(function () {
+      tasks += Math.floor(Math.random() * 3) + 1;
+      saved += Math.floor(Math.random() * 9) + 3;
+      var t = document.getElementById('e-tasks'), s = document.getElementById('e-saved');
+      if (t) t.textContent = tasks.toLocaleString('en-GB');
+      if (s) s.textContent = '\u00a3' + saved.toLocaleString('en-GB');
+    }, 440);
+    iv2 = setInterval(function () {
+      var el = document.getElementById('e-ms');
+      if (el) el.textContent = (172 + Math.floor(Math.random() * 26)) + 'ms';
+    }, 950);
+    iv3 = setInterval(addAction, 2200);
+  }
+
+  function stopIntervals() {
+    clearInterval(iv1); clearInterval(iv2); clearInterval(iv3);
+    started = false;
+  }
+
+  // Start only when section enters viewport, pause when it leaves
+  var section = document.getElementById('e-feed') && document.getElementById('e-feed').closest('section');
+  if (section && 'IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function (entries) {
+      entries[0].isIntersecting ? startIntervals() : stopIntervals();
+    }, { threshold: 0.1 });
+    obs.observe(section);
+  } else {
+    startIntervals();
+  }
+
+  // Cleanup on ViewTransitions navigation
+  document.addEventListener('astro:before-swap', stopIntervals);
 })();
 </script>

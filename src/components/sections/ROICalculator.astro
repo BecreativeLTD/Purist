@@ -770,7 +770,22 @@
   }
 
   renderProcesses();
-  render();
+
+  // Start ticker only when ROI section is visible
+  var roiSection = document.getElementById('cost-ticker') && document.getElementById('cost-ticker').closest('section');
+  if (roiSection && 'IntersectionObserver' in window) {
+    var roiObs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { render(); roiObs.disconnect(); }
+    }, { threshold: 0.15 });
+    roiObs.observe(roiSection);
+  } else {
+    render();
+  }
+
+  // Cleanup ticker on ViewTransitions navigation
+  document.addEventListener('astro:before-swap', function() {
+    if (tickerInterval) { clearInterval(tickerInterval); tickerInterval = null; }
+  });
 
 })();
 

@@ -43,7 +43,7 @@ const steps = [
     title: '24/7 observability, not hope.',
     body: 'Independent uptime monitoring via Checkly + custom alerting. Every execution is logged. Failed runs trigger Slack/email alerts within 60 seconds. Your client dashboard shows live execution counts, success rates, and p95 latency — updated in real time.',
     deliverables: ['Real-time dashboard', '60s alert SLA', 'Monthly exec report', 'Proactive optimization'],
-    stat: { value: '99.7%', unit: 'uptime', label: 'across all client workflows' },
+    stat: { value: '99.9%', unit: 'uptime', label: 'across all client workflows' },
     color: 'border-brand-black',
     accent: 'bg-brand-black',
   },
@@ -63,7 +63,7 @@ const techStack = [
 const metrics = [
   { value: '500+', label: 'Workflows deployed' },
   { value: '5–10', label: 'Days to deploy' },
-  { value: '99.7%', label: 'Average uptime SLA' },
+  { value: '99.9%', label: 'Average uptime SLA' },
   { value: '329', label: 'Claude AI skills' },
   { value: '50K+', label: 'Hours saved annually' },
   { value: '9.4×', label: 'Average ROI' },
@@ -119,7 +119,7 @@ const principles = [
         {metrics.map((m) => (
           <div class="bg-brand-black px-4 py-5 text-center">
             <p class="font-display text-2xl lg:text-3xl text-white tabular-nums">{m.value}</p>
-            <p class="text-[10px] text-white/40 uppercase tracking-wider mt-1">{m.label}</p>
+            <p class="text-[10px] text-white/60 uppercase tracking-wider mt-1">{m.label}</p>
           </div>
         ))}
       </div>
@@ -342,7 +342,7 @@ const principles = [
   <section class="bg-brand-black py-20 lg:py-28">
     <div class="container-x max-w-5xl">
       <div class="text-center mb-12">
-        <p class="eyebrow text-white/40 mb-3">Engineering principles</p>
+        <p class="eyebrow text-white/60 mb-3">Engineering principles</p>
         <h2 class="font-display text-3xl lg:text-4xl text-white text-balance">
           The rules our engineers don't break.
         </h2>
@@ -371,7 +371,7 @@ const principles = [
         <div>
           <p class="eyebrow mb-4">Reliability</p>
           <h2 class="font-display text-3xl lg:text-4xl mb-5 text-balance">
-            99.7% uptime SLA. <em class="font-medium">Backed by data.</em>
+            99.9% uptime SLA. <em class="font-medium">Backed by data.</em>
           </h2>
           <p class="text-base text-brand-gray-600 mb-6 leading-relaxed">
             Independent monitoring via Checkly checks every workflow every 60 seconds.
@@ -404,7 +404,7 @@ const principles = [
               <p class="font-display text-sm">90-day uptime</p>
               <p class="text-[10px] text-brand-gray-600">All workflows · Last 90 days</p>
             </div>
-            <span class="text-[10px] text-brand-green bg-brand-green/10 px-2 py-1 rounded font-medium">99.7% healthy</span>
+            <span class="text-[10px] text-brand-green bg-brand-green/10 px-2 py-1 rounded font-medium">99.9% healthy</span>
           </div>
           <!-- Uptime bars grid -->
           <div class="flex gap-0.5 flex-wrap">
@@ -428,7 +428,7 @@ const principles = [
           <!-- KPI row -->
           <div class="grid grid-cols-3 gap-2 mt-5 pt-5 border-t border-brand-gray-100">
             <div class="text-center">
-              <p class="font-display text-lg">99.7%</p>
+              <p class="font-display text-lg">99.9%</p>
               <p class="text-[10px] text-brand-gray-600">Uptime</p>
             </div>
             <div class="text-center">
