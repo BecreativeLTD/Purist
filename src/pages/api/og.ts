@@ -4,12 +4,27 @@ export const prerender = false;
 
 export async function GET({ request }: { request: Request }) {
   const url = new URL(request.url);
-  const title = url.searchParams.get('title') ?? 'Production-grade business automation';
-  const description = url.searchParams.get('description') ?? 'Workflow automation and AI agents deployed in days. 99.97% uptime. 500+ production deployments.';
+  const title = url.searchParams.get('title') ?? 'Workflow Automation and AI Agents for Business';
+  const description = url.searchParams.get('description') ?? '500+ production deployments across dental, real estate, agencies, e-commerce, legal and staffing. Deployed in days, 99.97% uptime.';
   const type = url.searchParams.get('type') ?? 'default';
 
-  const shortDesc = description.length > 110 ? description.slice(0, 110) + '…' : description;
-  const titleSize = title.length > 55 ? 40 : title.length > 35 ? 48 : 56;
+  const shortDesc = description.length > 115 ? description.slice(0, 115) + '…' : description;
+  const titleSize = title.length > 55 ? 40 : title.length > 35 ? 46 : 54;
+
+  // Load Fraunces font (same as footer wordmark)
+  let frauncesFontData: ArrayBuffer | null = null;
+  try {
+    const fontRes = await fetch(
+      'https://fonts.gstatic.com/s/fraunces/v31/6NUt8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnDiw.woff2'
+    );
+    if (fontRes.ok) frauncesFontData = await fontRes.arrayBuffer();
+  } catch {}
+
+  const fonts = frauncesFontData
+    ? [{ name: 'Fraunces', data: frauncesFontData, weight: 500 as const, style: 'normal' as const }]
+    : [];
+
+  const displayFont = frauncesFontData ? 'Fraunces, Georgia, serif' : 'Georgia, serif';
 
   return new ImageResponse(
     {
@@ -21,34 +36,33 @@ export async function GET({ request }: { request: Request }) {
           display: 'flex',
           flexDirection: 'column',
           background: '#0A0A0A',
-          fontFamily: 'Georgia, serif',
+          fontFamily: displayFont,
           position: 'relative',
           overflow: 'hidden',
         },
         children: [
 
-          // ── Giant watermark wordmark (like footer) ──
+          // ── Giant PURIST watermark — identical to footer ──
           {
             type: 'div',
             props: {
               style: {
                 position: 'absolute',
-                bottom: -30,
-                left: 50,
-                fontSize: 240,
+                bottom: -60,
+                left: 40,
+                fontSize: 280,
                 fontWeight: 500,
-                letterSpacing: '-0.03em',
+                letterSpacing: '-0.02em',
                 lineHeight: 0.85,
-                color: '#E8B4B0',
-                opacity: 0.13,
+                color: 'rgba(232,180,176,0.70)',   // same as footer: brand-pink/70
                 userSelect: 'none',
-                fontFamily: 'Georgia, serif',
+                fontFamily: displayFont,
               },
               children: 'PURIST',
             },
           },
 
-          // ── Top bar: wordmark + badge ──
+          // ── Top bar: PURIST® wordmark + badge ──
           {
             type: 'div',
             props: {
@@ -57,31 +71,35 @@ export async function GET({ request }: { request: Request }) {
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 padding: '48px 64px 0 64px',
+                position: 'relative',
+                zIndex: 10,
               },
               children: [
+                // PURIST® in pink — same colour as footer watermark
                 {
                   type: 'div',
                   props: {
                     style: {
-                      fontSize: 52,
+                      fontSize: 48,
                       fontWeight: 500,
-                      color: '#ffffff',
-                      letterSpacing: '-0.03em',
+                      color: '#E8B4B0',
+                      letterSpacing: '-0.02em',
                       lineHeight: 1,
-                      fontFamily: 'Georgia, serif',
+                      fontFamily: displayFont,
                     },
                     children: 'PURIST®',
                   },
                 },
+                // Badge
                 {
                   type: 'div',
                   props: {
                     style: {
                       fontSize: 11,
                       fontWeight: 600,
-                      color: '#E8B4B0',
-                      background: 'rgba(232,180,176,0.10)',
-                      border: '1px solid rgba(232,180,176,0.25)',
+                      color: 'rgba(255,255,255,0.55)',
+                      background: 'rgba(255,255,255,0.06)',
+                      border: '1px solid rgba(255,255,255,0.12)',
                       borderRadius: 100,
                       padding: '6px 16px',
                       letterSpacing: '0.14em',
@@ -101,10 +119,12 @@ export async function GET({ request }: { request: Request }) {
               style: {
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 18,
+                gap: 16,
                 flex: 1,
                 justifyContent: 'center',
                 padding: '0 64px',
+                position: 'relative',
+                zIndex: 10,
               },
               children: [
                 {
@@ -117,6 +137,7 @@ export async function GET({ request }: { request: Request }) {
                       lineHeight: 1.1,
                       letterSpacing: '-0.025em',
                       maxWidth: 960,
+                      fontFamily: displayFont,
                     },
                     children: title,
                   },
@@ -126,9 +147,10 @@ export async function GET({ request }: { request: Request }) {
                   props: {
                     style: {
                       fontSize: 17,
-                      color: 'rgba(255,255,255,0.42)',
+                      color: 'rgba(255,255,255,0.40)',
                       lineHeight: 1.55,
-                      maxWidth: 740,
+                      maxWidth: 720,
+                      fontFamily: 'Georgia, serif',
                     },
                     children: shortDesc,
                   },
@@ -145,8 +167,10 @@ export async function GET({ request }: { request: Request }) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                padding: '24px 64px 48px 64px',
+                padding: '22px 64px 44px 64px',
                 borderTop: '1px solid rgba(255,255,255,0.07)',
+                position: 'relative',
+                zIndex: 10,
               },
               children: [
                 {
@@ -163,15 +187,15 @@ export async function GET({ request }: { request: Request }) {
                         props: {
                           style: { display: 'flex', flexDirection: 'column', gap: 3 },
                           children: [
-                            { type: 'div', props: { style: { fontSize: 22, fontWeight: 700, color: '#ffffff', letterSpacing: '-0.015em' }, children: s.n } },
-                            { type: 'div', props: { style: { fontSize: 10, color: 'rgba(255,255,255,0.32)', letterSpacing: '0.16em', textTransform: 'uppercase' }, children: s.l } },
+                            { type: 'div', props: { style: { fontSize: 20, fontWeight: 700, color: '#ffffff', letterSpacing: '-0.01em' }, children: s.n } },
+                            { type: 'div', props: { style: { fontSize: 9, color: 'rgba(255,255,255,0.30)', letterSpacing: '0.16em', textTransform: 'uppercase' }, children: s.l } },
                           ],
                         },
                       })),
                     ],
                   },
                 },
-                // CTA pill
+                // CTA pill in pink
                 {
                   type: 'div',
                   props: {
@@ -180,9 +204,10 @@ export async function GET({ request }: { request: Request }) {
                       color: '#0A0A0A',
                       fontSize: 13,
                       fontWeight: 700,
-                      padding: '12px 24px',
-                      borderRadius: 12,
+                      padding: '11px 22px',
+                      borderRadius: 10,
                       letterSpacing: '-0.01em',
+                      fontFamily: 'Georgia, serif',
                     },
                     children: 'purist.online →',
                   },
@@ -194,6 +219,10 @@ export async function GET({ request }: { request: Request }) {
         ],
       },
     },
-    { width: 1200, height: 630 },
+    {
+      width: 1200,
+      height: 630,
+      fonts,
+    },
   );
 }
