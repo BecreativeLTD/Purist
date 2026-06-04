@@ -1503,13 +1503,17 @@ const groupedLayers = ['trigger','ai','logic','connect','data','monitor'];
             <!-- Node -->
             <div class="shrink-0 flex flex-col items-center gap-3 mx-auto">
               <!-- Step number -->
-              <span class="text-[8px] font-mono tracking-widest" style="color:rgba(255,255,255,0.25)">0{i+1}</span>
+              <span class="sdna-num text-[8px] font-mono tracking-widest" style={`color:rgba(255,255,255,0.25);animation-delay:${(i*0.45).toFixed(2)}s;`}>0{i+1}</span>
               <!-- Icon tile -->
               <div
-                class="relative flex items-center justify-center transition-transform duration-200 hover:scale-105"
-                style={`width:68px;height:68px;border-radius:22px;background:linear-gradient(160deg,${node.color}26 0%,${node.color}05 100%);border:1px solid rgba(255,255,255,${(0.04+i*0.014).toFixed(3)});border-top-color:rgba(255,255,255,${(0.11+i*0.018).toFixed(3)});color:${node.color};box-shadow:0 1px 0 rgba(255,255,255,0.09) inset,0 -1px 0 rgba(0,0,0,0.18) inset,0 10px 36px ${node.color}${Math.round(14+i*4).toString(16).padStart(2,'0')},0 1px 4px rgba(0,0,0,0.45);opacity:${(0.62+i*0.076).toFixed(2)};filter:brightness(${(1.05+i*0.06).toFixed(2)});backdrop-filter:blur(8px);`}
+                class="sdna-tile relative flex items-center justify-center hover:scale-110 transition-[transform] duration-300"
+                style={`width:68px;height:68px;border-radius:22px;background:linear-gradient(160deg,${node.color}26 0%,${node.color}05 100%);border:1px solid rgba(255,255,255,${(0.04+i*0.014).toFixed(3)});border-top-color:rgba(255,255,255,${(0.11+i*0.018).toFixed(3)});color:${node.color};box-shadow:0 1px 0 rgba(255,255,255,0.09) inset,0 -1px 0 rgba(0,0,0,0.18) inset,0 10px 36px ${node.color}${Math.round(14+i*4).toString(16).padStart(2,'0')},0 1px 4px rgba(0,0,0,0.45);opacity:${(0.62+i*0.076).toFixed(2)};filter:brightness(${(1.05+i*0.06).toFixed(2)});backdrop-filter:blur(8px);animation-delay:${(i*0.45).toFixed(2)}s;`}
               >
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" set:html={node.svg}/>
+                <!-- Radial glow overlay (pulses in sync with float) -->
+                <div class="sdna-glow absolute inset-0 rounded-[22px] pointer-events-none" style={`background:radial-gradient(ellipse 65% 55% at 50% 35%, ${node.color}38 0%, transparent 70%);animation-delay:${(i*0.45).toFixed(2)}s;`}/>
+                <!-- Expanding ring on each "beat" -->
+                <div class="sdna-ring pointer-events-none" style={`position:absolute;inset:-5px;border-radius:27px;border:1px solid ${node.color};animation-delay:${(i*0.45).toFixed(2)}s;`}/>
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="relative z-10" set:html={node.svg}/>
               </div>
               <!-- Label + count -->
               <div class="flex flex-col items-center gap-0.5">
@@ -1521,9 +1525,11 @@ const groupedLayers = ['trigger','ai','logic','connect','data','monitor'];
             {i < arr.length - 1 && (
               <div class="flex-1 flex items-center pb-5 min-w-[32px] relative" style="padding-left:4px;padding-right:4px;">
                 <!-- Gradient connector line -->
-                <div class="flex-1 h-px relative overflow-visible" style={`background:linear-gradient(90deg,${node.color}45,${arr[i+1].color}45);`}>
-                  <!-- Pulse dot mid-line -->
-                  <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 rounded-full" style={`background:linear-gradient(135deg,${node.color},${arr[i+1].color});opacity:0.6;`}/>
+                <div class="flex-1 h-px relative overflow-hidden" style={`background:linear-gradient(90deg,${node.color}35,${arr[i+1].color}35);`}>
+                  <!-- Static midpoint dot -->
+                  <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 rounded-full" style={`background:linear-gradient(135deg,${node.color},${arr[i+1].color});opacity:0.45;`}/>
+                  <!-- Traveling pulse dot -->
+                  <div class="sdna-travel pointer-events-none absolute top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full" style={`background:${arr[i+1].color};box-shadow:0 0 5px 2px ${arr[i+1].color}70;animation-delay:${(i*0.55).toFixed(2)}s;`}/>
                 </div>
                 <!-- Arrowhead -->
                 <svg width="8" height="8" viewBox="0 0 8 8" fill="none" class="shrink-0 ml-0.5">
@@ -1536,6 +1542,62 @@ const groupedLayers = ['trigger','ai','logic','connect','data','monitor'];
       </div>
     </div>
   </div>
+
+  <style>
+    /* Float — uses standalone `translate` property so it composes with transform:scale() from hover */
+    @keyframes sdna-float {
+      0%, 100% { translate: 0 0px; }
+      50%       { translate: 0 -5px; }
+    }
+    /* Glow intensity pulse (in sync with float) */
+    @keyframes sdna-glow-pulse {
+      0%, 100% { opacity: 0.35; }
+      50%       { opacity: 0.85; }
+    }
+    /* Expanding ring that fades out on each beat */
+    @keyframes sdna-ring-expand {
+      0%   { opacity: 0; scale: 0.94; }
+      18%  { opacity: 0.28; }
+      100% { opacity: 0;   scale: 1.10; }
+    }
+    /* Step-number brightness pulse */
+    @keyframes sdna-num-pulse {
+      0%, 100% { opacity: 0.25; }
+      50%       { opacity: 0.60; }
+    }
+    /* Connector travel dot */
+    @keyframes sdna-travel-dot {
+      0%   { left: -4px; opacity: 0; }
+      8%   { opacity: 1; }
+      88%  { opacity: 0.9; }
+      100% { left: calc(100% + 4px); opacity: 0; }
+    }
+
+    .sdna-tile {
+      animation: sdna-float 3.4s ease-in-out infinite;
+      will-change: translate;
+    }
+    .sdna-glow {
+      animation: sdna-glow-pulse 3.4s ease-in-out infinite;
+    }
+    .sdna-ring {
+      animation: sdna-ring-expand 3.4s ease-in-out infinite;
+    }
+    .sdna-num {
+      animation: sdna-num-pulse 3.4s ease-in-out infinite;
+    }
+    .sdna-travel {
+      animation: sdna-travel-dot 2.2s linear infinite;
+      position: absolute;
+    }
+
+    /* Respect reduced-motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      .sdna-tile, .sdna-glow, .sdna-ring, .sdna-num, .sdna-travel {
+        animation: none;
+      }
+    }
+  </style>
 
   <!-- ══════════════════════════════════════════════════════════════ -->
   <!-- STICKY FILTER BAR                                              -->
