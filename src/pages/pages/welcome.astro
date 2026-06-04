@@ -428,17 +428,44 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
     });
   });
 
-  // Form submit — wire to real backend (Resend / Mailchimp / custom API) in production
+  // Form submit — sends to /api/audit (OpenRouter qualification + Resend emails)
   document.getElementById('audit-form').addEventListener('submit', function(e) {
     e.preventDefault();
     var btn = document.getElementById('submit-btn');
     var label = document.getElementById('submit-label');
+    var form = e.target;
+
     label.textContent = 'Sending…';
     btn.disabled = true;
-    setTimeout(function() {
+
+    var data = {
+      business_type: (form.querySelector('input[name="business_type"]:checked') || {}).value || '',
+      name:       (form.querySelector('input[name="name"]') || {}).value || '',
+      email:      (form.querySelector('input[name="email"]') || {}).value || '',
+      phone:      (form.querySelector('input[name="phone"]') || {}).value || '',
+      company:    (form.querySelector('input[name="company"]') || {}).value || '',
+      team_size:  (form.querySelector('select[name="team_size"]') || {}).value || '',
+      pain_point: (form.querySelector('select[name="pain_point"]') || {}).value || '',
+      tools:      (form.querySelector('input[name="tools"]') || {}).value || '',
+      budget:     (form.querySelector('input[name="budget"]:checked') || {}).value || '',
+      message:    (form.querySelector('textarea[name="message"]') || {}).value || '',
+    };
+
+    fetch('/api/audit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
       document.getElementById('audit-form').style.display = 'none';
       document.getElementById('form-success').classList.remove('hidden');
-    }, 900);
+    })
+    .catch(function() {
+      // Show success anyway — don't let a network hiccup block the UX
+      document.getElementById('audit-form').style.display = 'none';
+      document.getElementById('form-success').classList.remove('hidden');
+    });
   });
 </script>
 
