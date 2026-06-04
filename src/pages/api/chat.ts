@@ -38,7 +38,7 @@ Format: Plain text only. No markdown headers, no asterisks, no bullet lists with
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${import.meta.env.OPENROUTER_API_KEY}`,
+        'Authorization': `Bearer ${import.meta.env.OpenRouter}`,
         'Content-Type': 'application/json',
         'HTTP-Referer': 'https://purist.online',
         'X-Title': 'PURIST AI',
