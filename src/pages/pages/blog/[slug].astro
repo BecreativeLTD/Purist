@@ -19,183 +19,324 @@ const moreArticles = related.length > 0
   ? related
   : articles.filter((a) => a.id !== article.id).slice(0, 3);
 
-// Split body into paragraphs, detect headings (lines starting with ##)
-const paragraphs = article.body.split('\n\n');
+// ── Parse body into structured blocks ──────────────────────────
+type Block =
+  | { type: 'h2'; text: string; id: string }
+  | { type: 'h3'; text: string }
+  | { type: 'blockquote'; text: string }
+  | { type: 'callout'; text: string }
+  | { type: 'list'; items: string[] }
+  | { type: 'paragraph'; text: string; first: boolean };
+
+const slugify = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+const blocks: Block[] = [];
+let firstPara = true;
+let listBuffer: string[] = [];
+
+const flushList = () => {
+  if (listBuffer.length) { blocks.push({ type: 'list', items: [...listBuffer] }); listBuffer = []; }
+};
+
+for (const raw of article.body.split('\n\n')) {
+  const line = raw.trim();
+  if (!line) continue;
+
+  if (line.startsWith('## ')) {
+    flushList();
+    const text = line.slice(3);
+    blocks.push({ type: 'h2', text, id: slugify(text) });
+  } else if (line.startsWith('### ')) {
+    flushList();
+    blocks.push({ type: 'h3', text: line.slice(4) });
+  } else if (line.startsWith('> ')) {
+    flushList();
+    blocks.push({ type: 'blockquote', text: line.slice(2) });
+  } else if (line.startsWith('!! ')) {
+    flushList();
+    blocks.push({ type: 'callout', text: line.slice(3) });
+  } else if (line.startsWith('- ')) {
+    const items = line.split('\n').filter(l => l.startsWith('- ')).map(l => l.slice(2));
+    blocks.push({ type: 'list', items });
+  } else {
+    flushList();
+    blocks.push({ type: 'paragraph', text: line, first: firstPara });
+    firstPara = false;
+  }
+}
+flushList();
+
+// ── ToC from H2 blocks ─────────────────────────────────────────
+const toc = blocks.filter((b): b is Extract<Block, { type: 'h2' }> => b.type === 'h2');
+
+// ── Word count & reading time ──────────────────────────────────
+const wordCount = article.body.split(/\s+/).length;
+const pageUrl = `${(Astro.site?.toString() ?? 'https://purist.io').replace(/\/$/, '')}/pages/blog/${article.slug}`;
+const schemaDate = (() => {
+  const months: Record<string,string> = { January:'01',February:'02',March:'03',April:'04',May:'05',June:'06',July:'07',August:'08',September:'09',October:'10',November:'11',December:'12' };
+  const [m, y] = article.date.split(' ');
+  return `${y}-${months[m] ?? '01'}-01`;
+})();
 ---
 
 <ShopLayout
-  title={`${article.title} – PURIST`}
-  description={article.excerpt}
+  title={article.metaTitle ?? `${article.title} – PURIST`}
+  description={article.metaDescription ?? article.excerpt}
 >
 
-<!-- ═══════════════════════════════════════════════
-     ARTICLE HERO
-════════════════════════════════════════════════ -->
-<header class="relative overflow-hidden" style="background:#0A0A0A;">
-  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 80% at 70% 50%,rgba(232,180,176,0.06) 0%,transparent 70%);"/>
+<!-- ── PROGRESS BAR ───────────────────────────────────── -->
+<div id="progress-bar" style="position:fixed;top:0;left:0;height:2px;background:#E8B4B0;width:0%;z-index:200;transition:width 0.1s linear;" aria-hidden="true"></div>
 
-  <div class="container-x relative z-10 pt-10 pb-0">
+<!-- ── HERO ──────────────────────────────────────────────────── -->
+<header style="background:#0A0A0A;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 70% 50%,rgba(232,180,176,0.07) 0%,transparent 70%);pointer-events:none;"></div>
+
+  <div class="container-x" style="position:relative;z-index:10;padding-top:2.5rem;padding-bottom:0;">
+
     <!-- Breadcrumb -->
-    <nav aria-label="Breadcrumb" class="mb-8">
-      <ol class="flex items-center gap-2 flex-wrap">
-        <li>
-          <a href="/" class="text-[10px] font-medium transition" style="color:rgba(255,255,255,0.3);" onmouseover="this.style.color='rgba(255,255,255,0.65)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">Home</a>
+    <nav aria-label="Fil d'Ariane" style="margin-bottom:2rem;">
+      <ol itemscope itemtype="https://schema.org/BreadcrumbList" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;list-style:none;">
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a itemprop="item" href="/" style="font-size:10px;font-weight:500;color:rgba(255,255,255,0.3);text-decoration:none;" onmouseover="this.style.color='rgba(255,255,255,0.65)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">
+            <span itemprop="name">Home</span>
+          </a>
+          <meta itemprop="position" content="1"/>
         </li>
         <li aria-hidden="true" style="color:rgba(255,255,255,0.18);font-size:10px;">/</li>
-        <li>
-          <a href="/pages/blog" class="text-[10px] font-medium transition" style="color:rgba(255,255,255,0.3);" onmouseover="this.style.color='rgba(255,255,255,0.65)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">Blog</a>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a itemprop="item" href="/pages/blog" style="font-size:10px;font-weight:500;color:rgba(255,255,255,0.3);text-decoration:none;" onmouseover="this.style.color='rgba(255,255,255,0.65)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">
+            <span itemprop="name">Blog</span>
+          </a>
+          <meta itemprop="position" content="2"/>
         </li>
         <li aria-hidden="true" style="color:rgba(255,255,255,0.18);font-size:10px;">/</li>
-        <li class="text-[10px] truncate max-w-[200px] sm:max-w-xs" style="color:rgba(255,255,255,0.42);">{article.title}</li>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="font-size:10px;color:rgba(255,255,255,0.4);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:260px;">
+          <span itemprop="name">{article.title}</span>
+          <meta itemprop="position" content="3"/>
+        </li>
       </ol>
     </nav>
 
-    <div class="max-w-2xl mb-10">
+    <div style="max-width:700px;margin-bottom:2.5rem;">
       <!-- Category + reading time -->
-      <div class="flex items-center gap-3 mb-5">
-        <span class="text-[9px] uppercase tracking-[0.2em] font-bold px-3 py-1.5 rounded-full" style="background:rgba(232,180,176,0.12);color:#E8B4B0;border:1px solid rgba(232,180,176,0.22);">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.25rem;flex-wrap:wrap;">
+        <a href={`/pages/blog?cat=${article.category}`}
+           style="font-size:9px;text-transform:uppercase;letter-spacing:0.2em;font-weight:700;padding:5px 12px;border-radius:100px;background:rgba(232,180,176,0.12);color:#E8B4B0;border:1px solid rgba(232,180,176,0.22);text-decoration:none;">
           {category?.name ?? article.category}
-        </span>
-        <span class="text-[10px]" style="color:rgba(255,255,255,0.25);">{article.readingTime}</span>
+        </a>
+        <span style="font-size:10px;color:rgba(255,255,255,0.25);">{article.readingTime}</span>
+        <span style="font-size:10px;color:rgba(255,255,255,0.18);">·</span>
+        <span style="font-size:10px;color:rgba(255,255,255,0.25);">{wordCount.toLocaleString()} mots</span>
       </div>
 
-      <h1 class="font-display text-[2rem] lg:text-[2.8rem] leading-[1.1] tracking-[-0.025em] text-white mb-5 text-balance">
+      <h1 style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.75rem,4vw,2.75rem);font-weight:400;letter-spacing:-0.025em;line-height:1.1;color:#fff;margin-bottom:1.25rem;">
         {article.title}
       </h1>
-      <p class="text-[15px] lg:text-base leading-relaxed mb-8" style="color:rgba(255,255,255,0.42);">
+      <p style="font-size:15px;line-height:1.75;color:rgba(255,255,255,0.42);margin-bottom:2rem;max-width:580px;">
         {article.excerpt}
       </p>
 
-      <!-- Author row -->
-      <div class="flex items-center gap-3 pb-10">
-        <div class="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:rgba(232,180,176,0.15);border:1px solid rgba(232,180,176,0.25);color:#E8B4B0;">
+      <!-- Author + date + share -->
+      <div style="display:flex;align-items:center;gap:12px;padding-bottom:2.5rem;flex-wrap:wrap;">
+        <div style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:rgba(232,180,176,0.15);border:1px solid rgba(232,180,176,0.25);color:#E8B4B0;flex-shrink:0;">
           {article.author.split(' ').map((w: string) => w[0]).join('').slice(0,2).toUpperCase()}
         </div>
         <div>
-          <p class="text-[11.5px] font-semibold" style="color:rgba(255,255,255,0.75);">{article.author}</p>
-          <p class="text-[9.5px]" style="color:rgba(255,255,255,0.28);">{article.date}</p>
+          <p style="font-size:11.5px;font-weight:600;color:rgba(255,255,255,0.75);">{article.author}</p>
+          <p style="font-size:9.5px;color:rgba(255,255,255,0.28);">{article.date}</p>
+        </div>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:16px;">
+          <a href={`https://x.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" style="font-size:10px;color:rgba(255,255,255,0.3);text-decoration:none;display:flex;align-items:center;gap:5px;" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            X
+          </a>
+          <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" style="font-size:10px;color:rgba(255,255,255,0.3);text-decoration:none;display:flex;align-items:center;gap:5px;" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn
+          </a>
+          <a href={`mailto:?subject=${encodeURIComponent(article.title)}&body=${encodeURIComponent(pageUrl)}`} style="font-size:10px;color:rgba(255,255,255,0.3);text-decoration:none;display:flex;align-items:center;gap:5px;" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>
+            Email
+          </a>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Hero image — full width, bleeds to edges -->
-  <div class="relative overflow-hidden" style="aspect-ratio:21/8;min-height:280px;">
-    <img src={article.image} alt="" class="absolute inset-0 w-full h-full object-cover" loading="eager"/>
-    <div class="absolute inset-0" style="background:linear-gradient(0deg,#0A0A0A 0%,transparent 40%);"/>
+  <!-- Hero image -->
+  <div style="position:relative;overflow:hidden;aspect-ratio:21/8;min-height:240px;">
+    <img src={article.image} alt={article.title} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" loading="eager"/>
+    <div style="position:absolute;inset:0;background:linear-gradient(0deg,#0A0A0A 0%,transparent 45%);"></div>
   </div>
 </header>
 
-<!-- ═══════════════════════════════════════════════
-     ARTICLE BODY
-════════════════════════════════════════════════ -->
-<article class="bg-white py-16 lg:py-24">
+<!-- ── ARTICLE BODY ───────────────────────────────────────────── -->
+<article style="background:#fff;padding:5rem 0;" itemscope itemtype="https://schema.org/Article">
+  <meta itemprop="headline" content={article.title}/>
+  <meta itemprop="description" content={article.excerpt}/>
+  <meta itemprop="datePublished" content={schemaDate}/>
+  <meta itemprop="wordCount" content={String(wordCount)}/>
+
   <div class="container-x">
-    <div class="grid lg:grid-cols-[1fr_640px_1fr] gap-0">
-      <!-- Empty left col -->
-      <div class="hidden lg:block"/>
-      <!-- Content column -->
-      <div class="max-w-[640px] mx-auto w-full">
+    <div style="display:grid;grid-template-columns:1fr minmax(0,660px) minmax(0,220px) 1fr;gap:0 3rem;align-items:start;" id="article-grid">
 
-        <!-- Drop cap first paragraph -->
-        {paragraphs.map((para, i) => (
-          i === 0 ? (
-            <p class="text-[17px] lg:text-[18px] leading-[1.75] text-brand-black mb-6 first-para"
-               style="font-feature-settings:'kern' 1,'liga' 1;">
-              <span class="float-left font-display text-[4.2rem] leading-[0.85] mr-2 mt-1.5" style="color:#0A0A0A;line-height:0.82;">{para[0]}</span>{para.slice(1)}
+      <!-- Left spacer -->
+      <div></div>
+
+      <!-- Main content -->
+      <div style="min-width:0;" itemprop="articleBody">
+        {blocks.map((block) => {
+          if (block.type === 'h2') return (
+            <h2 id={block.id} style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.4rem,3vw,1.9rem);font-weight:400;letter-spacing:-0.02em;line-height:1.2;color:#0A0A0A;margin:3rem 0 1.25rem;scroll-margin-top:80px;">
+              {block.text}
+            </h2>
+          );
+          if (block.type === 'h3') return (
+            <h3 style="font-family:'Fraunces',Georgia,serif;font-size:1.2rem;font-weight:400;letter-spacing:-0.01em;line-height:1.3;color:#0A0A0A;margin:2rem 0 0.75rem;">
+              {block.text}
+            </h3>
+          );
+          if (block.type === 'blockquote') return (
+            <blockquote style="border-left:3px solid #E8B4B0;padding:1.25rem 1.5rem;margin:2rem 0;background:#FDF9F8;border-radius:0 12px 12px 0;">
+              <p style="font-family:'Fraunces',Georgia,serif;font-size:1.1rem;font-style:italic;font-weight:400;color:#0A0A0A;line-height:1.6;margin:0;">{block.text}</p>
+            </blockquote>
+          );
+          if (block.type === 'callout') return (
+            <div style="background:#0A0A0A;border-radius:14px;padding:1.5rem 1.75rem;margin:2rem 0;display:flex;align-items:flex-start;gap:12px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+              <p style="font-size:13.5px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0;font-weight:500;">{block.text}</p>
+            </div>
+          );
+          if (block.type === 'list') return (
+            <ul style="margin:1.25rem 0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:10px;">
+              {block.items.map((item: string) => (
+                <li style="display:flex;align-items:flex-start;gap:10px;font-size:15px;line-height:1.7;color:rgba(10,10,10,0.78);">
+                  <span style="width:5px;height:5px;border-radius:50%;background:#E8B4B0;flex-shrink:0;margin-top:9px;"></span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          );
+          if (block.type === 'paragraph' && block.first) return (
+            <p style="font-size:17px;line-height:1.8;color:#0A0A0A;margin-bottom:1.5rem;font-feature-settings:'kern' 1,'liga' 1;">
+              <span style="float:left;font-family:'Fraunces',Georgia,serif;font-size:4.5rem;line-height:0.82;margin-right:8px;margin-top:8px;color:#0A0A0A;">{block.text[0]}</span>{block.text.slice(1)}
             </p>
-          ) : (
-            <p class="text-[16px] lg:text-[17px] leading-[1.8] mb-6" style="color:rgba(10,10,10,0.78);">{para}</p>
-          )
-        ))}
+          );
+          return (
+            <p style="font-size:16px;line-height:1.85;color:rgba(10,10,10,0.78);margin-bottom:1.5rem;">{(block as any).text}</p>
+          );
+        })}
 
-        <!-- Divider -->
-        <div class="my-12 flex items-center gap-4">
-          <div class="flex-1 h-px" style="background:rgba(10,10,10,0.08);"/>
-          <div class="flex gap-1.5">
-            <span class="w-1 h-1 rounded-full" style="background:rgba(10,10,10,0.2);"/>
-            <span class="w-1 h-1 rounded-full" style="background:rgba(10,10,10,0.1);"/>
-            <span class="w-1 h-1 rounded-full" style="background:rgba(10,10,10,0.06);"/>
+        <!-- Tags -->
+        {article.tags && article.tags.length > 0 && (
+          <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(10,10,10,0.07);">
+            <p style="font-size:9.5px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(10,10,10,0.3);margin-bottom:10px;">Tags</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;">
+              {article.tags.map((tag: string) => (
+                <span style="font-size:10px;padding:4px 10px;border-radius:100px;background:#F4EFE6;color:#6B6B6B;font-weight:500;">{tag}</span>
+              ))}
+            </div>
           </div>
-          <div class="flex-1 h-px" style="background:rgba(10,10,10,0.08);"/>
+        )}
+
+        <!-- Author box -->
+        <div style="margin-top:3rem;padding:1.5rem;border-radius:16px;background:#F8F6F1;border:1px solid rgba(10,10,10,0.07);display:flex;gap:1rem;align-items:flex-start;">
+          <div style="width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:#0A0A0A;color:#E8B4B0;flex-shrink:0;">
+            {article.author.split(' ').map((w: string) => w[0]).join('').slice(0,2).toUpperCase()}
+          </div>
+          <div>
+            <p style="font-size:12px;font-weight:700;color:#0A0A0A;margin-bottom:2px;" itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">{article.author}</span></p>
+            <p style="font-size:11px;color:#6B6B6B;line-height:1.5;">The PURIST editorial team covers automation, AI agents, and operations strategy for businesses scaling with n8n, Make, and Claude AI.</p>
+          </div>
         </div>
 
-        <!-- Share row -->
-        <div class="flex items-center gap-5">
-          <span class="text-[10.5px] font-semibold uppercase tracking-[0.14em]" style="color:rgba(10,10,10,0.3);">Share</span>
-          {[
-            { label: 'Twitter / X', icon: 'M4 4l16 0M4 4l7 8v5m0 0l-3 3m3-3l3 3m-3-3v-5M20 4l-7 8' },
-            { label: 'LinkedIn', icon: 'M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z M4 6a2 2 0 100-4 2 2 0 000 4z' },
-            { label: 'Email', icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
-          ].map(s => (
-            <a href="#"
-               class="flex items-center gap-1.5 text-[10.5px] font-medium transition-all duration-150"
-               style="color:rgba(10,10,10,0.4);"
-               onmouseover="this.style.color='rgba(10,10,10,0.9)'"
-               onmouseout="this.style.color='rgba(10,10,10,0.4)'"
-               aria-label={s.label}
-            >
-              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d={s.icon}/>
-              </svg>
-              {s.label}
-            </a>
-          ))}
+        <!-- Share bottom -->
+        <div style="margin-top:2.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+          <span style="font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.14em;color:rgba(10,10,10,0.3);">Partager</span>
+          <a href={`https://x.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:7px 14px;border-radius:8px;background:#0A0A0A;color:#fff;text-decoration:none;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            Partager sur X
+          </a>
+          <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:7px 14px;border-radius:8px;border:1.5px solid #E5E5E5;color:#0A0A0A;text-decoration:none;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn
+          </a>
         </div>
       </div>
-      <!-- Empty right col -->
-      <div class="hidden lg:block"/>
+
+      <!-- Sticky ToC (desktop) -->
+      <aside style="display:none;" id="toc-aside">
+        <div style="position:sticky;top:90px;">
+          <p style="font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(10,10,10,0.3);margin-bottom:12px;">Dans cet article</p>
+          <nav>
+            <ol style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:2px;">
+              {toc.map((h, i) => (
+                <li>
+                  <a href={`#${h.id}`}
+                     class="toc-link"
+                     data-id={h.id}
+                     style="display:block;font-size:11px;line-height:1.45;padding:5px 10px 5px 12px;border-left:2px solid rgba(10,10,10,0.08);color:rgba(10,10,10,0.45);text-decoration:none;transition:all 0.15s;border-radius:0 4px 4px 0;"
+                     onmouseover="this.style.color='#0A0A0A';this.style.borderLeftColor='#0A0A0A'"
+                     onmouseout="if(!this.classList.contains('active')){this.style.color='rgba(10,10,10,0.45)';this.style.borderLeftColor='rgba(10,10,10,0.08)'}"
+                  >
+                    {h.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+
+          <!-- CTA inline -->
+          <div style="margin-top:2rem;padding:1.25rem;border-radius:14px;background:#0A0A0A;">
+            <p style="font-size:11px;font-weight:600;color:#fff;margin-bottom:6px;line-height:1.4;">Prêt à automatiser votre business ?</p>
+            <p style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:12px;line-height:1.5;">Audit gratuit en 48h.</p>
+            <a href="/pages/welcome" style="display:block;text-align:center;font-size:11px;font-weight:600;padding:9px;border-radius:8px;background:#E8B4B0;color:#0A0A0A;text-decoration:none;">
+              Réserver mon audit →
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right spacer -->
+      <div></div>
     </div>
   </div>
 </article>
 
-<!-- ═══════════════════════════════════════════════
-     RELATED ARTICLES
-════════════════════════════════════════════════ -->
+<!-- ── RELATED ARTICLES ───────────────────────────────────────── -->
 {moreArticles.length > 0 && (
-  <section style="background:#F8F6F1;border-top:1px solid rgba(10,10,10,0.07);" class="py-16 lg:py-24">
+  <section style="background:#F8F6F1;border-top:1px solid rgba(10,10,10,0.07);padding:5rem 0;">
     <div class="container-x">
-      <div class="flex items-end justify-between mb-10">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem;">
         <div>
-          <p class="text-[9px] uppercase tracking-[0.26em] font-bold mb-2" style="color:rgba(10,10,10,0.35);">Continue reading</p>
-          <h2 class="font-display text-2xl lg:text-3xl leading-tight tracking-[-0.02em]">More from the blog.</h2>
+          <p style="font-size:9px;text-transform:uppercase;letter-spacing:0.26em;font-weight:700;color:rgba(10,10,10,0.35);margin-bottom:6px;">Continuer la lecture</p>
+          <h2 style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:400;letter-spacing:-0.02em;">Plus du blog.</h2>
         </div>
-        <a href="/pages/blog"
-           class="hidden sm:flex items-center gap-1.5 text-[11px] font-semibold transition-all duration-150"
-           style="color:rgba(10,10,10,0.4);"
-           onmouseover="this.style.color='#0A0A0A'"
-           onmouseout="this.style.color='rgba(10,10,10,0.4)'"
-        >
-          View all
-          <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M2 7h10M8 3l4 4-4 4"/>
-          </svg>
+        <a href="/pages/blog" style="font-size:11px;font-weight:600;color:rgba(10,10,10,0.4);text-decoration:none;display:flex;align-items:center;gap:6px;" onmouseover="this.style.color='#0A0A0A'" onmouseout="this.style.color='rgba(10,10,10,0.4)'">
+          Voir tous les articles
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
         </a>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;">
         {moreArticles.map((a) => (
-          <article
-            class="group/card flex flex-col rounded-[18px] overflow-hidden transition-all duration-200"
-            style="background:#fff;border:1px solid rgba(10,10,10,0.07);"
-            onmouseover="this.style.boxShadow='0 8px 28px rgba(10,10,10,0.09)';this.style.transform='translateY(-2px)'"
-            onmouseout="this.style.boxShadow='';this.style.transform=''"
-          >
-            <a href={`/pages/blog/${a.slug}`} class="block relative overflow-hidden" style="aspect-ratio:16/9;">
-              <img src={a.image} alt={a.title}
-                   class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-[1.04]"
-                   loading="lazy"/>
-              <div class="absolute inset-0" style="background:linear-gradient(180deg,transparent 40%,rgba(10,10,10,0.3) 100%);"/>
-              <span class="absolute bottom-3 left-3 text-[8.5px] uppercase tracking-[0.15em] font-bold px-2.5 py-1 rounded-full" style="background:rgba(10,10,10,0.55);color:rgba(255,255,255,0.85);backdrop-filter:blur(6px);">
+          <article style="background:#fff;border:1px solid rgba(10,10,10,0.07);border-radius:18px;overflow:hidden;transition:box-shadow 0.2s,transform 0.2s;display:flex;flex-direction:column;"
+                   onmouseover="this.style.boxShadow='0 8px 28px rgba(10,10,10,0.09)';this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.boxShadow='';this.style.transform=''">
+            <a href={`/pages/blog/${a.slug}`} style="display:block;aspect-ratio:16/9;position:relative;overflow:hidden;">
+              <img src={a.image} alt={a.title} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.7s;" loading="lazy"
+                   onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform=''"/>
+              <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(10,10,10,0.3) 100%);"></div>
+              <span style="position:absolute;bottom:12px;left:12px;font-size:8.5px;text-transform:uppercase;letter-spacing:0.15em;font-weight:700;padding:4px 10px;border-radius:100px;background:rgba(10,10,10,0.55);color:rgba(255,255,255,0.85);backdrop-filter:blur(6px);">
                 {categories.find((c) => c.id === a.category)?.name ?? a.category}
               </span>
             </a>
-            <div class="p-5 flex flex-col flex-1">
-              <h3 class="font-display text-[17px] leading-snug tracking-[-0.01em] mb-2 text-brand-black">
-                <a href={`/pages/blog/${a.slug}`} class="hover:opacity-70 transition">{a.title}</a>
+            <div style="padding:1.25rem;display:flex;flex-direction:column;flex:1;">
+              <h3 style="font-family:'Fraunces',Georgia,serif;font-size:17px;line-height:1.3;letter-spacing:-0.01em;margin-bottom:8px;color:#0A0A0A;">
+                <a href={`/pages/blog/${a.slug}`} style="text-decoration:none;color:inherit;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">{a.title}</a>
               </h3>
-              <p class="text-[12px] leading-relaxed line-clamp-2 flex-1" style="color:rgba(10,10,10,0.48);">{a.excerpt}</p>
-              <div class="flex items-center gap-2 mt-4 pt-4 text-[10px]" style="border-top:1px solid rgba(10,10,10,0.06);color:rgba(10,10,10,0.35);">
+              <p style="font-size:12px;line-height:1.6;color:rgba(10,10,10,0.48);flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{a.excerpt}</p>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(10,10,10,0.06);font-size:10px;color:rgba(10,10,10,0.35);">
                 <span>{a.date}</span>
                 <span>·</span>
                 <span>{a.readingTime}</span>
@@ -208,38 +349,103 @@ const paragraphs = article.body.split('\n\n');
   </section>
 )}
 
-<!-- ═══════════════════════════════════════════════
-     CTA STRIP
-════════════════════════════════════════════════ -->
-<section class="relative overflow-hidden py-16 lg:py-20" style="background:#0A0A0A;">
-  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 50% 70% at 75% 50%,rgba(232,180,176,0.06) 0%,transparent 70%);"/>
-  <div class="container-x relative z-10 text-center max-w-2xl mx-auto">
-    <p class="text-[9px] uppercase tracking-[0.26em] font-bold mb-4" style="color:rgba(232,180,176,0.5);">From the audit to the deployment</p>
-    <h2 class="font-display text-3xl lg:text-4xl text-white leading-tight tracking-[-0.02em] mb-8 text-balance">
-      Try the automation<br/><em class="font-medium" style="color:#E8B4B0;">these articles are about.</em>
+<!-- ── CTA STRIP ──────────────────────────────────────────────── -->
+<section style="background:#0A0A0A;padding:5rem 0;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 50% 70% at 75% 50%,rgba(232,180,176,0.06) 0%,transparent 70%);pointer-events:none;"></div>
+  <div class="container-x" style="position:relative;z-index:10;text-align:center;max-width:600px;margin-left:auto;margin-right:auto;">
+    <p style="font-size:9px;text-transform:uppercase;letter-spacing:0.26em;font-weight:700;color:rgba(232,180,176,0.5);margin-bottom:1rem;">De l'audit au déploiement</p>
+    <h2 style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.75rem,4vw,2.75rem);font-weight:400;color:#fff;line-height:1.15;letter-spacing:-0.02em;margin-bottom:2rem;">
+      Essayez l'automatisation<br/><em style="color:#E8B4B0;font-style:italic;">dont parlent ces articles.</em>
     </h2>
     <a href="/pages/welcome"
-       class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-[13px] font-semibold transition-all duration-150"
-       style="background:#E8B4B0;color:#0A0A0A;"
-       onmouseover="this.style.background='#d9a09b'"
-       onmouseout="this.style.background='#E8B4B0'"
-    >
-      Book your free audit
-      <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 8h10M9 4l4 4-4 4"/>
-      </svg>
+       style="display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:12px;font-size:13.5px;font-weight:600;background:#E8B4B0;color:#0A0A0A;text-decoration:none;"
+       onmouseover="this.style.background='#d9a09b'" onmouseout="this.style.background='#E8B4B0'">
+      Réserver votre audit gratuit
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
     </a>
   </div>
 </section>
 
+<!-- ── SCHEMA ─────────────────────────────────────────────────── -->
 <script type="application/ld+json" is:inline set:html={JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: article.title,
-  description: article.excerpt,
-  author: { '@type': 'Person', name: article.author },
-  datePublished: article.date,
-  image: new URL(article.image, Astro.site).toString(),
+  description: article.metaDescription ?? article.excerpt,
+  url: pageUrl,
+  datePublished: schemaDate,
+  dateModified: schemaDate,
+  wordCount: wordCount,
+  inLanguage: 'en-GB',
+  image: {
+    '@type': 'ImageObject',
+    url: `https://purist.io${article.image}`,
+  },
+  author: {
+    '@type': 'Person',
+    name: article.author,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'PURIST Automation Ltd',
+    url: 'https://purist.io',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://purist.io/favicon.svg',
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': pageUrl,
+  },
+  keywords: (article.tags ?? []).join(', '),
+  articleSection: category?.name ?? article.category,
 })}/>
+
+<script is:inline>
+  // Progress bar
+  var bar = document.getElementById('progress-bar');
+  if (bar) {
+    window.addEventListener('scroll', function() {
+      var doc = document.documentElement;
+      var scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
+      bar.style.width = Math.min(scrolled * 100, 100) + '%';
+    }, { passive: true });
+  }
+
+  // Show ToC aside on desktop
+  var aside = document.getElementById('toc-aside');
+  if (aside && window.innerWidth >= 1024) {
+    aside.style.display = 'block';
+  }
+  window.addEventListener('resize', function() {
+    if (aside) aside.style.display = window.innerWidth >= 1024 ? 'block' : 'none';
+  });
+
+  // Active ToC link on scroll
+  var tocLinks = document.querySelectorAll('.toc-link');
+  if (tocLinks.length) {
+    var headings = Array.from(document.querySelectorAll('h2[id]'));
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          tocLinks.forEach(function(l) {
+            l.classList.remove('active');
+            l.style.color = 'rgba(10,10,10,0.45)';
+            l.style.borderLeftColor = 'rgba(10,10,10,0.08)';
+          });
+          var active = document.querySelector('.toc-link[data-id="' + e.target.id + '"]');
+          if (active) {
+            active.classList.add('active');
+            active.style.color = '#0A0A0A';
+            active.style.borderLeftColor = '#E8B4B0';
+            active.style.fontWeight = '600';
+          }
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    headings.forEach(function(h) { obs.observe(h); });
+  }
+</script>
 
 </ShopLayout>
