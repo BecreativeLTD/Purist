@@ -10,11 +10,22 @@ interface Props {
 export default function CartItem({ item }: Props) {
   return (
     <article class="flex gap-4 py-5 border-b border-brand-gray-100">
-      <img
-        src={item.image}
-        alt={item.title}
-        class="w-20 h-20 rounded-image object-cover bg-brand-sand shrink-0"
-      />
+      <div class="w-20 h-20 rounded-image bg-brand-sand shrink-0 overflow-hidden flex items-center justify-center">
+        {item.image ? (
+          <img
+            src={item.image}
+            alt={item.title}
+            class="w-full h-full object-cover"
+            onError={(e) => {
+              const t = e.target as HTMLImageElement;
+              t.style.display = 'none';
+              t.parentElement!.innerHTML = `<span style="font-size:11px;font-weight:700;color:#6b6b6b;text-align:center;padding:4px;line-height:1.2;">${item.title.slice(0, 2).toUpperCase()}</span>`;
+            }}
+          />
+        ) : (
+          <span style="font-size:11px;font-weight:700;color:#6b6b6b;">{item.title.slice(0, 2).toUpperCase()}</span>
+        )}
+      </div>
       <div class="flex-1 min-w-0">
         <div class="flex items-start justify-between gap-3">
           <div class="min-w-0">

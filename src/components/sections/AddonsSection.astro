@@ -66,7 +66,8 @@
             data-product-id="addon-extra-workflow"
             data-title="Extra Workflow"
             data-price="299"
-            data-plan="oneTime">
+            data-plan="oneTime"
+            data-image="/images/products/addon-extra-workflow.svg">
             <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v10M2 7h10"/></svg>
             Add to cart
           </button>
@@ -116,7 +117,8 @@
             data-product-id="addon-quarterly-audit"
             data-title="Quarterly Audit"
             data-price="499"
-            data-plan="oneTime">
+            data-plan="oneTime"
+            data-image="/images/products/addon-quarterly-audit.svg">
             <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v10M2 7h10"/></svg>
             Add to cart
           </button>
@@ -161,7 +163,8 @@
             data-product-id="addon-team-training"
             data-title="Team Training"
             data-price="799"
-            data-plan="oneTime">
+            data-plan="oneTime"
+            data-image="/images/products/addon-team-training.svg">
             <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v10M2 7h10"/></svg>
             Add to cart
           </button>
@@ -209,7 +212,8 @@
             data-product-id="addon-zapier-migration"
             data-title="Zapier / Make Migration"
             data-price="1499"
-            data-plan="oneTime">
+            data-plan="oneTime"
+            data-image="/images/products/addon-zapier-migration.svg">
             <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v10M2 7h10"/></svg>
             Add to cart
           </button>
@@ -309,7 +313,7 @@
         plan,
         price,
         quantity: 1,
-        image: '/images/products/addon-placeholder.svg',
+        image: btn.dataset.image ?? '/images/products/addon-quarterly-audit.svg',
       });
 
       // Visual feedback
