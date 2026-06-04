@@ -1,37 +1,118 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 720" width="1400" height="720" preserveAspectRatio="xMidYMid slice">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#F8F6F1"/>
-      <stop offset="100%" stop-color="#EDE5D5"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0A0A0A"/>
+      <stop offset="100%" stop-color="#111111"/>
     </linearGradient>
-    <radialGradient id="glow" cx="0.7" cy="0.3" r="0.6">
-      <stop offset="0%" stop-color="#A0522D" stop-opacity="0.18"/>
-      <stop offset="100%" stop-color="#A0522D" stop-opacity="0"/>
+    <radialGradient id="glow1" cx="0.65" cy="0.4" r="0.5">
+      <stop offset="0%" stop-color="#E8B4B0" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#E8B4B0" stop-opacity="0"/>
     </radialGradient>
-    <filter id="grain" x="0%" y="0%" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="3"/>
-      <feColorMatrix values="0 0 0 0 0.6  0 0 0 0 0.55  0 0 0 0 0.48  0 0 0 0.06 0"/>
-      <feComposite operator="in" in2="SourceGraphic"/>
+    <radialGradient id="glow2" cx="0.2" cy="0.7" r="0.4">
+      <stop offset="0%" stop-color="#2D5016" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#2D5016" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur4">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+    <filter id="blur10">
+      <feGaussianBlur stdDeviation="10"/>
     </filter>
   </defs>
 
   <rect width="1400" height="720" fill="url(#bg)"/>
-  <rect width="1400" height="720" fill="url(#glow)"/>
+  <rect width="1400" height="720" fill="url(#glow1)"/>
+  <rect width="1400" height="720" fill="url(#glow2)"/>
 
-  
-  <g opacity="0.3" transform="translate(820, 280)">
-    <circle r="120" fill="none" stroke="#A0522D" stroke-width="1"/>
-    <circle r="80" fill="#A0522D" opacity="0.25"/>
+  <!-- Grid lines -->
+  <g stroke="rgba(255,255,255,0.04)" stroke-width="1">
+    <line x1="0" y1="120" x2="1400" y2="120"/>
+    <line x1="0" y1="240" x2="1400" y2="240"/>
+    <line x1="0" y1="360" x2="1400" y2="360"/>
+    <line x1="0" y1="480" x2="1400" y2="480"/>
+    <line x1="0" y1="600" x2="1400" y2="600"/>
+    <line x1="200" y1="0" x2="200" y2="720"/>
+    <line x1="400" y1="0" x2="400" y2="720"/>
+    <line x1="600" y1="0" x2="600" y2="720"/>
+    <line x1="800" y1="0" x2="800" y2="720"/>
+    <line x1="1000" y1="0" x2="1000" y2="720"/>
+    <line x1="1200" y1="0" x2="1200" y2="720"/>
   </g>
-  <g transform="translate(380, 380) rotate(-15)" opacity="0.55">
-    <ellipse cx="0" cy="0" rx="180" ry="60" fill="#2D5016" opacity="0.35"/>
-    <line x1="-180" y1="0" x2="180" y2="0" stroke="#1d3a0a" stroke-width="0.6"/>
+
+  <!-- Network nodes and connections -->
+  <!-- Main hub node -->
+  <circle cx="780" cy="300" r="32" fill="none" stroke="#E8B4B0" stroke-width="1.5" opacity="0.8"/>
+  <circle cx="780" cy="300" r="6" fill="#E8B4B0" opacity="0.9"/>
+  <circle cx="780" cy="300" r="16" fill="#E8B4B0" opacity="0.08"/>
+
+  <!-- Satellite nodes -->
+  <circle cx="560" cy="200" r="8" fill="none" stroke="rgba(232,180,176,0.5)" stroke-width="1"/>
+  <circle cx="560" cy="200" r="3" fill="#E8B4B0" opacity="0.6"/>
+
+  <circle cx="960" cy="180" r="12" fill="none" stroke="rgba(232,180,176,0.4)" stroke-width="1"/>
+  <circle cx="960" cy="180" r="4" fill="#E8B4B0" opacity="0.5"/>
+
+  <circle cx="640" cy="430" r="10" fill="none" stroke="rgba(45,80,22,0.6)" stroke-width="1"/>
+  <circle cx="640" cy="430" r="3.5" fill="#2D5016" opacity="0.7"/>
+
+  <circle cx="980" cy="400" r="14" fill="none" stroke="rgba(45,80,22,0.5)" stroke-width="1"/>
+  <circle cx="980" cy="400" r="5" fill="#2D5016" opacity="0.6"/>
+
+  <circle cx="420" cy="320" r="6" fill="none" stroke="rgba(232,180,176,0.35)" stroke-width="1"/>
+  <circle cx="420" cy="320" r="2.5" fill="#E8B4B0" opacity="0.5"/>
+
+  <circle cx="1100" cy="280" r="9" fill="none" stroke="rgba(232,180,176,0.35)" stroke-width="1"/>
+  <circle cx="1100" cy="280" r="3" fill="#E8B4B0" opacity="0.4"/>
+
+  <circle cx="830" cy="500" r="7" fill="none" stroke="rgba(45,80,22,0.4)" stroke-width="1"/>
+  <circle cx="830" cy="500" r="2.5" fill="#2D5016" opacity="0.5"/>
+
+  <circle cx="1180" cy="450" r="5" fill="rgba(232,180,176,0.3)"/>
+  <circle cx="310" cy="480" r="5" fill="rgba(45,80,22,0.3)"/>
+  <circle cx="1060" cy="560" r="4" fill="rgba(232,180,176,0.25)"/>
+
+  <!-- Connection lines -->
+  <g stroke="rgba(232,180,176,0.18)" stroke-width="1" fill="none">
+    <line x1="780" y1="300" x2="560" y2="200"/>
+    <line x1="780" y1="300" x2="960" y2="180"/>
+    <line x1="780" y1="300" x2="640" y2="430"/>
+    <line x1="780" y1="300" x2="980" y2="400"/>
+    <line x1="780" y1="300" x2="420" y2="320"/>
+    <line x1="780" y1="300" x2="1100" y2="280"/>
+    <line x1="780" y1="300" x2="830" y2="500"/>
+  </g>
+  <g stroke="rgba(45,80,22,0.2)" stroke-width="1" fill="none">
+    <line x1="640" y1="430" x2="310" y2="480"/>
+    <line x1="980" y1="400" x2="1180" y2="450"/>
+    <line x1="830" y1="500" x2="1060" y2="560"/>
+    <line x1="560" y1="200" x2="420" y2="320"/>
+    <line x1="960" y1="180" x2="1100" y2="280"/>
   </g>
 
-  <text x="80" y="620" font-family="Inter, sans-serif" font-size="14"
-        fill="#6B6B6B" letter-spacing="4" font-weight="500">WELLNESS</text>
-  <text x="80" y="670" font-family="Georgia, serif" font-size="36"
-        fill="#0A0A0A" font-weight="500">PURIST · Engineering</text>
+  <!-- Animated pulse ring (static SVG approximation) -->
+  <circle cx="780" cy="300" r="50" fill="none" stroke="#E8B4B0" stroke-width="0.5" opacity="0.2"/>
+  <circle cx="780" cy="300" r="75" fill="none" stroke="#E8B4B0" stroke-width="0.5" opacity="0.12"/>
+  <circle cx="780" cy="300" r="110" fill="none" stroke="#E8B4B0" stroke-width="0.5" opacity="0.06"/>
 
-  <rect width="1400" height="720" filter="url(#grain)" opacity="0.5"/>
+  <!-- Data flow dashes on lines -->
+  <g stroke="#E8B4B0" stroke-width="1.5" stroke-dasharray="4 12" opacity="0.35">
+    <line x1="780" y1="300" x2="560" y2="200"/>
+    <line x1="780" y1="300" x2="960" y2="180"/>
+  </g>
+  <g stroke="#2D5016" stroke-width="1.5" stroke-dasharray="4 12" opacity="0.4">
+    <line x1="780" y1="300" x2="640" y2="430"/>
+    <line x1="780" y1="300" x2="980" y2="400"/>
+  </g>
+
+  <!-- Decorative horizontal rule -->
+  <line x1="80" y1="590" x2="340" y2="590" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+  <!-- Labels -->
+  <text x="80" y="570" font-family="'Inter', 'Helvetica Neue', sans-serif" font-size="10" fill="rgba(232,180,176,0.6)" letter-spacing="4" font-weight="600">AUTOMATION ENGINEERING</text>
+  <text x="80" y="618" font-family="Georgia, 'Times New Roman', serif" font-size="32" fill="rgba(255,255,255,0.88)" font-weight="400" letter-spacing="-0.5">PURIST</text>
+  <text x="210" y="618" font-family="Georgia, 'Times New Roman', serif" font-size="32" fill="rgba(255,255,255,0.25)" font-weight="400"> · 2026</text>
+
+  <!-- Top-right corner accent -->
+  <rect x="1320" y="0" width="80" height="2" fill="#E8B4B0" opacity="0.4"/>
+  <rect x="1398" y="0" width="2" height="80" fill="#E8B4B0" opacity="0.4"/>
 </svg>
