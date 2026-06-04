@@ -40,6 +40,11 @@ export default function WelcomePopup() {
 
   const handleSubmit = (e: Event) => {
     e.preventDefault();
+    fetch('/api/popup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    }).catch(() => {});
     setSubmitted(true);
     try { localStorage.setItem(STORAGE_KEY, 'submitted'); } catch {}
   };
