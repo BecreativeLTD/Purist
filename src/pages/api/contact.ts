@@ -18,7 +18,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Notification to team
     const notifResult = await resend.emails.send({
-      from: 'PURIST Contact <onboarding@resend.dev>',
+      from: 'PURIST Contact <hello@purist.online>',
       to: [notifyEmail],
       subject: `📩 Contact form — ${firstName} ${lastName} · ${topic || 'General'}`,
       html: `
@@ -57,7 +57,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Auto-reply to sender
     const confirmResult = await resend.emails.send({
-      from: 'PURIST <onboarding@resend.dev>',
+      from: 'PURIST <hello@purist.online>',
       to: [email],
       subject: `We received your message`,
       html: `
