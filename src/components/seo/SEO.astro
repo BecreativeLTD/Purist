@@ -9,15 +9,15 @@ export interface Props {
 }
 
 const {
-  title = 'Production-grade business automation',
-  description = 'PURIST builds reliable workflow automations and AI agents for dental practices, real estate, agencies and e-commerce. Deployed in days, not months. 99.5% uptime SLA.',
+  title = 'Workflow Automation and AI Agents for Business',
+  description = '500+ production deployments across dental, real estate, agencies, e-commerce, legal and staffing. n8n workflows and Claude AI agents. Deployed in days, 99.97% uptime.',
   image,
   canonical,
   type = 'website',
   noindex = false,
 } = Astro.props;
 
-const fullTitle = title.includes('PURIST') ? title : `${title} – PURIST`;
+const fullTitle = title.includes('PURIST') ? title : `${title} · PURIST`;
 const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site).toString();
 const siteBase = (Astro.site?.toString() ?? 'https://purist.online').replace(/\/$/, '');
 
