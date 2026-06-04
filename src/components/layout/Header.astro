@@ -394,80 +394,128 @@ const navLinks = [
     uptime: '99.97% uptime SLA with financial guarantee on Enterprise. All systems monitored 24/7 with 90-second error alerts.',
   };
 
+  /* ── LANGUAGE DETECT ─────────────────────── */
+  function isFr(t) {
+    return /\b(je|j'ai|j ai|besoin|bonjour|salut|merci|comment|combien|quel|quelle|automatisation|automatiser|workflow|entreprise|cout|prix|délai|délais|devis|audit|gratuit|fonctionn|utilis)\b/.test(t.toLowerCase());
+  }
+
   /* ── INTENT CLASSIFIER ────────────────────── */
   function classify(text) {
     var t = text.toLowerCase();
-    // Industry
-    if (/dental|health|clinic|patient|nhs|appointment/.test(t)) return { intent:'industry', key:'dental' };
-    if (/real.?estate|property|letting|agent|rightmove|landlord|tenant/.test(t)) return { intent:'industry', key:'real estate' };
-    if (/agency|agenc|consult|marketing|freelance|client report/.test(t)) return { intent:'industry', key:'agency' };
-    if (/ecommerce|e.?commerce|shop|shopify|woocommerce|retail|order/.test(t)) return { intent:'industry', key:'ecommerce' };
+    // Industry — FR + EN
+    if (/dental|health|clinic|patient|nhs|appointment|dentiste|médecin|clinique|santé/.test(t)) return { intent:'industry', key:'dental' };
+    if (/real.?estate|property|letting|agent|rightmove|landlord|tenant|immobil|agence immob|locataire/.test(t)) return { intent:'industry', key:'real estate' };
+    if (/agency|agenc|consult|marketing|freelance|client report|agence|conseil|consultant/.test(t)) return { intent:'industry', key:'agency' };
+    if (/ecommerce|e.?commerce|shop|shopify|woocommerce|retail|order|boutique|commande/.test(t)) return { intent:'industry', key:'ecommerce' };
     // Product
-    if (/full.?stack|founder|complete/.test(t)) return { intent:'product', key:'full stack' };
+    if (/full.?stack|founder|complete|complet/.test(t)) return { intent:'product', key:'full stack' };
     if (/automation.?pro|workflow|foundation/.test(t)) return { intent:'product', key:'automation pro' };
-    if (/ai.?agent|agent|claude|artificial/.test(t)) return { intent:'product', key:'ai agent' };
-    if (/enterprise|dedicated|sla|scale/.test(t)) return { intent:'product', key:'enterprise' };
-    // Topics
-    if (/price|pric|cost|how.?much|£|gbp|monthly|subscription/.test(t)) return { intent:'pricing' };
-    if (/roi|return|saving|save|payback|invest/.test(t)) return { intent:'roi' };
-    if (/how.?long|deploy|timeline|days|week|setup/.test(t)) return { intent:'deploy' };
-    if (/tech|stack|n8n|make|zapier|crm|integrat/.test(t)) return { intent:'tech' };
-    if (/guarantee|refund|cancel|risk|commitment/.test(t)) return { intent:'guarantee' };
-    if (/audit|free|call|book|demo/.test(t)) return { intent:'audit' };
-    if (/referral|partner|refer|commission/.test(t)) return { intent:'referral' };
-    if (/uptime|reliable|downtime|monitor/.test(t)) return { intent:'uptime' };
-    if (/addon|add.?on|extra|training|migration/.test(t)) return { intent:'addons' };
-    if (/hello|hi|hey|bonjour|salut/.test(t)) return { intent:'greet' };
+    if (/ai.?agent|agent|claude|artificial|intelligence artificielle/.test(t)) return { intent:'product', key:'ai agent' };
+    if (/enterprise|dedicated|sla|scale|grande entreprise/.test(t)) return { intent:'product', key:'enterprise' };
+    // Topics — FR + EN
+    if (/price|pric|cost|how.?much|£|gbp|monthly|subscription|prix|coût|combien|tarif|abonnement/.test(t)) return { intent:'pricing' };
+    if (/roi|return|saving|save|payback|invest|économie|économiser|rentabilité|retour/.test(t)) return { intent:'roi' };
+    if (/how.?long|deploy|timeline|days|week|setup|délai|combien de temps|livraison|mise en place/.test(t)) return { intent:'deploy' };
+    if (/tech|stack|n8n|make|zapier|crm|integrat|outil|technologie/.test(t)) return { intent:'tech' };
+    if (/guarantee|refund|cancel|risk|commitment|garantie|remboursement|annul|risque/.test(t)) return { intent:'guarantee' };
+    if (/audit|free|call|book|demo|gratuit|réserver|consultation|appel/.test(t)) return { intent:'audit' };
+    if (/referral|partner|refer|commission|parrainage|partenaire/.test(t)) return { intent:'referral' };
+    if (/uptime|reliable|downtime|monitor|disponibilité|fiabilité/.test(t)) return { intent:'uptime' };
+    if (/addon|add.?on|extra|training|migration|supplément|formation/.test(t)) return { intent:'addons' };
+    if (/hello|hi|hey|bonjour|salut|coucou/.test(t)) return { intent:'greet' };
+    // Generic automation request in FR
+    if (/automati|besoin d|j ai besoin|aide|aider|comment/.test(t)) return { intent:'automate' };
     return { intent:'unknown' };
   }
 
   /* ── RESPONSE BUILDER ─────────────────────── */
   function buildReply(classified, raw) {
+    var fr = isFr(raw);
     switch (classified.intent) {
       case 'greet':
-        return { text: "Hi — I know everything about PURIST's automation stack, pricing, and results. What are you trying to automate?", stats: null };
+        return { text: fr
+          ? 'Bonjour ! Je connais tout sur les automatisations PURIST — workflows, IA, tarifs et ROI.\n\nQuel type d\'entreprise avez-vous et qu\'est-ce que vous souhaitez automatiser ?'
+          : 'Hi — I know everything about PURIST\'s automation stack, pricing, and results.\n\nWhat type of business are you running and what are you trying to automate?',
+          stats: null };
+      case 'automate':
+        return { text: fr
+          ? 'Parfait, PURIST est fait pour ça.\n\nNous déployons des automatisations n8n sur mesure en moins de 7 jours — lead capture, facturation, onboarding client, support IA et plus encore.\n\nQuel est votre secteur d\'activité ?'
+          : 'PURIST is built exactly for that.\n\nWe deploy custom n8n automations in under 7 days — lead capture, invoicing, client onboarding, AI support and more.\n\nWhat industry are you in?',
+          stats: null };
       case 'industry': {
         var ind = KB.industries[classified.key];
         return {
-          text: ind.summary + '\n\nWorkflows we typically deploy first:\n' + ind.workflows.slice(0,4).map(function(w){ return '· ' + w; }).join('\n'),
+          text: fr
+            ? ind.summary + '\n\nWorkflows déployés en priorité :\n' + ind.workflows.slice(0,4).map(function(w){ return '· ' + w; }).join('\n')
+            : ind.summary + '\n\nWorkflows we typically deploy first:\n' + ind.workflows.slice(0,4).map(function(w){ return '· ' + w; }).join('\n'),
           stats: ind.stats,
-          followUp: 'Want to see the ROI estimate for ' + ind.label + '? Or shall I show you which plan fits best?',
+          followUp: fr
+            ? 'Voulez-vous voir l\'estimation ROI pour ce secteur, ou quel plan correspond le mieux ?'
+            : 'Want to see the ROI estimate? Or shall I show you which plan fits best?',
         };
       }
       case 'product': {
         var p = KB.products[classified.key];
         return {
-          text: p.desc + '\n\nPricing: ' + p.price + (p.setup ? ' · Setup: ' + p.setup : '') + (p.sla ? ' · Uptime SLA: ' + p.sla : '') + (p.workflows ? ' · ' + p.workflows + ' workflows included' : ''),
+          text: p.desc + '\n\n' + (fr ? 'Tarif : ' : 'Pricing: ') + p.price + (p.setup ? ' · Setup: ' + p.setup : '') + (p.sla ? ' · Uptime SLA: ' + p.sla : '') + (p.workflows ? ' · ' + p.workflows + (fr ? ' workflows inclus' : ' workflows included') : ''),
           stats: null,
-          followUp: 'Want to compare all plans or book an audit to see which fits your workflow volume?',
+          followUp: fr ? 'Vous souhaitez comparer les plans ou réserver un audit gratuit ?' : 'Want to compare all plans or book a free audit?',
         };
       }
       case 'pricing':
         return {
-          text: 'Three plans:\n· Automation Pro — £799/mo (£1,299 one-time setup)\n· AI Agent Deploy — £999/mo (£1,799 one-time)\n· The Full Stack — £1,499/mo (£2,499 one-time)\n· Enterprise — £3,499/mo (dedicated infra + SLA)\n\nAll include a 30-day money-back guarantee.',
+          text: fr
+            ? 'Trois plans :\n· Automation Pro — £799/mois (£1 299 one-time)\n· AI Agent Deploy — £999/mois (£1 799 one-time)\n· The Full Stack — £1 499/mois (£2 499 one-time)\n· Enterprise — £3 499/mois (infra dédiée + SLA)\n\nGarantie satisfait ou remboursé 30 jours sur tous les plans.'
+            : 'Three plans:\n· Automation Pro — £799/mo (£1,299 one-time setup)\n· AI Agent Deploy — £999/mo (£1,799 one-time)\n· The Full Stack — £1,499/mo (£2,499 one-time)\n· Enterprise — £3,499/mo (dedicated infra + SLA)\n\nAll include a 30-day money-back guarantee.',
           stats: [['£799/mo', 'Automation Pro'],['£1,499/mo', 'Full Stack'],['£3,499/mo', 'Enterprise']],
         };
       case 'roi':
         return {
-          text: KB.roi + '\n\nExample: A dental clinic paying £799/mo saves ~£2,800/mo in staff time = 3.5× ROI in month one.',
-          stats: [['9.2×', 'avg ROI at 90 days'],['£168k', 'avg annual saving'],['< 30 days', 'payback period']],
+          text: fr
+            ? 'Nos clients voient en moyenne 9,2× de ROI en 90 jours. Économie annuelle moyenne : £168 000. Retour sur investissement en moins de 30 jours.\n\nExemple : une clinique dentaire à £799/mois économise ~£2 800/mois en temps de personnel = ROI 3,5× dès le premier mois.'
+            : KB.roi + '\n\nExample: A dental clinic paying £799/mo saves ~£2,800/mo in staff time = 3.5× ROI in month one.',
+          stats: [['9.2×', fr ? 'ROI moyen 90 jours' : 'avg ROI at 90 days'],['£168k', fr ? 'économie annuelle' : 'avg annual saving'],['< 30 days', fr ? 'retour investissement' : 'payback period']],
         };
       case 'deploy':
-        return { text: KB.deploy, stats: [['< 7 days', 'to first workflow live'],['Month 1', 'full stack operational'],['Month 3', 'ROI confirmed']] };
+        return { text: fr
+          ? 'Après votre audit gratuit, nous déployons en moins de 7 jours : Jour 0 = audit, Semaine 1–2 = 3 premiers workflows live, Mois 1 = stack complet, Mois 3 = ROI confirmé.'
+          : KB.deploy,
+          stats: [['< 7 days', fr ? 'premier workflow live' : 'to first workflow live'],['Month 1', fr ? 'stack complet' : 'full stack operational'],['Month 3', fr ? 'ROI confirmé' : 'ROI confirmed']] };
       case 'tech':
-        return { text: KB.tech + '\n\nWe support n8n, Make and Zapier — and can migrate your existing Zapier/Make workflows to n8n (faster, cheaper, self-hosted).', stats: null };
+        return { text: fr
+          ? 'Infrastructure self-hosted n8n v1.71 sur VPS dédié. Claude Opus 4 pour l\'IA (~80ms). Stripe pour la facturation. Toutes vos données restent dans votre infrastructure.\n\nNous supportons n8n, Make et Zapier — et pouvons migrer vos workflows existants.'
+          : KB.tech + '\n\nWe support n8n, Make and Zapier — and can migrate your existing workflows to n8n.',
+          stats: null };
       case 'guarantee':
-        return { text: KB.guarantee + '\n\nEnterprise plans include a financial uptime SLA — if we miss 99.97%, you get a credit.', stats: null };
+        return { text: fr
+          ? 'Garantie satisfait ou remboursé 30 jours sur tous les plans. Aucun engagement après — mensuel sans contrainte.\n\nLes plans Enterprise incluent un SLA financier sur l\'uptime.'
+          : KB.guarantee + '\n\nEnterprise plans include a financial uptime SLA.',
+          stats: null };
       case 'audit':
-        return { text: KB.audit, stats: [['60 min', 'free audit call'],['Zero', 'commitment required'],['Same day', 'ROI estimate delivered']] };
+        return { text: fr
+          ? 'L\'audit gratuit est un appel vidéo de 60 minutes. Nous cartographions chaque processus manuel, évaluons le ROI potentiel de chacun, et vous donnons un plan de déploiement — en direct pendant l\'appel. Zéro engagement.'
+          : KB.audit,
+          stats: [['60 min', fr ? 'appel audit gratuit' : 'free audit call'],['Zéro', fr ? 'engagement requis' : 'commitment required'],['Même jour', fr ? 'ROI estimé livré' : 'ROI estimate delivered']] };
       case 'referral':
-        return { text: KB.referral + '\n\nIdeal for accountants, n8n/Make consultants, and business coaches who see clients drowning in manual work.', stats: [['15%', 'of setup fee'],['48h', 'payment on signing'],['No quotas', 'ever']] };
+        return { text: fr
+          ? 'Recommandez un client, gagnez 15% des frais de setup — payé dans les 48h après signature. Sans quota, sans complexité.'
+          : KB.referral,
+          stats: [['15%', fr ? 'des frais setup' : 'of setup fee'],['48h', fr ? 'paiement après signature' : 'payment on signing'],['No quotas', fr ? 'jamais' : 'ever']] };
       case 'uptime':
-        return { text: KB.uptime, stats: [['99.97%', 'uptime SLA'],['90 sec', 'error alert'],['24/7', 'monitoring']] };
+        return { text: fr
+          ? '99,97% de SLA uptime avec garantie financière sur Enterprise. Tous les systèmes surveillés 24/7 avec alertes en 90 secondes.'
+          : KB.uptime,
+          stats: [['99.97%', 'uptime SLA'],['90 sec', fr ? 'alerte erreur' : 'error alert'],['24/7', fr ? 'surveillance' : 'monitoring']] };
       case 'addons':
-        return { text: 'Add-ons available on any plan:\n· Extra Workflow — £299 one-time\n· Quarterly Audit — £499/quarter\n· Team Training — £799 one-time\n· Zapier/Make Migration — £1,499 one-time', stats: null };
+        return { text: fr
+          ? 'Options disponibles sur tous les plans :\n· Workflow supplémentaire — £299 one-time\n· Audit trimestriel — £499/trimestre\n· Formation équipe — £799 one-time\n· Migration Zapier/Make — £1 499 one-time'
+          : 'Add-ons available on any plan:\n· Extra Workflow — £299 one-time\n· Quarterly Audit — £499/quarter\n· Team Training — £799 one-time\n· Zapier/Make Migration — £1,499 one-time',
+          stats: null };
       default:
-        return { text: 'Good question. I\'m trained on everything PURIST does — automation, AI agents, pricing, deployment, ROI, and integrations.\n\nWhat specifically would help you most right now?', stats: null };
+        return { text: fr
+          ? 'Bonne question. Je suis formé sur tout ce que PURIST fait — automatisation, agents IA, tarifs, déploiement et ROI.\n\nQu\'est-ce qui vous aiderait le plus en ce moment ?'
+          : 'Good question. I\'m trained on everything PURIST does — automation, AI agents, pricing, deployment, ROI, and integrations.\n\nWhat specifically would help you most right now?',
+          stats: null };
     }
   }
 
