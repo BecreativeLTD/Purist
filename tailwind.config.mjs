@@ -22,9 +22,9 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        serif: ['Fraunces', 'Georgia', 'serif'],
-        display: ['Fraunces', 'Georgia', 'serif'],
+        sans: ['Inter Variable', 'Inter', 'system-ui', 'sans-serif'],
+        serif: ['Fraunces Variable', 'Fraunces', 'Georgia', 'serif'],
+        display: ['Fraunces Variable', 'Fraunces', 'Georgia', 'serif'],
       },
       fontSize: {
         display: ['clamp(2.5rem, 5vw, 4.5rem)', { lineHeight: '1.05', letterSpacing: '-0.02em' }],

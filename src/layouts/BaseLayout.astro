@@ -1,5 +1,9 @@
 ---
 import '~/styles/global.css';
+// Self-hosted variable fonts — served from same CDN, no external connection needed
+import '@fontsource-variable/inter/standard.css';
+import '@fontsource-variable/fraunces/opsz.css';
+import '@fontsource-variable/fraunces/opsz-italic.css';
 import { ViewTransitions } from 'astro:transitions';
 import SEO from '~/components/seo/SEO.astro';
 
@@ -22,21 +26,6 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0A0A0A" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Non-blocking font load: media trick swaps to all once loaded -->
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&display=swap"
-      media="print"
-      onload="this.media='all'"
-    />
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&display=swap"
-      />
-    </noscript>
     <SEO {title} {description} {image} {canonical} {noindex} {type} />
     <slot name="head" />
     <ViewTransitions />
