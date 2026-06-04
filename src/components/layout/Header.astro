@@ -519,39 +519,47 @@ const navLinks = [
   }
   function removeTyping() { var t = document.getElementById('tind'); if(t) t.remove(); }
 
-  /* ── SEND FLOW ────────────────────────────── */
+  /* ── SEND FLOW (real AI via OpenRouter) ──── */
   function sendMsg(text) {
     if (!text.trim()) return;
     addMsg(text, true);
     if (quick) quick.style.display = 'none';
-    history.push({ role: 'user', text: text });
-
-    var classified = classify(text);
-    var delay = 600 + Math.random() * 500;
+    history.push({ role: 'user', content: text });
     addTyping();
 
-    setTimeout(function(){
+    fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: history }),
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
       removeTyping();
+      if (data.fallback) {
+        // API unavailable — fall back to local KB
+        var classified = classify(text);
+        var reply = buildReply(classified, text);
+        addMsg(reply.text, false);
+        if (reply.stats) setTimeout(function(){ addCards(reply.stats); }, 300);
+        setTimeout(addCTA, 700);
+        history.push({ role: 'assistant', content: reply.text });
+        return;
+      }
+      var reply = data.reply || '';
+      addMsg(reply, false);
+      history.push({ role: 'assistant', content: reply });
+      setTimeout(addCTA, 900);
+    })
+    .catch(function() {
+      removeTyping();
+      // Network error — fall back to local KB
+      var classified = classify(text);
       var reply = buildReply(classified, text);
       addMsg(reply.text, false);
-      if (reply.stats) {
-        setTimeout(function(){
-          addCards(reply.stats);
-          if (reply.followUp) {
-            setTimeout(function(){
-              addMsg(reply.followUp, false);
-            }, 400);
-          } else {
-            setTimeout(addCTA, 500);
-          }
-        }, 300);
-      } else if (reply.followUp) {
-        setTimeout(function(){ addMsg(reply.followUp, false); }, 400);
-      } else {
-        setTimeout(addCTA, 600);
-      }
-      history.push({ role: 'ai', text: reply.text });
-    }, delay);
+      if (reply.stats) setTimeout(function(){ addCards(reply.stats); }, 300);
+      setTimeout(addCTA, 700);
+      history.push({ role: 'assistant', content: reply.text });
+    });
   }
 
   /* ── EVENT LISTENERS ──────────────────────── */
