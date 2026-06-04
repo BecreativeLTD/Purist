@@ -6,7 +6,11 @@ import vercel from '@astrojs/vercel/serverless';
 export default defineConfig({
   site: 'https://purist.online',
   output: 'hybrid',
-  adapter: vercel(),
+  adapter: vercel({
+    webAnalytics: {
+      enabled: true,
+    },
+  }),
   image: { service: { entrypoint: 'astro/assets/services/noop' } },
   integrations: [
     tailwind({ applyBaseStyles: false }),
