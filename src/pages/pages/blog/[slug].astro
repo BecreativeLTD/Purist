@@ -105,16 +105,14 @@ const schemaDate = (() => {
     #article-grid h3 { font-size: 1.1rem !important; }
     #article-grid li { font-size: 14px !important; }
   }
-  /* ── Hero image: taller on mobile ── */
-  .article-hero-img {
-    aspect-ratio: 21/8;
-    min-height: 240px;
-  }
-  @media (max-width: 639px) {
-    .article-hero-img { aspect-ratio: 4/3 !important; min-height: 0; }
-  }
-  @media (min-width: 640px) and (max-width: 1023px) {
-    .article-hero-img { aspect-ratio: 16/7 !important; }
+  /* ── Hero title + excerpt sizes ── */
+  .article-title { font-size: clamp(1.55rem, 5vw, 2.75rem); }
+  .article-excerpt { font-size: 14px; }
+  @media (min-width: 640px) { .article-excerpt { font-size: 15px; } }
+  /* ── Hero content padding on small screens ── */
+  @media (max-width: 479px) {
+    .article-hero-content { padding-top: 6rem !important; padding-bottom: 2rem !important; }
+    .article-title { font-size: 1.45rem !important; }
   }
   /* ── Related articles grid ── */
   .related-grid {
@@ -138,85 +136,81 @@ const schemaDate = (() => {
 <div id="progress-bar" style="position:fixed;top:0;left:0;height:2px;background:#E8B4B0;width:0%;z-index:200;transition:width 0.1s linear;" aria-hidden="true"></div>
 
 <!-- ── HERO ──────────────────────────────────────────────────── -->
-<header style="background:#0A0A0A;position:relative;overflow:hidden;">
-  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 70% 50%,rgba(232,180,176,0.07) 0%,transparent 70%);pointer-events:none;"></div>
+<header style="background:#0A0A0A;position:relative;overflow:hidden;min-height:480px;display:flex;flex-direction:column;justify-content:flex-end;">
 
-  <div class="container-x" style="position:relative;z-index:10;padding-top:2.5rem;padding-bottom:0;">
+  <!-- Full-bleed image as background -->
+  <div style="position:absolute;inset:0;">
+    <img src={article.image} alt={article.title} style="width:100%;height:100%;object-fit:cover;opacity:0.32;" loading="eager"/>
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,10,0.15) 0%,rgba(10,10,10,0.55) 40%,#0A0A0A 85%);"></div>
+  </div>
+
+  <!-- Content on top of image -->
+  <div class="container-x article-hero-content" style="position:relative;z-index:10;padding-top:5rem;padding-bottom:2.5rem;">
 
     <!-- Breadcrumb -->
-    <nav aria-label="Fil d'Ariane" style="margin-bottom:2rem;">
-      <ol itemscope itemtype="https://schema.org/BreadcrumbList" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;list-style:none;">
+    <nav aria-label="Breadcrumb" style="margin-bottom:1.5rem;">
+      <ol itemscope itemtype="https://schema.org/BreadcrumbList" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;list-style:none;padding:0;margin:0;">
         <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-          <a itemprop="item" href="/" style="font-size:10px;font-weight:500;color:rgba(255,255,255,0.3);text-decoration:none;" onmouseover="this.style.color='rgba(255,255,255,0.65)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">
+          <a itemprop="item" href="/" style="font-size:10px;font-weight:500;color:rgba(255,255,255,0.35);text-decoration:none;" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.35)'">
             <span itemprop="name">Home</span>
           </a>
           <meta itemprop="position" content="1"/>
         </li>
         <li aria-hidden="true" style="color:rgba(255,255,255,0.18);font-size:10px;">/</li>
         <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-          <a itemprop="item" href="/pages/blog" style="font-size:10px;font-weight:500;color:rgba(255,255,255,0.3);text-decoration:none;" onmouseover="this.style.color='rgba(255,255,255,0.65)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">
+          <a itemprop="item" href="/pages/blog" style="font-size:10px;font-weight:500;color:rgba(255,255,255,0.35);text-decoration:none;" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.35)'">
             <span itemprop="name">Blog</span>
           </a>
           <meta itemprop="position" content="2"/>
         </li>
         <li aria-hidden="true" style="color:rgba(255,255,255,0.18);font-size:10px;">/</li>
-        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="font-size:10px;color:rgba(255,255,255,0.4);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:260px;">
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="font-size:10px;color:rgba(255,255,255,0.4);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px;">
           <span itemprop="name">{article.title}</span>
           <meta itemprop="position" content="3"/>
         </li>
       </ol>
     </nav>
 
-    <div style="max-width:700px;margin-bottom:2.5rem;">
+    <div style="max-width:680px;">
       <!-- Category + reading time -->
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.25rem;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;flex-wrap:wrap;">
         <a href={`/pages/blog?cat=${article.category}`}
-           style="font-size:9px;text-transform:uppercase;letter-spacing:0.2em;font-weight:700;padding:5px 12px;border-radius:100px;background:rgba(232,180,176,0.12);color:#E8B4B0;border:1px solid rgba(232,180,176,0.22);text-decoration:none;">
+           style="font-size:9px;text-transform:uppercase;letter-spacing:0.18em;font-weight:700;padding:4px 11px;border-radius:100px;background:rgba(232,180,176,0.14);color:#E8B4B0;border:1px solid rgba(232,180,176,0.25);text-decoration:none;">
           {category?.name ?? article.category}
         </a>
-        <span style="font-size:10px;color:rgba(255,255,255,0.25);">{article.readingTime}</span>
-        <span style="font-size:10px;color:rgba(255,255,255,0.18);">·</span>
-        <span style="font-size:10px;color:rgba(255,255,255,0.25);">{wordCount.toLocaleString()} words</span>
+        <span style="font-size:10px;color:rgba(255,255,255,0.3);">{article.readingTime}</span>
+        <span style="font-size:10px;color:rgba(255,255,255,0.16);">·</span>
+        <span style="font-size:10px;color:rgba(255,255,255,0.3);">{wordCount.toLocaleString()} words</span>
       </div>
 
-      <h1 style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.75rem,4vw,2.75rem);font-weight:400;letter-spacing:-0.025em;line-height:1.1;color:#fff;margin-bottom:1.25rem;">
+      <h1 class="article-title" style="font-family:'Fraunces',Georgia,serif;font-weight:400;letter-spacing:-0.025em;line-height:1.12;color:#fff;margin-bottom:1rem;">
         {article.title}
       </h1>
-      <p style="font-size:15px;line-height:1.75;color:rgba(255,255,255,0.42);margin-bottom:2rem;max-width:580px;">
+      <p class="article-excerpt" style="line-height:1.75;color:rgba(255,255,255,0.45);margin-bottom:1.75rem;max-width:560px;">
         {article.excerpt}
       </p>
 
-      <!-- Author + date + share -->
-      <div style="display:flex;align-items:center;gap:12px;padding-bottom:2.5rem;flex-wrap:wrap;">
-        <div style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:rgba(232,180,176,0.15);border:1px solid rgba(232,180,176,0.25);color:#E8B4B0;flex-shrink:0;">
+      <!-- Author + share -->
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <div style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:rgba(232,180,176,0.15);border:1px solid rgba(232,180,176,0.25);color:#E8B4B0;flex-shrink:0;">
           {article.author.split(' ').map((w: string) => w[0]).join('').slice(0,2).toUpperCase()}
         </div>
         <div>
-          <p style="font-size:11.5px;font-weight:600;color:rgba(255,255,255,0.75);">{article.author}</p>
-          <p style="font-size:9.5px;color:rgba(255,255,255,0.28);">{article.date}</p>
+          <p style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.75);margin:0;">{article.author}</p>
+          <p style="font-size:9px;color:rgba(255,255,255,0.28);margin:0;">{article.date}</p>
         </div>
-        <div style="margin-left:auto;display:flex;align-items:center;gap:16px;">
-          <a href={`https://x.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" style="font-size:10px;color:rgba(255,255,255,0.3);text-decoration:none;display:flex;align-items:center;gap:5px;" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:14px;">
+          <a href={`https://x.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" style="font-size:10px;color:rgba(255,255,255,0.3);text-decoration:none;display:flex;align-items:center;gap:4px;" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             X
           </a>
-          <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" style="font-size:10px;color:rgba(255,255,255,0.3);text-decoration:none;display:flex;align-items:center;gap:5px;" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" style="font-size:10px;color:rgba(255,255,255,0.3);text-decoration:none;display:flex;align-items:center;gap:4px;" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
             LinkedIn
-          </a>
-          <a href={`mailto:?subject=${encodeURIComponent(article.title)}&body=${encodeURIComponent(pageUrl)}`} style="font-size:10px;color:rgba(255,255,255,0.3);text-decoration:none;display:flex;align-items:center;gap:5px;" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>
-            Email
           </a>
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Hero image -->
-  <div class="article-hero-img" style="position:relative;overflow:hidden;">
-    <img src={article.image} alt={article.title} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" loading="eager"/>
-    <div style="position:absolute;inset:0;background:linear-gradient(0deg,#0A0A0A 0%,transparent 45%);"></div>
   </div>
 </header>
 
