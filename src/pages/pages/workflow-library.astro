@@ -1,556 +1,142 @@
 ---
 import ShopLayout from '~/layouts/ShopLayout.astro';
 
-const categories = [
-  { id: 'crm',       label: 'CRM & Sales',        icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0', count: 13, color: '#E8B4B0' },
-  { id: 'finance',   label: 'Finance & Billing',   icon: 'M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z', count: 10, color: '#C89840' },
-  { id: 'ops',       label: 'Operations',           icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z', count: 14, color: '#7B68EE' },
-  { id: 'support',   label: 'Support & CS',         icon: 'M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z', count: 10, color: '#2D8049' },
-  { id: 'marketing', label: 'Marketing',             icon: 'M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z', count: 11, color: '#E87040' },
-  { id: 'reporting', label: 'Reporting & BI',        icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', count: 7, color: '#C89840' },
+const funcCategories = [
+  { id: 'crm',       label: 'CRM & Sales',      icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0', color: '#E8B4B0' },
+  { id: 'finance',   label: 'Finance',           icon: 'M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z', color: '#C89840' },
+  { id: 'ops',       label: 'Operations',        icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z', color: '#7B68EE' },
+  { id: 'support',   label: 'Support & CS',      icon: 'M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z', color: '#2D8049' },
+  { id: 'marketing', label: 'Marketing',         icon: 'M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z', color: '#E87040' },
+  { id: 'reporting', label: 'Reporting & BI',    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', color: '#C89840' },
 ];
 
-const workflows = [
+const industries = [
+  { id: 'dental',      label: 'Dental',           emoji: '🦷', color: '#E8B4B0', desc: 'Fill schedules, reduce no-shows, automate patient follow-ups.' },
+  { id: 'realestate',  label: 'Real Estate',       emoji: '🏡', color: '#7B68EE', desc: 'Qualify leads, manage listings, automate viewings and valuations.' },
+  { id: 'hotel',       label: 'Hotels',            emoji: '🏨', color: '#C89840', desc: 'Booking confirmations, upsells, reviews, and housekeeping alerts.' },
+  { id: 'callcenter',  label: 'Call Centre',       emoji: '📞', color: '#2D8049', desc: 'AI routing, script delivery, QA scoring, and agent assist.' },
+  { id: 'agency',      label: 'Agency',            emoji: '🎯', color: '#E87040', desc: 'Client reporting, brief intake, content pipelines, and billing.' },
+  { id: 'ecommerce',   label: 'E-commerce',        emoji: '🛒', color: '#E8B4B0', desc: 'Cart recovery, review requests, inventory, and post-purchase flows.' },
+];
 
-  // ── CRM & SALES ──────────────────────────────────────────────────────────
-  {
-    cat: 'crm', complexity: 'Starter', badge: 'Popular', time: '4h/wk',
-    title: 'Lead capture → CRM sync',
-    benefit: 'Never lose a lead to a slow follow-up again.',
-    desc: 'Every new form submission instantly creates a CRM contact, assigns it to the right rep, and fires a personalised intro email — all within 90 seconds, while competitors are still typing.',
-    tools: ['n8n', 'HubSpot', 'Gmail'],
-    n8n: 'https://n8n.io/workflows/1258',
-  },
-  {
-    cat: 'crm', complexity: 'Starter', badge: 'Popular', time: '3h/wk',
-    title: 'Proposal sent → Follow-up sequence',
-    benefit: 'Close 20–30% more deals with zero extra effort.',
-    desc: 'The moment a prospect opens your proposal, a 5-touch follow-up cadence starts automatically. It stops the instant they reply — so you never ghost a hot lead again.',
-    tools: ['n8n', 'PandaDoc', 'Pipedrive'],
-    n8n: 'https://n8n.io/workflows/1059',
-  },
-  {
-    cat: 'crm', complexity: 'Intermediate', badge: null, time: '2h/wk',
-    title: 'Lost deal win-back campaign',
-    benefit: 'Recover 10–15% of closed-lost revenue on autopilot.',
-    desc: 'Closed-lost deals are re-queued 90 days post-close with updated case studies and a fresh angle. Most businesses leave this revenue on the table — yours doesn\'t.',
-    tools: ['n8n', 'Salesforce', 'Mailchimp'],
-    n8n: null,
-  },
-  {
-    cat: 'crm', complexity: 'Advanced', badge: null, time: '5h/wk',
-    title: 'Referral tracking + reward trigger',
-    benefit: 'Turn happy clients into a reliable revenue channel.',
-    desc: 'Detects referral source from UTM, attributes commission to the right partner, and fires a Stripe payout the moment the deal closes — zero manual reconciliation.',
-    tools: ['n8n', 'Stripe', 'HubSpot'],
-    n8n: null,
-  },
-  {
-    cat: 'crm', complexity: 'Starter', badge: null, time: '3h/wk',
-    title: 'Demo no-show re-booking',
-    benefit: 'Recover 40% of missed demos without lifting a finger.',
-    desc: 'When a prospect no-shows a demo, the workflow waits 30 minutes then sends a warm re-booking link with a new availability window — before they book a competitor.',
-    tools: ['n8n', 'Calendly', 'Gmail'],
-    n8n: 'https://n8n.io/workflows/1136',
-  },
-  {
-    cat: 'crm', complexity: 'Intermediate', badge: 'AI-powered', time: '6h/wk',
-    title: 'AI lead scoring + prioritisation',
-    benefit: 'Your reps spend time on leads 3× more likely to close.',
-    desc: 'Claude AI reads every new lead\'s LinkedIn, website, and form responses, scores them 0–100, and routes high-scores to senior reps within minutes of capture.',
-    tools: ['n8n', 'Claude AI', 'HubSpot'],
-    n8n: null,
-  },
-  {
-    cat: 'crm', complexity: 'Starter', badge: null, time: '2h/wk',
-    title: 'Deal stage change → Slack alert',
-    benefit: 'Keep your whole team aligned on every live deal.',
-    desc: 'Every time a deal moves stage in your CRM, the relevant Slack channel gets an instant update with context, next steps, and owner — no more manual deal reviews in stand-up.',
-    tools: ['n8n', 'HubSpot', 'Slack'],
-    n8n: 'https://n8n.io/workflows/1287',
-  },
-  {
-    cat: 'crm', complexity: 'Intermediate', badge: null, time: '4h/wk',
-    title: 'Contract signed → Kickoff scheduler',
-    benefit: 'Start every client relationship in under 24 hours.',
-    desc: 'The moment DocuSign marks a contract complete, the client receives a welcome email, a kickoff call booking link, and your team gets a Slack prompt to prepare the brief.',
-    tools: ['n8n', 'DocuSign', 'Calendly'],
-    n8n: null,
-  },
-  {
-    cat: 'crm', complexity: 'Advanced', badge: 'AI-powered', time: '8h/wk',
-    title: 'AI-written personalised outreach',
-    benefit: 'Send 200 personalised cold emails in the time it takes to write 5.',
-    desc: 'Claude AI reads each prospect\'s LinkedIn profile and recent company news, then writes a tailored first line for every outreach email. Sequenced and sent via your email tool.',
-    tools: ['n8n', 'Claude AI', 'Apollo'],
-    n8n: null,
-  },
-  {
-    cat: 'crm', complexity: 'Starter', badge: null, time: '3h/wk',
-    title: 'Birthday & anniversary touches',
-    benefit: 'Be the vendor they remember because you actually care.',
-    desc: 'Automatically sends personalised messages to contacts on their birthday or your relationship anniversary. Simple — but the reps who do this close 18% more renewals.',
-    tools: ['n8n', 'HubSpot', 'Gmail'],
-    n8n: null,
-  },
-  {
-    cat: 'crm', complexity: 'Intermediate', badge: 'Popular', time: '5h/wk',
-    title: 'Trial → paid conversion nurture',
-    benefit: 'Convert 2× more trial users without adding headcount.',
-    desc: 'Based on usage signals (logins, features used, days remaining), the workflow sends the right message at the right moment — demo offer, case study, or discount — to push conversion.',
-    tools: ['n8n', 'Stripe', 'Intercom'],
-    n8n: null,
-  },
-  {
-    cat: 'crm', complexity: 'Advanced', badge: null, time: '4h/wk',
-    title: 'Multi-touch attribution reporting',
-    benefit: 'Know exactly which channels are actually driving revenue.',
-    desc: 'Stitches together UTM data, CRM touchpoints, and closed-won deals into a weekly attribution report — so you stop guessing where your pipeline comes from.',
-    tools: ['n8n', 'HubSpot', 'Google Sheets'],
-    n8n: null,
-  },
-  {
-    cat: 'crm', complexity: 'Starter', badge: null, time: '2h/wk',
-    title: 'CRM data enrichment',
-    benefit: 'Stop chasing contacts for information you can fetch automatically.',
-    desc: 'New contact created → workflow pulls company size, industry, tech stack, and LinkedIn from Clearbit/Apollo and fills CRM fields instantly — no manual research.',
-    tools: ['n8n', 'Clearbit', 'HubSpot'],
-    n8n: 'https://n8n.io/workflows/1098',
-  },
+// ─────────────────────────────────────────────────────────────────────────────
+// FUNCTION-BASED WORKFLOWS
+// ─────────────────────────────────────────────────────────────────────────────
+const funcWorkflows = [
+  // CRM
+  { cat:'crm', complexity:'Starter',      badge:'Popular',    time:'4h/wk',  title:'Lead capture to CRM sync',              benefit:'Never lose a lead to a slow follow-up again.',                  desc:'Every new form submission instantly creates a CRM contact, assigns it to the right rep, and fires a personalised intro email within 90 seconds.',                                          tools:['n8n','HubSpot','Gmail'],         n8n:'https://n8n.io/workflows/1258' },
+  { cat:'crm', complexity:'Starter',      badge:'Popular',    time:'3h/wk',  title:'Proposal sent to follow-up sequence',   benefit:'Close 20-30% more deals with zero extra effort.',               desc:'The moment a prospect opens your proposal, a 5-touch follow-up cadence starts automatically. It pauses the instant they reply so you never miss a hot lead.',                              tools:['n8n','PandaDoc','Pipedrive'],    n8n:'https://n8n.io/workflows/1059' },
+  { cat:'crm', complexity:'Intermediate', badge:null,         time:'2h/wk',  title:'Lost deal win-back campaign',           benefit:'Recover 10-15% of closed-lost revenue on autopilot.',          desc:'Closed-lost deals are re-queued 90 days post-close with updated case studies and a fresh angle. Most businesses leave this money on the table.',                                           tools:['n8n','Salesforce','Mailchimp'], n8n:null },
+  { cat:'crm', complexity:'Advanced',     badge:null,         time:'5h/wk',  title:'Referral tracking and reward trigger',  benefit:'Turn happy clients into a reliable revenue channel.',           desc:'Detects referral source from UTM, attributes commission to the right partner, and fires a Stripe payout the moment the deal closes. Zero manual reconciliation.',                           tools:['n8n','Stripe','HubSpot'],        n8n:null },
+  { cat:'crm', complexity:'Starter',      badge:null,         time:'3h/wk',  title:'Demo no-show re-booking',              benefit:'Recover 40% of missed demos without lifting a finger.',         desc:'When a prospect no-shows a demo, the workflow waits 30 minutes then sends a warm re-booking link with a new availability window before they book a competitor.',                           tools:['n8n','Calendly','Gmail'],        n8n:'https://n8n.io/workflows/1136' },
+  { cat:'crm', complexity:'Intermediate', badge:'AI-powered', time:'6h/wk',  title:'AI lead scoring and prioritisation',   benefit:'Your reps spend time on leads 3x more likely to close.',        desc:'Claude AI reads every new lead\'s LinkedIn, website, and form responses, scores them 0-100, and routes high-scores to senior reps within minutes of capture.',                             tools:['n8n','Claude AI','HubSpot'],     n8n:null },
+  { cat:'crm', complexity:'Starter',      badge:null,         time:'2h/wk',  title:'Deal stage change to Slack alert',      benefit:'Keep your whole team aligned on every live deal.',              desc:'Every time a deal moves stage in your CRM, the relevant Slack channel gets an instant update with context, next steps, and deal owner. No more manual check-ins.',                         tools:['n8n','HubSpot','Slack'],         n8n:'https://n8n.io/workflows/1287' },
+  { cat:'crm', complexity:'Intermediate', badge:null,         time:'4h/wk',  title:'Contract signed to kickoff scheduler', benefit:'Start every client relationship in under 24 hours.',            desc:'The moment DocuSign marks a contract complete, the client receives a welcome email, a kickoff call booking link, and your team gets a Slack prompt to prepare the brief.',                 tools:['n8n','DocuSign','Calendly'],     n8n:null },
+  { cat:'crm', complexity:'Advanced',     badge:'AI-powered', time:'8h/wk',  title:'AI-written personalised outreach',      benefit:'Send 200 personalised emails in the time it takes to write 5.', desc:'Claude AI reads each prospect\'s LinkedIn profile and recent company news, then writes a tailored first line for every outreach email. Sequenced and sent via your email tool.',           tools:['n8n','Claude AI','Apollo'],      n8n:null },
+  { cat:'crm', complexity:'Starter',      badge:null,         time:'3h/wk',  title:'Birthday and anniversary touches',     benefit:'Be the vendor clients remember because you actually care.',     desc:'Automatically sends personalised messages to contacts on their birthday or relationship anniversary. Simple but reps who do this close 18% more renewals.',                                tools:['n8n','HubSpot','Gmail'],         n8n:null },
+  { cat:'crm', complexity:'Intermediate', badge:'Popular',    time:'5h/wk',  title:'Trial to paid conversion nurture',      benefit:'Convert 2x more trial users without adding headcount.',         desc:'Based on usage signals (logins, features used, days remaining), the workflow sends the right message at the right moment: demo offer, case study, or discount.',                           tools:['n8n','Stripe','Intercom'],       n8n:null },
+  { cat:'crm', complexity:'Starter',      badge:null,         time:'2h/wk',  title:'CRM data enrichment',                  benefit:'Stop chasing contacts for information you can fetch automatically.', desc:'New contact created then the workflow pulls company size, industry, tech stack, and LinkedIn from Clearbit and fills CRM fields instantly. No manual research.',                      tools:['n8n','Clearbit','HubSpot'],      n8n:'https://n8n.io/workflows/1098' },
 
-  // ── FINANCE & BILLING ────────────────────────────────────────────────────
-  {
-    cat: 'finance', complexity: 'Starter', badge: 'Popular', time: '6h/wk',
-    title: 'Invoice generation → payment chase',
-    benefit: 'Get paid faster — average debtor days cut by 40%.',
-    desc: 'Creates an invoice from your project-close event, sends it to the client, then auto-chases at day 7, 14, and 30 with escalating urgency. Late payers get a different tone than slow payers.',
-    tools: ['n8n', 'Xero', 'Gmail'],
-    n8n: 'https://n8n.io/workflows/1162',
-  },
-  {
-    cat: 'finance', complexity: 'Starter', badge: null, time: '3h/wk',
-    title: 'Expense approval workflow',
-    benefit: 'Eliminate the email thread that kills Friday afternoons.',
-    desc: 'Employee submits receipt → manager notified via Slack with approve/reject buttons → decision logged → Xero entry created. What took days now takes minutes.',
-    tools: ['n8n', 'Slack', 'Xero'],
-    n8n: 'https://n8n.io/workflows/1211',
-  },
-  {
-    cat: 'finance', complexity: 'Intermediate', badge: null, time: '4h/wk',
-    title: 'Monthly P&L report builder',
-    benefit: 'Board-ready reports delivered before your morning coffee.',
-    desc: 'Pulls actuals from Xero, compares against budget in Google Sheets, generates a formatted PDF summary, and emails it to directors every 1st of the month at 7 AM.',
-    tools: ['n8n', 'Xero', 'Google Sheets'],
-    n8n: null,
-  },
-  {
-    cat: 'finance', complexity: 'Intermediate', badge: null, time: '3h/wk',
-    title: 'Stripe payment failed → retry + alert',
-    benefit: 'Recover 15–25% of failed subscription payments automatically.',
-    desc: 'Failed charge triggers a retry sequence with smart timing, a client email with a payment link, and a Slack alert to your billing team — before the customer notices.',
-    tools: ['n8n', 'Stripe', 'Slack'],
-    n8n: 'https://n8n.io/workflows/1089',
-  },
-  {
-    cat: 'finance', complexity: 'Starter', badge: null, time: '2h/wk',
-    title: 'New order → accounting sync',
-    benefit: 'Zero manual bookkeeping entry for every sale.',
-    desc: 'Every Shopify or Stripe sale instantly creates the correct accounting entry in Xero or QuickBooks — categorised, tax-coded, and reconciled without anyone touching a spreadsheet.',
-    tools: ['n8n', 'Shopify', 'Xero'],
-    n8n: 'https://n8n.io/workflows/1143',
-  },
-  {
-    cat: 'finance', complexity: 'Advanced', badge: null, time: '5h/wk',
-    title: 'Budget vs actuals variance alert',
-    benefit: 'Catch overspend before it becomes a problem.',
-    desc: 'Weekly comparison of actual spend vs budget by department. Anything over 10% variance triggers a Slack alert to the budget owner with a one-click drill-down view.',
-    tools: ['n8n', 'Xero', 'Slack'],
-    n8n: null,
-  },
-  {
-    cat: 'finance', complexity: 'Intermediate', badge: 'Popular', time: '4h/wk',
-    title: 'Recurring subscription billing',
-    benefit: 'Run a subscription business without a billing team.',
-    desc: 'Manages the full lifecycle: trial end, upgrade/downgrade, pause, reactivation, and churn — with the right email at each step and accounting entries created automatically.',
-    tools: ['n8n', 'Stripe', 'Xero'],
-    n8n: null,
-  },
-  {
-    cat: 'finance', complexity: 'Starter', badge: null, time: '2h/wk',
-    title: 'Contractor invoice → approval → pay',
-    benefit: 'Pay contractors in hours, not weeks.',
-    desc: 'Contractor submits invoice → auto-checked against SOW and hourly rate → manager approves in Slack → payment queued in Wise or bank → contractor notified.',
-    tools: ['n8n', 'Slack', 'Wise'],
-    n8n: null,
-  },
-  {
-    cat: 'finance', complexity: 'Advanced', badge: null, time: '6h/wk',
-    title: 'Cash flow 13-week forecast',
-    benefit: 'Stop being surprised by your bank balance.',
-    desc: 'Pulls receivables, payables, payroll dates, and subscription revenue into a rolling 13-week cash flow model. Refreshes every Monday and flags weeks where runway drops below your threshold.',
-    tools: ['n8n', 'Xero', 'Google Sheets'],
-    n8n: null,
-  },
-  {
-    cat: 'finance', complexity: 'Intermediate', badge: null, time: '3h/wk',
-    title: 'Quote approval + discount guardrails',
-    benefit: 'Protect margin without slowing down your sales team.',
-    desc: 'Quotes above standard price auto-approve. Discounts under 10% require one-click manager approval in Slack. Anything above 10% escalates to director — with full context attached.',
-    tools: ['n8n', 'PandaDoc', 'Slack'],
-    n8n: null,
-  },
-  {
-    cat: 'finance', complexity: 'Starter', badge: null, time: '2h/wk',
-    title: 'VAT return data prep',
-    benefit: 'Turn a half-day task into a 10-minute review.',
-    desc: 'Pulls all invoices and expenses for the quarter, categorises them by VAT rate, and produces a pre-filled return summary ready for your accountant to review and submit.',
-    tools: ['n8n', 'Xero', 'Google Sheets'],
-    n8n: null,
-  },
+  // Finance
+  { cat:'finance', complexity:'Starter',      badge:'Popular',    time:'6h/wk',  title:'Invoice generation and payment chase',  benefit:'Get paid faster. Average debtor days cut by 40%.',             desc:'Creates an invoice from your project-close event, sends it to the client, then auto-chases at day 7, 14, and 30 with escalating urgency. Late payers get a different tone than slow payers.',  tools:['n8n','Xero','Gmail'],            n8n:'https://n8n.io/workflows/1162' },
+  { cat:'finance', complexity:'Starter',      badge:null,         time:'3h/wk',  title:'Expense approval workflow',             benefit:'Eliminate the email thread that kills Friday afternoons.',     desc:'Employee submits receipt. Manager notified via Slack with approve/reject buttons. Decision logged. Xero entry created automatically. What took days now takes minutes.',                      tools:['n8n','Slack','Xero'],            n8n:'https://n8n.io/workflows/1211' },
+  { cat:'finance', complexity:'Intermediate', badge:null,         time:'4h/wk',  title:'Monthly P&L report builder',            benefit:'Board-ready reports delivered before your morning coffee.',   desc:'Pulls actuals from Xero, compares against budget in Google Sheets, generates a formatted PDF summary, and emails it to directors every 1st of the month at 7 AM.',                            tools:['n8n','Xero','Google Sheets'],    n8n:null },
+  { cat:'finance', complexity:'Intermediate', badge:null,         time:'3h/wk',  title:'Stripe payment failed to retry',        benefit:'Recover 15-25% of failed subscription payments automatically.', desc:'Failed charge triggers a retry sequence with smart timing, a client email with a payment link, and a Slack alert to your billing team before the customer even notices.',                 tools:['n8n','Stripe','Slack'],          n8n:'https://n8n.io/workflows/1089' },
+  { cat:'finance', complexity:'Starter',      badge:null,         time:'2h/wk',  title:'New order to accounting sync',          benefit:'Zero manual bookkeeping entry for every sale.',               desc:'Every Shopify or Stripe sale instantly creates the correct accounting entry in Xero or QuickBooks, categorised, tax-coded, and reconciled without anyone touching a spreadsheet.',            tools:['n8n','Shopify','Xero'],          n8n:'https://n8n.io/workflows/1143' },
+  { cat:'finance', complexity:'Advanced',     badge:null,         time:'5h/wk',  title:'Budget vs actuals variance alert',      benefit:'Catch overspend before it becomes a problem.',                desc:'Weekly comparison of actual spend vs budget by department. Anything over 10% variance triggers a Slack alert to the budget owner with a one-click drill-down view.',                        tools:['n8n','Xero','Slack'],            n8n:null },
+  { cat:'finance', complexity:'Intermediate', badge:'Popular',    time:'4h/wk',  title:'Recurring subscription billing',        benefit:'Run a subscription business without a billing team.',          desc:'Manages the full lifecycle: trial end, upgrade/downgrade, pause, reactivation, and churn, with the right email at each step and accounting entries created automatically.',                    tools:['n8n','Stripe','Xero'],          n8n:null },
+  { cat:'finance', complexity:'Starter',      badge:null,         time:'2h/wk',  title:'Contractor invoice to approval to pay', benefit:'Pay contractors in hours, not weeks.',                        desc:'Contractor submits invoice. Auto-checked against SOW and hourly rate. Manager approves in Slack. Payment queued in Wise or bank. Contractor notified instantly.',                            tools:['n8n','Slack','Wise'],            n8n:null },
+  { cat:'finance', complexity:'Intermediate', badge:null,         time:'3h/wk',  title:'Quote approval and discount guardrails', benefit:'Protect margin without slowing down your sales team.',        desc:'Quotes at standard price auto-approve. Discounts under 10% require one-click manager approval in Slack. Anything above 10% escalates to director with full context attached.',               tools:['n8n','PandaDoc','Slack'],        n8n:null },
 
-  // ── OPERATIONS ───────────────────────────────────────────────────────────
-  {
-    cat: 'ops', complexity: 'Intermediate', badge: 'Popular', time: '8h/wk',
-    title: 'New client onboarding sequence',
-    benefit: 'Every new client feels like your most important — from day one.',
-    desc: '14-step automation: welcome pack sent, contract dispatched, kickoff call scheduled, intro materials shared, 7-day check-in, and 30-day review booked. Zero manual coordination.',
-    tools: ['n8n', 'Calendly', 'DocuSign'],
-    n8n: null,
-  },
-  {
-    cat: 'ops', complexity: 'Intermediate', badge: null, time: '5h/wk',
-    title: 'Staff onboarding across 12 tools',
-    benefit: 'New hires are productive on day 1, not day 5.',
-    desc: 'HR trigger creates accounts across Google Workspace, Slack, Notion, GitHub, and 8 more tools simultaneously, sends the welcome email, assigns an onboarding buddy, and schedules 30-60-90 reviews.',
-    tools: ['n8n', 'Google Workspace', 'Slack'],
-    n8n: 'https://n8n.io/workflows/1302',
-  },
-  {
-    cat: 'ops', complexity: 'Starter', badge: null, time: '3h/wk',
-    title: 'Contract renewal radar',
-    benefit: 'Never lose a renewal because someone forgot to look at a spreadsheet.',
-    desc: 'Monitors contract end dates across your CRM and alerts the account manager at 90, 60, and 30 days — with a draft renewal email and full account context attached.',
-    tools: ['n8n', 'Pipedrive', 'DocuSign'],
-    n8n: null,
-  },
-  {
-    cat: 'ops', complexity: 'Intermediate', badge: null, time: '6h/wk',
-    title: 'Inventory reorder trigger',
-    benefit: 'Never run out of stock or over-order again.',
-    desc: 'Real-time stock monitoring. When any SKU drops below its reorder point, a purchase order is created, supplier is notified, and your ops manager gets a Slack summary — all before you\'d have noticed.',
-    tools: ['n8n', 'Shopify', 'Slack'],
-    n8n: null,
-  },
-  {
-    cat: 'ops', complexity: 'Starter', badge: null, time: '3h/wk',
-    title: 'Meeting notes → action items',
-    benefit: 'End the meeting-to-meeting chaos of lost actions.',
-    desc: 'Otter.ai or Fireflies transcribes your call. Claude AI extracts action items, owners, and deadlines, creates tasks in your PM tool, and sends a summary to attendees within 2 minutes of hanging up.',
-    tools: ['n8n', 'Claude AI', 'Notion'],
-    n8n: null,
-  },
-  {
-    cat: 'ops', complexity: 'Advanced', badge: 'AI-powered', time: '10h/wk',
-    title: 'Project status report generator',
-    benefit: 'Stakeholder updates in seconds, not a stressed Friday afternoon.',
-    desc: 'Pulls task completion, budget burn, and risk flags from your PM tool. Claude AI writes a structured status report in your exact template, sends to stakeholders, and logs delivery.',
-    tools: ['n8n', 'Claude AI', 'Asana'],
-    n8n: null,
-  },
-  {
-    cat: 'ops', complexity: 'Starter', badge: null, time: '2h/wk',
-    title: 'Slack → task creation (inbox zero for ops)',
-    benefit: 'Capture every request before it gets buried in threads.',
-    desc: 'React with 📌 in any Slack message and it instantly becomes a task in your PM tool with context, channel link, and the right assignee. No copy-pasting, no dropped balls.',
-    tools: ['n8n', 'Slack', 'Linear'],
-    n8n: 'https://n8n.io/workflows/1337',
-  },
-  {
-    cat: 'ops', complexity: 'Intermediate', badge: null, time: '4h/wk',
-    title: 'Staff offboarding checklist',
-    benefit: 'Protect your business when people leave.',
-    desc: 'HR trigger revokes access to all tools, archives their email, transfers ownership of files, and logs every step in a compliance record — all completed before their last day ends.',
-    tools: ['n8n', 'Google Workspace', 'Okta'],
-    n8n: null,
-  },
-  {
-    cat: 'ops', complexity: 'Advanced', badge: null, time: '6h/wk',
-    title: 'SLA breach early warning',
-    benefit: 'Fix problems before clients know they exist.',
-    desc: 'Monitors every open project and ticket against its SLA. 4 hours before breach, the responsible team gets a Slack alert with a draft client update and suggested resolution.',
-    tools: ['n8n', 'Jira', 'Slack'],
-    n8n: null,
-  },
-  {
-    cat: 'ops', complexity: 'Starter', badge: 'Popular', time: '3h/wk',
-    title: 'Google Form → project brief creator',
-    benefit: 'Turn a new brief from 3 back-and-forths into zero.',
-    desc: 'Client fills a scoped intake form. Workflow creates the project in your PM tool, Notion doc with brief, client folder in Drive, and sends confirmation — all structured and ready to kick off.',
-    tools: ['n8n', 'Google Forms', 'Notion'],
-    n8n: 'https://n8n.io/workflows/1249',
-  },
-  {
-    cat: 'ops', complexity: 'Intermediate', badge: null, time: '4h/wk',
-    title: 'Shift scheduling + absence alerts',
-    benefit: 'No more last-minute cover panic.',
-    desc: 'Monitors shift rotas. If someone marks absent with less than 48h notice, the workflow finds available cover from the pool, sends an offer, and updates the schedule on confirmation.',
-    tools: ['n8n', 'Slack', 'Google Sheets'],
-    n8n: null,
-  },
-  {
-    cat: 'ops', complexity: 'Advanced', badge: 'AI-powered', time: '8h/wk',
-    title: 'Document generation from templates',
-    benefit: 'Produce polished, accurate documents in seconds.',
-    desc: 'Client data from CRM + Claude AI + your Word/Google Docs template = a completed contract, proposal, or report — personalised, formatted, and sent for signature without touching a keyboard.',
-    tools: ['n8n', 'Claude AI', 'DocuSign'],
-    n8n: null,
-  },
-  {
-    cat: 'ops', complexity: 'Starter', badge: null, time: '2h/wk',
-    title: 'Job post → applicant tracker',
-    benefit: 'Never lose a good applicant in your email inbox again.',
-    desc: 'Every new application is parsed, added to a structured tracker, the CV stored in Drive, and the applicant sent a personalised acknowledgement — all before you even see the email.',
-    tools: ['n8n', 'Gmail', 'Google Sheets'],
-    n8n: 'https://n8n.io/workflows/1201',
-  },
-  {
-    cat: 'ops', complexity: 'Intermediate', badge: null, time: '5h/wk',
-    title: 'Vendor invoice → 3-way match',
-    benefit: 'Catch billing errors before you pay them.',
-    desc: 'Incoming supplier invoice matched against PO and delivery receipt. Discrepancies flagged to accounts with detail. Clean matches auto-approved and queued for payment.',
-    tools: ['n8n', 'Xero', 'Gmail'],
-    n8n: null,
-  },
+  // Operations
+  { cat:'ops', complexity:'Intermediate', badge:'Popular',    time:'8h/wk',  title:'New client onboarding sequence',        benefit:'Every new client feels like your most important from day one.', desc:'14-step automation: welcome pack sent, contract dispatched, kickoff call scheduled, intro materials shared, 7-day check-in, and 30-day review booked. Zero manual coordination.',           tools:['n8n','Calendly','DocuSign'],   n8n:null },
+  { cat:'ops', complexity:'Intermediate', badge:null,         time:'5h/wk',  title:'Staff onboarding across 12 tools',     benefit:'New hires are productive on day 1, not day 5.',                 desc:'HR trigger creates accounts across Google Workspace, Slack, Notion, GitHub, and more simultaneously, sends the welcome email, assigns a buddy, and schedules 30-60-90 reviews.',             tools:['n8n','Google Workspace','Slack'], n8n:'https://n8n.io/workflows/1302' },
+  { cat:'ops', complexity:'Starter',      badge:null,         time:'3h/wk',  title:'Contract renewal radar',               benefit:'Never lose a renewal because someone forgot a spreadsheet.',    desc:'Monitors contract end dates across your CRM and alerts the account manager at 90, 60, and 30 days with a draft renewal email and full account context attached.',                            tools:['n8n','Pipedrive','DocuSign'],  n8n:null },
+  { cat:'ops', complexity:'Intermediate', badge:null,         time:'6h/wk',  title:'Inventory reorder trigger',            benefit:'Never run out of stock or over-order again.',                   desc:'Real-time stock monitoring. When any SKU drops below its reorder point, a purchase order is created, supplier is notified, and your ops manager gets a Slack summary.',                     tools:['n8n','Shopify','Slack'],        n8n:null },
+  { cat:'ops', complexity:'Starter',      badge:null,         time:'3h/wk',  title:'Meeting notes to action items',        benefit:'End the meeting chaos of lost actions.',                        desc:'Otter.ai or Fireflies transcribes your call. Claude AI extracts action items, owners, and deadlines, creates tasks in your PM tool, and sends a summary to attendees within 2 minutes.',    tools:['n8n','Claude AI','Notion'],    n8n:null },
+  { cat:'ops', complexity:'Advanced',     badge:'AI-powered', time:'10h/wk', title:'Project status report generator',      benefit:'Stakeholder updates in seconds, not a stressed Friday afternoon.', desc:'Pulls task completion, budget burn, and risk flags from your PM tool. Claude AI writes a structured status report in your exact template, sends to stakeholders, and logs delivery.',    tools:['n8n','Claude AI','Asana'],     n8n:null },
+  { cat:'ops', complexity:'Starter',      badge:null,         time:'2h/wk',  title:'Slack to task creation',               benefit:'Capture every request before it gets buried in threads.',       desc:'React with a pin emoji in any Slack message and it instantly becomes a task in your PM tool with context, channel link, and the right assignee. No copy-pasting, no dropped balls.',        tools:['n8n','Slack','Linear'],        n8n:'https://n8n.io/workflows/1337' },
+  { cat:'ops', complexity:'Intermediate', badge:null,         time:'4h/wk',  title:'Staff offboarding checklist',          benefit:'Protect your business when people leave.',                      desc:'HR trigger revokes access to all tools, archives their email, transfers file ownership, and logs every step in a compliance record, all completed before their last day ends.',              tools:['n8n','Google Workspace','Okta'], n8n:null },
+  { cat:'ops', complexity:'Starter',      badge:'Popular',    time:'3h/wk',  title:'Google Form to project brief',         benefit:'Turn a new brief from 3 back-and-forths into zero.',            desc:'Client fills a scoped intake form. Workflow creates the project in your PM tool, a Notion doc with brief, client folder in Drive, and sends confirmation. Structured and ready to kick off.', tools:['n8n','Google Forms','Notion'], n8n:'https://n8n.io/workflows/1249' },
+  { cat:'ops', complexity:'Advanced',     badge:'AI-powered', time:'8h/wk',  title:'Document generation from templates',   benefit:'Produce polished, accurate documents in seconds.',               desc:'Client data from CRM plus Claude AI plus your Word or Google Docs template equals a completed contract, proposal, or report, personalised, formatted, and sent for signature instantly.',    tools:['n8n','Claude AI','DocuSign'],  n8n:null },
 
-  // ── SUPPORT & CS ─────────────────────────────────────────────────────────
-  {
-    cat: 'support', complexity: 'Advanced', badge: 'AI-powered', time: '10h/wk',
-    title: 'AI ticket triage + routing',
-    benefit: 'The right agent sees the right ticket first time, every time.',
-    desc: 'Claude AI classifies every inbound ticket by type, urgency, sentiment, and product area, routes it to the correct queue, sets the SLA timer, and drafts a suggested reply — before a human touches it.',
-    tools: ['n8n', 'Claude AI', 'Zendesk'],
-    n8n: null,
-  },
-  {
-    cat: 'support', complexity: 'Intermediate', badge: 'AI-powered', time: '4h/wk',
-    title: 'CSAT survey → insight report',
-    benefit: 'Know exactly why customers are unhappy — before they churn.',
-    desc: 'Post-close CSAT sent automatically. Responses cluster into themes using Claude AI, with verbatim quotes, trend vs last month, and recommended actions — delivered to CS lead every Friday.',
-    tools: ['n8n', 'Claude AI', 'Typeform'],
-    n8n: null,
-  },
-  {
-    cat: 'support', complexity: 'Advanced', badge: null, time: '∞ value',
-    title: 'Churn risk early warning',
-    benefit: 'Save accounts 14 days before they cancel.',
-    desc: 'Monitors login frequency, support volume, NPS score, and billing history. At-risk accounts are flagged to the CS lead with a suggested intervention — 14 days before typical churn patterns trigger.',
-    tools: ['n8n', 'HubSpot', 'Slack'],
-    n8n: null,
-  },
-  {
-    cat: 'support', complexity: 'Starter', badge: 'Popular', time: '5h/wk',
-    title: 'AI first-response for common queries',
-    benefit: 'Answer 60% of tickets instantly, 24/7, without adding headcount.',
-    desc: 'Claude AI reads the ticket, searches your help centre, and sends a complete answer for standard queries within 30 seconds. Escalates to humans only when confidence is below threshold.',
-    tools: ['n8n', 'Claude AI', 'Intercom'],
-    n8n: null,
-  },
-  {
-    cat: 'support', complexity: 'Intermediate', badge: null, time: '3h/wk',
-    title: 'VIP client escalation radar',
-    benefit: 'Your most valuable clients always get the white-glove treatment.',
-    desc: 'Tags inbound tickets from accounts above a revenue threshold and routes them to senior CS, skipping the queue. Account manager gets a Slack heads-up with full context.',
-    tools: ['n8n', 'Zendesk', 'Slack'],
-    n8n: null,
-  },
-  {
-    cat: 'support', complexity: 'Starter', badge: null, time: '3h/wk',
-    title: 'Ticket resolved → review request',
-    benefit: 'Turn every solved problem into a public five-star review.',
-    desc: '24 hours after a ticket is marked resolved, a personalised review request goes out. Positive responses are routed to Google or Trustpilot. Negative ones go to CS for a recovery call.',
-    tools: ['n8n', 'Zendesk', 'Gmail'],
-    n8n: null,
-  },
-  {
-    cat: 'support', complexity: 'Advanced', badge: 'AI-powered', time: '7h/wk',
-    title: 'Knowledge base gap detector',
-    benefit: 'Stop answering the same question twice.',
-    desc: 'Weekly: Claude AI analyses all tickets, identifies the top 10 questions your KB doesn\'t answer, drafts article outlines, and posts them to Notion for your team to review and publish.',
-    tools: ['n8n', 'Claude AI', 'Zendesk'],
-    n8n: null,
-  },
-  {
-    cat: 'support', complexity: 'Intermediate', badge: null, time: '4h/wk',
-    title: 'SLA breach notification + re-assignment',
-    benefit: 'Eliminate the tickets that fall through the cracks.',
-    desc: 'Monitors every open ticket against its SLA. 1 hour before breach: agent gets a Slack reminder. At breach: auto-escalated to supervisor with full thread, re-assigned, and client notified.',
-    tools: ['n8n', 'Zendesk', 'Slack'],
-    n8n: null,
-  },
-  {
-    cat: 'support', complexity: 'Starter', badge: null, time: '2h/wk',
-    title: 'Onboarding health check sequence',
-    benefit: 'Catch struggling new users before they become churned users.',
-    desc: 'Days 3, 7, 14, and 30 post-signup: checks usage data and sends either a milestone celebration or a help resource. Flags no-login users to CS for a proactive check-in call.',
-    tools: ['n8n', 'Intercom', 'Slack'],
-    n8n: null,
-  },
-  {
-    cat: 'support', complexity: 'Intermediate', badge: null, time: '3h/wk',
-    title: 'Refund request → decision workflow',
-    benefit: 'Handle refunds consistently, fast, and without emotion.',
-    desc: 'Refund request triggers review against your policy rules. Auto-approved cases are refunded instantly via Stripe. Edge cases go to a manager with one-click approve/reject in Slack.',
-    tools: ['n8n', 'Stripe', 'Slack'],
-    n8n: null,
-  },
+  // Support
+  { cat:'support', complexity:'Advanced',     badge:'AI-powered', time:'10h/wk', title:'AI ticket triage and routing',          benefit:'The right agent sees the right ticket first time, every time.', desc:'Claude AI classifies every inbound ticket by type, urgency, sentiment, and product area, routes it to the correct queue, sets the SLA timer, and drafts a suggested reply before a human touches it.', tools:['n8n','Claude AI','Zendesk'], n8n:null },
+  { cat:'support', complexity:'Intermediate', badge:'AI-powered', time:'4h/wk',  title:'CSAT survey to insight report',         benefit:'Know exactly why customers are unhappy before they churn.',     desc:'Post-close CSAT sent automatically. Responses cluster into themes using Claude AI, with verbatim quotes, trend vs last month, and recommended actions delivered to CS lead every Friday.',     tools:['n8n','Claude AI','Typeform'], n8n:null },
+  { cat:'support', complexity:'Advanced',     badge:null,         time:'∞ value', title:'Churn risk early warning',               benefit:'Save accounts 14 days before they cancel.',                    desc:'Monitors login frequency, support volume, NPS score, and billing history. At-risk accounts are flagged to the CS lead with a suggested intervention 14 days before typical churn patterns trigger.', tools:['n8n','HubSpot','Slack'],     n8n:null },
+  { cat:'support', complexity:'Starter',      badge:'Popular',    time:'5h/wk',  title:'AI first-response for common queries',  benefit:'Answer 60% of tickets instantly, 24/7, without adding headcount.', desc:'Claude AI reads the ticket, searches your help centre, and sends a complete answer for standard queries within 30 seconds. Escalates to humans only when confidence is below threshold.',  tools:['n8n','Claude AI','Intercom'], n8n:null },
+  { cat:'support', complexity:'Intermediate', badge:null,         time:'3h/wk',  title:'VIP client escalation radar',           benefit:'Your most valuable clients always get the white-glove treatment.', desc:'Tags inbound tickets from accounts above a revenue threshold and routes them to senior CS, skipping the queue. Account manager gets a Slack heads-up with full context.',                  tools:['n8n','Zendesk','Slack'],      n8n:null },
+  { cat:'support', complexity:'Starter',      badge:null,         time:'3h/wk',  title:'Ticket resolved to review request',     benefit:'Turn every solved problem into a public five-star review.',     desc:'24 hours after a ticket is marked resolved, a personalised review request goes out. Positive responses go to Google or Trustpilot. Negative ones go to CS for a recovery call.',            tools:['n8n','Zendesk','Gmail'],      n8n:null },
+  { cat:'support', complexity:'Intermediate', badge:null,         time:'4h/wk',  title:'SLA breach notification and re-assignment', benefit:'Eliminate the tickets that fall through the cracks.',       desc:'Monitors every open ticket against its SLA. One hour before breach: agent gets a Slack reminder. At breach: auto-escalated to supervisor with full thread, re-assigned, and client notified.',  tools:['n8n','Zendesk','Slack'],      n8n:null },
 
-  // ── MARKETING ────────────────────────────────────────────────────────────
-  {
-    cat: 'marketing', complexity: 'Intermediate', badge: 'AI-powered', time: '8h/wk',
-    title: 'Blog post → 10-format content engine',
-    benefit: 'One piece of content becomes a month of social presence.',
-    desc: 'Publish a blog post. Claude AI extracts 5 LinkedIn posts, 3 tweet threads, 1 newsletter section, and 1 short-form video script — all queued in Buffer for review and scheduling.',
-    tools: ['n8n', 'Claude AI', 'Buffer'],
-    n8n: null,
-  },
-  {
-    cat: 'marketing', complexity: 'Starter', badge: 'Popular', time: '3h/wk',
-    title: 'Review request sequence',
-    benefit: 'Double your Google review count in 90 days.',
-    desc: 'Project close triggers a personalised review request at the optimal moment. Positive reviews routed to Google/Trustpilot. Negative ones sent to CS for a recovery call before they go public.',
-    tools: ['n8n', 'Gmail', 'HubSpot'],
-    n8n: null,
-  },
-  {
-    cat: 'marketing', complexity: 'Advanced', badge: 'AI-powered', time: '5h/wk',
-    title: 'Competitor monitor + alert',
-    benefit: 'Know what your competitors are doing before your clients do.',
-    desc: 'Daily scrape of competitor pricing pages, job posts, and press mentions. Claude AI summarises what changed, flags strategic moves, and delivers a Slack brief every morning.',
-    tools: ['n8n', 'Claude AI', 'Slack'],
-    n8n: null,
-  },
-  {
-    cat: 'marketing', complexity: 'Starter', badge: null, time: '3h/wk',
-    title: 'Webinar registrant → nurture sequence',
-    benefit: 'Convert webinar sign-ups into paying clients, not just attendees.',
-    desc: 'Pre-webinar: 3 warm-up emails. Post-webinar: replay link, resource pack, and a 5-touch nurture sequence tailored to attendance and engagement data.',
-    tools: ['n8n', 'Mailchimp', 'Zoom'],
-    n8n: 'https://n8n.io/workflows/1178',
-  },
-  {
-    cat: 'marketing', complexity: 'Intermediate', badge: null, time: '4h/wk',
-    title: 'LinkedIn post performance tracker',
-    benefit: 'Stop posting blind — know what content actually drives business.',
-    desc: 'Pulls impressions, clicks, comments, and profile visits after every post. Compares to your baseline, flags top performers, and adds them to a "what works" Notion database.',
-    tools: ['n8n', 'LinkedIn API', 'Notion'],
-    n8n: null,
-  },
-  {
-    cat: 'marketing', complexity: 'Advanced', badge: 'AI-powered', time: '6h/wk',
-    title: 'SEO content brief generator',
-    benefit: 'Brief writers in minutes, not hours — and rank faster.',
-    desc: 'Target keyword input → Claude AI analyses top 10 SERP results, extracts gaps, suggests headings, word count, and related questions — producing a full brief ready for your writer.',
-    tools: ['n8n', 'Claude AI', 'Google Sheets'],
-    n8n: null,
-  },
-  {
-    cat: 'marketing', complexity: 'Starter', badge: null, time: '2h/wk',
-    title: 'Form lead → instant WhatsApp follow-up',
-    benefit: 'Contact leads in under 60 seconds — before competitors call.',
-    desc: 'New form submission triggers a personalised WhatsApp message to the prospect within 60 seconds. Response rates are 3–5× higher than email for the same lead.',
-    tools: ['n8n', 'WhatsApp API', 'HubSpot'],
-    n8n: null,
-  },
-  {
-    cat: 'marketing', complexity: 'Intermediate', badge: 'Popular', time: '4h/wk',
-    title: 'Email list health clean-up',
-    benefit: 'Stop paying to email people who will never open again.',
-    desc: 'Monthly: flags contacts who haven\'t opened in 90 days, sends a re-engagement sequence, suppresses non-responders from future sends, and updates your CRM engagement score.',
-    tools: ['n8n', 'Mailchimp', 'HubSpot'],
-    n8n: null,
-  },
-  {
-    cat: 'marketing', complexity: 'Advanced', badge: 'AI-powered', time: '7h/wk',
-    title: 'AI newsletter writer',
-    benefit: 'Send a high-quality newsletter every week without blocking your diary.',
-    desc: 'Every Monday: Claude AI pulls your top 5 RSS feeds, selects the 3 most relevant stories, writes commentary in your brand voice, formats the newsletter, and sends a draft to Mailchimp for final review.',
-    tools: ['n8n', 'Claude AI', 'Mailchimp'],
-    n8n: null,
-  },
-  {
-    cat: 'marketing', complexity: 'Starter', badge: null, time: '2h/wk',
-    title: 'Event sign-up → attendee pack',
-    benefit: 'Every attendee arrives prepared — which means better conversations for you.',
-    desc: 'New event registration triggers a personalised confirmation, pre-event resources, logistics reminder 24h before, and a post-event follow-up sequence — all without touching it manually.',
-    tools: ['n8n', 'Eventbrite', 'Mailchimp'],
-    n8n: 'https://n8n.io/workflows/1156',
-  },
-  {
-    cat: 'marketing', complexity: 'Intermediate', badge: null, time: '4h/wk',
-    title: 'Case study interview → content pipeline',
-    benefit: 'Turn one 30-minute client call into 4 months of social proof.',
-    desc: 'Interview transcribed, Claude AI extracts key stats and quotes, drafts the long-form case study, 3 social posts, and a 1-page PDF version — all ready for design review.',
-    tools: ['n8n', 'Claude AI', 'Notion'],
-    n8n: null,
-  },
+  // Marketing
+  { cat:'marketing', complexity:'Intermediate', badge:'AI-powered', time:'8h/wk',  title:'Blog post to 10-format content engine', benefit:'One piece of content becomes a month of social presence.',   desc:'Publish a blog post. Claude AI extracts 5 LinkedIn posts, 3 tweet threads, 1 newsletter section, and 1 short-form video script, all queued in Buffer for review and scheduling.',             tools:['n8n','Claude AI','Buffer'],      n8n:null },
+  { cat:'marketing', complexity:'Starter',      badge:'Popular',    time:'3h/wk',  title:'Review request sequence',               benefit:'Double your Google review count in 90 days.',                desc:'Project close triggers a personalised review request at the optimal moment. Positive reviews routed to Google or Trustpilot. Negative ones sent to CS for a recovery call before they go public.', tools:['n8n','Gmail','HubSpot'],        n8n:null },
+  { cat:'marketing', complexity:'Advanced',     badge:'AI-powered', time:'5h/wk',  title:'Competitor monitor and alert',          benefit:'Know what your competitors are doing before your clients do.', desc:'Daily scrape of competitor pricing pages, job posts, and press mentions. Claude AI summarises what changed, flags strategic moves, and delivers a Slack brief every morning.',               tools:['n8n','Claude AI','Slack'],       n8n:null },
+  { cat:'marketing', complexity:'Starter',      badge:null,         time:'3h/wk',  title:'Webinar registrant to nurture sequence', benefit:'Convert webinar sign-ups into paying clients, not just attendees.', desc:'Pre-webinar: 3 warm-up emails. Post-webinar: replay link, resource pack, and a 5-touch nurture sequence tailored to attendance and engagement data.',                                tools:['n8n','Mailchimp','Zoom'],        n8n:'https://n8n.io/workflows/1178' },
+  { cat:'marketing', complexity:'Advanced',     badge:'AI-powered', time:'6h/wk',  title:'SEO content brief generator',           benefit:'Brief writers in minutes, not hours, and rank faster.',       desc:'Target keyword input. Claude AI analyses top 10 SERP results, extracts gaps, suggests headings, word count, and related questions, producing a full brief ready for your writer.',           tools:['n8n','Claude AI','Google Sheets'], n8n:null },
+  { cat:'marketing', complexity:'Starter',      badge:null,         time:'2h/wk',  title:'Form lead to instant WhatsApp',         benefit:'Contact leads in under 60 seconds before competitors call.',  desc:'New form submission triggers a personalised WhatsApp message to the prospect within 60 seconds. Response rates are 3-5x higher than email for the same lead.',                               tools:['n8n','WhatsApp API','HubSpot'],  n8n:null },
+  { cat:'marketing', complexity:'Intermediate', badge:'Popular',    time:'4h/wk',  title:'Email list health clean-up',            benefit:'Stop paying to email people who will never open again.',      desc:'Monthly: flags contacts who have not opened in 90 days, sends a re-engagement sequence, suppresses non-responders from future sends, and updates your CRM engagement score.',                 tools:['n8n','Mailchimp','HubSpot'],     n8n:null },
+  { cat:'marketing', complexity:'Advanced',     badge:'AI-powered', time:'7h/wk',  title:'AI newsletter writer',                  benefit:'Send a high-quality newsletter every week without blocking your diary.', desc:'Every Monday: Claude AI pulls your top 5 RSS feeds, selects the 3 most relevant stories, writes commentary in your brand voice, formats the newsletter, and drops it in Mailchimp for review.', tools:['n8n','Claude AI','Mailchimp'], n8n:null },
 
-  // ── REPORTING & BI ───────────────────────────────────────────────────────
-  {
-    cat: 'reporting', complexity: 'Intermediate', badge: 'Popular', time: '4h/wk',
-    title: 'Weekly KPI digest',
-    benefit: 'Leadership has the full picture before Monday\'s first meeting.',
-    desc: 'Every Monday at 7 AM: pulls data from CRM, finance, and ops, formats it as a board-ready PDF with RAG status on each metric, and emails it to leadership. No manual compilation.',
-    tools: ['n8n', 'Google Sheets', 'Gmail'],
-    n8n: null,
-  },
-  {
-    cat: 'reporting', complexity: 'Advanced', badge: null, time: '6h/wk',
-    title: 'Real-time dashboard sync',
-    benefit: 'One source of truth — no more "which version is correct?"',
-    desc: 'Pushes live data from CRM, finance, support, and marketing tools into a single Looker Studio dashboard. Refreshes every 15 minutes. Everyone is always looking at the same numbers.',
-    tools: ['n8n', 'Looker Studio', 'Sheets'],
-    n8n: null,
-  },
-  {
-    cat: 'reporting', complexity: 'Intermediate', badge: null, time: '3h/wk',
-    title: 'Monthly executive summary',
-    benefit: 'A crisp narrative around your numbers — written for you.',
-    desc: 'Claude AI reads your KPI data, identifies the 3 wins, 2 concerns, and top priority for next month, then writes the executive summary in your reporting template. Ready to send in 5 minutes.',
-    tools: ['n8n', 'Claude AI', 'Google Sheets'],
-    n8n: null,
-  },
-  {
-    cat: 'reporting', complexity: 'Starter', badge: null, time: '2h/wk',
-    title: 'Sales pipeline health report',
-    benefit: 'Know where deals will close before month end — not after.',
-    desc: 'Every Wednesday: pulls pipeline by stage, calculates weighted forecast, flags stalled deals over 14 days, and sends a 1-page summary to the sales director with recommended actions.',
-    tools: ['n8n', 'HubSpot', 'Slack'],
-    n8n: null,
-  },
-  {
-    cat: 'reporting', complexity: 'Advanced', badge: 'AI-powered', time: '5h/wk',
-    title: 'Anomaly detection + root cause alert',
-    benefit: 'Spot the metric that\'s going wrong — 48 hours before it\'s a crisis.',
-    desc: 'Claude AI monitors your key metrics daily, detects statistical anomalies, cross-references against possible causes (seasonal, campaign, team), and sends a diagnostic Slack alert with hypotheses.',
-    tools: ['n8n', 'Claude AI', 'Google Sheets'],
-    n8n: null,
-  },
-  {
-    cat: 'reporting', complexity: 'Intermediate', badge: null, time: '3h/wk',
-    title: 'Investor / board pack assembler',
-    benefit: 'Never spend a weekend building a deck again.',
-    desc: 'Pulls MRR, ARR, churn, CAC, and LTV from your sources, updates slide templates in Google Slides, and emails the completed pack to your distribution list — one week before the board meeting.',
-    tools: ['n8n', 'Google Slides', 'Xero'],
-    n8n: null,
-  },
-  {
-    cat: 'reporting', complexity: 'Starter', badge: null, time: '2h/wk',
-    title: 'Team performance scorecard',
-    benefit: 'Everyone knows their number — and so does their manager.',
-    desc: 'Weekly: pulls individual output metrics per team member from your tools, builds a per-person scorecard, highlights top performers, and flags anyone trending below target for a 1-1.',
-    tools: ['n8n', 'Google Sheets', 'Slack'],
-    n8n: null,
-  },
+  // Reporting
+  { cat:'reporting', complexity:'Intermediate', badge:'Popular',    time:'4h/wk',  title:'Weekly KPI digest',                    benefit:'Leadership has the full picture before Monday\'s first meeting.', desc:'Every Monday at 7 AM: pulls data from CRM, finance, and ops, formats it as a board-ready PDF with RAG status on each metric, and emails it to leadership. No manual compilation.',       tools:['n8n','Google Sheets','Gmail'],  n8n:null },
+  { cat:'reporting', complexity:'Advanced',     badge:null,         time:'6h/wk',  title:'Real-time dashboard sync',             benefit:'One source of truth. No more which version is correct.',      desc:'Pushes live data from CRM, finance, support, and marketing tools into a single Looker Studio dashboard. Refreshes every 15 minutes so everyone is always looking at the same numbers.',    tools:['n8n','Looker Studio','Sheets'], n8n:null },
+  { cat:'reporting', complexity:'Intermediate', badge:null,         time:'3h/wk',  title:'Monthly executive summary',            benefit:'A crisp narrative around your numbers, written for you.',     desc:'Claude AI reads your KPI data, identifies the 3 wins, 2 concerns, and top priority for next month, then writes the executive summary in your reporting template. Ready to send in 5 minutes.', tools:['n8n','Claude AI','Google Sheets'], n8n:null },
+  { cat:'reporting', complexity:'Advanced',     badge:'AI-powered', time:'5h/wk',  title:'Anomaly detection and root cause alert', benefit:'Spot the metric going wrong 48 hours before it\'s a crisis.', desc:'Claude AI monitors your key metrics daily, detects statistical anomalies, cross-references against possible causes (seasonal, campaign, team), and sends a diagnostic Slack alert with hypotheses.', tools:['n8n','Claude AI','Google Sheets'], n8n:null },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INDUSTRY-BASED WORKFLOWS
+// ─────────────────────────────────────────────────────────────────────────────
+const industryWorkflows = [
+  // Dental
+  { industry:'dental', complexity:'Starter',      badge:'Popular',    time:'6h/wk',  title:'Appointment reminder and no-show reduction',    benefit:'Cut no-shows by up to 40% from day one.',         desc:'Sends SMS and email reminders at 72h, 24h, and 2h before each appointment. If the patient cancels, the workflow immediately offers the slot to the next person on the waitlist.', tools:['n8n','Calendly','SMS API'] },
+  { industry:'dental', complexity:'Starter',      badge:null,         time:'3h/wk',  title:'New patient intake automation',                  benefit:'Patients arrive ready. No more clipboards at reception.', desc:'New booking triggers a digital intake form, consent forms, and insurance check. All responses flow into your practice management system before the patient walks in.', tools:['n8n','Dentally','Gmail'] },
+  { industry:'dental', complexity:'Intermediate', badge:'Popular',    time:'4h/wk',  title:'Treatment plan follow-up sequence',             benefit:'Convert 30% more consultations into booked treatments.', desc:'After a consultation, the patient receives educational content about their treatment, a finance options breakdown, and a booking nudge at the optimal moment based on treatment type.', tools:['n8n','HubSpot','Gmail'] },
+  { industry:'dental', complexity:'Starter',      badge:null,         time:'4h/wk',  title:'Post-treatment review request',                 benefit:'Double your Google reviews in 60 days.',          desc:'48 hours after a completed treatment, the patient gets a personalised message asking for a review. Happy patients are routed to Google. Unhappy ones are routed to the practice manager.', tools:['n8n','Gmail','HubSpot'] },
+  { industry:'dental', complexity:'Intermediate', badge:'AI-powered', time:'5h/wk',  title:'AI patient reactivation campaign',               benefit:'Bring back patients who have not been seen in 12+ months.', desc:'Claude AI segments inactive patients by treatment history, drafts personalised re-engagement messages mentioning their last visit context, and sends them in batches with hygienist availability.', tools:['n8n','Claude AI','Mailchimp'] },
+  { industry:'dental', complexity:'Advanced',     badge:null,         time:'8h/wk',  title:'Recall and hygiene schedule manager',            benefit:'Keep your hygiene diary full 6 months ahead without a phone call.', desc:'Tracks every patient\'s recall date. 3 months before: sends a booking invitation. 6 weeks before: follows up if not booked. 2 weeks before: final reminder with a one-click link.', tools:['n8n','Dentally','SMS API'] },
+
+  // Real Estate
+  { industry:'realestate', complexity:'Starter',      badge:'Popular',    time:'5h/wk',  title:'New lead to instant agent assignment',          benefit:'Respond to every enquiry in under 2 minutes.',    desc:'New portal lead arrives and is instantly scored, matched to the right agent based on area and property type, and the agent gets a Slack notification with the lead\'s full brief in under 90 seconds.', tools:['n8n','HubSpot','Slack'] },
+  { industry:'realestate', complexity:'Starter',      badge:null,         time:'3h/wk',  title:'Property viewing scheduler and reminder',       benefit:'Confirm more viewings with zero back-and-forth.',  desc:'Lead requests a viewing and gets a booking link. Confirmation sent. Agent notified. 24h reminder sent to both. No-show triggers an automatic re-booking offer within 30 minutes.', tools:['n8n','Calendly','Gmail'] },
+  { industry:'realestate', complexity:'Intermediate', badge:'AI-powered', time:'6h/wk',  title:'AI property match and alert',                  benefit:'Send buyers the right property before they find it on Rightmove.', desc:'Claude AI matches new listings against every active buyer profile and sends a personalised alert with a tailored pitch written in the agent\'s voice. Buyers see you as the expert, not the portal.', tools:['n8n','Claude AI','HubSpot'] },
+  { industry:'realestate', complexity:'Starter',      badge:'Popular',    time:'4h/wk',  title:'Offer to completion milestone tracker',         benefit:'Every party knows what is happening at every stage.',  desc:'Accepted offer triggers a complete transaction workflow: solicitor introductions, survey scheduling, mortgage deadline alerts, and automatic updates to buyer, seller, and agent throughout.', tools:['n8n','Gmail','Google Sheets'] },
+  { industry:'realestate', complexity:'Intermediate', badge:null,         time:'4h/wk',  title:'Landlord rental management automation',         benefit:'Manage 50 properties with the admin of 5.',        desc:'Handles rent reminders, maintenance request routing, tenancy renewal notices, and deposit return checklists. All logged and all compliant without your team touching a spreadsheet.', tools:['n8n','Xero','Gmail'] },
+  { industry:'realestate', complexity:'Intermediate', badge:null,         time:'5h/wk',  title:'Valuation to listing pipeline',                 benefit:'Go from valuation to live listing in half the time.', desc:'Valuation completed triggers photo booking, EPC scheduling, floor plan order, description draft by Claude AI, and portal upload checklist. Nothing falls through the cracks.', tools:['n8n','Claude AI','Reapit'] },
+
+  // Hotel
+  { industry:'hotel', complexity:'Starter',      badge:'Popular',    time:'5h/wk',  title:'Booking confirmation and pre-arrival sequence', benefit:'Guests arrive excited, not anxious.',             desc:'Booking confirmed triggers a welcome email, a 7-day pre-arrival message with local tips, a 24h reminder with check-in instructions, and a upsell offer for room upgrades or spa bookings.', tools:['n8n','Mailchimp','Mews'] },
+  { industry:'hotel', complexity:'Starter',      badge:null,         time:'3h/wk',  title:'In-stay upsell automation',                    benefit:'Increase ancillary revenue by 15-25% per stay.',   desc:'At check-in, guests receive tailored offers based on stay duration and profile: restaurant reservation, late checkout, spa treatment, or local experiences. Sent at the moments most likely to convert.', tools:['n8n','Gmail','Stripe'] },
+  { industry:'hotel', complexity:'Starter',      badge:'Popular',    time:'4h/wk',  title:'Post-checkout review and NPS',                 benefit:'More 5-star reviews on TripAdvisor and Google, consistently.', desc:'1 hour after checkout, a personalised thank-you message goes out with a review request. Guests rating 9-10 are routed to TripAdvisor. Guests rating below 7 are routed to the GM for immediate follow-up.', tools:['n8n','Gmail','HubSpot'] },
+  { industry:'hotel', complexity:'Intermediate', badge:null,         time:'6h/wk',  title:'Housekeeping and maintenance scheduler',       benefit:'No room is ever left unready or unrepaired.',      desc:'Checkout triggers an automatic room cleaning task. Reported maintenance issues create a job for the right team with priority flag, and the front desk is notified when each room is ready.', tools:['n8n','Slack','Google Sheets'] },
+  { industry:'hotel', complexity:'Intermediate', badge:'AI-powered', time:'5h/wk',  title:'Revenue management alert',                     benefit:'Stop leaving rooms unsold at full price when demand drops.', desc:'Daily: Claude AI monitors occupancy forecasts, competitor rates, and event calendar. If occupancy is tracking below target, a discount offer goes out to your email list and OTAs are updated automatically.', tools:['n8n','Claude AI','Mailchimp'] },
+  { industry:'hotel', complexity:'Advanced',     badge:null,         time:'8h/wk',  title:'Group booking and event coordination',         benefit:'Manage complex group bookings without a dedicated coordinator.', desc:'Group enquiry triggers a proposal workflow: availability check, tailored quote generation, contract send, deposit invoice, rooming list collection, and event day briefing. All tracked in one place.', tools:['n8n','DocuSign','Xero'] },
+
+  // Call Centre
+  { industry:'callcenter', complexity:'Advanced',     badge:'AI-powered', time:'12h/wk', title:'AI call routing and intent detection',          benefit:'Route every call to the right agent in under 10 seconds.', desc:'Inbound call transcript analysed by Claude AI in real-time. Intent classified, urgency scored, and call routed to the specialist most likely to resolve it on first contact. CSAT rises, AHT drops.', tools:['n8n','Claude AI','Twilio'] },
+  { industry:'callcenter', complexity:'Intermediate', badge:'AI-powered', time:'8h/wk',  title:'AI agent assist and script delivery',           benefit:'Your agents always know the right answer, every time.',   desc:'Live call context feeds Claude AI in the background. Relevant scripts, product details, compliance disclaimers, and objection responses surface on the agent\'s screen before they need them.', tools:['n8n','Claude AI','Zendesk'] },
+  { industry:'callcenter', complexity:'Intermediate', badge:null,         time:'6h/wk',  title:'QA call scoring automation',                   benefit:'Review 100% of calls instead of 2%. Find issues before they escalate.', desc:'Every call transcript is scored against your QA framework by Claude AI: compliance check, tone analysis, resolution quality, and upsell attempt. Coaches get a daily digest of the lowest-scoring calls.', tools:['n8n','Claude AI','Google Sheets'] },
+  { industry:'callcenter', complexity:'Starter',      badge:'Popular',    time:'4h/wk',  title:'Missed call to automatic callback queue',       benefit:'Never lose a lead because the phone rang out.',           desc:'Missed inbound call triggers an immediate SMS to the caller with an estimated callback time. Adds them to the callback queue. Agent gets a pop-up with caller history before dialling. 85% pick-up rate vs 40% cold call.', tools:['n8n','Twilio','HubSpot'] },
+  { industry:'callcenter', complexity:'Advanced',     badge:'AI-powered', time:'10h/wk', title:'Post-call summary and CRM update',               benefit:'Eliminate 20 minutes of after-call work per agent per shift.', desc:'Call ends. Claude AI generates a structured summary: key points, next actions, sentiment score, and compliance flags. CRM updated, ticket created, and follow-up task assigned. Agent moves to the next call.', tools:['n8n','Claude AI','Salesforce'] },
+  { industry:'callcenter', complexity:'Intermediate', badge:null,         time:'5h/wk',  title:'Agent performance dashboard',                   benefit:'Managers spend time coaching, not compiling spreadsheets.', desc:'Daily pull of calls handled, AHT, first-call resolution, CSAT, and adherence. Auto-updates the agent performance dashboard with weekly trends and flags anyone tracking outside normal range.', tools:['n8n','Google Sheets','Slack'] },
+
+  // Agency
+  { industry:'agency', complexity:'Intermediate', badge:'Popular',    time:'6h/wk',  title:'Client monthly report generator',              benefit:'Impress every client with a polished report, on time, every month.', desc:'Pulls ad performance, SEO rankings, and project delivery data from your tools. Claude AI writes the executive commentary in your agency\'s voice. Report sent to the client on the 1st, every month.', tools:['n8n','Claude AI','Google Sheets'] },
+  { industry:'agency', complexity:'Starter',      badge:null,         time:'4h/wk',  title:'New brief intake and scoping workflow',         benefit:'Turn a discovery call into a signed brief in under 24 hours.', desc:'Client fills an intake form after the discovery call. Workflow creates the project in your PM tool, generates a draft scope with Claude AI based on the inputs, and sends it to the account manager for review.', tools:['n8n','Claude AI','Notion'] },
+  { industry:'agency', complexity:'Intermediate', badge:'AI-powered', time:'8h/wk',  title:'Content approval pipeline',                    benefit:'Stop chasing clients for feedback on a Friday afternoon.', desc:'Draft created. Client gets a review link with a comment interface. Approved or revision requested with one click. Revisions tracked. Final approved version sent to the delivery team. All in one flow.', tools:['n8n','Claude AI','Slack'] },
+  { industry:'agency', complexity:'Starter',      badge:'Popular',    time:'3h/wk',  title:'Timesheet to invoice automation',               benefit:'Bill every hour you work, not just the hours you remember.', desc:'Team timesheets submitted weekly. Workflow validates against project budgets, flags overages, generates client invoices in Xero, and sends them on the agreed billing date with a payment link.', tools:['n8n','Xero','Slack'] },
+  { industry:'agency', complexity:'Advanced',     badge:'AI-powered', time:'10h/wk', title:'Client health score and churn alert',           benefit:'Save struggling client relationships before they become cancellations.', desc:'Weekly scoring across: NPS, invoice payment speed, communication responsiveness, and deliverable feedback tone. Claude AI flags at-risk clients to the account director with a suggested action.', tools:['n8n','Claude AI','HubSpot'] },
+  { industry:'agency', complexity:'Intermediate', badge:null,         time:'5h/wk',  title:'Pitch and proposal tracker',                    benefit:'Never let a warm prospect go cold because you forgot to follow up.', desc:'New pitch logged triggers a structured follow-up cadence with reminders to the account lead. Win or lose, the outcome is recorded. Losses feed back into the content strategy for next quarter.', tools:['n8n','HubSpot','Slack'] },
+
+  // E-commerce
+  { industry:'ecommerce', complexity:'Starter',      badge:'Popular',    time:'8h/wk',  title:'Abandoned cart recovery sequence',             benefit:'Recover 10-15% of abandoned baskets automatically.',      desc:'Cart abandoned triggers a 3-message sequence: reminder at 1h, social proof email at 24h, and a small incentive at 72h. Sequence stops the moment the order is placed.', tools:['n8n','Klaviyo','Shopify'] },
+  { industry:'ecommerce', complexity:'Starter',      badge:'Popular',    time:'5h/wk',  title:'Post-purchase review and upsell flow',         benefit:'Turn buyers into repeat customers and brand advocates.',   desc:'Order delivered triggers a thank-you with care instructions, a review request at day 5, and a personalised cross-sell recommendation at day 14 based on purchase history.', tools:['n8n','Klaviyo','Shopify'] },
+  { industry:'ecommerce', complexity:'Intermediate', badge:null,         time:'6h/wk',  title:'Inventory alert and reorder workflow',          benefit:'Avoid stockouts on your bestsellers. Permanently.',        desc:'Daily stock check against 30-day velocity. SKUs tracking toward zero get a reorder alert to the buyer with suggested order quantity. Low-stock badge updated on the product page automatically.', tools:['n8n','Shopify','Slack'] },
+  { industry:'ecommerce', complexity:'Intermediate', badge:'AI-powered', time:'7h/wk',  title:'AI product description writer',                benefit:'Launch new products in hours, not days.',                  desc:'New product created in Shopify. Claude AI reads the product specs, target audience, and brand guidelines, writes SEO-optimised title and description, and publishes directly. Consistent quality at scale.', tools:['n8n','Claude AI','Shopify'] },
+  { industry:'ecommerce', complexity:'Advanced',     badge:null,         time:'10h/wk', title:'Returns and refund automation',                benefit:'Handle returns in minutes, not days. Reduce customer frustration.', desc:'Refund request received. Policy check automated. Pre-paid return label generated and sent. Refund queued in Stripe on delivery confirmation. Customer kept informed at every step.', tools:['n8n','Shopify','Stripe'] },
+  { industry:'ecommerce', complexity:'Intermediate', badge:'Popular',    time:'5h/wk',  title:'VIP customer recognition programme',           benefit:'Your best customers feel known, not just served.',         desc:'Orders above a lifetime value threshold automatically upgrade the customer to VIP status: personalised welcome from the founder, early access to launches, priority support routing, and exclusive discount codes.', tools:['n8n','Klaviyo','Shopify'] },
 ];
 
 const complexityColor: Record<string, string> = {
@@ -563,134 +149,205 @@ const complexityText: Record<string, string> = {
   'Intermediate': '#C89840',
   'Advanced':     '#7B68EE',
 };
-const totalCount = workflows.length;
 ---
 
 <ShopLayout
-  title="Workflow Library — 65+ Automation Templates | PURIST"
-  description="65+ production-ready n8n automation workflows by category. Each template includes the business benefit, tool stack, and time saved per week."
+  title="Workflow Library — 100+ Automation Templates | PURIST"
+  description="100+ production-ready n8n automation workflows organised by function and industry: dental, real estate, hotels, call centres, agencies, e-commerce."
 >
 
   <!-- Hero -->
-  <section class="bg-brand-black text-white pt-20 pb-16 lg:pt-28 lg:pb-20 relative overflow-hidden">
+  <section class="bg-brand-black text-white pt-20 pb-14 lg:pt-28 lg:pb-18 relative overflow-hidden">
     <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(232,180,176,0.07) 0%,transparent 60%);"></div>
     <div class="container-x relative z-10">
       <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-4" style="color:rgba(232,180,176,0.55);">Workflow Library</p>
-      <div class="max-w-3xl mb-8">
+      <div class="max-w-3xl mb-10">
         <h1 class="font-display text-[2.2rem] lg:text-[3rem] leading-[1.06] tracking-[-0.025em] text-white mb-4 text-balance">
-          {totalCount} production-ready workflows.<br/>
+          100+ production-ready workflows.<br/>
           <em class="font-medium" style="color:#E8B4B0;">Each one built around a real business outcome.</em>
         </h1>
         <p class="text-[15px] leading-relaxed max-w-2xl" style="color:rgba(255,255,255,0.45);">
-          Every template is battle-tested across 500+ deployments. Filter by category or complexity. PURIST deploys any of these for you — customised to your exact stack — in days.
+          Browse by function or by industry. Every template is battle-tested across 500+ deployments. PURIST deploys any of these for you, customised to your exact stack, in days.
         </p>
       </div>
 
-      <!-- Category filters -->
-      <div class="flex flex-wrap gap-2" id="cat-filters">
-        <button class="cat-btn active text-[11px] font-semibold px-3.5 py-1.5 rounded-full transition-all duration-150" data-cat="all"
-          style="background:#E8B4B0;color:#0A0A0A;">All ({totalCount})</button>
-        {categories.map((c) => (
-          <button class="cat-btn text-[11px] font-semibold px-3.5 py-1.5 rounded-full transition-all duration-150" data-cat={c.id}
+      <!-- View toggle -->
+      <div class="flex items-center gap-1 p-1 rounded-full w-fit" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.10);">
+        <button id="tab-function" class="view-tab px-5 py-2 rounded-full text-[12px] font-semibold transition-all" style="background:#E8B4B0;color:#0A0A0A;">By Function</button>
+        <button id="tab-industry" class="view-tab px-5 py-2 rounded-full text-[12px] font-semibold transition-all" style="background:transparent;color:rgba(255,255,255,0.55);">By Industry</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       FUNCTION VIEW
+  ═══════════════════════════════════════════════════════════ -->
+  <div id="view-function">
+
+    <!-- Sticky filter bar -->
+    <div class="sticky top-16 z-20 bg-brand-black border-b" style="border-color:rgba(255,255,255,0.07);">
+      <div class="container-x py-3 flex flex-wrap gap-2" id="func-filters">
+        <button class="func-btn active text-[11px] font-semibold px-3.5 py-1.5 rounded-full transition-all" data-cat="all"
+          style="background:#E8B4B0;color:#0A0A0A;">All</button>
+        {funcCategories.map(c => (
+          <button class="func-btn text-[11px] font-semibold px-3.5 py-1.5 rounded-full transition-all" data-cat={c.id}
             style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.55);border:1px solid rgba(255,255,255,0.09);"
-            aria-label={`Filter by ${c.label}`}>
-            {c.label} <span style="opacity:0.5;">({c.count})</span>
-          </button>
+            aria-label={`Filter by ${c.label}`}>{c.label}</button>
         ))}
       </div>
     </div>
-  </section>
 
-  <!-- Category summary strip -->
-  <section class="bg-white border-b border-brand-gray-100 py-8">
-    <div class="container-x">
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        {categories.map((c) => (
-          <button class="cat-card text-left p-4 rounded-[14px] border border-brand-gray-100 hover:border-brand-gray-200 hover:bg-brand-cream transition cursor-pointer" data-cat={c.id} aria-label={`Show ${c.label} workflows`}>
+    <!-- Category cards -->
+    <section class="bg-white border-b border-brand-gray-100 py-8">
+      <div class="container-x grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        {funcCategories.map(c => (
+          <button class="func-card text-left p-4 rounded-[14px] border border-brand-gray-100 hover:border-brand-gray-200 hover:bg-brand-cream transition cursor-pointer" data-cat={c.id} aria-label={`Show ${c.label} workflows`}>
             <div class="w-8 h-8 rounded-[10px] flex items-center justify-center mb-3" style={`background:${c.color}18;`}>
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke={c.color} stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d={c.icon}/>
-              </svg>
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke={c.color} stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={c.icon}/></svg>
             </div>
-            <p class="text-[12px] font-semibold text-brand-black leading-snug mb-1">{c.label}</p>
-            <p class="text-[10px] text-brand-gray-500">{c.count} workflows</p>
+            <p class="text-[12px] font-semibold text-brand-black leading-snug">{c.label}</p>
+          </button>
+        ))}
+      </div>
+    </section>
+
+    <!-- Workflow grid -->
+    <section class="bg-brand-beige py-16 lg:py-20">
+      <div class="container-x">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="func-grid">
+          {funcWorkflows.map(w => (
+            <article class="func-workflow-card bg-white rounded-card p-6 flex flex-col border border-brand-gray-100 hover:border-brand-gray-200 hover:shadow-sm transition" data-cat={w.cat}>
+              <div class="flex items-center justify-between gap-3 mb-3">
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style={`background:${complexityColor[w.complexity]};color:${complexityText[w.complexity]};`}>{w.complexity}</span>
+                <div class="flex items-center gap-2">
+                  {w.n8n && (
+                    <a href={w.n8n} target="_blank" rel="noopener noreferrer"
+                      class="text-[9px] font-semibold px-2 py-0.5 rounded-full border transition-all"
+                      style="background:rgba(232,180,176,0.10);color:#c4847e;border-color:rgba(232,180,176,0.20);"
+                      onmouseover="this.style.background='rgba(232,180,176,0.22)'"
+                      onmouseout="this.style.background='rgba(232,180,176,0.10)'"
+                      aria-label={`View template on n8n.io`}>n8n template ↗</a>
+                  )}
+                  {w.badge && (
+                    <span class="text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full"
+                      style={w.badge === 'AI-powered' ? 'background:rgba(123,104,238,0.10);color:#7B68EE;' : 'background:rgba(232,180,176,0.15);color:#c4847e;'}>
+                      {w.badge}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <h3 class="font-display text-[15px] leading-snug text-brand-black mb-2">{w.title}</h3>
+              <p class="text-[12px] font-semibold mb-3 leading-snug" style="color:#E8875A;">{w.benefit}</p>
+              <p class="text-[12.5px] text-brand-gray-600 leading-relaxed flex-1 mb-4">{w.desc}</p>
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                {w.tools.map(t => (
+                  <span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-brand-gray-50 border border-brand-gray-200 text-brand-gray-600">{t}</span>
+                ))}
+              </div>
+              <div class="flex items-center justify-between pt-4 border-t border-brand-gray-100">
+                <span class="text-[11px] font-semibold text-brand-black">{w.time} saved</span>
+                <a href="/pages/welcome" class="text-[11px] font-semibold transition-all" style="color:#E8B4B0;"
+                  onmouseover="this.style.color='#c4847e'" onmouseout="this.style.color='#E8B4B0'">Deploy this ↗</a>
+              </div>
+            </article>
+          ))}
+        </div>
+        <div id="func-empty" class="hidden text-center py-16">
+          <p class="text-brand-gray-500 text-sm">No workflows match this filter.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       INDUSTRY VIEW
+  ═══════════════════════════════════════════════════════════ -->
+  <div id="view-industry" class="hidden">
+
+    <!-- Industry picker -->
+    <div class="sticky top-16 z-20 bg-brand-black border-b" style="border-color:rgba(255,255,255,0.07);">
+      <div class="container-x py-3 flex flex-wrap gap-2" id="ind-filters">
+        <button class="ind-btn active text-[11px] font-semibold px-3.5 py-1.5 rounded-full transition-all" data-ind="all"
+          style="background:#E8B4B0;color:#0A0A0A;">All industries</button>
+        {industries.map(i => (
+          <button class="ind-btn text-[11px] font-semibold px-3.5 py-1.5 rounded-full transition-all" data-ind={i.id}
+            style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.55);border:1px solid rgba(255,255,255,0.09);"
+            aria-label={`Show ${i.label} workflows`}>
+            {i.emoji} {i.label}
           </button>
         ))}
       </div>
     </div>
-  </section>
 
-  <!-- Workflow grid -->
-  <section class="bg-brand-beige py-16 lg:py-20">
-    <div class="container-x">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="workflow-grid">
-        {workflows.map((w) => (
-          <article class="workflow-card bg-white rounded-card p-6 flex flex-col border border-brand-gray-100 hover:border-brand-gray-200 hover:shadow-sm transition" data-cat={w.cat}>
+    <!-- Industry hero cards -->
+    <section class="bg-white border-b border-brand-gray-100 py-8">
+      <div class="container-x grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        {industries.map(i => (
+          <button class="ind-card text-left p-4 rounded-[14px] border border-brand-gray-100 hover:border-brand-gray-200 hover:bg-brand-cream transition cursor-pointer" data-ind={i.id} aria-label={`Show ${i.label} workflows`}>
+            <div class="text-2xl mb-2">{i.emoji}</div>
+            <p class="text-[12px] font-semibold text-brand-black leading-snug mb-1">{i.label}</p>
+            <p class="text-[10px] text-brand-gray-500 leading-snug">{i.desc}</p>
+          </button>
+        ))}
+      </div>
+    </section>
 
-            <!-- Badge row -->
-            <div class="flex items-center justify-between gap-3 mb-3">
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full"
-                style={`background:${complexityColor[w.complexity]};color:${complexityText[w.complexity]};`}>
-                {w.complexity}
-              </span>
-              <div class="flex items-center gap-2">
-                {w.n8n && (
-                  <a href={w.n8n} target="_blank" rel="noopener noreferrer"
-                    class="text-[9px] font-semibold px-2 py-0.5 rounded-full transition-all"
-                    style="background:rgba(232,180,176,0.12);color:#c4847e;border:1px solid rgba(232,180,176,0.20);"
-                    onmouseover="this.style.background='rgba(232,180,176,0.22)'"
-                    onmouseout="this.style.background='rgba(232,180,176,0.12)'"
-                    aria-label={`View ${w.title} template on n8n.io`}>
-                    n8n template ↗
-                  </a>
-                )}
-                {w.badge && (
-                  <span class="text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full"
-                    style={w.badge === 'AI-powered'
-                      ? 'background:rgba(123,104,238,0.10);color:#7B68EE;'
-                      : 'background:rgba(232,180,176,0.15);color:#c4847e;'}
-                  >{w.badge}</span>
-                )}
+    <!-- Industry workflow sections -->
+    <section class="bg-brand-beige py-16 lg:py-20">
+      <div class="container-x space-y-16" id="ind-sections">
+
+        {industries.map(ind => {
+          const iw = industryWorkflows.filter(w => w.industry === ind.id);
+          return (
+            <div class="ind-section" data-ind={ind.id}>
+              <!-- Section header -->
+              <div class="flex items-center gap-4 mb-8">
+                <div class="text-4xl">{ind.emoji}</div>
+                <div>
+                  <h2 class="font-display text-[1.6rem] leading-snug text-brand-black">{ind.label} Automation</h2>
+                  <p class="text-[13px] text-brand-gray-500 mt-0.5">{ind.desc}</p>
+                </div>
+              </div>
+              <!-- Cards -->
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {iw.map(w => (
+                  <article class="bg-white rounded-card p-6 flex flex-col border border-brand-gray-100 hover:border-brand-gray-200 hover:shadow-sm transition">
+                    <div class="flex items-center justify-between gap-3 mb-3">
+                      <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style={`background:${complexityColor[w.complexity]};color:${complexityText[w.complexity]};`}>{w.complexity}</span>
+                      <div class="flex items-center gap-2">
+                        {w.badge && (
+                          <span class="text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full"
+                            style={w.badge === 'AI-powered' ? 'background:rgba(123,104,238,0.10);color:#7B68EE;' : 'background:rgba(232,180,176,0.15);color:#c4847e;'}>
+                            {w.badge}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <h3 class="font-display text-[15px] leading-snug text-brand-black mb-2">{w.title}</h3>
+                    <p class="text-[12px] font-semibold mb-3 leading-snug" style="color:#E8875A;">{w.benefit}</p>
+                    <p class="text-[12.5px] text-brand-gray-600 leading-relaxed flex-1 mb-4">{w.desc}</p>
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                      {w.tools.map(t => (
+                        <span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-brand-gray-50 border border-brand-gray-200 text-brand-gray-600">{t}</span>
+                      ))}
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-brand-gray-100">
+                      <span class="text-[11px] font-semibold text-brand-black">{w.time} saved</span>
+                      <a href="/pages/welcome" class="text-[11px] font-semibold transition-all" style="color:#E8B4B0;"
+                        onmouseover="this.style.color='#c4847e'" onmouseout="this.style.color='#E8B4B0'">Deploy this ↗</a>
+                    </div>
+                  </article>
+                ))}
               </div>
             </div>
+          );
+        })}
 
-            <!-- Title -->
-            <h3 class="font-display text-[15px] leading-snug text-brand-black mb-2">{w.title}</h3>
-
-            <!-- Benefit callout -->
-            <p class="text-[12px] font-semibold mb-3 leading-snug" style="color:#E8875A;">{w.benefit}</p>
-
-            <!-- Description -->
-            <p class="text-[12.5px] text-brand-gray-600 leading-relaxed flex-1 mb-4">{w.desc}</p>
-
-            <!-- Tool chips -->
-            <div class="flex flex-wrap gap-1.5 mb-4">
-              {w.tools.map((t) => (
-                <span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-brand-gray-50 border border-brand-gray-200 text-brand-gray-600">{t}</span>
-              ))}
-            </div>
-
-            <!-- Footer -->
-            <div class="flex items-center justify-between pt-4 border-t border-brand-gray-100">
-              <span class="text-[11px] font-semibold text-brand-black">{w.time} saved</span>
-              <a href="/pages/welcome"
-                class="text-[11px] font-semibold transition-all"
-                style="color:#E8B4B0;"
-                onmouseover="this.style.color='#c4847e'"
-                onmouseout="this.style.color='#E8B4B0'">
-                Deploy this →
-              </a>
-            </div>
-          </article>
-        ))}
       </div>
+    </section>
 
-      <!-- Empty state -->
-      <div id="empty-state" class="hidden text-center py-16">
-        <p class="text-brand-gray-500 text-sm">No workflows match this filter.</p>
-      </div>
-    </div>
-  </section>
+  </div>
 
   <!-- n8n callout -->
   <section class="bg-white border-y border-brand-gray-100 py-12">
@@ -698,8 +355,8 @@ const totalCount = workflows.length;
       <div class="flex flex-col md:flex-row items-center gap-6 md:gap-10">
         <div class="flex-1">
           <p class="text-[9px] uppercase tracking-[0.22em] font-bold text-brand-gray-500 mb-2">Built on n8n</p>
-          <h2 class="font-display text-[1.4rem] leading-snug text-brand-black mb-2">These workflows run on n8n — the open-source automation platform.</h2>
-          <p class="text-[13px] text-brand-gray-600 leading-relaxed">n8n is free, open-source, and self-hostable. PURIST deploys, configures, and maintains your n8n instance — you keep full control of your data and workflows.</p>
+          <h2 class="font-display text-[1.4rem] leading-snug text-brand-black mb-2">These workflows run on n8n, the open-source automation platform.</h2>
+          <p class="text-[13px] text-brand-gray-600 leading-relaxed">n8n is free, open-source, and self-hostable. PURIST deploys, configures, and maintains your n8n instance so you keep full control of your data and workflows.</p>
         </div>
         <div class="flex flex-col gap-3 shrink-0">
           <a href="https://n8n.io/workflows/" target="_blank" rel="noopener noreferrer"
@@ -711,7 +368,7 @@ const totalCount = workflows.length;
             style="background:#0A0A0A;color:white;"
             onmouseover="this.style.background='#1a1a1a'"
             onmouseout="this.style.background='#0A0A0A'">
-            Get PURIST to deploy yours →
+            Get PURIST to deploy yours ↗
           </a>
         </div>
       </div>
@@ -723,7 +380,7 @@ const totalCount = workflows.length;
     <div class="container-x text-center max-w-2xl mx-auto">
       <p class="text-[9px] uppercase tracking-[0.24em] font-bold mb-4" style="color:rgba(232,180,176,0.55);">Ready to deploy?</p>
       <h2 class="font-display text-[1.8rem] lg:text-[2.2rem] leading-[1.08] text-white mb-4 text-balance">
-        We build any of these for you —<br/>
+        We build any of these for you,<br/>
         <em class="font-medium" style="color:#E8B4B0;">customised to your exact stack.</em>
       </h2>
       <p class="text-[13px] mb-8" style="color:rgba(255,255,255,0.40);">Free 30-minute audit. We map your top 3 quick wins before you spend a penny.</p>
@@ -732,7 +389,7 @@ const totalCount = workflows.length;
         style="background:#E8B4B0;color:#0A0A0A;"
         onmouseover="this.style.background='#d9a09b'"
         onmouseout="this.style.background='#E8B4B0'">
-        Book a free audit →
+        Book a free audit ↗
       </a>
     </div>
   </section>
@@ -741,32 +398,78 @@ const totalCount = workflows.length;
 
 <script is:inline>
 (function () {
-  function filter(cat) {
-    var cards = document.querySelectorAll('.workflow-card');
-    var visible = 0;
+
+  // ── View toggle ────────────────────────────────────────────
+  var tabFn  = document.getElementById('tab-function');
+  var tabInd = document.getElementById('tab-industry');
+  var vFn    = document.getElementById('view-function');
+  var vInd   = document.getElementById('view-industry');
+
+  function showView(v) {
+    if (v === 'function') {
+      vFn.classList.remove('hidden');
+      vInd.classList.add('hidden');
+      tabFn.style.background  = '#E8B4B0'; tabFn.style.color  = '#0A0A0A';
+      tabInd.style.background = 'transparent'; tabInd.style.color = 'rgba(255,255,255,0.55)';
+    } else {
+      vInd.classList.remove('hidden');
+      vFn.classList.add('hidden');
+      tabInd.style.background = '#E8B4B0'; tabInd.style.color  = '#0A0A0A';
+      tabFn.style.background  = 'transparent'; tabFn.style.color = 'rgba(255,255,255,0.55)';
+    }
+  }
+  tabFn.addEventListener('click',  function () { showView('function'); });
+  tabInd.addEventListener('click', function () { showView('industry'); });
+
+  // ── Function filter ────────────────────────────────────────
+  function filterFunc(cat) {
+    var cards = document.querySelectorAll('.func-workflow-card');
+    var n = 0;
     cards.forEach(function (c) {
       var show = cat === 'all' || c.dataset.cat === cat;
       c.style.display = show ? '' : 'none';
-      if (show) visible++;
+      if (show) n++;
     });
-    document.getElementById('empty-state').classList.toggle('hidden', visible > 0);
-
-    document.querySelectorAll('.cat-btn').forEach(function (btn) {
+    document.getElementById('func-empty').classList.toggle('hidden', n > 0);
+    document.querySelectorAll('.func-btn').forEach(function (btn) {
       var a = btn.dataset.cat === cat;
       btn.style.background = a ? '#E8B4B0' : 'rgba(255,255,255,0.06)';
       btn.style.color      = a ? '#0A0A0A' : 'rgba(255,255,255,0.55)';
       btn.style.border     = a ? 'none'    : '1px solid rgba(255,255,255,0.09)';
     });
   }
-
-  document.querySelectorAll('.cat-btn').forEach(function (btn) {
-    btn.addEventListener('click', function () { filter(this.dataset.cat); });
+  document.querySelectorAll('.func-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () { filterFunc(this.dataset.cat); });
   });
-  document.querySelectorAll('.cat-card').forEach(function (card) {
+  document.querySelectorAll('.func-card').forEach(function (card) {
     card.addEventListener('click', function () {
-      filter(this.dataset.cat);
-      document.getElementById('workflow-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      filterFunc(this.dataset.cat);
+      document.getElementById('func-grid').scrollIntoView({ behavior:'smooth', block:'start' });
     });
   });
+
+  // ── Industry filter ────────────────────────────────────────
+  function filterInd(ind) {
+    document.querySelectorAll('.ind-section').forEach(function (s) {
+      s.style.display = (ind === 'all' || s.dataset.ind === ind) ? '' : 'none';
+    });
+    document.querySelectorAll('.ind-btn').forEach(function (btn) {
+      var a = btn.dataset.ind === ind;
+      btn.style.background = a ? '#E8B4B0' : 'rgba(255,255,255,0.06)';
+      btn.style.color      = a ? '#0A0A0A' : 'rgba(255,255,255,0.55)';
+      btn.style.border     = a ? 'none'    : '1px solid rgba(255,255,255,0.09)';
+    });
+  }
+  document.querySelectorAll('.ind-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () { filterInd(this.dataset.ind); });
+  });
+  document.querySelectorAll('.ind-card').forEach(function (card) {
+    card.addEventListener('click', function () {
+      showView('industry');
+      filterInd(this.dataset.ind);
+      document.getElementById('ind-sections').scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+  });
+
 })();
 </script>
