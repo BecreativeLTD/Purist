@@ -40,7 +40,7 @@ Format: Plain text only. No markdown headers, no asterisks, no bullet lists with
       headers: {
         'Authorization': `Bearer ${import.meta.env.OPENROUTER_API_KEY}`,
         'Content-Type': 'application/json',
-        'HTTP-Referer': 'https://puristengineering.co',
+        'HTTP-Referer': 'https://purist.online',
         'X-Title': 'PURIST AI',
       },
       body: JSON.stringify({
