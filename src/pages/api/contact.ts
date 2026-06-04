@@ -11,11 +11,13 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), { status: 400 });
     }
 
-    const resend = new Resend(import.meta.env.Resend);
-    const notifyEmail = import.meta.env.notifymail || 'hello@purist.online';
+    const resendKey = import.meta.env.Resend || import.meta.env.RESEND_API_KEY;
+    if (!resendKey) console.error('Resend API key missing — check env var named "Resend"');
+    const resend = new Resend(resendKey);
+    const notifyEmail = import.meta.env.notifymail || import.meta.env.NOTIFY_EMAIL || 'hello@purist.online';
 
     // Notification to team
-    await resend.emails.send({
+    const notifResult = await resend.emails.send({
       from: 'PURIST Contact <onboarding@resend.dev>',
       to: [notifyEmail],
       subject: `📩 Contact form — ${firstName} ${lastName} · ${topic || 'General'}`,
@@ -50,9 +52,11 @@ export const POST: APIRoute = async ({ request }) => {
 </body>
 </html>`,
     });
+    if (notifResult.error) console.error('Resend notification error:', JSON.stringify(notifResult.error));
+    else console.log('Resend notification sent, id:', notifResult.data?.id);
 
     // Auto-reply to sender
-    await resend.emails.send({
+    const confirmResult = await resend.emails.send({
       from: 'PURIST <onboarding@resend.dev>',
       to: [email],
       subject: `We received your message`,
@@ -79,8 +83,13 @@ export const POST: APIRoute = async ({ request }) => {
 </body>
 </html>`,
     });
+    if (confirmResult.error) console.error('Resend confirmation error:', JSON.stringify(confirmResult.error));
+    else console.log('Resend confirmation sent, id:', confirmResult.data?.id);
 
-    return new Response(JSON.stringify({ success: true }), {
+    return new Response(JSON.stringify({
+      success: true,
+      _debug: { notifOk: !notifResult.error, confirmOk: !confirmResult.error },
+    }), {
       headers: { 'Content-Type': 'application/json' },
     });
 
