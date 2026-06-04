@@ -40,14 +40,6 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
     <SEO {title} {description} {image} {canonical} {noindex} {type} />
     <slot name="head" />
     <ViewTransitions />
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4XMEM7DE1B"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-4XMEM7DE1B');
-    </script>
   </head>
   <body>
     <a
@@ -76,6 +68,15 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
       }
       bind();
       document.addEventListener('astro:page-load', bind);
+    </script>
+
+    <!-- Google Analytics — deferred to end of body so it never blocks render -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4XMEM7DE1B"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-4XMEM7DE1B');
     </script>
   </body>
 </html>

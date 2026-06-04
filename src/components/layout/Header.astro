@@ -121,7 +121,7 @@ const navLinks = [
         </svg>
       </a>
 
-      <CartIcon client:load />
+      <CartIcon client:idle />
     </div>
   </div>
 
@@ -147,7 +147,7 @@ const navLinks = [
   <div style="max-width:600px;margin:0 auto;">
     <div style="position:relative;margin-bottom:1rem;">
       <svg style="position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:0.4;pointer-events:none;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-      <input id="search-input" type="search" placeholder="Search articles, topics, industries…" autocomplete="off" spellcheck="false"
+      <input id="search-input" type="search" placeholder="Search articles, topics, industries…" autocomplete="off" spellcheck="false" aria-label="Search articles, topics, industries"
         style="width:100%;box-sizing:border-box;font-size:16px;padding:14px 14px 14px 44px;border-radius:14px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:#fff;caret-color:#E8B4B0;outline:none;transition:border-color 0.15s;"
         onfocus="this.style.borderColor='rgba(232,180,176,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'"/>
       <button id="search-close" type="button" aria-label="Close search"
@@ -740,5 +740,5 @@ const navLinks = [
 })();
 </script>
 
-<MobileMenu client:load />
+<MobileMenu client:idle />
 

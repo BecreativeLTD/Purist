@@ -53,7 +53,7 @@
         <!-- Team size -->
         <div class="roi-slider-group mb-4">
           <div class="flex items-center justify-between mb-1.5">
-            <label class="roi-lbl">Team size</label>
+            <label class="roi-lbl" for="sl-team">Team size</label>
             <span class="roi-val"><span id="val-team">8</span> people</span>
           </div>
           <input id="sl-team" type="range" min="1" max="100" value="8" step="1" class="roi-range"/>
@@ -63,7 +63,7 @@
         <!-- Hourly cost -->
         <div class="roi-slider-group mb-4">
           <div class="flex items-center justify-between mb-1.5">
-            <label class="roi-lbl">Avg. hourly cost</label>
+            <label class="roi-lbl" for="sl-hourly">Avg. hourly cost</label>
             <span class="roi-val">£<span id="val-hourly">26</span>/hr</span>
           </div>
           <input id="sl-hourly" type="range" min="15" max="150" value="26" step="1" class="roi-range"/>
@@ -73,7 +73,7 @@
         <!-- Manual hours/week -->
         <div class="roi-slider-group mb-4">
           <div class="flex items-center justify-between mb-1.5">
-            <label class="roi-lbl">Manual hours / week <span class="roi-lbl-sub">per person</span></label>
+            <label class="roi-lbl" for="sl-manual">Manual hours / week <span class="roi-lbl-sub">per person</span></label>
             <span class="roi-val"><span id="val-manual">16</span>h/wk</span>
           </div>
           <input id="sl-manual" type="range" min="1" max="30" value="16" step="0.5" class="roi-range"/>
@@ -91,7 +91,7 @@
           <div id="adv-panel" class="hidden mt-4 space-y-4">
             <div class="roi-slider-group">
               <div class="flex items-center justify-between mb-1.5">
-                <label class="roi-lbl">Monthly SaaS stack <span class="roi-lbl-sub">subscriptions</span></label>
+                <label class="roi-lbl" for="sl-tools">Monthly SaaS stack <span class="roi-lbl-sub">subscriptions</span></label>
                 <span class="roi-val">£<span id="val-tools">750</span>/mo</span>
               </div>
               <input id="sl-tools" type="range" min="0" max="5000" value="750" step="50" class="roi-range roi-range--purple"/>
@@ -99,7 +99,7 @@
             </div>
             <div class="roi-slider-group">
               <div class="flex items-center justify-between mb-1.5">
-                <label class="roi-lbl">Error rate in manual tasks</label>
+                <label class="roi-lbl" for="sl-error">Error rate in manual tasks</label>
                 <span class="roi-val"><span id="val-error">12</span>%</span>
               </div>
               <input id="sl-error" type="range" min="1" max="30" value="12" step="1" class="roi-range roi-range--green"/>
@@ -107,7 +107,7 @@
             </div>
             <div class="roi-slider-group">
               <div class="flex items-center justify-between mb-1.5">
-                <label class="roi-lbl">Staff turnover / year <span class="roi-lbl-sub">replacement cost £4–8K each</span></label>
+                <label class="roi-lbl" for="sl-turnover">Staff turnover / year <span class="roi-lbl-sub">replacement cost £4–8K each</span></label>
                 <span class="roi-val"><span id="val-turnover">2</span> people</span>
               </div>
               <input id="sl-turnover" type="range" min="0" max="20" value="2" step="1" class="roi-range roi-range--amber"/>
@@ -321,10 +321,12 @@
             </div>
           </div>
           <form id="roi-email-form" class="flex gap-2" onsubmit="roiEmailSubmit(event)">
+            <label for="roi-email-input" class="sr-only">Email address for ROI report</label>
             <input
               type="email"
               id="roi-email-input"
               placeholder="your@email.com"
+              aria-label="Email address for ROI report"
               required
               class="flex-1 rounded-[10px] px-3.5 py-2.5 text-[12.5px] outline-none transition-all"
               style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:white;"
