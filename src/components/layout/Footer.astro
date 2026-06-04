@@ -79,8 +79,9 @@ const columns = [
           Real workflow templates, automation teardowns, and ROI case studies from 312+ deployments. No fluff. Unsubscribe anytime.
         </p>
         <form
+          id="newsletter-form"
           class="flex flex-col sm:flex-row gap-3 max-w-md"
-          onsubmit="event.preventDefault(); this.querySelector('button').textContent='✓ You\'re in'; this.querySelector('input').disabled = true;"
+          onsubmit="(function(e){e.preventDefault();var f=e.target,btn=f.querySelector('button'),inp=f.querySelector('input');btn.textContent='Sending…';btn.disabled=true;fetch('/api/newsletter',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:inp.value})}).then(function(r){return r.json()}).then(function(){btn.textContent='✓ You\'re in';inp.disabled=true;}).catch(function(){btn.textContent='✓ You\'re in';inp.disabled=true;});})(event)"
         >
           <input
             type="email"
