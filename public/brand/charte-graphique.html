@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PURIST — Charte Graphique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&display=swap"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #F8F6F1; color: #0A0A0A; }
+    .page { max-width: 900px; margin: 0 auto; padding: 4rem 2rem; }
+
+    /* Header */
+    .brand-header { text-align: center; padding: 5rem 0 4rem; border-bottom: 1px solid #E5E5E5; margin-bottom: 4rem; }
+    .brand-header .wordmark { font-family: 'Fraunces', serif; font-size: 7rem; font-weight: 400; letter-spacing: -0.02em; line-height: 1; color: #0A0A0A; }
+    .brand-header .sub { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: #A8A8A8; margin-top: 1rem; }
+
+    /* Section */
+    section { margin-bottom: 4rem; }
+    .section-label { font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #A8A8A8; margin-bottom: 1.5rem; }
+    h2 { font-family: 'Fraunces', serif; font-size: 1.75rem; font-weight: 400; margin-bottom: 1.5rem; }
+
+    /* Colors */
+    .colors { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; }
+    .swatch { border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+    .swatch-color { height: 80px; }
+    .swatch-info { background: #fff; padding: 10px 12px; }
+    .swatch-name { font-size: 11px; font-weight: 600; margin-bottom: 2px; }
+    .swatch-hex { font-size: 10px; color: #A8A8A8; font-family: monospace; }
+
+    /* Typography */
+    .type-samples { display: flex; flex-direction: column; gap: 2rem; }
+    .type-sample { padding: 2rem; background: #fff; border-radius: 16px; border: 1px solid #E5E5E5; }
+    .type-meta { font-size: 10px; color: #A8A8A8; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem; }
+
+    /* Logos */
+    .logo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .logo-card { border-radius: 16px; padding: 2.5rem 2rem; display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .logo-card .logo-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.4; }
+    .logo-card .logo-wordmark { font-family: 'Fraunces', serif; font-size: 3.5rem; font-weight: 400; letter-spacing: -0.02em; line-height: 1; }
+    .logo-card .download-btn { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; padding: 6px 12px; border-radius: 6px; margin-top: 0.5rem; }
+
+    /* Spacing */
+    .spacing-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem; align-items: flex-end; }
+    .spacing-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .spacing-bar { width: 100%; background: #0A0A0A; border-radius: 4px; }
+    .spacing-label { font-size: 10px; color: #A8A8A8; }
+    .spacing-val { font-size: 11px; font-weight: 600; font-family: monospace; }
+
+    /* Divider */
+    hr { border: none; border-top: 1px solid #E5E5E5; margin: 3rem 0; }
+
+    /* Usage rules */
+    .rules { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .rule-card { padding: 1.5rem; border-radius: 12px; border: 1px solid #E5E5E5; background: #fff; }
+    .rule-card.do { border-left: 3px solid #2D5016; }
+    .rule-card.dont { border-left: 3px solid #E8B4B0; }
+    .rule-tag { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 8px; }
+    .rule-tag.do-tag { color: #2D5016; }
+    .rule-tag.dont-tag { color: #A0522D; }
+    .rule-card p { font-size: 12px; color: #6B6B6B; line-height: 1.5; }
+
+    @media print {
+      body { background: white; }
+      .page { padding: 2rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Cover -->
+  <div class="brand-header">
+    <div class="wordmark">PURIST<sup style="font-size:2rem;vertical-align:super;">®</sup></div>
+    <div class="sub">Brand Guidelines &nbsp;·&nbsp; Version 1.0 &nbsp;·&nbsp; 2026</div>
+  </div>
+
+  <!-- Colors -->
+  <section>
+    <div class="section-label">01 — Couleurs</div>
+    <h2>Palette de couleurs</h2>
+    <div class="colors">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#0A0A0A;"></div>
+        <div class="swatch-info"><div class="swatch-name">Black</div><div class="swatch-hex">#0A0A0A</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F8F6F1;border:1px solid #E5E5E5;"></div>
+        <div class="swatch-info"><div class="swatch-name">Cream</div><div class="swatch-hex">#F8F6F1</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#E8B4B0;"></div>
+        <div class="swatch-info"><div class="swatch-name">Rose</div><div class="swatch-hex">#E8B4B0</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#2D5016;"></div>
+        <div class="swatch-info"><div class="swatch-name">Green</div><div class="swatch-hex">#2D5016</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F4EFE6;border:1px solid #E5E5E5;"></div>
+        <div class="swatch-info"><div class="swatch-name">Beige</div><div class="swatch-hex">#F4EFE6</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#EDE5D5;border:1px solid #E5E5E5;"></div>
+        <div class="swatch-info"><div class="swatch-name">Sand</div><div class="swatch-hex">#EDE5D5</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#A0522D;"></div>
+        <div class="swatch-info"><div class="swatch-name">Rust</div><div class="swatch-hex">#A0522D</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#6B6B6B;"></div>
+        <div class="swatch-info"><div class="swatch-name">Gray</div><div class="swatch-hex">#6B6B6B</div></div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- Typography -->
+  <section>
+    <div class="section-label">02 — Typographie</div>
+    <h2>Polices de caractères</h2>
+    <div class="type-samples">
+
+      <div class="type-sample">
+        <div class="type-meta">Fraunces — Display / Titres</div>
+        <div style="font-family:'Fraunces',serif; font-size:3.5rem; font-weight:400; letter-spacing:-0.02em; line-height:1.05;">
+          Automation.<br/><em>Elevated.</em>
+        </div>
+        <div style="margin-top:1rem; font-size:11px; color:#A8A8A8;">
+          Fraunces Regular 400 &nbsp;·&nbsp; Variable optical size 9–144 &nbsp;·&nbsp; Google Fonts
+        </div>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-meta">Inter — Corps de texte / UI</div>
+        <p style="font-size:1rem; line-height:1.6; color:#6B6B6B; max-width:520px;">
+          PURIST automates your business workflows with production-grade AI agents. Every deployment is verified, documented, and supported by our engineering team.
+        </p>
+        <div style="margin-top:1rem; font-size:11px; color:#A8A8A8;">
+          Inter Regular 400 / Medium 500 / Semibold 600 &nbsp;·&nbsp; Google Fonts
+        </div>
+      </div>
+
+      <div class="type-sample" style="background:#0A0A0A;">
+        <div class="type-meta" style="color:#6B6B6B;">Eyebrow — Labels &amp; Catégories</div>
+        <div style="font-family:'Inter',sans-serif; font-size:10px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:#A8A8A8;">
+          Powered by Claude AI
+        </div>
+        <div style="margin-top:1rem; font-size:11px; color:#6B6B6B;">
+          Inter Semibold 600 &nbsp;·&nbsp; 10px &nbsp;·&nbsp; tracking 0.2em &nbsp;·&nbsp; UPPERCASE
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- Logo variants -->
+  <section>
+    <div class="section-label">03 — Logo</div>
+    <h2>Variantes du logo</h2>
+    <div class="logo-grid">
+
+      <div class="logo-card" style="background:#0A0A0A;">
+        <div class="logo-label" style="color:#fff;">Primaire — Crème sur Noir</div>
+        <div class="logo-wordmark" style="color:#F8F6F1;">PURIST<sup style="font-size:1.2rem;vertical-align:super;">®</sup></div>
+        <a href="logo-creme-sur-noir.svg" download class="download-btn" style="background:#F8F6F1;color:#0A0A0A;">↓ Télécharger SVG</a>
+      </div>
+
+      <div class="logo-card" style="background:#F8F6F1; border:1px solid #E5E5E5;">
+        <div class="logo-label">Secondaire — Noir sur Crème</div>
+        <div class="logo-wordmark" style="color:#0A0A0A;">PURIST<sup style="font-size:1.2rem;vertical-align:super;">®</sup></div>
+        <a href="logo-noir-sur-creme.svg" download class="download-btn" style="background:#0A0A0A;color:#fff;">↓ Télécharger SVG</a>
+      </div>
+
+      <div class="logo-card" style="background:#0A0A0A;">
+        <div class="logo-label" style="color:#E8B4B0;">Rose — Réseaux sociaux</div>
+        <div class="logo-wordmark" style="color:#E8B4B0;">PURIST<sup style="font-size:1.2rem;vertical-align:super;">®</sup></div>
+        <a href="logo-rose-sur-noir.svg" download class="download-btn" style="background:#E8B4B0;color:#0A0A0A;">↓ Télécharger SVG</a>
+      </div>
+
+      <div class="logo-card" style="background:#F8F6F1; border:1px solid #E5E5E5;">
+        <div class="logo-label">Vert — Accent</div>
+        <div class="logo-wordmark" style="color:#2D5016;">PURIST<sup style="font-size:1.2rem;vertical-align:super;">®</sup></div>
+        <a href="logo-vert-sur-creme.svg" download class="download-btn" style="background:#2D5016;color:#fff;">↓ Télécharger SVG</a>
+      </div>
+
+      <div class="logo-card" style="background:#E5E5E5; border:1px dashed #A8A8A8;">
+        <div class="logo-label">Fond transparent — Noir</div>
+        <div class="logo-wordmark" style="color:#0A0A0A;">PURIST<sup style="font-size:1.2rem;vertical-align:super;">®</sup></div>
+        <a href="logo-transparent-noir.svg" download class="download-btn" style="background:#0A0A0A;color:#fff;">↓ Télécharger SVG</a>
+      </div>
+
+      <div class="logo-card" style="background:#0A0A0A; border:1px dashed #333;">
+        <div class="logo-label" style="color:#6B6B6B;">Fond transparent — Blanc</div>
+        <div class="logo-wordmark" style="color:#FFFFFF;">PURIST<sup style="font-size:1.2rem;vertical-align:super;">®</sup></div>
+        <a href="logo-transparent-blanc.svg" download class="download-btn" style="background:#fff;color:#0A0A0A;">↓ Télécharger SVG</a>
+      </div>
+
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- Usage rules -->
+  <section>
+    <div class="section-label">04 — Règles d'utilisation</div>
+    <h2>À faire / À éviter</h2>
+    <div class="rules">
+      <div class="rule-card do">
+        <div class="rule-tag do-tag">✓ À faire</div>
+        <p>Utiliser le logo sur fond uni (noir, crème, blanc, beige)</p>
+      </div>
+      <div class="rule-card dont">
+        <div class="rule-tag dont-tag">✗ À éviter</div>
+        <p>Ne jamais déformer ou étirer le logo horizontalement ou verticalement</p>
+      </div>
+      <div class="rule-card do">
+        <div class="rule-tag do-tag">✓ À faire</div>
+        <p>Respecter une zone de protection = hauteur de la lettre "P" autour du logo</p>
+      </div>
+      <div class="rule-card dont">
+        <div class="rule-tag dont-tag">✗ À éviter</div>
+        <p>Ne jamais modifier les couleurs en dehors de la palette officielle</p>
+      </div>
+      <div class="rule-card do">
+        <div class="rule-tag do-tag">✓ À faire</div>
+        <p>Taille minimum : 120px de large pour le digital, 30mm pour l'impression</p>
+      </div>
+      <div class="rule-card dont">
+        <div class="rule-tag dont-tag">✗ À éviter</div>
+        <p>Ne jamais placer le logo sur un fond photographique sans overlay sombre</p>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- Footer -->
+  <div style="text-align:center; padding:2rem 0; font-size:10px; color:#A8A8A8; letter-spacing:0.1em;">
+    PURIST Automation Ltd &nbsp;·&nbsp; Charte Graphique v1.0 &nbsp;·&nbsp; 2026 &nbsp;·&nbsp; Confidentiel
+  </div>
+
+</div>
+</body>
+</html>
