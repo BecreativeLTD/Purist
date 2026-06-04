@@ -11,20 +11,7 @@ export async function GET({ request }: { request: Request }) {
   const shortDesc = description.length > 115 ? description.slice(0, 115) + '…' : description;
   const titleSize = title.length > 55 ? 40 : title.length > 35 ? 46 : 54;
 
-  // Load Fraunces font (same as footer wordmark)
-  let frauncesFontData: ArrayBuffer | null = null;
-  try {
-    const fontRes = await fetch(
-      'https://fonts.gstatic.com/s/fraunces/v31/6NUt8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnDiw.woff2'
-    );
-    if (fontRes.ok) frauncesFontData = await fontRes.arrayBuffer();
-  } catch {}
-
-  const fonts = frauncesFontData
-    ? [{ name: 'Fraunces', data: frauncesFontData, weight: 500 as const, style: 'normal' as const }]
-    : [];
-
-  const displayFont = frauncesFontData ? 'Fraunces, Georgia, serif' : 'Georgia, serif';
+  const displayFont = 'serif';
 
   return new ImageResponse(
     {
@@ -222,7 +209,6 @@ export async function GET({ request }: { request: Request }) {
     {
       width: 1200,
       height: 630,
-      fonts,
     },
   );
 }
