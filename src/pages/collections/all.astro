@@ -207,23 +207,100 @@ const faqs = [
         </p>
       </div>
 
-      <div class="overflow-x-auto -mx-4 sm:mx-0">
-      <div class="bg-white rounded-card border border-brand-gray-100 overflow-hidden shadow-sm min-w-[520px]">
+      <!-- MOBILE: tab-based plan selector -->
+      <div class="md:hidden">
+        <!-- Plan tabs -->
+        <div class="flex rounded-card overflow-hidden border border-brand-gray-200 bg-white mb-4 text-center text-[11px] font-medium">
+          <button id="tab-auto" onclick="switchTab('auto')" class="flex-1 py-3 px-2 border-r border-brand-gray-200 bg-brand-black text-white transition">
+            <span class="block text-[9px] uppercase tracking-wider opacity-60 mb-0.5">Auto Pro</span>
+            <span class="font-display text-sm">$799<span class="font-sans text-[9px] opacity-70">/mo</span></span>
+          </button>
+          <button id="tab-agent" onclick="switchTab('agent')" class="flex-1 py-3 px-2 border-r border-brand-gray-200 text-brand-gray-600 hover:bg-brand-cream transition">
+            <span class="block text-[9px] uppercase tracking-wider opacity-60 mb-0.5">AI Agent</span>
+            <span class="font-display text-sm">$999<span class="font-sans text-[9px] opacity-70">/mo</span></span>
+          </button>
+          <button id="tab-full" onclick="switchTab('full')" class="flex-1 py-3 px-2 text-brand-gray-600 hover:bg-brand-cream transition">
+            <span class="block text-[9px] uppercase tracking-wider opacity-60 mb-0.5">Full Stack</span>
+            <span class="font-display text-sm">$1,499<span class="font-sans text-[9px] opacity-70">/mo</span></span>
+          </button>
+        </div>
+        <!-- Feature list for selected plan -->
+        <div class="bg-white rounded-card border border-brand-gray-100 overflow-hidden shadow-sm">
+          {comparisonFeatures.map((section) => (
+            <>
+              <div class="px-4 py-2 bg-brand-cream/60 border-b border-brand-gray-100">
+                <p class="text-[10px] font-medium uppercase tracking-widest text-brand-gray-500">{section.category}</p>
+              </div>
+              {section.rows.map((row) => (
+                <div class="flex items-center justify-between px-4 py-3 border-b border-brand-gray-100/50">
+                  <p class="text-xs text-brand-black leading-snug pr-3 flex-1">{row.feature}</p>
+                  <div class="shrink-0 w-16 text-right">
+                    {/* Auto Pro value */}
+                    <span class="plan-val plan-auto inline-flex justify-end">
+                      {row.automation === true ? (
+                        <svg class="w-4 h-4 text-brand-green" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="currentColor" opacity="0.12"/><path d="M4.5 8l2.5 2.5L11.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      ) : row.automation === false ? (
+                        <svg class="w-4 h-4 text-brand-gray-300" viewBox="0 0 16 16" fill="none"><path d="M5 8h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                      ) : (
+                        <span class="text-[11px] text-brand-gray-600">{row.automation}</span>
+                      )}
+                    </span>
+                    {/* AI Agent value */}
+                    <span class="plan-val plan-agent hidden inline-flex justify-end">
+                      {row.agent === true ? (
+                        <svg class="w-4 h-4 text-brand-green" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="currentColor" opacity="0.12"/><path d="M4.5 8l2.5 2.5L11.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      ) : row.agent === false ? (
+                        <svg class="w-4 h-4 text-brand-gray-300" viewBox="0 0 16 16" fill="none"><path d="M5 8h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                      ) : (
+                        <span class="text-[11px] text-brand-gray-600">{row.agent}</span>
+                      )}
+                    </span>
+                    {/* Full Stack value */}
+                    <span class="plan-val plan-full hidden inline-flex justify-end">
+                      {row.full === true ? (
+                        <svg class="w-4 h-4 text-brand-green" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="currentColor" opacity="0.12"/><path d="M4.5 8l2.5 2.5L11.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      ) : row.full === false ? (
+                        <svg class="w-4 h-4 text-brand-gray-300" viewBox="0 0 16 16" fill="none"><path d="M5 8h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                      ) : (
+                        <span class="text-[11px] font-medium text-brand-black">{row.full}</span>
+                      )}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </>
+          ))}
+          <!-- Mobile CTA -->
+          <div class="p-4">
+            <a id="mobile-cta-auto" href="/products/foundation-pro" class="block w-full text-center text-xs font-medium py-3 rounded-lg border border-brand-gray-200 hover:border-brand-black transition">
+              Get started with Auto Pro →
+            </a>
+            <a id="mobile-cta-agent" href="/products/longevity-protocol" class="hidden w-full text-center text-xs font-medium py-3 rounded-lg border border-brand-gray-200 hover:border-brand-black transition">
+              Get started with AI Agent →
+            </a>
+            <a id="mobile-cta-full" href="/products/founder-stack" class="hidden w-full text-center text-xs font-medium py-3 rounded-lg bg-brand-black text-white hover:opacity-90 transition">
+              Get started with Full Stack →
+            </a>
+          </div>
+        </div>
+      </div>
 
+      <!-- DESKTOP: full 4-column comparison grid -->
+      <div class="hidden md:block bg-white rounded-card border border-brand-gray-100 overflow-hidden shadow-sm">
         <!-- Column headers -->
-        <div class="grid grid-cols-[1.6fr_1fr_1fr_1fr] border-b border-brand-gray-100 bg-white sticky top-16 z-10">
-          <div class="p-3 lg:p-5"></div>
-          <div class="p-3 lg:p-5 text-center border-l border-brand-gray-100">
+        <div class="grid grid-cols-[1.6fr_1fr_1fr_1fr] border-b border-brand-gray-100 bg-white">
+          <div class="p-5"></div>
+          <div class="p-5 text-center border-l border-brand-gray-100">
             <p class="text-[9px] uppercase tracking-widest font-medium text-brand-gray-600 mb-0.5">Auto Pro</p>
-            <p class="font-display text-lg lg:text-xl">$799<span class="text-xs font-sans text-brand-gray-600">/mo</span></p>
+            <p class="font-display text-xl">$799<span class="text-xs font-sans text-brand-gray-600">/mo</span></p>
           </div>
-          <div class="p-3 lg:p-5 text-center border-l border-brand-gray-100">
+          <div class="p-5 text-center border-l border-brand-gray-100">
             <p class="text-[9px] uppercase tracking-widest font-medium text-brand-gray-600 mb-0.5">AI Agent</p>
-            <p class="font-display text-lg lg:text-xl">$999<span class="text-xs font-sans text-brand-gray-600">/mo</span></p>
+            <p class="font-display text-xl">$999<span class="text-xs font-sans text-brand-gray-600">/mo</span></p>
           </div>
-          <div class="p-3 lg:p-5 text-center border-l border-brand-black bg-brand-black">
+          <div class="p-5 text-center border-l border-brand-black bg-brand-black">
             <p class="text-[9px] uppercase tracking-widest font-medium text-white/50 mb-0.5">Full Stack</p>
-            <p class="font-display text-lg lg:text-xl text-white">$1,499<span class="text-xs font-sans text-white/60">/mo</span></p>
+            <p class="font-display text-xl text-white">$1,499<span class="text-xs font-sans text-white/60">/mo</span></p>
             <p class="text-[9px] text-brand-rust mt-0.5">Best value</p>
           </div>
         </div>
@@ -232,7 +309,7 @@ const faqs = [
         {comparisonFeatures.map((section) => (
           <>
             <div class="grid grid-cols-[1.6fr_1fr_1fr_1fr] bg-brand-cream/50 border-b border-brand-gray-100">
-              <div class="px-4 lg:px-5 py-2.5">
+              <div class="px-5 py-2.5">
                 <p class="text-[10px] font-medium uppercase tracking-widest text-brand-gray-600">{section.category}</p>
               </div>
               <div class="border-l border-brand-gray-100"></div>
@@ -241,47 +318,32 @@ const faqs = [
             </div>
             {section.rows.map((row) => (
               <div class="grid grid-cols-[1.6fr_1fr_1fr_1fr] border-b border-brand-gray-100/50 hover:bg-brand-cream/20 transition">
-                <div class="px-3 lg:px-5 py-3">
-                  <p class="text-xs lg:text-sm text-brand-black leading-snug">{row.feature}</p>
+                <div class="px-5 py-3">
+                  <p class="text-sm text-brand-black leading-snug">{row.feature}</p>
                 </div>
                 <div class="px-4 py-3 text-center border-l border-brand-gray-100 flex items-center justify-center">
                   {row.automation === true ? (
-                    <svg class="w-4 h-4 text-brand-green" viewBox="0 0 16 16" fill="none" aria-label="Included">
-                      <circle cx="8" cy="8" r="7" fill="currentColor" opacity="0.12"/>
-                      <path d="M4.5 8l2.5 2.5L11.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                    <svg class="w-4 h-4 text-brand-green" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="currentColor" opacity="0.12"/><path d="M4.5 8l2.5 2.5L11.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   ) : row.automation === false ? (
-                    <svg class="w-4 h-4 text-brand-gray-300" viewBox="0 0 16 16" fill="none" aria-label="Not included">
-                      <path d="M5 8h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
+                    <svg class="w-4 h-4 text-brand-gray-300" viewBox="0 0 16 16" fill="none"><path d="M5 8h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
                   ) : (
                     <span class="text-[11px] text-brand-gray-600 text-center leading-tight">{row.automation}</span>
                   )}
                 </div>
                 <div class="px-4 py-3 text-center border-l border-brand-gray-100 flex items-center justify-center">
                   {row.agent === true ? (
-                    <svg class="w-4 h-4 text-brand-green" viewBox="0 0 16 16" fill="none" aria-label="Included">
-                      <circle cx="8" cy="8" r="7" fill="currentColor" opacity="0.12"/>
-                      <path d="M4.5 8l2.5 2.5L11.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                    <svg class="w-4 h-4 text-brand-green" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="currentColor" opacity="0.12"/><path d="M4.5 8l2.5 2.5L11.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   ) : row.agent === false ? (
-                    <svg class="w-4 h-4 text-brand-gray-300" viewBox="0 0 16 16" fill="none" aria-label="Not included">
-                      <path d="M5 8h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
+                    <svg class="w-4 h-4 text-brand-gray-300" viewBox="0 0 16 16" fill="none"><path d="M5 8h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
                   ) : (
                     <span class="text-[11px] text-brand-gray-600 text-center leading-tight">{row.agent}</span>
                   )}
                 </div>
                 <div class="px-4 py-3 text-center border-l border-brand-black bg-brand-black/[0.02] flex items-center justify-center">
                   {row.full === true ? (
-                    <svg class="w-4 h-4 text-brand-green" viewBox="0 0 16 16" fill="none" aria-label="Included">
-                      <circle cx="8" cy="8" r="7" fill="currentColor" opacity="0.12"/>
-                      <path d="M4.5 8l2.5 2.5L11.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                    <svg class="w-4 h-4 text-brand-green" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="currentColor" opacity="0.12"/><path d="M4.5 8l2.5 2.5L11.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   ) : row.full === false ? (
-                    <svg class="w-4 h-4 text-brand-gray-300" viewBox="0 0 16 16" fill="none" aria-label="Not included">
-                      <path d="M5 8h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
+                    <svg class="w-4 h-4 text-brand-gray-300" viewBox="0 0 16 16" fill="none"><path d="M5 8h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
                   ) : (
                     <span class="text-[11px] font-medium text-brand-black text-center leading-tight">{row.full}</span>
                   )}
@@ -295,25 +357,49 @@ const faqs = [
         <div class="grid grid-cols-[1.6fr_1fr_1fr_1fr]">
           <div class="p-5"></div>
           <div class="p-4 border-l border-brand-gray-100 flex items-center justify-center">
-            <a href="/products/foundation-pro" class="text-xs text-brand-black underline underline-offset-2 hover:opacity-70 transition text-center">
-              Get started →
-            </a>
+            <a href="/products/foundation-pro" class="text-xs text-brand-black underline underline-offset-2 hover:opacity-70 transition text-center">Get started →</a>
           </div>
           <div class="p-4 border-l border-brand-gray-100 flex items-center justify-center">
-            <a href="/products/longevity-protocol" class="text-xs text-brand-black underline underline-offset-2 hover:opacity-70 transition text-center">
-              Get started →
-            </a>
+            <a href="/products/longevity-protocol" class="text-xs text-brand-black underline underline-offset-2 hover:opacity-70 transition text-center">Get started →</a>
           </div>
           <div class="p-4 border-l border-brand-black bg-brand-black flex items-center justify-center">
-            <a href="/products/founder-stack" class="text-xs text-white underline underline-offset-2 hover:opacity-80 transition text-center">
-              Get started →
-            </a>
+            <a href="/products/founder-stack" class="text-xs text-white underline underline-offset-2 hover:opacity-80 transition text-center">Get started →</a>
           </div>
         </div>
-      </div><!-- end min-w wrapper -->
-      </div><!-- end overflow-x-auto -->
+      </div><!-- end desktop table -->
+
     </div>
   </section>
+
+  <script is:inline>
+    function switchTab(plan) {
+      // Update tab button styles
+      ['auto','agent','full'].forEach(function(p) {
+        var btn = document.getElementById('tab-' + p);
+        if (p === plan) {
+          btn.classList.add('bg-brand-black','text-white');
+          btn.classList.remove('text-brand-gray-600','hover:bg-brand-cream');
+        } else {
+          btn.classList.remove('bg-brand-black','text-white');
+          btn.classList.add('text-brand-gray-600','hover:bg-brand-cream');
+        }
+      });
+      // Show/hide plan value columns
+      document.querySelectorAll('.plan-val').forEach(function(el) {
+        el.classList.add('hidden');
+        el.style.display = 'none';
+      });
+      document.querySelectorAll('.plan-' + plan).forEach(function(el) {
+        el.classList.remove('hidden');
+        el.style.display = 'inline-flex';
+      });
+      // Show/hide CTAs
+      ['auto','agent','full'].forEach(function(p) {
+        var cta = document.getElementById('mobile-cta-' + p);
+        if (cta) cta.classList.toggle('hidden', p !== plan);
+      });
+    }
+  </script>
 
   <!-- Industry tabs + context -->
   <section class="bg-white py-16 lg:py-20 border-t border-brand-gray-100">
