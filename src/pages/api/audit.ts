@@ -68,10 +68,12 @@ Keep it under 200 words. Be direct and actionable.`;
     }
 
     // ── 2. Send notification email via Resend ────────────────────
-    const resend = new Resend(import.meta.env.Resend);
-    const notifyEmail = import.meta.env.notifymail || 'hello@purist.online';
+    const resendKey = import.meta.env.Resend || import.meta.env.RESEND_API_KEY;
+    if (!resendKey) console.error('Resend API key missing — check env var named "Resend"');
+    const resend = new Resend(resendKey);
+    const notifyEmail = import.meta.env.notifymail || import.meta.env.NOTIFY_EMAIL || 'hello@purist.online';
 
-    await resend.emails.send({
+    const notifResult = await resend.emails.send({
       from: 'PURIST Leads <onboarding@resend.dev>',
       to: [notifyEmail],
       subject: `🔔 New audit request — ${name} · ${company}`,
@@ -134,9 +136,11 @@ Keep it under 200 words. Be direct and actionable.`;
 </body>
 </html>`,
     });
+    if (notifResult.error) console.error('Resend notification error:', JSON.stringify(notifResult.error));
+    else console.log('Resend notification sent, id:', notifResult.data?.id);
 
     // ── 3. Send confirmation email to the lead ───────────────────
-    await resend.emails.send({
+    const confirmResult = await resend.emails.send({
       from: 'PURIST <onboarding@resend.dev>',
       to: [email],
       subject: `Your free audit request — we'll be in touch`,
@@ -184,8 +188,13 @@ Keep it under 200 words. Be direct and actionable.`;
 </body>
 </html>`,
     });
+    if (confirmResult.error) console.error('Resend confirmation error:', JSON.stringify(confirmResult.error));
+    else console.log('Resend confirmation sent, id:', confirmResult.data?.id);
 
-    return new Response(JSON.stringify({ success: true }), {
+    return new Response(JSON.stringify({
+      success: true,
+      _debug: { notifOk: !notifResult.error, confirmOk: !confirmResult.error },
+    }), {
       headers: { 'Content-Type': 'application/json' },
     });
 
