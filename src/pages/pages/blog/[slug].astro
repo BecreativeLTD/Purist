@@ -81,6 +81,59 @@ const schemaDate = (() => {
   description={article.metaDescription ?? article.excerpt}
 >
 
+<style>
+  /* ── Article grid: single column on mobile ── */
+  #article-grid {
+    display: grid;
+    grid-template-columns: 1fr minmax(0,660px) minmax(0,220px) 1fr;
+    gap: 0 3rem;
+    align-items: start;
+  }
+  @media (max-width: 1023px) {
+    #article-grid {
+      grid-template-columns: 1fr !important;
+    }
+    #article-grid > div:first-child,
+    #article-grid > div:last-child {
+      display: none;
+    }
+  }
+  /* ── Article body font sizes on mobile ── */
+  @media (max-width: 639px) {
+    #article-grid p { font-size: 15px !important; line-height: 1.75 !important; }
+    #article-grid h2 { font-size: 1.35rem !important; }
+    #article-grid h3 { font-size: 1.1rem !important; }
+    #article-grid li { font-size: 14px !important; }
+  }
+  /* ── Hero image: taller on mobile ── */
+  .article-hero-img {
+    aspect-ratio: 21/8;
+    min-height: 240px;
+  }
+  @media (max-width: 639px) {
+    .article-hero-img { aspect-ratio: 4/3 !important; min-height: 0; }
+  }
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .article-hero-img { aspect-ratio: 16/7 !important; }
+  }
+  /* ── Related articles grid ── */
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+  @media (max-width: 767px) {
+    .related-grid { grid-template-columns: 1fr !important; }
+  }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .related-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  }
+  /* ── Share buttons on mobile ── */
+  @media (max-width: 480px) {
+    .share-row { flex-direction: column; align-items: flex-start !important; }
+  }
+</style>
+
 <!-- ── PROGRESS BAR ───────────────────────────────────── -->
 <div id="progress-bar" style="position:fixed;top:0;left:0;height:2px;background:#E8B4B0;width:0%;z-index:200;transition:width 0.1s linear;" aria-hidden="true"></div>
 
@@ -161,7 +214,7 @@ const schemaDate = (() => {
   </div>
 
   <!-- Hero image -->
-  <div style="position:relative;overflow:hidden;aspect-ratio:21/8;min-height:240px;">
+  <div class="article-hero-img" style="position:relative;overflow:hidden;">
     <img src={article.image} alt={article.title} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" loading="eager"/>
     <div style="position:absolute;inset:0;background:linear-gradient(0deg,#0A0A0A 0%,transparent 45%);"></div>
   </div>
@@ -175,7 +228,7 @@ const schemaDate = (() => {
   <meta itemprop="wordCount" content={String(wordCount)}/>
 
   <div class="container-x">
-    <div style="display:grid;grid-template-columns:1fr minmax(0,660px) minmax(0,220px) 1fr;gap:0 3rem;align-items:start;" id="article-grid">
+    <div id="article-grid">
 
       <!-- Left spacer -->
       <div></div>
@@ -315,7 +368,7 @@ const schemaDate = (() => {
         </a>
       </div>
 
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;">
+      <div class="related-grid">
         {moreArticles.map((a) => (
           <article style="background:#fff;border:1px solid rgba(10,10,10,0.07);border-radius:18px;overflow:hidden;transition:box-shadow 0.2s,transform 0.2s;display:flex;flex-direction:column;"
                    onmouseover="this.style.boxShadow='0 8px 28px rgba(10,10,10,0.09)';this.style.transform='translateY(-2px)'"
