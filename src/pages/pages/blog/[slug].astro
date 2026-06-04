@@ -12,12 +12,9 @@ export function getStaticPaths() {
 const { article } = Astro.props;
 const { categories, articles } = blogData;
 const category = categories.find((c) => c.id === article.category);
-const related = articles
-  .filter((a) => a.id !== article.id && a.category === article.category)
-  .slice(0, 3);
-const moreArticles = related.length > 0
-  ? related
-  : articles.filter((a) => a.id !== article.id).slice(0, 3);
+const sameCat = articles.filter((a) => a.id !== article.id && a.category === article.category);
+const others  = articles.filter((a) => a.id !== article.id && a.category !== article.category);
+const moreArticles = [...sameCat, ...others].slice(0, 3);
 
 // ── Parse body into structured blocks ──────────────────────────
 type Block =
@@ -71,7 +68,7 @@ const toc = blocks.filter((b): b is Extract<Block, { type: 'h2' }> => b.type ===
 
 // ── Word count & reading time ──────────────────────────────────
 const wordCount = article.body.split(/\s+/).length;
-const pageUrl = `${(Astro.site?.toString() ?? 'https://purist.io').replace(/\/$/, '')}/pages/blog/${article.slug}`;
+const pageUrl = `${(Astro.site?.toString() ?? 'https://purist.online').replace(/\/$/, '')}/pages/blog/${article.slug}`;
 const schemaDate = (() => {
   const months: Record<string,string> = { January:'01',February:'02',March:'03',April:'04',May:'05',June:'06',July:'07',August:'08',September:'09',October:'10',November:'11',December:'12' };
   const [m, y] = article.date.split(' ');
@@ -126,7 +123,7 @@ const schemaDate = (() => {
         </a>
         <span style="font-size:10px;color:rgba(255,255,255,0.25);">{article.readingTime}</span>
         <span style="font-size:10px;color:rgba(255,255,255,0.18);">·</span>
-        <span style="font-size:10px;color:rgba(255,255,255,0.25);">{wordCount.toLocaleString()} mots</span>
+        <span style="font-size:10px;color:rgba(255,255,255,0.25);">{wordCount.toLocaleString()} words</span>
       </div>
 
       <h1 style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.75rem,4vw,2.75rem);font-weight:400;letter-spacing:-0.025em;line-height:1.1;color:#fff;margin-bottom:1.25rem;">
@@ -252,10 +249,10 @@ const schemaDate = (() => {
 
         <!-- Share bottom -->
         <div style="margin-top:2.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
-          <span style="font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.14em;color:rgba(10,10,10,0.3);">Partager</span>
+          <span style="font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.14em;color:rgba(10,10,10,0.3);">Share</span>
           <a href={`https://x.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:7px 14px;border-radius:8px;background:#0A0A0A;color:#fff;text-decoration:none;">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            Partager sur X
+            Share on X
           </a>
           <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:7px 14px;border-radius:8px;border:1.5px solid #E5E5E5;color:#0A0A0A;text-decoration:none;">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
@@ -267,7 +264,7 @@ const schemaDate = (() => {
       <!-- Sticky ToC (desktop) -->
       <aside style="display:none;" id="toc-aside">
         <div style="position:sticky;top:90px;">
-          <p style="font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(10,10,10,0.3);margin-bottom:12px;">Dans cet article</p>
+          <p style="font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(10,10,10,0.3);margin-bottom:12px;">In this article</p>
           <nav>
             <ol style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:2px;">
               {toc.map((h, i) => (
@@ -288,10 +285,10 @@ const schemaDate = (() => {
 
           <!-- CTA inline -->
           <div style="margin-top:2rem;padding:1.25rem;border-radius:14px;background:#0A0A0A;">
-            <p style="font-size:11px;font-weight:600;color:#fff;margin-bottom:6px;line-height:1.4;">Prêt à automatiser votre business ?</p>
-            <p style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:12px;line-height:1.5;">Audit gratuit en 48h.</p>
+            <p style="font-size:11px;font-weight:600;color:#fff;margin-bottom:6px;line-height:1.4;">Ready to automate your business?</p>
+            <p style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:12px;line-height:1.5;">Free audit within 48h.</p>
             <a href="/pages/welcome" style="display:block;text-align:center;font-size:11px;font-weight:600;padding:9px;border-radius:8px;background:#E8B4B0;color:#0A0A0A;text-decoration:none;">
-              Réserver mon audit →
+              Book your free audit →
             </a>
           </div>
         </div>
@@ -309,16 +306,16 @@ const schemaDate = (() => {
     <div class="container-x">
       <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem;">
         <div>
-          <p style="font-size:9px;text-transform:uppercase;letter-spacing:0.26em;font-weight:700;color:rgba(10,10,10,0.35);margin-bottom:6px;">Continuer la lecture</p>
-          <h2 style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:400;letter-spacing:-0.02em;">Plus du blog.</h2>
+          <p style="font-size:9px;text-transform:uppercase;letter-spacing:0.26em;font-weight:700;color:rgba(10,10,10,0.35);margin-bottom:6px;">Keep reading</p>
+          <h2 style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:400;letter-spacing:-0.02em;">More from the blog.</h2>
         </div>
         <a href="/pages/blog" style="font-size:11px;font-weight:600;color:rgba(10,10,10,0.4);text-decoration:none;display:flex;align-items:center;gap:6px;" onmouseover="this.style.color='#0A0A0A'" onmouseout="this.style.color='rgba(10,10,10,0.4)'">
-          Voir tous les articles
+          All articles
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
         </a>
       </div>
 
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;">
         {moreArticles.map((a) => (
           <article style="background:#fff;border:1px solid rgba(10,10,10,0.07);border-radius:18px;overflow:hidden;transition:box-shadow 0.2s,transform 0.2s;display:flex;flex-direction:column;"
                    onmouseover="this.style.boxShadow='0 8px 28px rgba(10,10,10,0.09)';this.style.transform='translateY(-2px)'"
@@ -353,14 +350,14 @@ const schemaDate = (() => {
 <section style="background:#0A0A0A;padding:5rem 0;position:relative;overflow:hidden;">
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse 50% 70% at 75% 50%,rgba(232,180,176,0.06) 0%,transparent 70%);pointer-events:none;"></div>
   <div class="container-x" style="position:relative;z-index:10;text-align:center;max-width:600px;margin-left:auto;margin-right:auto;">
-    <p style="font-size:9px;text-transform:uppercase;letter-spacing:0.26em;font-weight:700;color:rgba(232,180,176,0.5);margin-bottom:1rem;">De l'audit au déploiement</p>
+    <p style="font-size:9px;text-transform:uppercase;letter-spacing:0.26em;font-weight:700;color:rgba(232,180,176,0.5);margin-bottom:1rem;">From audit to deployment</p>
     <h2 style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.75rem,4vw,2.75rem);font-weight:400;color:#fff;line-height:1.15;letter-spacing:-0.02em;margin-bottom:2rem;">
-      Essayez l'automatisation<br/><em style="color:#E8B4B0;font-style:italic;">dont parlent ces articles.</em>
+      Experience the automation<br/><em style="color:#E8B4B0;font-style:italic;">these articles are about.</em>
     </h2>
     <a href="/pages/welcome"
        style="display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:12px;font-size:13.5px;font-weight:600;background:#E8B4B0;color:#0A0A0A;text-decoration:none;"
        onmouseover="this.style.background='#d9a09b'" onmouseout="this.style.background='#E8B4B0'">
-      Réserver votre audit gratuit
+      Book your free audit
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
     </a>
   </div>
@@ -379,7 +376,7 @@ const schemaDate = (() => {
   inLanguage: 'en-GB',
   image: {
     '@type': 'ImageObject',
-    url: `https://purist.io${article.image}`,
+    url: `https://purist.online${article.image}`,
   },
   author: {
     '@type': 'Person',
@@ -388,10 +385,10 @@ const schemaDate = (() => {
   publisher: {
     '@type': 'Organization',
     name: 'PURIST Automation Ltd',
-    url: 'https://purist.io',
+    url: 'https://purist.online',
     logo: {
       '@type': 'ImageObject',
-      url: 'https://purist.io/favicon.svg',
+      url: 'https://purist.online/favicon.svg',
     },
   },
   mainEntityOfPage: {

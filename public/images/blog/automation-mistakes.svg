@@ -1,57 +1,54 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 720" width="1400" height="720" preserveAspectRatio="xMidYMid slice">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0.5" y2="1">
-      <stop offset="0%" stop-color="#F8F6F1"/>
-      <stop offset="100%" stop-color="#EDE5D5"/>
-    </linearGradient>
-    <radialGradient id="glow" cx="0.7" cy="0.3" r="0.5">
-      <stop offset="0%" stop-color="#c4847e" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="#c4847e" stop-opacity="0"/>
-    </radialGradient>
-    <filter id="grain">
-      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="5"/>
-      <feColorMatrix values="0 0 0 0 0.6  0 0 0 0 0.55  0 0 0 0 0.48  0 0 0 0.05 0"/>
-      <feComposite operator="in" in2="SourceGraphic"/>
-    </filter>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0f0a08"/><stop offset="100%" stop-color="#130e0c"/></linearGradient>
+    <radialGradient id="g1" cx="0.3" cy="0.4" r="0.55"><stop offset="0%" stop-color="#A0522D" stop-opacity="0.22"/><stop offset="100%" stop-color="#A0522D" stop-opacity="0"/></radialGradient>
+    <radialGradient id="g2" cx="0.78" cy="0.6" r="0.4"><stop offset="0%" stop-color="#E8B4B0" stop-opacity="0.1"/><stop offset="100%" stop-color="#E8B4B0" stop-opacity="0"/></radialGradient>
   </defs>
   <rect width="1400" height="720" fill="url(#bg)"/>
-  <rect width="1400" height="720" fill="url(#glow)"/>
-
-  <!-- 7 warning marks -->
-  <g fill="none" stroke="#E8B4B0">
-    <g transform="translate(750,160)" opacity="0.7">
-      <circle cx="0" cy="0" r="38" stroke-width="1.5"/>
-      <line x1="0" y1="-18" x2="0" y2="8" stroke-width="2.5" stroke-linecap="round"/>
-      <circle cx="0" cy="18" r="3" fill="#E8B4B0"/>
-    </g>
-    <g transform="translate(860,240)" opacity="0.5">
-      <circle cx="0" cy="0" r="28" stroke-width="1.2"/>
-      <line x1="0" y1="-13" x2="0" y2="5" stroke-width="2" stroke-linecap="round"/>
-      <circle cx="0" cy="13" r="2.5" fill="#E8B4B0"/>
-    </g>
-    <g transform="translate(960,180)" opacity="0.4">
-      <circle cx="0" cy="0" r="22" stroke-width="1"/>
-      <line x1="0" y1="-10" x2="0" y2="4" stroke-width="1.8" stroke-linecap="round"/>
-      <circle cx="0" cy="10" r="2" fill="#E8B4B0"/>
-    </g>
-    <g transform="translate(1060,310)" opacity="0.35">
-      <circle cx="0" cy="0" r="18" stroke-width="0.9"/>
-    </g>
-    <g transform="translate(1150,200)" opacity="0.25">
-      <circle cx="0" cy="0" r="14" stroke-width="0.8"/>
-    </g>
-    <g transform="translate(1220,350)" opacity="0.2">
-      <circle cx="0" cy="0" r="11" stroke-width="0.7"/>
-    </g>
-    <g transform="translate(1280,250)" opacity="0.15">
-      <circle cx="0" cy="0" r="8" stroke-width="0.6"/>
-    </g>
+  <rect width="1400" height="720" fill="url(#g1)"/>
+  <rect width="1400" height="720" fill="url(#g2)"/>
+  <g stroke="rgba(255,255,255,0.03)" stroke-width="1">
+    <line x1="0" y1="180" x2="1400" y2="180"/><line x1="0" y1="360" x2="1400" y2="360"/><line x1="0" y1="540" x2="1400" y2="540"/>
+    <line x1="280" y1="0" x2="280" y2="720"/><line x1="560" y1="0" x2="560" y2="720"/><line x1="840" y1="0" x2="840" y2="720"/><line x1="1120" y1="0" x2="1120" y2="720"/>
   </g>
-
-  <!-- Large 7 -->
-  <text x="620" y="430" font-family="Georgia, serif" font-size="200" fill="#E8B4B0" opacity="0.07" font-weight="bold">7</text>
-
-  <text x="80" y="620" font-family="Inter, sans-serif" font-size="13" fill="#c4847e" letter-spacing="5" font-weight="500">AUTOMATION MISTAKES</text>
-  <text x="80" y="668" font-family="Georgia, serif" font-size="34" fill="#0A0A0A" font-weight="400">PURIST · Guide</text>
-  <rect width="1400" height="720" filter="url(#grain)" opacity="0.5"/>
+  <!-- Pipeline boxes -->
+  <rect x="120" y="155" width="148" height="80" rx="8" fill="rgba(45,80,22,0.14)" stroke="rgba(45,80,22,0.4)" stroke-width="1"/>
+  <text x="194" y="194" font-family="Inter,sans-serif" font-size="11" fill="rgba(45,80,22,0.9)" text-anchor="middle" font-weight="600">TRIGGER</text>
+  <text x="194" y="210" font-family="Inter,sans-serif" font-size="9" fill="rgba(45,80,22,0.5)" text-anchor="middle">webhook · polling</text>
+  <line x1="268" y1="195" x2="328" y2="195" stroke="rgba(255,255,255,0.14)" stroke-width="1.5"/>
+  <polygon points="328,191 336,195 328,199" fill="rgba(255,255,255,0.14)"/>
+  <rect x="336" y="155" width="148" height="80" rx="8" fill="rgba(160,82,45,0.12)" stroke="rgba(160,82,45,0.35)" stroke-width="1"/>
+  <text x="410" y="194" font-family="Inter,sans-serif" font-size="11" fill="rgba(160,82,45,0.9)" text-anchor="middle" font-weight="600">PROCESS</text>
+  <text x="410" y="210" font-family="Inter,sans-serif" font-size="9" fill="rgba(160,82,45,0.5)" text-anchor="middle">transform · enrich</text>
+  <line x1="484" y1="195" x2="544" y2="195" stroke="rgba(232,180,176,0.28)" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <polygon points="544,191 552,195 544,199" fill="rgba(232,180,176,0.28)"/>
+  <!-- Error box -->
+  <rect x="552" y="155" width="148" height="80" rx="8" fill="rgba(232,180,176,0.07)" stroke="rgba(232,180,176,0.28)" stroke-width="1" stroke-dasharray="5 3"/>
+  <text x="626" y="194" font-family="Inter,sans-serif" font-size="11" fill="rgba(232,180,176,0.7)" text-anchor="middle" font-weight="600">ERROR</text>
+  <text x="626" y="210" font-family="Inter,sans-serif" font-size="9" fill="rgba(232,180,176,0.4)" text-anchor="middle">silent failure</text>
+  <!-- X mark -->
+  <line x1="768" y1="184" x2="786" y2="206" stroke="#E8B4B0" stroke-width="1.8" opacity="0.5"/>
+  <line x1="786" y1="184" x2="768" y2="206" stroke="#E8B4B0" stroke-width="1.8" opacity="0.5"/>
+  <line x1="700" y1="195" x2="808" y2="195" stroke="rgba(232,180,176,0.12)" stroke-width="1" stroke-dasharray="3 5"/>
+  <rect x="816" y="155" width="148" height="80" rx="8" fill="rgba(45,80,22,0.12)" stroke="rgba(45,80,22,0.35)" stroke-width="1"/>
+  <text x="890" y="194" font-family="Inter,sans-serif" font-size="11" fill="rgba(45,80,22,0.9)" text-anchor="middle" font-weight="600">DELIVER</text>
+  <text x="890" y="210" font-family="Inter,sans-serif" font-size="9" fill="rgba(45,80,22,0.5)" text-anchor="middle">output · notify</text>
+  <!-- Drop to review queue -->
+  <line x1="626" y1="235" x2="626" y2="330" stroke="rgba(232,180,176,0.18)" stroke-width="1" stroke-dasharray="4 4"/>
+  <rect x="534" y="330" width="184" height="68" rx="8" fill="rgba(232,180,176,0.06)" stroke="rgba(232,180,176,0.18)" stroke-width="1"/>
+  <text x="626" y="363" font-family="Inter,sans-serif" font-size="10" fill="rgba(232,180,176,0.6)" text-anchor="middle" font-weight="600">REVIEW QUEUE</text>
+  <text x="626" y="379" font-family="Inter,sans-serif" font-size="9" fill="rgba(232,180,176,0.35)" text-anchor="middle">human escalation</text>
+  <!-- 7 circles -->
+  <text x="1072" y="150" font-family="Inter,sans-serif" font-size="9" fill="rgba(255,255,255,0.2)" font-weight="600" letter-spacing="3">THE 7 MISTAKES</text>
+  <circle cx="1082" cy="190" r="5" fill="none" stroke="rgba(160,82,45,0.5)" stroke-width="1"/><circle cx="1082" cy="190" r="2.5" fill="#A0522D" opacity="0.7"/>
+  <circle cx="1122" cy="190" r="5" fill="none" stroke="rgba(160,82,45,0.5)" stroke-width="1"/><circle cx="1122" cy="190" r="2.5" fill="#A0522D" opacity="0.7"/>
+  <circle cx="1162" cy="190" r="5" fill="none" stroke="rgba(160,82,45,0.5)" stroke-width="1"/><circle cx="1162" cy="190" r="2.5" fill="#A0522D" opacity="0.7"/>
+  <circle cx="1202" cy="190" r="5" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><circle cx="1202" cy="190" r="2.5" fill="rgba(255,255,255,0.08)"/>
+  <circle cx="1242" cy="190" r="5" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><circle cx="1242" cy="190" r="2.5" fill="rgba(255,255,255,0.08)"/>
+  <circle cx="1282" cy="190" r="5" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><circle cx="1282" cy="190" r="2.5" fill="rgba(255,255,255,0.08)"/>
+  <circle cx="1322" cy="190" r="5" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><circle cx="1322" cy="190" r="2.5" fill="rgba(255,255,255,0.08)"/>
+  <line x1="80" y1="578" x2="300" y2="578" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <text x="80" y="562" font-family="Inter,sans-serif" font-size="10" fill="rgba(160,82,45,0.65)" letter-spacing="4" font-weight="600">ROI PROTECTION</text>
+  <text x="80" y="610" font-family="Georgia,serif" font-size="32" fill="rgba(255,255,255,0.85)" letter-spacing="-0.5">PURIST</text>
+  <text x="202" y="610" font-family="Georgia,serif" font-size="32" fill="rgba(255,255,255,0.22)"> · Engineering</text>
 </svg>
