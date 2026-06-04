@@ -18,13 +18,13 @@ const {
 } = Astro.props;
 
 const fullTitle = title.includes('PURIST') ? title : `${title} · PURIST`;
-const siteBase = Astro.url.origin;
-const canonicalURL = canonical || `${siteBase}${Astro.url.pathname}`;
-
-// OG image: use provided static image, otherwise fall back to the pre-generated default
+// canonicalURL uses the actual request origin (works on any deployment)
+const canonicalURL = canonical || `${Astro.url.origin}${Astro.url.pathname}`;
+// ogImage always uses the canonical site domain so social crawlers get a stable URL
+const ogBase = (Astro.site?.toString() ?? Astro.url.origin).replace(/\/$/, '');
 const ogImage = image
-  ? `${siteBase}${image.startsWith('/') ? image : `/${image}`}`
-  : `${siteBase}/og-default.png`;
+  ? `${ogBase}${image.startsWith('/') ? image : `/${image}`}`
+  : `${ogBase}/og-default.png`;
 ---
 
 <title>{fullTitle}</title>
