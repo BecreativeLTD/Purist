@@ -49,17 +49,17 @@ const svg = `<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http:/
 
   <!-- Main title -->
   <text
-    x="64" y="270"
+    x="64" y="210"
     font-family="Georgia, serif"
-    font-size="54"
+    font-size="58"
     font-weight="normal"
     fill="#ffffff"
     letter-spacing="-1.5"
   >Workflow Automation</text>
   <text
-    x="64" y="340"
+    x="64" y="282"
     font-family="Georgia, serif"
-    font-size="54"
+    font-size="58"
     font-weight="normal"
     fill="#ffffff"
     letter-spacing="-1.5"
@@ -67,16 +67,16 @@ const svg = `<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http:/
 
   <!-- Description -->
   <text
-    x="64" y="400"
+    x="64" y="336"
     font-family="Georgia, serif"
-    font-size="17"
-    fill="rgba(255,255,255,0.40)"
+    font-size="19"
+    fill="rgba(255,255,255,0.50)"
   >500+ production deployments across dental, real estate, agencies,</text>
   <text
-    x="64" y="424"
+    x="64" y="362"
     font-family="Georgia, serif"
-    font-size="17"
-    fill="rgba(255,255,255,0.40)"
+    font-size="19"
+    fill="rgba(255,255,255,0.50)"
   >e-commerce, legal and staffing. Deployed in days, 99.97% uptime.</text>
 
   <!-- Bottom divider -->
