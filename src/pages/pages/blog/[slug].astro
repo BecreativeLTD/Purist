@@ -163,7 +163,7 @@ const schemaDate = (() => {
 
   <!-- Full-bleed image as background -->
   <div style="position:absolute;inset:0;">
-    <img src={article.image} alt={article.title} style="width:100%;height:100%;object-fit:cover;opacity:0.32;" loading="eager"/>
+    <img src={article.image} alt={article.title} width="1200" height="630" style="width:100%;height:100%;object-fit:cover;opacity:0.32;" loading="eager"/>
     <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,10,0.15) 0%,rgba(10,10,10,0.55) 40%,#0A0A0A 85%);"></div>
   </div>
 
@@ -391,7 +391,7 @@ const schemaDate = (() => {
                    onmouseover="this.style.boxShadow='0 8px 28px rgba(10,10,10,0.09)';this.style.transform='translateY(-2px)'"
                    onmouseout="this.style.boxShadow='';this.style.transform=''">
             <a href={`/pages/blog/${a.slug}`} style="display:block;aspect-ratio:16/9;position:relative;overflow:hidden;">
-              <img src={a.image} alt={a.title} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.7s;" loading="lazy"
+              <img src={a.image} alt={a.title} width="480" height="270" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.7s;" loading="lazy"
                    onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform=''"/>
               <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(10,10,10,0.3) 100%);"></div>
               <span style="position:absolute;bottom:12px;left:12px;font-size:8.5px;text-transform:uppercase;letter-spacing:0.15em;font-weight:700;padding:4px 10px;border-radius:100px;background:rgba(10,10,10,0.55);color:rgba(255,255,255,0.85);backdrop-filter:blur(6px);">

@@ -24,6 +24,8 @@ const featured = advisors.find((a) => a.id === featuredQuote.advisorId);
             <img
               src={a.image}
               alt={`${a.name} — ${a.specialty}`}
+              width="400"
+              height="400"
               class="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-[1.03]"
               loading="lazy"
             />

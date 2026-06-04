@@ -34,6 +34,7 @@
         <button
           class="ind-tab text-[11px] font-semibold px-3.5 py-1.5 rounded-full transition-all duration-150"
           data-ind={ind.id}
+          aria-label={`Calculate ROI for ${ind.label}`}
           style={i === 0
             ? 'background:#E8B4B0;color:#0A0A0A;'
             : 'background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.46);border:1px solid rgba(255,255,255,0.09);'}
@@ -81,7 +82,7 @@
 
         <!-- Advanced -->
         <div class="mb-4" style="border-top:1px solid rgba(255,255,255,0.06);padding-top:1rem;">
-          <button id="adv-toggle" class="flex items-center gap-2 transition-all" style="color:rgba(255,255,255,0.32);">
+          <button id="adv-toggle" aria-expanded="false" aria-controls="adv-panel" class="flex items-center gap-2 transition-all" style="color:rgba(255,255,255,0.32);">
             <svg id="adv-arrow" class="w-3 h-3 transition-transform duration-200" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
               <path d="M3 5l4 4 4-4"/>
             </svg>
@@ -120,11 +121,11 @@
           <p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-2.5" style="color:rgba(255,255,255,0.26);">Scenario</p>
           <div class="flex gap-1.5" id="tier-btns">
             <button class="tier-btn text-[10.5px] font-semibold px-3 py-1.5 rounded-full transition-all duration-100"
-              data-tier="0" style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.44);border:1px solid rgba(255,255,255,0.08);">Conservative</button>
+              data-tier="0" aria-label="Conservative ROI scenario" style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.44);border:1px solid rgba(255,255,255,0.08);">Conservative</button>
             <button class="tier-btn text-[10.5px] font-semibold px-3 py-1.5 rounded-full transition-all duration-100"
-              data-tier="1" style="background:#E8B4B0;color:#0A0A0A;">Realistic</button>
+              data-tier="1" aria-label="Realistic ROI scenario" style="background:#E8B4B0;color:#0A0A0A;">Realistic</button>
             <button class="tier-btn text-[10.5px] font-semibold px-3 py-1.5 rounded-full transition-all duration-100"
-              data-tier="2" style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.44);border:1px solid rgba(255,255,255,0.08);">Optimistic</button>
+              data-tier="2" aria-label="Optimistic ROI scenario" style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.44);border:1px solid rgba(255,255,255,0.08);">Optimistic</button>
           </div>
         </div>
 

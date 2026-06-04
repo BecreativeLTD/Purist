@@ -64,6 +64,7 @@ const rest = articles; // show ALL articles in the grid
       <!-- Image -->
       <a href={`/pages/blog/${featured.slug}`} class="block relative overflow-hidden" style="aspect-ratio:16/9;min-height:220px;">
         <img src={featured.image} alt={featured.title}
+             width="1200" height="675"
              class="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.03]"
              style="display:block;max-width:100%;"
              loading="eager"/>
@@ -131,6 +132,7 @@ const rest = articles; // show ALL articles in the grid
           <!-- Image thumbnail -->
           <a href={`/pages/blog/${a.slug}`} class="block relative overflow-hidden shrink-0" style="aspect-ratio:16/9;background:#0A0A0A;">
             <img src={a.image} alt={a.title}
+                 width="480" height="270"
                  class="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-[1.025]"
                  style="display:block;max-width:100%;"
                  loading="lazy"/>

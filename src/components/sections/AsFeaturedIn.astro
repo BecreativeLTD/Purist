@@ -28,6 +28,7 @@ const { logos } = logosData;
     <div class="marquee-track items-center gap-20">
       {[...logos, ...logos].map((l) => (
         <img src={l.src} alt={l.name}
+             width="120" height="20"
              class="logo-item h-4 lg:h-5 w-auto object-contain shrink-0"
              loading="lazy" />
       ))}

@@ -274,7 +274,7 @@ const navLinks = [
     <!-- ── QUICK REPLIES ── -->
     <div id="chat-quick" style="display:flex;gap:6px;padding:0 16px 12px;overflow-x:auto;scrollbar-width:none;">
       {['Dental & Healthcare','Real Estate','Agency','E-commerce'].map(q => (
-        <button type="button" data-quick={q}
+        <button type="button" data-quick={q} aria-label={`Ask about ${q} automation`}
                 style="flex-shrink:0;font-size:10px;font-weight:500;letter-spacing:0.03em;padding:5px 12px;border-radius:20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.45);cursor:pointer;white-space:nowrap;transition:all 0.15s;"
                 onmouseover="this.style.borderColor='rgba(232,180,176,0.35)';this.style.color='rgba(232,180,176,0.85)';this.style.background='rgba(232,180,176,0.06)'"
                 onmouseout="this.style.borderColor='rgba(255,255,255,0.08)';this.style.color='rgba(255,255,255,0.45)';this.style.background='rgba(255,255,255,0.04)'">
@@ -285,11 +285,11 @@ const navLinks = [
 
     <!-- ── INPUT ── -->
     <div style="display:flex;align-items:center;gap:8px;padding:0 12px 12px;">
-      <input id="chat-input" type="text" placeholder="Ask anything about automation…" autocomplete="off"
+      <input id="chat-input" type="text" placeholder="Ask anything about automation…" autocomplete="off" aria-label="Ask anything about automation"
              style="flex:1;font-size:12px;padding:9px 13px;border-radius:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.80);caret-color:#E8B4B0;outline:none;transition:border-color 0.15s;"
              onfocus="this.style.borderColor='rgba(232,180,176,0.35)'"
              onblur="this.style.borderColor='rgba(255,255,255,0.08)'"/>
-      <button id="chat-send" type="button"
+      <button id="chat-send" type="button" aria-label="Send message"
               style="width:32px;height:32px;border-radius:9px;background:#E8B4B0;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background 0.15s;"
               onmouseover="this.style.background='#d9a09b'"
               onmouseout="this.style.background='#E8B4B0'">
