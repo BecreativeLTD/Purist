@@ -351,26 +351,34 @@ const navLinks = [
       'dental': {
         label: 'Dental & Healthcare',
         summary: 'Dental practices running PURIST save 12–18 hours per week on admin. We automate the full patient lifecycle: from appointment booking to billing reconciliation.',
+        summary_fr: 'Les cabinets dentaires utilisant PURIST économisent 12 à 18 heures par semaine sur les tâches administratives. Nous automatisons tout le cycle patient : de la prise de rendez-vous à la réconciliation de facturation.',
         workflows: ['Appointment reminder sequences (SMS + email)', 'Recall & re-engagement campaigns', 'Insurance pre-auth form collection', 'Billing reconciliation with your PMS', 'Patient feedback collection', 'Staff rota notifications'],
-        stats: [['14 h/wk', 'avg saved per clinic'],['£2,800/mo', 'staff cost equivalent'],['95%', 'less manual data entry']],
+        workflows_fr: ['Séquences de rappel de rendez-vous (SMS + email)', 'Campagnes de rappel et de réactivation patients', 'Collecte des formulaires d\'autorisation d\'assurance', 'Réconciliation de facturation avec votre logiciel cabinet', 'Collecte des avis patients', 'Notifications de planning du personnel'],
+        stats: [['14 h/sem', 'économisées en moyenne'],['£2 800/mois', 'équivalent coût salarié'],['95%', 'moins de saisie manuelle']],
       },
       'real estate': {
         label: 'Real Estate',
         summary: 'Real estate teams close 40% more deals with the same headcount by automating the entire lead-to-contract pipeline.',
+        summary_fr: 'Les équipes immobilières concluent 40% de transactions supplémentaires avec le même nombre de collaborateurs en automatisant toute la chaîne de lead jusqu\'au contrat.',
         workflows: ['Portal lead capture → CRM sync (Rightmove, Zoopla, OnTheMarket)', 'Automated follow-up sequences by lead temperature', 'Offer document generation', 'Viewing confirmation & reminder flows', 'Landlord/tenant onboarding packs', 'Commission invoice generation'],
-        stats: [['40%', 'more deals closed'],['9 h/wk', 'saved per agent'],['85%', 'faster lead response']],
+        workflows_fr: ['Capture de leads portails → sync CRM (SeLoger, Leboncoin, PAP)', 'Séquences de suivi automatisées selon la température du lead', 'Génération automatique des documents d\'offre', 'Confirmation et rappel des visites', 'Dossiers d\'onboarding propriétaires/locataires', 'Génération des factures de commission'],
+        stats: [['40%', 'de transactions en plus'],['9 h/sem', 'économisées par agent'],['85%', 'réponse lead plus rapide']],
       },
       'agency': {
         label: 'Agencies & Consulting',
         summary: 'Agencies eliminate 3–4 manual tools and deliver client work 60% faster by automating onboarding, reporting, and billing.',
+        summary_fr: 'Les agences suppriment 3 à 4 outils manuels et livrent les missions clients 60% plus vite en automatisant l\'onboarding, le reporting et la facturation.',
         workflows: ['Client onboarding (contracts, briefing, access)', 'Automated weekly/monthly reporting', 'Project status Slack notifications', 'Invoice generation on milestone hit', 'Lead qualification from contact forms', 'Internal task routing from client requests'],
-        stats: [['60%', 'faster delivery'],['£3,400/mo', 'tool savings'],['3–4 tools', 'replaced on day 1']],
+        workflows_fr: ['Onboarding client (contrats, brief, accès)', 'Rapports hebdomadaires/mensuels automatisés', 'Notifications Slack de l\'avancement des projets', 'Génération de facture à l\'atteinte des jalons', 'Qualification des leads depuis les formulaires de contact', 'Routage interne des tâches depuis les demandes clients'],
+        stats: [['60%', 'livraison plus rapide'],['£3 400/mois', 'économie d\'outils'],['3–4 outils', 'remplacés dès J+1']],
       },
       'ecommerce': {
         label: 'E-commerce & Retail',
         summary: 'E-commerce brands cut support tickets by 70% and recover abandoned revenue automatically — 24/7, no extra headcount.',
+        summary_fr: 'Les marques e-commerce réduisent les tickets support de 70% et récupèrent automatiquement les revenus perdus — 24h/24, sans personnel supplémentaire.',
         workflows: ['Order confirmation & fulfilment updates', 'Inventory alert → reorder trigger', 'Abandoned cart recovery sequences', 'Post-purchase review requests', 'AI support triage (classify & auto-resolve Tier-1)', 'Return & refund processing'],
-        stats: [['70%', 'fewer support tickets'],['99.7%', 'fulfilment accuracy'],['24/7', 'AI support coverage']],
+        workflows_fr: ['Confirmation de commande et mises à jour d\'expédition', 'Alerte stock → déclenchement réassort automatique', 'Séquences de récupération de panier abandonné', 'Demandes d\'avis post-achat', 'Triage support IA (classification et résolution automatique niveau 1)', 'Traitement des retours et remboursements'],
+        stats: [['70%', 'de tickets en moins'],['99,7%', 'précision expédition'],['24h/24', 'support IA']],
       },
     },
     products: {
@@ -444,10 +452,12 @@ const navLinks = [
           stats: null };
       case 'industry': {
         var ind = KB.industries[classified.key];
+        var indSummary = fr && ind.summary_fr ? ind.summary_fr : ind.summary;
+        var indWorkflows = fr && ind.workflows_fr ? ind.workflows_fr : ind.workflows;
         return {
           text: fr
-            ? ind.summary + '\n\nWorkflows déployés en priorité :\n' + ind.workflows.slice(0,4).map(function(w){ return '· ' + w; }).join('\n')
-            : ind.summary + '\n\nWorkflows we typically deploy first:\n' + ind.workflows.slice(0,4).map(function(w){ return '· ' + w; }).join('\n'),
+            ? indSummary + '\n\nWorkflows déployés en priorité :\n' + indWorkflows.slice(0,4).map(function(w){ return '· ' + w; }).join('\n')
+            : indSummary + '\n\nWorkflows we typically deploy first:\n' + indWorkflows.slice(0,4).map(function(w){ return '· ' + w; }).join('\n'),
           stats: ind.stats,
           followUp: fr
             ? 'Voulez-vous voir l\'estimation ROI pour ce secteur, ou quel plan correspond le mieux ?'
