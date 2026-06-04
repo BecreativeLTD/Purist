@@ -161,7 +161,7 @@
 
           <!-- ── INPUTS ── -->
           <div class="mb-2">
-            <p class="text-[8.5px] uppercase tracking-[0.22em] font-bold mb-3" style="color:rgba(255,255,255,0.20);">Inputs — live triggers</p>
+            <p class="text-[8.5px] uppercase tracking-[0.22em] font-bold mb-3" style="color:rgba(255,255,255,0.55);">Inputs — live triggers</p>
             <div class="flex flex-wrap gap-2" id="input-pills">
               {['Form submitted','New CRM lead','Payment received','Email received','Calendar booking','API webhook','Scheduled job','AI message'].map((t,i) => (
                 <span data-input-pill={i} class="flow-pill text-[10px] font-medium px-2.5 py-1 rounded-full transition-all duration-200 cursor-default select-none"
@@ -227,7 +227,7 @@
             </div>
             <div class="ml-auto text-right">
               <p class="font-display text-[1.1rem] font-medium tabular-nums" id="latency-display" style="color:rgba(74,138,42,0.85);">~80ms</p>
-              <p class="text-[9px]" style="color:rgba(255,255,255,0.22);">inference latency</p>
+              <p class="text-[9px]" style="color:rgba(255,255,255,0.55);">inference latency</p>
             </div>
           </div>
 
@@ -242,7 +242,7 @@
 
           <!-- ── OUTPUTS ── -->
           <div>
-            <p class="text-[8.5px] uppercase tracking-[0.22em] font-bold mb-3" style="color:rgba(255,255,255,0.20);">Outputs — deployed instantly</p>
+            <p class="text-[8.5px] uppercase tracking-[0.22em] font-bold mb-3" style="color:rgba(255,255,255,0.55);">Outputs — deployed instantly</p>
             <div class="flex flex-wrap gap-2" id="output-pills">
               {['CRM updated','Invoice sent','Slack alert','SMS confirmation','Report generated','Database written','Webhook fired','Email dispatched'].map((t,i) => (
                 <span data-output-pill={i} class="flow-pill text-[10px] font-medium px-2.5 py-1 rounded-full transition-all duration-200 cursor-default select-none"
@@ -255,15 +255,15 @@
           <div class="mt-5 pt-5 flex items-center justify-between flex-wrap gap-4" style="border-top:1px solid rgba(255,255,255,0.06);">
             <div class="flex items-center gap-8">
               <div>
-                <p class="text-[8.5px] uppercase tracking-[0.16em] mb-1" style="color:rgba(255,255,255,0.22);">End-to-end latency</p>
+                <p class="text-[8.5px] uppercase tracking-[0.16em] mb-1" style="color:rgba(255,255,255,0.55);">End-to-end latency</p>
                 <p class="font-display text-[1.3rem] font-medium text-white leading-none">&lt;200ms</p>
               </div>
               <div>
-                <p class="text-[8.5px] uppercase tracking-[0.16em] mb-1" style="color:rgba(255,255,255,0.22);">Uptime SLA</p>
+                <p class="text-[8.5px] uppercase tracking-[0.16em] mb-1" style="color:rgba(255,255,255,0.55);">Uptime SLA</p>
                 <p class="font-display text-[1.3rem] font-medium text-white leading-none">99.97%</p>
               </div>
               <div>
-                <p class="text-[8.5px] uppercase tracking-[0.16em] mb-1" style="color:rgba(255,255,255,0.22);">Error alert within</p>
+                <p class="text-[8.5px] uppercase tracking-[0.16em] mb-1" style="color:rgba(255,255,255,0.55);">Error alert within</p>
                 <p class="font-display text-[1.3rem] font-medium text-white leading-none">90 sec</p>
               </div>
             </div>

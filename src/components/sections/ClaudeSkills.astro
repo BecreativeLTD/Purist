@@ -20,15 +20,15 @@ const { totalSkills, categories } = skillsData;
     <div class="flex items-center gap-10 mb-14 pb-8 border-b border-white/[0.06]">
       <div>
         <span class="font-display text-4xl text-brand-rust tabular-nums">{totalSkills}</span>
-        <span class="text-[10px] text-white/30 uppercase tracking-widest ml-2">Skills</span>
+        <span class="text-[10px] text-white/55 uppercase tracking-widest ml-2">Skills</span>
       </div>
       <div>
         <span class="font-display text-4xl text-white/70 tabular-nums">{categories.length}</span>
-        <span class="text-[10px] text-white/30 uppercase tracking-widest ml-2">Domains</span>
+        <span class="text-[10px] text-white/55 uppercase tracking-widest ml-2">Domains</span>
       </div>
       <div>
         <span class="font-display text-4xl text-white/70 tabular-nums">402</span>
-        <span class="text-[10px] text-white/30 uppercase tracking-widest ml-2">CLI Tools</span>
+        <span class="text-[10px] text-white/55 uppercase tracking-widest ml-2">CLI Tools</span>
       </div>
     </div>
 
@@ -38,21 +38,21 @@ const { totalSkills, categories } = skillsData;
         <div class="bg-brand-black p-5 hover:bg-white/[0.02] transition-colors">
           <div class="flex items-center justify-between mb-3">
             <span class="text-sm font-medium text-white/80">{cat.name}</span>
-            <span class="text-[10px] text-white/25 tabular-nums">{cat.count}</span>
+            <span class="text-[10px] text-white/55 tabular-nums">{cat.count}</span>
           </div>
           <div class="flex flex-wrap gap-1">
             {cat.skills.slice(0, 4).map((skill) => (
-              <span class="text-[10px] text-white/35">{skill}</span>
+              <span class="text-[10px] text-white/60">{skill}</span>
             ))}
             {cat.skills.length > 4 && (
-              <span class="text-[10px] text-brand-rust/60">+{cat.skills.length - 4}</span>
+              <span class="text-[10px] text-brand-rust">+{cat.skills.length - 4}</span>
             )}
           </div>
         </div>
       ))}
     </div>
 
-    <p class="mt-8 text-[11px] text-white/20 text-center">
+    <p class="mt-8 text-[11px] text-white/50 text-center">
       Open-source · <a href="https://github.com/BecreativeLTD/claude-skills" target="_blank" rel="noopener" class="underline underline-offset-2 hover:text-white/40 transition">github.com/BecreativeLTD/claude-skills</a>
     </p>
   </div>

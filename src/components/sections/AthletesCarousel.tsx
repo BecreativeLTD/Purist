@@ -85,7 +85,7 @@ export default function AthletesCarousel({ athletes }: Props) {
                 />
               </div>
               <div class="px-5 py-4 border-t border-brand-gray-100">
-                <p class="text-[10px] uppercase tracking-[0.12em] text-brand-pink mb-0.5">{a.discipline}</p>
+                <p class="text-[10px] uppercase tracking-[0.12em] text-brand-rust mb-0.5">{a.discipline}</p>
                 <p class="font-display text-base leading-tight text-brand-black">{a.name}</p>
                 <p class="text-[11px] text-brand-gray-500 mt-0.5">{a.role}</p>
               </div>
