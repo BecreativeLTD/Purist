@@ -184,7 +184,7 @@ const navItems = [
   <!-- ══════════════════════════════════════════════════════════════ -->
   <!-- LEFT SIDEBAR                                                   -->
   <!-- ══════════════════════════════════════════════════════════════ -->
-  <aside id="sidebar" class="w-[260px] shrink-0 flex flex-col overflow-y-auto" style="background:#0C0C0C;border-right:1px solid rgba(255,255,255,0.06);scrollbar-width:none;height:100%;position:absolute;top:0;bottom:0;left:0;z-index:50;transform:translateX(-260px);transition:transform 0.3s cubic-bezier(0.32,0.72,0,1);" data-mobile-sidebar="true">
+  <aside id="sidebar" class="shrink-0 flex flex-col overflow-y-auto" style="background:#0C0C0C;border-right:1px solid rgba(255,255,255,0.06);scrollbar-width:none;height:100%;position:absolute;top:0;bottom:0;left:0;z-index:50;width:100%;max-width:320px;transform:translateX(-110%);transition:transform 0.3s cubic-bezier(0.32,0.72,0,1);" data-mobile-sidebar="true">
 
     <!-- Pink accent strip -->
     <div class="h-[2px] w-full shrink-0" style="background:linear-gradient(90deg,#E8B4B0 0%,#c4847e 50%,transparent 100%);"/>
@@ -432,7 +432,7 @@ const navItems = [
   <!-- ══════════════════════════════════════════════════════════════ -->
   <!-- MAIN CONTENT                                                   -->
   <!-- ══════════════════════════════════════════════════════════════ -->
-  <div class="flex-1 min-w-0 overflow-y-auto" style="height:100%;margin-left:0;transition:margin-left 0.3s cubic-bezier(0.32,0.72,0,1);" id="dash-content">
+  <div class="flex-1 min-w-0 overflow-y-auto pb-20 lg:pb-0 overflow-x-hidden" style="height:100%;transition:margin-left 0.3s cubic-bezier(0.32,0.72,0,1);" id="dash-content">
 
     <!-- ─── VIEW: OVERVIEW ─────────────────────────────────────── -->
     <div class="view-section" data-section="overview">
@@ -493,8 +493,8 @@ const navItems = [
       </div>
 
       <!-- Main grid -->
-      <div class="bg-brand-cream p-5">
-        <div class="grid lg:grid-cols-12 gap-5">
+      <div class="bg-brand-cream p-3 lg:p-5">
+        <div class="grid lg:grid-cols-12 gap-3 lg:gap-5">
 
           <!-- Left 8 cols -->
           <div class="lg:col-span-8 space-y-5">
@@ -565,7 +565,7 @@ const navItems = [
 
 
               <!-- Bottom stats -->
-              <div class="grid grid-cols-3 divide-x divide-brand-gray-100 border-t border-brand-gray-100 mt-2">
+              <div class="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-brand-gray-100 border-t border-brand-gray-100 mt-2">
                 <div class="px-5 py-5 text-center">
                   <p class="font-display text-2xl font-bold text-brand-black tabular-nums">142,847</p>
                   <p class="text-[10px] text-brand-gray-400 mt-1">Executions this month</p>
@@ -865,11 +865,16 @@ const navItems = [
 
     <!-- ─── VIEW: WORKFLOWS ─────────────────────────────────────── -->
     <div class="view-section hidden" data-section="workflows">
-      <div class="bg-brand-black px-6 py-5 border-b border-white/[0.05]">
-        <h1 class="font-display text-xl text-white">Workflows</h1>
-        <p class="text-[10px] text-white/30 mt-1">{workflows.length} workflows · {workflows.filter(w=>w.status==='active').length} active · {workflows.filter(w=>w.status==='paused').length} paused</p>
+      <div class="bg-brand-black px-4 lg:px-6 py-4 lg:py-5 border-b border-white/[0.05] flex items-center gap-3">
+        <button id="sidebar-toggle-wf" type="button" onclick="toggleSidebar()" class="lg:hidden w-8 h-8 flex items-center justify-center rounded-lg shrink-0" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);" aria-label="Menu">
+          <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linecap="round"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
+        </button>
+        <div>
+          <h1 class="font-display text-xl text-white">Workflows</h1>
+          <p class="text-[10px] text-white/30 mt-1">{workflows.length} workflows · {workflows.filter(w=>w.status==='active').length} active · {workflows.filter(w=>w.status==='paused').length} paused</p>
+        </div>
       </div>
-      <div class="p-5 bg-brand-cream">
+      <div class="p-3 lg:p-5 bg-brand-cream">
         <div class="bg-white rounded-xl border border-brand-gray-100 overflow-hidden">
           <div class="flex items-center justify-between px-5 py-3.5 border-b border-brand-gray-100">
             <h2 class="font-display text-sm">All Workflows</h2>
@@ -922,11 +927,16 @@ const navItems = [
 
     <!-- ─── VIEW: CONNECTORS ────────────────────────────────────── -->
     <div class="view-section hidden" data-section="connectors">
-      <div class="bg-brand-black px-6 py-5 border-b border-white/[0.05]">
-        <h1 class="font-display text-xl text-white">Connectors</h1>
-        <p class="text-[10px] text-white/30 mt-1">{integrations.length} connected · all healthy · last synced 5s ago</p>
+      <div class="bg-brand-black px-4 lg:px-6 py-4 lg:py-5 border-b border-white/[0.05] flex items-center gap-3">
+        <button id="sidebar-toggle-cn" type="button" onclick="toggleSidebar()" class="lg:hidden w-8 h-8 flex items-center justify-center rounded-lg shrink-0" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);" aria-label="Menu">
+          <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linecap="round"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
+        </button>
+        <div>
+          <h1 class="font-display text-xl text-white">Connectors</h1>
+          <p class="text-[10px] text-white/30 mt-1">{integrations.length} connected · all healthy · last synced 5s ago</p>
+        </div>
       </div>
-      <div class="p-5 bg-brand-cream space-y-5">
+      <div class="p-3 lg:p-5 bg-brand-cream space-y-4 lg:space-y-5">
         <!-- Integration cards -->
         <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {integrations.map((int) => (
@@ -1130,15 +1140,20 @@ const navItems = [
 
     <!-- ─── VIEW: AI AGENTS ─────────────────────────────────────── -->
     <div class="view-section hidden" data-section="ai-agents">
-      <div class="bg-brand-black px-6 py-5 border-b border-white/[0.05]">
-        <h1 class="font-display text-xl text-white">AI Agents</h1>
-        <p class="text-[10px] text-white/30 mt-1">Powered by Claude · {aiPerf.completions} completions this month · {aiPerf.accuracy} accuracy</p>
+      <div class="bg-brand-black px-4 lg:px-6 py-4 lg:py-5 border-b border-white/[0.05] flex items-center gap-3">
+        <button id="sidebar-toggle-ai" type="button" onclick="toggleSidebar()" class="lg:hidden w-8 h-8 flex items-center justify-center rounded-lg shrink-0" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);" aria-label="Menu">
+          <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linecap="round"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
+        </button>
+        <div>
+          <h1 class="font-display text-xl text-white">AI Agents</h1>
+          <p class="text-[10px] text-white/30 mt-1">Powered by Claude · {aiPerf.completions} completions this month · {aiPerf.accuracy} accuracy</p>
+        </div>
       </div>
-      <div class="p-5 bg-brand-cream">
+      <div class="p-3 lg:p-5 bg-brand-cream">
         <div class="grid lg:grid-cols-12 gap-5">
           <div class="lg:col-span-8 space-y-5">
             <!-- AI metrics -->
-            <div class="grid grid-cols-3 gap-4">
+            <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
               {[
                 { v: aiPerf.completions, l: 'Total Completions', sub: 'this month' },
                 { v: aiPerf.tokens, l: 'Tokens Processed', sub: 'input + output' },
@@ -1217,11 +1232,16 @@ const navItems = [
 
     <!-- ─── VIEW: REPORTS ───────────────────────────────────────── -->
     <div class="view-section hidden" data-section="reports">
-      <div class="bg-brand-black px-6 py-5 border-b border-white/[0.05]">
-        <h1 class="font-display text-xl text-white">Reports</h1>
-        <p class="text-[10px] text-white/30 mt-1">Performance analytics · cost savings · execution trends</p>
+      <div class="bg-brand-black px-4 lg:px-6 py-4 lg:py-5 border-b border-white/[0.05] flex items-center gap-3">
+        <button id="sidebar-toggle-rp" type="button" onclick="toggleSidebar()" class="lg:hidden w-8 h-8 flex items-center justify-center rounded-lg shrink-0" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);" aria-label="Menu">
+          <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linecap="round"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
+        </button>
+        <div>
+          <h1 class="font-display text-xl text-white">Reports</h1>
+          <p class="text-[10px] text-white/30 mt-1">Performance analytics · cost savings · execution trends</p>
+        </div>
       </div>
-      <div class="p-5 bg-brand-cream space-y-5">
+      <div class="p-3 lg:p-5 bg-brand-cream space-y-4 lg:space-y-5">
         <!-- Trend chart (full width) -->
         <div class="bg-white rounded-xl border border-brand-gray-100 overflow-hidden">
           <div class="flex items-center justify-between px-5 py-3.5 border-b border-brand-gray-100">
@@ -1247,7 +1267,7 @@ const navItems = [
                 </div>
               ))}
             </div>
-            <div class="mt-4 pt-4 border-t border-brand-gray-100 grid grid-cols-3 gap-4 text-center">
+            <div class="mt-4 pt-4 border-t border-brand-gray-100 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
               <div>
                 <p class="font-display text-xl text-brand-black tabular-nums">142,847</p>
                 <p class="text-[9px] text-brand-gray-500 mt-0.5">Executions this month</p>
@@ -1329,11 +1349,16 @@ const navItems = [
 
     <!-- ─── VIEW: ALERTS ────────────────────────────────────────── -->
     <div class="view-section hidden" data-section="alerts">
-      <div class="bg-brand-black px-6 py-5 border-b border-white/[0.05]">
-        <h1 class="font-display text-xl text-white">Alerts</h1>
-        <p class="text-[10px] text-white/30 mt-1">0 open incidents · {alerts.length} resolved in last 30 days</p>
+      <div class="bg-brand-black px-4 lg:px-6 py-4 lg:py-5 border-b border-white/[0.05] flex items-center gap-3">
+        <button id="sidebar-toggle-al" type="button" onclick="toggleSidebar()" class="lg:hidden w-8 h-8 flex items-center justify-center rounded-lg shrink-0" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);" aria-label="Menu">
+          <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linecap="round"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
+        </button>
+        <div>
+          <h1 class="font-display text-xl text-white">Alerts</h1>
+          <p class="text-[10px] text-white/30 mt-1">0 open incidents · {alerts.length} resolved in last 30 days</p>
+        </div>
       </div>
-      <div class="p-5 bg-brand-cream">
+      <div class="p-3 lg:p-5 bg-brand-cream">
         <div class="grid lg:grid-cols-12 gap-5">
           <div class="lg:col-span-8 space-y-5">
 
@@ -1449,23 +1474,28 @@ const navItems = [
     <div class="view-section hidden" data-section="settings">
 
       <!-- Header -->
-      <div class="bg-brand-black px-6 py-5 border-b border-white/[0.05]">
-        <h1 class="font-display text-xl text-white">Settings</h1>
-        <p class="text-[10px] text-white/30 mt-1">Account, API keys, integrations, billing, and report exports</p>
+      <div class="bg-brand-black px-4 lg:px-6 py-4 lg:py-5 border-b border-white/[0.05] flex items-center gap-3">
+        <button id="sidebar-toggle-st" type="button" onclick="toggleSidebar()" class="lg:hidden w-8 h-8 flex items-center justify-center rounded-lg shrink-0" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);" aria-label="Menu">
+          <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linecap="round"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
+        </button>
+        <div>
+          <h1 class="font-display text-xl text-white">Settings</h1>
+          <p class="text-[10px] text-white/30 mt-1">Account, API keys, integrations, billing, and report exports</p>
+        </div>
       </div>
 
       <!-- Settings tab nav (dark bar) -->
-      <div class="bg-[#111110] border-b border-white/[0.06] px-6 flex gap-0 shrink-0">
-        <button type="button" id="st-tab-general" class="st-tab px-4 py-3 text-[11px] font-semibold border-b-2 transition-all"
+      <div class="bg-[#111110] border-b border-white/[0.06] px-2 lg:px-6 flex gap-0 shrink-0 overflow-x-auto" style="scrollbar-width:none;-webkit-overflow-scrolling:touch;">
+        <button type="button" id="st-tab-general" class="st-tab px-3 lg:px-4 py-3 text-[11px] font-semibold border-b-2 transition-all whitespace-nowrap shrink-0"
           style="border-color:#E8B4B0;color:rgba(255,255,255,0.90);"
           onclick="window.switchSettingsTab('st-general')">General</button>
-        <button type="button" id="st-tab-api" class="st-tab px-4 py-3 text-[11px] font-semibold border-b-2 transition-all"
+        <button type="button" id="st-tab-api" class="st-tab px-3 lg:px-4 py-3 text-[11px] font-semibold border-b-2 transition-all whitespace-nowrap shrink-0"
           style="border-color:transparent;color:rgba(255,255,255,0.35);"
           onclick="window.switchSettingsTab('st-api')">API Keys</button>
-        <button type="button" id="st-tab-notif" class="st-tab px-4 py-3 text-[11px] font-semibold border-b-2 transition-all"
+        <button type="button" id="st-tab-notif" class="st-tab px-3 lg:px-4 py-3 text-[11px] font-semibold border-b-2 transition-all whitespace-nowrap shrink-0"
           style="border-color:transparent;color:rgba(255,255,255,0.35);"
           onclick="window.switchSettingsTab('st-notif')">Notifications</button>
-        <button type="button" id="st-tab-reports" class="st-tab px-4 py-3 text-[11px] font-semibold border-b-2 transition-all"
+        <button type="button" id="st-tab-reports" class="st-tab px-3 lg:px-4 py-3 text-[11px] font-semibold border-b-2 transition-all whitespace-nowrap shrink-0"
           style="border-color:transparent;color:rgba(255,255,255,0.35);"
           onclick="window.switchSettingsTab('st-reports')">Reports &amp; Exports</button>
       </div>
@@ -1487,7 +1517,7 @@ const navItems = [
       </script>
 
       <!-- Tab content area -->
-      <div class="p-6 bg-brand-cream overflow-auto flex-1">
+      <div class="p-4 lg:p-6 bg-brand-cream overflow-auto flex-1">
 
         <!-- ── GENERAL ──────────────────────────────────────── -->
         <div id="st-general" class="st-panel max-w-3xl">
@@ -1638,7 +1668,7 @@ const navItems = [
                 </div>
               </div>
               <!-- Usage stats -->
-              <div class="grid grid-cols-3 gap-3 pt-1">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
                 {[
                   {l:'Completions this month', v:'25,498', color:'#0A0A0A'},
                   {l:'Tokens consumed', v:'84.2M', color:'#E8B4B0'},
@@ -1694,7 +1724,7 @@ const navItems = [
                   <input type="url" value="https://n8n.purist.co/webhook/" class="w-full text-[11px] font-mono border border-brand-gray-200 rounded-[8px] px-3 py-2.5 outline-none focus:border-brand-black transition bg-brand-cream"/>
                 </div>
               </div>
-              <div class="grid grid-cols-3 gap-3">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {[
                   {l:'Executions this month', v:'142,847'},
                   {l:'Active workflows',      v:'12'},
@@ -2038,6 +2068,11 @@ const navItems = [
     views.forEach(v => {
       v.classList.toggle('hidden', v.dataset.section !== viewId);
     });
+    // Update mobile bottom nav active state
+    document.querySelectorAll<HTMLElement>('.mobile-nav-btn').forEach(btn => {
+      const active = btn.dataset.view === viewId;
+      btn.style.color = active ? '#E8B4B0' : 'rgba(255,255,255,0.35)';
+    });
     // Scroll the content pane (not window) back to top
     const contentPane = document.querySelector<HTMLElement>('#dashboard-shell > div:last-child');
     if (contentPane) contentPane.scrollTop = 0;
@@ -2063,30 +2098,41 @@ const navItems = [
   function openSidebar() {
     sidebarOpen = true;
     if (sidebar) sidebar.style.transform = 'translateX(0)';
-    if (backdrop) { backdrop.style.opacity = '1'; backdrop.style.pointerEvents = 'auto'; }
+    if (backdrop) { backdrop.style.opacity = '1'; backdrop.style.pointerEvents = 'auto'; backdrop.style.background = 'rgba(0,0,0,0.75)'; }
   }
   function closeSidebar() {
     sidebarOpen = false;
-    if (sidebar) sidebar.style.transform = 'translateX(-260px)';
+    if (sidebar) sidebar.style.transform = 'translateX(-110%)';
     if (backdrop) { backdrop.style.opacity = '0'; backdrop.style.pointerEvents = 'none'; }
   }
-  // On desktop, always show sidebar
+  const dashContent = document.getElementById('dash-content');
   function handleResize() {
-    if (window.innerWidth >= 1024) { closeSidebar(); }
+    if (window.innerWidth >= 1024) {
+      sidebarOpen = false;
+      if (sidebar) sidebar.style.transform = 'translateX(0)';
+      if (backdrop) { backdrop.style.opacity = '0'; backdrop.style.pointerEvents = 'none'; }
+      if (dashContent) dashContent.style.marginLeft = '260px';
+    } else {
+      if (dashContent) dashContent.style.marginLeft = '0';
+      if (sidebarOpen) {
+        if (sidebar) sidebar.style.transform = 'translateX(0)';
+      } else {
+        if (sidebar) sidebar.style.transform = 'translateX(-110%)';
+      }
+    }
   }
   window.addEventListener('resize', handleResize);
+  handleResize();
   (window as any).toggleSidebar = toggleSidebar;
   (window as any).closeSidebar = closeSidebar;
 
   // ── Announcement bar offset adjustment ────────────────────────────────
-  // AnnouncementBar = 34px, Header = 64px. When user scrolls past 34px,
-  // the shell locks to top:64px (below sticky header only).
   const shell = document.getElementById('dashboard-shell');
-  const AB_HEIGHT = 34;
   function adjustShellTop() {
     if (!shell) return;
-    const scrolled = Math.min(window.scrollY, AB_HEIGHT);
-    shell.style.top = `${64 + (AB_HEIGHT - scrolled)}px`;
+    const header = document.querySelector('header');
+    const h = header ? header.getBoundingClientRect().height : 64;
+    shell.style.top = h + 'px';
   }
   adjustShellTop();
   window.addEventListener('scroll', adjustShellTop, { passive: true });
@@ -2498,15 +2544,40 @@ const navItems = [
   }
 </script>
 
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- MOBILE BOTTOM NAVIGATION                                        -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<nav id="mobile-bottom-nav" class="lg:hidden fixed bottom-0 left-0 right-0 z-50 flex items-stretch" style="background:#0C0C0C;border-top:1px solid rgba(255,255,255,0.08);height:60px;">
+  {[navItems[0], navItems[1], navItems[3], navItems[4], navItems[6]].map((item, i) => (
+    <button type="button"
+      class="mobile-nav-btn flex-1 flex flex-col items-center justify-center gap-1 transition-all duration-150"
+      data-view={item.id}
+      style={i === 0 ? 'color:#E8B4B0;' : 'color:rgba(255,255,255,0.35);'}
+      onclick={`activateView('${item.id}')`}
+    >
+      <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d={item.icon}/>
+      </svg>
+      <span class="text-[9px] font-medium leading-none">{item.label}</span>
+    </button>
+  ))}
+</nav>
+
 <script is:inline>
 // ── Hide announcement bar + fix dashboard shell top offset ────────────────
 (function() {
-  // Find and hide the announcement bar (first div before the header)
+  // Hide global shop header elements that conflict with dashboard full-screen layout
   var header = document.querySelector('header');
   if (header && header.previousElementSibling) {
     header.previousElementSibling.style.display = 'none';
   }
-  // The header is h-16 = 64px. Recalculate top after hiding announcement bar.
+  // Also hide the footer on dashboard
+  var footer = document.querySelector('footer');
+  if (footer) footer.style.display = 'none';
+  // Hide scroll-to-top button
+  var scrollTop = document.getElementById('scroll-top');
+  if (scrollTop) scrollTop.style.display = 'none';
+  // Position shell below the header
   var shell = document.getElementById('dashboard-shell');
   if (shell && header) {
     var headerH = header.getBoundingClientRect().height || 64;
