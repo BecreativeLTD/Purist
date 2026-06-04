@@ -24,6 +24,7 @@
     "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.107.0",
     "@tailwindcss/typography": "^0.5.15",
+    "@vercel/og": "^0.11.1",
     "astro": "^4.16.10",
     "astro-icon": "^1.1.1",
     "embla-carousel-preact": "^6.2.1",
