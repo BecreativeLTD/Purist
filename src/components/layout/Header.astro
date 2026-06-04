@@ -484,7 +484,7 @@ const navLinks = [
     bubble.innerHTML = safe;
     row.appendChild(bubble);
     msgs.appendChild(row);
-    msgs.scrollTop = msgs.scrollHeight;
+    requestAnimationFrame(function(){ msgs.scrollTop = msgs.scrollHeight; });
   }
 
   function addCards(stats) {
@@ -498,7 +498,7 @@ const navLinks = [
       row.appendChild(c);
     });
     msgs.appendChild(row);
-    msgs.scrollTop = msgs.scrollHeight;
+    requestAnimationFrame(function(){ msgs.scrollTop = msgs.scrollHeight; });
   }
 
   function addCTA() {
@@ -567,9 +567,9 @@ const navLinks = [
     var qr = e.target.closest('[data-quick]');
     if (qr) sendMsg(qr.dataset.quick);
   });
-  send  && send.addEventListener('click',  function(){ var v=input.value; input.value=''; sendMsg(v); });
+  send  && send.addEventListener('click',  function(){ var v=input.value; input.value=''; setTimeout(function(){ sendMsg(v); }, 0); });
   input && input.addEventListener('keydown', function(e){
-    if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); var v=input.value; input.value=''; sendMsg(v); }
+    if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); var v=input.value; input.value=''; setTimeout(function(){ sendMsg(v); }, 0); }
   });
 })();
 </script>
