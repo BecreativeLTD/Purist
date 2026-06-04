@@ -21,11 +21,10 @@ const fullTitle = title.includes('PURIST') ? title : `${title} · PURIST`;
 const siteBase = Astro.url.origin;
 const canonicalURL = canonical || `${siteBase}${Astro.url.pathname}`;
 
-// Dynamic OG image — use static image if provided (e.g. blog article hero),
-// otherwise generate via /api/og with the current page title + description
+// OG image: use provided static image, otherwise fall back to the pre-generated default
 const ogImage = image
   ? `${siteBase}${image.startsWith('/') ? image : `/${image}`}`
-  : `${siteBase}/api/og?title=${encodeURIComponent(fullTitle)}&description=${encodeURIComponent(description)}&type=${type}`;
+  : `${siteBase}/og-default.png`;
 ---
 
 <title>{fullTitle}</title>

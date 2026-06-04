@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build && node scripts/patch-vercel.mjs",
+    "build": "node scripts/generate-og.mjs && astro build && node scripts/patch-vercel.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
