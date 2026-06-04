@@ -3,6 +3,14 @@ import MegaMenu from './MegaMenu.astro';
 import CountrySelector from './CountrySelector.astro';
 import CartIcon from '~/components/cart/CartIcon.tsx';
 import MobileMenu from './MobileMenu.tsx';
+import blogData from '~/data/blog.json';
+
+const searchIndex = blogData.articles.map(a => ({
+  title: a.title,
+  slug: a.slug,
+  excerpt: a.excerpt,
+  category: a.category,
+}));
 
 const discoverLinks = [
   { name: 'Live Demo',             href: '/pages/demo',             badge: 'Interactive',    desc: 'Watch automation run — trigger it yourself' },
@@ -91,6 +99,7 @@ const navLinks = [
       </div>
 
       <button
+        id="search-btn"
         type="button"
         aria-label="Search"
         class="p-2 hover:opacity-70 transition"
@@ -132,6 +141,79 @@ const navLinks = [
     </button>
   </div>
 </header>
+
+<!-- ── SEARCH OVERLAY ─────────────────────────────────────── -->
+<div id="search-overlay" style="display:none;position:fixed;inset:0;z-index:60;background:rgba(10,10,10,0.75);backdrop-filter:blur(8px);padding:5rem 1rem 2rem;" aria-modal="true" role="dialog" aria-label="Search">
+  <div style="max-width:600px;margin:0 auto;">
+    <div style="position:relative;margin-bottom:1rem;">
+      <svg style="position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:0.4;pointer-events:none;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="search-input" type="search" placeholder="Search articles, topics, industries…" autocomplete="off" spellcheck="false"
+        style="width:100%;box-sizing:border-box;font-size:16px;padding:14px 14px 14px 44px;border-radius:14px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:#fff;caret-color:#E8B4B0;outline:none;transition:border-color 0.15s;"
+        onfocus="this.style.borderColor='rgba(232,180,176,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'"/>
+      <button id="search-close" type="button" aria-label="Close search"
+        style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.4);padding:4px;display:flex;align-items:center;justify-content:center;"
+        onmouseover="this.style.color='rgba(255,255,255,0.8)'" onmouseout="this.style.color='rgba(255,255,255,0.4)'">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 2l10 10M12 2L2 12"/></svg>
+      </button>
+    </div>
+    <div id="search-results" style="display:flex;flex-direction:column;gap:4px;max-height:60vh;overflow-y:auto;"></div>
+    <p id="search-hint" style="font-size:11px;color:rgba(255,255,255,0.25);text-align:center;margin-top:1.5rem;">Type to search across all articles</p>
+  </div>
+</div>
+
+<script is:inline define:vars={{ searchIndex }}>
+(function(){
+  var btn     = document.getElementById('search-btn');
+  var overlay = document.getElementById('search-overlay');
+  var input   = document.getElementById('search-input');
+  var results = document.getElementById('search-results');
+  var hint    = document.getElementById('search-hint');
+  var closeBtn= document.getElementById('search-close');
+  var INDEX   = searchIndex;
+
+  function open() {
+    overlay.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+    setTimeout(function(){ input.focus(); }, 50);
+  }
+  function close() {
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+    input.value = '';
+    results.innerHTML = '';
+    hint.style.display = 'block';
+  }
+
+  btn && btn.addEventListener('click', open);
+  closeBtn && closeBtn.addEventListener('click', close);
+  overlay && overlay.addEventListener('click', function(e){ if(e.target===overlay) close(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') close(); });
+
+  input && input.addEventListener('input', function(){
+    var q = this.value.trim().toLowerCase();
+    results.innerHTML = '';
+    if (!q) { hint.style.display = 'block'; return; }
+    hint.style.display = 'none';
+    var matches = INDEX.filter(function(a){
+      return a.title.toLowerCase().includes(q) || a.excerpt.toLowerCase().includes(q) || a.category.toLowerCase().includes(q);
+    }).slice(0, 8);
+    if (!matches.length) {
+      results.innerHTML = '<p style="font-size:13px;color:rgba(255,255,255,0.3);text-align:center;padding:2rem;">No articles found for "' + q + '"</p>';
+      return;
+    }
+    matches.forEach(function(a){
+      var el = document.createElement('a');
+      el.href = '/pages/blog/' + a.slug;
+      el.style.cssText = 'display:block;padding:12px 16px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);text-decoration:none;transition:background 0.15s;';
+      el.innerHTML = '<p style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.85);margin:0 0 3px;">' + a.title + '</p><p style="font-size:11px;color:rgba(255,255,255,0.35);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + a.excerpt + '</p>';
+      el.onmouseover = function(){ this.style.background='rgba(232,180,176,0.06)'; this.style.borderColor='rgba(232,180,176,0.15)'; };
+      el.onmouseout  = function(){ this.style.background='rgba(255,255,255,0.04)'; this.style.borderColor='rgba(255,255,255,0.06)'; };
+      el.addEventListener('click', close);
+      results.appendChild(el);
+    });
+  });
+})();
+</script>
 
 <!-- Chat mobile backdrop -->
 <div id="chat-backdrop"></div>
@@ -251,25 +333,51 @@ const navLinks = [
   /* Mobile: bottom sheet */
   @media (max-width: 639px) {
     #chat-panel {
-      left: 0;
-      right: 0;
-      bottom: 0;
-      top: auto;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      top: auto !important;
+      width: 100% !important;
+      max-width: 100% !important;
       transform: translateY(20px);
-      padding: 0;
+      padding: 0 !important;
+      box-sizing: border-box;
     }
     #chat-panel.chat-open {
       transform: translateY(0);
     }
     #chat-inner {
       border-radius: 20px 20px 0 0;
-      border-left: none;
-      border-right: none;
-      border-bottom: none;
+      border-left: none !important;
+      border-right: none !important;
+      border-bottom: none !important;
       padding-bottom: env(safe-area-inset-bottom, 0px);
+      width: 100%;
+      box-sizing: border-box;
+    }
+    /* Hide stats strip on mobile — too cramped */
+    #chat-panel > div#chat-inner > div:first-child {
+      display: none !important;
     }
     #chat-messages {
-      max-height: 38vh !important;
+      max-height: 35vh !important;
+    }
+    /* Input row: prevent overflow */
+    #chat-panel input,
+    #chat-panel button,
+    #chat-panel div {
+      box-sizing: border-box;
+    }
+    #chat-input {
+      min-width: 0 !important;
+      width: 0 !important;
+      flex: 1 1 0% !important;
+      font-size: 16px !important; /* prevents iOS zoom on focus */
+    }
+    /* Quick replies: smaller on mobile */
+    #chat-quick button {
+      font-size: 9px !important;
+      padding: 4px 10px !important;
     }
   }
 
