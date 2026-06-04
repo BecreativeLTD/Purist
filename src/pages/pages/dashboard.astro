@@ -179,12 +179,20 @@ const navItems = [
 <div id="sidebar-backdrop" class="fixed inset-0 z-40 bg-black/60 opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden" onclick="closeSidebar()"></div>
 
 <!-- Full-viewport dashboard shell — sidebar + content own the space below the header -->
-<div id="dashboard-shell" class="flex" style="position:fixed;left:0;right:0;bottom:0;top:64px;z-index:15;">
+<div id="dashboard-shell" class="flex" style="position:fixed;left:0;right:0;bottom:0;top:0;z-index:45;overflow:hidden;">
 
   <!-- ══════════════════════════════════════════════════════════════ -->
   <!-- LEFT SIDEBAR                                                   -->
   <!-- ══════════════════════════════════════════════════════════════ -->
-  <aside id="sidebar" class="shrink-0 flex flex-col overflow-y-auto" style="background:#0C0C0C;border-right:1px solid rgba(255,255,255,0.06);scrollbar-width:none;height:100%;position:absolute;top:0;bottom:0;left:0;z-index:50;width:100%;max-width:320px;transform:translateX(-110%);transition:transform 0.3s cubic-bezier(0.32,0.72,0,1);" data-mobile-sidebar="true">
+  <aside id="sidebar" class="shrink-0 flex flex-col overflow-y-auto" style="background:#0C0C0C;border-right:1px solid rgba(255,255,255,0.06);scrollbar-width:none;height:100%;position:absolute;top:0;bottom:0;left:0;z-index:50;width:100%;max-width:100%;transform:translateX(-110%);transition:transform 0.3s cubic-bezier(0.32,0.72,0,1);" data-mobile-sidebar="true">
+
+    <!-- Mobile sidebar top bar with close button -->
+    <div class="lg:hidden flex items-center justify-between px-4 py-3 shrink-0" style="background:#0C0C0C;border-bottom:1px solid rgba(255,255,255,0.08);">
+      <span class="font-display text-white text-sm font-semibold tracking-[0.2em] opacity-80">PURIST</span>
+      <button type="button" onclick="closeSidebar()" class="w-8 h-8 flex items-center justify-center rounded-lg" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.10);" aria-label="Close menu">
+        <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg>
+      </button>
+    </div>
 
     <!-- Pink accent strip -->
     <div class="h-[2px] w-full shrink-0" style="background:linear-gradient(90deg,#E8B4B0 0%,#c4847e 50%,transparent 100%);"/>
@@ -602,13 +610,13 @@ const navItems = [
                 <table class="w-full text-xs">
                   <thead>
                     <tr class="text-left text-[8.5px] text-brand-gray-400 uppercase tracking-[0.12em] border-b border-brand-gray-100" style="background:#FAFAF8;">
-                      <th class="px-5 py-2.5 font-bold">Workflow</th>
-                      <th class="px-3 py-2.5 font-bold">Status</th>
-                      <th class="px-3 py-2.5 font-bold text-right">Executions</th>
-                      <th class="px-3 py-2.5 font-bold text-right">Success</th>
-                      <th class="px-3 py-2.5 font-bold text-right">p95</th>
-                      <th class="px-3 py-2.5 font-bold text-right">Last run</th>
-                      <th class="px-3 py-2.5 font-bold text-right">7d trend</th>
+                      <th class="px-4 py-2.5 font-bold">Workflow</th>
+                      <th class="px-2 py-2.5 font-bold">Status</th>
+                      <th class="px-2 py-2.5 font-bold text-right">Exec.</th>
+                      <th class="px-2 py-2.5 font-bold text-right">OK%</th>
+                      <th class="hidden sm:table-cell px-2 py-2.5 font-bold text-right">p95</th>
+                      <th class="hidden sm:table-cell px-2 py-2.5 font-bold text-right">Last run</th>
+                      <th class="hidden md:table-cell px-2 py-2.5 font-bold text-right">7d trend</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -627,9 +635,9 @@ const navItems = [
                         </td>
                         <td class="px-3 py-2.5 text-right text-brand-gray-700 tabular-nums font-medium text-[11px]">{w.exec}</td>
                         <td class="px-3 py-2.5 text-right tabular-nums font-bold text-[11px]" style={w.rate === '100%' ? 'color:#2D5016;' : 'color:#0A0A0A;'}>{w.rate}</td>
-                        <td class="px-3 py-2.5 text-right text-brand-gray-500 tabular-nums text-[11px]">{w.p95}</td>
-                        <td class="px-3 py-2.5 text-right text-brand-gray-400 text-[10px] tabular-nums">{w.last}</td>
-                        <td class="px-3 py-2.5 text-right">
+                        <td class="hidden sm:table-cell px-3 py-2.5 text-right text-brand-gray-500 tabular-nums text-[11px]">{w.p95}</td>
+                        <td class="hidden sm:table-cell px-3 py-2.5 text-right text-brand-gray-400 text-[10px] tabular-nums">{w.last}</td>
+                        <td class="hidden md:table-cell px-3 py-2.5 text-right">
                           <svg class="w-10 h-4 inline-block" viewBox="0 0 40 16">
                             <defs>
                               <linearGradient id={`tg${w.name.slice(0,3)}`} x1="0" y1="0" x2="0" y2="1">
@@ -1959,11 +1967,23 @@ const navItems = [
   /* ── Lock page scroll — dashboard is a fixed full-viewport app ─────── */
   html, body { overflow: hidden !important; height: 100% !important; }
 
-  /* ── Hide footer and scroll-to-top on dashboard ─────────────────────── */
-  footer, #scroll-top { display: none !important; }
+  /* ── Hide all shop chrome: footer, scroll-to-top, chat pill, chat panel ─ */
+  footer, #scroll-top, #chat-pill, #chat-panel, #chat-backdrop { display: none !important; }
 
   /* ── Fix main wrapper so it doesn't add any extra height ─────────────── */
   #main-content { padding: 0 !important; margin: 0 !important; overflow: hidden; height: 0; }
+
+  /* ── MOBILE: hide shop header entirely — dashboard is full-screen ─────── */
+  @media (max-width: 1023px) {
+    header { display: none !important; }
+    #dashboard-shell { top: 0 !important; }
+  }
+  /* ── DESKTOP: shell sits below the header ───────────────────────────── */
+  @media (min-width: 1024px) {
+    #dashboard-shell { top: 64px !important; }
+    #sidebar { width: 260px !important; max-width: 260px !important; transform: translateX(0) !important; }
+    #dash-content { margin-left: 260px !important; }
+  }
 
   @keyframes ping-g { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.5)} }
 
@@ -2105,37 +2125,19 @@ const navItems = [
     if (sidebar) sidebar.style.transform = 'translateX(-110%)';
     if (backdrop) { backdrop.style.opacity = '0'; backdrop.style.pointerEvents = 'none'; }
   }
-  const dashContent = document.getElementById('dash-content');
+  // CSS handles sidebar position/width on desktop and content margin.
+  // JS only manages the mobile open/close toggle.
   function handleResize() {
-    if (window.innerWidth >= 1024) {
-      sidebarOpen = false;
-      if (sidebar) sidebar.style.transform = 'translateX(0)';
-      if (backdrop) { backdrop.style.opacity = '0'; backdrop.style.pointerEvents = 'none'; }
-      if (dashContent) dashContent.style.marginLeft = '260px';
-    } else {
-      if (dashContent) dashContent.style.marginLeft = '0';
-      if (sidebarOpen) {
-        if (sidebar) sidebar.style.transform = 'translateX(0)';
-      } else {
-        if (sidebar) sidebar.style.transform = 'translateX(-110%)';
-      }
+    if (window.innerWidth >= 1024 && sidebarOpen) {
+      closeSidebar();
     }
   }
   window.addEventListener('resize', handleResize);
-  handleResize();
   (window as any).toggleSidebar = toggleSidebar;
   (window as any).closeSidebar = closeSidebar;
 
-  // ── Announcement bar offset adjustment ────────────────────────────────
+  // ── Shell top: CSS handles it (top:0 mobile, top:64px desktop via @media) ─
   const shell = document.getElementById('dashboard-shell');
-  function adjustShellTop() {
-    if (!shell) return;
-    const header = document.querySelector('header');
-    const h = header ? header.getBoundingClientRect().height : 64;
-    shell.style.top = h + 'px';
-  }
-  adjustShellTop();
-  window.addEventListener('scroll', adjustShellTop, { passive: true });
 
   // ── Auto-refresh toggle ────────────────────────────────────────────────
   let refreshInterval: ReturnType<typeof setInterval> | null = null;
