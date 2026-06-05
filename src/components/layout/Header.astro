@@ -1,6 +1,5 @@
 ---
 import MegaMenu from './MegaMenu.astro';
-import CountrySelector from './CountrySelector.astro';
 import CartIcon from '~/components/cart/CartIcon.tsx';
 import MobileMenu from './MobileMenu.tsx';
 import blogData from '~/data/blog.json';
@@ -94,11 +93,7 @@ const navLinks = [
     </nav>
 
     <div class="flex items-center gap-2 sm:gap-4">
-      <div class="hidden sm:block">
-        <CountrySelector />
-      </div>
-
-      <button
+<button
         id="search-btn"
         type="button"
         aria-label="Search"
