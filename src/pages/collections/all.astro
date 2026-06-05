@@ -164,7 +164,7 @@ const faqs = [
 
             <div class="mb-5">
               <div class="flex items-baseline gap-2.5 mb-1">
-                <span class="font-display text-3xl">{formatPrice(p.price.subscription)}</span>
+                <span class="font-display text-3xl" data-price={p.price.subscription}>£{p.price.subscription.toLocaleString('en-GB')}</span>
                 <span class="text-sm text-brand-gray-600">/month</span>
                 {p.price.discount > 0 && (
                   <span class="text-[10px] uppercase tracking-wider bg-brand-green/10 text-brand-green px-2 py-0.5 rounded font-medium ml-1">
@@ -172,7 +172,7 @@ const faqs = [
                   </span>
                 )}
               </div>
-              <p class="text-xs text-brand-gray-600">Or {formatPrice(p.price.oneTime)} one-time deployment</p>
+              <p class="text-xs text-brand-gray-600">Or <span data-price={p.price.oneTime}>£{p.price.oneTime.toLocaleString('en-GB')}</span> one-time deployment</p>
             </div>
 
             <ul class="space-y-2 mb-6 flex-1">

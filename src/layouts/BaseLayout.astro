@@ -60,6 +60,11 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
       document.addEventListener('astro:page-load', bind);
     </script>
 
+    <!-- Currency detection + conversion — runs after DOM ready -->
+    <script>
+      import '~/scripts/currency.ts';
+    </script>
+
     <!-- Google Analytics — deferred to end of body so it never blocks render -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4XMEM7DE1B"></script>
     <script is:inline>

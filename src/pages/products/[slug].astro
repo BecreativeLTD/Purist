@@ -94,9 +94,9 @@ const accordionSections = [
       </a>
 
       <div class="flex items-baseline gap-3 mb-4">
-        <span class="font-display text-2xl">From {formatPrice(product.price.subscription)}/mo</span>
+        <span class="font-display text-2xl">From <span data-price={product.price.subscription}>£{product.price.subscription.toLocaleString('en-GB')}</span>/mo</span>
         <span class="line-through text-sm text-brand-gray-400">
-          {formatPrice(product.price.oneTime)}
+          <span data-price={product.price.oneTime}>£{product.price.oneTime.toLocaleString('en-GB')}</span>
         </span>
         {product.price.discount > 0 && (
           <span class="text-[10px] uppercase tracking-wider bg-brand-green/15 text-brand-green px-2 py-0.5 rounded font-medium">

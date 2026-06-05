@@ -552,14 +552,23 @@
   var tickerInterval = null;
   var openedAt = Date.now();
 
+  var _currencySymbol = '£';
+  var _currencyRate   = 1;
+  window.addEventListener('puristCurrency', function(e) {
+    _currencySymbol = e.detail.symbol;
+    _currencyRate   = e.detail.rate;
+    render(); // re-render with new currency
+  });
+
   function fmtGBP(n) {
-    n = Math.round(n);
-    if (n >= 1000000) return '£' + (n/1000000).toFixed(1) + 'M';
-    if (n >= 100000)  return '£' + Math.round(n/1000) + 'K';
-    return '£' + n.toLocaleString('en-GB');
+    n = Math.round(n * _currencyRate);
+    var s = _currencySymbol;
+    if (n >= 1000000) return s + (n/1000000).toFixed(1) + 'M';
+    if (n >= 100000)  return s + Math.round(n/1000) + 'K';
+    return s + n.toLocaleString('en-GB');
   }
   function fmtK(n) {
-    if (n >= 10000) return '£' + Math.round(n/1000) + 'K';
+    if (n * _currencyRate >= 10000) return _currencySymbol + Math.round(n * _currencyRate / 1000) + 'K';
     return fmtGBP(n);
   }
 
