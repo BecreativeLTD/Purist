@@ -512,7 +512,8 @@ const navLinks = [
 
   /* ── LANGUAGE DETECT ─────────────────────── */
   function isFr(t) {
-    return /\b(je|j'ai|j ai|besoin|bonjour|salut|merci|comment|combien|quel|quelle|automatisation|automatiser|workflow|entreprise|cout|prix|délai|délais|devis|audit|gratuit|fonctionn|utilis)\b/.test(t.toLowerCase());
+    var lower = t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    return /\b(je|j ai|j'ai|besoin|bonjour|salut|merci|comment|combien|quel|quelle|automatisation|automatiser|workflow|entreprise|cout|prix|delai|delais|devis|audit|gratuit|fonctionn|utilis|secteur|medecin|medecins|dentiste|dentistes|agence|agences|immobilier|cabinet|clinique|avocat|comptable|logistique|recrutement|pharmacie|architecte|notaire|oui|non|et|pour|avec|dans|sur|pas|mais|aussi|donc|car|nous|vous|mon|ton|son|notre|votre|ils|est|sont|une|les|des)\b/.test(lower);
   }
 
   /* ── INTENT CLASSIFIER ────────────────────── */
@@ -731,7 +732,7 @@ const navLinks = [
   /* ── EVENT LISTENERS ──────────────────────── */
   document.addEventListener('click', function(e){
     var qr = e.target.closest('[data-quick]');
-    if (qr) sendMsg(qr.dataset.quick);
+    if (qr) { var q = qr.dataset.quick; setTimeout(function(){ sendMsg(q); }, 0); }
   });
   send  && send.addEventListener('click',  function(){ var v=input.value; input.value=''; setTimeout(function(){ sendMsg(v); }, 0); });
   input && input.addEventListener('keydown', function(e){

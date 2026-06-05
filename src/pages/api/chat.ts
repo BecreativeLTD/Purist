@@ -15,8 +15,10 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Detect language from the last user message
     const lastUserMsg = [...messages].reverse().find((m: { role: string; content: string }) => m.role === 'user')?.content ?? '';
-    const frenchPattern = /[àâäéèêëîïôöùûüÿçœæ]|(\b(je|tu|il|nous|vous|ils|est|sont|pas|pour|avec|dans|sur|que|qui|une|les|des|mon|ton|son|notre|votre|leur|aussi|mais|donc|car|ou|et|bonjour|merci|oui|non|comment|pourquoi|quand|quel|quelle|secteur|médecin|dentiste|agence|immobilier)\b)/i;
-    const detectedLang = frenchPattern.test(lastUserMsg) ? 'French' : 'English';
+    // Normalize: lowercase + strip accents for matching unaccented French words (e.g. "Medecin" → "medecin")
+    const normalized = lastUserMsg.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const frenchPattern = /[àâäéèêëîïôöùûüÿçœæ]|(\b(je|j ai|j'ai|tu|il|nous|vous|ils|est|sont|pas|pour|avec|dans|sur|que|qui|une|les|des|mon|ton|son|notre|votre|leur|aussi|mais|donc|car|ou|et|bonjour|salut|merci|oui|non|comment|pourquoi|quand|quel|quelle|secteur|medecin|medecins|dentiste|agence|immobilier|entreprise|automatiser|automatisation|cout|prix|devis|audit|gratuit|fonctionn|besoin|cabinet|clinique|avocat|comptable|logistique|recrutement|pharmacie|architecte|notaire)\b)/i;
+    const detectedLang = frenchPattern.test(lastUserMsg) || frenchPattern.test(normalized) ? 'French' : 'English';
     const langInstruction = detectedLang === 'French'
       ? 'LANGUE OBLIGATOIRE: L\'utilisateur écrit en FRANÇAIS. Tu dois IMPÉRATIVEMENT répondre en français uniquement. Ne jamais utiliser l\'anglais, même partiellement.'
       : 'MANDATORY LANGUAGE: The user is writing in ENGLISH. You MUST respond in English only. Never switch to French or any other language.';
