@@ -1,4 +1,45 @@
 User-agent: *
 Allow: /
+Disallow: /pages/dashboard
+Disallow: /pages/login
+Disallow: /pages/onboarding
+Disallow: /pages/track
+Disallow: /cart
+Disallow: /checkout
+
+# AI crawlers — explicitly welcome
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Diffbot
+Allow: /
+
+User-agent: YouBot
+Allow: /
 
 Sitemap: https://purist.online/sitemap.xml
+Sitemap: https://purist.online/llms.txt

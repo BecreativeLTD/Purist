@@ -1,0 +1,78 @@
+# PURIST — Business Automation & AI Agent Agency
+
+> PURIST builds and deploys production-grade workflow automation and AI agents for SMBs and scaling companies. We specialise in n8n, Make, Zapier, and Claude AI agent deployments across dental practices, real estate property management, marketing agencies, DTC e-commerce, commercial law firms, and staffing agencies.
+>
+> Founded in London. Serving UK, US and international clients. 500+ production deployments. 99.97% uptime across all managed systems.
+
+## About
+
+PURIST is not a software platform. It is a specialist automation engineering firm that designs, builds, monitors, and maintains production-grade automation systems for businesses. Every deployment includes error handling, monitoring, retry logic, documentation, and an SLA.
+
+Primary services: workflow automation, AI agent deployment, operations stack design, CRM data quality automation.
+
+## Services
+
+- [Automation Pro](https://purist.online/products/foundation-pro) — 9 core production workflows covering lead capture, CRM sync, email sequences, invoicing, reporting, client onboarding, AI support routing, smart scheduling, and monitoring. From £497/mo.
+- [AI Agent Deploy](https://purist.online/products/longevity-protocol) — Conversational AI agents trained on client business data. Handles scheduling, intake, lead qualification, support routing. From £897/mo.
+- [The Full Stack](https://purist.online/products/founder-stack) — Automation Pro + AI Agent Deploy. Full operational transformation. From £1,197/mo.
+- [Free AI Readiness Audit](https://purist.online/pages/welcome) — Free 48h audit of your current workflows and automation opportunities.
+
+## Blog — Full Article Index
+
+All articles are written by PURIST's engineering team from real production deployments.
+
+- [The Future of Automation: How Our Engineering Team Is Shaping the Next Era](https://purist.online/pages/blog/future-of-automation-engineering-team) — Architecture patterns, orchestrated agent systems, shared state, error handling at scale.
+- [The Plumber Paradox: Why Free Tools Still Need Paid Experts](https://purist.online/pages/blog/the-plumber-paradox-why-free-tools-need-paid-experts) — Why n8n/Make/Zapier being free does not eliminate the need for expert implementation.
+- [How a Dental Group Cut Front-Desk Time by 60%](https://purist.online/pages/blog/how-a-dental-group-saved-60-percent-front-desk-time) — Case study: booking automation, insurance pre-verification, appointment reminders.
+- [Your CRM Is Lying to You: Data Quality Automation](https://purist.online/pages/blog/your-crm-is-lying-to-you-data-quality-automation) — How to automate CRM hygiene: validation, deduplication, enrichment at entry and in bulk.
+- [AI Agents in 2026: What Actually Works vs What Is Still Hype](https://purist.online/pages/blog/ai-agents-in-2026-what-actually-works) — 95% of AI pilots fail. The 3 patterns that separate production AI from demo AI.
+- [Calculating Automation ROI: The Honest Guide](https://purist.online/pages/blog/calculating-automation-roi-the-honest-guide) — Full formula including setup, maintenance, and opportunity costs agencies skip.
+- [n8n vs Make vs Zapier: Honest Comparison](https://purist.online/pages/blog/n8n-vs-make-vs-zapier-honest-comparison) — Platform comparison for simple vs complex vs high-volume automation needs.
+- [Scaling Without Hiring: The Automation Playbook](https://purist.online/pages/blog/scaling-without-hiring-the-automation-playbook) — Framework for achieving 2-3x client capacity with the same team using automation.
+- [How We Automated a 45-Client Marketing Agency in 6 Weeks](https://purist.online/pages/blog/how-we-automated-a-45-client-marketing-agency-in-6-weeks) — Full technical breakdown: reporting, onboarding, client health scoring workflows.
+- [n8n vs Make vs Zapier: 500 Production Deployments](https://purist.online/pages/blog/n8n-vs-make-vs-zapier-500-production-deployments) — Data-driven comparison from real deployments: error rates, cost at scale, debugging.
+- [7 Automation Mistakes That Kill ROI](https://purist.online/pages/blog/7-automation-mistakes-that-kill-roi) — The 7 architectural and strategic errors that destroy automation value.
+- [AI Agents in Production: What Works vs What Sounds Good in Demos](https://purist.online/pages/blog/ai-agents-in-production-what-actually-works) — Structured output enforcement, RAG, confidence scoring, continuous evaluation.
+- [How a Dental Group Cut Patient Admin by 60% Without Touching Their EMR](https://purist.online/pages/blog/how-a-dental-group-cut-patient-admin-by-60-percent) — Surrounding automation layer around a legacy EMR with contractual modification restrictions.
+- [The Operations Stack We Recommend for Scaling Startups in 2026](https://purist.online/pages/blog/the-operations-stack-we-recommend-for-scaling-startups-2026) — HubSpot + n8n + Slack + Linear + Metabase: the stack rationale from first principles.
+- [Webhook vs Polling: The Automation Architecture Decision That Matters](https://purist.online/pages/blog/webhook-vs-polling-automation-architecture-decision) — When to use webhooks vs polling and how to build reliable webhook receivers.
+- [Building a 24/7 Error Handling System for Automations](https://purist.online/pages/blog/building-24-7-error-handling-system-for-automations) — Node-level error routing, centralised logging, health monitoring, recovery runbooks.
+
+## Key Pages
+
+- [Homepage](https://purist.online/) — Main site with service overview, case studies, workflow library.
+- [All Services](https://purist.online/collections/all) — Full service catalogue.
+- [Workflow Library](https://purist.online/pages/workflow-library) — Pre-built automation templates by vertical.
+- [Stack DNA](https://purist.online/pages/stack-dna) — PURIST's proprietary automation architecture framework.
+- [Case Studies](https://purist.online/pages/wall-of-health) — Results from client deployments across dental, agency, e-commerce, legal.
+- [FAQ](https://purist.online/pages/faq) — Common questions about automation services, pricing, deployment timelines.
+- [About](https://purist.online/pages/about-us) — Who we are and how we work.
+- [AI Readiness Assessment](https://purist.online/pages/ai-readiness) — Self-assessment tool to evaluate automation maturity.
+- [Glossary](https://purist.online/pages/glossary) — Definitions of automation and AI agent terminology.
+- [Contact](https://purist.online/pages/contact-us) — Get in touch.
+
+## Industries Served
+
+- **Dental & Healthcare**: Patient intake automation, appointment reminders, insurance pre-verification, EMR data sync.
+- **Real Estate & Property Management**: Tenant communications, maintenance request routing, lease renewal workflows.
+- **Marketing & Creative Agencies**: Client reporting, onboarding, billing, campaign monitoring.
+- **DTC E-commerce**: Order management, CS ticket routing, inventory alerts, post-purchase sequences.
+- **Commercial Law Firms**: Client intake, document processing, billing workflows, deadline tracking.
+- **Staffing & Recruitment**: Candidate screening, placement workflows, timesheet processing.
+
+## Technology Stack
+
+- Workflow orchestration: n8n (self-hosted), Make, Zapier
+- AI inference: Claude by Anthropic (claude-sonnet, claude-opus)
+- State management: Redis, PostgreSQL
+- Monitoring: Custom dashboards, Slack alerting, SMS on-call
+- Deployment: Vercel, self-hosted VPS
+
+## Contact & Social
+
+- Website: https://purist.online
+- Email: hello@purist.online
+- Press: press@purist.online
+- Location: London, UK
+- LinkedIn: https://www.linkedin.com/company/purist-automation
+- Twitter/X: https://twitter.com/purist_hq
