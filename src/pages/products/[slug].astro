@@ -234,6 +234,32 @@ const accordionSections = [
                   priceCurrency: product.price.currency ?? 'GBP',
                   billingIncrement: 1,
                 },
+                hasMerchantReturnPolicy: {
+                  '@type': 'MerchantReturnPolicy',
+                  applicableCountry: ['GB', 'US', 'CA', 'AU', 'IE', 'FR', 'DE'],
+                  returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+                  merchantReturnDays: 30,
+                  returnMethod: 'https://schema.org/ReturnByMail',
+                  returnFees: 'https://schema.org/FreeReturn',
+                  refundType: 'https://schema.org/FullRefund',
+                },
+                shippingDetails: {
+                  '@type': 'OfferShippingDetails',
+                  shippingRate: {
+                    '@type': 'MonetaryAmount',
+                    value: 0,
+                    currency: 'GBP',
+                  },
+                  shippingDestination: {
+                    '@type': 'DefinedRegion',
+                    addressCountry: ['GB', 'US', 'CA', 'AU', 'IE', 'FR', 'DE'],
+                  },
+                  deliveryTime: {
+                    '@type': 'ShippingDeliveryTime',
+                    handlingTime: { '@type': 'QuantitativeValue', minValue: 0, maxValue: 1, unitCode: 'DAY' },
+                    transitTime: { '@type': 'QuantitativeValue', minValue: 5, maxValue: 10, unitCode: 'DAY' },
+                  },
+                },
               },
             ],
           },
