@@ -8,7 +8,7 @@ const bullets = [
 ];
 const stats = [
   { n: '0', label: 'Refunds last 6 months' },
-  { n: '4.9★', label: 'Average client rating' },
+  { n: '4.9', label: 'Average client rating' },
   { n: '312+', label: 'Active deployments' },
 ];
 ---
@@ -49,7 +49,9 @@ const stats = [
         <div class="flex flex-wrap gap-x-8 gap-y-3 pt-6 border-t border-brand-gray-200">
           {stats.map((s) => (
             <div>
-              <p class="font-display text-2xl leading-none text-brand-black">{s.n}</p>
+              <p class="font-display text-2xl leading-none text-brand-black">
+                {s.n}{s.label === 'Average client rating' && <span class="text-sm align-super ml-0.5">★</span>}
+              </p>
               <p class="text-[10px] tracking-[0.14em] uppercase text-brand-gray-500 mt-1">{s.label}</p>
             </div>
           ))}
