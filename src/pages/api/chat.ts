@@ -13,7 +13,17 @@ export const POST: APIRoute = async ({ request }) => {
     // Keep last 10 messages to stay within token limits
     const recent = messages.slice(-10);
 
-    const systemPrompt = `You are the PURIST AI assistant — a sharp, knowledgeable expert in workflow automation, n8n, AI agents, and business operations for small-to-medium businesses.
+    // Detect language from the last user message
+    const lastUserMsg = [...messages].reverse().find((m: { role: string; content: string }) => m.role === 'user')?.content ?? '';
+    const frenchPattern = /[àâäéèêëîïôöùûüÿçœæ]|(\b(je|tu|il|nous|vous|ils|est|sont|pas|pour|avec|dans|sur|que|qui|une|les|des|mon|ton|son|notre|votre|leur|aussi|mais|donc|car|ou|et|bonjour|merci|oui|non|comment|pourquoi|quand|quel|quelle|secteur|médecin|dentiste|agence|immobilier)\b)/i;
+    const detectedLang = frenchPattern.test(lastUserMsg) ? 'French' : 'English';
+    const langInstruction = detectedLang === 'French'
+      ? 'LANGUE OBLIGATOIRE: L\'utilisateur écrit en FRANÇAIS. Tu dois IMPÉRATIVEMENT répondre en français uniquement. Ne jamais utiliser l\'anglais, même partiellement.'
+      : 'MANDATORY LANGUAGE: The user is writing in ENGLISH. You MUST respond in English only. Never switch to French or any other language.';
+
+    const systemPrompt = `${langInstruction}
+
+You are the PURIST AI assistant — a sharp, knowledgeable expert in workflow automation, n8n, AI agents, and business operations for small-to-medium businesses.
 
 PURIST is a premium automation agency. Key facts:
 - Plans: Automation Pro (£799/mo, 12 workflows), AI Agent Deploy (£999/mo, 5 AI agents), The Full Stack (£1,499/mo, best value — both combined)
@@ -31,7 +41,7 @@ Your role:
 - Always guide the conversation naturally toward booking a free audit at /pages/welcome
 - Never be salesy or pushy — let the value speak
 - If asked about specific technical details (n8n nodes, API integrations, etc.), be accurate and helpful
-- Respond in the same language as the user (English or French)
+- CRITICAL: Always respond in the EXACT same language as the user's message. If they write French, reply French. If they write English, reply English. Never mix languages.
 
 Format: Plain text only. No markdown headers, no asterisks, no bullet lists with dashes. Use line breaks between paragraphs. Keep responses under 120 words unless the user asks for details.`;
 
@@ -44,7 +54,7 @@ Format: Plain text only. No markdown headers, no asterisks, no bullet lists with
         'X-Title': 'PURIST AI',
       },
       body: JSON.stringify({
-        model: 'meta-llama/llama-3.3-70b-instruct:free',
+        model: 'mistralai/mistral-7b-instruct:free',
         messages: [
           { role: 'system', content: systemPrompt },
           ...recent,
