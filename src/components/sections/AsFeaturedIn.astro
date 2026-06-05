@@ -16,9 +16,20 @@ const { logos } = logosData;
         <span style="font-size:9px;color:#6B7280;">99.97% uptime</span>
       </div>
 
-      <!-- Cartouche label — droite -->
-      <div class="inline-flex items-center px-3 py-1.5 rounded-full border border-brand-gray-200 bg-brand-gray-50">
-        <p style="margin:0;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;font-weight:500;color:#6B7280;">As featured in &amp; powered by</p>
+      <!-- Cartouche label + Clutch badge — droite -->
+      <div class="flex items-center gap-3 flex-wrap">
+        <div class="inline-flex items-center px-3 py-1.5 rounded-full border border-brand-gray-200 bg-brand-gray-50">
+          <p style="margin:0;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;font-weight:500;color:#6B7280;">As featured in &amp; powered by</p>
+        </div>
+        <a href="https://clutch.co/profile/purist" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-brand-gray-200 bg-brand-gray-50 hover:border-[#FF3D2E]/40 transition-colors"
+           aria-label="PURIST verified on Clutch">
+          <svg width="12" height="12" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="20" fill="#FF3D2E"/>
+            <path d="M20 8C13.373 8 8 13.373 8 20s5.373 12 12 12 12-5.373 12-12S26.627 8 20 8zm0 5.5a6.5 6.5 0 110 13 6.5 6.5 0 010-13zm0 3a3.5 3.5 0 100 7 3.5 3.5 0 000-7z" fill="white"/>
+          </svg>
+          <span style="font-size:9px;font-weight:600;color:#0A0A0A;letter-spacing:0.03em;">Verified on Clutch</span>
+        </a>
       </div>
     </div>
   </div>
