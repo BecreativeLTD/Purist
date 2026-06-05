@@ -1,0 +1,282 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/layout/Header.astro';
+import Footer from '~/components/layout/Footer.astro';
+import skillsData from '~/data/skills.json';
+
+const { skills } = skillsData;
+
+const cats = [
+  { id: 'all', label: 'All workflows', icon: 'M4 6h16M4 12h16M4 18h16' },
+  { id: 'crm', label: 'CRM & Sales', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0' },
+  { id: 'finance', label: 'Finance', icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+  { id: 'ops', label: 'Operations', icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z' },
+  { id: 'support', label: 'Support & CS', icon: 'M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z' },
+  { id: 'marketing', label: 'Marketing', icon: 'M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z' },
+  { id: 'reporting', label: 'Reporting & BI', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
+];
+
+const industries = [
+  { id: 'all', label: 'All industries' },
+  { id: 'agency', label: 'Agencies' },
+  { id: 'ecommerce', label: 'E-commerce' },
+  { id: 'realestate', label: 'Real Estate' },
+  { id: 'legal', label: 'Law Firms' },
+  { id: 'staffing', label: 'Staffing & HR' },
+  { id: 'hotel', label: 'Hotels' },
+  { id: 'construction', label: 'Construction' },
+  { id: 'accounting', label: 'Accounting' },
+  { id: 'financial', label: 'Financial Advisory' },
+  { id: 'media', label: 'Media & Publishing' },
+  { id: 'saas', label: 'SaaS' },
+  { id: 'callcenter', label: 'Call Centres' },
+];
+
+const stats = [
+  { n: `${skills.length}+`, l: 'Production workflows' },
+  { n: '12', l: 'Industries covered' },
+  { n: '14h', l: 'Avg. saved per week' },
+  { n: '< 7d', l: 'Time to live' },
+];
+
+const complexityColor: Record<string, string> = {
+  Starter: 'text-green-700 bg-green-50',
+  Intermediate: 'text-amber-700 bg-amber-50',
+  Advanced: 'text-purple-700 bg-purple-50',
+};
+---
+
+<BaseLayout
+  title="Automation Skills Marketplace — PURIST | n8n Workflows & AI Agents"
+  description={`Browse ${skills.length}+ production-ready n8n workflow automations and AI agent skills. Filter by industry or function. Each deployed in under 7 days with 24/7 monitoring.`}
+>
+  <Header />
+
+  <main id="main-content">
+
+    <!-- Hero -->
+    <section class="bg-brand-black text-white py-16 lg:py-20">
+      <div class="container-x">
+        <div class="max-w-3xl">
+          <p class="eyebrow text-brand-pink/70 mb-4">Automation Skills Marketplace</p>
+          <h1 class="font-display text-[clamp(2.2rem,5vw,3.8rem)] leading-[1.05] mb-5 text-balance">
+            Every workflow your business needs.<br/>
+            <em class="font-medium text-brand-pink">Ready to deploy.</em>
+          </h1>
+          <p class="text-white/60 text-lg mb-8 max-w-xl leading-relaxed">
+            {skills.length}+ production-grade automations built on n8n and Claude AI. Browse, filter by industry or function, and deploy any workflow in under 7 days.
+          </p>
+          <!-- Stats row -->
+          <div class="flex flex-wrap gap-x-8 gap-y-3">
+            {stats.map(s => (
+              <div>
+                <p class="font-display text-2xl leading-none text-white">{s.n}</p>
+                <p class="text-[10px] uppercase tracking-widest text-white/40 mt-1">{s.l}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filters + Grid -->
+    <section class="bg-white">
+      <div class="container-x py-10 lg:py-14">
+
+        <!-- Search + filters bar -->
+        <div class="flex flex-col gap-4 mb-8 sticky top-16 z-20 bg-white/95 backdrop-blur-sm py-4 -mx-4 px-4 border-b border-brand-gray-100">
+          <!-- Search -->
+          <div class="relative max-w-lg">
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input
+              id="skill-search"
+              type="search"
+              placeholder="Search workflows..."
+              class="w-full pl-10 pr-4 py-2.5 text-sm border border-brand-gray-200 rounded-button outline-none focus:border-brand-black transition bg-brand-gray-50"
+            />
+          </div>
+
+          <!-- Category tabs -->
+          <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+            {cats.map(c => (
+              <button
+                type="button"
+                class="cat-btn shrink-0 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full border transition whitespace-nowrap"
+                data-cat={c.id}
+                data-active={c.id === 'all' ? 'true' : 'false'}
+                style={c.id === 'all' ? 'background:#0A0A0A;color:#fff;border-color:#0A0A0A;' : 'background:white;color:#6B7280;border-color:#E5E7EB;'}
+              >
+                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d={c.icon}/>
+                </svg>
+                {c.label}
+              </button>
+            ))}
+          </div>
+
+          <!-- Industry pills -->
+          <div class="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+            {industries.map(i => (
+              <button
+                type="button"
+                class="ind-btn shrink-0 text-[10px] font-medium px-2.5 py-1 rounded-full border transition whitespace-nowrap"
+                data-ind={i.id}
+                data-active={i.id === 'all' ? 'true' : 'false'}
+                style={i.id === 'all' ? 'background:#0A0A0A;color:#fff;border-color:#0A0A0A;' : 'background:white;color:#6B7280;border-color:#E5E7EB;'}
+              >
+                {i.label}
+              </button>
+            ))}
+          </div>
+
+          <!-- Results count -->
+          <p id="results-count" class="text-xs text-brand-gray-400">{skills.length} workflows</p>
+        </div>
+
+        <!-- Grid -->
+        <div id="skills-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {skills.map(s => (
+            <a
+              href={`/skills/${s.slug}`}
+              class="skill-card group flex flex-col bg-white border border-brand-gray-100 hover:border-brand-gray-300 hover:shadow-md rounded-card p-5 transition-all duration-200"
+              data-cat={s.cat}
+              data-industries={s.industries.join(',')}
+              data-title={s.title.toLowerCase()}
+              data-badge={s.badge ?? ''}
+            >
+              <!-- Top row -->
+              <div class="flex items-start justify-between gap-2 mb-3">
+                <span class={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${complexityColor[s.complexity]}`}>
+                  {s.complexity}
+                </span>
+                {s.badge && (
+                  <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shrink-0"
+                    style={s.badge === 'AI-powered' ? 'background:rgba(123,104,238,0.12);color:#7B68EE;' : 'background:rgba(232,180,176,0.15);color:#c4847e;'}>
+                    {s.badge}
+                  </span>
+                )}
+              </div>
+
+              <!-- Title + benefit -->
+              <p class="text-sm font-semibold text-brand-black mb-1.5 leading-snug group-hover:text-brand-black flex-1">{s.title}</p>
+              <p class="text-[11px] text-brand-gray-500 leading-relaxed mb-4 line-clamp-2">{s.benefit}</p>
+
+              <!-- Tools -->
+              <div class="flex flex-wrap gap-1 mb-4">
+                {s.tools.map(t => (
+                  <span class="text-[9px] font-medium bg-brand-gray-50 text-brand-gray-500 border border-brand-gray-100 px-1.5 py-0.5 rounded">{t}</span>
+                ))}
+              </div>
+
+              <!-- Footer -->
+              <div class="flex items-center justify-between pt-3 border-t border-brand-gray-100 mt-auto">
+                <span class="text-[10px] font-semibold text-brand-green">{s.time} saved</span>
+                <span class="text-[10px] font-medium text-brand-gray-400 group-hover:text-brand-black transition flex items-center gap-1">
+                  Deploy
+                  <svg class="w-3 h-3" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <!-- Empty state -->
+        <div id="empty-state" class="hidden text-center py-20">
+          <p class="font-display text-2xl text-brand-gray-400 mb-2">No workflows found</p>
+          <p class="text-sm text-brand-gray-400">Try a different search or filter combination</p>
+          <button type="button" id="reset-btn" class="mt-4 text-sm text-brand-black underline underline-offset-4">Reset filters</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="bg-brand-cream border-t border-brand-gray-100 py-14 lg:py-20">
+      <div class="container-x text-center">
+        <p class="eyebrow mb-3">Don't see what you need?</p>
+        <h2 class="font-display text-h2 mb-4 text-balance">We build custom workflows too.</h2>
+        <p class="text-brand-gray-600 mb-8 max-w-lg mx-auto">Every business is different. Book a free audit and we'll map your exact processes and build what you actually need.</p>
+        <a href="/pages/welcome"
+           class="inline-flex items-center gap-2 bg-brand-black text-white font-semibold px-8 py-4 rounded-button hover:bg-brand-gray-800 transition">
+          Book your free audit
+          <svg class="w-4 h-4" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+        </a>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+(function () {
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('.skill-card'));
+  const catBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('.cat-btn'));
+  const indBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('.ind-btn'));
+  const searchInput = document.getElementById('skill-search') as HTMLInputElement;
+  const grid = document.getElementById('skills-grid');
+  const empty = document.getElementById('empty-state');
+  const count = document.getElementById('results-count');
+  const resetBtn = document.getElementById('reset-btn');
+
+  let activeCat = 'all';
+  let activeInd = 'all';
+  let query = '';
+
+  function setActive(btns: HTMLButtonElement[], activeId: string) {
+    btns.forEach(b => {
+      const isActive = b.dataset[b.classList.contains('cat-btn') ? 'cat' : 'ind'] === activeId;
+      b.style.cssText = isActive
+        ? 'background:#0A0A0A;color:#fff;border-color:#0A0A0A;'
+        : 'background:white;color:#6B7280;border-color:#E5E7EB;';
+    });
+  }
+
+  function filter() {
+    let visible = 0;
+    cards.forEach(card => {
+      const catMatch = activeCat === 'all' || card.dataset.cat === activeCat;
+      const indMatch = activeInd === 'all' || (card.dataset.industries ?? '').split(',').includes(activeInd);
+      const qMatch = !query || (card.dataset.title ?? '').includes(query);
+      const show = catMatch && indMatch && qMatch;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    if (count) count.textContent = `${visible} workflow${visible !== 1 ? 's' : ''}`;
+    if (empty) empty.classList.toggle('hidden', visible > 0);
+    if (grid) grid.classList.toggle('hidden', visible === 0);
+  }
+
+  catBtns.forEach(b => b.addEventListener('click', () => {
+    activeCat = b.dataset.cat ?? 'all';
+    setActive(catBtns, activeCat);
+    filter();
+  }));
+
+  indBtns.forEach(b => b.addEventListener('click', () => {
+    activeInd = b.dataset.ind ?? 'all';
+    setActive(indBtns, activeInd);
+    filter();
+  }));
+
+  searchInput?.addEventListener('input', () => {
+    query = searchInput.value.toLowerCase().trim();
+    filter();
+  });
+
+  resetBtn?.addEventListener('click', () => {
+    activeCat = 'all'; activeInd = 'all'; query = '';
+    if (searchInput) searchInput.value = '';
+    setActive(catBtns, 'all');
+    setActive(indBtns, 'all');
+    filter();
+  });
+
+  // Handle URL params on load (e.g. /skills?cat=crm&industry=legal)
+  const params = new URLSearchParams(window.location.search);
+  const urlCat = params.get('cat');
+  const urlInd = params.get('industry');
+  if (urlCat) { activeCat = urlCat; setActive(catBtns, urlCat); }
+  if (urlInd) { activeInd = urlInd; setActive(indBtns, urlInd); }
+  if (urlCat || urlInd) filter();
+})();
+</script>

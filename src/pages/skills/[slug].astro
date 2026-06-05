@@ -1,0 +1,233 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/layout/Header.astro';
+import Footer from '~/components/layout/Footer.astro';
+import skillsData from '~/data/skills.json';
+
+export function getStaticPaths() {
+  return skillsData.skills.map((s) => ({
+    params: { slug: s.slug },
+    props: { skill: s },
+  }));
+}
+
+const { skill } = Astro.props;
+
+const catLabels: Record<string, string> = {
+  crm: 'CRM & Sales', finance: 'Finance', ops: 'Operations',
+  support: 'Support & CS', marketing: 'Marketing', reporting: 'Reporting & BI',
+};
+const industryLabels: Record<string, string> = {
+  agency: 'Agencies', ecommerce: 'E-commerce', realestate: 'Real Estate',
+  legal: 'Law Firms', staffing: 'Staffing & HR', hotel: 'Hotels',
+  construction: 'Construction', accounting: 'Accounting', financial: 'Financial Advisory',
+  media: 'Media & Publishing', saas: 'SaaS', callcenter: 'Call Centres',
+};
+const complexityColor: Record<string, string> = {
+  Starter: 'bg-green-100 text-green-800',
+  Intermediate: 'bg-amber-100 text-amber-800',
+  Advanced: 'bg-purple-100 text-purple-800',
+};
+
+const related = skillsData.skills
+  .filter(s => s.slug !== skill.slug && (s.cat === skill.cat || s.industries.some(i => skill.industries.includes(i))))
+  .slice(0, 3);
+
+const schemaLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: skill.title,
+  description: skill.benefit + ' ' + skill.desc,
+  tool: skill.tools.map(t => ({ '@type': 'HowToTool', name: t })),
+  step: [
+    { '@type': 'HowToStep', name: 'Connect your tools', text: `Connect ${skill.tools.join(', ')} to your n8n instance.` },
+    { '@type': 'HowToStep', name: 'Deploy the workflow', text: 'PURIST deploys and tests the automation in your environment.' },
+    { '@type': 'HowToStep', name: 'Monitor and scale', text: `Start saving ${skill.time} immediately with 24/7 monitoring.` },
+  ],
+};
+---
+
+<BaseLayout
+  title={`${skill.title} — PURIST Automation Skill`}
+  description={`${skill.benefit} ${skill.desc} Built on n8n with ${skill.tools.join(', ')}.`}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(schemaLd)} slot="head" />
+  <Header />
+
+  <main id="main-content">
+    <!-- Breadcrumb -->
+    <div class="border-b border-brand-gray-100 bg-brand-cream/40">
+      <div class="container-x py-3">
+        <nav aria-label="Breadcrumb" class="text-xs text-brand-gray-500 flex items-center gap-1.5 flex-wrap">
+          <a href="/" class="hover:text-brand-black transition">Home</a>
+          <span>/</span>
+          <a href="/skills" class="hover:text-brand-black transition">Automation Skills</a>
+          <span>/</span>
+          <a href={`/skills?cat=${skill.cat}`} class="hover:text-brand-black transition">{catLabels[skill.cat]}</a>
+          <span>/</span>
+          <span class="text-brand-black">{skill.title}</span>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <section class="bg-white border-b border-brand-gray-100">
+      <div class="container-x py-12 lg:py-16 grid lg:grid-cols-12 gap-10 lg:gap-16">
+        <div class="lg:col-span-8">
+          <!-- Badges -->
+          <div class="flex flex-wrap items-center gap-2 mb-5">
+            <span class={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full ${complexityColor[skill.complexity]}`}>
+              {skill.complexity}
+            </span>
+            <span class="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-brand-gray-100 text-brand-gray-600">
+              {catLabels[skill.cat]}
+            </span>
+            {skill.badge && (
+              <span class="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full"
+                style="background:rgba(232,180,176,0.15);color:#c4847e;">
+                {skill.badge}
+              </span>
+            )}
+          </div>
+
+          <h1 class="font-display text-h1 text-brand-black mb-4 text-balance">{skill.title}</h1>
+          <p class="text-lg text-brand-gray-700 mb-3 font-medium">{skill.benefit}</p>
+          <p class="text-base text-brand-gray-600 leading-relaxed max-w-2xl">{skill.desc}</p>
+
+          <!-- Time saved pill -->
+          <div class="mt-6 inline-flex items-center gap-2 bg-brand-cream border border-brand-gray-200 rounded-full px-4 py-2">
+            <svg class="w-4 h-4 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+            </svg>
+            <span class="text-sm font-semibold text-brand-black">{skill.time}</span>
+            <span class="text-sm text-brand-gray-500">saved per week</span>
+          </div>
+
+          <!-- Tools -->
+          <div class="mt-6">
+            <p class="text-xs uppercase tracking-widest text-brand-gray-400 mb-3 font-medium">Built with</p>
+            <div class="flex flex-wrap gap-2">
+              {skill.tools.map(t => (
+                <span class="inline-flex items-center gap-1.5 bg-brand-gray-50 border border-brand-gray-200 rounded-lg px-3 py-1.5 text-sm font-medium text-brand-gray-700">
+                  <span class="w-1.5 h-1.5 rounded-full bg-brand-pink/60 shrink-0"></span>
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <!-- Industries -->
+          <div class="mt-6">
+            <p class="text-xs uppercase tracking-widest text-brand-gray-400 mb-3 font-medium">Works for</p>
+            <div class="flex flex-wrap gap-2">
+              {skill.industries.map(i => (
+                <a href={`/skills?industry=${i}`}
+                   class="text-xs font-medium px-2.5 py-1 rounded-full bg-white border border-brand-gray-200 text-brand-gray-600 hover:border-brand-pink/40 hover:text-brand-black transition">
+                  {industryLabels[i] ?? i}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA box -->
+        <div class="lg:col-span-4">
+          <div class="sticky top-24 bg-brand-black rounded-card p-6 text-white">
+            <p class="text-xs uppercase tracking-widest text-white/40 mb-1">Ready to deploy?</p>
+            <p class="font-display text-xl mb-1">This workflow, live in</p>
+            <p class="font-display text-3xl text-brand-pink mb-4">7 days</p>
+            <p class="text-sm text-white/60 mb-6 leading-relaxed">
+              Book a free 60-minute audit. We map your stack, confirm ROI, and build this workflow for you — tested and monitored 24/7.
+            </p>
+            <a href="/pages/welcome"
+               class="block w-full text-center bg-brand-pink text-brand-black font-semibold text-sm py-3.5 rounded-button hover:bg-brand-pink/90 transition mb-3">
+              Book free audit →
+            </a>
+            <a href="/collections/all"
+               class="block w-full text-center bg-white/5 border border-white/10 text-white/70 font-medium text-sm py-3 rounded-button hover:bg-white/10 transition">
+              View plans
+            </a>
+            <div class="mt-5 pt-5 border-t border-white/10 flex items-center gap-2">
+              <svg class="w-4 h-4 text-brand-green shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg>
+              <span class="text-xs text-white/50">30-day money-back guarantee</span>
+            </div>
+            {skill.n8n && (
+              <a href={skill.n8n} target="_blank" rel="noopener noreferrer"
+                 class="mt-3 flex items-center gap-2 text-xs text-white/40 hover:text-white/60 transition">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                View on n8n.io
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="bg-brand-cream py-14 lg:py-20">
+      <div class="container-x">
+        <p class="eyebrow mb-3">How it works</p>
+        <h2 class="font-display text-h2 mb-12 text-balance">Three steps to live</h2>
+        <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+          {[
+            { n: '01', title: 'Free audit call', desc: 'We map your current workflow, identify the exact integration points, and confirm the ROI estimate — live on a 60-minute call.' },
+            { n: '02', title: 'We build and test', desc: `Your ${skill.title.toLowerCase()} workflow is built, tested against real data, and monitored for edge cases. You approve before it goes live.` },
+            { n: '03', title: 'Live in 7 days', desc: 'Deployed to your infrastructure. 24/7 monitoring, error alerts, and a dedicated Slack channel for support. You own everything we build.' },
+          ].map(step => (
+            <div class="bg-white rounded-card p-6 lg:p-8 border border-brand-gray-100">
+              <p class="font-display text-4xl text-brand-gray-200 mb-4 leading-none">{step.n}</p>
+              <p class="font-semibold text-brand-black mb-2">{step.title}</p>
+              <p class="text-sm text-brand-gray-600 leading-relaxed">{step.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Related skills -->
+    {related.length > 0 && (
+      <section class="bg-white py-14 lg:py-20 border-t border-brand-gray-100">
+        <div class="container-x">
+          <p class="eyebrow mb-3">Related workflows</p>
+          <h2 class="font-display text-h2 mb-10">Often deployed together</h2>
+          <div class="grid md:grid-cols-3 gap-5">
+            {related.map(r => (
+              <a href={`/skills/${r.slug}`}
+                 class="group block bg-brand-gray-50 hover:bg-brand-cream border border-brand-gray-100 hover:border-brand-gray-200 rounded-card p-5 transition">
+                <div class="flex items-center justify-between mb-3">
+                  <span class={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${complexityColor[r.complexity]}`}>
+                    {r.complexity}
+                  </span>
+                  {r.badge && (
+                    <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
+                      style="background:rgba(232,180,176,0.15);color:#c4847e;">{r.badge}</span>
+                  )}
+                </div>
+                <p class="font-medium text-brand-black mb-1 group-hover:text-brand-black text-sm leading-snug">{r.title}</p>
+                <p class="text-xs text-brand-gray-500 leading-relaxed">{r.benefit}</p>
+                <p class="text-xs text-brand-green font-semibold mt-3">{r.time} saved →</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- CTA band -->
+    <section class="bg-brand-black py-14">
+      <div class="container-x text-center">
+        <h2 class="font-display text-h2 text-white mb-3 text-balance">
+          Ready to automate <em class="font-medium">{skill.title.toLowerCase()}?</em>
+        </h2>
+        <p class="text-white/60 mb-8 max-w-xl mx-auto">Free 60-minute audit. We show you the exact ROI live on the call.</p>
+        <a href="/pages/welcome"
+           class="inline-flex items-center gap-2 bg-white text-brand-black font-semibold px-8 py-4 rounded-button hover:bg-brand-cream transition">
+          Book your free audit
+          <svg class="w-4 h-4" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
