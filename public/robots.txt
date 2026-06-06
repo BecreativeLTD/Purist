@@ -42,4 +42,3 @@ User-agent: YouBot
 Allow: /
 
 Sitemap: https://purist.online/sitemap.xml
-Sitemap: https://purist.online/llms.txt

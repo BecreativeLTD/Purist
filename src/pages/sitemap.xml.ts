@@ -42,7 +42,6 @@ const pages = [
   { url: '/pages/faq',                             changefreq: 'monthly', priority: '0.7' },
   { url: '/pages/about-us',                        changefreq: 'monthly', priority: '0.7' },
   { url: '/pages/contact-us',                      changefreq: 'monthly', priority: '0.7' },
-  { url: '/pages/stack-dna',                         changefreq: 'monthly', priority: '0.7' },
   { url: '/pages/science',                           changefreq: 'monthly', priority: '0.7' },
   { url: '/pages/quality',                           changefreq: 'monthly', priority: '0.7' },
   { url: '/pages/ingredients',                       changefreq: 'monthly', priority: '0.7' },

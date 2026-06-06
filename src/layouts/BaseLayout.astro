@@ -73,5 +73,12 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
       gtag('js', new Date());
       gtag('config', 'G-4XMEM7DE1B');
     </script>
+    <script is:inline>
+      document.addEventListener('astro:page-load', function() {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'page_view', { page_path: location.pathname });
+        }
+      });
+    </script>
   </body>
 </html>
