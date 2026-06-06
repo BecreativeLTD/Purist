@@ -16,12 +16,17 @@ const { skill } = Astro.props;
 const catLabels: Record<string, string> = {
   crm: 'CRM & Sales', finance: 'Finance', ops: 'Operations',
   support: 'Support & CS', marketing: 'Marketing', reporting: 'Reporting & BI',
+  hr: 'HR & People', ai: 'AI Workflows', integration: 'Integrations',
+  security: 'Security & Compliance',
 };
 const industryLabels: Record<string, string> = {
   agency: 'Agencies', ecommerce: 'E-commerce', realestate: 'Real Estate',
   legal: 'Law Firms', staffing: 'Staffing & HR', hotel: 'Hotels',
   construction: 'Construction', accounting: 'Accounting', financial: 'Financial Advisory',
   media: 'Media & Publishing', saas: 'SaaS', callcenter: 'Call Centres',
+  restaurant: 'Restaurants', healthcare: 'Healthcare', nonprofit: 'Non-Profits',
+  education: 'Education', logistics: 'Logistics', insurance: 'Insurance',
+  property_management: 'Property Management', gym: 'Gyms & Fitness',
 };
 const complexityColor: Record<string, string> = {
   Starter: 'bg-green-100 text-green-800',
@@ -33,23 +38,70 @@ const related = skillsData.skills
   .filter(s => s.slug !== skill.slug && (s.cat === skill.cat || s.industries.some(i => skill.industries.includes(i))))
   .slice(0, 3);
 
+// Price: use skill.price if exists, otherwise derive from complexity
+const basePrice: number = (skill as any).price ?? (
+  skill.complexity === 'Starter' ? 299 :
+  skill.complexity === 'Intermediate' ? 499 : 799
+);
+
+// Tags: use skill.tags if present, otherwise derive from tools + cat
+const tags: string[] = (skill as any).tags ?? [
+  ...skill.tools.slice(0, 2),
+  skill.cat,
+  skill.complexity.toLowerCase(),
+];
+
+// FAQ — 6 questions tailored to the skill
+const faqs = [
+  {
+    q: `How long does it take to deploy ${skill.title.toLowerCase()}?`,
+    a: `Most clients are live within 7 business days. After a 60-minute audit call we configure, test against real data, and hand over the workflow fully running in your environment.`,
+  },
+  {
+    q: 'Do I need technical knowledge to use this workflow?',
+    a: `No. PURIST handles all the technical setup — connecting ${skill.tools.slice(0, 2).join(' and ')}, configuring triggers, and testing edge cases. You just review and approve before it goes live.`,
+  },
+  {
+    q: 'What happens if something breaks?',
+    a: `We monitor every workflow 24/7. If an error fires, we get the alert before you do. Critical issues are fixed within 4 hours; non-critical within 24 hours. You also get a dedicated Slack channel for support.`,
+  },
+  {
+    q: 'Do I own the workflow after it is built?',
+    a: `Yes, 100%. Every workflow runs on your own n8n instance. You own the code, the credentials, and the logic. There is no lock-in and no recurring platform fee beyond your n8n subscription.`,
+  },
+  {
+    q: `Will this work with my current stack?`,
+    a: `This workflow is built around ${skill.tools.join(', ')}. If you use different tools in the same category, book a free audit — we adapt the integrations to your exact stack at no extra cost.`,
+  },
+  {
+    q: 'Is there a money-back guarantee?',
+    a: `Yes. If you are not satisfied within 30 days of going live, we issue a full refund. No questions asked. We are confident because we test everything before handing it over.`,
+  },
+];
+
 const schemaLd = {
   '@context': 'https://schema.org',
   '@type': 'HowTo',
   name: skill.title,
   description: skill.benefit + ' ' + skill.desc,
+  estimatedCost: { '@type': 'MonetaryAmount', currency: 'GBP', value: String(basePrice) },
   tool: skill.tools.map(t => ({ '@type': 'HowToTool', name: t })),
   step: [
-    { '@type': 'HowToStep', name: 'Connect your tools', text: `Connect ${skill.tools.join(', ')} to your n8n instance.` },
-    { '@type': 'HowToStep', name: 'Deploy the workflow', text: 'PURIST deploys and tests the automation in your environment.' },
-    { '@type': 'HowToStep', name: 'Monitor and scale', text: `Start saving ${skill.time} immediately with 24/7 monitoring.` },
+    { '@type': 'HowToStep', name: 'Book a free audit', text: 'We map your current workflow, identify exact integration points, and confirm ROI on a 60-minute call.' },
+    { '@type': 'HowToStep', name: 'We build and test', text: `PURIST configures ${skill.tools.join(', ')}, tests against real data, and resolves edge cases. You approve before going live.` },
+    { '@type': 'HowToStep', name: 'Go live in 7 days', text: `Start saving ${skill.time} immediately. 24/7 monitoring and a dedicated Slack channel for ongoing support.` },
   ],
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
 };
 ---
 
 <BaseLayout
-  title={`${skill.title} — PURIST Automation Skill`}
-  description={`${skill.benefit} ${skill.desc} Built on n8n with ${skill.tools.join(', ')}.`}
+  title={`${skill.title} — PURIST Automation Workflow`}
+  description={`${skill.benefit} ${skill.desc} Built on n8n with ${skill.tools.join(', ')}. Live in 7 days.`}
 >
   <script type="application/ld+json" set:html={JSON.stringify(schemaLd)} slot="head" />
   <Header />
@@ -94,14 +146,37 @@ const schemaLd = {
           <p class="text-lg text-brand-gray-700 mb-3 font-medium">{skill.benefit}</p>
           <p class="text-base text-brand-gray-600 leading-relaxed max-w-2xl">{skill.desc}</p>
 
-          <!-- Time saved pill -->
-          <div class="mt-6 inline-flex items-center gap-2 bg-brand-cream border border-brand-gray-200 rounded-full px-4 py-2">
-            <svg class="w-4 h-4 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-              <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
-            </svg>
-            <span class="text-sm font-semibold text-brand-black">{skill.time}</span>
-            <span class="text-sm text-brand-gray-500">saved per week</span>
+          <!-- Time saved + Price row -->
+          <div class="mt-6 flex flex-wrap gap-3">
+            <div class="inline-flex items-center gap-2 bg-brand-cream border border-brand-gray-200 rounded-full px-4 py-2">
+              <svg class="w-4 h-4 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+              </svg>
+              <span class="text-sm font-semibold text-brand-black">{skill.time}</span>
+              <span class="text-sm text-brand-gray-500">saved per week</span>
+            </div>
+            <div class="inline-flex items-center gap-2 bg-brand-black rounded-full px-4 py-2">
+              <svg class="w-4 h-4 text-brand-pink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+              </svg>
+              <span class="text-sm font-semibold text-white">From <span data-price={basePrice}>£{basePrice}</span></span>
+            </div>
           </div>
+
+          <!-- Tags -->
+          {tags.length > 0 && (
+            <div class="mt-6">
+              <p class="text-xs uppercase tracking-widest text-brand-gray-400 mb-3 font-medium">Tags</p>
+              <div class="flex flex-wrap gap-2">
+                {tags.map(tag => (
+                  <a href={`/skills?q=${encodeURIComponent(tag)}`}
+                     class="text-xs font-medium px-2.5 py-1 rounded-full bg-brand-gray-50 border border-brand-gray-200 text-brand-gray-500 hover:border-brand-pink/40 hover:text-brand-black transition">
+                    #{tag}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
 
           <!-- Tools -->
           <div class="mt-6">
@@ -135,9 +210,10 @@ const schemaLd = {
           <div class="sticky top-24 bg-brand-black rounded-card p-6 text-white">
             <p class="text-xs uppercase tracking-widest text-white/40 mb-1">Ready to deploy?</p>
             <p class="font-display text-xl mb-1">This workflow, live in</p>
-            <p class="font-display text-3xl text-brand-pink mb-4">7 days</p>
+            <p class="font-display text-3xl text-brand-pink mb-1">7 days</p>
+            <p class="text-sm text-white/30 mb-4">From <span data-price={basePrice} class="text-white/60 font-semibold">£{basePrice}</span> one-time</p>
             <p class="text-sm text-white/60 mb-6 leading-relaxed">
-              Book a free 60-minute audit. We map your stack, confirm ROI, and build this workflow for you — tested and monitored 24/7.
+              Free 60-minute audit. We map your stack, confirm ROI, and build this workflow — tested and monitored 24/7.
             </p>
             <a href="/pages/welcome"
                class="block w-full text-center bg-brand-pink text-brand-black font-semibold text-sm py-3.5 rounded-button hover:bg-brand-pink/90 transition mb-3">
@@ -145,17 +221,25 @@ const schemaLd = {
             </a>
             <a href="/collections/all"
                class="block w-full text-center bg-white/5 border border-white/10 text-white/70 font-medium text-sm py-3 rounded-button hover:bg-white/10 transition">
-              View plans
+              View all plans
             </a>
-            <div class="mt-5 pt-5 border-t border-white/10 flex items-center gap-2">
-              <svg class="w-4 h-4 text-brand-green shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg>
-              <span class="text-xs text-white/50">30-day money-back guarantee</span>
+            <div class="mt-5 pt-5 border-t border-white/10 space-y-2.5">
+              {[
+                '30-day money-back guarantee',
+                'You own 100% of the workflow',
+                '24/7 monitoring included',
+              ].map(line => (
+                <div class="flex items-center gap-2">
+                  <svg class="w-4 h-4 text-brand-green shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg>
+                  <span class="text-xs text-white/50">{line}</span>
+                </div>
+              ))}
             </div>
             {skill.n8n && (
               <a href={skill.n8n} target="_blank" rel="noopener noreferrer"
-                 class="mt-3 flex items-center gap-2 text-xs text-white/40 hover:text-white/60 transition">
+                 class="mt-4 flex items-center gap-2 text-xs text-white/40 hover:text-white/60 transition">
                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                View on n8n.io
+                View template on n8n.io
               </a>
             )}
           </div>
@@ -163,18 +247,46 @@ const schemaLd = {
       </div>
     </section>
 
+    <!-- What's included -->
+    <section class="bg-brand-cream py-14 lg:py-20 border-b border-brand-gray-100">
+      <div class="container-x">
+        <p class="eyebrow mb-3">What you get</p>
+        <h2 class="font-display text-h2 mb-10 text-balance">Everything included, nothing extra to buy</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {[
+            { icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Fully built workflow', desc: `Complete n8n workflow connecting ${skill.tools.slice(0,2).join(', ')} and any other tools in your stack.` },
+            { icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2', title: 'Real-data testing', desc: 'We test against your actual live data, not synthetic test cases, before handing it over.' },
+            { icon: 'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9', title: '24/7 monitoring', desc: 'Error alerts go to our team first. Critical issues resolved within 4 hours, every day.' },
+            { icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z', title: 'Dedicated Slack channel', desc: 'Direct access to your automation engineer. No ticket queues, no chatbots.' },
+            { icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z', title: 'You own everything', desc: 'Full source code, credentials, and access. No platform lock-in, no recurring licence fee.' },
+            { icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15', title: 'Free modifications', desc: 'Need a tweak within 30 days? We adjust the workflow at no extra charge.' },
+          ].map(item => (
+            <div class="bg-white rounded-card p-5 border border-brand-gray-100">
+              <div class="w-9 h-9 rounded-lg bg-brand-cream flex items-center justify-center mb-4">
+                <svg class="w-4.5 h-4.5 text-brand-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                  <path d={item.icon}/>
+                </svg>
+              </div>
+              <p class="font-semibold text-brand-black text-sm mb-1">{item.title}</p>
+              <p class="text-xs text-brand-gray-500 leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
     <!-- How it works -->
-    <section class="bg-brand-cream py-14 lg:py-20">
+    <section class="bg-white py-14 lg:py-20">
       <div class="container-x">
         <p class="eyebrow mb-3">How it works</p>
         <h2 class="font-display text-h2 mb-12 text-balance">Three steps to live</h2>
         <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
           {[
             { n: '01', title: 'Free audit call', desc: 'We map your current workflow, identify the exact integration points, and confirm the ROI estimate — live on a 60-minute call.' },
-            { n: '02', title: 'We build and test', desc: `Your ${skill.title.toLowerCase()} workflow is built, tested against real data, and monitored for edge cases. You approve before it goes live.` },
-            { n: '03', title: 'Live in 7 days', desc: 'Deployed to your infrastructure. 24/7 monitoring, error alerts, and a dedicated Slack channel for support. You own everything we build.' },
+            { n: '02', title: 'We build and test', desc: `Your ${skill.title.toLowerCase()} workflow is built on n8n, tested against real data, and monitored for edge cases. You approve before it goes live.` },
+            { n: '03', title: 'Live in 7 days', desc: `Deployed to your infrastructure. ${skill.time} saved from week one. 24/7 monitoring and a Slack channel for support. You own everything.` },
           ].map(step => (
-            <div class="bg-white rounded-card p-6 lg:p-8 border border-brand-gray-100">
+            <div class="bg-brand-gray-50 rounded-card p-6 lg:p-8 border border-brand-gray-100">
               <p class="font-display text-4xl text-brand-gray-200 mb-4 leading-none">{step.n}</p>
               <p class="font-semibold text-brand-black mb-2">{step.title}</p>
               <p class="text-sm text-brand-gray-600 leading-relaxed">{step.desc}</p>
@@ -183,6 +295,57 @@ const schemaLd = {
         </div>
       </div>
     </section>
+
+    <!-- FAQ -->
+    <section class="bg-brand-cream py-14 lg:py-20 border-t border-brand-gray-100">
+      <div class="container-x max-w-3xl">
+        <p class="eyebrow mb-3">FAQ</p>
+        <h2 class="font-display text-h2 mb-10 text-balance">Common questions</h2>
+        <div class="space-y-3" id="faq-list">
+          {faqs.map((faq, i) => (
+            <div class="bg-white rounded-card border border-brand-gray-100 overflow-hidden" data-faq={i}>
+              <button
+                class="w-full text-left px-6 py-4 flex items-center justify-between gap-4 font-medium text-brand-black text-sm hover:bg-brand-gray-50 transition"
+                aria-expanded="false"
+                onclick={`toggleFaq(${i})`}
+              >
+                <span>{faq.q}</span>
+                <svg class="w-4 h-4 text-brand-gray-400 shrink-0 transition-transform duration-200 faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="faq-body px-6 overflow-hidden max-h-0 transition-all duration-300">
+                <p class="text-sm text-brand-gray-600 leading-relaxed pb-5">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <script>
+      function toggleFaq(index: number) {
+        const item = document.querySelector(`[data-faq="${index}"]`);
+        if (!item) return;
+        const body = item.querySelector('.faq-body') as HTMLElement;
+        const chevron = item.querySelector('.faq-chevron') as HTMLElement;
+        const btn = item.querySelector('button') as HTMLButtonElement;
+        const isOpen = body.style.maxHeight && body.style.maxHeight !== '0px';
+        // close all
+        document.querySelectorAll('[data-faq]').forEach(el => {
+          const b = el.querySelector('.faq-body') as HTMLElement;
+          const c = el.querySelector('.faq-chevron') as HTMLElement;
+          const bt = el.querySelector('button') as HTMLButtonElement;
+          if (b) b.style.maxHeight = '0px';
+          if (c) c.style.transform = '';
+          if (bt) bt.setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          body.style.maxHeight = body.scrollHeight + 'px';
+          chevron.style.transform = 'rotate(180deg)';
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      }
+      (window as any).toggleFaq = toggleFaq;
+    </script>
 
     <!-- Related skills -->
     {related.length > 0 && (
@@ -198,9 +361,10 @@ const schemaLd = {
                   <span class={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${complexityColor[r.complexity]}`}>
                     {r.complexity}
                   </span>
-                  {r.badge && (
-                    <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
-                      style="background:rgba(232,180,176,0.15);color:#c4847e;">{r.badge}</span>
+                  {(r as any).price && (
+                    <span class="text-xs font-semibold text-brand-gray-400">
+                      From <span data-price={(r as any).price}>£{(r as any).price}</span>
+                    </span>
                   )}
                 </div>
                 <p class="font-medium text-brand-black mb-1 group-hover:text-brand-black text-sm leading-snug">{r.title}</p>
@@ -219,7 +383,8 @@ const schemaLd = {
         <h2 class="font-display text-h2 text-white mb-3 text-balance">
           Ready to automate <em class="font-medium">{skill.title.toLowerCase()}?</em>
         </h2>
-        <p class="text-white/60 mb-8 max-w-xl mx-auto">Free 60-minute audit. We show you the exact ROI live on the call.</p>
+        <p class="text-white/60 mb-2 max-w-xl mx-auto">Free 60-minute audit. We show you the exact ROI live on the call.</p>
+        <p class="text-white/30 text-sm mb-8">From <span data-price={basePrice} class="text-white/50 font-semibold">£{basePrice}</span> one-time. No subscription. You own everything.</p>
         <a href="/pages/welcome"
            class="inline-flex items-center gap-2 bg-white text-brand-black font-semibold px-8 py-4 rounded-button hover:bg-brand-cream transition">
           Book your free audit
