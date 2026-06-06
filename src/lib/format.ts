@@ -1,4 +1,4 @@
-export function formatPrice(value: number, currency = 'USD', locale = 'en-US'): string {
+export function formatPrice(value: number, currency = 'GBP', locale = 'en-GB'): string {
   return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency,

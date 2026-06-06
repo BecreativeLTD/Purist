@@ -17,17 +17,16 @@
       "price": {
         "subscription": 1499,
         "oneTime": 2499,
-        "perServing": 49.97,
         "discount": 30,
-        "currency": "USD"
+        "currency": "GBP"
       },
-      "rating": 4.8,
+      "rating": 4.9,
       "reviewCount": 312,
       "bullets": [
         "The complete system — automation today, AI agents tomorrow",
         "30-day money-back guarantee",
         "n8n, Make & Zapier certified workflows",
-        "Replaces over $4,000 a year of disconnected SaaS tools at roughly $50 a day"
+        "Replaces over £4,000 a year of disconnected SaaS tools"
       ],
       "flavors": [
         { "id": "dental", "name": "Dental & Healthcare" },
@@ -53,11 +52,10 @@
       "price": {
         "subscription": 799,
         "oneTime": 1299,
-        "perServing": 26.63,
         "discount": 30,
-        "currency": "USD"
+        "currency": "GBP"
       },
-      "rating": 4.8,
+      "rating": 4.9,
       "reviewCount": 487,
       "bullets": [
         "Replaces 12 manual processes and disconnected tools",
@@ -89,11 +87,10 @@
       "price": {
         "subscription": 999,
         "oneTime": 1799,
-        "perServing": 33.30,
         "discount": 20,
-        "currency": "USD"
+        "currency": "GBP"
       },
-      "rating": 4.8,
+      "rating": 4.9,
       "reviewCount": 198,
       "bullets": [
         "Handles every repetitive task your team does manually",

@@ -13,15 +13,14 @@ interface Props {
   priceSubscription: number;
   priceOneTime: number;
   discount: number;
-  perServing: number;
 }
 
 type Plan = 'quarterly' | 'monthly' | 'oneTime';
 
 const planMeta: Record<Plan, { label: string; sub: string; badge?: string }> = {
-  quarterly: { label: 'Quarterly · 90-day supply', sub: '30% off · Free welcome kit · Free shipping', badge: 'BEST VALUE' },
-  monthly:   { label: 'Monthly · 30-day supply',   sub: '20% off · Free shipping · Cancel anytime' },
-  oneTime:   { label: 'One-time purchase',         sub: 'Full price · 30-day money-back guarantee' },
+  quarterly: { label: 'Quarterly subscription', sub: '30% off · Priority support · Cancel anytime', badge: 'BEST VALUE' },
+  monthly:   { label: 'Monthly subscription',   sub: '20% off · Cancel anytime' },
+  oneTime:   { label: 'One-time deployment',    sub: 'You own everything we build · 30-day guarantee' },
 };
 
 export default function ProductForm({
@@ -32,7 +31,6 @@ export default function ProductForm({
   priceSubscription,
   priceOneTime,
   discount,
-  perServing,
 }: Props) {
   const [flavor, setFlavor] = useState(flavors[0]?.id ?? '');
   const [plan, setPlan] = useState<Plan>('quarterly');
@@ -113,7 +111,7 @@ export default function ProductForm({
       {/* Flavor selector */}
       {flavors.length > 1 && (
         <fieldset>
-          <legend class="eyebrow mb-3">Flavour</legend>
+          <legend class="eyebrow mb-3">Industry</legend>
           <div class="grid grid-cols-2 gap-2">
             {flavors.map((f) => {
               const active = flavor === f.id;
@@ -172,7 +170,7 @@ export default function ProductForm({
       </div>
 
       <p class="text-xs text-brand-gray-600 text-center">
-        ≈ {formatPrice(perServing)} per workflow · 99.5% uptime SLA · 30-day guarantee
+        99.5% uptime SLA · 30-day money-back guarantee · Cancel anytime
       </p>
     </div>
   );

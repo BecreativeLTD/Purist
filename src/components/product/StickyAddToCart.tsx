@@ -8,7 +8,6 @@ interface Props {
   title: string;
   image: string;
   defaultPrice: number;
-  perServing: number;
   defaultFlavor?: string;
 }
 
@@ -17,7 +16,6 @@ export default function StickyAddToCart({
   title,
   image,
   defaultPrice,
-  perServing,
   defaultFlavor,
 }: Props) {
   const [visible, setVisible] = useState(false);
@@ -66,10 +64,10 @@ export default function StickyAddToCart({
           <div class="flex-1 min-w-0">
             <p class="font-display text-sm lg:text-base leading-tight truncate">{title}</p>
             <p class="text-[11px] text-brand-gray-600 truncate hidden sm:block">
-              Subscription · 90-day · ≈ {formatPrice(perServing)} per serving
+              Monthly subscription · 30-day money-back guarantee
             </p>
             <p class="text-[11px] text-brand-gray-600 truncate sm:hidden">
-              ≈ {formatPrice(perServing)} per serving
+              30-day guarantee
             </p>
           </div>
 
