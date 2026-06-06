@@ -159,7 +159,7 @@ const schemaLd = {
               <svg class="w-4 h-4 text-brand-pink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                 <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
               </svg>
-              <span class="text-sm font-semibold text-white">From <span data-price={basePrice}>£{basePrice}</span></span>
+              <span class="text-sm font-semibold text-white">From £{basePrice}</span>
             </div>
           </div>
 
@@ -211,7 +211,7 @@ const schemaLd = {
             <p class="text-xs uppercase tracking-widest text-white/40 mb-1">Ready to deploy?</p>
             <p class="font-display text-xl mb-1">This workflow, live in</p>
             <p class="font-display text-3xl text-brand-pink mb-1">7 days</p>
-            <p class="text-sm text-white/30 mb-4">From <span data-price={basePrice} class="text-white/60 font-semibold">£{basePrice}</span> one-time</p>
+            <p class="text-sm text-white/30 mb-4">From <span class="text-white/60 font-semibold">£{basePrice}</span> one-time</p>
             <p class="text-sm text-white/60 mb-6 leading-relaxed">
               Free 60-minute audit. We map your stack, confirm ROI, and build this workflow — tested and monitored 24/7.
             </p>
@@ -247,11 +247,43 @@ const schemaLd = {
       </div>
     </section>
 
+    <!-- Workflow diagram -->
+    <section class="bg-brand-gray-50 border-b border-brand-gray-100 py-10">
+      <div class="container-x">
+        <p class="text-xs uppercase tracking-widest text-brand-gray-400 mb-6 font-medium text-center">How the {skill.title} workflow connects your tools</p>
+        <div class="flex items-center justify-center gap-2 flex-wrap">
+          {skill.tools.map((tool, i) => (
+            <>
+              <div class="flex flex-col items-center gap-2">
+                <div class="w-16 h-16 rounded-xl bg-white border border-brand-gray-200 shadow-sm flex items-center justify-center">
+                  <span class="text-[10px] font-bold text-brand-black text-center leading-tight px-1">{tool}</span>
+                </div>
+                <span class="text-[9px] text-brand-gray-400 uppercase tracking-wider">
+                  {i === 0 ? 'Trigger' : i === skill.tools.length - 1 ? 'Output' : 'Process'}
+                </span>
+              </div>
+              {i < skill.tools.length - 1 && (
+                <div class="flex flex-col items-center gap-1 mx-1">
+                  <svg class="w-8 h-4 text-brand-pink" viewBox="0 0 32 16" fill="none">
+                    <path d="M0 8h28M22 2l8 6-8 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span class="text-[8px] text-brand-gray-300">n8n</span>
+                </div>
+              )}
+            </>
+          ))}
+        </div>
+        <p class="text-center text-xs text-brand-gray-400 mt-6 max-w-lg mx-auto">
+          n8n orchestrates the entire workflow — connecting {skill.tools.join(', ')} without code. You trigger it once, it runs forever.
+        </p>
+      </div>
+    </section>
+
     <!-- What's included -->
     <section class="bg-brand-cream py-14 lg:py-20 border-b border-brand-gray-100">
       <div class="container-x">
         <p class="eyebrow mb-3">What you get</p>
-        <h2 class="font-display text-h2 mb-10 text-balance">Everything included, nothing extra to buy</h2>
+        <h2 class="font-display text-h2 mb-10 text-balance">Your {catLabels[skill.cat]} automation — fully built, tested, and monitored</h2>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {[
             { icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Fully built workflow', desc: `Complete n8n workflow connecting ${skill.tools.slice(0,2).join(', ')} and any other tools in your stack.` },
@@ -278,8 +310,8 @@ const schemaLd = {
     <!-- How it works -->
     <section class="bg-white py-14 lg:py-20">
       <div class="container-x">
-        <p class="eyebrow mb-3">How it works</p>
-        <h2 class="font-display text-h2 mb-12 text-balance">Three steps to live</h2>
+        <p class="eyebrow mb-3">Deployment process</p>
+        <h2 class="font-display text-h2 mb-12 text-balance">How we deploy {skill.title} on n8n in 7 days</h2>
         <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
           {[
             { n: '01', title: 'Free audit call', desc: 'We map your current workflow, identify the exact integration points, and confirm the ROI estimate — live on a 60-minute call.' },
@@ -300,7 +332,7 @@ const schemaLd = {
     <section class="bg-brand-cream py-14 lg:py-20 border-t border-brand-gray-100">
       <div class="container-x max-w-3xl">
         <p class="eyebrow mb-3">FAQ</p>
-        <h2 class="font-display text-h2 mb-10 text-balance">Common questions</h2>
+        <h2 class="font-display text-h2 mb-10 text-balance">{skill.title} automation — common questions</h2>
         <div class="space-y-3" id="faq-list">
           {faqs.map((faq, i) => (
             <div class="bg-white rounded-card border border-brand-gray-100 overflow-hidden" data-faq={i}>
@@ -362,9 +394,7 @@ const schemaLd = {
                     {r.complexity}
                   </span>
                   {(r as any).price && (
-                    <span class="text-xs font-semibold text-brand-gray-400">
-                      From <span data-price={(r as any).price}>£{(r as any).price}</span>
-                    </span>
+                    <span class="text-xs font-semibold text-brand-gray-400">From £{(r as any).price}</span>
                   )}
                 </div>
                 <p class="font-medium text-brand-black mb-1 group-hover:text-brand-black text-sm leading-snug">{r.title}</p>
@@ -384,7 +414,7 @@ const schemaLd = {
           Ready to automate <em class="font-medium">{skill.title.toLowerCase()}?</em>
         </h2>
         <p class="text-white/60 mb-2 max-w-xl mx-auto">Free 60-minute audit. We show you the exact ROI live on the call.</p>
-        <p class="text-white/30 text-sm mb-8">From <span data-price={basePrice} class="text-white/50 font-semibold">£{basePrice}</span> one-time. No subscription. You own everything.</p>
+        <p class="text-white/30 text-sm mb-8">From <span class="text-white/50 font-semibold">£{basePrice}</span> one-time. No subscription. You own everything.</p>
         <a href="/pages/welcome"
            class="inline-flex items-center gap-2 bg-white text-brand-black font-semibold px-8 py-4 rounded-button hover:bg-brand-cream transition">
           Book your free audit

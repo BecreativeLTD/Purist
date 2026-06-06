@@ -1,6 +1,17 @@
 export const prerender = true;
 
+import skillsData from '~/data/skills.json';
+
 const site = 'https://purist.online';
+
+const skillPages = [
+  { url: '/skills', changefreq: 'weekly', priority: '0.9' },
+  ...skillsData.skills.map(s => ({
+    url: `/skills/${s.slug}`,
+    changefreq: 'monthly' as const,
+    priority: '0.7',
+  })),
+];
 
 const pages = [
   { url: '/',                                      changefreq: 'weekly',  priority: '1.0' },
@@ -53,9 +64,11 @@ const pages = [
 
 const now = new Date().toISOString().split('T')[0];
 
+const allPages = [...pages, ...skillPages];
+
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${pages.map(p => `  <url>
+${allPages.map(p => `  <url>
     <loc>${site}${p.url}</loc>
     <lastmod>${now}</lastmod>
     <changefreq>${p.changefreq}</changefreq>

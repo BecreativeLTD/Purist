@@ -142,7 +142,7 @@ const complexityColor: Record<string, string> = {
           </div>
 
           <!-- Results count -->
-          <p id="results-count" class="text-xs text-brand-gray-400">{skills.length} workflows</p>
+          <p id="results-count" class="text-xs text-brand-gray-400">{skills.length} skills</p>
         </div>
 
         <!-- Grid -->
@@ -185,7 +185,7 @@ const complexityColor: Record<string, string> = {
               <div class="flex items-center justify-between pt-3 border-t border-brand-gray-100 mt-auto">
                 <span class="text-[10px] font-semibold text-brand-green">{s.time} saved</span>
                 <span class="text-[10px] font-semibold text-brand-gray-400">
-                  {(s as any).price ? <span>From <span data-price={(s as any).price}>£{(s as any).price}</span></span> : <span class="flex items-center gap-1 group-hover:text-brand-black transition">Deploy <svg class="w-3 h-3" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg></span>}
+                  {(s as any).price ? <span class="text-brand-gray-500">From £{(s as any).price}</span> : <span class="flex items-center gap-1 group-hover:text-brand-black transition">Deploy <svg class="w-3 h-3" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg></span>}
                 </span>
               </div>
             </a>
@@ -253,7 +253,7 @@ const complexityColor: Record<string, string> = {
       card.style.display = show ? '' : 'none';
       if (show) visible++;
     });
-    if (count) count.textContent = `${visible} workflow${visible !== 1 ? 's' : ''}`;
+    if (count) count.textContent = `${visible} skill${visible !== 1 ? 's' : ''}`;
     if (empty) empty.classList.toggle('hidden', visible > 0);
     if (grid) grid.classList.toggle('hidden', visible === 0);
   }
