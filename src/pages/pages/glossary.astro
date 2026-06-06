@@ -1093,6 +1093,384 @@ const terms = [
   { letter:'Z', term:'Zap (Zapier workflow)', cat:'platform', complexity:1,
     def:'Zapier\'s term for a single two-step automation (trigger → action). Complex processes require multiple Zaps chained together, which becomes difficult to maintain. PURIST migrates complex Zap chains to single n8n workflows for reliability and visibility.',
     related:['Zapier','Workflow','n8n'] },
+
+  // ── Extended A ────────────────────────────────────────────────────────
+  { letter:'A', term:'Active polling', cat:'core', complexity:2,
+    def:'Repeatedly checking an external service for new data on a fixed schedule. Contrast with webhooks, which push data immediately. Active polling wastes API quota and introduces latency — use only when no webhook option exists.',
+    related:['Polling','Webhook','Scheduled trigger'] },
+
+  { letter:'A', term:'Adaptive retry', cat:'architecture', complexity:3,
+    def:'A retry strategy that adjusts wait times based on the type of failure — network timeouts get short retries; API rate limit errors get longer, jitter-randomised backoffs. Smarter than fixed-interval retries and reduces API hammering.',
+    related:['Retry logic','Backoff','Rate limit'] },
+
+  { letter:'A', term:'Agent loop', cat:'ai', complexity:3,
+    def:'The iterative process by which an AI agent plans, acts, observes the result, and decides the next action — repeating until the goal is achieved. Claude AI uses agent loops to complete multi-step tasks like researching a contact and drafting a personalised email.',
+    related:['AI Agent','Orchestration','Claude AI'] },
+
+  { letter:'A', term:'Annotation (data)', cat:'data', complexity:2,
+    def:'Adding labels or metadata to data records to make them more useful for downstream processing. Example: annotating a support ticket with "billing", "urgent", and "enterprise" — tags added automatically by Claude AI based on message content.',
+    related:['Classification','Claude AI','Data enrichment'] },
+
+  { letter:'A', term:'Apollo (data enrichment)', cat:'platform', complexity:1,
+    def:'A B2B data platform used to enrich leads with company data, job titles, and contact details. PURIST integrates Apollo into CRM onboarding flows — a new lead\'s email triggers enrichment, adding 15+ fields before it ever reaches a sales rep.',
+    related:['Data enrichment','CRM','Integration'] },
+
+  // ── Extended B ────────────────────────────────────────────────────────
+  { letter:'B', term:'Blob storage', cat:'architecture', complexity:2,
+    def:'Cloud object storage (AWS S3, Google Cloud Storage) used to store files generated or consumed by automations — PDFs, CSVs, images. When a workflow generates a report, it stores it in blob storage and emails a download link rather than attaching the file directly.',
+    related:['Document processing','File automation','Cloud function'] },
+
+  { letter:'B', term:'Boolean logic', cat:'core', complexity:1,
+    def:'True/false conditions that drive branching in workflows. `IF contact.country === "GB" AND deal.value > 10000 THEN assign to senior rep`. Combining AND, OR, and NOT conditions creates sophisticated routing without custom code.',
+    related:['Condition','Filter node','Routing'] },
+
+  { letter:'B', term:'Breaking change', cat:'architecture', complexity:2,
+    def:'An API update that removes or alters functionality in a way that breaks existing integrations. Example: an endpoint is renamed from `/v1/contacts` to `/v2/people`. PURIST monitors API changelog notifications and updates client workflows before breaking changes go live.',
+    related:['Versioning','API','Integration'] },
+
+  // ── Extended C ────────────────────────────────────────────────────────
+  { letter:'C', term:'Chain (workflow)', cat:'core', complexity:1,
+    def:'Linking multiple automations so the output of one becomes the trigger of the next. A chained automation creates a fully automated pipeline: form → CRM → invoice → onboarding email — each link triggers the next automatically.',
+    related:['Subworkflow','Pipeline','Trigger'] },
+
+  { letter:'C', term:'Churn prevention automation', cat:'crm', complexity:2,
+    def:'Automated workflows that identify at-risk clients and take action before they cancel. Signals include declining usage, missed logins, late payments, and support ticket volume. Early intervention with the right message recovers 20–30% of at-risk accounts.',
+    stat:{ value:'25%', label:'of at-risk clients retained through automated intervention', source:'PURIST client average' },
+    related:['Lifecycle automation','CRM','Alert routing'] },
+
+  { letter:'C', term:'ClickUp automation', cat:'platform', complexity:1,
+    def:'Using ClickUp\'s API or webhooks to automate project creation, task assignment, status updates, and deadline tracking. PURIST builds automations that create full project structures in ClickUp the moment a contract is signed — saving 2+ hours of manual setup.',
+    related:['Project management','Webhook','Integration'] },
+
+  { letter:'C', term:'Compliance automation', cat:'security', complexity:2,
+    def:'Using automation to enforce regulatory requirements continuously rather than relying on periodic manual audits. Examples: automatically archiving email communications for FCA compliance, enforcing GDPR deletion schedules, and generating SOC 2 audit evidence.',
+    related:['GDPR automation','Audit trail','Data retention'] },
+
+  { letter:'C', term:'Concatenation', cat:'data', complexity:1,
+    def:'Joining two or more strings into one. Example: `firstName + " " + lastName` → "Jane Smith". Used constantly in automation to build dynamic messages, file names, API parameters, and personalised content from individual data fields.',
+    related:['Template literal','Data transformation','Formatting'] },
+
+  { letter:'C', term:'Concurrent execution', cat:'architecture', complexity:3,
+    def:'Running multiple workflow instances simultaneously, each processing a different record. When 50 form submissions arrive at once, concurrent execution processes all 50 in parallel rather than one at a time. Requires careful state management to avoid race conditions.',
+    related:['Parallel execution','Load balancing','State management'] },
+
+  { letter:'C', term:'Contract automation', cat:'finance', complexity:1,
+    def:'Automating the full contract lifecycle — generation from templates, e-signature routing, approval workflows, and CRM updates on signature. When a deal is marked Won in the CRM, a contract is generated, sent for signature, and the signed PDF stored automatically.',
+    related:['Document processing','Integration','PandaDoc'] },
+
+  // ── Extended D ────────────────────────────────────────────────────────
+  { letter:'D', term:'Data lake', cat:'data', complexity:3,
+    def:'A centralised repository that stores raw, unstructured data at any scale. Automation pipelines feed data lakes from multiple sources — CRM, billing, support, analytics — creating a single source of truth for BI and AI workloads.',
+    related:['Data pipeline','ETL','SQL'] },
+
+  { letter:'D', term:'Data masking', cat:'security', complexity:2,
+    def:'Replacing sensitive data fields with anonymised substitutes in non-production environments. Example: in staging, real customer names and emails are replaced with fake ones — preventing accidental exposure during development and testing.',
+    related:['Staging environment','Data residency','Compliance'] },
+
+  { letter:'D', term:'Data retention', cat:'security', complexity:2,
+    def:'The policy governing how long data is stored before deletion. Automation enforces retention policies by automatically purging records after defined periods — e.g., deleting GDPR-covered personal data after 3 years, or archiving financial records after 7 years.',
+    related:['GDPR automation','Compliance','Audit trail'] },
+
+  { letter:'D', term:'Debugging (workflow)', cat:'architecture', complexity:2,
+    def:'The process of identifying and fixing errors in an automation workflow. In n8n, every execution shows the exact data at each node — making it easy to pinpoint where a value was lost, transformed incorrectly, or caused a downstream failure.',
+    related:['Execution log','Error handling','Testing'] },
+
+  { letter:'D', term:'Dependency injection', cat:'architecture', complexity:3,
+    def:'Passing configuration and credentials into a workflow from outside rather than hardcoding them. Makes workflows portable across environments — the same workflow runs in staging and production by swapping the injected credentials, not editing the code.',
+    related:['Environment variable','Secrets manager','CI/CD'] },
+
+  { letter:'D', term:'Dispatcher (workflow)', cat:'architecture', complexity:2,
+    def:'A workflow that receives an event and routes it to the appropriate specialist workflow for processing. Like a switchboard operator — the dispatcher decides whether this event goes to the billing workflow, the CRM workflow, or the support workflow.',
+    related:['Router node','Event-driven automation','Orchestration'] },
+
+  // ── Extended E ────────────────────────────────────────────────────────
+  { letter:'E', term:'Email parsing', cat:'data', complexity:2,
+    def:'Automatically extracting structured data from incoming emails. Example: a client emails "Please book a meeting on Thursday at 3pm" — email parsing extracts the date and time, and the workflow books the calendar slot and sends a confirmation.',
+    insight:'Email parsing with Claude AI handles messy, unstructured human language that rules-based parsers miss.',
+    related:['Claude AI','Extraction','Email automation'] },
+
+  { letter:'E', term:'Entity extraction', cat:'ai', complexity:2,
+    def:'Identifying and extracting specific types of information from text — names, dates, monetary values, addresses, company names. Claude AI can extract all entities from an unstructured email and populate structured CRM fields automatically.',
+    related:['NLP','Claude AI','Document processing'] },
+
+  { letter:'E', term:'Error budget', cat:'architecture', complexity:3,
+    def:'The allowable amount of downtime or errors within a given period based on your SLA. At 99.97% uptime, the monthly error budget is ~13 minutes. When the budget is depleted, reliability work takes priority over new features.',
+    related:['SLA','Uptime','Monitoring'] },
+
+  { letter:'E', term:'Event sourcing', cat:'architecture', complexity:3,
+    def:'Storing every state change as an immutable event log rather than just the current state. Example: instead of storing "deal status = Won", store every status transition — Created → Qualified → Proposal → Won. Enables full auditability and temporal queries.',
+    related:['Event-driven automation','Audit trail','State management'] },
+
+  // ── Extended F ────────────────────────────────────────────────────────
+  { letter:'F', term:'Fan-out', cat:'architecture', complexity:2,
+    def:'A pattern where one event triggers multiple independent downstream workflows simultaneously. Example: a new client signs → fan out to: (1) create invoice, (2) set up project, (3) send welcome email, (4) notify account manager — all in parallel.',
+    related:['Parallel execution','Event bus','Dispatcher'] },
+
+  { letter:'F', term:'Feature flag', cat:'architecture', complexity:2,
+    def:'A configuration switch that enables or disables specific workflow logic without redeployment. PURIST uses feature flags to roll out new automation behaviour to one client first — validating it before enabling globally.',
+    related:['CI/CD','Deployment','Testing'] },
+
+  { letter:'F', term:'Feedback loop (automation)', cat:'ops', complexity:2,
+    def:'A closed-loop system where the output of an automation informs future runs. Example: tracking which email subject lines get the highest reply rates, then automatically selecting the best-performing variant for new sends.',
+    related:['Reporting','Dashboard automation','AI Agent'] },
+
+  { letter:'F', term:'Finance automation', cat:'finance', complexity:1,
+    def:'Automating the full financial operations stack — invoice generation, expense approvals, payment reconciliation, dunning, payroll prep, and financial reporting. Finance teams using automation spend 60% less time on data entry and close books 3× faster.',
+    stat:{ value:'3×', label:'faster month-end close for finance teams using automation', source:'PURIST client data' },
+    related:['Xero','Stripe','Invoice automation'] },
+
+  { letter:'F', term:'Form automation', cat:'ops', complexity:1,
+    def:'Triggering workflows from form submissions — Typeform, Tally, Gravity Forms, or JotForm. The form is the front door; the automation handles everything behind it: CRM creation, email response, task assignment, and data storage.',
+    related:['Trigger','Typeform','Webhook'] },
+
+  // ── Extended G ────────────────────────────────────────────────────────
+  { letter:'G', term:'Ghost step', cat:'architecture', complexity:2,
+    def:'A workflow step that runs but produces no observable output — often a silent failure or misconfigured node. Ghost steps are the hardest bugs to find because the workflow appears to succeed while actually doing nothing useful.',
+    related:['Debugging','Error handling','Execution log'] },
+
+  { letter:'G', term:'Graceful degradation', cat:'architecture', complexity:2,
+    def:'Designing automations to continue operating in a reduced capacity when a component fails. Example: if the data enrichment API is down, the workflow still creates the CRM contact with basic data — rather than failing the entire run.',
+    related:['Failover','Error handling','Redundancy'] },
+
+  // ── Extended H ────────────────────────────────────────────────────────
+  { letter:'H', term:'Human-in-the-loop', cat:'ai', complexity:2,
+    def:'A workflow design that pauses at critical decision points for human review and approval before continuing. Combines automation speed with human judgment. Example: AI drafts a response to a complex complaint → human reviews and approves → automation sends it.',
+    insight:'The best automation design is not maximum automation — it\'s maximum automation with human oversight exactly where it matters.',
+    related:['AI Agent','Hand-off','Escalation'] },
+
+  { letter:'H', term:'Hybrid automation', cat:'core', complexity:2,
+    def:'A combination of API-based automation and RPA in a single workflow. When a target system has no API, RPA handles the UI interaction while n8n orchestrates the surrounding process. Hybrid approaches unlock legacy system automation.',
+    related:['RPA','API','Integration'] },
+
+  // ── Extended I ────────────────────────────────────────────────────────
+  { letter:'I', term:'Incremental sync', cat:'data', complexity:2,
+    def:'Syncing only the records that have changed since the last sync run, rather than re-processing the entire dataset. Critical for large databases — instead of syncing 100,000 contacts hourly, sync only the 200 that changed.',
+    related:['Sync','ETL','Change data capture'] },
+
+  { letter:'I', term:'Intelligent document processing', cat:'ai', complexity:2,
+    def:'AI-powered extraction and classification of data from unstructured documents at scale. PURIST builds IDP workflows that process hundreds of invoices, CVs, or contracts daily — extracting structured data with 95%+ accuracy without human review.',
+    related:['Document processing','Claude AI','OCR'] },
+
+  { letter:'I', term:'Internal tool automation', cat:'ops', complexity:2,
+    def:'Automating internal business tools — approval workflows, IT provisioning, access management, and internal reporting. Often the highest-ROI automation category because the same processes run daily but are invisible to customers.',
+    related:['Business process automation','Slack automation','Integration'] },
+
+  // ── Extended J ────────────────────────────────────────────────────────
+  { letter:'J', term:'Jitter (retry)', cat:'architecture', complexity:3,
+    def:'Adding a random delay to retry intervals to prevent multiple failed workflows from all retrying at exactly the same time — which would create a thundering herd that overwhelms the recovering API. Jitter spreads retries across a time window.',
+    related:['Retry logic','Backoff','Rate limit'] },
+
+  // ── Extended K ────────────────────────────────────────────────────────
+  { letter:'K', term:'Kafka', cat:'architecture', complexity:3,
+    def:'A distributed event streaming platform used for high-throughput, fault-tolerant data pipelines. At enterprise scale, Kafka ingests millions of events per second. PURIST uses Kafka-backed queues for clients with very high automation volumes.',
+    related:['Message broker','Event bus','Queue'] },
+
+  // ── Extended L ────────────────────────────────────────────────────────
+  { letter:'L', term:'Last-mile automation', cat:'ops', complexity:2,
+    def:'The final steps in a business process that are hardest to automate — usually requiring judgment, creativity, or relationship management. PURIST focuses on automating the first 80% of any process, freeing humans to focus on this last 20% where they add most value.',
+    related:['Hand-off','Human-in-the-loop','Process mapping'] },
+
+  { letter:'L', term:'Lazy evaluation', cat:'architecture', complexity:3,
+    def:'Deferring computation until the result is actually needed. In automation, lazy evaluation means not fetching enrichment data or running AI classification until a workflow branch is actually entered — avoiding wasted API calls on records that won\'t be processed.',
+    related:['Performance','Branching','API Rate Limit'] },
+
+  { letter:'L', term:'Lead routing', cat:'crm', complexity:1,
+    def:'Automatically assigning incoming leads to the correct sales rep, team, or nurture sequence based on defined rules — geography, company size, industry, lead source, or lead score. Eliminates manual assignment and ensures instant follow-up.',
+    stat:{ value:'78%', label:'of B2B buyers go with the vendor that responds first', source:'Harvard Business Review' },
+    related:['Round-robin assignment','Lead scoring','CRM'] },
+
+  { letter:'L', term:'Long-running workflow', cat:'architecture', complexity:3,
+    def:'An automation that takes minutes, hours, or days to complete — waiting for human actions, external approvals, or scheduled events between steps. Requires persistent state management and careful handling of timeouts and failures.',
+    related:['State management','Async','Wait / delay node'] },
+
+  // ── Extended M ────────────────────────────────────────────────────────
+  { letter:'M', term:'Manual trigger', cat:'core', complexity:1,
+    def:'Initiating a workflow by deliberate human action — pressing a button in a dashboard, making an API call, or running a CLI command. Manual triggers are useful for batch jobs, data migrations, and one-off operations that should not run automatically.',
+    related:['Trigger','Scheduled trigger','Webhook'] },
+
+  { letter:'M', term:'Memory (AI agent)', cat:'ai', complexity:3,
+    def:'An AI agent\'s ability to retain information across multiple interactions or workflow runs. Short-term memory persists within a single conversation; long-term memory stores facts in a vector database for retrieval in future interactions.',
+    related:['AI Agent','Vector database','RAG'] },
+
+  { letter:'M', term:'Modular design', cat:'architecture', complexity:2,
+    def:'Building workflows from small, reusable components rather than monolithic scripts. Modular automations are easier to test, debug, and update — changing one subworkflow propagates to every workflow that uses it, without touching them individually.',
+    related:['Subworkflow','Reusability','Maintenance'] },
+
+  // ── Extended N ────────────────────────────────────────────────────────
+  { letter:'N', term:'Notion automation', cat:'platform', complexity:1,
+    def:'Connecting Notion databases to automation workflows — creating pages on trigger, updating properties when CRM records change, or building weekly digest pages automatically. PURIST uses Notion as a lightweight knowledge base and operational dashboard for clients.',
+    related:['Integration','Webhook','Database'] },
+
+  { letter:'N', term:'Null handling', cat:'data', complexity:2,
+    def:'Gracefully managing missing or empty data fields without crashing the workflow. Example: if `contact.phone` is null, skip the SMS step and continue rather than failing the entire run. Every production workflow handles nulls explicitly.',
+    related:['Guard clause','Error handling','Data quality'] },
+
+  // ── Extended O ────────────────────────────────────────────────────────
+  { letter:'O', term:'Observability', cat:'architecture', complexity:2,
+    def:'The ability to understand what is happening inside an automation system by examining its outputs — logs, metrics, and traces. High observability means any failure can be diagnosed quickly without guessing. PURIST builds observability into every deployment.',
+    related:['Monitoring','Log aggregation','Tracing'] },
+
+  { letter:'O', term:'Operator (workflow)', cat:'ops', complexity:1,
+    def:'The person or team responsible for running, monitoring, and maintaining deployed automations. PURIST acts as the automation operator for all clients — handling incidents, applying updates, and ensuring SLA compliance 24/7.',
+    related:['Managed service','SLA','Monitoring'] },
+
+  // ── Extended P ────────────────────────────────────────────────────────
+  { letter:'P', term:'PandaDoc', cat:'platform', complexity:1,
+    def:'A document automation platform for proposals, contracts, and e-signatures. PURIST integrates PandaDoc into sales workflows — a Won deal in CRM triggers proposal generation, sending, and notification on signature, with no manual document handling.',
+    related:['Contract automation','Integration','CRM'] },
+
+  { letter:'P', term:'Passthrough (data)', cat:'data', complexity:1,
+    def:'Forwarding data from a prior step to a later step without modification. In n8n, the "Keep Only Set" option controls which fields are passed through and which are discarded — keeping workflows clean and preventing unexpected data bleed between steps.',
+    related:['Data mapping','n8n','Workflow'] },
+
+  { letter:'P', term:'Payback period', cat:'finance', complexity:1,
+    def:'The time it takes for automation savings to exceed the cost of deployment. PURIST clients average a 4-month payback period — after which the automation delivers pure ROI indefinitely.',
+    stat:{ value:'4 months', label:'average payback period for a PURIST automation deployment', source:'PURIST 2025' },
+    related:['ROI','Unit economics','FTE'] },
+
+  { letter:'P', term:'Permissions (API)', cat:'security', complexity:1,
+    def:'The specific actions an API key or OAuth token is authorised to perform — read-only, write, delete, admin. Best practice: grant automation credentials only the minimum permissions required. An invoice automation should never have permission to delete contacts.',
+    related:['API Key','OAuth','Authentication'] },
+
+  { letter:'P', term:'Personalisation engine', cat:'ai', complexity:2,
+    def:'A system that tailors content, recommendations, or communications to an individual based on their data. Claude AI in a workflow can generate genuinely personalised emails using CRM fields, purchase history, and behavioural signals — not just `{{firstName}}` merge tags.',
+    related:['Claude AI','Email automation','Data enrichment'] },
+
+  { letter:'P', term:'Pipe (Unix)', cat:'architecture', complexity:2,
+    def:'A mechanism that connects the output of one process directly to the input of another. In automation philosophy, every step is a pipe — data flows through a series of transformations from trigger to final output, each step adding value.',
+    related:['Data pipeline','Workflow','ETL'] },
+
+  { letter:'P', term:'Postmark', cat:'platform', complexity:1,
+    def:'A transactional email delivery service known for high deliverability and detailed analytics. PURIST uses Postmark for time-sensitive automation emails (invoices, confirmations, alerts) where guaranteed delivery is more important than bulk pricing.',
+    related:['SMTP','Email automation','Deliverability'] },
+
+  // ── Extended Q ────────────────────────────────────────────────────────
+  { letter:'Q', term:'Queue consumer', cat:'architecture', complexity:2,
+    def:'A worker process that reads from a queue and processes each job. In n8n, the queue consumer polls a Redis queue for pending workflow jobs. Scaling means adding more consumers — each processes jobs in parallel, increasing throughput linearly.',
+    related:['Queue','Concurrent execution','Load balancing'] },
+
+  // ── Extended R ────────────────────────────────────────────────────────
+  { letter:'R', term:'Rate limit backpressure', cat:'architecture', complexity:3,
+    def:'Slowing down the producer of a workflow (e.g., a data import) when the consumer is hitting rate limits. Prevents a fast data source from creating a backlog of failed API calls. Implemented via dynamic throttling rather than fixed delays.',
+    related:['Rate limit','Throttling','Backoff'] },
+
+  { letter:'R', term:'Record linkage', cat:'data', complexity:2,
+    def:'Identifying and connecting records that refer to the same real-world entity across different systems. Example: "J. Smith" in HubSpot, "Jane Smith" in Xero, and "Jane A. Smith" in Slack are the same person — record linkage merges them into one unified profile.',
+    related:['Deduplication','Data enrichment','Sync'] },
+
+  { letter:'R', term:'Regex (Regular Expression)', cat:'data', complexity:2,
+    def:'A pattern-matching syntax for finding, extracting, and transforming text. In automation: extract invoice numbers from email subjects, validate UK postcode format, or parse log lines into structured fields. Regex is the power tool of text transformation.',
+    insight:'One well-crafted regex can replace 50 lines of conditional string logic. Learn it once, use it everywhere.',
+    related:['Formatting','Extraction','Custom code node'] },
+
+  { letter:'R', term:'Remediation (automated)', cat:'ops', complexity:2,
+    def:'Automatically fixing detected problems without human intervention. Example: if a workflow detects a failed payment, it automatically retries the charge, sends the customer a notification, and updates the CRM record — no human action required.',
+    related:['Dunning','Error handling','Monitoring'] },
+
+  { letter:'R', term:'Report automation', cat:'reporting', complexity:1,
+    def:'Automatically generating and distributing business reports on a schedule or trigger. PURIST builds report automations that compile data from 5–10 sources, format it, and email a PDF to leadership every Monday — replacing 4 hours of manual work.',
+    stat:{ value:'4h', label:'saved weekly by automating a typical management report', source:'PURIST client data' },
+    related:['Dashboard automation','KPI automation','Scheduled trigger'] },
+
+  { letter:'R', term:'Reusability', cat:'architecture', complexity:2,
+    def:'Designing workflow components that can be used across multiple automations. A reusable "send personalised email" subworkflow can be called from onboarding, dunning, and win-back workflows — maintained in one place, used everywhere.',
+    related:['Subworkflow','Modular design','Workflow library'] },
+
+  // ── Extended S ────────────────────────────────────────────────────────
+  { letter:'S', term:'SendGrid', cat:'platform', complexity:1,
+    def:'A cloud email platform used for transactional and marketing email in automation workflows. PURIST connects SendGrid to n8n workflows for invoice sending, onboarding sequences, and alert emails with full deliverability tracking.',
+    related:['SMTP','Email automation','Postmark'] },
+
+  { letter:'S', term:'Serverless', cat:'architecture', complexity:2,
+    def:'Running code without managing a persistent server — functions execute on demand and scale automatically. PURIST uses serverless functions (AWS Lambda) for lightweight, infrequent custom operations alongside n8n\'s workflow engine.',
+    related:['Cloud function','Microservice','Scalability'] },
+
+  { letter:'S', term:'Sink (data)', cat:'data', complexity:1,
+    def:'The destination where data is written at the end of a workflow or pipeline. Common sinks: HubSpot CRM, Google Sheets, Xero, a database, or a Slack message. Every automation has at least one sink — where the processed data ends up.',
+    related:['Data pipeline','ETL','Integration'] },
+
+  { letter:'S', term:'Slack bot', cat:'platform', complexity:2,
+    def:'A custom bot that interacts with team members in Slack — responding to commands, posting notifications, and accepting approvals. PURIST builds Slack bots connected to n8n: team members type `/create-invoice` and the automation handles the rest.',
+    related:['Slack automation','Integration','Human-in-the-loop'] },
+
+  { letter:'S', term:'Snapshot (data)', cat:'data', complexity:2,
+    def:'A point-in-time copy of data captured by an automation for reporting or comparison. Example: a weekly snapshot of all open deals in the CRM allows trend analysis — you can see how the pipeline grew or shrank week-over-week.',
+    related:['Reporting','Data pipeline','Scheduled trigger'] },
+
+  { letter:'S', term:'Source of truth', cat:'data', complexity:1,
+    def:'The single system designated as the authoritative record for a given data type. In automation, defining the source of truth prevents sync conflicts — if HubSpot is the source of truth for contacts, all other systems sync FROM it, not to it.',
+    related:['Sync','Data quality','Integration'] },
+
+  { letter:'S', term:'Streaming (data)', cat:'architecture', complexity:3,
+    def:'Processing data continuously as it arrives rather than in batches. Event streams from Kafka or AWS Kinesis allow automations to process millions of small events per second — essential for real-time inventory, pricing, and fraud detection.',
+    related:['Real-time processing','Kafka','Event bus'] },
+
+  // ── Extended T ────────────────────────────────────────────────────────
+  { letter:'T', term:'Task queue', cat:'architecture', complexity:2,
+    def:'A managed list of pending automation tasks with priority, retry, and scheduling support. PURIST uses Redis-backed task queues to handle bursts of incoming work — when 500 new leads arrive at once, they queue for orderly CRM creation without overloading the API.',
+    related:['Queue','Job queue','Priority queue'] },
+
+  { letter:'T', term:'Tenant isolation', cat:'architecture', complexity:3,
+    def:'Ensuring that data and workflows from one client cannot be accessed or affected by another in a multi-tenant environment. PURIST enforces tenant isolation through separate n8n instances, database schemas, and credential scopes.',
+    related:['Multi-tenant','Data sovereignty','Security'] },
+
+  { letter:'T', term:'Tool use (AI)', cat:'ai', complexity:3,
+    def:'The ability of an AI model to call external functions and APIs to complete tasks. Claude AI with tool use can check a CRM, run a calculation, look up a shipping status, and send a Slack message — all within a single agentic workflow step.',
+    related:['AI Agent','Claude AI','Function call'] },
+
+  { letter:'T', term:'Transaction (atomic)', cat:'architecture', complexity:3,
+    def:'A set of operations that either all succeed or all fail together — no partial states. In payment automation, the charge, the invoice creation, and the CRM update must either all succeed or all roll back — preventing a world where a client is charged but never invoiced.',
+    related:['Idempotency','Error handling','Payment automation'] },
+
+  { letter:'T', term:'Trigger chain', cat:'core', complexity:2,
+    def:'A sequence where the output of one workflow becomes the trigger of the next, creating a cascade of automated actions. A signed contract triggers onboarding, which triggers provisioning, which triggers a kickoff calendar invite — each link autonomous.',
+    related:['Chain','Subworkflow','Event-driven automation'] },
+
+  // ── Extended U ────────────────────────────────────────────────────────
+  { letter:'U', term:'Upsert', cat:'data', complexity:2,
+    def:'A database operation that inserts a new record if it doesn\'t exist, or updates it if it does. Critical in sync workflows — rather than checking for existence first (two API calls), an upsert does it in one. Prevents duplicates and handles updates automatically.',
+    related:['Sync','Deduplication','CRM'] },
+
+  { letter:'U', term:'User-initiated automation', cat:'core', complexity:1,
+    def:'A workflow triggered by an end user action in a product or interface — clicking a button, submitting a form, or reaching a milestone. The user initiates; the automation handles everything downstream without further human involvement.',
+    related:['Trigger','Form automation','Event-driven automation'] },
+
+  // ── Extended V ────────────────────────────────────────────────────────
+  { letter:'V', term:'Value mapping', cat:'data', complexity:1,
+    def:'Converting coded values from one system\'s format to another\'s. Example: HubSpot uses `deal_stage: "closedwon"` while Xero needs `status: "PAID"`. A value map translates between them automatically in the integration layer.',
+    related:['Data mapping','Integration','Transformation function'] },
+
+  { letter:'V', term:'Visibility (workflow)', cat:'ops', complexity:1,
+    def:'The ability to see what automations are running, what they are doing, and how they are performing — in real time. PURIST\'s client dashboard provides full workflow visibility: executions, run times, error rates, and data volumes at a glance.',
+    related:['Monitoring','Observability','Dashboard automation'] },
+
+  // ── Extended W ────────────────────────────────────────────────────────
+  { letter:'W', term:'Watermark (data)', cat:'data', complexity:2,
+    def:'A tracking marker that records the last successfully processed record in a data stream. Used in incremental sync workflows — the watermark (e.g., a timestamp or record ID) ensures the next run picks up from where the last one stopped, not from the beginning.',
+    related:['Incremental sync','Cursor','ETL'] },
+
+  { letter:'W', term:'Webhook receiver', cat:'core', complexity:1,
+    def:'The URL that accepts incoming webhook data. In n8n, every webhook trigger creates a unique receiver URL. PURIST configures webhook receivers with signature validation, rate limiting, and logging — making them production-grade entry points.',
+    related:['Webhook','Webhook security','n8n'] },
+
+  { letter:'W', term:'Workflow documentation', cat:'ops', complexity:1,
+    def:'Written descriptions of what each automation does, how it is triggered, what systems it touches, and what errors it handles. PURIST documents every client workflow — so that after 12 months, anyone can understand and modify it without reverse-engineering it.',
+    insight:'Undocumented automations are time bombs. The person who built them leaves, and the business loses the knowledge.',
+    related:['Knowledge base','Managed service','Version control'] },
+
+  { letter:'W', term:'Workflow orchestration', cat:'architecture', complexity:2,
+    def:'Coordinating multiple workflows to achieve a complex multi-step business outcome. Example: a new client onboarding orchestrates 12 separate automations — CRM setup, tool provisioning, Slack channel creation, invoice generation, and email sequences — in the right order.',
+    related:['Orchestration','Subworkflow','Trigger chain'] },
+
+  // ── Extended X ────────────────────────────────────────────────────────
+  { letter:'X', term:'XML (Extensible Markup Language)', cat:'data', complexity:2,
+    def:'A data format used by older APIs and enterprise systems (SAP, Salesforce SOAP API). Less common than JSON but still encountered when integrating with legacy ERP, banking, or government systems. PURIST includes XML parsing in workflows that touch legacy infrastructure.',
+    related:['JSON','Integration','ETL'] },
+
+  // ── Extended Y ────────────────────────────────────────────────────────
+  { letter:'Y', term:'Yield (workflow)', cat:'architecture', complexity:3,
+    def:'A point in a long-running workflow where execution pauses and control is returned to the scheduler — allowing other workflows to run before resuming. Prevents any single workflow from monopolising compute resources in a shared environment.',
+    related:['Long-running workflow','State management','Queue'] },
 ];
 
 const letters = [...new Set(terms.map((t) => t.letter))].sort();
@@ -1127,7 +1505,7 @@ const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(),0,0
 const totd = terms[dayOfYear % terms.length];
 ---
 
-<ShopLayout title="Automation Glossary — 300+ Terms Explained | PURIST" description="Clear, jargon-free definitions of 300+ automation terms — APIs, webhooks, n8n, Claude AI, RAG, OAuth, idempotency, ETL, and more. Written for founders, not engineers.">
+<ShopLayout title="Automation Glossary — 325+ Terms Explained | PURIST" description="Clear, jargon-free definitions of 325+ automation terms — APIs, webhooks, n8n, Claude AI, RAG, OAuth, idempotency, ETL, and more. Written for founders, not engineers.">
 
   <!-- Scroll progress -->
   <div id="scroll-prog" class="fixed top-0 left-0 h-0.5 z-50 transition-all" style="width:0%;background:linear-gradient(90deg,#E8B4B0,#c4847e);"></div>
