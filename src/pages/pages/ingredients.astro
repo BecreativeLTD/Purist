@@ -1,333 +1,69 @@
 ---
-import ShopLayout from '~/layouts/ShopLayout.astro';
-import IngredientComparison from '~/components/sections/IngredientComparison.astro';
-import NineOrganSystems from '~/components/sections/NineOrganSystems.astro';
-import Button from '~/components/ui/Button.astro';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/layout/Header.astro';
+import Footer from '~/components/layout/Footer.astro';
 
-const industries = [
-  {
-    icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4',
-    name: 'Dental Practices',
-    tag: 'Healthcare',
-    pain: 'Manual patient intake, missed recall reminders, billing by hand',
-    workflows: ['Appointment reminders', 'Recall campaigns', 'Billing & insurance', 'Patient intake forms', 'Review requests'],
-    stats: [
-      { v: '12h', l: 'saved / week' },
-      { v: '0', l: 'missed recalls' },
-      { v: '99.5%', l: 'billing accuracy' },
-    ],
-  },
-  {
-    icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6',
-    name: 'Real Estate',
-    tag: 'Property',
-    pain: 'Slow lead response, manual CRM updates, listing distribution by hand',
-    workflows: ['Lead capture & routing', 'CRM auto-sync', 'Listing alerts', 'Follow-up sequences', 'Contract reminders'],
-    stats: [
-      { v: '8h', l: 'saved / week' },
-      { v: '3×', l: 'faster response' },
-      { v: '100%', l: 'lead capture' },
-    ],
-  },
-  {
-    icon: 'M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3',
-    name: 'Law Firms',
-    tag: 'Legal',
-    pain: 'Email-based matter intake, manual time logging, slow invoice generation',
-    workflows: ['Matter intake forms', 'Time auto-tracking', 'Invoice generation', 'Deadline reminders', 'Document routing'],
-    stats: [
-      { v: '15h', l: 'saved / week' },
-      { v: '100%', l: 'billable capture' },
-      { v: '4 days', l: 'faster payment' },
-    ],
-  },
-  {
-    icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z',
-    name: 'Staffing Agencies',
-    tag: 'HR & Talent',
-    pain: 'CV screening by hand, manual interview scheduling, placement tracking in spreadsheets',
-    workflows: ['AI CV screening', 'Interview scheduling', 'Placement tracking', 'Candidate nurture', 'Client reporting'],
-    stats: [
-      { v: '22h', l: 'saved / week' },
-      { v: '2×', l: 'placement velocity' },
-      { v: '40%', l: 'less admin time' },
-    ],
-  },
-  {
-    icon: 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z',
-    name: 'E-commerce',
-    tag: 'Retail',
-    pain: 'Manual order updates, slow return processing, no post-purchase review flow',
-    workflows: ['Order status comms', 'Return processing', 'Review campaigns', 'Inventory alerts', 'Abandoned cart'],
-    stats: [
-      { v: '18h', l: 'saved / week' },
-      { v: '0', l: 'manual order updates' },
-      { v: '+28%', l: 'review rate' },
-    ],
-  },
-  {
-    icon: 'M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z',
-    name: 'Marketing Agencies',
-    tag: 'Agency',
-    pain: 'Manual report compilation, briefing chaos, client update emails written by hand',
-    workflows: ['Client reporting', 'Campaign briefs', 'Slack delivery alerts', 'Budget tracking', 'Asset delivery'],
-    stats: [
-      { v: '11h', l: 'saved / week' },
-      { v: 'Live', l: 'client dashboards' },
-      { v: '100%', l: 'on-time delivery' },
-    ],
-  },
+const PINK = '#c4847e';
+const PINK_BG = 'rgba(232,180,176,0.10)';
+
+const categories = [
+  { cat: 'CRM & Sales', tools: ['HubSpot', 'Salesforce', 'Pipedrive', 'Close', 'Zoho CRM', 'Copper'] },
+  { cat: 'Communication', tools: ['Slack', 'Gmail', 'Outlook', 'Twilio', 'WhatsApp Business', 'Intercom'] },
+  { cat: 'Finance & Billing', tools: ['Stripe', 'QuickBooks', 'Xero', 'FreeAgent', 'GoCardless', 'Chargebee'] },
+  { cat: 'E-commerce', tools: ['Shopify', 'WooCommerce', 'Magento', 'Klaviyo', 'Gorgias', 'Recharge'] },
+  { cat: 'Forms & Data', tools: ['Typeform', 'Jotform', 'Airtable', 'Google Sheets', 'Notion', 'Monday.com'] },
+  { cat: 'Documents', tools: ['DocuSign', 'PandaDoc', 'Google Docs', 'PDF generation', 'Dropbox', 'OneDrive'] },
+  { cat: 'HR & Recruiting', tools: ['BambooHR', 'Workable', 'Greenhouse', 'Lever', 'Personio', 'Rippling'] },
+  { cat: 'Marketing', tools: ['Mailchimp', 'ActiveCampaign', 'Brevo', 'Meta Ads', 'Google Ads', 'LinkedIn Ads'] },
+  { cat: 'AI & Intelligence', tools: ['Claude Opus', 'OpenAI GPT-4', 'Perplexity', 'Whisper', 'ElevenLabs', 'Mistral'] },
+  { cat: 'Infrastructure', tools: ['Webhooks', 'REST APIs', 'GraphQL', 'PostgreSQL', 'MySQL', 'Redis'] },
 ];
-
-const integrations = [
-  { name: 'HubSpot',     cat: 'CRM' },
-  { name: 'Salesforce',  cat: 'CRM' },
-  { name: 'Pipedrive',   cat: 'CRM' },
-  { name: 'ActiveCampaign', cat: 'CRM' },
-  { name: 'Gmail',       cat: 'Email' },
-  { name: 'Outlook',     cat: 'Email' },
-  { name: 'Mailchimp',   cat: 'Email' },
-  { name: 'ConvertKit',  cat: 'Email' },
-  { name: 'Stripe',      cat: 'Finance' },
-  { name: 'QuickBooks',  cat: 'Finance' },
-  { name: 'Xero',        cat: 'Finance' },
-  { name: 'FreshBooks',  cat: 'Finance' },
-  { name: 'Asana',       cat: 'PM' },
-  { name: 'ClickUp',     cat: 'PM' },
-  { name: 'Monday.com',  cat: 'PM' },
-  { name: 'Notion',      cat: 'PM' },
-  { name: 'Slack',       cat: 'Comms' },
-  { name: 'Teams',       cat: 'Comms' },
-  { name: 'WhatsApp',    cat: 'Comms' },
-  { name: 'Intercom',    cat: 'Comms' },
-  { name: 'n8n',         cat: 'Automation' },
-  { name: 'Make',        cat: 'Automation' },
-  { name: 'Zapier',      cat: 'Automation' },
-  { name: 'Airtable',    cat: 'Automation' },
-  { name: 'Claude AI',   cat: 'AI' },
-  { name: 'GPT-4',       cat: 'AI' },
-  { name: 'GitHub',      cat: 'DevOps' },
-  { name: 'AWS',         cat: 'DevOps' },
-];
-
-const catColors: Record<string, string> = {
-  CRM:        'bg-emerald-500/15 text-emerald-300',
-  Email:      'bg-rose-400/15 text-rose-300',
-  Finance:    'bg-amber-400/15 text-amber-300',
-  PM:         'bg-violet-400/15 text-violet-300',
-  Comms:      'bg-teal-400/15 text-teal-300',
-  Automation: 'bg-blue-400/15 text-blue-300',
-  AI:         'bg-pink-400/15 text-pink-300',
-  DevOps:     'bg-orange-400/15 text-orange-300',
-};
 ---
 
-<ShopLayout
-  title="Industries & integrations – PURIST"
-  description="Six industries. Nine core processes. 28+ integrations. One deployment that automates your entire operation in 5–10 days."
+<BaseLayout
+  title="Integrations — Tools PURIST Connects | PURIST Automation"
+  description="PURIST connects 200+ tools including HubSpot, Salesforce, Shopify, Stripe, Slack, and Claude AI. See the full integration stack we deploy in under 7 days."
 >
+  <Header />
+  <main id="main-content">
 
-  <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
-  <header class="bg-brand-black text-white">
-    <div class="container-x py-20 lg:py-28">
-      <div class="max-w-3xl">
-        <p class="eyebrow text-white/50 mb-4">Industries & integrations</p>
-        <h1 class="font-display text-4xl lg:text-5xl xl:text-6xl leading-tight tracking-tight mb-6 text-balance">
-          6 industries. 9 processes. <em class="font-medium text-brand-pink">One deployment.</em>
-        </h1>
-        <p class="text-base lg:text-lg text-white/60 text-pretty max-w-xl">
-          Every workflow is built against real operational data from your sector — not generic
-          templates. If an integration does not deliver measurable ROI, it does not ship.
+    <div class="py-16 lg:py-20" style="background:#0A0A0A">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+        <p class="text-xs uppercase tracking-widest font-bold mb-4" style={`color:${PINK}`}>Integrations</p>
+        <h1 class="text-3xl lg:text-5xl font-bold text-white mb-5 leading-tight">200+ tools. One connected stack.</h1>
+        <p class="text-base lg:text-lg text-gray-400 max-w-2xl mx-auto">
+          PURIST connects your existing tools — CRM, billing, support, marketing, HR and AI — into a single automated workflow. No rip-and-replace. No new software to learn.
         </p>
       </div>
+    </div>
 
-      <!-- KPI strip -->
-      <div class="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 rounded-card overflow-hidden">
-        {[
-          { v: '329', l: 'Claude AI skills' },
-          { v: '5–10d', l: 'Deployment window' },
-          { v: '$168K', l: 'Avg. savings / yr' },
-          { v: '9.4×', l: 'Return on investment' },
-        ].map(m => (
-          <div class="bg-brand-black px-6 py-5">
-            <p class="font-display text-2xl lg:text-3xl text-white leading-none mb-1">{m.v}</p>
-            <p class="text-[10px] uppercase tracking-[0.18em] text-white/45 font-medium">{m.l}</p>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-14 lg:py-20">
+
+      <div class="space-y-8 mb-14">
+        {categories.map(c => (
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">{c.cat}</p>
+            <div class="flex flex-wrap gap-2">
+              {c.tools.map(t => (
+                <span class="text-sm font-medium px-4 py-2 rounded-full border border-gray-200 bg-gray-50 text-gray-700">{t}</span>
+              ))}
+            </div>
           </div>
         ))}
       </div>
-    </div>
-  </header>
 
-  <!-- ── Industries Grid ───────────────────────────────────────────────────── -->
-  <section class="bg-brand-cream py-20 lg:py-28">
-    <div class="container-x">
-      <div class="text-center max-w-2xl mx-auto mb-14">
-        <p class="eyebrow mb-4">Vertical expertise</p>
-        <h2 class="font-display text-3xl lg:text-4xl xl:text-5xl leading-tight text-balance">
-          Built for your industry. <em class="font-medium">Deployed for your stack.</em>
-        </h2>
-        <p class="text-base text-brand-gray-600 mt-4 text-pretty">
-          Each vertical has its own workflow library, integration set, and ROI benchmarks.
-          You're not getting a generic setup — you're getting a deployment refined across dozens of clients in your sector.
-        </p>
+      <div class="rounded-2xl border border-gray-200 p-6 mb-14 text-center">
+        <p class="text-sm text-gray-500 mb-1">Don't see your tool?</p>
+        <p class="text-sm font-medium text-gray-900">If it has an API, we connect it. Book a free audit and we confirm compatibility on the call.</p>
       </div>
 
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {industries.map((ind) => (
-          <article class="group bg-white rounded-card border border-brand-gray-100 hover:border-brand-gray-300 hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col">
-
-            <!-- Card header -->
-            <div class="px-6 pt-6 pb-5 border-b border-brand-gray-100">
-              <div class="flex items-start justify-between gap-3 mb-4">
-                <div class="w-11 h-11 rounded-lg bg-brand-cream flex items-center justify-center shrink-0 group-hover:bg-brand-black/5 transition-colors">
-                  <svg class="w-5 h-5 text-brand-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d={ind.icon}/>
-                  </svg>
-                </div>
-                <span class="text-[10px] uppercase tracking-[0.15em] font-medium px-2.5 py-1 rounded-full bg-brand-black/6 text-brand-gray-600">
-                  {ind.tag}
-                </span>
-              </div>
-              <h3 class="font-display text-xl mb-1.5">{ind.name}</h3>
-              <p class="text-sm text-brand-gray-600 leading-relaxed">{ind.pain}</p>
-            </div>
-
-            <!-- Workflows -->
-            <div class="px-6 py-4 flex-1">
-              <p class="text-[10px] uppercase tracking-[0.15em] font-medium text-brand-gray-600 mb-3">Automated workflows</p>
-              <ul class="space-y-1.5">
-                {ind.workflows.map(w => (
-                  <li class="flex items-center gap-2 text-sm">
-                    <svg class="w-3.5 h-3.5 text-brand-green shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                      <circle cx="8" cy="8" r="8" opacity="0.15"/>
-                      <path d="M4.5 8l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <span class="text-brand-gray-600">{w}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <!-- Stats footer -->
-            <div class="px-6 pb-6">
-              <div class="grid grid-cols-3 gap-2 pt-4 border-t border-brand-gray-100">
-                {ind.stats.map(s => (
-                  <div class="text-center">
-                    <p class="font-display text-lg leading-none text-brand-black mb-0.5">{s.v}</p>
-                    <p class="text-[9px] uppercase tracking-[0.12em] text-brand-gray-500 font-medium leading-tight">{s.l}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
-
-      <p class="mt-10 text-center text-sm text-brand-gray-500">
-        Don't see your industry? <a href="/pages/contact-us" class="underline underline-offset-2 hover:text-brand-black transition">Let us know</a> — we deploy across any B2B sector.
-      </p>
-    </div>
-  </section>
-
-  <!-- ── Nine core processes ───────────────────────────────────────────────── -->
-  <NineOrganSystems />
-
-  <!-- ── Integration Ecosystem ─────────────────────────────────────────────── -->
-  <section class="bg-brand-black text-white py-20 lg:py-28">
-    <div class="container-x">
-      <div class="grid lg:grid-cols-2 gap-14 lg:gap-20 items-start">
-
-        <!-- Left: copy -->
-        <div class="lg:sticky lg:top-24">
-          <p class="eyebrow text-white/50 mb-4">Integration ecosystem</p>
-          <h2 class="font-display text-3xl lg:text-4xl xl:text-5xl leading-tight text-balance mb-6">
-            28+ tools. <em class="font-medium text-brand-pink">Zero new logins.</em>
-          </h2>
-          <p class="text-base text-white/60 leading-relaxed mb-8">
-            We connect to the tools you already use — your CRM, email, finance platform, PM
-            tool, and communications stack. No rip-and-replace. No new software to learn.
-          </p>
-
-          <!-- Integration stats grid -->
-          <div class="grid grid-cols-2 gap-3 mb-8">
-            {[
-              { v: '28+', l: 'Native integrations', sub: 'pre-tested & monitored' },
-              { v: '100%', l: 'Bidirectional sync', sub: 'with conflict resolution' },
-              { v: '<200ms', l: 'API response time', sub: 'avg. across all connectors' },
-              { v: '0', l: 'Data dropped', sub: 'on burst traffic via Redis' },
-            ].map(s => (
-              <div class="bg-white/5 border border-white/8 rounded-xl px-4 py-3.5">
-                <div class="font-display text-xl text-white mb-0.5">{s.v}</div>
-                <div class="text-[11px] text-white/60 font-medium leading-tight">{s.l}</div>
-                <div class="text-[10px] text-white/50 mt-0.5">{s.sub}</div>
-              </div>
-            ))}
-          </div>
-
-          <!-- Feature list -->
-          <ul class="space-y-2.5 mb-10">
-            {[
-              'OAuth 2.0 + refresh-token rotation on all auth flows',
-              'API change detection with automated alerts',
-              'Rate-limit management via shared token bucket',
-              'Custom webhooks & REST APIs for proprietary systems',
-            ].map(f => (
-              <li class="flex items-start gap-2.5 text-sm text-white/55">
-                <svg class="w-3.5 h-3.5 text-brand-pink mt-0.5 shrink-0" viewBox="0 0 16 16" fill="currentColor">
-                  <circle cx="8" cy="8" r="8" opacity="0.15"/>
-                  <path d="M4.5 8l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                {f}
-              </li>
-            ))}
-          </ul>
-
-          <Button href="/pages/contact-us">Discuss your stack →</Button>
-        </div>
-
-        <!-- Right: integration grid -->
-        <div>
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-            {integrations.map(tool => (
-              <div class="group rounded-card border border-white/10 bg-white/5 hover:bg-white/8 hover:border-white/20 transition-all duration-200 px-4 py-3.5">
-                <p class="font-medium text-sm text-white mb-1">{tool.name}</p>
-                <span class={`text-[9px] uppercase tracking-wider font-medium px-2 py-0.5 rounded-full ${catColors[tool.cat] ?? 'bg-white/10 text-white/50'}`}>
-                  {tool.cat}
-                </span>
-              </div>
-            ))}
-          </div>
-          <p class="text-[11px] text-white/55 mt-4 text-center tracking-wide">
-            + custom webhooks, REST APIs, and proprietary systems on request
-          </p>
-        </div>
+      <div class="rounded-2xl p-8 text-center" style={`background:${PINK_BG};border:1px solid rgba(196,132,126,0.20)`}>
+        <h2 class="text-xl font-bold text-gray-900 mb-3">Tell us your stack. We build the automation.</h2>
+        <p class="text-sm text-gray-600 mb-6 max-w-lg mx-auto">In the free audit we map every tool you use today and design the integration that saves the most time first.</p>
+        <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style={`background:${PINK}`}>Book free audit →</a>
       </div>
     </div>
-  </section>
 
-  <!-- ── Automation comparison table ───────────────────────────────────────── -->
-  <IngredientComparison />
-
-  <!-- ── CTA ────────────────────────────────────────────────────────────────── -->
-  <section class="bg-brand-black text-white py-16 lg:py-20">
-    <div class="container-x">
-      <div class="grid lg:grid-cols-2 gap-10 items-center max-w-5xl mx-auto">
-        <div>
-          <p class="eyebrow text-white/50 mb-4">Next step</p>
-          <h2 class="font-display text-3xl lg:text-4xl leading-tight text-balance mb-4">
-            See full workflow specs for <em class="font-medium text-brand-pink">your industry.</em>
-          </h2>
-          <p class="text-base text-white/60 leading-relaxed">
-            Book a free 60-minute audit. We map your current operations, identify bottleneck processes,
-            and give you a full ROI projection — no obligation.
-          </p>
-        </div>
-        <div class="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-4 lg:justify-end">
-          <Button href="/pages/contact-us" size="lg">Book free audit →</Button>
-          <Button href="/pages/science" variant="secondary" size="lg">How it works →</Button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-</ShopLayout>
+  </main>
+  <Footer />
+</BaseLayout>

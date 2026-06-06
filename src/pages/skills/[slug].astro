@@ -33,8 +33,9 @@ const industryLabels: Record<string, string> = {
 // ── PURIST brand pink ─────────────────────────────────────────────────
 const PINK = '#c4847e';
 const PINK_BG = 'rgba(232,180,176,0.12)';
+const PINK_BORDER = 'rgba(196,132,126,0.25)';
 
-// ── Category icon (icon shape only — colour is always PURIST pink) ────
+// ── Category icon ─────────────────────────────────────────────────────
 const catStyle: Record<string, { icon: string }> = {
   crm:         { icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z' },
   finance:     { icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
@@ -52,23 +53,43 @@ const cs = catStyle[skill.cat] ?? catStyle.ops;
 // ── Derived content ───────────────────────────────────────────────────
 const basePrice: number = (skill as any).price ?? (skill.complexity === 'Starter' ? 299 : skill.complexity === 'Intermediate' ? 499 : 799);
 const tags: string[] = (skill as any).tags ?? [skill.cat, skill.complexity.toLowerCase(), ...skill.tools.slice(0, 2)];
+const displayTools = skill.tools.filter(t => t.toLowerCase() !== 'n8n');
 
-// "What it does" — 3 capability bullets, always populated
+// Hero bullet points — from description sentences with fallbacks
 const rawSentences = skill.desc
   .split(/(?<=\.)\s+/)
   .map(s => s.replace(/\.$/, '').trim())
   .filter(s => s.length > 20);
 
-// Guarantee at least 3 bullets with smart fallbacks
 const fallbackBullets = [
   `Automates ${catLabels[skill.cat].toLowerCase()} so your team focuses on higher-value work`,
-  `Connects ${skill.tools.filter(t => t !== 'n8n').slice(0, 2).join(' and ')} without manual intervention`,
+  `Connects ${displayTools.slice(0, 2).join(' and ')} without manual intervention`,
   `Saves ${skill.time} every week — runs 24/7 with zero maintenance required`,
 ];
-const descSentences = [
-  ...(rawSentences.slice(0, 3)),
-  ...fallbackBullets,
-].slice(0, 3);
+const descSentences = [...rawSentences.slice(0, 3), ...fallbackBullets].slice(0, 3);
+
+// Distinct Trigger / Process / Output content (not recycled from hero bullets)
+const triggerTool = displayTools[0] ?? catLabels[skill.cat];
+const outputTool  = displayTools.length > 1 ? displayTools[displayTools.length - 1] : displayTools[0] ?? 'your tools';
+const howItWorks = [
+  {
+    label: 'Trigger',
+    text: `A new event in ${triggerTool} starts the automation — a form submission, status change, or a scheduled interval. No manual kickoff, no waiting.`,
+  },
+  {
+    label: 'Process',
+    text: `${displayTools.slice(0, 3).join(', ')} connect automatically. Data is validated, transformed, and routed exactly as configured — edge cases handled without human review.`,
+  },
+  {
+    label: 'Output',
+    text: `The result lands in ${outputTool} — no copy-paste, no delay, no errors. Your team sees the outcome without touching the process. ${skill.time} reclaimed every week.`,
+  },
+];
+
+// Sample scenario — industry-specific micro story
+const firstIndustry = skill.industries[0] ?? 'business';
+const industryName = industryLabels[firstIndustry] ?? firstIndustry;
+const sampleScenario = `A ${industryName.toLowerCase().replace(/s$/, '')} team was spending ${skill.time} every week on ${catLabels[skill.cat].toLowerCase()} tasks across ${displayTools.slice(0,2).join(' and ')}. After deploying this skill, the entire process runs automatically from trigger to output — the team now spends that time on client work instead.`;
 
 // Use cases from industries
 const useCaseBullets = skill.industries.slice(0, 5).map(i =>
@@ -78,7 +99,7 @@ const useCaseBullets = skill.industries.slice(0, 5).map(i =>
 // Included in deployment checklist
 const included = [
   `Custom ${catLabels[skill.cat]} automation built for your stack`,
-  `Connected to ${skill.tools.filter(t => t !== 'n8n').slice(0, 2).join(' and ')}`,
+  `Connected to ${displayTools.slice(0, 2).join(' and ')}`,
   '24/7 monitoring with error alerts',
   'You own 100% of the code — no lock-in',
   '30-day free modification guarantee',
@@ -129,7 +150,7 @@ const schemaLd = {
           <span>/</span>
           <a href={`/skills?cat=${skill.cat}`} class="hover:text-gray-700 transition">{catLabels[skill.cat]}</a>
           <span>/</span>
-          <span class="text-gray-700 font-medium">{skill.slug}</span>
+          <span class="text-gray-700 font-medium">{skill.title}</span>
         </nav>
       </div>
     </div>
@@ -181,7 +202,7 @@ const schemaLd = {
 
           <!-- Tool pills -->
           <div class="flex flex-wrap gap-2 mb-6">
-            {skill.tools.filter(t => t.toLowerCase() !== 'n8n').map(t => (
+            {displayTools.map(t => (
               <span class="text-xs font-medium px-3 py-1.5 rounded-full border border-gray-200 text-gray-600 bg-gray-50">{t}</span>
             ))}
           </div>
@@ -189,26 +210,26 @@ const schemaLd = {
           <!-- Trust signals row -->
           <div class="flex flex-wrap items-center gap-4 text-xs text-gray-400 border-t border-gray-100 pt-4 mb-8">
             <span class="flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke={PINK} stroke-width="2.5" stroke-linecap="round"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
               Verified deployment
             </span>
             <span class="flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5" style={`color:${PINK}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <svg class="w-3.5 h-3.5 shrink-0" style={`color:${PINK}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
               Live in 7 days
             </span>
             <span class="flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
               30-day money-back guarantee
             </span>
             {skill.complexity === 'Starter' && (
-              <span class="flex items-center gap-1.5 text-green-600 font-medium">
-                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg>
+              <span class="flex items-center gap-1.5 font-medium" style={`color:${PINK}`}>
+                <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg>
                 Beginner-friendly
               </span>
             )}
           </div>
 
-          <!-- ROI snapshot — fills the hero left column to match card height -->
+          <!-- ROI snapshot -->
           <div class="grid grid-cols-2 gap-3 mb-6">
             {[
               { label: 'Time saved', value: skill.time, sub: 'per week, every week' },
@@ -217,14 +238,14 @@ const schemaLd = {
               { label: 'Guarantee', value: '30 days', sub: 'full refund if not satisfied' },
             ].map(m => (
               <div class="rounded-xl border border-gray-100 bg-gray-50 p-4">
-                <p class="text-xl font-bold text-gray-900 leading-none mb-1" style={`color:${PINK}`}>{m.value}</p>
+                <p class="text-xl font-bold leading-none mb-1" style={`color:${PINK}`}>{m.value}</p>
                 <p class="text-xs font-semibold text-gray-700 mb-0.5">{m.label}</p>
                 <p class="text-[11px] text-gray-400 leading-snug">{m.sub}</p>
               </div>
             ))}
           </div>
 
-          <!-- Who it's for -->
+          <!-- Best fit for -->
           <div class="rounded-xl border border-gray-100 p-4">
             <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Best fit for</p>
             <ul class="space-y-1.5">
@@ -251,7 +272,10 @@ const schemaLd = {
             </div>
 
             <a href="/pages/welcome"
-               class="flex items-center justify-center gap-2 w-full bg-brand-black text-white font-semibold text-sm py-3.5 rounded-xl hover:bg-gray-800 transition mb-3">
+               class="flex items-center justify-center gap-2 w-full text-white font-semibold text-sm py-3.5 rounded-xl transition mb-3"
+               style={`background:${PINK}`}
+               onmouseover={`this.style.background='#b5726c'`}
+               onmouseout={`this.style.background='${PINK}'`}>
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
               Book free audit →
             </a>
@@ -270,7 +294,7 @@ const schemaLd = {
               <ul class="space-y-2">
                 {included.map(item => (
                   <li class="flex items-start gap-2 text-xs text-gray-500">
-                    <svg class="w-3.5 h-3.5 text-green-500 mt-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <svg class="w-3.5 h-3.5 mt-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke={PINK} stroke-width="2.5" stroke-linecap="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     {item}
                   </li>
                 ))}
@@ -294,37 +318,60 @@ const schemaLd = {
       </div>
     </div>
 
+    <!-- Social proof strip -->
+    <div class="border-t border-b border-gray-100">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4">
+        <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-center">
+          {[
+            { value: '500+', label: 'automations deployed' },
+            { value: '99.97%', label: 'uptime across all workflows' },
+            { value: '£2.4M', label: 'in client time saved' },
+            { value: '4.9 / 5', label: 'average client rating' },
+          ].map(stat => (
+            <div>
+              <p class="text-lg font-bold text-gray-900">{stat.value}</p>
+              <p class="text-xs text-gray-400">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
     <!-- Content + sidebar -->
-    <div class="border-t border-gray-100">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 lg:py-14 grid lg:grid-cols-12 gap-10 lg:gap-16">
+    <div>
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 lg:py-12 grid lg:grid-cols-12 gap-10 lg:gap-16">
 
         <!-- Main content -->
-        <div class="lg:col-span-8 space-y-12">
+        <div class="lg:col-span-8 space-y-10">
 
           <!-- About -->
           <div>
             <h2 class="text-xl font-bold text-gray-900 mb-4">About this skill</h2>
             <p class="text-gray-600 leading-relaxed mb-5">{skill.desc}</p>
             <p class="text-gray-600 leading-relaxed">
-              PURIST builds this automation end-to-end — connecting {skill.tools.filter(t => t.toLowerCase() !== 'n8n').join(', ')} — so you never touch the technical setup.
+              PURIST builds this automation end-to-end — connecting {displayTools.join(', ')} — so you never touch the technical setup.
               Every deployment is tested against real data before handover, with 24/7 monitoring from day one.
             </p>
           </div>
 
-          <!-- What it does -->
+          <!-- How it works: Trigger / Process / Output -->
           <div>
-            <h2 class="text-xl font-bold text-gray-900 mb-4">What it does</h2>
-            <ul class="space-y-4">
-              {descSentences.map((s, i) => {
-                const labels = ['Trigger', 'Process', 'Output'];
-                return (
-                  <li class="flex items-start gap-3 py-2 border-b border-gray-50 last:border-0">
-                    <span class="text-xs font-bold uppercase tracking-widest shrink-0 mt-1 min-w-[60px]" style={`color:${PINK}`}>{labels[i] ?? 'Step'}:</span>
-                    <span class="text-sm text-gray-600 leading-relaxed">{s}</span>
-                  </li>
-                );
-              })}
+            <h2 class="text-xl font-bold text-gray-900 mb-2">How it works</h2>
+            <p class="text-sm text-gray-400 mb-5">Three stages — trigger, process, output. Fully automated.</p>
+            <ul class="space-y-0 divide-y divide-gray-100 rounded-xl border border-gray-100 overflow-hidden">
+              {howItWorks.map(step => (
+                <li class="flex items-start gap-4 p-5 bg-white">
+                  <span class="text-xs font-bold uppercase tracking-widest shrink-0 mt-0.5 w-16" style={`color:${PINK}`}>{step.label}</span>
+                  <span class="text-sm text-gray-600 leading-relaxed">{step.text}</span>
+                </li>
+              ))}
             </ul>
+          </div>
+
+          <!-- Sample scenario -->
+          <div class="rounded-xl p-5" style={`background:${PINK_BG};border:1px solid ${PINK_BORDER}`}>
+            <p class="text-xs font-semibold uppercase tracking-wider mb-2" style={`color:${PINK}`}>Real-world scenario</p>
+            <p class="text-sm text-gray-700 leading-relaxed">{sampleScenario}</p>
           </div>
 
           <!-- Why use this skill -->
@@ -342,40 +389,40 @@ const schemaLd = {
           <!-- Use cases -->
           <div>
             <h2 class="text-xl font-bold text-gray-900 mb-4">Use cases</h2>
-            <ul class="space-y-2">
+            <ul class="grid sm:grid-cols-2 gap-2">
               {useCaseBullets.map(uc => (
-                <li class="flex items-center gap-2.5 text-sm text-gray-600">
+                <li class="flex items-center gap-2.5 text-sm text-gray-600 rounded-lg border border-gray-100 px-3.5 py-2.5 bg-gray-50">
                   <span class="w-1.5 h-1.5 rounded-full shrink-0" style={`background:${PINK}`}></span>
                   {uc}
                 </li>
               ))}
-              <li class="flex items-center gap-2.5 text-sm text-gray-600">
+              <li class="flex items-center gap-2.5 text-sm text-gray-600 rounded-lg border border-gray-100 px-3.5 py-2.5 bg-gray-50">
                 <span class="w-1.5 h-1.5 rounded-full shrink-0" style={`background:${PINK}`}></span>
-                Any team spending more than 2 hours/week on {catLabels[skill.cat].toLowerCase()}
+                Any team spending 2+ hours/week on {catLabels[skill.cat].toLowerCase()}
               </li>
             </ul>
           </div>
 
-          <!-- Sample: before → after -->
+          <!-- Before & after -->
           <div>
             <h2 class="text-xl font-bold text-gray-900 mb-4">Before & after</h2>
             <div class="grid sm:grid-cols-2 gap-4">
               <div class="rounded-xl border border-red-100 bg-red-50 p-5">
                 <p class="text-xs font-semibold uppercase tracking-wider text-red-400 mb-3">Before</p>
                 <ul class="space-y-2 text-sm text-red-700">
-                  <li class="flex items-start gap-2"><span class="mt-1 shrink-0">✕</span> Manual copy-paste between {skill.tools.filter(t=>t!=='n8n').slice(0,2).join(' and ')}</li>
-                  <li class="flex items-start gap-2"><span class="mt-1 shrink-0">✕</span> Delays of hours or days before follow-up</li>
-                  <li class="flex items-start gap-2"><span class="mt-1 shrink-0">✕</span> Errors when team is busy or distracted</li>
-                  <li class="flex items-start gap-2"><span class="mt-1 shrink-0">✕</span> {skill.time} wasted every single week</li>
+                  <li class="flex items-start gap-2"><span class="mt-0.5 shrink-0 font-bold">✕</span> Manual copy-paste between {displayTools.slice(0,2).join(' and ')}</li>
+                  <li class="flex items-start gap-2"><span class="mt-0.5 shrink-0 font-bold">✕</span> Delays of hours or days before follow-up</li>
+                  <li class="flex items-start gap-2"><span class="mt-0.5 shrink-0 font-bold">✕</span> Errors when team is busy or distracted</li>
+                  <li class="flex items-start gap-2"><span class="mt-0.5 shrink-0 font-bold">✕</span> {skill.time} wasted every single week</li>
                 </ul>
               </div>
-              <div class="rounded-xl border border-green-100 bg-green-50 p-5">
-                <p class="text-xs font-semibold uppercase tracking-wider text-green-500 mb-3">After</p>
-                <ul class="space-y-2 text-sm text-green-800">
-                  <li class="flex items-start gap-2"><span class="mt-1 shrink-0">✓</span> {skill.benefit}</li>
-                  <li class="flex items-start gap-2"><span class="mt-1 shrink-0">✓</span> Runs automatically, every time, 24/7</li>
-                  <li class="flex items-start gap-2"><span class="mt-1 shrink-0">✓</span> Zero manual effort from your team</li>
-                  <li class="flex items-start gap-2"><span class="mt-1 shrink-0">✓</span> {skill.time} back in your team's week</li>
+              <div class="rounded-xl border p-5" style={`border-color:${PINK_BORDER};background:${PINK_BG}`}>
+                <p class="text-xs font-semibold uppercase tracking-wider mb-3" style={`color:${PINK}`}>After</p>
+                <ul class="space-y-2 text-sm text-gray-700">
+                  <li class="flex items-start gap-2"><span class="mt-0.5 shrink-0 font-bold" style={`color:${PINK}`}>✓</span> {skill.benefit}</li>
+                  <li class="flex items-start gap-2"><span class="mt-0.5 shrink-0 font-bold" style={`color:${PINK}`}>✓</span> Runs automatically, every time, 24/7</li>
+                  <li class="flex items-start gap-2"><span class="mt-0.5 shrink-0 font-bold" style={`color:${PINK}`}>✓</span> Zero manual effort from your team</li>
+                  <li class="flex items-start gap-2"><span class="mt-0.5 shrink-0 font-bold" style={`color:${PINK}`}>✓</span> {skill.time} back in your team's week</li>
                 </ul>
               </div>
             </div>
@@ -384,11 +431,11 @@ const schemaLd = {
           <!-- How to deploy -->
           <div>
             <h2 class="text-xl font-bold text-gray-900 mb-2">How to deploy</h2>
-            <p class="text-sm text-gray-400 mb-6">Live in 7 business days, tested on your real data.</p>
-            <div class="space-y-4">
+            <p class="text-sm text-gray-400 mb-5">Live in 7 business days, tested on your real data.</p>
+            <div class="space-y-3">
               {[
                 { n: '01', title: 'Book your free audit', desc: `We review your current ${catLabels[skill.cat].toLowerCase()} process, map your stack, and confirm the exact ROI — live on a 60-minute call. No commitment.` },
-                { n: '02', title: 'PURIST builds and tests', desc: `We configure the automation connecting ${skill.tools.filter(t=>t!=='n8n').join(', ')}, run it against your real data, and resolve every edge case. You approve before anything goes live.` },
+                { n: '02', title: 'PURIST builds and tests', desc: `We configure the automation connecting ${displayTools.join(', ')}, run it against your real data, and resolve every edge case. You approve before anything goes live.` },
                 { n: '03', title: 'Go live — and stay live', desc: `Deployed to your environment. ${skill.time} saved from week one. 24/7 monitoring, error alerts, and a dedicated support channel. You own 100% of the code.` },
               ].map(step => (
                 <div class="flex gap-5 p-5 rounded-xl border border-gray-100 bg-gray-50">
@@ -413,7 +460,7 @@ const schemaLd = {
                 },
                 {
                   q: 'Do I need technical skills to use this?',
-                  a: `None. PURIST handles all configuration, connecting ${skill.tools.filter(t=>t!=='n8n').join(', ')}, and testing. You review and approve the output before anything goes live.`,
+                  a: `None. PURIST handles all configuration, connecting ${displayTools.join(', ')}, and testing. You review and approve the output before anything goes live.`,
                 },
                 {
                   q: 'What happens if the automation breaks?',
@@ -425,7 +472,7 @@ const schemaLd = {
                 },
                 {
                   q: `Will this work with my existing tools?`,
-                  a: `This skill is built around ${skill.tools.filter(t=>t!=='n8n').join(', ')}. If you use alternatives, book a free audit — we adapt the integration to your exact stack at no extra cost.`,
+                  a: `This skill is built around ${displayTools.join(', ')}. If you use alternatives, book a free audit — we adapt the integration to your exact stack at no extra cost.`,
                 },
                 {
                   q: 'Is there a money-back guarantee?',
@@ -452,14 +499,14 @@ const schemaLd = {
         </div>
 
         <!-- Sticky sidebar -->
-        <div class="lg:col-span-4 space-y-6">
+        <div class="lg:col-span-4 space-y-5">
 
-          <!-- Verified badge -->
-          <div class="rounded-xl border border-green-100 bg-green-50 p-4 flex items-start gap-3">
-            <svg class="w-5 h-5 text-green-600 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          <!-- Verified badge — PURIST branded -->
+          <div class="rounded-xl p-4 flex items-start gap-3" style={`background:${PINK_BG};border:1px solid ${PINK_BORDER}`}>
+            <svg class="w-5 h-5 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke={PINK} stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
             <div>
-              <p class="text-sm font-semibold text-green-800">Verified deployment</p>
-              <p class="text-xs text-green-600 mt-0.5">Tested on real data before handover</p>
+              <p class="text-sm font-semibold text-gray-900">Verified deployment</p>
+              <p class="text-xs text-gray-500 mt-0.5">Tested on real data before handover</p>
             </div>
           </div>
 
@@ -509,7 +556,7 @@ const schemaLd = {
           <div class="rounded-xl border border-gray-100 p-4">
             <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Connects</p>
             <div class="flex flex-wrap gap-2">
-              {skill.tools.filter(t => t.toLowerCase() !== 'n8n').map(t => (
+              {displayTools.map(t => (
                 <span class="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-lg border border-gray-200 bg-gray-50 text-gray-700">
                   <span class="w-1.5 h-1.5 rounded-full" style={`background:${PINK}`}></span>
                   {t}
@@ -540,8 +587,8 @@ const schemaLd = {
           </div>
 
           {skill.badge && (
-            <div class="rounded-xl border p-4 text-center" style="border-color:rgba(232,180,176,0.3);background:rgba(232,180,176,0.06)">
-              <span class="text-xs font-semibold" style="color:#c4847e">{skill.badge}</span>
+            <div class="rounded-xl border p-4 text-center" style={`border-color:${PINK_BORDER};background:${PINK_BG}`}>
+              <span class="text-xs font-semibold" style={`color:${PINK}`}>{skill.badge}</span>
             </div>
           )}
 
@@ -552,7 +599,7 @@ const schemaLd = {
     <!-- More skills -->
     {related.length > 0 && (
       <div class="border-t border-gray-100 bg-gray-50">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 lg:py-14">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 lg:py-12">
           <h2 class="text-lg font-bold text-gray-900 mb-6">More skills</h2>
           <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {related.map(r => {
@@ -570,7 +617,7 @@ const schemaLd = {
                   </div>
                   <p class="text-sm font-semibold text-gray-900 mb-1 leading-snug group-hover:text-gray-700">{r.title}</p>
                   <p class="text-xs text-gray-400 leading-relaxed line-clamp-2">{r.benefit}</p>
-                  <p class="text-xs font-semibold text-green-600 mt-2">{r.time} saved →</p>
+                  <p class="text-xs font-semibold mt-2" style={`color:${PINK}`}>{r.time} saved →</p>
                 </a>
               );
             })}
@@ -586,7 +633,8 @@ const schemaLd = {
         <p class="text-sm font-bold text-gray-900">£{basePrice} · 30-day guarantee</p>
       </div>
       <a href="/pages/welcome"
-         class="bg-brand-black text-white text-sm font-semibold px-5 py-2.5 rounded-xl hover:bg-gray-800 transition">
+         class="text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition"
+         style={`background:${PINK}`}>
         Book audit →
       </a>
     </div>

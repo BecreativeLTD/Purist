@@ -1,371 +1,73 @@
 ---
-import ShopLayout from '~/layouts/ShopLayout.astro';
-import Button from '~/components/ui/Button.astro';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/layout/Header.astro';
+import Footer from '~/components/layout/Footer.astro';
 
-const layers = [
-  {
-    n: '01',
-    icon: 'M15 12a3 3 0 11-6 0 3 3 0 016 0zM2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z',
-    title: '24/7 Automated Monitoring',
-    body: 'Every deployed workflow is watched around the clock by Checkly health checks firing every 60 seconds. Automated alerts fire the moment an error rate spikes or a response time degrades — before your team notices.',
-    stat: '60s',
-    statLabel: 'Check interval',
-    badge: 'Continuous',
-  },
-  {
-    n: '02',
-    icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15',
-    title: 'Full Error Handling & Retry Logic',
-    body: 'Every automation includes dead-letter queues, exponential backoff, and graceful fallbacks. When an API hiccups at 3 AM, the workflow self-heals and logs the incident without waking anyone.',
-    stat: '100%',
-    statLabel: 'Error coverage',
-    badge: 'Resilient',
-  },
-  {
-    n: '03',
-    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
-    title: '99.5% Uptime SLA Guaranteed',
-    body: 'Our SLA is not a marketing number. It is backed by real-time dashboards, incident response within 15 minutes, and service credits automatically issued if we miss the mark.',
-    stat: '99.5%',
-    statLabel: 'Uptime SLA',
-    badge: 'Guaranteed',
-  },
-  {
-    n: '04',
-    icon: 'M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4',
-    title: 'Version Control & Instant Rollback',
-    body: 'Every workflow change is versioned in Git. If a deployment introduces an issue, we roll back to the last known-good state in under two minutes — zero data loss, zero downtime.',
-    stat: '<2 min',
-    statLabel: 'Rollback time',
-    badge: 'Reversible',
-  },
-  {
-    n: '05',
-    icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z',
-    title: 'Security & Access Controls',
-    body: 'Credentials are stored in encrypted vaults — never in plaintext or source code. API keys rotate automatically. Role-based access ensures only authorized personnel can modify production workflows.',
-    stat: 'AES-256',
-    statLabel: 'Vault encryption',
-    badge: 'Secure',
-  },
-];
+const PINK = '#c4847e';
+const PINK_BG = 'rgba(232,180,176,0.10)';
 
-// 90-day uptime data: 'up' | 'degraded' | 'incident'
-const incidentDays = new Set([23, 47, 78]);
-const degradedDays = new Set([8, 35, 71, 82]);
-const uptimeDays = Array.from({ length: 90 }, (_, i) => {
-  if (incidentDays.has(i)) return 'incident';
-  if (degradedDays.has(i)) return 'degraded';
-  return 'up';
-});
-const uptimePct = ((uptimeDays.filter(d => d === 'up').length / 90) * 100).toFixed(1);
-
-const securityPillars = [
-  {
-    icon: 'M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z',
-    title: 'Encrypted Credential Vault',
-    body: 'API keys, OAuth tokens, and secrets are stored with AES-256 encryption. No credentials ever appear in workflow source code.',
-  },
-  {
-    icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15',
-    title: 'Automatic Key Rotation',
-    body: 'Service credentials rotate on a schedule before expiry. Rotation is tested in staging before applying to production — zero downtime, zero manual steps.',
-  },
-  {
-    icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z',
-    title: 'Role-Based Access Control',
-    body: 'Granular RBAC prevents unauthorized workflow modifications. Prod environments require elevated approval; changes are logged with full audit trails.',
-  },
-  {
-    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
-    title: 'Compliance Ready',
-    body: 'Architecture is designed for SOC 2 readiness: data isolation per client, egress controls, and comprehensive logging for audit purposes.',
-  },
-];
-
-const monitoringStack = [
-  { name: 'Checkly', role: 'Health checks', tier: 'Monitoring' },
-  { name: 'n8n', role: 'Workflow engine', tier: 'Core' },
-  { name: 'GitHub', role: 'Version control', tier: 'Ops' },
-  { name: 'PagerDuty', role: 'On-call alerting', tier: 'Alerting' },
-  { name: 'AWS CloudWatch', role: 'Infrastructure', tier: 'Infra' },
-  { name: 'Datadog', role: 'APM & traces', tier: 'Observability' },
+const standards = [
+  { n: '01', title: 'Tested on real data before handover', desc: 'Every automation runs against your actual data — not dummy records — before we sign off. Edge cases are identified and resolved in testing, not discovered in production.' },
+  { n: '02', title: '24/7 monitoring from day one', desc: 'The moment a workflow goes live, it enters our monitoring stack. Error alerts fire within 90 seconds. You never find out about a failure from a client or a missed task.' },
+  { n: '03', title: 'Full source code handover', desc: 'You receive complete access to every workflow — source code, credentials, documentation. No black box, no platform lock-in. Your team or any developer can maintain it.' },
+  { n: '04', title: '30-day modification guarantee', desc: 'If the workflow does not behave exactly as specified in the first 30 days, we fix it at no cost. The deployment is not complete until you confirm it works as expected.' },
+  { n: '05', title: 'Structured change management', desc: 'Any change to a live workflow goes through a staging environment first. Changes are versioned, tested and rolled back instantly if something regresses.' },
+  { n: '06', title: 'Incident response SLA', desc: 'Critical incidents — workflow down, data error — are resolved within 4 hours. Standard issues within 24 hours. Every client has a dedicated Slack channel for direct access.' },
 ];
 ---
 
-<ShopLayout
-  title="Reliability & Security – PURIST"
-  description="Five engineering layers between your workflow and downtime. 99.5% uptime SLA, AES-256 credentials, instant rollback, 24/7 monitoring."
+<BaseLayout
+  title="Quality Standards — How PURIST Deploys | PURIST Automation"
+  description="PURIST quality standards: real-data testing, 24/7 monitoring, full source code handover, 30-day guarantee and structured incident response. Every deployment, every time."
 >
+  <Header />
+  <main id="main-content">
 
-  <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
-  <header class="bg-brand-black text-white">
-    <div class="container-x py-20 lg:py-28">
-      <div class="max-w-3xl">
-        <p class="eyebrow text-white/50 mb-4">Reliability & security</p>
-        <h1 class="font-display text-4xl lg:text-5xl xl:text-6xl leading-tight tracking-tight mb-6 text-balance">
-          Five layers between your workflow and <em class="font-medium text-brand-pink">downtime.</em>
-        </h1>
-        <p class="text-base lg:text-lg text-white/60 text-pretty max-w-xl">
-          Reliability is not a claim — it is a sequence of production-tested safeguards,
-          each continuously monitored and automatically enforced.
+    <div class="py-16 lg:py-20" style="background:#0A0A0A">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+        <p class="text-xs uppercase tracking-widest font-bold mb-4" style={`color:${PINK}`}>Standards</p>
+        <h1 class="text-3xl lg:text-5xl font-bold text-white mb-5 leading-tight">Quality you can hold us to.</h1>
+        <p class="text-base lg:text-lg text-gray-400 max-w-2xl mx-auto">
+          Six non-negotiable standards on every PURIST deployment. Not aspirations — contractual commitments backed by a 30-day money-back guarantee.
         </p>
       </div>
-
-      <!-- KPI strip -->
-      <div class="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 rounded-card overflow-hidden">
-        {[
-          { v: '99.5%', l: 'Uptime SLA' },
-          { v: '<15 min', l: 'Incident response' },
-          { v: '100%', l: 'Error coverage' },
-          { v: 'AES-256', l: 'Credential encryption' },
-        ].map(m => (
-          <div class="bg-brand-black px-6 py-5">
-            <p class="font-display text-2xl lg:text-3xl text-white leading-none mb-1">{m.v}</p>
-            <p class="text-[10px] uppercase tracking-[0.18em] text-white/45 font-medium">{m.l}</p>
-          </div>
-        ))}
-      </div>
     </div>
-  </header>
 
-  <!-- ── 5 Reliability Layers ──────────────────────────────────────────────── -->
-  <section class="bg-white py-20 lg:py-28">
-    <div class="container-x">
-      <div class="text-center max-w-2xl mx-auto mb-14">
-        <p class="eyebrow mb-4">The architecture</p>
-        <h2 class="font-display text-3xl lg:text-4xl xl:text-5xl leading-tight text-balance">
-          Every layer purpose-built for <em class="font-medium">zero surprises.</em>
-        </h2>
-      </div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-14 lg:py-20">
 
-      <div class="max-w-4xl mx-auto space-y-4">
-        {layers.map((s, i) => (
-          <div class={`group relative rounded-card border border-brand-gray-100 bg-white hover:border-brand-gray-300 transition-all duration-300 overflow-hidden ${i % 2 === 1 ? 'lg:translate-x-8' : ''}`}>
-            <div class="grid grid-cols-[auto_1fr_auto] gap-6 lg:gap-10 items-center px-6 lg:px-8 py-6 lg:py-7">
-
-              <!-- Left: number + icon -->
-              <div class="flex flex-col items-center gap-3">
-                <span class="font-display text-3xl lg:text-4xl text-brand-gray-200 leading-none select-none">{s.n}</span>
-                <div class="w-10 h-10 rounded-lg bg-brand-cream flex items-center justify-center group-hover:bg-brand-black/5 transition-colors">
-                  <svg class="w-5 h-5 text-brand-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d={s.icon}/>
-                  </svg>
-                </div>
-              </div>
-
-              <!-- Center: text -->
-              <div>
-                <div class="flex items-center gap-3 mb-2">
-                  <h2 class="font-display text-lg lg:text-xl leading-snug">{s.title}</h2>
-                  <span class="hidden lg:inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wider bg-brand-cream text-brand-gray-600">{s.badge}</span>
-                </div>
-                <p class="text-sm text-brand-gray-600 leading-relaxed">{s.body}</p>
-              </div>
-
-              <!-- Right: stat -->
-              <div class="hidden lg:block text-right shrink-0">
-                <p class="font-display text-2xl xl:text-3xl text-brand-black leading-none">{s.stat}</p>
-                <p class="text-[10px] uppercase tracking-[0.15em] text-brand-gray-500 font-medium mt-1">{s.statLabel}</p>
-              </div>
-            </div>
-
-            <!-- Left accent bar -->
-            <div class="absolute left-0 top-0 bottom-0 w-0.5 bg-brand-green opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- ── 90-day Uptime Chart ───────────────────────────────────────────────── -->
-  <section class="bg-brand-cream py-20 lg:py-28">
-    <div class="container-x max-w-5xl mx-auto">
-      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
-        <div>
-          <p class="eyebrow mb-3">Live SLA tracking</p>
-          <h2 class="font-display text-3xl lg:text-4xl leading-tight">
-            {uptimePct}% uptime <em class="font-medium">last 90 days.</em>
-          </h2>
-        </div>
-        <div class="flex items-center gap-5 text-xs text-brand-gray-600 font-medium">
-          <span class="flex items-center gap-1.5"><span class="inline-block w-3 h-3 rounded-sm bg-brand-green"></span> Operational</span>
-          <span class="flex items-center gap-1.5"><span class="inline-block w-3 h-3 rounded-sm bg-amber-400"></span> Degraded</span>
-          <span class="flex items-center gap-1.5"><span class="inline-block w-3 h-3 rounded-sm bg-red-400"></span> Incident</span>
-        </div>
-      </div>
-
-      <!-- Bar chart -->
-      <div class="bg-white rounded-card p-6 lg:p-8 shadow-sm border border-brand-gray-100">
-        <div class="flex items-end gap-0.5 h-16">
-          {uptimeDays.map((status, i) => (
-            <div
-              class={`flex-1 rounded-sm transition-opacity hover:opacity-70 ${
-                status === 'incident'  ? 'bg-red-400'
-              : status === 'degraded' ? 'bg-amber-400'
-              :                         'bg-brand-green'
-              }`}
-              style={`height: ${status === 'incident' ? '60%' : status === 'degraded' ? '75%' : (85 + Math.sin(i * 0.5) * 12).toFixed(0) + '%'};`}
-              title={`Day ${90 - i}: ${status}`}
-            />
-          ))}
-        </div>
-        <div class="flex justify-between mt-3 text-[10px] text-brand-gray-500 font-medium uppercase tracking-[0.12em]">
-          <span>90 days ago</span>
-          <span>Today</span>
-        </div>
-
-        <!-- KPI row -->
-        <div class="mt-6 pt-6 border-t border-brand-gray-100 grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {[
-            { v: uptimePct + '%', l: 'Uptime (90d)' },
-            { v: String(uptimeDays.filter(d => d === 'incident').length), l: 'Incidents' },
-            { v: String(uptimeDays.filter(d => d === 'degraded').length), l: 'Degraded events' },
-            { v: '< 15 min', l: 'Avg. response time' },
-          ].map(m => (
+      <div class="space-y-5 mb-14">
+        {standards.map(s => (
+          <div class="flex gap-6 p-6 rounded-2xl border border-gray-100 bg-gray-50">
+            <span class="text-3xl font-bold text-gray-200 leading-none shrink-0 mt-1">{s.n}</span>
             <div>
-              <p class="font-display text-xl lg:text-2xl leading-none text-brand-black mb-1">{m.v}</p>
-              <p class="text-[10px] uppercase tracking-[0.15em] text-brand-gray-500 font-medium">{m.l}</p>
+              <h2 class="text-base font-bold text-gray-900 mb-2">{s.title}</h2>
+              <p class="text-sm text-gray-500 leading-relaxed">{s.desc}</p>
             </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Security Architecture ─────────────────────────────────────────────── -->
-  <section class="bg-white py-20 lg:py-28">
-    <div class="container-x">
-      <div class="text-center max-w-2xl mx-auto mb-14">
-        <p class="eyebrow mb-4">Security architecture</p>
-        <h2 class="font-display text-3xl lg:text-4xl xl:text-5xl leading-tight text-balance">
-          Credentials never leave <em class="font-medium">the vault.</em>
-        </h2>
-        <p class="text-base text-brand-gray-600 mt-4 text-pretty">
-          Enterprise-grade security built into every workflow — not bolted on after the fact.
-        </p>
-      </div>
-
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
-        {securityPillars.map(p => (
-          <div class="group rounded-card border border-brand-gray-100 bg-brand-cream/30 hover:bg-brand-cream/70 p-6 transition-all duration-200 hover:shadow-sm">
-            <div class="w-10 h-10 rounded-lg bg-white shadow-sm flex items-center justify-center mb-5 group-hover:shadow-md transition-shadow">
-              <svg class="w-5 h-5 text-brand-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d={p.icon}/>
-              </svg>
-            </div>
-            <h3 class="font-display text-base lg:text-lg mb-2 leading-snug">{p.title}</h3>
-            <p class="text-sm text-brand-gray-600 leading-relaxed">{p.body}</p>
           </div>
         ))}
       </div>
-    </div>
-  </section>
 
-  <!-- ── Monitoring Stack ───────────────────────────────────────────────────── -->
-  <section class="bg-brand-black text-white py-20 lg:py-28">
-    <div class="container-x">
-      <div class="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
-        <!-- Left: copy -->
-        <div>
-          <p class="eyebrow text-white/50 mb-4">Observability stack</p>
-          <h2 class="font-display text-3xl lg:text-4xl xl:text-5xl leading-tight text-balance mb-6">
-            You see what we see — <em class="font-medium text-brand-pink">in real time.</em>
-          </h2>
-          <p class="text-base text-white/60 leading-relaxed mb-4">
-            Our monitoring stack combines health checks, distributed tracing, and alerting into a
-            single view. Clients get a live dashboard showing their workflow health at a glance.
-          </p>
-          <p class="text-base text-white/60 leading-relaxed mb-10">
-            When something degrades, the on-call engineer is notified within 60 seconds — not
-            discovered the next morning during a status meeting.
-          </p>
-          <Button href="/pages/dashboard" variant="secondary">View your dashboard →</Button>
-        </div>
+      <div class="grid sm:grid-cols-4 gap-4 mb-14">
+        {[
+          { value: '99.97%', label: 'uptime SLA' },
+          { value: '90 sec', label: 'error alert' },
+          { value: '4 h', label: 'critical fix' },
+          { value: '30 days', label: 'guarantee' },
+        ].map(s => (
+          <div class="rounded-xl border border-gray-200 p-5 text-center">
+            <p class="text-2xl font-bold mb-1" style={`color:${PINK}`}>{s.value}</p>
+            <p class="text-xs text-gray-400">{s.label}</p>
+          </div>
+        ))}
+      </div>
 
-        <!-- Right: stack grid -->
-        <div class="grid grid-cols-2 gap-3">
-          {monitoringStack.map(tool => (
-            <div class="rounded-card border border-white/10 bg-white/5 hover:bg-white/8 transition-colors px-5 py-4">
-              <div class="flex items-start justify-between gap-2 mb-2">
-                <p class="font-display text-base text-white">{tool.name}</p>
-                <span class="text-[9px] uppercase tracking-wider font-medium px-2 py-0.5 rounded-full border border-white/20 text-white/50 whitespace-nowrap">{tool.tier}</span>
-              </div>
-              <p class="text-xs text-white/45">{tool.role}</p>
-            </div>
-          ))}
-        </div>
+      <div class="rounded-2xl p-8 text-center" style={`background:${PINK_BG};border:1px solid rgba(196,132,126,0.20)`}>
+        <h2 class="text-xl font-bold text-gray-900 mb-3">Every deployment backed by a 30-day guarantee.</h2>
+        <p class="text-sm text-gray-600 mb-6 max-w-lg mx-auto">If your automation does not perform as specified, we fix it or refund it. No questions. Book a free audit to get started.</p>
+        <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style={`background:${PINK}`}>Book free audit →</a>
       </div>
     </div>
-  </section>
 
-  <!-- ── SLA Commitment ─────────────────────────────────────────────────────── -->
-  <section class="bg-brand-cream py-20 lg:py-24">
-    <div class="container-x max-w-5xl mx-auto">
-      <div class="grid lg:grid-cols-2 gap-10">
-        <!-- SLA terms -->
-        <div class="bg-white rounded-card border border-brand-gray-100 shadow-sm p-8">
-          <p class="eyebrow mb-4">SLA terms</p>
-          <h2 class="font-display text-2xl lg:text-3xl mb-6 leading-snug text-balance">
-            What happens when we miss it.
-          </h2>
-          <ul class="space-y-4">
-            {[
-              { threshold: '< 99.5%', credit: '10% monthly credit' },
-              { threshold: '< 99.0%', credit: '25% monthly credit' },
-              { threshold: '< 95.0%', credit: '50% monthly credit' },
-            ].map(r => (
-              <li class="flex items-center justify-between py-3 border-b border-brand-gray-100 last:border-0">
-                <span class="font-medium text-sm text-brand-gray-600">Uptime {r.threshold}</span>
-                <span class="text-sm font-medium text-brand-black">{r.credit}</span>
-              </li>
-            ))}
-          </ul>
-          <p class="text-xs text-brand-gray-500 mt-4 leading-relaxed">
-            Credits are calculated and applied automatically — no support ticket required.
-          </p>
-        </div>
-
-        <!-- Incident process -->
-        <div class="bg-white rounded-card border border-brand-gray-100 shadow-sm p-8">
-          <p class="eyebrow mb-4">Incident response</p>
-          <h2 class="font-display text-2xl lg:text-3xl mb-6 leading-snug text-balance">
-            What happens when something breaks.
-          </h2>
-          <ol class="space-y-4">
-            {[
-              { t: '0–2 min', d: 'Automated alert fires. On-call engineer paged.' },
-              { t: '2–15 min', d: 'Root cause identified. Rollback or fix deployed.' },
-              { t: '15–60 min', d: 'Incident confirmed resolved. Client notification sent.' },
-              { t: '< 24 hr', d: 'Post-mortem published with root cause and prevention plan.' },
-            ].map((step, i) => (
-              <li class="flex gap-4">
-                <span class="font-display text-2xl text-brand-gray-200 leading-none shrink-0 w-7">{String(i + 1).padStart(2, '0')}</span>
-                <div>
-                  <p class="font-medium text-sm text-brand-black mb-0.5">{step.t}</p>
-                  <p class="text-sm text-brand-gray-600">{step.d}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── CTA ────────────────────────────────────────────────────────────────── -->
-  <section class="bg-brand-black text-white py-16 lg:py-20 text-center">
-    <div class="container-x max-w-2xl">
-      <p class="eyebrow text-white/50 mb-4">Get the full picture</p>
-      <h2 class="font-display text-3xl lg:text-4xl mb-4 leading-tight text-balance">
-        See your workflow health <em class="font-medium text-brand-pink">right now.</em>
-      </h2>
-      <p class="text-base text-white/60 mb-8">Request a live status report or view your monitoring dashboard.</p>
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <Button href="/pages/contact-us" size="lg">Request a status report</Button>
-        <Button href="/pages/dashboard" variant="secondary" size="lg">View dashboard →</Button>
-      </div>
-    </div>
-  </section>
-
-</ShopLayout>
+  </main>
+  <Footer />
+</BaseLayout>

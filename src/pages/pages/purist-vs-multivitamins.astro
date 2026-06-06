@@ -1,79 +1,90 @@
 ---
-import ShopLayout from '~/layouts/ShopLayout.astro';
-import NineOrganSystems from '~/components/sections/NineOrganSystems.astro';
-import ClinicalKPIs from '~/components/sections/ClinicalKPIs.astro';
-import Button from '~/components/ui/Button.astro';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/layout/Header.astro';
+import Footer from '~/components/layout/Footer.astro';
 
-const differences = [
-  { you_get: 'Full team of automation engineers, AI specialists, and ops strategists', they_offer: 'One person who also handles IT, marketing, and office Wi-Fi' },
-  { you_get: '$799-1,499/mo — all-inclusive, cancel anytime', they_offer: '$80K-120K/year salary + benefits + equipment + management overhead' },
-  { you_get: 'Deployed in 5-10 business days', they_offer: '3-6 months to hire, onboard, and get productive' },
-  { you_get: '24/7 monitoring — no vacation or sick days', they_offer: 'Single point of failure — what happens when they quit?' },
-  { you_get: '30-day money-back guarantee', they_offer: 'Severance package if it does not work out' },
+const PINK = '#c4847e';
+const PINK_BG = 'rgba(232,180,176,0.10)';
+
+const rows = [
+  { feature: 'Setup time',           purist: '< 7 days',                  other: '4–12 weeks' },
+  { feature: 'Workflow complexity',  purist: 'Unlimited — built to spec',  other: 'Capped by plan tier' },
+  { feature: 'Code ownership',       purist: '100% — no lock-in',          other: 'No — Make controls your flows' },
+  { feature: 'Monthly platform fee', purist: 'None',                       other: '$9–$299/mo + ops overages' },
+  { feature: 'Error monitoring',     purist: '24/7 — we fix it',           other: 'You troubleshoot' },
+  { feature: 'AI integration',       purist: 'Claude Opus native',         other: 'HTTP module only' },
+  { feature: 'Operations limit',     purist: 'Unlimited',                  other: 'Capped — pay per op' },
+  { feature: 'Support',              purist: 'Dedicated engineer + Slack', other: 'Community forum' },
+  { feature: 'Self-hosted',          purist: 'Yes — your infrastructure',  other: 'No' },
+  { feature: 'Guarantee',            purist: '30-day money back',          other: 'None' },
 ];
 ---
 
-<ShopLayout
-  title="PURIST vs hiring in-house – PURIST"
-  description="Hiring an automation engineer costs $80K-120K/year. PURIST delivers the same results for $799-1,499/mo with a full team behind it."
+<BaseLayout
+  title="PURIST vs Make (Integromat) — Full Comparison | PURIST Automation"
+  description="Compare PURIST automation deployments against Make (Integromat). No operations caps, no platform fees, full code ownership and 24/7 expert monitoring."
 >
-  <header class="bg-brand-cream">
-    <div class="container-x py-16 lg:py-20 max-w-3xl mx-auto text-center">
-      <p class="eyebrow mb-4">Compare</p>
-      <h1 class="font-display text-4xl lg:text-5xl xl:text-6xl leading-tight tracking-tight mb-6 text-balance">
-        PURIST vs <em class="font-medium">hiring in-house.</em>
-      </h1>
-      <p class="text-base lg:text-lg text-brand-gray-600 text-pretty">
-        Hiring an in-house automation engineer sounds like the right move — until you do the
-        math. A full-time hire costs $80K-120K/year, takes months to onboard, and creates a
-        single point of failure. PURIST gives you an entire team for a fraction of the cost.
-      </p>
-    </div>
-  </header>
+  <Header />
+  <main id="main-content">
 
-  <section class="bg-white py-20 lg:py-28">
-    <div class="container-x max-w-4xl mx-auto">
-      <p class="eyebrow text-center mb-4">Side by side</p>
-      <h2 class="font-display text-3xl lg:text-4xl mb-12 text-center text-balance">
-        The same goal. <em class="font-medium">A very different cost structure.</em>
-      </h2>
-
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-brand-gray-200 border border-brand-gray-200 rounded-card overflow-hidden">
-        <div class="bg-brand-cream p-6 lg:p-8">
-          <p class="eyebrow mb-4">PURIST managed automation</p>
-          <ul class="space-y-3">
-            {differences.map((d) => (
-              <li class="flex items-start gap-3 text-sm">
-                <span class="text-brand-green mt-0.5 shrink-0">✓</span>
-                <span>{d.you_get}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div class="bg-white p-6 lg:p-8">
-          <p class="eyebrow mb-4">In-house hire</p>
-          <ul class="space-y-3">
-            {differences.map((d) => (
-              <li class="flex items-start gap-3 text-sm text-brand-gray-600">
-                <span class="text-brand-gray-400 mt-0.5 shrink-0">—</span>
-                <span>{d.they_offer}</span>
-              </li>
-            ))}
-          </ul>
+    <div class="py-16 lg:py-24" style="background:#0A0A0A">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+        <p class="text-xs uppercase tracking-widest font-bold mb-4" style={`color:${PINK}`}>Comparison</p>
+        <h1 class="text-3xl lg:text-5xl font-bold text-white mb-5 leading-tight">PURIST vs Make</h1>
+        <p class="text-base lg:text-lg text-gray-400 max-w-2xl mx-auto mb-8">
+          Make is powerful for solo operators. But operation caps, no code ownership, and zero monitoring make it the wrong choice for growing teams.
+        </p>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style={`background:${PINK}`}>Book free audit →</a>
+          <a href="/skills" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm border border-gray-700 text-gray-300 hover:border-gray-500 transition">Browse 157 skills</a>
         </div>
       </div>
     </div>
-  </section>
 
-  <NineOrganSystems />
-  <ClinicalKPIs />
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-14 lg:py-20">
 
-  <section class="bg-brand-beige py-16 lg:py-20 text-center">
-    <div class="container-x max-w-2xl">
-      <h2 class="font-display text-3xl lg:text-4xl mb-6 leading-tight text-balance">
-        Replace the hiring process with <em class="font-medium">one monthly plan.</em>
-      </h2>
-      <Button href="/pages/welcome" size="lg">Book your free audit →</Button>
+      <div class="overflow-x-auto rounded-2xl border border-gray-200 mb-14">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-200 bg-gray-50">
+              <th class="text-left px-5 py-4 font-semibold text-gray-700 w-1/3">Feature</th>
+              <th class="text-center px-5 py-4 font-bold" style={`color:${PINK}`}>PURIST</th>
+              <th class="text-center px-5 py-4 font-semibold text-gray-400">Make</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100">
+            {rows.map(r => (
+              <tr class="hover:bg-gray-50 transition">
+                <td class="px-5 py-3.5 text-gray-600 font-medium">{r.feature}</td>
+                <td class="px-5 py-3.5 text-center font-semibold text-gray-900">{r.purist}</td>
+                <td class="px-5 py-3.5 text-center text-gray-400">{r.other}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid sm:grid-cols-3 gap-6 mb-14">
+        {[
+          { value: '∞',    label: 'Operations — no cap',    desc: 'PURIST deployments run unlimited operations. No surprise bills at month end.' },
+          { value: '£0',   label: 'Monthly platform fee',   desc: 'One deployment fee. No recurring Make subscription eating into your margin.' },
+          { value: '< 7d', label: 'Time to first workflow', desc: 'From audit call to live automation — most clients are running in under a week.' },
+        ].map(s => (
+          <div class="rounded-xl border border-gray-200 p-6 text-center">
+            <p class="text-3xl font-bold mb-1" style={`color:${PINK}`}>{s.value}</p>
+            <p class="text-sm font-semibold text-gray-900 mb-2">{s.label}</p>
+            <p class="text-xs text-gray-500 leading-relaxed">{s.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="rounded-2xl p-8 text-center" style={`background:${PINK_BG};border:1px solid rgba(196,132,126,0.20)`}>
+        <h2 class="text-xl font-bold text-gray-900 mb-3">Already on Make? We migrate you free.</h2>
+        <p class="text-sm text-gray-600 mb-6 max-w-lg mx-auto">We map your existing scenarios, rebuild them in n8n with no operation limits, and eliminate your monthly Make bill.</p>
+        <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style={`background:${PINK}`}>Book your free migration audit →</a>
+      </div>
     </div>
-  </section>
-</ShopLayout>
+
+  </main>
+  <Footer />
+</BaseLayout>

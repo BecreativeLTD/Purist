@@ -1,466 +1,90 @@
 ---
-import ShopLayout from '~/layouts/ShopLayout.astro';
-import Button from '~/components/ui/Button.astro';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/layout/Header.astro';
+import Footer from '~/components/layout/Footer.astro';
 
-const steps = [
-  {
-    number: '01',
-    phase: 'Discovery',
-    duration: 'Week 1',
-    title: 'Audit your operations, not assumptions.',
-    body: 'We map every manual touchpoint across your business — CRM, inbox, billing, scheduling, reporting. We measure time cost, error rate, and revenue impact of each process before writing a single line of automation.',
-    deliverables: ['Process audit report', 'Bottleneck heat map', 'ROI priority matrix', 'Scope of work (SOW)'],
-    stat: { value: '47', unit: 'processes', label: 'avg. audited per client' },
-    color: 'border-brand-black',
-    accent: 'bg-brand-black',
-  },
-  {
-    number: '02',
-    phase: 'Architecture',
-    duration: 'Week 1–2',
-    title: 'Design before you deploy.',
-    body: 'Every automation is spec\'d in plain language before any build begins. You approve the logic, the triggers, and the failure modes. n8n for complex multi-step orchestration. Make for rapid integrations. Custom Claude AI agents where intelligence is required.',
-    deliverables: ['Workflow diagrams', 'Tool selection rationale', 'Data flow maps', 'Test acceptance criteria'],
-    stat: { value: '3', unit: 'tools max', label: 'per workflow stack' },
-    color: 'border-brand-rust',
-    accent: 'bg-brand-rust',
-  },
-  {
-    number: '03',
-    phase: 'Engineering',
-    duration: 'Week 2–4',
-    title: 'Production-grade, not prototype.',
-    body: 'We build on your infrastructure — no PURIST lock-in. Every workflow includes error handling, retry logic, alerting hooks, and full documentation. QA runs against real data in a staging environment before any production deployment.',
-    deliverables: ['Deployed workflows', 'Error handling rules', 'Staging QA sign-off', 'Full documentation'],
-    stat: { value: '5–10', unit: 'days', label: 'average deployment time' },
-    color: 'border-brand-green',
-    accent: 'bg-brand-green',
-  },
-  {
-    number: '04',
-    phase: 'Monitoring',
-    duration: 'Ongoing',
-    title: '24/7 observability, not hope.',
-    body: 'Independent uptime monitoring via Checkly + custom alerting. Every execution is logged. Failed runs trigger Slack/email alerts within 60 seconds. Your client dashboard shows live execution counts, success rates, and p95 latency — updated in real time.',
-    deliverables: ['Real-time dashboard', '60s alert SLA', 'Monthly exec report', 'Proactive optimization'],
-    stat: { value: '99.9%', unit: 'uptime', label: 'across all client workflows' },
-    color: 'border-brand-black',
-    accent: 'bg-brand-black',
-  },
-];
-
-const techStack = [
-  { name: 'n8n', role: 'Workflow orchestration', desc: 'Complex multi-step logic, conditional routing, error retry', tier: 'Core' },
-  { name: 'Make', role: 'Rapid integrations', desc: '1,000+ native connectors, fast deployment for standard flows', tier: 'Core' },
-  { name: 'Claude AI', role: 'Intelligent agents', desc: '329 specialized skills — classification, drafting, analysis, routing', tier: 'AI' },
-  { name: 'Zapier', role: 'Simple triggers', desc: 'Event-based triggers and quick connectors for non-critical paths', tier: 'Core' },
-  { name: 'Checkly', role: 'Uptime monitoring', desc: 'Independent health checks every 60s with instant alerting', tier: 'Ops' },
-  { name: 'GitHub', role: 'Version control', desc: 'All workflow code committed, branched, and peer-reviewed', tier: 'Ops' },
-  { name: 'AWS / GCP', role: 'Infrastructure', desc: 'Hosted on your cloud account — zero vendor lock-in to PURIST', tier: 'Infra' },
-  { name: 'Slack / Email', role: 'Alerting', desc: 'Real-time failure notifications to your team within 60 seconds', tier: 'Ops' },
-];
-
-const metrics = [
-  { value: '500+', label: 'Workflows deployed' },
-  { value: '5–10', label: 'Days to deploy' },
-  { value: '99.9%', label: 'Average uptime SLA' },
-  { value: '329', label: 'Claude AI skills' },
-  { value: '50K+', label: 'Hours saved annually' },
-  { value: '9.4×', label: 'Average ROI' },
-];
+const PINK = '#c4847e';
+const PINK_BG = 'rgba(232,180,176,0.10)';
 
 const principles = [
-  {
-    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
-    title: 'Your infrastructure. Always.',
-    body: 'Every workflow deploys on infrastructure you own. We write full documentation and hand it over on day one. No PURIST dependency after delivery.',
-  },
-  {
-    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
-    title: 'ROI before scope.',
-    body: 'We quantify the time and revenue impact of every automation before building it. Nothing ships unless the business case is clear and measurable.',
-  },
-  {
-    icon: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z',
-    title: 'Failure-first engineering.',
-    body: 'Every workflow is designed for the failure case first. What happens when the API is down? The data is malformed? The trigger fires twice? We answer all of these before go-live.',
-  },
-  {
-    icon: 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z',
-    title: 'Observable by default.',
-    body: 'Every execution is logged. Every error is categorized. Every metric is surfaced to your dashboard. We build monitoring into the workflow, not as an afterthought.',
-  },
+  { n: '01', title: 'Trigger-first design', desc: 'Every automation starts with a precise trigger — a webhook, a schedule, a database event or a form submission. We define the exact condition before writing a single step. No ambiguous "when something happens" logic.' },
+  { n: '02', title: 'Idempotent by default', desc: 'Every workflow we build handles duplicate events gracefully. If the same trigger fires twice, the result is the same — no double-sends, no double-records, no corrupted data.' },
+  { n: '03', title: 'Error-first architecture', desc: 'We design the failure path before the happy path. Every workflow has a dead-letter queue, an error branch and an alert. You never find out about a failure from a client.' },
+  { n: '04', title: 'Self-hosted infrastructure', desc: 'Your automations run on a dedicated VPS — not a shared SaaS cloud. Your data never touches a third-party automation platform. Full control, full ownership.' },
+  { n: '05', title: 'AI at the decision layer', desc: 'Claude Opus handles classification, extraction, drafting and routing — not as a bolt-on, but as a native step in the workflow. Latency under 80ms. Deterministic output with structured prompts.' },
+  { n: '06', title: 'Observable and auditable', desc: 'Every workflow execution is logged with input, output and duration. You can audit any run. We can replay any failure. Nothing is a black box.' },
 ];
 ---
 
-<ShopLayout
-  title="How it works — PURIST"
-  description="How PURIST builds, deploys, and monitors production-grade workflow automations and AI agents for your business."
+<BaseLayout
+  title="The Science of Automation — How PURIST Builds | PURIST Automation"
+  description="The engineering principles behind PURIST automation deployments. Idempotent design, error-first architecture, self-hosted infrastructure and Claude AI at the decision layer."
 >
+  <Header />
+  <main id="main-content">
 
-  <!-- Hero -->
-  <header class="bg-brand-cream">
-    <div class="container-x py-16 lg:py-24 max-w-4xl mx-auto text-center">
-      <p class="eyebrow mb-4">How it works</p>
-      <h1 class="font-display text-4xl lg:text-5xl xl:text-[3.5rem] leading-tight tracking-tight mb-6 text-balance">
-        From audit to production — <em class="font-medium">in 5–10 business days.</em>
-      </h1>
-      <p class="text-base lg:text-lg text-brand-gray-600 text-pretty max-w-2xl mx-auto">
-        A disciplined 4-phase process used by automation teams that ship.
-        No speculation, no generics — every build is grounded in your actual operations data.
-      </p>
-    </div>
-  </header>
-
-  <!-- Metrics strip -->
-  <section class="bg-brand-black py-8">
-    <div class="container-x">
-      <div class="grid grid-cols-3 md:grid-cols-6 gap-px bg-white/[0.06]">
-        {metrics.map((m) => (
-          <div class="bg-brand-black px-4 py-5 text-center">
-            <p class="font-display text-2xl lg:text-3xl text-white tabular-nums">{m.value}</p>
-            <p class="text-[10px] text-white/60 uppercase tracking-wider mt-1">{m.label}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Process Steps -->
-  <section class="bg-white py-20 lg:py-28">
-    <div class="container-x max-w-5xl">
-      <div class="text-center mb-16">
-        <p class="eyebrow mb-3">The process</p>
-        <h2 class="font-display text-3xl lg:text-4xl text-balance">4 phases. 0 guesswork.</h2>
-      </div>
-
-      <div class="space-y-0">
-        {steps.map((s, i) => (
-          <div class={`grid lg:grid-cols-[auto_1fr_auto] gap-0 lg:gap-12 items-start relative ${i < steps.length - 1 ? 'mb-0' : ''}`}>
-
-            <!-- Step number + connector line -->
-            <div class="hidden lg:flex flex-col items-center">
-              <div class={`w-12 h-12 rounded-full ${s.accent} text-white flex items-center justify-center font-display text-lg font-medium shrink-0 relative z-10`}>
-                {s.number}
-              </div>
-              {i < steps.length - 1 && (
-                <div class="w-px flex-1 min-h-[120px] bg-brand-gray-200 mt-2"></div>
-              )}
-            </div>
-
-            <!-- Content -->
-            <div class={`border-l-2 ${s.color} pl-6 lg:pl-8 py-8 lg:py-10`}>
-              <div class="flex items-center gap-3 mb-3">
-                <span class={`inline-block w-8 h-8 rounded-full ${s.accent} text-white text-xs flex items-center justify-center font-display font-medium lg:hidden`}>{s.number}</span>
-                <span class="text-[10px] uppercase tracking-[0.15em] text-brand-gray-600">{s.phase} — {s.duration}</span>
-              </div>
-              <h3 class="font-display text-xl lg:text-2xl mb-3 leading-snug">{s.title}</h3>
-              <p class="text-sm text-brand-gray-600 leading-relaxed mb-5 max-w-xl">{s.body}</p>
-
-              <!-- Deliverables -->
-              <div class="flex flex-wrap gap-2">
-                {s.deliverables.map((d) => (
-                  <span class="inline-flex items-center gap-1.5 text-[11px] bg-brand-cream px-3 py-1.5 rounded-full text-brand-black font-medium">
-                    <svg class="w-3 h-3 shrink-0" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                      <path d="M2 6l3 3 5-5"/>
-                    </svg>
-                    {d}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <!-- Stat card -->
-            <div class="hidden lg:block shrink-0 w-40 py-8">
-              <div class="bg-brand-cream rounded-card p-4 text-center">
-                <p class="font-display text-2xl text-brand-black leading-none">{s.stat.value}</p>
-                <p class="text-[10px] text-brand-rust font-medium mt-0.5">{s.stat.unit}</p>
-                <p class="text-[10px] text-brand-gray-600 mt-1 leading-tight">{s.stat.label}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Visual Process Diagram -->
-  <section class="bg-brand-cream py-20 lg:py-28 overflow-hidden">
-    <div class="container-x">
-      <div class="text-center mb-14">
-        <p class="eyebrow mb-3">Data flow</p>
-        <h2 class="font-display text-3xl lg:text-4xl text-balance">How automation moves through your business.</h2>
-      </div>
-
-      <!-- Flow diagram — horizontal on desktop, vertical on mobile -->
-      <div class="relative max-w-5xl mx-auto">
-        <!-- Desktop flow -->
-        <div class="hidden lg:grid grid-cols-5 items-center gap-0">
-
-          <!-- Node 1: Trigger -->
-          <div class="text-center">
-            <div class="w-20 h-20 mx-auto rounded-full bg-white border-2 border-brand-black flex items-center justify-center mb-3 shadow-sm">
-              <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-                <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
-                <path d="M12 6v6l4 2"/>
-              </svg>
-            </div>
-            <p class="font-display text-sm">Trigger</p>
-            <p class="text-[10px] text-brand-gray-600 mt-0.5">Form / webhook / schedule</p>
-          </div>
-
-          <!-- Arrow -->
-          <div class="flex items-center justify-center">
-            <div class="w-full h-px bg-brand-black/20 relative">
-              <svg class="absolute right-0 top-1/2 -translate-y-1/2 -translate-x-0.5 w-3 h-3 text-brand-black" viewBox="0 0 12 12" fill="currentColor">
-                <path d="M6 0l6 6-6 6V8H0V4h6V0z"/>
-              </svg>
-            </div>
-          </div>
-
-          <!-- Node 2: n8n Engine -->
-          <div class="text-center">
-            <div class="w-20 h-20 mx-auto rounded-full bg-brand-black flex items-center justify-center mb-3 shadow-sm">
-              <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-                <rect x="3" y="3" width="18" height="18" rx="2"/>
-                <path d="M9 9l6 6M15 9l-6 6"/>
-              </svg>
-            </div>
-            <p class="font-display text-sm">n8n Engine</p>
-            <p class="text-[10px] text-brand-gray-600 mt-0.5">Orchestration & routing</p>
-          </div>
-
-          <!-- Arrow -->
-          <div class="flex items-center justify-center">
-            <div class="w-full h-px bg-brand-black/20 relative">
-              <svg class="absolute right-0 top-1/2 -translate-y-1/2 -translate-x-0.5 w-3 h-3 text-brand-black" viewBox="0 0 12 12" fill="currentColor">
-                <path d="M6 0l6 6-6 6V8H0V4h6V0z"/>
-              </svg>
-            </div>
-          </div>
-
-          <!-- Node 3: AI + Integrations -->
-          <div class="text-center">
-            <div class="w-20 h-20 mx-auto rounded-full bg-brand-rust flex items-center justify-center mb-3 shadow-sm">
-              <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-                <path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/>
-                <path d="M12 8v4l3 3"/>
-                <circle cx="12" cy="12" r="3" fill="currentColor" opacity="0.3"/>
-              </svg>
-            </div>
-            <p class="font-display text-sm">AI + Tools</p>
-            <p class="text-[10px] text-brand-gray-600 mt-0.5">Claude · CRM · Email · Slack</p>
-          </div>
-        </div>
-
-        <!-- Second row: result + monitoring -->
-        <div class="hidden lg:grid grid-cols-5 items-center gap-0 mt-8">
-          <div></div>
-          <div class="flex justify-center">
-            <div class="h-8 w-px bg-brand-black/20"></div>
-          </div>
-          <!-- Action result -->
-          <div class="text-center">
-            <div class="w-20 h-20 mx-auto rounded-full bg-brand-green flex items-center justify-center mb-3 shadow-sm">
-              <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-                <path d="M5 13l4 4L19 7"/>
-              </svg>
-            </div>
-            <p class="font-display text-sm">Result delivered</p>
-            <p class="text-[10px] text-brand-gray-600 mt-0.5">Record created · Email sent · Report generated</p>
-          </div>
-          <div class="flex justify-center">
-            <div class="h-8 w-px bg-brand-black/20"></div>
-          </div>
-          <!-- Monitoring -->
-          <div class="text-center">
-            <div class="w-20 h-20 mx-auto rounded-full bg-white border-2 border-brand-green flex items-center justify-center mb-3 shadow-sm">
-              <svg class="w-8 h-8 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-              </svg>
-            </div>
-            <p class="font-display text-sm">Monitoring</p>
-            <p class="text-[10px] text-brand-gray-600 mt-0.5">Logged · Alerted · Dashboarded</p>
-          </div>
-        </div>
-
-        <!-- Mobile: simple vertical list -->
-        <div class="lg:hidden space-y-6">
-          {[
-            { label: 'Trigger', sub: 'Form / webhook / schedule', icon: 'M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z M12 6v6l4 2' },
-            { label: 'n8n Engine', sub: 'Orchestration & logic', icon: 'M3 3h18v18H3z M9 9l6 6M15 9l-6 6' },
-            { label: 'AI + Integrations', sub: 'Claude · CRM · Slack · Email', icon: 'M12 2a10 10 0 100 20 10 10 0 000-20z' },
-            { label: 'Result', sub: 'Record · Email · Report', icon: 'M5 13l4 4L19 7' },
-            { label: 'Monitoring', sub: 'Logged · Alerted · Reported', icon: 'M22 12h-4l-3 9L9 3l-3 9H2' },
-          ].map((node, i) => (
-            <div class="flex items-start gap-4">
-              <div class="w-10 h-10 rounded-full bg-brand-black shrink-0 flex items-center justify-center text-white text-xs font-display">{i + 1}</div>
-              <div class="pt-1">
-                <p class="font-display text-sm">{node.label}</p>
-                <p class="text-xs text-brand-gray-600">{node.sub}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Tech Stack -->
-  <section class="bg-white py-20 lg:py-28">
-    <div class="container-x max-w-5xl">
-      <div class="text-center mb-12">
-        <p class="eyebrow mb-3">Technology</p>
-        <h2 class="font-display text-3xl lg:text-4xl text-balance">The right tool for each job.<br/>Not the fashionable one.</h2>
-        <p class="text-base text-brand-gray-600 mt-4 max-w-2xl mx-auto">
-          We are tool-agnostic by principle. We select infrastructure based on what your workflow actually needs — not what we're certified to sell.
+    <div class="py-16 lg:py-20" style="background:#0A0A0A">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+        <p class="text-xs uppercase tracking-widest font-bold mb-4" style={`color:${PINK}`}>Engineering</p>
+        <h1 class="text-3xl lg:text-5xl font-bold text-white mb-5 leading-tight">The Science of Automation</h1>
+        <p class="text-base lg:text-lg text-gray-400 max-w-2xl mx-auto">
+          Most automations break because they were built for the happy path only. PURIST builds for production — idempotent, error-aware, self-hosted and fully observable from day one.
         </p>
       </div>
+    </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-brand-gray-100 rounded-card overflow-hidden border border-brand-gray-100">
-        {techStack.map((t) => (
-          <div class="bg-white p-5 hover:bg-brand-cream/30 transition group">
-            <div class="flex items-start justify-between mb-2">
-              <p class="font-display text-base">{t.name}</p>
-              <span class={`text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded font-medium
-                ${t.tier === 'AI' ? 'bg-brand-rust/10 text-brand-rust' :
-                  t.tier === 'Ops' ? 'bg-brand-green/10 text-brand-green' :
-                  t.tier === 'Infra' ? 'bg-brand-black/10 text-brand-black' :
-                  'bg-brand-cream text-brand-gray-600'}`}>
-                {t.tier}
-              </span>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-14 lg:py-20">
+
+      <div class="space-y-6 mb-14">
+        {principles.map(p => (
+          <div class="flex gap-6 p-6 rounded-2xl border border-gray-100 bg-gray-50">
+            <span class="text-3xl font-bold text-gray-200 leading-none shrink-0 mt-1">{p.n}</span>
+            <div>
+              <h2 class="text-base font-bold text-gray-900 mb-2">{p.title}</h2>
+              <p class="text-sm text-gray-500 leading-relaxed">{p.desc}</p>
             </div>
-            <p class="text-[11px] font-medium text-brand-gray-600 mb-1.5">{t.role}</p>
-            <p class="text-[11px] text-brand-gray-600 leading-relaxed">{t.desc}</p>
           </div>
         ))}
       </div>
-    </div>
-  </section>
 
-  <!-- Engineering Principles -->
-  <section class="bg-brand-black py-20 lg:py-28">
-    <div class="container-x max-w-5xl">
-      <div class="text-center mb-12">
-        <p class="eyebrow text-white/60 mb-3">Engineering principles</p>
-        <h2 class="font-display text-3xl lg:text-4xl text-white text-balance">
-          The rules our engineers don't break.
-        </h2>
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-px bg-white/[0.06]">
-        {principles.map((p) => (
-          <div class="bg-brand-black p-8 lg:p-10 hover:bg-white/[0.02] transition">
-            <div class="w-10 h-10 rounded-full bg-white/[0.06] flex items-center justify-center mb-5">
-              <svg class="w-5 h-5 text-white/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d={p.icon}/>
-              </svg>
-            </div>
-            <h3 class="font-display text-lg text-white mb-3">{p.title}</h3>
-            <p class="text-sm text-white/55 leading-relaxed">{p.body}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- SLA + Uptime proof -->
-  <section class="bg-brand-cream py-20 lg:py-28">
-    <div class="container-x max-w-5xl">
-      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-        <div>
-          <p class="eyebrow mb-4">Reliability</p>
-          <h2 class="font-display text-3xl lg:text-4xl mb-5 text-balance">
-            99.9% uptime SLA. <em class="font-medium">Backed by data.</em>
-          </h2>
-          <p class="text-base text-brand-gray-600 mb-6 leading-relaxed">
-            Independent monitoring via Checkly checks every workflow every 60 seconds.
-            Failed executions trigger Slack and email alerts within one minute.
-            Every client has a live dashboard with execution counts, error rates, and p95 latency — no waiting for a monthly report.
-          </p>
-          <ul class="space-y-3 mb-8">
-            {[
-              '60-second failure alert SLA',
-              'Every execution logged and searchable',
-              'Monthly performance report, automatically generated',
-              'Proactive recommendations on workflow optimization',
-              'Escalation path to senior engineer within 4 hours',
-            ].map((item) => (
-              <li class="flex items-start gap-2.5 text-sm text-brand-gray-600">
-                <svg class="w-4 h-4 text-brand-green mt-0.5 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-                  <path d="M3 8l3.5 3.5L13 4"/>
-                </svg>
+      <div class="grid sm:grid-cols-2 gap-6 mb-14">
+        <div class="rounded-2xl border border-gray-200 p-6">
+          <p class="text-xs font-semibold uppercase tracking-wider mb-4" style={`color:${PINK}`}>Stack</p>
+          <ul class="space-y-2 text-sm text-gray-600">
+            {['n8n v1.71 — self-hosted on dedicated VPS', 'Claude Opus 4 — AI inference at < 80ms', 'PostgreSQL — workflow state and audit logs', 'Redis — queue management and deduplication', 'Caddy — reverse proxy with automatic TLS', 'Grafana — uptime and performance dashboards'].map(item => (
+              <li class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full shrink-0" style={`background:${PINK}`}></span>
                 {item}
               </li>
             ))}
           </ul>
-          <Button href="/pages/quality">Reliability & monitoring →</Button>
         </div>
-
-        <!-- Simulated uptime chart -->
-        <div class="bg-white rounded-card border border-brand-gray-100 p-6">
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <p class="font-display text-sm">90-day uptime</p>
-              <p class="text-[10px] text-brand-gray-600">All workflows · Last 90 days</p>
-            </div>
-            <span class="text-[10px] text-brand-green bg-brand-green/10 px-2 py-1 rounded font-medium">99.9% healthy</span>
-          </div>
-          <!-- Uptime bars grid -->
-          <div class="flex gap-0.5 flex-wrap">
-            {Array.from({length: 90}).map((_, i) => {
-              const isError = [14, 41, 67].includes(i);
-              const isWarn  = [20, 55].includes(i);
-              return (
-                <div
-                  class={`w-2 h-8 rounded-sm ${isError ? 'bg-red-300' : isWarn ? 'bg-amber-300' : 'bg-brand-green/60'} hover:opacity-80 transition`}
-                  title={isError ? 'Incident — resolved in 4 min' : isWarn ? 'Degraded — self-recovered' : 'Healthy'}
-                ></div>
-              );
-            })}
-          </div>
-          <div class="flex items-center gap-4 mt-3 text-[10px] text-brand-gray-600">
-            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-brand-green/60 inline-block"></span>Healthy</span>
-            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-amber-300 inline-block"></span>Degraded</span>
-            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-red-300 inline-block"></span>Incident</span>
-          </div>
-
-          <!-- KPI row -->
-          <div class="grid grid-cols-3 gap-2 mt-5 pt-5 border-t border-brand-gray-100">
-            <div class="text-center">
-              <p class="font-display text-lg">99.9%</p>
-              <p class="text-[10px] text-brand-gray-600">Uptime</p>
-            </div>
-            <div class="text-center">
-              <p class="font-display text-lg">3</p>
-              <p class="text-[10px] text-brand-gray-600">Incidents (90d)</p>
-            </div>
-            <div class="text-center">
-              <p class="font-display text-lg">&lt;4 min</p>
-              <p class="text-[10px] text-brand-gray-600">MTTR</p>
-            </div>
-          </div>
+        <div class="rounded-2xl border border-gray-200 p-6">
+          <p class="text-xs font-semibold uppercase tracking-wider mb-4" style={`color:${PINK}`}>SLA</p>
+          <ul class="space-y-3 text-sm text-gray-600">
+            {[
+              { label: 'Uptime', value: '99.97% guaranteed' },
+              { label: 'Error alert', value: '< 90 seconds' },
+              { label: 'Critical fix', value: '< 4 hours' },
+              { label: 'Standard fix', value: '< 24 hours' },
+              { label: 'Deployment', value: '< 7 business days' },
+            ].map(item => (
+              <li class="flex items-center justify-between">
+                <span class="text-gray-400">{item.label}</span>
+                <span class="font-semibold text-gray-900">{item.value}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- CTA -->
-  <section class="bg-brand-beige py-16 lg:py-20 text-center">
-    <div class="container-x max-w-2xl">
-      <p class="eyebrow mb-4">Ready to start?</p>
-      <h2 class="font-display text-3xl lg:text-4xl mb-4 text-balance">
-        See the process in action.<br/><em class="font-medium">Book your free audit.</em>
-      </h2>
-      <p class="text-base text-brand-gray-600 mb-8 text-pretty">
-        We audit your operations, map your highest-impact automation opportunities,
-        and give you a prioritized build plan — at no cost.
-      </p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <Button href="/pages/welcome" size="lg">Book your free audit →</Button>
-        <Button href="/pages/quality" variant="secondary" size="lg">Reliability & monitoring</Button>
+      <div class="rounded-2xl p-8 text-center" style={`background:${PINK_BG};border:1px solid rgba(196,132,126,0.20)`}>
+        <h2 class="text-xl font-bold text-gray-900 mb-3">See the stack in action.</h2>
+        <p class="text-sm text-gray-600 mb-6 max-w-lg mx-auto">Book a free audit and we walk through the exact architecture we would deploy for your business — live on the call.</p>
+        <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style={`background:${PINK}`}>Book free audit →</a>
       </div>
     </div>
-  </section>
 
-</ShopLayout>
+  </main>
+  <Footer />
+</BaseLayout>
