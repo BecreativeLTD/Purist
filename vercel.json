@@ -1,6 +1,5 @@
 {
   "framework": "astro",
   "buildCommand": "npm run build",
-  "installCommand": "npm ci --legacy-peer-deps",
-  "nodeVersion": "20.x"
+  "installCommand": "npm ci --legacy-peer-deps"
 }
