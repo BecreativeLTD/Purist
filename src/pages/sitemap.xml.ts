@@ -1,6 +1,7 @@
 export const prerender = true;
 
 import skillsData from '~/data/skills.json';
+import { terms, slugifyTerm } from '~/data/glossary';
 
 const site = 'https://purist.online';
 
@@ -12,6 +13,12 @@ const skillPages = [
     priority: '0.7',
   })),
 ];
+
+const glossaryTermPages = terms.map(t => ({
+  url: `/pages/glossary/${slugifyTerm(t.term)}`,
+  changefreq: 'monthly' as const,
+  priority: '0.6',
+}));
 
 const pages = [
   { url: '/',                                      changefreq: 'weekly',  priority: '1.0' },
@@ -51,7 +58,7 @@ const pages = [
   { url: '/pages/purist-vs-meal-replacements',       changefreq: 'monthly', priority: '0.7' },
   { url: '/pages/demo',                            changefreq: 'monthly', priority: '0.7' },
   { url: '/pages/impact',                          changefreq: 'monthly', priority: '0.6' },
-  { url: '/pages/glossary',                        changefreq: 'monthly', priority: '0.6' },
+  { url: '/pages/glossary',                        changefreq: 'weekly',  priority: '0.8' },
   { url: '/pages/press',                           changefreq: 'monthly', priority: '0.5' },
   { url: '/pages/refer',                           changefreq: 'monthly', priority: '0.5' },
   { url: '/pages/ambassador-program',              changefreq: 'monthly', priority: '0.5' },
@@ -65,7 +72,7 @@ const pages = [
 
 const now = new Date().toISOString().split('T')[0];
 
-const allPages = [...pages, ...skillPages];
+const allPages = [...pages, ...skillPages, ...glossaryTermPages];
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

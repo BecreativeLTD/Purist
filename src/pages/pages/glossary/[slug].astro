@@ -1,0 +1,368 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import { terms, slugifyTerm } from '~/data/glossary';
+
+export function getStaticPaths() {
+  return terms.map((t) => ({
+    params: { slug: t.slug },
+    props: { term: t },
+  }));
+}
+
+const { term: t } = Astro.props;
+
+const catColors: Record<string, string> = {
+  core:         '#0A0A0A',
+  ai:           '#7B68EE',
+  security:     '#dc2626',
+  platform:     '#2D5016',
+  data:         '#C89840',
+  architecture: '#c4847e',
+  finance:      '#059669',
+  ops:          '#6366f1',
+  reporting:    '#0891b2',
+  crm:          '#0A0A0A',
+  marketing:    '#9333ea',
+};
+
+const catLabels: Record<string, string> = {
+  core:         'Core concepts',
+  ai:           'AI & Agents',
+  security:     'Security',
+  platform:     'Platforms',
+  data:         'Data',
+  architecture: 'Architecture',
+  finance:      'Finance',
+  ops:          'Operations',
+  reporting:    'Reporting & BI',
+  crm:          'CRM & Sales',
+  marketing:    'Marketing',
+};
+
+const complexityLabel: Record<number, string> = { 1: 'Beginner', 2: 'Intermediate', 3: 'Advanced' };
+const complexityDesc: Record<number, string> = {
+  1: 'Anyone can understand this — no technical background needed.',
+  2: 'Requires some familiarity with automation concepts.',
+  3: 'Technical term used in production automation systems.',
+};
+
+const color = catColors[t.cat] ?? '#0A0A0A';
+const colorBg = `${color}12`;
+const colorBorder = `${color}28`;
+
+// Find related terms that exist in our data
+const relatedTermObjects = t.related
+  .map(name => terms.find(x => x.term === name || x.term.startsWith(name)))
+  .filter(Boolean)
+  .slice(0, 4) as typeof terms;
+
+// More terms from same category
+const moreSameCat = terms
+  .filter(x => x.slug !== t.slug && x.cat === t.cat && !t.related.includes(x.term))
+  .slice(0, 3);
+
+// Canonical URL
+const canonicalUrl = `https://purist.online/pages/glossary/${slugifyTerm(t.term)}`;
+
+// Schema
+const schemaLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'DefinedTerm',
+    'name': t.term,
+    'description': t.def,
+    'inDefinedTermSet': {
+      '@type': 'DefinedTermSet',
+      'name': 'PURIST Automation Glossary',
+      'url': 'https://purist.online/pages/glossary',
+    },
+    'url': canonicalUrl,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    'itemListElement': [
+      { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://purist.online' },
+      { '@type': 'ListItem', 'position': 2, 'name': 'Automation Glossary', 'item': 'https://purist.online/pages/glossary' },
+      { '@type': 'ListItem', 'position': 3, 'name': t.term, 'item': canonicalUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': [
+      {
+        '@type': 'Question',
+        'name': `What is ${t.term}?`,
+        'acceptedAnswer': { '@type': 'Answer', 'text': t.def },
+      },
+      ...(t.insight ? [{
+        '@type': 'Question',
+        'name': `Why does ${t.term} matter for automation?`,
+        'acceptedAnswer': { '@type': 'Answer', 'text': t.insight },
+      }] : []),
+      ...(t.stat ? [{
+        '@type': 'Question',
+        'name': `What is the industry data on ${t.term}?`,
+        'acceptedAnswer': { '@type': 'Answer', 'text': `${t.stat.value} — ${t.stat.label}. Source: ${t.stat.source}.` },
+      }] : []),
+    ],
+  },
+];
+
+const metaDesc = t.def.slice(0, 155).replace(/\.$/, '') + (t.def.length > 155 ? '…' : '');
+---
+
+<ShopLayout
+  title={`${t.term} — Automation Glossary | PURIST`}
+  description={metaDesc}
+  canonical={canonicalUrl}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(schemaLd)} slot="head" />
+
+  <!-- Breadcrumb -->
+  <div class="border-b border-brand-gray-100 bg-white">
+    <div class="container-x py-3">
+      <nav aria-label="Breadcrumb" class="text-sm text-brand-gray-400 flex items-center gap-1.5 flex-wrap">
+        <a href="/" class="hover:text-brand-black transition">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="/pages/glossary" class="hover:text-brand-black transition">Glossary</a>
+        <span aria-hidden="true">/</span>
+        <a href={`/pages/glossary#letter-${t.letter}`} class="hover:text-brand-black transition">{t.letter}</a>
+        <span aria-hidden="true">/</span>
+        <span class="text-brand-black font-medium truncate max-w-[240px]">{t.term}</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section class="bg-brand-black text-white py-14 lg:py-20 relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none" style={`background:radial-gradient(ellipse 60% 80% at 90% 50%,${color}18 0%,transparent 65%);`}></div>
+    <div class="container-x max-w-4xl relative z-10">
+
+      <!-- Top meta -->
+      <div class="flex items-center gap-3 flex-wrap mb-6">
+        <span class="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full" style={`background:${colorBg};color:${color};border:1px solid ${colorBorder};`}>
+          {catLabels[t.cat] ?? t.cat}
+        </span>
+        <div class="flex items-center gap-1.5">
+          {[1,2,3].map(d => (
+            <span class="w-2 h-2 rounded-full" style={d <= t.complexity ? `background:${color};` : 'background:rgba(255,255,255,0.15);'}></span>
+          ))}
+          <span class="text-[10px] text-white/40 ml-1">{complexityLabel[t.complexity]}</span>
+        </div>
+      </div>
+
+      <!-- Term name -->
+      <h1 class="font-display text-[clamp(2rem,5vw,3.2rem)] leading-[1.06] tracking-[-0.025em] text-white mb-6 text-balance">
+        {t.term}
+      </h1>
+
+      <!-- Definition -->
+      <p class="text-[1.05rem] text-white/70 leading-relaxed max-w-2xl">
+        {t.def}
+      </p>
+
+      <!-- Stat (if exists) -->
+      {t.stat && (
+        <div class="mt-8 inline-flex items-center gap-4 bg-white/5 border border-white/10 rounded-card px-5 py-4">
+          <p class="font-display text-3xl leading-none" style={`color:${color};`}>{t.stat.value}</p>
+          <div>
+            <p class="text-sm text-white/70">{t.stat.label}</p>
+            <p class="text-[10px] text-white/30 uppercase tracking-wider mt-0.5">{t.stat.source}</p>
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Content -->
+  <section class="bg-white py-12 lg:py-16">
+    <div class="container-x max-w-4xl">
+      <div class="grid lg:grid-cols-3 gap-10 lg:gap-16">
+
+        <!-- Main -->
+        <div class="lg:col-span-2 space-y-10">
+
+          <!-- Expert insight -->
+          {t.insight && (
+            <div class="scroll-fade">
+              <p class="eyebrow mb-3">Expert insight</p>
+              <div class="rounded-card p-6" style={`background:${colorBg};border:1px solid ${colorBorder};`}>
+                <div class="flex items-start gap-3">
+                  <svg class="w-5 h-5 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke={color} stroke-width="1.75" stroke-linecap="round"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                  <p class="text-base text-brand-gray-700 leading-relaxed italic">{t.insight}</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <!-- How PURIST applies this -->
+          <div class="scroll-fade">
+            <p class="eyebrow mb-3">How PURIST uses this</p>
+            <p class="font-display text-[1.3rem] text-brand-black mb-4 leading-snug">
+              This concept is built into every automation we deploy.
+            </p>
+            <p class="text-brand-gray-600 leading-relaxed">
+              When PURIST builds your automation, <strong class="text-brand-black">{t.term}</strong> is not an optional consideration — it is part of the production standard. Our workflows are tested against edge cases, monitored 24/7, and built to handle what happens when things don't go as expected.
+            </p>
+            <p class="text-brand-gray-600 leading-relaxed mt-3">
+              Every client workflow we deploy in the <strong class="text-brand-black">{catLabels[t.cat] ?? t.cat}</strong> category is designed with this principle in mind from day one — not added as an afterthought.
+            </p>
+          </div>
+
+          <!-- Complexity -->
+          <div class="scroll-fade">
+            <p class="eyebrow mb-3">Complexity level</p>
+            <div class="rounded-card border border-brand-gray-100 bg-brand-cream p-5">
+              <div class="flex items-center gap-3 mb-2">
+                <div class="flex gap-1">
+                  {[1,2,3].map(d => (
+                    <span class="w-2.5 h-2.5 rounded-full" style={d <= t.complexity ? `background:${color};` : 'background:#E5E7EB;'}></span>
+                  ))}
+                </div>
+                <span class="text-sm font-semibold text-brand-black">{complexityLabel[t.complexity]}</span>
+              </div>
+              <p class="text-sm text-brand-gray-600">{complexityDesc[t.complexity]}</p>
+            </div>
+          </div>
+
+          <!-- Related terms (linked) -->
+          {relatedTermObjects.length > 0 && (
+            <div class="scroll-fade">
+              <p class="eyebrow mb-3">Related terms</p>
+              <div class="grid sm:grid-cols-2 gap-3">
+                {relatedTermObjects.map(r => (
+                  <a href={`/pages/glossary/${slugifyTerm(r.term)}`}
+                     class="group flex items-start gap-3 rounded-card border border-brand-gray-100 bg-white p-4 hover:border-brand-gray-300 hover:shadow-sm transition">
+                    <div class="flex gap-0.5 mt-1.5 shrink-0">
+                      {[1,2,3].map(d => (
+                        <span class="w-1.5 h-1.5 rounded-full" style={d <= r.complexity ? `background:${catColors[r.cat] ?? '#0A0A0A'};` : 'background:#E5E7EB;'}></span>
+                      ))}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <p class="text-sm font-semibold text-brand-black group-hover:text-brand-gray-700 leading-snug">{r.term}</p>
+                      <p class="text-[11px] text-brand-gray-500 mt-0.5 line-clamp-2 leading-relaxed">{r.def.slice(0, 80)}…</p>
+                    </div>
+                    <svg class="w-4 h-4 text-brand-gray-300 group-hover:text-brand-gray-500 shrink-0 mt-0.5 transition" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <!-- Also see raw list (terms that don't have pages yet) -->
+          {t.related.filter(r => !relatedTermObjects.find(x => x.term === r || x.term.startsWith(r))).length > 0 && (
+            <div class="flex flex-wrap gap-2">
+              {t.related.filter(r => !relatedTermObjects.find(x => x.term === r || x.term.startsWith(r))).map(r => (
+                <a href={`/pages/glossary?q=${encodeURIComponent(r)}`}
+                   class="text-xs px-2.5 py-1 rounded-full bg-brand-gray-50 border border-brand-gray-200 text-brand-gray-500 hover:border-brand-gray-400 hover:text-brand-black transition">
+                  → {r}
+                </a>
+              ))}
+            </div>
+          )}
+
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-5">
+
+          <!-- Quick facts -->
+          <div class="rounded-card border border-brand-gray-100 bg-white p-5 sticky top-24">
+            <p class="eyebrow mb-4">Quick facts</p>
+
+            <div class="space-y-3">
+              <div class="flex items-center justify-between text-sm">
+                <span class="text-brand-gray-500">Category</span>
+                <span class="font-medium text-brand-black px-2 py-0.5 rounded-full text-[11px]" style={`background:${colorBg};color:${color};`}>{catLabels[t.cat] ?? t.cat}</span>
+              </div>
+              <div class="flex items-center justify-between text-sm">
+                <span class="text-brand-gray-500">Level</span>
+                <div class="flex items-center gap-1.5">
+                  <div class="flex gap-0.5">
+                    {[1,2,3].map(d => (
+                      <span class="w-1.5 h-1.5 rounded-full" style={d <= t.complexity ? `background:${color};` : 'background:#E5E7EB;'}></span>
+                    ))}
+                  </div>
+                  <span class="text-[11px] font-medium text-brand-black">{complexityLabel[t.complexity]}</span>
+                </div>
+              </div>
+              {t.stat && (
+                <div class="border-t border-brand-gray-100 pt-3 mt-3">
+                  <p class="font-display text-2xl leading-none" style={`color:${color};`}>{t.stat.value}</p>
+                  <p class="text-[11px] text-brand-gray-600 mt-1">{t.stat.label}</p>
+                  <p class="text-[9px] text-brand-gray-400 uppercase tracking-wider mt-0.5">{t.stat.source}</p>
+                </div>
+              )}
+            </div>
+
+            <div class="border-t border-brand-gray-100 mt-5 pt-5">
+              <p class="text-[11px] text-brand-gray-500 mb-3">Browse the full glossary</p>
+              <a href="/pages/glossary" class="flex items-center justify-center gap-1.5 w-full border border-brand-gray-200 text-brand-gray-600 text-xs font-medium py-2.5 rounded-button hover:bg-brand-gray-50 transition">
+                ← All 325 terms
+              </a>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div class="rounded-card bg-brand-black p-5 text-white">
+            <p class="text-[10px] uppercase tracking-widest text-white/40 mb-3">See it in action</p>
+            <p class="font-display text-[1.1rem] leading-snug mb-3">
+              Want {t.term.length > 30 ? 'this' : t.term} built into your automation?
+            </p>
+            <p class="text-xs text-white/50 mb-4 leading-relaxed">Book a free audit and we'll show you exactly how this applies to your business.</p>
+            <a href="/pages/welcome"
+               class="flex items-center justify-center gap-2 w-full py-3 rounded-button text-sm font-medium text-white transition"
+               style="background:#c4847e;"
+               onmouseover="this.style.background='#b5726c'"
+               onmouseout="this.style.background='#c4847e'">
+              Book free audit →
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- More terms in same category -->
+  {moreSameCat.length > 0 && (
+    <section class="bg-brand-cream border-t border-brand-gray-100 py-12">
+      <div class="container-x max-w-4xl">
+        <p class="eyebrow mb-2">More in {catLabels[t.cat] ?? t.cat}</p>
+        <p class="font-display text-[1.3rem] text-brand-black mb-6">Keep exploring</p>
+        <div class="grid sm:grid-cols-3 gap-4">
+          {moreSameCat.map(r => (
+            <a href={`/pages/glossary/${slugifyTerm(r.term)}`}
+               class="group bg-white border border-brand-gray-100 rounded-card p-4 hover:border-brand-gray-300 hover:shadow-sm transition">
+              <div class="flex gap-0.5 mb-2">
+                {[1,2,3].map(d => (
+                  <span class="w-1.5 h-1.5 rounded-full" style={d <= r.complexity ? `background:${catColors[r.cat] ?? '#0A0A0A'};` : 'background:#E5E7EB;'}></span>
+                ))}
+              </div>
+              <p class="text-sm font-semibold text-brand-black group-hover:text-brand-gray-700 mb-1 leading-snug">{r.term}</p>
+              <p class="text-[11px] text-brand-gray-500 line-clamp-2 leading-relaxed">{r.def.slice(0, 70)}…</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Alphabet nav to glossary -->
+  <section class="bg-white border-t border-brand-gray-100 py-8">
+    <div class="container-x max-w-4xl">
+      <div class="flex items-center gap-3 flex-wrap">
+        <span class="text-xs text-brand-gray-400">Browse by letter:</span>
+        {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(l => (
+          <a href={`/pages/glossary#letter-${l}`}
+             class={`w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold transition ${l === t.letter ? 'bg-brand-black text-white' : 'text-brand-gray-400 hover:bg-brand-black hover:text-white'}`}>
+            {l}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</ShopLayout>

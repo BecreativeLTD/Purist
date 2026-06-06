@@ -1,0 +1,464 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import { terms, slugifyTerm } from '~/data/glossary';
+
+const letters = [...new Set(terms.map((t) => t.letter))].sort();
+
+const categories = [
+  { id: 'all',          label: 'All',          color: '#0A0A0A' },
+  { id: 'core',         label: 'Core concepts', color: '#0A0A0A' },
+  { id: 'ai',           label: 'AI & Agents',  color: '#7B68EE' },
+  { id: 'security',     label: 'Security',      color: '#dc2626' },
+  { id: 'platform',     label: 'Platforms',     color: '#2D5016' },
+  { id: 'data',         label: 'Data',          color: '#C89840' },
+  { id: 'architecture', label: 'Architecture',  color: '#E8B4B0' },
+  { id: 'finance',      label: 'Finance',       color: '#059669' },
+  { id: 'ops',          label: 'Operations',    color: '#6366f1' },
+];
+
+const catColors: Record<string,string> = {
+  core:         '#0A0A0A',
+  ai:           '#7B68EE',
+  security:     '#dc2626',
+  platform:     '#2D5016',
+  data:         '#C89840',
+  architecture: '#c4847e',
+  finance:      '#059669',
+  ops:          '#6366f1',
+};
+
+const complexityLabel: Record<number,string> = { 1: 'Beginner', 2: 'Intermediate', 3: 'Advanced' };
+
+// Term of the day — pick by day of year
+const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(),0,0).getTime())/86400000);
+const totd = terms[dayOfYear % terms.length];
+---
+
+<ShopLayout title="Automation Glossary — 325+ Terms Explained | PURIST" description="Clear, jargon-free definitions of 325+ automation terms — APIs, webhooks, n8n, Claude AI, RAG, OAuth, idempotency, ETL, and more. Written for founders, not engineers.">
+
+  <!-- Scroll progress -->
+  <div id="scroll-prog" class="fixed top-0 left-0 h-0.5 z-50 transition-all" style="width:0%;background:linear-gradient(90deg,#E8B4B0,#c4847e);"></div>
+
+  <!-- Hero -->
+  <section class="bg-brand-cream py-16 lg:py-20 relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 55% 70% at 80% 50%,rgba(232,180,176,0.12) 0%,transparent 65%);"></div>
+    <div class="container-x max-w-5xl relative z-10">
+      <div class="grid lg:grid-cols-2 gap-10 items-center">
+        <div>
+          <p class="eyebrow mb-4">Automation Glossary</p>
+          <h1 class="font-display text-[2.2rem] lg:text-[3rem] leading-[1.06] tracking-[-0.025em] text-brand-black mb-4 text-balance">
+            {terms.length} terms, <em class="font-medium">explained plainly.</em>
+          </h1>
+          <p class="text-base text-brand-gray-600 leading-relaxed mb-6">
+            APIs, AI agents, OAuth, RAG, idempotency, dunning — every term you'll encounter when automating a modern business. Written for founders, not engineers. With data.
+          </p>
+          <div class="relative max-w-md">
+            <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5" stroke-linecap="round"/></svg>
+            <input id="glossary-search" type="search" placeholder={`Search ${terms.length} terms…`} autocomplete="off" class="w-full bg-white border border-brand-gray-200 rounded-button pl-10 pr-20 py-3 text-sm outline-none focus:border-brand-black transition placeholder:text-brand-gray-400"/>
+            <span id="search-count" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-[10px] font-bold text-brand-gray-400 hidden"></span>
+          </div>
+        </div>
+
+        <!-- Term of the day -->
+        <div class="bg-white rounded-card p-6 border border-brand-gray-100 shadow-sm">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="w-1.5 h-1.5 rounded-full bg-brand-green" style="animation:gl-pulse 2s ease-in-out infinite;"></span>
+            <p class="text-[9px] uppercase tracking-[0.20em] font-bold text-brand-gray-500">Term of the day</p>
+          </div>
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <h2 class="font-display text-xl leading-snug text-brand-black">{totd.term}</h2>
+            <span class="shrink-0 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mt-0.5" style={`background:${catColors[totd.cat]}18;color:${catColors[totd.cat]};`}>{totd.cat}</span>
+          </div>
+          <p class="text-sm text-brand-gray-600 leading-relaxed mb-4">{totd.def}</p>
+          {totd.insight && <p class="text-[11.5px] text-brand-gray-500 border-l-2 border-brand-pink pl-3 italic leading-relaxed">{totd.insight}</p>}
+          {totd.stat && (
+            <div class="mt-4 pt-4 border-t border-brand-gray-100 flex items-center gap-3">
+              <p class="font-display text-2xl leading-none text-brand-black">{totd.stat.value}</p>
+              <div>
+                <p class="text-[11px] text-brand-gray-600">{totd.stat.label}</p>
+                <p class="text-[9px] text-brand-gray-400 uppercase tracking-wider">{totd.stat.source}</p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats strip -->
+  <section class="bg-white border-b border-brand-gray-100 py-5">
+    <div class="container-x">
+      <div class="flex flex-wrap items-center gap-x-8 gap-y-3">
+        {[
+          { n: terms.length.toString(), l: 'Total terms' },
+          { n: terms.filter(t=>t.complexity===1).length.toString(), l: 'Beginner' },
+          { n: terms.filter(t=>t.complexity===2).length.toString(), l: 'Intermediate' },
+          { n: terms.filter(t=>t.complexity===3).length.toString(), l: 'Advanced' },
+          { n: terms.filter(t=>t.stat).length.toString(), l: 'With data insights' },
+          { n: terms.filter(t=>t.insight).length.toString(), l: 'With expert insights' },
+          { n: letters.length.toString(), l: 'Letters covered' },
+        ].map(s => (
+          <div class="text-center">
+            <p class="font-display text-xl leading-none text-brand-black">{s.n}</p>
+            <p class="text-[9px] tracking-[0.12em] uppercase text-brand-gray-400 mt-1">{s.l}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Filters sticky bar -->
+  <div class="bg-white border-b border-brand-gray-100 py-3 sticky top-16 z-20">
+    <div class="container-x flex items-center gap-3 overflow-x-auto no-scrollbar">
+      <!-- Category filters -->
+      <div class="flex items-center gap-1.5 shrink-0" id="cat-filters">
+        {categories.map((c, i) => (
+          <button
+            class="gl-cat-btn text-[10.5px] font-semibold px-3 py-1.5 rounded-full transition-all duration-150 whitespace-nowrap"
+            data-cat={c.id}
+            style={i === 0
+              ? 'background:#0A0A0A;color:#fff;'
+              : 'background:rgba(0,0,0,0.05);color:#6B7280;border:1px solid rgba(0,0,0,0.08);'}
+          >{c.label}</button>
+        ))}
+      </div>
+      <div class="w-px h-5 bg-brand-gray-200 shrink-0"></div>
+      <!-- Complexity filters -->
+      <div class="flex items-center gap-1.5 shrink-0" id="lvl-filters">
+        {[{id:'all',label:'All levels'},{id:'1',label:'● Beginner'},{id:'2',label:'●● Intermediate'},{id:'3',label:'●●● Advanced'}].map((l,i) => (
+          <button
+            class="gl-lvl-btn text-[10.5px] font-semibold px-3 py-1.5 rounded-full transition-all duration-150 whitespace-nowrap"
+            data-lvl={l.id}
+            style={i===0
+              ? 'background:#0A0A0A;color:#fff;'
+              : 'background:rgba(0,0,0,0.05);color:#6B7280;border:1px solid rgba(0,0,0,0.08);'}
+          >{l.label}</button>
+        ))}
+      </div>
+      <!-- Alpha nav -->
+      <div class="w-px h-5 bg-brand-gray-200 shrink-0"></div>
+      <div class="flex items-center gap-1 shrink-0">
+        {letters.map((l) => (
+          <a href={`#letter-${l}`} class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-brand-gray-500 hover:bg-brand-black hover:text-white transition">{l}</a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Terms -->
+  <section class="bg-white py-14 lg:py-16">
+    <div class="container-x max-w-4xl">
+      <div id="glossary-list" class="space-y-14">
+        {letters.map((letter) => (
+          <div id={`letter-${letter}`} class="letter-section">
+            <div class="flex items-center gap-4 mb-6">
+              <p class="font-display text-6xl text-brand-gray-100 leading-none select-none" aria-hidden="true">{letter}</p>
+              <div class="flex-1 h-px bg-brand-gray-100"></div>
+              <p class="text-[10px] text-brand-gray-400 font-medium">{terms.filter(t=>t.letter===letter).length} term{terms.filter(t=>t.letter===letter).length!==1?'s':''}</p>
+            </div>
+            <div class="space-y-5">
+              {terms.filter((t) => t.letter === letter).map((t) => (
+                <article
+                  class="glossary-term group/term relative bg-white border border-brand-gray-100 rounded-[16px] p-6 hover:border-brand-gray-300 hover:shadow-md transition"
+                  data-cat={t.cat}
+                  data-complexity={t.complexity}
+                  data-term={t.term.toLowerCase()}
+                >
+                  <a href={`/pages/glossary/${slugifyTerm(t.term)}`} class="absolute inset-0 rounded-[16px] z-0" aria-label={`Read full definition of ${t.term}`}></a>
+                  <!-- Top row -->
+                  <div class="flex items-start justify-between gap-3 mb-3">
+                    <div class="flex items-start gap-3 flex-1 min-w-0">
+                      <!-- Complexity dots -->
+                      <div class="flex gap-0.5 mt-1.5 shrink-0">
+                        {[1,2,3].map(d => (
+                          <span class="w-1.5 h-1.5 rounded-full" style={d<=t.complexity?`background:${catColors[t.cat]};`:'background:#E5E7EB;'}></span>
+                        ))}
+                      </div>
+                      <h2 class="font-display text-[1.1rem] lg:text-[1.2rem] leading-snug text-brand-black">{t.term}</h2>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                      <!-- Category badge -->
+                      <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full hidden sm:inline" style={`background:${catColors[t.cat]}14;color:${catColors[t.cat]};`}>{t.cat}</span>
+                      <!-- Copy button -->
+                      <button class="copy-btn opacity-0 group-hover/term:opacity-100 w-7 h-7 rounded-full border border-brand-gray-200 flex items-center justify-center transition hover:bg-brand-gray-50" data-def={t.def} title="Copy definition" aria-label="Copy definition">
+                        <svg class="w-3.5 h-3.5 text-brand-gray-400" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M2 11V3a1 1 0 011-1h8"/></svg>
+                      </button>
+                      <!-- Bookmark -->
+                      <button class="bookmark-btn w-7 h-7 rounded-full border border-brand-gray-200 flex items-center justify-center transition hover:bg-brand-gray-50" data-term={t.term} aria-label="Bookmark term">
+                        <svg class="bookmark-icon w-3.5 h-3.5 text-brand-gray-400" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2h10v13l-5-3-5 3V2z"/></svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Definition -->
+                  <p class="text-[13.5px] text-brand-gray-600 leading-relaxed mb-4">{t.def}</p>
+
+                  <!-- Expert insight -->
+                  {t.insight && (
+                    <div class="flex items-start gap-2.5 bg-brand-beige rounded-[10px] px-4 py-3 mb-4">
+                      <svg class="w-3.5 h-3.5 shrink-0 mt-0.5" viewBox="0 0 16 16" fill="none" stroke="#E8B4B0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1v7M8 10.5v1"/><circle cx="8" cy="8" r="7"/></svg>
+                      <p class="text-[12px] text-brand-gray-600 leading-relaxed italic">{t.insight}</p>
+                    </div>
+                  )}
+
+                  <!-- Data stat -->
+                  {t.stat && (
+                    <div class="flex items-center gap-4 bg-brand-gray-50 rounded-[10px] px-4 py-3 mb-4">
+                      <p class="font-display text-2xl leading-none shrink-0" style={`color:${catColors[t.cat]};`}>{t.stat.value}</p>
+                      <div class="flex-1 min-w-0">
+                        <p class="text-[11.5px] text-brand-gray-700 leading-snug">{t.stat.label}</p>
+                        <p class="text-[9px] text-brand-gray-400 uppercase tracking-wider mt-0.5">{t.stat.source}</p>
+                      </div>
+                    </div>
+                  )}
+
+                  <!-- Related + complexity footer -->
+                  <div class="flex items-center justify-between gap-4 pt-3 border-t border-brand-gray-100">
+                    <div class="flex flex-wrap gap-1.5">
+                      {t.related.map((r) => (
+                        <button class="related-link text-[10px] font-medium px-2 py-0.5 rounded-full bg-brand-gray-50 border border-brand-gray-200 text-brand-gray-500 hover:border-brand-gray-400 hover:text-brand-black transition" data-search={r}>→ {r}</button>
+                      ))}
+                    </div>
+                    <span class="text-[9px] font-medium text-brand-gray-400 whitespace-nowrap">{complexityLabel[t.complexity]}</span>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Empty state -->
+      <div id="glossary-empty" class="hidden text-center py-20">
+        <p class="font-display text-2xl text-brand-gray-200 mb-3">No terms found.</p>
+        <p class="text-sm text-brand-gray-400">Try a different search or filter.</p>
+        <button id="reset-filters" class="mt-4 text-sm underline underline-offset-4 text-brand-gray-500 hover:text-brand-black transition">Reset all filters</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bookmarks panel (hidden by default) -->
+  <div id="bookmark-panel" class="hidden fixed bottom-6 right-6 z-40 bg-brand-black text-white rounded-[18px] shadow-2xl p-5 w-72 max-h-80 overflow-y-auto">
+    <div class="flex items-center justify-between mb-3">
+      <p class="text-[11px] uppercase tracking-wider font-bold text-white/60">Saved terms</p>
+      <button id="close-bookmarks" class="text-white/60 hover:text-white transition text-lg leading-none">×</button>
+    </div>
+    <ul id="bookmark-list" class="space-y-2 text-sm text-white/80"></ul>
+    <p id="bookmark-empty" class="text-[11px] text-white/50 text-center py-4">No saved terms yet.<br/>Click the bookmark icon on any term.</p>
+  </div>
+
+  <!-- Bookmark toggle FAB -->
+  <button id="bookmark-fab" class="fixed bottom-6 left-6 z-40 hidden items-center gap-2 px-3.5 py-2.5 rounded-full bg-brand-black text-white text-[11px] font-semibold shadow-lg hover:bg-brand-gray-900 transition">
+    <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2h10v13l-5-3-5 3V2z"/></svg>
+    <span id="fab-count">0</span> saved
+  </button>
+
+  <!-- CTA -->
+  <section class="bg-brand-beige py-14 border-t border-brand-gray-100">
+    <div class="container-x max-w-xl text-center">
+      <h2 class="font-display text-2xl mb-3">Still confused by a term?</h2>
+      <p class="text-sm text-brand-gray-600 mb-6">Our team explains everything in plain English on a free 30-minute audit call. No jargon, no obligation.</p>
+      <a href="/pages/welcome" class="inline-flex items-center gap-2 px-5 py-3 rounded-button text-sm font-medium bg-brand-black text-white hover:bg-brand-gray-900 transition">Book a free audit →</a>
+    </div>
+  </section>
+
+</ShopLayout>
+
+<style>
+  @keyframes gl-pulse { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.4)} }
+  .no-scrollbar::-webkit-scrollbar { display:none; }
+  .no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
+  .glossary-term { scroll-margin-top: 130px; }
+</style>
+
+<script is:inline>
+(function () {
+  var activeCat = 'all';
+  var activeLvl = 'all';
+  var searchQ   = '';
+  var bookmarks = [];
+
+  try { bookmarks = JSON.parse(localStorage.getItem('purist_gl_bookmarks') || '[]'); } catch(_) {}
+
+  /* ── Filter logic ─────────────────────────────────────── */
+  function applyFilters() {
+    var terms   = document.querySelectorAll('.glossary-term');
+    var visible = 0;
+
+    terms.forEach(function (el) {
+      var cat  = el.dataset.cat;
+      var lvl  = el.dataset.complexity;
+      var name = el.dataset.term || '';
+      var body = el.textContent.toLowerCase();
+
+      var catOk  = activeCat === 'all' || cat === activeCat;
+      var lvlOk  = activeLvl === 'all' || lvl === activeLvl;
+      var srchOk = !searchQ || name.includes(searchQ) || body.includes(searchQ);
+      var show   = catOk && lvlOk && srchOk;
+
+      el.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    // Hide/show letter sections
+    document.querySelectorAll('.letter-section').forEach(function (sec) {
+      var any = Array.from(sec.querySelectorAll('.glossary-term')).some(function (t) { return t.style.display !== 'none'; });
+      sec.style.display = any ? '' : 'none';
+    });
+
+    var countEl = document.getElementById('search-count');
+    var empty   = document.getElementById('glossary-empty');
+    var total   = terms.length;
+
+    if (searchQ || activeCat !== 'all' || activeLvl !== 'all') {
+      if (countEl) { countEl.textContent = visible + ' / ' + total; countEl.classList.remove('hidden'); }
+    } else {
+      if (countEl) countEl.classList.add('hidden');
+    }
+    if (empty) empty.classList.toggle('hidden', visible > 0);
+  }
+
+  /* ── Category buttons ─────────────────────────────────── */
+  document.querySelectorAll('.gl-cat-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      activeCat = this.dataset.cat;
+      document.querySelectorAll('.gl-cat-btn').forEach(function (b) {
+        var a = b.dataset.cat === activeCat;
+        b.style.background = a ? '#0A0A0A' : 'rgba(0,0,0,0.05)';
+        b.style.color = a ? '#fff' : '#6B7280';
+        b.style.border = a ? 'none' : '1px solid rgba(0,0,0,0.08)';
+      });
+      applyFilters();
+    });
+  });
+
+  /* ── Level buttons ────────────────────────────────────── */
+  document.querySelectorAll('.gl-lvl-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      activeLvl = this.dataset.lvl;
+      document.querySelectorAll('.gl-lvl-btn').forEach(function (b) {
+        var a = b.dataset.lvl === activeLvl;
+        b.style.background = a ? '#0A0A0A' : 'rgba(0,0,0,0.05)';
+        b.style.color = a ? '#fff' : '#6B7280';
+        b.style.border = a ? 'none' : '1px solid rgba(0,0,0,0.08)';
+      });
+      applyFilters();
+    });
+  });
+
+  /* ── Search ───────────────────────────────────────────── */
+  var searchEl = document.getElementById('glossary-search');
+  if (searchEl) {
+    searchEl.addEventListener('input', function () {
+      searchQ = this.value.trim().toLowerCase();
+      applyFilters();
+    });
+  }
+
+  /* ── Related links ────────────────────────────────────── */
+  document.querySelectorAll('.related-link').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var q = this.dataset.search;
+      if (searchEl) { searchEl.value = q; searchQ = q.toLowerCase(); }
+      activeCat = 'all'; activeLvl = 'all';
+      document.querySelectorAll('.gl-cat-btn').forEach(function(b,i){b.style.background=i===0?'#0A0A0A':'rgba(0,0,0,0.05)';b.style.color=i===0?'#fff':'#6B7280';b.style.border=i===0?'none':'1px solid rgba(0,0,0,0.08)';});
+      document.querySelectorAll('.gl-lvl-btn').forEach(function(b,i){b.style.background=i===0?'#0A0A0A':'rgba(0,0,0,0.05)';b.style.color=i===0?'#fff':'#6B7280';b.style.border=i===0?'none':'1px solid rgba(0,0,0,0.08)';});
+      applyFilters();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  /* ── Reset ────────────────────────────────────────────── */
+  var resetBtn = document.getElementById('reset-filters');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', function () {
+      activeCat = 'all'; activeLvl = 'all'; searchQ = '';
+      if (searchEl) searchEl.value = '';
+      document.querySelectorAll('.gl-cat-btn, .gl-lvl-btn').forEach(function(b,i){if(i===0||b===document.querySelector('.gl-cat-btn')||b===document.querySelector('.gl-lvl-btn')){b.style.background='rgba(0,0,0,0.05)';b.style.color='#6B7280';b.style.border='1px solid rgba(0,0,0,0.08)';}});
+      document.querySelector('.gl-cat-btn').style.background='#0A0A0A';document.querySelector('.gl-cat-btn').style.color='#fff';document.querySelector('.gl-cat-btn').style.border='none';
+      document.querySelector('.gl-lvl-btn').style.background='#0A0A0A';document.querySelector('.gl-lvl-btn').style.color='#fff';document.querySelector('.gl-lvl-btn').style.border='none';
+      applyFilters();
+    });
+  }
+
+  /* ── Copy definition ──────────────────────────────────── */
+  document.querySelectorAll('.copy-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var def = this.dataset.def;
+      if (!def) return;
+      navigator.clipboard.writeText(def).then(function () {
+        btn.innerHTML = '<svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="#2D5016" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8l4 4 8-8"/></svg>';
+        setTimeout(function () {
+          btn.innerHTML = '<svg class="w-3.5 h-3.5 text-brand-gray-400" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M2 11V3a1 1 0 011-1h8"/></svg>';
+        }, 1500);
+      }).catch(function(){});
+    });
+  });
+
+  /* ── Bookmarks ────────────────────────────────────────── */
+  function saveBookmarks() {
+    try { localStorage.setItem('purist_gl_bookmarks', JSON.stringify(bookmarks)); } catch(_) {}
+    renderBookmarks();
+  }
+
+  function renderBookmarks() {
+    var list  = document.getElementById('bookmark-list');
+    var empty = document.getElementById('bookmark-empty');
+    var fab   = document.getElementById('bookmark-fab');
+    var count = document.getElementById('fab-count');
+
+    if (!list) return;
+    list.innerHTML = '';
+    bookmarks.forEach(function (name) {
+      var li = document.createElement('li');
+      li.innerHTML = '<span class="text-white/70 text-[12px]">' + name + '</span>';
+      list.appendChild(li);
+    });
+    if (empty) empty.style.display = bookmarks.length === 0 ? '' : 'none';
+    if (fab)   fab.style.display   = bookmarks.length > 0 ? 'flex' : 'none';
+    if (count) count.textContent   = bookmarks.length;
+
+    // Update all bookmark icons
+    document.querySelectorAll('.bookmark-btn').forEach(function (btn) {
+      var term  = btn.dataset.term;
+      var saved = bookmarks.includes(term);
+      var icon  = btn.querySelector('.bookmark-icon');
+      if (icon) {
+        icon.setAttribute('fill', saved ? 'currentColor' : 'none');
+        icon.style.color = saved ? '#E8B4B0' : '';
+      }
+    });
+  }
+
+  document.querySelectorAll('.bookmark-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var term = this.dataset.term;
+      var idx  = bookmarks.indexOf(term);
+      if (idx === -1) bookmarks.push(term);
+      else bookmarks.splice(idx, 1);
+      saveBookmarks();
+    });
+  });
+
+  var fabEl = document.getElementById('bookmark-fab');
+  if (fabEl) fabEl.addEventListener('click', function () {
+    document.getElementById('bookmark-panel').classList.remove('hidden');
+  });
+  var closeBookmarks = document.getElementById('close-bookmarks');
+  if (closeBookmarks) closeBookmarks.addEventListener('click', function () {
+    document.getElementById('bookmark-panel').classList.add('hidden');
+  });
+
+  renderBookmarks();
+
+  /* ── Scroll progress bar ──────────────────────────────── */
+  var prog = document.getElementById('scroll-prog');
+  window.addEventListener('scroll', function () {
+    var doc = document.documentElement;
+    var pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+    if (prog) prog.style.width = pct + '%';
+  }, { passive: true });
+
+  applyFilters();
+})();
+</script>
