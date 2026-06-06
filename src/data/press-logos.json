@@ -8,8 +8,9 @@
     { "name": "Make",              "src": "/images/press/make.svg" },
     { "name": "ClickUp",           "src": "/images/press/clickup.svg" },
     { "name": "WordPress",         "src": "/images/press/wordpress.svg" },
-    { "name": "Airbnb",            "src": "/images/press/airbnb.svg" },
-    { "name": "Product Hunt",      "src": "/images/press/producthunt-hd.svg" },
-    { "name": "Condé Nast Traveler","src": "/images/press/conde-nast-traveler.svg" }
+    { "name": "HubSpot",           "src": "/images/press/hubspot.svg" },
+    { "name": "Zapier",            "src": "/images/press/zapier.svg" },
+    { "name": "Airtable",          "src": "/images/press/airtable.svg" },
+    { "name": "Notion",            "src": "/images/press/notion.svg" }
   ]
 }
