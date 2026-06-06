@@ -1,7 +1,5 @@
 ---
-import BaseLayout from '~/layouts/BaseLayout.astro';
-import Header from '~/components/layout/Header.astro';
-import Footer from '~/components/layout/Footer.astro';
+import ShopLayout from '~/layouts/ShopLayout.astro';
 import skillsData from '~/data/skills.json';
 
 export function getStaticPaths() {
@@ -30,10 +28,10 @@ const industryLabels: Record<string, string> = {
   property_management: 'Property Management', gym: 'Gyms & Fitness',
 };
 
-// ── PURIST brand pink ─────────────────────────────────────────────────
+// ── Brand colours ─────────────────────────────────────────────────────
 const PINK = '#c4847e';
-const PINK_BG = 'rgba(232,180,176,0.12)';
-const PINK_BORDER = 'rgba(196,132,126,0.25)';
+const PINK_BG = 'rgba(232,180,176,0.10)';
+const PINK_BORDER = 'rgba(196,132,126,0.22)';
 
 // ── Category icon ─────────────────────────────────────────────────────
 const catStyle: Record<string, { icon: string }> = {
@@ -55,7 +53,6 @@ const basePrice: number = (skill as any).price ?? (skill.complexity === 'Starter
 const tags: string[] = (skill as any).tags ?? [skill.cat, skill.complexity.toLowerCase(), ...skill.tools.slice(0, 2)];
 const displayTools = skill.tools.filter(t => t.toLowerCase() !== 'n8n');
 
-// Hero bullet points — from description sentences with fallbacks
 const rawSentences = skill.desc
   .split(/(?<=\.)\s+/)
   .map(s => s.replace(/\.$/, '').trim())
@@ -68,7 +65,6 @@ const fallbackBullets = [
 ];
 const descSentences = [...rawSentences.slice(0, 3), ...fallbackBullets].slice(0, 3);
 
-// Distinct Trigger / Process / Output content (not recycled from hero bullets)
 const triggerTool = displayTools[0] ?? catLabels[skill.cat];
 const outputTool  = displayTools.length > 1 ? displayTools[displayTools.length - 1] : displayTools[0] ?? 'your tools';
 const howItWorks = [
@@ -86,17 +82,14 @@ const howItWorks = [
   },
 ];
 
-// Sample scenario — industry-specific micro story
 const firstIndustry = skill.industries[0] ?? 'business';
 const industryName = industryLabels[firstIndustry] ?? firstIndustry;
 const sampleScenario = `A ${industryName.toLowerCase().replace(/s$/, '')} team was spending ${skill.time} every week on ${catLabels[skill.cat].toLowerCase()} tasks across ${displayTools.slice(0,2).join(' and ')}. After deploying this skill, the entire process runs automatically from trigger to output — the team now spends that time on client work instead.`;
 
-// Use cases from industries
 const useCaseBullets = skill.industries.slice(0, 5).map(i =>
   `${industryLabels[i] ?? i} automating ${catLabels[skill.cat].toLowerCase()}`
 );
 
-// Included in deployment checklist
 const included = [
   `Custom ${catLabels[skill.cat]} automation built for your stack`,
   `Connected to ${displayTools.slice(0, 2).join(' and ')}`,
@@ -105,12 +98,10 @@ const included = [
   '30-day free modification guarantee',
 ];
 
-// Related skills
 const related = skillsData.skills
   .filter(s => s.slug !== skill.slug && (s.cat === skill.cat || s.industries.some(i => skill.industries.includes(i))))
   .slice(0, 4);
 
-// Schema
 const schemaLd = {
   '@context': 'https://schema.org',
   '@type': 'HowTo',
@@ -131,32 +122,30 @@ const schemaLd = {
 };
 ---
 
-<BaseLayout
+<ShopLayout
   title={`${skill.title} — PURIST Automation Skill`}
   description={`${skill.benefit} ${skill.desc} Deployed in 7 days with 24/7 monitoring. From £${basePrice}.`}
 >
   <script type="application/ld+json" set:html={JSON.stringify(schemaLd)} slot="head" />
-  <Header />
 
-  <main id="main-content" class="bg-white min-h-screen">
-
-    <!-- Breadcrumb -->
-    <div class="border-b border-gray-100">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3">
-        <nav class="text-sm text-gray-400 flex items-center gap-1.5 flex-wrap">
-          <a href="/" class="hover:text-gray-700 transition">Home</a>
-          <span>/</span>
-          <a href="/skills" class="hover:text-gray-700 transition">Skills</a>
-          <span>/</span>
-          <a href={`/skills?cat=${skill.cat}`} class="hover:text-gray-700 transition">{catLabels[skill.cat]}</a>
-          <span>/</span>
-          <span class="text-gray-700 font-medium">{skill.title}</span>
-        </nav>
-      </div>
+  <!-- Breadcrumb -->
+  <div class="border-b border-brand-gray-100 bg-white">
+    <div class="container-x py-3">
+      <nav class="text-sm text-brand-gray-400 flex items-center gap-1.5 flex-wrap">
+        <a href="/" class="hover:text-brand-black transition">Home</a>
+        <span>/</span>
+        <a href="/skills" class="hover:text-brand-black transition">Skills</a>
+        <span>/</span>
+        <a href={`/skills?cat=${skill.cat}`} class="hover:text-brand-black transition">{catLabels[skill.cat]}</a>
+        <span>/</span>
+        <span class="text-brand-black font-medium">{skill.title}</span>
+      </nav>
     </div>
+  </div>
 
-    <!-- Hero section -->
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 lg:py-12">
+  <!-- Hero section -->
+  <section class="bg-brand-cream py-10 lg:py-14">
+    <div class="container-x">
       <div class="grid lg:grid-cols-12 gap-10 lg:gap-16">
 
         <!-- Left: main content -->
@@ -164,22 +153,22 @@ const schemaLd = {
 
           <!-- Icon + title -->
           <div class="flex items-start gap-4 mb-5">
-            <div class="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0" style={`background:${PINK_BG}`}>
+            <div class="w-14 h-14 rounded-[16px] flex items-center justify-center shrink-0" style={`background:${PINK_BG};border:1px solid ${PINK_BORDER};`}>
               <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke={PINK} stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                 <path d={cs.icon}/>
               </svg>
             </div>
             <div>
-              <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 leading-tight">{skill.title}</h1>
-              <p class="text-sm text-gray-400 mt-1">by <span class="text-gray-600 font-medium">PURIST</span> · {catLabels[skill.cat]}</p>
+              <h1 class="font-display text-[1.7rem] lg:text-[2.1rem] leading-tight text-brand-black">{skill.title}</h1>
+              <p class="text-sm text-brand-gray-500 mt-1">by <span class="text-brand-black font-medium">PURIST</span> · {catLabels[skill.cat]}</p>
             </div>
           </div>
 
-          <!-- One-line benefit -->
-          <p class="text-base text-gray-600 mb-4 leading-relaxed max-w-2xl">{skill.benefit}</p>
+          <!-- Benefit -->
+          <p class="text-base text-brand-gray-600 mb-5 leading-relaxed max-w-2xl">{skill.benefit}</p>
 
-          <!-- Updated + time saved -->
-          <div class="flex items-center gap-4 text-xs text-gray-400 mb-5">
+          <!-- Meta row -->
+          <div class="flex items-center gap-5 text-xs text-brand-gray-400 mb-6">
             <span class="flex items-center gap-1.5">
               <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
               Updated June 2026
@@ -190,10 +179,10 @@ const schemaLd = {
             </span>
           </div>
 
-          <!-- 3 key capability bullets -->
+          <!-- Capability bullets -->
           <ul class="space-y-2.5 mb-6">
             {descSentences.map(s => (
-              <li class="flex items-start gap-2.5 text-sm text-gray-700">
+              <li class="flex items-start gap-2.5 text-sm text-brand-gray-700">
                 <svg class="w-4 h-4 mt-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke={PINK} stroke-width="2.5" stroke-linecap="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 {s}
               </li>
@@ -203,30 +192,24 @@ const schemaLd = {
           <!-- Tool pills -->
           <div class="flex flex-wrap gap-2 mb-6">
             {displayTools.map(t => (
-              <span class="text-xs font-medium px-3 py-1.5 rounded-full border border-gray-200 text-gray-600 bg-gray-50">{t}</span>
+              <span class="text-xs font-medium px-3 py-1.5 rounded-full border border-brand-gray-200 text-brand-gray-600 bg-white">{t}</span>
             ))}
           </div>
 
-          <!-- Trust signals row -->
-          <div class="flex flex-wrap items-center gap-4 text-xs text-gray-400 border-t border-gray-100 pt-4 mb-8">
+          <!-- Trust row -->
+          <div class="flex flex-wrap items-center gap-4 text-xs text-brand-gray-500 border-t border-brand-gray-200 pt-4 mb-8">
             <span class="flex items-center gap-1.5">
               <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke={PINK} stroke-width="2.5" stroke-linecap="round"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
               Verified deployment
             </span>
             <span class="flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5 shrink-0" style={`color:${PINK}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke={PINK} stroke-width="2.5" stroke-linecap="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
               Live in 7 days
             </span>
             <span class="flex items-center gap-1.5">
               <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
               30-day money-back guarantee
             </span>
-            {skill.complexity === 'Starter' && (
-              <span class="flex items-center gap-1.5 font-medium" style={`color:${PINK}`}>
-                <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg>
-                Beginner-friendly
-              </span>
-            )}
           </div>
 
           <!-- ROI snapshot -->
@@ -237,25 +220,25 @@ const schemaLd = {
               { label: 'Monitoring', value: '24/7', sub: 'error alerts to our team' },
               { label: 'Guarantee', value: '30 days', sub: 'full refund if not satisfied' },
             ].map(m => (
-              <div class="rounded-xl border border-gray-100 bg-gray-50 p-4">
-                <p class="text-xl font-bold leading-none mb-1" style={`color:${PINK}`}>{m.value}</p>
-                <p class="text-xs font-semibold text-gray-700 mb-0.5">{m.label}</p>
-                <p class="text-[11px] text-gray-400 leading-snug">{m.sub}</p>
+              <div class="rounded-card border border-brand-gray-100 bg-white p-4">
+                <p class="font-display text-xl leading-none mb-1" style={`color:${PINK}`}>{m.value}</p>
+                <p class="text-xs font-semibold text-brand-black mb-0.5">{m.label}</p>
+                <p class="text-[11px] text-brand-gray-500 leading-snug">{m.sub}</p>
               </div>
             ))}
           </div>
 
           <!-- Best fit for -->
-          <div class="rounded-xl border border-gray-100 p-4">
-            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Best fit for</p>
+          <div class="rounded-card border border-brand-gray-100 bg-white p-5">
+            <p class="eyebrow mb-3">Best fit for</p>
             <ul class="space-y-1.5">
               {skill.industries.slice(0, 4).map(i => (
-                <li class="flex items-center gap-2 text-sm text-gray-600">
+                <li class="flex items-center gap-2 text-sm text-brand-gray-600">
                   <span class="w-1.5 h-1.5 rounded-full shrink-0" style={`background:${PINK}`}></span>
                   {industryLabels[i] ?? i}
                 </li>
               ))}
-              <li class="flex items-center gap-2 text-sm text-gray-600">
+              <li class="flex items-center gap-2 text-sm text-brand-gray-600">
                 <span class="w-1.5 h-1.5 rounded-full shrink-0" style={`background:${PINK}`}></span>
                 Any team doing {catLabels[skill.cat].toLowerCase()} manually
               </li>
@@ -265,35 +248,38 @@ const schemaLd = {
 
         <!-- Right: price card -->
         <div class="lg:col-span-4">
-          <div class="border border-gray-200 rounded-2xl p-6 sticky top-24">
-            <div class="mb-4">
-              <span class="text-4xl font-bold text-gray-900">£{basePrice}</span>
-              <span class="text-sm text-gray-400 ml-2">one-time · 30-day refund</span>
+          <div class="bg-brand-black rounded-card p-6 sticky top-24">
+            <div class="mb-5">
+              <p class="eyebrow text-white/40 mb-2">Starting from</p>
+              <div class="flex items-baseline gap-2">
+                <span class="font-display text-4xl text-white">£{basePrice}</span>
+                <span class="text-sm text-white/40">one-time</span>
+              </div>
             </div>
 
             <a href="/pages/welcome"
-               class="flex items-center justify-center gap-2 w-full text-white font-semibold text-sm py-3.5 rounded-xl transition mb-3"
-               style={`background:${PINK}`}
+               class="flex items-center justify-center gap-2 w-full font-semibold text-sm py-3.5 rounded-button transition mb-3"
+               style={`background:${PINK};color:#fff;`}
                onmouseover={`this.style.background='#b5726c'`}
                onmouseout={`this.style.background='${PINK}'`}>
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
               Book free audit →
             </a>
             <a href="/collections/all"
-               class="flex items-center justify-center w-full border border-gray-200 text-gray-600 font-medium text-sm py-3 rounded-xl hover:bg-gray-50 transition mb-5">
-              View plans
+               class="flex items-center justify-center w-full border border-white/10 text-white/60 font-medium text-sm py-3 rounded-button hover:bg-white/5 transition mb-5">
+              View all plans
             </a>
 
-            <div class="flex items-center justify-center gap-1.5 text-xs text-gray-400 mb-5">
+            <div class="flex items-center justify-center gap-1.5 text-xs text-white/30 mb-5">
               <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-              Secure · No subscription · You own everything
+              No subscription · You own everything
             </div>
 
-            <div class="border-t border-gray-100 pt-4">
-              <p class="text-xs font-semibold text-gray-700 mb-3">Included in deployment</p>
+            <div class="border-t border-white/10 pt-4">
+              <p class="text-[10px] uppercase tracking-widest text-white/40 mb-3">Included in deployment</p>
               <ul class="space-y-2">
                 {included.map(item => (
-                  <li class="flex items-start gap-2 text-xs text-gray-500">
+                  <li class="flex items-start gap-2 text-xs text-white/60">
                     <svg class="w-3.5 h-3.5 mt-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke={PINK} stroke-width="2.5" stroke-linecap="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     {item}
                   </li>
@@ -301,102 +287,105 @@ const schemaLd = {
               </ul>
             </div>
 
-            <div class="border-t border-gray-100 mt-4 pt-4 flex items-center gap-3">
-              <div class="w-8 h-8 rounded-lg bg-brand-black flex items-center justify-center shrink-0 overflow-hidden">
-                <svg viewBox="0 0 32 32" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="32" height="32" fill="#0A0A0A"/>
+            <div class="border-t border-white/10 mt-5 pt-4 flex items-center gap-3">
+              <div class="w-8 h-8 rounded-[8px] border border-white/10 flex items-center justify-center shrink-0">
+                <svg viewBox="0 0 32 32" class="w-full h-full rounded-[8px]" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="32" height="32" fill="#1a1a1a"/>
                   <text x="16" y="22" font-family="Georgia, serif" font-size="15" font-weight="500" fill="#F8F6F1" text-anchor="middle">P</text>
                 </svg>
               </div>
               <div>
-                <p class="text-xs font-semibold text-gray-800">PURIST</p>
-                <p class="text-[10px] text-gray-400">Automation studio · London</p>
+                <p class="text-xs font-semibold text-white/80">PURIST</p>
+                <p class="text-[10px] text-white/30">Automation studio · London</p>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- Social proof strip -->
-    <div class="border-t border-b border-gray-100">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4">
-        <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-center">
-          {[
-            { value: '500+', label: 'automations deployed' },
-            { value: '99.97%', label: 'uptime across all workflows' },
-            { value: '£2.4M', label: 'in client time saved' },
-            { value: '4.9 / 5', label: 'average client rating' },
-          ].map(stat => (
-            <div>
-              <p class="text-lg font-bold text-gray-900">{stat.value}</p>
-              <p class="text-xs text-gray-400">{stat.label}</p>
-            </div>
-          ))}
-        </div>
+  <!-- Social proof strip -->
+  <section class="bg-brand-black border-y border-white/5 py-5">
+    <div class="container-x">
+      <div class="flex flex-wrap items-center justify-center gap-8 sm:gap-14 text-center">
+        {[
+          { value: '500+', label: 'automations deployed' },
+          { value: '99.97%', label: 'uptime across all workflows' },
+          { value: '£2.4M', label: 'in client time saved' },
+          { value: '4.9 / 5', label: 'average client rating' },
+        ].map(stat => (
+          <div>
+            <p class="font-display text-lg leading-none text-white">{stat.value}</p>
+            <p class="text-[10px] uppercase tracking-widest text-white/40 mt-1">{stat.label}</p>
+          </div>
+        ))}
       </div>
     </div>
+  </section>
 
-    <!-- Content + sidebar -->
-    <div>
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 lg:py-12 grid lg:grid-cols-12 gap-10 lg:gap-16">
+  <!-- Content + sidebar -->
+  <section class="bg-white py-12 lg:py-16">
+    <div class="container-x">
+      <div class="grid lg:grid-cols-12 gap-10 lg:gap-16">
 
         <!-- Main content -->
-        <div class="lg:col-span-8 space-y-10">
+        <div class="lg:col-span-8 space-y-12">
 
           <!-- About -->
-          <div>
-            <h2 class="text-xl font-bold text-gray-900 mb-4">About this skill</h2>
-            <p class="text-gray-600 leading-relaxed mb-5">{skill.desc}</p>
-            <p class="text-gray-600 leading-relaxed">
+          <div class="scroll-fade">
+            <p class="eyebrow mb-3">About this skill</p>
+            <p class="text-brand-gray-600 leading-relaxed mb-4">{skill.desc}</p>
+            <p class="text-brand-gray-600 leading-relaxed">
               PURIST builds this automation end-to-end — connecting {displayTools.join(', ')} — so you never touch the technical setup.
               Every deployment is tested against real data before handover, with 24/7 monitoring from day one.
             </p>
           </div>
 
-          <!-- How it works: Trigger / Process / Output -->
-          <div>
-            <h2 class="text-xl font-bold text-gray-900 mb-2">How it works</h2>
-            <p class="text-sm text-gray-400 mb-5">Three stages — trigger, process, output. Fully automated.</p>
-            <ul class="space-y-0 divide-y divide-gray-100 rounded-xl border border-gray-100 overflow-hidden">
+          <!-- How it works -->
+          <div class="scroll-fade">
+            <p class="eyebrow mb-1">How it works</p>
+            <p class="font-display text-[1.4rem] text-brand-black mb-5">Three stages. Fully automated.</p>
+            <ul class="space-y-0 divide-y divide-brand-gray-100 rounded-card border border-brand-gray-100 overflow-hidden">
               {howItWorks.map(step => (
-                <li class="flex items-start gap-4 p-5 bg-white">
-                  <span class="text-xs font-bold uppercase tracking-widest shrink-0 mt-0.5 w-16" style={`color:${PINK}`}>{step.label}</span>
-                  <span class="text-sm text-gray-600 leading-relaxed">{step.text}</span>
+                <li class="flex items-start gap-5 p-5 bg-white">
+                  <span class="text-xs font-bold uppercase tracking-widest shrink-0 mt-0.5 w-16 font-display" style={`color:${PINK}`}>{step.label}</span>
+                  <span class="text-sm text-brand-gray-600 leading-relaxed">{step.text}</span>
                 </li>
               ))}
             </ul>
           </div>
 
           <!-- Sample scenario -->
-          <div class="rounded-xl p-5" style={`background:${PINK_BG};border:1px solid ${PINK_BORDER}`}>
-            <p class="text-xs font-semibold uppercase tracking-wider mb-2" style={`color:${PINK}`}>Real-world scenario</p>
-            <p class="text-sm text-gray-700 leading-relaxed">{sampleScenario}</p>
+          <div class="rounded-card p-5 scroll-fade" style={`background:${PINK_BG};border:1px solid ${PINK_BORDER}`}>
+            <p class="eyebrow mb-2" style={`color:${PINK}`}>Real-world scenario</p>
+            <p class="text-sm text-brand-gray-700 leading-relaxed">{sampleScenario}</p>
           </div>
 
-          <!-- Why use this skill -->
-          <div>
-            <h2 class="text-xl font-bold text-gray-900 mb-4">Why use this skill</h2>
-            <p class="text-gray-600 leading-relaxed mb-4">
+          <!-- Why use -->
+          <div class="scroll-fade">
+            <p class="eyebrow mb-1">Why use this skill</p>
+            <p class="font-display text-[1.4rem] text-brand-black mb-5">Stop doing manually what runs better on autopilot.</p>
+            <p class="text-brand-gray-600 leading-relaxed mb-4">
               Most teams handle {catLabels[skill.cat].toLowerCase()} manually — copying data between tools, chasing updates, writing the same emails. That costs your team
-              <strong> {skill.time} every week</strong>, creates inconsistency, and scales badly.
+              <strong class="text-brand-black"> {skill.time} every week</strong>, creates inconsistency, and scales badly.
             </p>
-            <p class="text-gray-600 leading-relaxed">
+            <p class="text-brand-gray-600 leading-relaxed">
               This automation runs in the background, exactly as configured, every time — no errors, no forgotten steps, no context switching. You get the output; PURIST handles the execution and the monitoring.
             </p>
           </div>
 
           <!-- Use cases -->
-          <div>
-            <h2 class="text-xl font-bold text-gray-900 mb-4">Use cases</h2>
+          <div class="scroll-fade">
+            <p class="eyebrow mb-3">Use cases</p>
             <ul class="grid sm:grid-cols-2 gap-2">
               {useCaseBullets.map(uc => (
-                <li class="flex items-center gap-2.5 text-sm text-gray-600 rounded-lg border border-gray-100 px-3.5 py-2.5 bg-gray-50">
+                <li class="flex items-center gap-2.5 text-sm text-brand-gray-600 rounded-[12px] border border-brand-gray-100 px-4 py-3 bg-brand-cream">
                   <span class="w-1.5 h-1.5 rounded-full shrink-0" style={`background:${PINK}`}></span>
                   {uc}
                 </li>
               ))}
-              <li class="flex items-center gap-2.5 text-sm text-gray-600 rounded-lg border border-gray-100 px-3.5 py-2.5 bg-gray-50">
+              <li class="flex items-center gap-2.5 text-sm text-brand-gray-600 rounded-[12px] border border-brand-gray-100 px-4 py-3 bg-brand-cream">
                 <span class="w-1.5 h-1.5 rounded-full shrink-0" style={`background:${PINK}`}></span>
                 Any team spending 2+ hours/week on {catLabels[skill.cat].toLowerCase()}
               </li>
@@ -404,11 +393,11 @@ const schemaLd = {
           </div>
 
           <!-- Before & after -->
-          <div>
-            <h2 class="text-xl font-bold text-gray-900 mb-4">Before & after</h2>
+          <div class="scroll-fade">
+            <p class="eyebrow mb-3">Before & after</p>
             <div class="grid sm:grid-cols-2 gap-4">
-              <div class="rounded-xl border border-red-100 bg-red-50 p-5">
-                <p class="text-xs font-semibold uppercase tracking-wider text-red-400 mb-3">Before</p>
+              <div class="rounded-card border border-red-100 bg-red-50 p-5">
+                <p class="text-xs font-bold uppercase tracking-widest text-red-400 mb-3">Before</p>
                 <ul class="space-y-2 text-sm text-red-700">
                   <li class="flex items-start gap-2"><span class="mt-0.5 shrink-0 font-bold">✕</span> Manual copy-paste between {displayTools.slice(0,2).join(' and ')}</li>
                   <li class="flex items-start gap-2"><span class="mt-0.5 shrink-0 font-bold">✕</span> Delays of hours or days before follow-up</li>
@@ -416,9 +405,9 @@ const schemaLd = {
                   <li class="flex items-start gap-2"><span class="mt-0.5 shrink-0 font-bold">✕</span> {skill.time} wasted every single week</li>
                 </ul>
               </div>
-              <div class="rounded-xl border p-5" style={`border-color:${PINK_BORDER};background:${PINK_BG}`}>
-                <p class="text-xs font-semibold uppercase tracking-wider mb-3" style={`color:${PINK}`}>After</p>
-                <ul class="space-y-2 text-sm text-gray-700">
+              <div class="rounded-card p-5" style={`border:1px solid ${PINK_BORDER};background:${PINK_BG}`}>
+                <p class="text-xs font-bold uppercase tracking-widest mb-3" style={`color:${PINK}`}>After</p>
+                <ul class="space-y-2 text-sm text-brand-gray-700">
                   <li class="flex items-start gap-2"><span class="mt-0.5 shrink-0 font-bold" style={`color:${PINK}`}>✓</span> {skill.benefit}</li>
                   <li class="flex items-start gap-2"><span class="mt-0.5 shrink-0 font-bold" style={`color:${PINK}`}>✓</span> Runs automatically, every time, 24/7</li>
                   <li class="flex items-start gap-2"><span class="mt-0.5 shrink-0 font-bold" style={`color:${PINK}`}>✓</span> Zero manual effort from your team</li>
@@ -429,20 +418,20 @@ const schemaLd = {
           </div>
 
           <!-- How to deploy -->
-          <div>
-            <h2 class="text-xl font-bold text-gray-900 mb-2">How to deploy</h2>
-            <p class="text-sm text-gray-400 mb-5">Live in 7 business days, tested on your real data.</p>
+          <div class="scroll-fade">
+            <p class="eyebrow mb-1">How to deploy</p>
+            <p class="font-display text-[1.4rem] text-brand-black mb-6">Live in 7 business days.</p>
             <div class="space-y-3">
               {[
                 { n: '01', title: 'Book your free audit', desc: `We review your current ${catLabels[skill.cat].toLowerCase()} process, map your stack, and confirm the exact ROI — live on a 60-minute call. No commitment.` },
                 { n: '02', title: 'PURIST builds and tests', desc: `We configure the automation connecting ${displayTools.join(', ')}, run it against your real data, and resolve every edge case. You approve before anything goes live.` },
                 { n: '03', title: 'Go live — and stay live', desc: `Deployed to your environment. ${skill.time} saved from week one. 24/7 monitoring, error alerts, and a dedicated support channel. You own 100% of the code.` },
               ].map(step => (
-                <div class="flex gap-5 p-5 rounded-xl border border-gray-100 bg-gray-50">
-                  <span class="font-bold text-3xl text-gray-200 leading-none shrink-0 mt-1">{step.n}</span>
+                <div class="flex gap-5 p-5 rounded-card border border-brand-gray-100 bg-brand-cream">
+                  <span class="font-display text-4xl text-brand-gray-200 leading-none shrink-0 mt-1">{step.n}</span>
                   <div>
-                    <p class="font-semibold text-gray-900 mb-1">{step.title}</p>
-                    <p class="text-sm text-gray-500 leading-relaxed">{step.desc}</p>
+                    <p class="font-semibold text-brand-black mb-1">{step.title}</p>
+                    <p class="text-sm text-brand-gray-600 leading-relaxed">{step.desc}</p>
                   </div>
                 </div>
               ))}
@@ -450,9 +439,10 @@ const schemaLd = {
           </div>
 
           <!-- FAQ -->
-          <div>
-            <h2 class="text-xl font-bold text-gray-900 mb-6">Frequently asked questions</h2>
-            <div class="divide-y divide-gray-100" id="faq-list">
+          <div class="scroll-fade">
+            <p class="eyebrow mb-1">FAQ</p>
+            <p class="font-display text-[1.4rem] text-brand-black mb-6">Frequently asked questions</p>
+            <div class="divide-y divide-brand-gray-100" id="faq-list">
               {[
                 {
                   q: `How long does it take to deploy this automation?`,
@@ -481,15 +471,15 @@ const schemaLd = {
               ].map((faq, i) => (
                 <div data-faq={i} class="py-4">
                   <button
-                    class="w-full text-left flex items-center justify-between gap-4 text-sm font-medium text-gray-900 hover:text-gray-600 transition"
+                    class="w-full text-left flex items-center justify-between gap-4 text-sm font-medium text-brand-black hover:text-brand-gray-600 transition"
                     onclick={`toggleFaq(${i})`}
                     aria-expanded="false"
                   >
                     <span>{faq.q}</span>
-                    <svg class="w-4 h-4 text-gray-400 shrink-0 faq-chevron transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+                    <svg class="w-4 h-4 text-brand-gray-400 shrink-0 faq-chevron transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
                   </button>
                   <div class="faq-body overflow-hidden max-h-0 transition-all duration-300">
-                    <p class="text-sm text-gray-500 leading-relaxed pt-3">{faq.a}</p>
+                    <p class="text-sm text-brand-gray-500 leading-relaxed pt-3">{faq.a}</p>
                   </div>
                 </div>
               ))}
@@ -499,40 +489,37 @@ const schemaLd = {
         </div>
 
         <!-- Sticky sidebar -->
-        <div class="lg:col-span-4 space-y-5">
+        <div class="lg:col-span-4 space-y-4">
 
-          <!-- Verified badge — PURIST branded -->
-          <div class="rounded-xl p-4 flex items-start gap-3" style={`background:${PINK_BG};border:1px solid ${PINK_BORDER}`}>
+          <!-- Verified badge -->
+          <div class="rounded-card p-4 flex items-start gap-3" style={`background:${PINK_BG};border:1px solid ${PINK_BORDER}`}>
             <svg class="w-5 h-5 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke={PINK} stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
             <div>
-              <p class="text-sm font-semibold text-gray-900">Verified deployment</p>
-              <p class="text-xs text-gray-500 mt-0.5">Tested on real data before handover</p>
+              <p class="text-sm font-semibold text-brand-black">Verified deployment</p>
+              <p class="text-xs text-brand-gray-500 mt-0.5">Tested on real data before handover</p>
             </div>
           </div>
 
           <!-- Complexity -->
-          <div class="rounded-xl border border-gray-100 p-4">
-            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Complexity</p>
+          <div class="rounded-card border border-brand-gray-100 bg-white p-4">
+            <p class="eyebrow mb-3">Complexity</p>
             <div class="flex items-center gap-2">
               <span class={`text-xs font-semibold px-2.5 py-1 rounded-full ${skill.complexity === 'Starter' ? 'bg-green-100 text-green-700' : skill.complexity === 'Intermediate' ? 'bg-amber-100 text-amber-700' : 'bg-purple-100 text-purple-700'}`}>
                 {skill.complexity}
               </span>
-              <span class="text-xs text-gray-400">
+              <span class="text-xs text-brand-gray-500">
                 {skill.complexity === 'Starter' ? 'Simple triggers, fast deploy' : skill.complexity === 'Intermediate' ? 'Multi-step logic, moderate setup' : 'Advanced AI + multi-system'}
               </span>
             </div>
           </div>
 
           <!-- Tags -->
-          <div class="rounded-xl border border-gray-100 p-4">
-            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><circle cx="7" cy="7" r="1"/></svg>
-              Tags
-            </p>
+          <div class="rounded-card border border-brand-gray-100 bg-white p-4">
+            <p class="eyebrow mb-3">Tags</p>
             <div class="flex flex-wrap gap-1.5">
               {tags.map(tag => (
                 <a href={`/skills?q=${encodeURIComponent(tag)}`}
-                   class="text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 transition">
+                   class="text-xs px-2.5 py-1 rounded-full bg-brand-gray-50 border border-brand-gray-200 text-brand-gray-500 hover:border-brand-gray-400 hover:text-brand-black transition">
                   {tag}
                 </a>
               ))}
@@ -540,12 +527,12 @@ const schemaLd = {
           </div>
 
           <!-- Industries -->
-          <div class="rounded-xl border border-gray-100 p-4">
-            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Industries</p>
+          <div class="rounded-card border border-brand-gray-100 bg-white p-4">
+            <p class="eyebrow mb-3">Industries</p>
             <div class="flex flex-wrap gap-1.5">
               {skill.industries.map(i => (
                 <a href={`/skills?industry=${i}`}
-                   class="text-xs px-2.5 py-1 rounded-full border border-gray-200 text-gray-500 hover:border-gray-400 transition">
+                   class="text-xs px-2.5 py-1 rounded-full border border-brand-gray-200 text-brand-gray-500 hover:border-brand-gray-400 transition">
                   {industryLabels[i] ?? i}
                 </a>
               ))}
@@ -553,11 +540,11 @@ const schemaLd = {
           </div>
 
           <!-- Tools -->
-          <div class="rounded-xl border border-gray-100 p-4">
-            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Connects</p>
+          <div class="rounded-card border border-brand-gray-100 bg-white p-4">
+            <p class="eyebrow mb-3">Connects</p>
             <div class="flex flex-wrap gap-2">
               {displayTools.map(t => (
-                <span class="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-lg border border-gray-200 bg-gray-50 text-gray-700">
+                <span class="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-[10px] border border-brand-gray-200 bg-brand-cream text-brand-gray-700">
                   <span class="w-1.5 h-1.5 rounded-full" style={`background:${PINK}`}></span>
                   {t}
                 </span>
@@ -566,28 +553,28 @@ const schemaLd = {
           </div>
 
           <!-- Creator -->
-          <div class="rounded-xl border border-gray-100 p-4">
-            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Creator</p>
+          <div class="rounded-card border border-brand-gray-100 bg-white p-4">
+            <p class="eyebrow mb-3">Creator</p>
             <div class="flex items-center gap-3 mb-3">
-              <div class="w-10 h-10 rounded-xl bg-brand-black flex items-center justify-center shrink-0 overflow-hidden">
+              <div class="w-10 h-10 rounded-[10px] bg-brand-black flex items-center justify-center shrink-0 overflow-hidden">
                 <svg viewBox="0 0 32 32" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                   <rect width="32" height="32" fill="#0A0A0A"/>
                   <text x="16" y="22" font-family="Georgia, serif" font-size="15" font-weight="500" fill="#F8F6F1" text-anchor="middle">P</text>
                 </svg>
               </div>
               <div>
-                <p class="text-sm font-semibold text-gray-900">PURIST</p>
-                <p class="text-xs text-gray-400">Automation studio · London</p>
+                <p class="text-sm font-semibold text-brand-black">PURIST</p>
+                <p class="text-xs text-brand-gray-400">Automation studio · London</p>
               </div>
             </div>
-            <a href="/pages/contact-us" class="flex items-center justify-center gap-1.5 w-full border border-gray-200 text-gray-600 text-xs font-medium py-2.5 rounded-lg hover:bg-gray-50 transition">
+            <a href="/pages/contact-us" class="flex items-center justify-center gap-1.5 w-full border border-brand-gray-200 text-brand-gray-600 text-xs font-medium py-2.5 rounded-button hover:bg-brand-gray-50 transition">
               <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
               Ask the team
             </a>
           </div>
 
           {skill.badge && (
-            <div class="rounded-xl border p-4 text-center" style={`border-color:${PINK_BORDER};background:${PINK_BG}`}>
+            <div class="rounded-card border p-4 text-center" style={`border-color:${PINK_BORDER};background:${PINK_BG}`}>
               <span class="text-xs font-semibold" style={`color:${PINK}`}>{skill.badge}</span>
             </div>
           )}
@@ -595,51 +582,51 @@ const schemaLd = {
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- More skills -->
-    {related.length > 0 && (
-      <div class="border-t border-gray-100 bg-gray-50">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 lg:py-12">
-          <h2 class="text-lg font-bold text-gray-900 mb-6">More skills</h2>
-          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {related.map(r => {
-              const rs = catStyle[r.cat] ?? catStyle.ops;
-              return (
-                <a href={`/skills/${r.slug}`}
-                   class="group block bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm rounded-xl p-4 transition-all">
-                  <div class="flex items-center gap-2.5 mb-3">
-                    <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={`background:${PINK_BG}`}>
-                      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke={PINK} stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d={rs.icon}/>
-                      </svg>
-                    </div>
-                    {(r as any).price && <span class="text-xs font-semibold text-gray-400 ml-auto">£{(r as any).price}</span>}
+  <!-- More skills -->
+  {related.length > 0 && (
+    <section class="bg-brand-cream border-t border-brand-gray-100 py-12 lg:py-16">
+      <div class="container-x">
+        <p class="eyebrow mb-2">More skills</p>
+        <p class="font-display text-[1.4rem] text-brand-black mb-8">Related automations</p>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {related.map(r => {
+            const rs = catStyle[r.cat] ?? catStyle.ops;
+            return (
+              <a href={`/skills/${r.slug}`}
+                 class="group block bg-white border border-brand-gray-100 hover:border-brand-gray-300 hover:shadow-md rounded-card p-5 transition-all">
+                <div class="flex items-center gap-2.5 mb-3">
+                  <div class="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0" style={`background:${PINK_BG};border:1px solid ${PINK_BORDER};`}>
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke={PINK} stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d={rs.icon}/>
+                    </svg>
                   </div>
-                  <p class="text-sm font-semibold text-gray-900 mb-1 leading-snug group-hover:text-gray-700">{r.title}</p>
-                  <p class="text-xs text-gray-400 leading-relaxed line-clamp-2">{r.benefit}</p>
-                  <p class="text-xs font-semibold mt-2" style={`color:${PINK}`}>{r.time} saved →</p>
-                </a>
-              );
-            })}
-          </div>
+                  {(r as any).price && <span class="text-xs font-semibold text-brand-gray-400 ml-auto">£{(r as any).price}</span>}
+                </div>
+                <p class="text-sm font-semibold text-brand-black mb-1 leading-snug group-hover:text-brand-gray-700">{r.title}</p>
+                <p class="text-xs text-brand-gray-500 leading-relaxed line-clamp-2">{r.benefit}</p>
+                <p class="text-xs font-semibold mt-2" style={`color:${PINK}`}>{r.time} saved →</p>
+              </a>
+            );
+          })}
         </div>
       </div>
-    )}
+    </section>
+  )}
 
-    <!-- Sticky bottom bar (mobile) -->
-    <div class="fixed bottom-0 inset-x-0 z-30 bg-white border-t border-gray-200 px-4 py-3 flex items-center justify-between lg:hidden">
-      <div>
-        <p class="text-xs text-gray-500 font-medium truncate max-w-[180px]">{skill.title}</p>
-        <p class="text-sm font-bold text-gray-900">£{basePrice} · 30-day guarantee</p>
-      </div>
-      <a href="/pages/welcome"
-         class="text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition"
-         style={`background:${PINK}`}>
-        Book audit →
-      </a>
+  <!-- Sticky bottom bar (mobile) -->
+  <div class="fixed bottom-0 inset-x-0 z-30 bg-brand-black border-t border-white/10 px-4 py-3 flex items-center justify-between lg:hidden">
+    <div>
+      <p class="text-xs text-white/40 font-medium truncate max-w-[180px]">{skill.title}</p>
+      <p class="text-sm font-bold text-white">£{basePrice} · 30-day guarantee</p>
     </div>
-
-  </main>
+    <a href="/pages/welcome"
+       class="text-white text-sm font-semibold px-5 py-2.5 rounded-button transition"
+       style={`background:${PINK}`}>
+      Book audit →
+    </a>
+  </div>
 
   <script>
     function toggleFaq(index: number) {
@@ -666,5 +653,4 @@ const schemaLd = {
     (window as any).toggleFaq = toggleFaq;
   </script>
 
-  <Footer />
-</BaseLayout>
+</ShopLayout>
