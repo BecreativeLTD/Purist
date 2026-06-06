@@ -1,6 +1,7 @@
 ---
 import ShopLayout from '~/layouts/ShopLayout.astro';
 import blogData from '~/data/blog.json';
+import { terms as _glossaryTerms } from '~/data/glossary';
 
 export function getStaticPaths() {
   return blogData.articles.map((a) => ({
@@ -76,6 +77,28 @@ function parseMdLinks(text: string): string {
     /\[([^\]]+)\]\(([^)]+)\)/g,
     '<a href="$2" style="color:#0A0A0A;font-weight:600;text-decoration:underline;text-decoration-color:rgba(232,180,176,0.8);text-underline-offset:3px;transition:text-decoration-color 0.15s;">$1</a>'
   );
+}
+
+// ── Glossary auto-linker (first occurrence per term, max 10 per article) ──
+const _sortedGlossary = [..._glossaryTerms].sort((a, b) => b.term.length - a.term.length);
+const _linkedSlugs = new Set<string>();
+
+function linkifyGlossary(text: string): string {
+  if (_linkedSlugs.size >= 10) return text;
+  let out = text;
+  for (const gt of _sortedGlossary) {
+    if (_linkedSlugs.has(gt.slug)) continue;
+    const esc = gt.term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp(`(?<![\\w/.-])(${esc})(?![\\w/.-])`, 'i');
+    if (re.test(out)) {
+      out = out.replace(re, (match) => {
+        _linkedSlugs.add(gt.slug);
+        return `<a href="/pages/glossary/${gt.slug}" style="color:inherit;font-weight:600;text-decoration:underline;text-decoration-color:rgba(232,180,176,0.7);text-underline-offset:3px;" title="${gt.term} — see glossary">${match}</a>`;
+      });
+      if (_linkedSlugs.size >= 10) break;
+    }
+  }
+  return out;
 }
 const schemaDate = (() => {
   const months: Record<string,string> = { January:'01',February:'02',March:'03',April:'04',May:'05',June:'06',July:'07',August:'08',September:'09',October:'10',November:'11',December:'12' };
@@ -279,18 +302,18 @@ const schemaDate = (() => {
               {block.items.map((item: string) => (
                 <li style="display:flex;align-items:flex-start;gap:10px;font-size:15px;line-height:1.7;color:rgba(10,10,10,0.78);">
                   <span style="width:5px;height:5px;border-radius:50%;background:#E8B4B0;flex-shrink:0;margin-top:9px;"></span>
-                  {item}
+                  <Fragment set:html={parseMdLinks(linkifyGlossary(item))}/>
                 </li>
               ))}
             </ul>
           );
           if (block.type === 'paragraph' && block.first) return (
             <p style="font-size:17px;line-height:1.8;color:#0A0A0A;margin-bottom:1.5rem;font-feature-settings:'kern' 1,'liga' 1;">
-              <span style="float:left;font-family:'Fraunces',Georgia,serif;font-size:4.5rem;line-height:0.82;margin-right:8px;margin-top:8px;color:#0A0A0A;">{block.text[0]}</span><Fragment set:html={parseMdLinks(block.text.slice(1))}/>
+              <span style="float:left;font-family:'Fraunces',Georgia,serif;font-size:4.5rem;line-height:0.82;margin-right:8px;margin-top:8px;color:#0A0A0A;">{block.text[0]}</span><Fragment set:html={parseMdLinks(linkifyGlossary(block.text.slice(1)))}/>
             </p>
           );
           return (
-            <p style="font-size:16px;line-height:1.85;color:rgba(10,10,10,0.78);margin-bottom:1.5rem;" set:html={parseMdLinks((block as any).text)}/>
+            <p style="font-size:16px;line-height:1.85;color:rgba(10,10,10,0.78);margin-bottom:1.5rem;" set:html={parseMdLinks(linkifyGlossary((block as any).text))}/>
           );
         })}
 
