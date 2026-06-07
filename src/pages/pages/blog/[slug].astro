@@ -250,8 +250,8 @@ const schemaDate = (() => {
 
       <!-- Author + share -->
       <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-        <div style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:rgba(232,180,176,0.15);border:1px solid rgba(232,180,176,0.25);color:#E8B4B0;flex-shrink:0;">
-          {article.author.split(' ').map((w: string) => w[0]).join('').slice(0,2).toUpperCase()}
+        <div style="width:32px;height:32px;border-radius:50%;background:rgba(232,180,176,0.12);border:1px solid rgba(232,180,176,0.25);flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+          <img src="/favicon.svg" alt="PURIST" width="20" height="20" style="width:20px;height:20px;object-fit:contain;filter:brightness(0) invert(1);" />
         </div>
         <div>
           <p style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.75);margin:0;">{article.author}</p>
@@ -343,8 +343,8 @@ const schemaDate = (() => {
 
         <!-- Author box -->
         <div style="margin-top:3rem;padding:1.5rem;border-radius:16px;background:#F8F6F1;border:1px solid rgba(10,10,10,0.07);display:flex;gap:1rem;align-items:flex-start;">
-          <div style="width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:#0A0A0A;color:#E8B4B0;flex-shrink:0;">
-            {article.author.split(' ').map((w: string) => w[0]).join('').slice(0,2).toUpperCase()}
+          <div style="width:44px;height:44px;border-radius:50%;background:#0A0A0A;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+            <img src="/favicon.svg" alt="PURIST" width="28" height="28" style="width:28px;height:28px;object-fit:contain;filter:brightness(0) invert(1);" />
           </div>
           <div>
             <p style="font-size:12px;font-weight:700;color:#0A0A0A;margin-bottom:2px;" itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">{article.author}</span></p>
