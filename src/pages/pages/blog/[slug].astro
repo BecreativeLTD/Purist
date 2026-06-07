@@ -17,6 +17,18 @@ const sameCat = articles.filter((a) => a.id !== article.id && a.category === art
 const others  = articles.filter((a) => a.id !== article.id && a.category !== article.category);
 const moreArticles = [...sameCat, ...others].slice(0, 3);
 
+// ── Silo navigation ───────────────────────────────────────────
+const hasSilo = !!(article as any).silo;
+const siloName: string = (article as any).siloName ?? '';
+const isPillar: boolean = (article as any).isPillar ?? false;
+const pillarSlug: string = (article as any).pillarSlug ?? '';
+const siloClusterArticles = hasSilo
+  ? articles.filter((a) => (a as any).silo === (article as any).silo && a.slug !== article.slug)
+  : [];
+const pillarArticle = hasSilo && !isPillar
+  ? articles.find((a) => a.slug === pillarSlug)
+  : null;
+
 // ── Parse body into structured blocks ──────────────────────────
 type Block =
   | { type: 'h2'; text: string; id: string }
@@ -376,8 +388,28 @@ const schemaDate = (() => {
             </ol>
           </nav>
 
+          <!-- Silo navigation -->
+          {hasSilo && (
+            <div style="margin-top:1.75rem;padding:1.25rem;border-radius:14px;background:#F8F6F1;border:1px solid rgba(10,10,10,0.07);">
+              <p style="font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(10,10,10,0.3);margin-bottom:10px;">{isPillar ? '📚 Complete guide' : '📚 Part of this guide'}</p>
+              {!isPillar && pillarArticle && (
+                <a href={`/pages/blog/${pillarSlug}`} style="display:block;font-size:11px;font-weight:700;color:#0A0A0A;text-decoration:none;margin-bottom:10px;padding:7px 10px;background:#fff;border-radius:8px;border:1px solid rgba(10,10,10,0.1);">
+                  ← {(pillarArticle as any).title?.slice(0,45)}…
+                </a>
+              )}
+              <p style="font-size:9px;font-weight:600;color:rgba(10,10,10,0.4);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.12em;">{siloName}</p>
+              <div style="display:flex;flex-direction:column;gap:3px;">
+                {siloClusterArticles.slice(0, 6).map((a: any) => (
+                  <a href={`/pages/blog/${a.slug}`} style="font-size:10.5px;color:rgba(10,10,10,0.55);text-decoration:none;padding:4px 6px;border-radius:5px;line-height:1.4;transition:color 0.15s;" onmouseover="this.style.color='#0A0A0A'" onmouseout="this.style.color='rgba(10,10,10,0.55)'">
+                    → {a.title?.slice(0, 42)}{a.title?.length > 42 ? '…' : ''}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+
           <!-- CTA inline -->
-          <div style="margin-top:2rem;padding:1.25rem;border-radius:14px;background:#0A0A0A;">
+          <div style="margin-top:1.5rem;padding:1.25rem;border-radius:14px;background:#0A0A0A;">
             <p style="font-size:11px;font-weight:600;color:#fff;margin-bottom:6px;line-height:1.4;">Ready to automate your business?</p>
             <p style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:12px;line-height:1.5;">Free audit within 48h.</p>
             <a href="/pages/welcome" style="display:block;text-align:center;font-size:11px;font-weight:600;padding:9px;border-radius:8px;background:#E8B4B0;color:#0A0A0A;text-decoration:none;">
@@ -392,6 +424,30 @@ const schemaDate = (() => {
     </div>
   </div>
 </article>
+
+<!-- ── SILO CLUSTER LINKS ─────────────────────────────────────── -->
+{hasSilo && siloClusterArticles.length > 0 && (
+  <section style="background:#0A0A0A;padding:4rem 0;">
+    <div class="container-x">
+      <p style="font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:6px;">Complete guide</p>
+      <h2 style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.3rem,2.5vw,1.75rem);font-weight:400;color:#fff;margin-bottom:2rem;letter-spacing:-0.02em;">{siloName}</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;">
+        {!isPillar && pillarArticle && (
+          <a href={`/pages/blog/${pillarSlug}`} style="padding:14px 16px;border-radius:12px;background:rgba(232,180,176,0.12);border:1px solid rgba(232,180,176,0.25);text-decoration:none;display:flex;flex-direction:column;gap:4px;">
+            <span style="font-size:8.5px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#E8B4B0;">Pillar guide</span>
+            <span style="font-size:12px;font-weight:600;color:#fff;line-height:1.4;">{(pillarArticle as any).title?.slice(0,55)}{(pillarArticle as any).title?.length > 55 ? '…' : ''}</span>
+          </a>
+        )}
+        {siloClusterArticles.map((a: any) => (
+          <a href={`/pages/blog/${a.slug}`} style="padding:14px 16px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);text-decoration:none;display:flex;flex-direction:column;gap:4px;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='rgba(255,255,255,0.04)'">
+            <span style="font-size:8.5px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);">{a.readingTime}</span>
+            <span style="font-size:12px;font-weight:500;color:rgba(255,255,255,0.8);line-height:1.4;">{a.title?.slice(0,55)}{a.title?.length > 55 ? '…' : ''}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
 
 <!-- ── RELATED ARTICLES ───────────────────────────────────────── -->
 {moreArticles.length > 0 && (
