@@ -2,6 +2,7 @@ export const prerender = true;
 
 import skillsData from '~/data/skills.json';
 import { terms, slugifyTerm } from '~/data/glossary';
+import blogData from '~/data/blog.json';
 
 const site = 'https://purist.online';
 
@@ -20,6 +21,12 @@ const glossaryTermPages = terms.map(t => ({
   priority: '0.6',
 }));
 
+const blogPages = blogData.articles.map(a => ({
+  url: `/pages/blog/${a.slug}`,
+  changefreq: 'monthly' as const,
+  priority: '0.7',
+}));
+
 const pages = [
   { url: '/',                                      changefreq: 'weekly',  priority: '1.0' },
   { url: '/collections/all',                       changefreq: 'weekly',  priority: '0.9' },
@@ -30,22 +37,6 @@ const pages = [
   { url: '/pages/workflow-library',                changefreq: 'weekly',  priority: '0.8' },
   { url: '/pages/stack-dna',                       changefreq: 'monthly', priority: '0.7' },
   { url: '/pages/blog',                            changefreq: 'weekly',  priority: '0.8' },
-  { url: '/pages/blog/future-of-automation-engineering-team',                    changefreq: 'monthly', priority: '0.7' },
-  { url: '/pages/blog/the-plumber-paradox-why-free-tools-need-paid-experts',     changefreq: 'monthly', priority: '0.7' },
-  { url: '/pages/blog/how-a-dental-group-saved-60-percent-front-desk-time',      changefreq: 'monthly', priority: '0.7' },
-  { url: '/pages/blog/your-crm-is-lying-to-you-data-quality-automation',         changefreq: 'monthly', priority: '0.7' },
-  { url: '/pages/blog/ai-agents-in-2026-what-actually-works',                    changefreq: 'monthly', priority: '0.7' },
-  { url: '/pages/blog/calculating-automation-roi-the-honest-guide',              changefreq: 'monthly', priority: '0.7' },
-  { url: '/pages/blog/n8n-vs-make-vs-zapier-honest-comparison',                  changefreq: 'monthly', priority: '0.7' },
-  { url: '/pages/blog/scaling-without-hiring-the-automation-playbook',           changefreq: 'monthly', priority: '0.7' },
-  { url: '/pages/blog/how-we-automated-a-45-client-marketing-agency-in-6-weeks', changefreq: 'monthly', priority: '0.7' },
-  { url: '/pages/blog/n8n-vs-make-vs-zapier-500-production-deployments',         changefreq: 'monthly', priority: '0.7' },
-  { url: '/pages/blog/7-automation-mistakes-that-kill-roi',                      changefreq: 'monthly', priority: '0.7' },
-  { url: '/pages/blog/ai-agents-in-production-what-actually-works',              changefreq: 'monthly', priority: '0.7' },
-  { url: '/pages/blog/how-a-dental-group-cut-patient-admin-by-60-percent',       changefreq: 'monthly', priority: '0.7' },
-  { url: '/pages/blog/the-operations-stack-we-recommend-for-scaling-startups-2026', changefreq: 'monthly', priority: '0.7' },
-  { url: '/pages/blog/webhook-vs-polling-automation-architecture-decision',      changefreq: 'monthly', priority: '0.7' },
-  { url: '/pages/blog/building-24-7-error-handling-system-for-automations',      changefreq: 'monthly', priority: '0.7' },
   { url: '/pages/faq',                             changefreq: 'monthly', priority: '0.7' },
   { url: '/pages/about-us',                        changefreq: 'monthly', priority: '0.7' },
   { url: '/pages/contact-us',                      changefreq: 'monthly', priority: '0.7' },
@@ -72,7 +63,7 @@ const pages = [
 
 const now = new Date().toISOString().split('T')[0];
 
-const allPages = [...pages, ...skillPages, ...glossaryTermPages];
+const allPages = [...pages, ...blogPages, ...skillPages, ...glossaryTermPages];
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
