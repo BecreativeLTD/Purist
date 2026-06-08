@@ -202,6 +202,16 @@ const complexityColor: Record<string, string> = {
           <p class="text-sm text-brand-gray-400">Try a different search or filter combination</p>
           <button type="button" id="reset-btn" class="mt-4 text-sm text-brand-black underline underline-offset-4">Reset filters</button>
         </div>
+
+        <!-- Load more -->
+        <div id="load-more-wrap" class="text-center mt-10">
+          <button type="button" id="load-more-btn"
+            class="inline-flex items-center gap-2 px-7 py-3.5 rounded-button border border-brand-gray-200 text-sm font-semibold text-brand-black hover:border-brand-gray-400 hover:bg-brand-gray-50 transition">
+            Load more workflows
+            <span id="load-more-count" class="text-brand-gray-400 font-normal text-xs"></span>
+            <svg class="w-4 h-4 text-brand-gray-400" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 2v10M3 8l4 4 4-4"/></svg>
+          </button>
+        </div>
       </div>
     </section>
 
@@ -391,6 +401,56 @@ const complexityColor: Record<string, string> = {
       </div>
     </section>
 
+    <!-- ═══════════════════════════════════════════════
+         IMPECCABLE — Design Intelligence Skills
+    ════════════════════════════════════════════════ -->
+    <section class="bg-white border-t border-brand-gray-100 py-16 lg:py-20">
+      <div class="container-x">
+
+        <div class="max-w-2xl mb-10">
+          <p class="eyebrow mb-3">Design Intelligence · Impeccable</p>
+          <h2 class="font-display text-h2 mb-4 text-balance">Professional design skills built into every workflow</h2>
+          <p class="text-brand-gray-600 leading-relaxed">
+            PURIST uses Impeccable — a professional design system with 23 specialised commands — to ensure every client-facing interface, dashboard, and automation output meets a high standard. These capabilities are applied across all deployments.
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-10">
+          {[
+            { cmd: '/impeccable audit',    icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4', title: 'Design Audit', desc: 'Full scan of any interface for accessibility, responsiveness, and anti-pattern detection. 27 deterministic rules + LLM critique pass.' },
+            { cmd: '/impeccable polish',   icon: 'M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z', title: 'Polish', desc: 'Final pre-ship refinement. Tightens spacing, hierarchy, contrast, and copy across any component or page.' },
+            { cmd: '/impeccable critique', icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z', title: 'Design Critique', desc: 'Structured UX review with severity ratings. Identifies friction points, trust gaps, and missed conversion opportunities.' },
+            { cmd: '/impeccable craft',    icon: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z', title: 'Craft', desc: 'End-to-end design workflow: shape, build, and deliver a UI feature from brief to production-ready code.' },
+            { cmd: '/impeccable shape',    icon: 'M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z', title: 'Shape', desc: 'UX planning — defines layout, information architecture, and interaction patterns before a single line of code is written.' },
+            { cmd: '/impeccable animate',  icon: 'M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z M21 12a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Animate', desc: 'Motion design guidance. Defines entrance, exit, and micro-interaction animations with correct easing and timing.' },
+            { cmd: '/impeccable colorize', icon: 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01', title: 'Colorize', desc: 'Colour system design. Builds semantic palettes, checks WCAG contrast ratios, and generates dark mode variants.' },
+            { cmd: '/impeccable typeset',  icon: 'M4 6h16M4 10h16M4 14h16M4 18h7', title: 'Typeset', desc: 'Typography system. Defines type scale, line-height, letter-spacing, and hierarchy for any content surface.' },
+            { cmd: '/impeccable layout',   icon: 'M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v11m0 0H5a2 2 0 01-2-2v-4m6 6h6a2 2 0 002-2V9m0 0h-6', title: 'Layout', desc: 'Spatial design review. Audits padding, margins, alignment, and grid consistency across breakpoints.' },
+            { cmd: '/impeccable harden',   icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Harden', desc: 'Edge-case design: empty states, error messages, loading skeletons, and offline states — all considered.' },
+            { cmd: '/impeccable clarify',  icon: 'M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z', title: 'Clarify', desc: 'UX writing and microcopy review. Makes labels, CTAs, errors, and empty states clearer and more actionable.' },
+            { cmd: '/impeccable distill',  icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10', title: 'Distill', desc: 'Removes visual noise. Strips unnecessary elements, simplifies layouts, and focuses attention on primary actions.' },
+          ].map(skill => (
+            <div class="bg-white border border-brand-gray-100 rounded-card p-5 flex flex-col">
+              <div class="w-9 h-9 rounded-[10px] flex items-center justify-center mb-3 shrink-0" style="background:rgba(232,180,176,0.10);border:1px solid rgba(196,132,126,0.20);">
+                <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="#c4847e" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                  <path d={skill.icon}/>
+                </svg>
+              </div>
+              <p class="text-[9px] font-mono font-bold uppercase tracking-widest text-brand-gray-300 mb-1">{skill.cmd}</p>
+              <p class="text-sm font-semibold text-brand-black mb-1.5 leading-snug">{skill.title}</p>
+              <p class="text-[11.5px] text-brand-gray-500 leading-relaxed flex-1">{skill.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        <div class="flex items-center gap-4 p-4 rounded-[16px] bg-brand-cream border border-brand-gray-100 text-sm text-brand-gray-600 max-w-xl">
+          <svg class="w-5 h-5 shrink-0 text-brand-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          <p>Impeccable design checks run automatically on every client-facing deliverable — no extra configuration required.</p>
+        </div>
+
+      </div>
+    </section>
+
     <!-- CTA -->
     <section class="bg-brand-cream border-t border-brand-gray-100 py-14 lg:py-20">
       <div class="container-x text-center">
@@ -407,78 +467,122 @@ const complexityColor: Record<string, string> = {
 
 </ShopLayout>
 
-<script>
+<script is:inline>
 (function () {
-  const cards = Array.from(document.querySelectorAll<HTMLElement>('.skill-card'));
-  const catBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('.cat-btn'));
-  const indBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('.ind-btn'));
-  const searchInput = document.getElementById('skill-search') as HTMLInputElement;
-  const grid = document.getElementById('skills-grid');
-  const empty = document.getElementById('empty-state');
-  const count = document.getElementById('results-count');
-  const resetBtn = document.getElementById('reset-btn');
+  var PAGE_SIZE = 24;
+  var page = 1;
+  var matching = [];
 
-  let activeCat = 'all';
-  let activeInd = 'all';
-  let query = '';
+  var cards    = Array.from(document.querySelectorAll('.skill-card'));
+  var catBtns  = Array.from(document.querySelectorAll('.cat-btn'));
+  var indBtns  = Array.from(document.querySelectorAll('.ind-btn'));
+  var searchEl = document.getElementById('skill-search');
+  var grid     = document.getElementById('skills-grid');
+  var empty    = document.getElementById('empty-state');
+  var countEl  = document.getElementById('results-count');
+  var resetBtn = document.getElementById('reset-btn');
+  var loadWrap = document.getElementById('load-more-wrap');
+  var loadBtn  = document.getElementById('load-more-btn');
+  var loadCnt  = document.getElementById('load-more-count');
 
-  function setActive(btns: HTMLButtonElement[], activeId: string) {
-    btns.forEach(b => {
-      const isActive = b.dataset[b.classList.contains('cat-btn') ? 'cat' : 'ind'] === activeId;
-      b.style.cssText = isActive
-        ? 'background:#0A0A0A;color:#fff;border-color:#0A0A0A;'
-        : 'background:white;color:#6B7280;border-color:#E5E7EB;';
+  var activeCat = 'all';
+  var activeInd = 'all';
+  var query     = '';
+
+  function styleBtn(btn, active) {
+    btn.style.cssText = active
+      ? 'background:#0A0A0A;color:#fff;border-color:#0A0A0A;'
+      : 'background:white;color:#6B7280;border-color:#E5E7EB;';
+  }
+
+  function setActive(btns, activeId, key) {
+    btns.forEach(function(b) { styleBtn(b, b.dataset[key] === activeId); });
+  }
+
+  function buildMatching() {
+    matching = cards.filter(function(card) {
+      var catOk = activeCat === 'all' || card.dataset.cat === activeCat;
+      var indOk = activeInd === 'all' || (card.dataset.industries || '').split(',').indexOf(activeInd) !== -1;
+      var qOk   = !query || (card.dataset.title || '').indexOf(query) !== -1 || (card.dataset.tags || '').indexOf(query) !== -1;
+      return catOk && indOk && qOk;
     });
+  }
+
+  function render() {
+    var toShow = matching.slice(0, page * PAGE_SIZE);
+    cards.forEach(function(card) {
+      card.style.display = toShow.indexOf(card) !== -1 ? '' : 'none';
+    });
+
+    var total = matching.length;
+    if (countEl) countEl.textContent = total + ' skill' + (total !== 1 ? 's' : '');
+
+    var hasMore = total > page * PAGE_SIZE;
+    if (loadWrap) loadWrap.style.display = hasMore ? '' : 'none';
+    if (loadCnt)  loadCnt.textContent = hasMore ? '(' + Math.min(PAGE_SIZE, total - page * PAGE_SIZE) + ' more)' : '';
+
+    var noResults = total === 0;
+    if (empty) empty.classList.toggle('hidden', !noResults);
+    if (grid)  grid.classList.toggle('hidden', noResults);
   }
 
   function filter() {
-    let visible = 0;
-    cards.forEach(card => {
-      const catMatch = activeCat === 'all' || card.dataset.cat === activeCat;
-      const indMatch = activeInd === 'all' || (card.dataset.industries ?? '').split(',').includes(activeInd);
-      const qMatch = !query || (card.dataset.title ?? '').includes(query) || (card.dataset.tags ?? '').includes(query);
-      const show = catMatch && indMatch && qMatch;
-      card.style.display = show ? '' : 'none';
-      if (show) visible++;
-    });
-    if (count) count.textContent = `${visible} skill${visible !== 1 ? 's' : ''}`;
-    if (empty) empty.classList.toggle('hidden', visible > 0);
-    if (grid) grid.classList.toggle('hidden', visible === 0);
+    page = 1;
+    buildMatching();
+    render();
   }
 
-  catBtns.forEach(b => b.addEventListener('click', () => {
-    activeCat = b.dataset.cat ?? 'all';
-    setActive(catBtns, activeCat);
-    filter();
-  }));
-
-  indBtns.forEach(b => b.addEventListener('click', () => {
-    activeInd = b.dataset.ind ?? 'all';
-    setActive(indBtns, activeInd);
-    filter();
-  }));
-
-  searchInput?.addEventListener('input', () => {
-    query = searchInput.value.toLowerCase().trim();
-    filter();
+  catBtns.forEach(function(b) {
+    b.addEventListener('click', function() {
+      activeCat = b.dataset.cat || 'all';
+      setActive(catBtns, activeCat, 'cat');
+      filter();
+    });
   });
 
-  resetBtn?.addEventListener('click', () => {
-    activeCat = 'all'; activeInd = 'all'; query = '';
-    if (searchInput) searchInput.value = '';
-    setActive(catBtns, 'all');
-    setActive(indBtns, 'all');
-    filter();
+  indBtns.forEach(function(b) {
+    b.addEventListener('click', function() {
+      activeInd = b.dataset.ind || 'all';
+      setActive(indBtns, activeInd, 'ind');
+      filter();
+    });
   });
 
-  // Handle URL params on load (e.g. /skills?cat=crm&industry=legal&q=SMS)
-  const params = new URLSearchParams(window.location.search);
-  const urlCat = params.get('cat');
-  const urlInd = params.get('industry');
-  const urlQ = params.get('q');
-  if (urlCat) { activeCat = urlCat; setActive(catBtns, urlCat); }
-  if (urlInd) { activeInd = urlInd; setActive(indBtns, urlInd); }
-  if (urlQ) { query = urlQ.toLowerCase(); if (searchInput) searchInput.value = urlQ; }
-  if (urlCat || urlInd || urlQ) filter();
+  if (searchEl) {
+    searchEl.addEventListener('input', function() {
+      query = searchEl.value.toLowerCase().trim();
+      filter();
+    });
+  }
+
+  if (resetBtn) {
+    resetBtn.addEventListener('click', function() {
+      activeCat = 'all'; activeInd = 'all'; query = '';
+      if (searchEl) searchEl.value = '';
+      setActive(catBtns, 'all', 'cat');
+      setActive(indBtns, 'all', 'ind');
+      filter();
+    });
+  }
+
+  if (loadBtn) {
+    loadBtn.addEventListener('click', function() {
+      page++;
+      render();
+    });
+  }
+
+  // Handle URL params (/skills?cat=crm&industry=legal&q=SMS)
+  var params  = new URLSearchParams(window.location.search);
+  var urlCat  = params.get('cat');
+  var urlInd  = params.get('industry');
+  var urlQ    = params.get('q');
+  if (urlCat) { activeCat = urlCat; setActive(catBtns, urlCat, 'cat'); }
+  if (urlInd) { activeInd = urlInd; setActive(indBtns, urlInd, 'ind'); }
+  if (urlQ)   { query = urlQ.toLowerCase(); if (searchEl) searchEl.value = urlQ; }
+
+  // Initial render — always paginated
+  buildMatching();
+  render();
 })();
 </script>

@@ -257,7 +257,7 @@ const schemaLd = {
               </div>
             </div>
 
-            <a href="/pages/welcome"
+            <a href={`/pages/welcome?skill=${encodeURIComponent(skill.title)}`}
                class="flex items-center justify-center gap-2 w-full font-semibold text-sm py-3.5 rounded-button transition mb-3"
                style={`background:${PINK};color:#fff;`}
                onmouseover={`this.style.background='#b5726c'`}
@@ -621,7 +621,7 @@ const schemaLd = {
       <p class="text-xs text-white/40 font-medium truncate max-w-[180px]">{skill.title}</p>
       <p class="text-sm font-bold text-white">£{basePrice} · 30-day guarantee</p>
     </div>
-    <a href="/pages/welcome"
+    <a href={`/pages/welcome?skill=${encodeURIComponent(skill.title)}`}
        class="text-white text-sm font-semibold px-5 py-2.5 rounded-button transition"
        style={`background:${PINK}`}>
       Book audit →

@@ -166,6 +166,13 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
         <div class="px-7 lg:px-10 pt-7 pb-6" style="border-bottom:1px solid rgba(10,10,10,0.06);">
           <p class="text-[9px] uppercase tracking-[0.22em] font-bold mb-1.5" style="color:rgba(10,10,10,0.30);">Free consultation · No payment</p>
           <h3 class="font-display text-xl lg:text-2xl leading-snug tracking-[-0.015em]">Tell us about your business.</h3>
+          <!-- Skill context banner — shown by JS if ?skill= param present -->
+          <div id="skill-context-banner" class="hidden mt-4 flex items-center gap-2.5 px-3.5 py-2.5 rounded-[10px]" style="background:rgba(232,180,176,0.10);border:1px solid rgba(196,132,126,0.18);">
+            <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="#c4847e" stroke-width="2" stroke-linecap="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <p class="text-[11.5px]" style="color:rgba(10,10,10,0.60);">
+              Interested in: <strong id="skill-context-name" class="text-brand-black"></strong>
+            </p>
+          </div>
         </div>
 
         <!-- THE FORM -->
@@ -445,6 +452,18 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
 </style>
 
 <script is:inline>
+  // Read ?skill= param and surface it in the form
+  (function() {
+    var skill = new URLSearchParams(window.location.search).get('skill');
+    if (!skill) return;
+    var banner = document.getElementById('skill-context-banner');
+    var nameEl = document.getElementById('skill-context-name');
+    var textarea = document.querySelector('textarea[name="message"]');
+    if (banner) { banner.classList.remove('hidden'); banner.style.display = 'flex'; }
+    if (nameEl) nameEl.textContent = skill;
+    if (textarea && !textarea.value) textarea.value = 'I\'m interested in the "' + skill + '" automation.';
+  })();
+
   // Business type card toggle
   document.querySelectorAll('.biz-card').forEach(function(card) {
     card.querySelector('input').addEventListener('change', function() {
