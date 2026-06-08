@@ -1981,8 +1981,15 @@ const navItems = [
  /* ── DESKTOP: shell sits below the header ───────────────────────────── */
  @media (min-width: 1024px) {
    #dashboard-shell { top: 64px !important; }
-   #sidebar { width: 260px !important; max-width: 260px !important; transform: translateX(0) !important; }
-   #dash-content { margin-left: 260px !important; }
+   #sidebar {
+     position: relative !important;
+     transform: translateX(0) !important;
+     width: 260px !important;
+     max-width: 260px !important;
+     flex-shrink: 0 !important;
+     height: auto !important;
+   }
+   #dash-content { margin-left: 0 !important; }
  }
 
  @keyframes ping-g { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.5)} }
