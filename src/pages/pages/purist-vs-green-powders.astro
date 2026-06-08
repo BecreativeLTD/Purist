@@ -1,10 +1,9 @@
 ---
-import BaseLayout from '~/layouts/BaseLayout.astro';
-import Header from '~/components/layout/Header.astro';
-import Footer from '~/components/layout/Footer.astro';
+import ShopLayout from '~/layouts/ShopLayout.astro';
 
-const PINK = '#c4847e';
-const PINK_BG = 'rgba(232,180,176,0.10)';
+const PINK = '#E8B4B0';
+const PINK_DARK = '#c4847e';
+const PINK_BG = 'rgba(232,180,176,0.09)';
 
 const rows = [
   { feature: 'Setup time',           purist: '< 7 days',                  other: '2–6 weeks DIY' },
@@ -18,73 +17,215 @@ const rows = [
   { feature: 'Self-hosted option',   purist: 'Yes — your infra',           other: 'No' },
   { feature: 'Money-back guarantee', purist: '30 days',                    other: 'None' },
 ];
+
+const faqs = [
+  {
+    q: 'Is Zapier bad? Why would I switch to PURIST?',
+    a: 'Zapier is an excellent starting point for simple, low-volume automations. The problem emerges at scale. When you hit 50,000+ tasks per month, the per-task pricing becomes significant — often £200–800/month just for task usage. More importantly, you own nothing: Zapier controls your workflows, your logic lives in their cloud, and there is no way to move it without rebuilding from scratch. PURIST deploys your workflows on infrastructure you own, with zero ongoing platform fees.'
+  },
+  {
+    q: 'Can PURIST migrate my existing Zaps?',
+    a: 'Yes. Our migration process starts with a full audit of your existing Zaps, identifying which should be rebuilt in n8n, which are better left on Zapier (for simple, low-volume tasks), and which present an opportunity to add logic that Zapier cannot support. Most migrations complete in 5–10 business days.'
+  },
+  {
+    q: 'What happens when my Zapier automations break?',
+    a: 'With Zapier, you get an email. You debug it yourself. With PURIST, every deployment includes 24/7 error monitoring with 90-second Slack alerts, automatic retry logic, and an engineer who fixes failures before you notice them. Our SLA guarantees 99.5% workflow uptime.'
+  },
+  {
+    q: 'What is the real cost of Zapier at scale?',
+    a: 'A mid-size business running 100,000 tasks per month on Zapier Professional pays approximately £490/month — just for tasks. Add team seats, premium apps, and overages and you quickly reach £700–900/month. PURIST charges a flat monthly fee regardless of volume, with no per-task billing ever.'
+  },
+  {
+    q: 'Does PURIST support all the same app integrations as Zapier?',
+    a: 'n8n (the platform PURIST uses for most deployments) has 400+ native integrations and supports any HTTP/REST API, making it compatible with virtually every tool Zapier connects to. For niche apps without a native integration, we build the connection using the API directly.'
+  },
+  {
+    q: 'How long does it take to go live?',
+    a: 'Standard deployments (Automation Pro, 9 workflows) go live in 5–10 business days from the initial audit call. Complex AI agent deployments take 10–15 business days. We provide a live production environment, not a demo — everything deployed is in active use from day one.'
+  },
+];
+
+const pageUrl = 'https://purist.online/pages/purist-vs-green-powders';
 ---
 
-<BaseLayout
+<ShopLayout
   title="PURIST vs Zapier — Why Businesses Switch | PURIST Automation"
   description="Compare PURIST automation deployments against Zapier. No platform lock-in, no ongoing fees, 24/7 monitoring and custom logic that Zapier cannot match."
+  canonical={pageUrl}
 >
-  <Header />
-  <main id="main-content">
+  <!-- Breadcrumb -->
+  <nav aria-label="Breadcrumb" class="container-x py-4 text-xs text-brand-gray-600">
+    <ol class="flex items-center gap-1.5 flex-wrap">
+      <li><a href="/" class="hover:text-brand-black transition">Home</a></li>
+      <li aria-hidden="true">/</li>
+      <li><a href="/collections/all" class="hover:text-brand-black transition">Services</a></li>
+      <li aria-hidden="true">/</li>
+      <li class="text-brand-black">PURIST vs Zapier</li>
+    </ol>
+  </nav>
 
-    <div class="py-16 lg:py-24" style="background:#0A0A0A">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-        <p class="text-xs uppercase tracking-widest font-bold mb-4" style={`color:${PINK}`}>Comparison</p>
-        <h1 class="text-3xl lg:text-5xl font-bold text-white mb-5 leading-tight">PURIST vs Zapier</h1>
-        <p class="text-base lg:text-lg text-gray-400 max-w-2xl mx-auto mb-8">
-          Zapier is a great starting point. But at scale, monthly fees compound, logic hits walls, and you own nothing. Here is how PURIST compares.
-        </p>
-        <div class="flex flex-wrap gap-4 justify-center">
-          <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style={`background:${PINK}`}>Book free audit →</a>
-          <a href="/skills" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm border border-gray-700 text-gray-300 hover:border-gray-500 transition">Browse 157 skills</a>
-        </div>
+  <!-- Hero -->
+  <header class="py-16 lg:py-24" style="background:#0A0A0A;">
+    <div class="container-x max-w-4xl mx-auto text-center">
+      <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-4" style={`color:${PINK_DARK};`}>Comparison</p>
+      <h1 class="font-display text-3xl lg:text-5xl text-white mb-5 leading-tight tracking-tight">PURIST vs Zapier</h1>
+      <p class="text-base lg:text-lg max-w-2xl mx-auto mb-8 leading-relaxed" style="color:rgba(255,255,255,0.5);">
+        Zapier is a great starting point. But at scale, monthly fees compound, logic hits walls, and you own nothing. Here is how PURIST compares.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-brand-black transition" style={`background:${PINK};`}>Book free audit →</a>
+        <a href="/skills" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm border border-gray-700 text-gray-300 hover:border-gray-500 transition">Browse 157 skills</a>
       </div>
     </div>
+  </header>
 
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-14 lg:py-20">
+  <!-- Comparison table -->
+  <section class="container-x max-w-4xl mx-auto py-14 lg:py-20">
 
-      <div class="overflow-x-auto rounded-2xl border border-gray-200 mb-14">
-        <table class="w-full text-sm">
-          <thead>
-            <tr class="border-b border-gray-200 bg-gray-50">
-              <th class="text-left px-5 py-4 font-semibold text-gray-700 w-1/3">Feature</th>
-              <th class="text-center px-5 py-4 font-bold" style={`color:${PINK}`}>PURIST</th>
-              <th class="text-center px-5 py-4 font-semibold text-gray-400">Zapier</th>
+    <div class="overflow-x-auto rounded-2xl border border-brand-gray-100 mb-14">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b border-brand-gray-100 bg-brand-gray-50">
+            <th class="text-left px-5 py-4 font-semibold text-brand-gray-700 w-1/3">Feature</th>
+            <th class="text-center px-5 py-4 font-bold" style={`color:${PINK_DARK};`}>PURIST</th>
+            <th class="text-center px-5 py-4 font-semibold text-brand-gray-400">Zapier</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-brand-gray-100">
+          {rows.map(r => (
+            <tr class="hover:bg-brand-gray-50 transition">
+              <td class="px-5 py-3.5 text-brand-gray-600 font-medium">{r.feature}</td>
+              <td class="px-5 py-3.5 text-center font-semibold text-brand-black">{r.purist}</td>
+              <td class="px-5 py-3.5 text-center text-brand-gray-400">{r.other}</td>
             </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-100">
-            {rows.map(r => (
-              <tr class="hover:bg-gray-50 transition">
-                <td class="px-5 py-3.5 text-gray-600 font-medium">{r.feature}</td>
-                <td class="px-5 py-3.5 text-center font-semibold text-gray-900">{r.purist}</td>
-                <td class="px-5 py-3.5 text-center text-gray-400">{r.other}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
+    </div>
 
-      <div class="grid sm:grid-cols-3 gap-6 mb-14">
+    <!-- Stats -->
+    <div class="grid sm:grid-cols-3 gap-6 mb-14">
+      {[
+        { value: '£0',   label: 'Platform fees — ever',    desc: 'You pay once for deployment. No monthly Zapier bill that grows with your usage.' },
+        { value: '100%', label: 'Code ownership',          desc: 'Every workflow is yours. Move it, modify it, hand it to any developer.' },
+        { value: '9.2×', label: 'Average ROI at 90 days', desc: 'Clients switching from Zapier typically recoup setup cost within the first month.' },
+      ].map(s => (
+        <div class="rounded-2xl border border-brand-gray-100 p-6 text-center">
+          <p class="font-display text-3xl mb-1" style={`color:${PINK_DARK};`}>{s.value}</p>
+          <p class="text-sm font-semibold text-brand-black mb-2">{s.label}</p>
+          <p class="text-xs text-brand-gray-600 leading-relaxed">{s.desc}</p>
+        </div>
+      ))}
+    </div>
+
+    <!-- Why Zapier fails at scale -->
+    <div class="prose max-w-none mb-14">
+      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-5 tracking-tight">Why Zapier fails at scale</h2>
+      <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-4">
+        Zapier built its business on a fundamental tension: the more successful your automations, the more you pay. Every time a workflow runs, a task is consumed. Run a workflow 10,000 times a month? You have paid 10,000 tasks — regardless of whether the automation did anything complex.
+      </p>
+      <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-4">
+        The pricing model makes sense for individuals automating simple personal tasks. It breaks down completely for growing businesses with high-volume operations. A modest 50,000 tasks per month sits at the Professional tier: £190/month. Add multi-step Zaps, premium apps, and team seats and you can easily reach £400–700/month — without a single engineer, SLA, or custom workflow.
+      </p>
+      <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-4">
+        More damaging than the cost is the lock-in. Your workflows live in Zapier's cloud. Your logic is defined in Zapier's interface. When you want to move, every Zap must be manually rebuilt from scratch. Businesses that have been on Zapier for two years often find they have hundreds of interdependent Zaps with no documentation, no version history, and no way to audit what is actually running.
+      </p>
+      <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-8">
+        PURIST deploys on n8n — self-hosted on your own infrastructure, owned by you, documented, monitored 24/7, and portable. When you outgrow PURIST (or outgrow us), you take everything with you.
+      </p>
+
+      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-5 tracking-tight">What Zapier cannot do</h2>
+      <div class="grid sm:grid-cols-2 gap-4 mb-8">
         {[
-          { value: '£0',   label: 'Platform fees — ever',    desc: 'You pay once for deployment. No monthly Zapier bill that grows with your usage.' },
-          { value: '100%', label: 'Code ownership',          desc: 'Every workflow is yours. Move it, modify it, hand it to any developer.' },
-          { value: '9.2×', label: 'Average ROI at 90 days', desc: 'Clients switching from Zapier typically recoup setup cost within the first month.' },
-        ].map(s => (
-          <div class="rounded-xl border border-gray-200 p-6 text-center">
-            <p class="text-3xl font-bold mb-1" style={`color:${PINK}`}>{s.value}</p>
-            <p class="text-sm font-semibold text-gray-900 mb-2">{s.label}</p>
-            <p class="text-xs text-gray-500 leading-relaxed">{s.desc}</p>
+          { title: 'Complex branching logic', desc: 'Zapier paths are limited. n8n supports unlimited branching, loops, sub-workflows, and conditional logic that maps exactly to your business rules.' },
+          { title: 'Long-running workflows', desc: 'Zapier times out at 30 seconds. n8n workflows can run for hours — essential for document processing, AI inference chains, and batch operations.' },
+          { title: 'Native AI agents', desc: 'Zapier\'s AI features are bolted on. PURIST builds native Claude AI agents integrated directly into workflows — not API calls with basic text parsing.' },
+          { title: 'Custom error handling', desc: 'Zapier sends you an email when something fails. PURIST\'s deployments include node-level error routing, automatic retries, Slack alerts, and a recovery runbook.' },
+          { title: 'Self-hosted deployment', desc: 'Your data never leaves your infrastructure. Zapier always routes through their servers — a compliance problem for healthcare, legal, and financial businesses.' },
+          { title: 'Code ownership', desc: 'Every PURIST deployment is documented, version-controlled, and 100% portable. No vendor lock-in, ever.' },
+        ].map(item => (
+          <div class="rounded-xl border border-brand-gray-100 p-4">
+            <p class="text-sm font-semibold text-brand-black mb-1">{item.title}</p>
+            <p class="text-xs text-brand-gray-600 leading-relaxed">{item.desc}</p>
           </div>
         ))}
       </div>
-
-      <div class="rounded-2xl p-8 text-center" style={`background:${PINK_BG};border:1px solid rgba(196,132,126,0.20)`}>
-        <h2 class="text-xl font-bold text-gray-900 mb-3">Already on Zapier? We migrate you.</h2>
-        <p class="text-sm text-gray-600 mb-6 max-w-lg mx-auto">We audit your existing Zaps, rebuild them in n8n with better logic and zero ongoing fees, and hand you full ownership.</p>
-        <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style={`background:${PINK}`}>Book your free migration audit →</a>
-      </div>
     </div>
 
-  </main>
-  <Footer />
-</BaseLayout>
+    <!-- Migration CTA -->
+    <div class="rounded-2xl p-8 text-center mb-14" style={`background:${PINK_BG};border:1px solid rgba(196,132,126,0.20);`}>
+      <h2 class="font-display text-xl text-brand-black mb-3">Already on Zapier? We migrate you.</h2>
+      <p class="text-sm text-brand-gray-600 mb-6 max-w-lg mx-auto">We audit your existing Zaps, rebuild them in n8n with better logic and zero ongoing fees, and hand you full ownership. Most migrations complete in 5–10 business days.</p>
+      <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style={`background:${PINK_DARK};`}>Book your free migration audit →</a>
+    </div>
+
+    <!-- FAQ -->
+    <div>
+      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-8 tracking-tight">Frequently asked questions</h2>
+      <div class="divide-y divide-brand-gray-100 border-y border-brand-gray-100">
+        {faqs.map(faq => (
+          <details class="group py-5">
+            <summary class="flex items-start justify-between gap-4 cursor-pointer list-none">
+              <h3 class="text-sm font-semibold text-brand-black leading-snug">{faq.q}</h3>
+              <svg class="w-4 h-4 shrink-0 mt-0.5 transition-transform group-open:rotate-45 text-brand-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            </summary>
+            <p class="text-sm text-brand-gray-600 leading-relaxed mt-3 pr-8">{faq.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Related articles -->
+  <section class="bg-brand-cream py-14 border-t border-brand-gray-100">
+    <div class="container-x max-w-4xl mx-auto">
+      <p class="eyebrow mb-3">Related reading</p>
+      <h2 class="font-display text-2xl mb-8">Go deeper on automation strategy</h2>
+      <div class="grid sm:grid-cols-3 gap-4">
+        {[
+          { href: '/pages/blog/best-zapier-alternatives-2026-honest-review', label: 'Best Zapier Alternatives 2026', cat: 'Tools' },
+          { href: '/pages/blog/n8n-tutorial-build-first-production-workflow-2026', label: 'n8n Tutorial: Build Your First Workflow', cat: 'Tools' },
+          { href: '/pages/blog/calculating-automation-roi-the-honest-guide', label: 'Calculating Automation ROI', cat: 'ROI' },
+        ].map(l => (
+          <a href={l.href} class="group bg-white border border-brand-gray-100 rounded-2xl p-4 hover:border-brand-gray-300 transition-colors">
+            <p class="text-[9px] uppercase tracking-wider text-brand-rust font-semibold mb-2">{l.cat}</p>
+            <p class="text-sm font-semibold text-brand-black leading-snug group-hover:opacity-70 transition">{l.label} →</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://purist.online' },
+          { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://purist.online/collections/all' },
+          { '@type': 'ListItem', position: 3, name: 'PURIST vs Zapier', item: pageUrl },
+        ],
+      },
+      {
+        '@type': 'FAQPage',
+        '@id': `${pageUrl}#faq`,
+        mainEntity: faqs.map(faq => ({
+          '@type': 'Question',
+          name: faq.q,
+          acceptedAnswer: { '@type': 'Answer', text: faq.a },
+        })),
+      },
+      {
+        '@type': 'WebPage',
+        '@id': pageUrl,
+        name: 'PURIST vs Zapier',
+        url: pageUrl,
+        description: 'Compare PURIST automation deployments against Zapier. No platform lock-in, no ongoing fees, 24/7 monitoring and custom logic that Zapier cannot match.',
+        isPartOf: { '@type': 'WebSite', '@id': 'https://purist.online/#website' },
+      },
+    ],
+  })}/>
+
+</ShopLayout>

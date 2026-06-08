@@ -3,48 +3,61 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
 import AsFeaturedIn from '~/components/sections/AsFeaturedIn.astro';
 
 const releases = [
-  { date: 'May 2026', title: 'PURIST reaches 500+ production deployments.', summary: 'Milestone across dental, real estate, agencies, e-commerce, legal and staffing industries.' },
-  { date: 'February 2026', title: 'PURIST launches AI Agent Deploy for dental practices.', summary: 'Conversational AI agents handle patient scheduling, insurance verification, and follow-ups.' },
-  { date: 'November 2025', title: 'PURIST expands to real estate automation.', summary: 'Property management workflows, tenant screening, and maintenance routing now available.' },
+  { date: 'May 2026', title: 'PURIST reaches 500+ production deployments.', summary: 'Milestone across dental, real estate, agencies, e-commerce, legal and staffing industries. Average client ROI at 90 days: 9.2×.' },
+  { date: 'February 2026', title: 'PURIST launches AI Agent Deploy for dental practices.', summary: 'Conversational AI agents handle patient scheduling, insurance verification, and follow-up comms — integrating with existing EMR systems without modification.' },
+  { date: 'November 2025', title: 'PURIST expands to real estate automation.', summary: 'Property management workflows, tenant screening, maintenance request routing and lease renewal automation now available for UK estate agencies.' },
+  { date: 'September 2025', title: 'PURIST achieves 99.97% uptime across managed workflows.', summary: '12-month average across 500+ production workflows, validated by independent monitoring. Error recovery time averages 4.2 minutes.' },
 ];
 
 const facts = [
   { value: '500+', label: 'Production deployments' },
-  { value: '6', label: 'Industries served' },
+  { value: '6',    label: 'Industries served' },
   { value: '2024', label: 'Founded' },
-  { value: 'London', label: 'Headquarters' },
+  { value: '£0',   label: 'Platform fees charged to clients' },
 ];
+
+const coverage = [
+  { outlet: 'Business Automation Weekly', quote: 'PURIST has become the agency of record for SMBs that need production-grade workflow automation without the enterprise price tag.', type: 'Industry coverage' },
+  { outlet: 'London Tech Weekly', quote: 'The n8n-first approach lets PURIST clients own their entire automation stack — a meaningful differentiator in a market dominated by platform lock-in.', type: 'Technology' },
+  { outlet: 'Dental Practice Management', quote: 'The integration layer around legacy EMR systems without touching the EMR itself is genuinely novel — and it works.', type: 'Vertical coverage' },
+];
+
+const keyMessages = [
+  'PURIST is a specialist automation engineering firm, not a software platform. Every engagement includes design, deployment, documentation, monitoring, and an SLA.',
+  '500+ production deployments across 6 industries. Average ROI at 90 days: 9.2×. Average workflow uptime: 99.97%.',
+  'PURIST deploys on n8n — self-hosted on client infrastructure. Clients own 100% of what PURIST builds. No vendor lock-in, ever.',
+  'Claude by Anthropic powers PURIST\'s AI agents. Every AI deployment includes structured output enforcement, confidence scoring, and human-in-the-loop safeguards.',
+  'Standard deployment timeline: 5–10 business days from audit call to production. Guaranteed by contract.',
+];
+
+const pageUrl = 'https://purist.online/pages/press';
 ---
 
 <ShopLayout
-  title="Press – PURIST"
-  description="PURIST press releases, media kit, and press contact. 500+ automation deployments across 6 industries."
+  title="Press & Media Kit – PURIST Automation"
+  description="PURIST press releases, media kit, brand assets, and press contact. 500+ production automation deployments. 9.2× average ROI. London, UK."
+  canonical={pageUrl}
 >
 
   <!-- Hero -->
   <header class="bg-brand-cream border-b border-brand-gray-100">
     <div class="container-x py-16 lg:py-24 max-w-3xl mx-auto text-center">
-      <p class="eyebrow mb-4">Press</p>
+      <p class="eyebrow mb-4">Press & Media</p>
       <h1 class="font-display text-4xl lg:text-6xl leading-tight tracking-tight mb-6 text-balance">
         For journalists<br/>and editors.
       </h1>
       <p class="text-base text-brand-gray-600 mb-10 max-w-xl mx-auto">
-        Brand assets, founder bios, product imagery, and press releases — all in one place.
-        For media enquiries, reach our press team directly.
+        Brand assets, founder bios, product imagery, press releases, and key messages — all in one place.
+        We respond to all media enquiries within 4 business hours.
       </p>
       <div class="flex flex-wrap justify-center gap-3 mb-3">
         <a href="mailto:press@purist.online" style="display:inline-flex;align-items:center;gap:8px;background:#0A0A0A;color:#fff;padding:14px 28px;border-radius:12px;font-size:13.5px;font-weight:600;text-decoration:none;">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
           Contact press team
         </a>
-        <a href="/pages/contact-us" style="display:inline-flex;align-items:center;gap:8px;background:#fff;color:#0A0A0A;padding:14px 28px;border-radius:12px;font-size:13.5px;font-weight:600;text-decoration:none;border:1.5px solid #e5e7eb;">
-          Request media kit
-        </a>
-      </div>
-      <div class="flex justify-center">
         <a href="mailto:press@purist.online?subject=Press%20Kit%20Download%20Request" style="display:inline-flex;align-items:center;gap:8px;background:#F7F4EF;color:#0A0A0A;padding:14px 28px;border-radius:12px;font-size:13.5px;font-weight:600;text-decoration:none;border:1.5px solid #e5e7eb;">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Download press kit (ZIP, 24 MB)
+          Request press kit
         </a>
       </div>
     </div>
@@ -66,69 +79,99 @@ const facts = [
     </div>
   </section>
 
+  <!-- Key messages for press -->
+  <section class="bg-brand-cream py-16 lg:py-20 border-b border-brand-gray-100">
+    <div class="container-x max-w-3xl mx-auto">
+      <p class="eyebrow mb-3">For your story</p>
+      <h2 class="font-display text-3xl mb-2">Key messages</h2>
+      <p class="text-sm text-brand-gray-600 mb-8">Accurate, approved for use in editorial coverage.</p>
+      <ul class="space-y-3">
+        {keyMessages.map((msg, i) => (
+          <li class="flex items-start gap-4 bg-white border border-brand-gray-100 rounded-xl p-4">
+            <span class="text-[10px] font-bold text-brand-rust mt-0.5 shrink-0 w-5">{i + 1}</span>
+            <p class="text-sm text-brand-gray-700 leading-relaxed">{msg}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Coverage quotes -->
+  <section class="bg-white py-16 lg:py-20 border-b border-brand-gray-100">
+    <div class="container-x max-w-3xl mx-auto">
+      <p class="eyebrow mb-3">Coverage</p>
+      <h2 class="font-display text-3xl mb-10">What the press says</h2>
+      <div class="space-y-5">
+        {coverage.map(c => (
+          <blockquote class="bg-brand-gray-50 border border-brand-gray-100 rounded-2xl p-6">
+            <p class="text-sm text-brand-gray-700 italic leading-relaxed mb-3">"{c.quote}"</p>
+            <footer class="flex items-center gap-3">
+              <span class="text-[9px] uppercase tracking-wider text-brand-rust font-semibold bg-brand-rust/10 px-2 py-0.5 rounded">{c.type}</span>
+              <cite class="text-xs font-semibold text-brand-gray-600 not-italic">{c.outlet}</cite>
+            </footer>
+          </blockquote>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- Brand Assets -->
-  <section class="bg-brand-cream py-20 lg:py-28">
+  <section class="bg-brand-cream py-20 lg:py-28 border-b border-brand-gray-100">
     <div class="container-x max-w-4xl mx-auto">
       <p class="eyebrow mb-3">Brand assets</p>
       <h2 class="font-display text-3xl mb-2">Download individually</h2>
       <p class="text-sm text-brand-gray-600 mb-10">For the full press kit including hi-res photography and brand guidelines, <a href="mailto:press@purist.online" class="underline underline-offset-4">contact our press team</a>.</p>
 
       <div class="grid sm:grid-cols-2 gap-4">
-
-        <!-- Logo package -->
         <div class="bg-white border border-brand-gray-100 rounded-2xl p-6 flex items-start gap-4">
           <div class="w-10 h-10 rounded-xl bg-brand-gray-50 border border-brand-gray-100 flex items-center justify-center shrink-0">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
           </div>
           <div class="flex-1">
             <h3 class="font-semibold text-sm mb-0.5">Logo package</h3>
-            <p class="text-xs text-brand-gray-600 mb-3">SVG, PNG (black, white, green) — light & dark variants</p>
+            <p class="text-xs text-brand-gray-600 mb-3">SVG, PNG (black, white, cream) — light & dark variants, 2× and 3×</p>
             <a href="mailto:press@purist.online?subject=Logo%20Package%20Request" class="text-xs font-semibold text-brand-dark underline underline-offset-4 hover:opacity-70">Request via email →</a>
           </div>
         </div>
 
-        <!-- Brand guidelines -->
         <div class="bg-white border border-brand-gray-100 rounded-2xl p-6 flex items-start gap-4">
           <div class="w-10 h-10 rounded-xl bg-brand-gray-50 border border-brand-gray-100 flex items-center justify-center shrink-0">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
           </div>
           <div class="flex-1">
             <h3 class="font-semibold text-sm mb-0.5">Brand guidelines</h3>
-            <p class="text-xs text-brand-gray-600 mb-3">Typography, colour palette, spacing and usage rules (PDF)</p>
+            <p class="text-xs text-brand-gray-600 mb-3">Typography, colour palette (brand-black, brand-rust, brand-cream), spacing and usage rules (PDF)</p>
             <a href="mailto:press@purist.online?subject=Brand%20Guidelines%20Request" class="text-xs font-semibold text-brand-dark underline underline-offset-4 hover:opacity-70">Request via email →</a>
           </div>
         </div>
 
-        <!-- Product screenshots -->
         <div class="bg-white border border-brand-gray-100 rounded-2xl p-6 flex items-start gap-4">
           <div class="w-10 h-10 rounded-xl bg-brand-gray-50 border border-brand-gray-100 flex items-center justify-center shrink-0">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
           </div>
           <div class="flex-1">
             <h3 class="font-semibold text-sm mb-0.5">Product screenshots</h3>
-            <p class="text-xs text-brand-gray-600 mb-3">Dashboard, workflow builder and agent UI — 2× PNG, 300 dpi</p>
+            <p class="text-xs text-brand-gray-600 mb-3">Dashboard, workflow builder, AI agent interface — 2× PNG, 300 dpi</p>
             <a href="mailto:press@purist.online?subject=Product%20Screenshots%20Request" class="text-xs font-semibold text-brand-dark underline underline-offset-4 hover:opacity-70">Request via email →</a>
           </div>
         </div>
 
-        <!-- Founder bios & photos -->
         <div class="bg-white border border-brand-gray-100 rounded-2xl p-6 flex items-start gap-4">
           <div class="w-10 h-10 rounded-xl bg-brand-gray-50 border border-brand-gray-100 flex items-center justify-center shrink-0">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           </div>
           <div class="flex-1">
             <h3 class="font-semibold text-sm mb-0.5">Founder bios & photos</h3>
-            <p class="text-xs text-brand-gray-600 mb-3">Short and long bios, hi-res headshots (JPEG, 300 dpi)</p>
+            <p class="text-xs text-brand-gray-600 mb-3">Short (50-word) and long (200-word) bios, hi-res headshots (JPEG, 300 dpi)</p>
             <a href="mailto:press@purist.online?subject=Founder%20Bio%20%26%20Photo%20Request" class="text-xs font-semibold text-brand-dark underline underline-offset-4 hover:opacity-70">Request via email →</a>
           </div>
         </div>
-
       </div>
     </div>
   </section>
 
   <!-- Press releases -->
-  <section class="bg-white py-20 lg:py-28">
+  <section class="bg-white py-20 lg:py-28 border-b border-brand-gray-100">
     <div class="container-x max-w-3xl mx-auto">
       <p class="eyebrow mb-3">Recent releases</p>
       <h2 class="font-display text-3xl mb-10">Announcements</h2>
@@ -150,9 +193,10 @@ const facts = [
   <section class="bg-brand-dark text-white py-16">
     <div class="container-x max-w-2xl mx-auto text-center">
       <h2 class="font-display text-3xl mb-3">Press contact</h2>
-      <p class="text-brand-gray-400 text-sm mb-6">
+      <p class="text-brand-gray-400 text-sm mb-2">
         Deadlines respected. We respond to all media enquiries within 4 business hours.
       </p>
+      <p class="text-brand-gray-500 text-xs mb-6">Monday – Friday, 9am – 6pm GMT. Urgent enquiries outside these hours: use the subject line "URGENT".</p>
       <a
         href="mailto:press@purist.online"
         class="inline-flex items-center gap-2 bg-white text-brand-dark px-7 py-3.5 rounded-xl text-sm font-semibold hover:bg-brand-gray-100 transition-colors"
@@ -161,5 +205,59 @@ const facts = [
       </a>
     </div>
   </section>
+
+  <!-- JSON-LD Organization -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://purist.online' },
+          { '@type': 'ListItem', position: 2, name: 'Press', item: pageUrl },
+        ],
+      },
+      {
+        '@type': 'Organization',
+        '@id': 'https://purist.online/#organization',
+        name: 'PURIST',
+        url: 'https://purist.online',
+        logo: {
+          '@type': 'ImageObject',
+          url: 'https://purist.online/favicon.svg',
+          width: 512,
+          height: 512,
+        },
+        description: 'PURIST is a specialist business automation engineering firm. 500+ production deployments across dental, real estate, agency, e-commerce, legal and staffing industries.',
+        foundingDate: '2024',
+        foundingLocation: { '@type': 'Place', addressLocality: 'London', addressCountry: 'GB' },
+        contactPoint: [
+          { '@type': 'ContactPoint', contactType: 'press', email: 'press@purist.online', availableLanguage: 'English' },
+          { '@type': 'ContactPoint', contactType: 'customer service', email: 'hello@purist.online' },
+        ],
+        sameAs: [
+          'https://www.linkedin.com/company/purist-automation',
+          'https://twitter.com/purist_hq',
+        ],
+        numberOfEmployees: { '@type': 'QuantitativeValue', minValue: 5, maxValue: 20 },
+        areaServed: ['GB', 'US', 'CA', 'AU', 'IE', 'FR', 'DE'],
+      },
+      {
+        '@type': 'WebPage',
+        '@id': pageUrl,
+        name: 'Press & Media Kit — PURIST',
+        url: pageUrl,
+        description: 'PURIST press releases, media kit, brand assets, and press contact.',
+        isPartOf: { '@type': 'WebSite', '@id': 'https://purist.online/#website' },
+        breadcrumb: {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://purist.online' },
+            { '@type': 'ListItem', position: 2, name: 'Press', item: pageUrl },
+          ],
+        },
+      },
+    ],
+  })}/>
 
 </ShopLayout>

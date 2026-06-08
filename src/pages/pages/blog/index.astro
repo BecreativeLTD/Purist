@@ -120,10 +120,11 @@ const rest = articles; // show ALL articles in the grid
       <span class="text-[10.5px]" style="color:rgba(10,10,10,0.3);" id="article-count">{articles.length} articles</span>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
-      {rest.map((a) => (
+      {rest.map((a, i) => (
         <article
           data-article-card
           data-cat={a.category}
+          data-index={i}
           class="group/card flex flex-col rounded-[16px] overflow-hidden transition-all duration-200"
           style="background:#fff;border:1px solid rgba(10,10,10,0.07);"
           onmouseover="this.style.boxShadow='0 8px 32px rgba(10,10,10,0.1)';this.style.transform='translateY(-2px)'"
@@ -165,6 +166,24 @@ const rest = articles; // show ALL articles in the grid
           </div>
         </article>
       ))}
+    </div>
+
+    <!-- Load more button -->
+    <div class="flex flex-col items-center mt-12 gap-3" id="load-more-wrap">
+      <button
+        id="load-more-btn"
+        class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-[12px] font-semibold transition-all duration-150 border"
+        style="border-color:rgba(10,10,10,0.12);color:#0A0A0A;background:#fff;"
+        onmouseover="this.style.borderColor='rgba(10,10,10,0.3)'"
+        onmouseout="this.style.borderColor='rgba(10,10,10,0.12)'"
+        hidden
+      >
+        Load more articles
+        <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 3v10M4 9l4 4 4-4"/>
+        </svg>
+      </button>
+      <p id="load-more-info" class="text-[10px]" style="color:rgba(10,10,10,0.35);"></p>
     </div>
   </div>
 </section>
@@ -208,25 +227,73 @@ const rest = articles; // show ALL articles in the grid
 </style>
 
 <script is:inline>
+  const PAGE_SIZE = 12;
+
   function applyFilter() {
     const params = new URLSearchParams(location.search);
     const cat = params.get('cat');
-    const cards = document.querySelectorAll('[data-article-card]');
-    let visible = 0;
-    cards.forEach((el) => {
-      const show = !cat || cat === 'all' || el.dataset.cat === cat;
-      el.style.display = show ? '' : 'none';
-      if (show) visible++;
+    const cards = Array.from(document.querySelectorAll('[data-article-card]'));
+
+    // Determine which cards match the filter
+    const matching = cards.filter((el) => !cat || cat === 'all' || el.dataset.cat === cat);
+    const nonMatching = cards.filter((el) => cat && cat !== 'all' && el.dataset.cat !== cat);
+
+    // Hide non-matching
+    nonMatching.forEach((el) => { el.style.display = 'none'; });
+
+    // Show first PAGE_SIZE of matching, hide the rest
+    matching.forEach((el, i) => {
+      el.style.display = i < PAGE_SIZE ? '' : 'none';
     });
+
+    // Update count
     const countEl = document.getElementById('article-count');
-    if (countEl) countEl.textContent = visible + ' article' + (visible !== 1 ? 's' : '');
+    if (countEl) countEl.textContent = matching.length + ' article' + (matching.length !== 1 ? 's' : '');
+
+    // Update active tab
     document.querySelectorAll('.cat-btn[data-cat]').forEach((el) => {
       el.classList.remove('is-active');
       if (el.dataset.cat === (cat || 'all')) el.classList.add('is-active');
     });
+
+    // Load more button
+    const btn = document.getElementById('load-more-btn');
+    const info = document.getElementById('load-more-info');
+    if (btn) {
+      const hidden = matching.length - PAGE_SIZE;
+      btn.hidden = hidden <= 0;
+      btn.dataset.shown = String(PAGE_SIZE);
+      btn.dataset.cat = cat || 'all';
+      if (info) info.textContent = hidden > 0 ? `Showing ${Math.min(PAGE_SIZE, matching.length)} of ${matching.length}` : '';
+    }
   }
-  applyFilter();
-  document.addEventListener('astro:page-load', applyFilter);
+
+  function loadMore() {
+    const btn = document.getElementById('load-more-btn');
+    const info = document.getElementById('load-more-info');
+    if (!btn) return;
+    const shown = parseInt(btn.dataset.shown || '12', 10);
+    const cat = btn.dataset.cat || 'all';
+    const cards = Array.from(document.querySelectorAll('[data-article-card]'));
+    const matching = cards.filter((el) => cat === 'all' || el.dataset.cat === cat);
+    const newShown = shown + PAGE_SIZE;
+    matching.forEach((el, i) => {
+      if (i < newShown) el.style.display = '';
+    });
+    btn.dataset.shown = String(newShown);
+    const remaining = matching.length - newShown;
+    btn.hidden = remaining <= 0;
+    if (info) info.textContent = remaining > 0 ? `Showing ${newShown} of ${matching.length}` : `All ${matching.length} articles shown`;
+  }
+
+  function init() {
+    applyFilter();
+    const btn = document.getElementById('load-more-btn');
+    if (btn) btn.addEventListener('click', loadMore);
+  }
+
+  init();
+  document.addEventListener('astro:page-load', init);
 </script>
 
 <script type="application/ld+json" is:inline set:html={JSON.stringify({

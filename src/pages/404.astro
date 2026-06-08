@@ -1,27 +1,114 @@
 ---
 export const prerender = true;
 import ShopLayout from '~/layouts/ShopLayout.astro';
+import blogData from '~/data/blog.json';
+
+const featured = blogData.articles.filter(a => a.featured).slice(0, 3);
+const recentArticles = featured.length >= 3 ? featured : blogData.articles.slice(0, 3);
 ---
 
 <ShopLayout
   title="Page Not Found — PURIST"
-  description="This page doesn't exist. Head back to explore PURIST workflow automation."
+  description="This page doesn't exist. Explore PURIST workflow automation, the blog, or our glossary."
   noindex
 >
-  <div class="bg-white min-h-[70vh] flex items-center">
-    <div class="container-x py-24 text-center">
-      <p class="text-[11px] uppercase tracking-[0.2em] text-brand-rust mb-6 font-medium">404</p>
+  <!-- Hero -->
+  <div class="bg-brand-cream min-h-[50vh] flex items-center border-b border-brand-gray-100">
+    <div class="container-x py-20 text-center">
+      <p class="eyebrow mb-4">404</p>
       <h1 class="font-display text-5xl sm:text-6xl text-brand-black mb-5 text-balance">
         Page not found
       </h1>
       <p class="text-brand-gray-600 text-lg max-w-md mx-auto mb-10 leading-relaxed">
-        This page doesn't exist or has been moved. Head back to explore what PURIST can automate for you.
+        This page doesn't exist or has been moved. Start somewhere useful below.
       </p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
         <a href="/" class="btn-primary px-6 py-3 text-sm">Back to home</a>
         <a href="/collections/all" class="btn-secondary px-6 py-3 text-sm">View services</a>
-        <a href="/pages/contact-us" class="text-sm text-brand-gray-600 hover:text-brand-black underline underline-offset-4 transition">Contact us</a>
       </div>
     </div>
   </div>
+
+  <!-- Quick links grid -->
+  <section class="bg-white py-16 border-b border-brand-gray-100">
+    <div class="container-x max-w-4xl mx-auto">
+      <p class="eyebrow text-center mb-3">Explore</p>
+      <h2 class="font-display text-2xl text-center mb-10">Where would you like to go?</h2>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {[
+          {
+            href: '/pages/blog',
+            icon: 'M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z',
+            label: 'Blog',
+            desc: '43 articles on automation & AI',
+          },
+          {
+            href: '/pages/glossary',
+            icon: 'M4 19.5A2.5 2.5 0 016.5 17H20M4 4.5A2.5 2.5 0 016.5 7H20v13H6.5A2.5 2.5 0 014 17.5v-13z',
+            label: 'Glossary',
+            desc: '325 automation terms defined',
+          },
+          {
+            href: '/skills',
+            icon: 'M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2v-4M9 21H5a2 2 0 01-2-2v-4m0 0h18',
+            label: 'Skills library',
+            desc: '157 automation skills',
+          },
+          {
+            href: '/collections/all',
+            icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+            label: 'Services',
+            desc: 'Automation Pro, AI Agent Deploy',
+          },
+        ].map(l => (
+          <a href={l.href} class="group border border-brand-gray-100 rounded-2xl p-5 hover:border-brand-gray-300 transition-colors">
+            <div class="w-9 h-9 rounded-xl bg-brand-gray-50 flex items-center justify-center mb-3 group-hover:bg-brand-cream transition-colors">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d={l.icon}/>
+              </svg>
+            </div>
+            <p class="text-sm font-semibold text-brand-black mb-0.5">{l.label}</p>
+            <p class="text-xs text-brand-gray-600">{l.desc}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent blog articles -->
+  <section class="bg-brand-cream py-16">
+    <div class="container-x max-w-4xl mx-auto">
+      <p class="eyebrow mb-3">From the blog</p>
+      <h2 class="font-display text-2xl mb-8">Recent articles</h2>
+      <div class="grid sm:grid-cols-3 gap-5">
+        {recentArticles.map(a => (
+          <a href={`/pages/blog/${a.slug}`} class="group bg-white border border-brand-gray-100 rounded-2xl overflow-hidden hover:border-brand-gray-300 transition-colors">
+            <div class="aspect-[16/9] overflow-hidden">
+              <img src={a.image} alt={a.title} width="400" height="225" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy"/>
+            </div>
+            <div class="p-4">
+              <p class="text-[10px] uppercase tracking-wider text-brand-rust font-semibold mb-1">{a.category}</p>
+              <p class="text-sm font-semibold text-brand-black leading-snug line-clamp-2">{a.title}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+      <div class="text-center mt-8">
+        <a href="/pages/blog" class="text-sm font-medium text-brand-black hover:opacity-70 underline underline-offset-4 transition">View all 43 articles →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact fallback -->
+  <section class="bg-white py-12 border-t border-brand-gray-100">
+    <div class="container-x text-center">
+      <p class="text-sm text-brand-gray-600">
+        Can't find what you're looking for?{' '}
+        <a href="/pages/contact-us" class="text-brand-black font-medium underline underline-offset-4 hover:opacity-70 transition">Contact us</a>
+        {' '}or{' '}
+        <a href="/pages/faq" class="text-brand-black font-medium underline underline-offset-4 hover:opacity-70 transition">read the FAQ</a>.
+      </p>
+    </div>
+  </section>
 </ShopLayout>

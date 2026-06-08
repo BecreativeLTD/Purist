@@ -1,0 +1,57 @@
+{
+  "name": "PURIST — Business Automation",
+  "short_name": "PURIST",
+  "description": "Production-grade workflow automation and AI agents for scaling businesses.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F7F4EF",
+  "theme_color": "#0A0A0A",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-GB",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Book Free Audit",
+      "short_name": "Free Audit",
+      "description": "Book your free automation audit",
+      "url": "/pages/welcome",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "View Services",
+      "short_name": "Services",
+      "description": "Explore PURIST automation services",
+      "url": "/collections/all",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "Automation Blog",
+      "short_name": "Blog",
+      "description": "Automation guides and case studies",
+      "url": "/pages/blog",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    }
+  ],
+  "categories": ["business", "productivity", "utilities"],
+  "screenshots": []
+}
