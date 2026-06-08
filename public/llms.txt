@@ -17,7 +17,7 @@ Primary services: workflow automation, AI agent deployment, operations stack des
 - [The Full Stack](https://purist.online/products/founder-stack) — Automation Pro + AI Agent Deploy. Full operational transformation. From £1,197/mo.
 - [Free AI Readiness Audit](https://purist.online/pages/welcome) — Free 48h audit of your current workflows and automation opportunities.
 
-## Blog — Full Article Index (43 articles)
+## Blog — Full Article Index (50 articles)
 
 All articles are written by PURIST's engineering team from real production deployments.
 
@@ -31,6 +31,8 @@ All articles are written by PURIST's engineering team from real production deplo
 - [Webhook vs Polling: The Automation Architecture Decision That Matters](https://purist.online/pages/blog/webhook-vs-polling-automation-architecture-decision) — When to use webhooks vs polling and how to build reliable webhook receivers.
 - [Building a 24/7 Error Handling System for Automations](https://purist.online/pages/blog/building-24-7-error-handling-system-for-automations) — Node-level error routing, centralised logging, health monitoring, recovery runbooks.
 - [Automation Consultant vs DIY: How to Decide](https://purist.online/pages/blog/automation-consultant-vs-diy-how-to-decide-2026) — Five criteria for deciding whether to build yourself or hire an expert.
+- [n8n Self-Hosted vs Cloud: The Complete Decision Guide](https://purist.online/pages/blog/n8n-self-hosted-vs-cloud-complete-guide-2026) — Cost, security, compliance and scaling comparison from 500+ real deployments.
+- [5 Zapier Free Alternatives That Handle Real Production Workloads](https://purist.online/pages/blog/zapier-free-alternatives-2026) — n8n, Make, Pipedream, Activepieces, Albato: honest limits and ceiling comparison.
 
 ### CRM & Sales Automation
 - [CRM Automation: The Complete 2026 Guide to a Self-Running Sales Pipeline](https://purist.online/pages/blog/crm-automation-complete-guide-self-running-sales-pipeline-2026) — How to build a CRM that qualifies, nurtures and closes leads automatically.
@@ -49,6 +51,7 @@ All articles are written by PURIST's engineering team from real production deplo
 - [AI Agents in Production: What Actually Works vs What Sounds Good in Demos](https://purist.online/pages/blog/ai-agents-in-production-what-actually-works) — Structured output enforcement, RAG, confidence scoring, continuous evaluation.
 - [Agentic AI in 2026: What It Actually Means for Your Business Operations](https://purist.online/pages/blog/agentic-ai-business-operations-what-it-means-2026) — What agentic AI is, what it is not, and which use cases are ready for production.
 - [AI Customer Service Automation: Build a Support System That Never Sleeps](https://purist.online/pages/blog/ai-customer-service-automation-support-never-sleeps-2026) — From rule-based routing to full AI triage and response.
+- [15 AI Agent Examples That Work in Real Businesses](https://purist.online/pages/blog/ai-agent-examples-real-business-use-cases-2026) — Production AI agent implementations with tools, architecture, and real ROI figures.
 
 ### Operations & Processes
 - [How to Automate Your Business in 2026: The Complete Playbook](https://purist.online/pages/blog/how-to-automate-your-business-complete-playbook-2026) — Step-by-step framework for identifying and deploying automation across your operations.
@@ -61,6 +64,8 @@ All articles are written by PURIST's engineering team from real production deplo
 - [Appointment Scheduling Automation: Zero No-Shows and Full Calendars](https://purist.online/pages/blog/appointment-scheduling-automation-zero-no-shows-2026) — 6-layer scheduling automation that cuts no-shows from 14% to under 3%.
 - [Automated Reporting: Build Dashboards That Update Themselves](https://purist.online/pages/blog/automated-business-reporting-dashboards-update-themselves-2026) — Replace 8 hours of weekly reporting with self-updating dashboards.
 - [HR Automation: 11 Processes You Should Stop Doing Manually](https://purist.online/pages/blog/hr-automation-processes-stop-doing-manually-2026) — From candidate screening to offboarding — automated.
+- [50 Workflow Automation Examples Your Business Can Deploy Today](https://purist.online/pages/blog/workflow-automation-examples-50-ideas-2026) — Sales, marketing, ops, finance, HR, support — organized by department with tools.
+- [Business Process Automation: The Complete Guide for 2026](https://purist.online/pages/blog/business-process-automation-complete-guide-2026) — Types, candidate identification, ROI calculation, implementation, common mistakes.
 
 ### Results & ROI
 - [Calculating Automation ROI: The Honest Guide](https://purist.online/pages/blog/calculating-automation-roi-the-honest-guide) — Full formula including setup, maintenance, and opportunity costs agencies skip.
@@ -72,6 +77,8 @@ All articles are written by PURIST's engineering team from real production deplo
 - [How a 12-Person Real Estate Agency Automated 80% of Their Admin in 8 Weeks](https://purist.online/pages/blog/real-estate-agency-automation-case-study-80-percent-admin-2026) — Listing updates, tenant comms, maintenance routing — fully automated.
 - [Marketing Agency Automation: Deliver More Clients With the Same Team](https://purist.online/pages/blog/marketing-agency-automation-deliver-more-clients-same-team-2026) — Two case studies, twelve automations, full playbook.
 - [Healthcare Automation: 10 Workflows Every Medical Practice Needs](https://purist.online/pages/blog/healthcare-automation-medical-practice-workflows-2026) — Real results: dental 14%→3.2% no-shows, GP surgery 61% admin reduction.
+- [Law Firm Automation: 12 Workflows That Cut Admin by 60%](https://purist.online/pages/blog/legal-firm-automation-workflows-2026) — PURIST case study: 12-solicitor firm, 61% admin reduction, payback in month 4.
+- [Staffing Agency Automation: The Playbook for High-Volume Recruiting](https://purist.online/pages/blog/staffing-agency-automation-workflows-2026) — 15-person agency case study: 38% volume growth, zero new hires, ~700% ROI.
 
 ## Glossary — 325 Automation & AI Terms
 
