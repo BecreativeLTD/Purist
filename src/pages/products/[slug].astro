@@ -284,10 +284,12 @@ const accordionSections = [
                 priceCurrency: product.price.currency ?? 'GBP',
                 availability: 'https://schema.org/InStock',
                 priceSpecification: {
-                  '@type': 'RecurringCharge',
+                  '@type': 'UnitPriceSpecification',
                   price: product.price.subscription,
                   priceCurrency: product.price.currency ?? 'GBP',
+                  billingDuration: 1,
                   billingIncrement: 1,
+                  unitCode: 'MON',
                 },
                 hasMerchantReturnPolicy: {
                   '@type': 'MerchantReturnPolicy',
