@@ -11,6 +11,7 @@ export default function WelcomePopup() {
 
  useEffect(() => {
    if (typeof window === 'undefined') return;
+   if (window.location.pathname.startsWith('/pages/dashboard')) return;
    try {
      const flag = localStorage.getItem(STORAGE_KEY);
      if (flag === 'dismissed' || flag === 'submitted') return;

@@ -176,10 +176,10 @@ const navItems = [
 <ShopLayout title="Client Dashboard PURIST" description="Real-time monitoring of your PURIST automation workflows, AI agents and system health." noindex>
 
 <!-- Mobile sidebar backdrop -->
-<div id="sidebar-backdrop" class="fixed inset-0 z-40 bg-black/60 opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden" onclick="closeSidebar()"></div>
+<div id="sidebar-backdrop" class="fixed inset-0 z-[64] bg-black/60 opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden" onclick="closeSidebar()"></div>
 
 <!-- Full-viewport dashboard shell sidebar + content own the space below the header -->
-<div id="dashboard-shell" class="flex" style="position:fixed;left:0;right:0;bottom:0;top:0;z-index:45;overflow:hidden;">
+<div id="dashboard-shell" class="flex" style="position:fixed;left:0;right:0;bottom:0;top:0;z-index:65;overflow:hidden;background:#F7F4EF;">
 
  <!-- ══════════════════════════════════════════════════════════════ -->
  <!-- LEFT SIDEBAR                                                 -->
@@ -440,7 +440,7 @@ const navItems = [
  <!-- ══════════════════════════════════════════════════════════════ -->
  <!-- MAIN CONTENT                                                 -->
  <!-- ══════════════════════════════════════════════════════════════ -->
- <div class="flex-1 min-w-0 overflow-y-auto pb-20 lg:pb-0 overflow-x-hidden" style="height:100%;transition:margin-left 0.3s cubic-bezier(0.32,0.72,0,1);" id="dash-content">
+ <div class="flex-1 min-w-0 overflow-y-auto pb-20 lg:pb-0 overflow-x-hidden" style="height:100%;transition:margin-left 0.3s cubic-bezier(0.32,0.72,0,1);background:#F7F4EF;" id="dash-content">
 
    <!-- ─── VIEW: OVERVIEW ─────────────────────────────────────── -->
    <div class="view-section" data-section="overview">
