@@ -12,6 +12,7 @@ export default function WelcomePopup() {
  useEffect(() => {
    if (typeof window === 'undefined') return;
    if (window.location.pathname.startsWith('/pages/dashboard')) return;
+   if (new URLSearchParams(window.location.search).get('nopopup')) return;
    try {
      const flag = localStorage.getItem(STORAGE_KEY);
      if (flag === 'dismissed' || flag === 'submitted') return;
