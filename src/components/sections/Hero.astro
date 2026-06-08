@@ -63,13 +63,21 @@ const penta = Array.from({ length: 5 }, (_, i) => {
           <StarRating rating={4.9} showValue reviewCount={312} />
         </div>
 
-        <div class="flex flex-wrap gap-3 mb-8">
+        <div class="flex flex-wrap gap-3 mb-4">
           <Button href="/pages/welcome" size="lg">
             Book a free automation audit →
           </Button>
           <Button href="/pages/dashboard" variant="secondary" size="lg">
             Client dashboard →
           </Button>
+        </div>
+
+        <!-- Anchoring: cost of hiring vs PURIST -->
+        <div class="inline-flex items-center gap-2 mb-6 px-3.5 py-2 rounded-xl text-[11.5px]" style="background:rgba(10,10,10,0.05);border:1px solid rgba(10,10,10,0.08);">
+          <span style="color:rgba(10,10,10,0.38);">A junior ops hire costs</span>
+          <span class="line-through font-medium" style="color:rgba(10,10,10,0.40);">£45K+/year</span>
+          <span style="color:rgba(10,10,10,0.30);">·</span>
+          <span class="font-semibold" style="color:#2D5016;">PURIST delivers more — in days.</span>
         </div>
 
         <!-- Stats strip — count-up on load -->

@@ -40,6 +40,39 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
 </header>
 
 <!-- ═══════════════════════════════════════════════
+     COST OF INACTION STRIP — Loss Aversion
+════════════════════════════════════════════════ -->
+<div style="background:#111;border-top:1px solid rgba(232,180,176,0.12);">
+  <div class="container-x py-5">
+    <div class="flex flex-wrap items-center gap-6 lg:gap-12">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style="background:rgba(232,180,176,0.10);border:1px solid rgba(232,180,176,0.18);">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+        </div>
+        <p class="text-[12.5px] leading-snug" style="color:rgba(255,255,255,0.55);">
+          Based on 312 audits, the average team loses
+          <strong class="text-white">£512/week</strong> to manual workflows
+          — that's <strong class="text-white">£26,624/year</strong> of recoverable time.
+        </p>
+      </div>
+      <div class="flex items-center gap-6 ml-auto shrink-0">
+        {[
+          { n: '4 weeks', l: 'avg. payback period' },
+          { n: '9.4×',   l: 'avg. first-year ROI'  },
+        ].map(s => (
+          <div class="text-center">
+            <p class="font-display text-base font-medium leading-none" style="color:#E8B4B0;">{s.n}</p>
+            <p class="text-[9px] uppercase tracking-[0.14em] mt-1" style="color:rgba(255,255,255,0.28);">{s.l}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
      FORM + LEFT COPY
 ════════════════════════════════════════════════ -->
 <section class="py-16 lg:py-24" style="background:#F8F6F1;">

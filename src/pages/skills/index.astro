@@ -205,6 +205,192 @@ const complexityColor: Record<string, string> = {
       </div>
     </section>
 
+    <!-- ═══════════════════════════════════════════════
+         MARKETING PSYCHOLOGY — 60 Mental Models (SEO)
+    ════════════════════════════════════════════════ -->
+    <section class="bg-brand-cream border-t border-brand-gray-100 py-16 lg:py-24">
+      <div class="container-x">
+
+        <div class="max-w-2xl mb-12">
+          <p class="eyebrow mb-3">Marketing Psychology & Behavioral Science</p>
+          <h2 class="font-display text-h2 mb-4 text-balance">60 Mental Models That Drive Conversion</h2>
+          <p class="text-brand-gray-600 leading-relaxed">
+            PURIST automation workflows are built around how buyers actually think and decide.
+            These 60 psychological principles — from cognitive biases to behavioral economics — underpin every funnel, email sequence, and CRM workflow we deploy.
+          </p>
+        </div>
+
+        <!-- Category 1: Foundational Strategy -->
+        <div class="mb-12">
+          <h3 class="font-display text-xl mb-6" style="color:#0A0A0A;">Foundational Strategy Models</h3>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {[
+              { name: 'First Principles', desc: 'Break assumptions to find root truths. Rebuild strategy from evidence, not habit.', tag: 'Strategy' },
+              { name: 'Jobs to Be Done', desc: 'Buyers hire products to accomplish outcomes. Frame offers around the job, not features.', tag: 'Strategy' },
+              { name: 'Circle of Competence', desc: 'Double down where you have genuine edge. Do not chase every channel.', tag: 'Strategy' },
+              { name: 'Inversion', desc: 'Ask what guarantees failure. Eliminate those things before optimising for success.', tag: 'Strategy' },
+              { name: 'Occam\'s Razor', desc: 'The simplest explanation is usually correct. Check the obvious before complex attribution.', tag: 'Strategy' },
+              { name: 'Pareto Principle (80/20)', desc: '80% of results come from 20% of effort. Identify the vital few and cut the rest.', tag: 'Strategy' },
+              { name: 'Local vs Global Optima', desc: 'Don\'t optimise a tactic when the whole channel is wrong. Zoom out first.', tag: 'Strategy' },
+              { name: 'Theory of Constraints', desc: 'Every funnel has one bottleneck. Fix the constraint before optimising anything else.', tag: 'Strategy' },
+              { name: 'Opportunity Cost', desc: 'Every choice forecloses alternatives. Compare ROI across channels, not in isolation.', tag: 'Strategy' },
+              { name: 'Law of Diminishing Returns', desc: 'Know when additional investment yields smaller gains. Diversify before you plateau.', tag: 'Strategy' },
+              { name: 'Second-Order Thinking', desc: 'Discounts increase revenue today but train buyers to wait for sales tomorrow.', tag: 'Strategy' },
+              { name: 'Map ≠ Territory', desc: 'Dashboards are models of reality. Talk to real customers regularly.', tag: 'Strategy' },
+              { name: 'Probabilistic Thinking', desc: 'Think in likelihoods, not certainties. Spread risk across multiple campaigns.', tag: 'Strategy' },
+              { name: 'Barbell Strategy', desc: '80% into proven channels, 20% into high-risk experiments. Avoid the mediocre middle.', tag: 'Strategy' },
+            ].map(m => (
+              <div class="bg-white border border-brand-gray-100 rounded-card p-4">
+                <div class="flex items-start justify-between gap-2 mb-2">
+                  <p class="text-sm font-semibold text-brand-black leading-snug">{m.name}</p>
+                  <span class="shrink-0 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-cream text-brand-gray-500">{m.tag}</span>
+                </div>
+                <p class="text-[11.5px] text-brand-gray-500 leading-relaxed">{m.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Category 2: Buyer Psychology -->
+        <div class="mb-12">
+          <h3 class="font-display text-xl mb-6" style="color:#0A0A0A;">Buyer Psychology & Behavioural Science</h3>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {[
+              { name: 'Fundamental Attribution Error', desc: 'Low conversion? Blame the checkout flow, not the buyer. Examine your process first.', tag: 'Psychology' },
+              { name: 'Mere Exposure Effect', desc: 'Familiarity breeds liking. Consistent brand presence compounds into trust over time.', tag: 'Psychology' },
+              { name: 'Availability Heuristic', desc: 'Case studies make success feel achievable. Make positive outcomes easy to imagine.', tag: 'Psychology' },
+              { name: 'Confirmation Bias', desc: 'Buyers seek information that confirms their beliefs. Align messaging to existing worldviews.', tag: 'Psychology' },
+              { name: 'Lindy Effect', desc: 'Proven principles outlast trendy tactics. Don\'t abandon social proof for the latest fad.', tag: 'Psychology' },
+              { name: 'Mimetic Desire', desc: 'People want what desirable others want. Waitlists and community signal demand.', tag: 'Psychology' },
+              { name: 'Sunk Cost Fallacy', desc: 'Past spend should not justify future spend. Kill underperforming campaigns quickly.', tag: 'Psychology' },
+              { name: 'Endowment Effect', desc: 'Free trials create ownership feelings. Buyers become reluctant to give up what they \'own\'.', tag: 'Psychology' },
+              { name: 'IKEA Effect', desc: 'Effort increases perceived value. Let prospects configure or customise their own solution.', tag: 'Psychology' },
+              { name: 'Zero-Price Effect', desc: '"Free" is psychologically distinct from £0. The gap from £1 to free is disproportionate.', tag: 'Psychology' },
+              { name: 'Hyperbolic Discounting', desc: 'Immediate benefits outperform future ones. Lead with "Start saving time today."', tag: 'Psychology' },
+              { name: 'Status-Quo Bias', desc: 'Change feels risky. Reduce friction. "Import your data in one click" removes hesitation.', tag: 'Psychology' },
+              { name: 'Default Effect', desc: 'Pre-selected options get chosen. Set your preferred plan as the default.', tag: 'Psychology' },
+              { name: 'Paradox of Choice', desc: 'Too many options cause paralysis. Three pricing tiers outperform seven.', tag: 'Psychology' },
+              { name: 'Goal-Gradient Effect', desc: 'Progress accelerates as goals near. "80% complete" pull people to finish.', tag: 'Psychology' },
+              { name: 'Peak-End Rule', desc: 'Experiences are judged by their peak and end, not the average. Design both deliberately.', tag: 'Psychology' },
+              { name: 'Zeigarnik Effect', desc: 'Unfinished tasks occupy the mind. Open loops in onboarding drive re-engagement.', tag: 'Psychology' },
+              { name: 'Pratfall Effect', desc: 'Admitting a flaw increases likeability. "We\'re not the cheapest" signals honesty.', tag: 'Psychology' },
+              { name: 'Curse of Knowledge', desc: 'Experts cannot imagine not knowing. Test copy with people outside your industry.', tag: 'Psychology' },
+              { name: 'Mental Accounting', desc: '£16/day feels different than £497/month. Frame costs in favourable mental categories.', tag: 'Psychology' },
+              { name: 'Regret Aversion', desc: 'Fear of regret blocks action. Money-back guarantees and free trials remove that fear.', tag: 'Psychology' },
+              { name: 'Social Proof / Bandwagon', desc: '"500+ businesses automated" signals safety and quality. Numbers create confidence.', tag: 'Psychology' },
+            ].map(m => (
+              <div class="bg-white border border-brand-gray-100 rounded-card p-4">
+                <div class="flex items-start justify-between gap-2 mb-2">
+                  <p class="text-sm font-semibold text-brand-black leading-snug">{m.name}</p>
+                  <span class="shrink-0 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full" style="background:rgba(232,180,176,0.12);color:#c4847e;">{m.tag}</span>
+                </div>
+                <p class="text-[11.5px] text-brand-gray-500 leading-relaxed">{m.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Category 3: Persuasion & Influence -->
+        <div class="mb-12">
+          <h3 class="font-display text-xl mb-6" style="color:#0A0A0A;">Persuasion & Ethical Influence</h3>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {[
+              { name: 'Reciprocity Principle', desc: 'Give first — free audits, free content, free tools. Generous giving creates obligation to return.', tag: 'Persuasion' },
+              { name: 'Commitment & Consistency', desc: 'Small commitments lead to larger ones. Audit → call → proposal → signature.', tag: 'Persuasion' },
+              { name: 'Authority Bias', desc: 'Expert endorsements, uptime metrics, and certifications build instant trust signals.', tag: 'Persuasion' },
+              { name: 'Liking / Similarity Bias', desc: '"Built by ops people, for ops people" signals we understand your world.', tag: 'Persuasion' },
+              { name: 'Unity Principle', desc: 'Shared identity drives influence. Position your brand inside the buyer\'s tribe.', tag: 'Persuasion' },
+              { name: 'Scarcity / Urgency', desc: 'Limited availability increases perceived value. Only use genuine scarcity.', tag: 'Persuasion' },
+              { name: 'Foot-in-the-Door', desc: 'Start small. Each step makes the next easier: audit → Starter → Pro → Enterprise.', tag: 'Persuasion' },
+              { name: 'Door-in-the-Face', desc: 'Show the largest option first. Everything else feels reasonable by contrast.', tag: 'Persuasion' },
+              { name: 'Loss Aversion / Prospect Theory', desc: 'Losses feel 2× more painful than equivalent gains. Frame around what they\'ll lose by waiting.', tag: 'Persuasion' },
+              { name: 'Anchoring Effect', desc: 'The first number seen shapes all subsequent judgements. Anchor high.', tag: 'Persuasion' },
+              { name: 'Decoy Effect', desc: 'A third, inferior option makes the preferred tier look like the obvious choice.', tag: 'Persuasion' },
+              { name: 'Framing Effect', desc: '"9.4× ROI" and "saves 14h/week" describe the same outcome differently. Frame wins.', tag: 'Persuasion' },
+              { name: 'Contrast Effect', desc: 'Show the "before" state clearly. The gap with "after" makes the value vivid.', tag: 'Persuasion' },
+            ].map(m => (
+              <div class="bg-white border border-brand-gray-100 rounded-card p-4">
+                <div class="flex items-start justify-between gap-2 mb-2">
+                  <p class="text-sm font-semibold text-brand-black leading-snug">{m.name}</p>
+                  <span class="shrink-0 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full" style="background:rgba(45,80,22,0.10);color:#2D5016;">{m.tag}</span>
+                </div>
+                <p class="text-[11.5px] text-brand-gray-500 leading-relaxed">{m.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Categories 4 & 5: Pricing + Design in 2-col -->
+        <div class="grid lg:grid-cols-2 gap-10 mb-12">
+
+          <!-- Pricing Psychology -->
+          <div>
+            <h3 class="font-display text-xl mb-6" style="color:#0A0A0A;">Pricing Psychology</h3>
+            <div class="grid gap-4">
+              {[
+                { name: 'Charm Pricing / Left-Digit Effect', desc: '£497 feels materially cheaper than £500. The left digit dominates price perception.' },
+                { name: 'Rounded-Price (Fluency) Effect', desc: 'Round numbers signal premium quality. Use £1,200 for high-end, £997 for value.' },
+                { name: 'Rule of 100', desc: 'Under £100: show percentage off. Over £100: show pounds saved. Whichever feels bigger.' },
+                { name: 'Good-Better-Best (Price Relativity)', desc: 'Three tiers make the middle feel reasonable. The top anchors; the bottom enables entry.' },
+                { name: 'Mental Accounting (Pricing)', desc: '"Less than a part-time VA for a day" reframes the monthly cost into a familiar category.' },
+              ].map(m => (
+                <div class="bg-white border border-brand-gray-100 rounded-card p-4">
+                  <p class="text-sm font-semibold text-brand-black mb-1.5 leading-snug">{m.name}</p>
+                  <p class="text-[11.5px] text-brand-gray-500 leading-relaxed">{m.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Design & Growth -->
+          <div>
+            <h3 class="font-display text-xl mb-6" style="color:#0A0A0A;">Design, Delivery & Growth</h3>
+            <div class="grid gap-4">
+              {[
+                { name: 'Hick\'s Law', desc: 'Decision time rises with choice count. One clear CTA beats three. Fewer form fields convert more.' },
+                { name: 'AIDA Funnel', desc: 'Attention → Interest → Desire → Action. Every page should guide through each stage in sequence.' },
+                { name: 'Rule of 7', desc: 'Buyers need ~7 touchpoints before converting. Build multi-touch sequences across channels.' },
+                { name: 'BJ Fogg Behavior Model', desc: 'Behavior = Motivation × Ability × Prompt. All three must align for action to happen.' },
+                { name: 'Nudge Theory / Choice Architecture', desc: 'Default selections and strategic ordering guide decisions without restricting freedom.' },
+                { name: 'Activation Energy', desc: 'Lower the cost of starting. Pre-filled forms, one-click imports, and quick wins reduce friction.' },
+                { name: 'Flywheel Effect', desc: 'Content → traffic → leads → clients → case studies → more content. Build the loop, let it spin.' },
+                { name: 'Compounding', desc: 'Small consistent gains accumulate exponentially. Start SEO and email early; benefits build over time.' },
+                { name: 'Survivorship Bias', desc: 'Study failed campaigns too, not just successes. The viral hit you\'re copying had 99 silent failures.' },
+              ].map(m => (
+                <div class="bg-white border border-brand-gray-100 rounded-card p-4">
+                  <p class="text-sm font-semibold text-brand-black mb-1.5 leading-snug">{m.name}</p>
+                  <p class="text-[11.5px] text-brand-gray-500 leading-relaxed">{m.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick reference table -->
+        <div class="bg-white border border-brand-gray-100 rounded-[20px] p-6 lg:p-8">
+          <h3 class="font-display text-lg mb-5" style="color:#0A0A0A;">Quick Reference: Psychology by Challenge</h3>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+            {[
+              { challenge: 'Low conversions', models: 'Hick\'s Law, Activation Energy, BJ Fogg, Paradox of Choice' },
+              { challenge: 'Price objections', models: 'Anchoring, Loss Aversion, Mental Accounting, Framing' },
+              { challenge: 'Building trust', models: 'Authority, Social Proof, Reciprocity, Pratfall Effect' },
+              { challenge: 'Creating urgency', models: 'Scarcity, Loss Aversion, Zeigarnik Effect, Hyperbolic Discounting' },
+              { challenge: 'Reducing churn', models: 'Endowment Effect, Switching Costs, Status-Quo Bias' },
+              { challenge: 'Stalled growth', models: 'Theory of Constraints, Local vs Global Optima, Compounding' },
+              { challenge: 'Decision paralysis', models: 'Paradox of Choice, Default Effect, Nudge Theory, Hick\'s Law' },
+              { challenge: 'Onboarding drop-off', models: 'Goal-Gradient, IKEA Effect, Commitment & Consistency, Zeigarnik' },
+            ].map(r => (
+              <div class="p-3 rounded-xl bg-brand-cream">
+                <p class="text-[10px] font-bold uppercase tracking-wider text-brand-gray-400 mb-1">{r.challenge}</p>
+                <p class="text-[11.5px] text-brand-gray-600 leading-relaxed">{r.models}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </section>
+
     <!-- CTA -->
     <section class="bg-brand-cream border-t border-brand-gray-100 py-14 lg:py-20">
       <div class="container-x text-center">
