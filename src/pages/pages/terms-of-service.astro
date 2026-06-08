@@ -2,43 +2,43 @@
 import ShopLayout from '~/layouts/ShopLayout.astro';
 
 const sections = [
-  { title: 'Agreement', body: 'By placing an order, using this site, or signing in to a PURIST account, you agree to these terms. If you do not agree, please do not use the service.' },
-  { title: 'Eligibility', body: 'You must be at least 18 years old and authorized to act on behalf of your business to purchase services. By subscribing, you confirm you have authority to integrate third-party services with your business systems.' },
-  { title: 'Orders & pricing', body: 'All prices are in the currency displayed at checkout. We reserve the right to refuse or cancel orders in case of pricing errors, product unavailability, or suspected fraud. You will be refunded in full if we cancel.' },
-  { title: 'Subscriptions', body: 'Service plans renew on a monthly billing cycle. You can pause, change plan, or cancel at any time from your account. We send a reminder before each renewal.' },
-  { title: 'Money-back guarantee', body: 'All plans include a 30-day money-back guarantee from the start of your first billing cycle. One redemption per business. See the refund policy page for the full process.' },
-  { title: 'Service delivery', body: 'Automation deployments are delivered to your specified infrastructure. PURIST is not responsible for downtime caused by third-party API changes outside our control, but will remediate within SLA response times.' },
-  { title: 'Results disclaimer', body: 'Reported metrics (hours saved, error reduction, response times) are based on aggregated client data. Individual results vary based on business size, industry, and existing systems. PURIST does not guarantee specific financial outcomes.' },
-  { title: 'Intellectual property', body: 'The PURIST name, logo, product names, content and design are protected by trademark and copyright. You may not reproduce, distribute or use them commercially without written permission.' },
-  { title: 'User content', body: 'If you submit reviews, photos or other content, you grant us a non-exclusive licence to use that content in connection with our products and marketing. You retain ownership.' },
-  { title: 'Limitation of liability', body: 'To the extent permitted by law, PURIST is not liable for indirect, consequential or special damages arising from use of the products or the site. Our maximum aggregate liability for any claim is the amount you paid for the affected order.' },
-  { title: 'Governing law & disputes', body: 'These terms are governed by the laws of the jurisdiction listed on our contact page. Disputes shall be resolved by binding individual arbitration, except for claims that may be brought in small-claims court.' },
-  { title: 'Changes', body: 'We may update these terms. Material changes will be emailed to active account holders at least thirty days before they take effect.' },
+ { title: 'Agreement', body: 'By placing an order, using this site, or signing in to a PURIST account, you agree to these terms. If you do not agree, please do not use the service.' },
+ { title: 'Eligibility', body: 'You must be at least 18 years old and authorized to act on behalf of your business to purchase services. By subscribing, you confirm you have authority to integrate third-party services with your business systems.' },
+ { title: 'Orders & pricing', body: 'All prices are in the currency displayed at checkout. We reserve the right to refuse or cancel orders in case of pricing errors, product unavailability, or suspected fraud. You will be refunded in full if we cancel.' },
+ { title: 'Subscriptions', body: 'Service plans renew on a monthly billing cycle. You can pause, change plan, or cancel at any time from your account. We send a reminder before each renewal.' },
+ { title: 'Money-back guarantee', body: 'All plans include a 30-day money-back guarantee from the start of your first billing cycle. One redemption per business. See the refund policy page for the full process.' },
+ { title: 'Service delivery', body: 'Automation deployments are delivered to your specified infrastructure. PURIST is not responsible for downtime caused by third-party API changes outside our control, but will remediate within SLA response times.' },
+ { title: 'Results disclaimer', body: 'Reported metrics (hours saved, error reduction, response times) are based on aggregated client data. Individual results vary based on business size, industry, and existing systems. PURIST does not guarantee specific financial outcomes.' },
+ { title: 'Intellectual property', body: 'The PURIST name, logo, product names, content and design are protected by trademark and copyright. You may not reproduce, distribute or use them commercially without written permission.' },
+ { title: 'User content', body: 'If you submit reviews, photos or other content, you grant us a non-exclusive licence to use that content in connection with our products and marketing. You retain ownership.' },
+ { title: 'Limitation of liability', body: 'To the extent permitted by law, PURIST is not liable for indirect, consequential or special damages arising from use of the products or the site. Our maximum aggregate liability for any claim is the amount you paid for the affected order.' },
+ { title: 'Governing law & disputes', body: 'These terms are governed by the laws of the jurisdiction listed on our contact page. Disputes shall be resolved by binding individual arbitration, except for claims that may be brought in small-claims court.' },
+ { title: 'Changes', body: 'We may update these terms. Material changes will be emailed to active account holders at least thirty days before they take effect.' },
 ];
 ---
 
 <ShopLayout
-  title="Terms of service – PURIST"
-  description="The legal terms governing your use of PURIST."
+ title="Terms of service – PURIST"
+ description="The legal terms governing your use of PURIST."
 >
-  <section class="container-x py-16 lg:py-20 max-w-3xl mx-auto">
-    <p class="eyebrow mb-4">Terms of service</p>
-    <h1 class="font-display text-4xl lg:text-5xl leading-tight tracking-tight mb-4 text-balance">
-      The fine print, <em class="font-medium">written for humans.</em>
-    </h1>
-    <p class="text-sm text-brand-gray-600 mb-12">Last updated: May 2026.</p>
+ <section class="container-x py-16 lg:py-20 max-w-3xl mx-auto">
+   <p class="eyebrow mb-4">Terms of service</p>
+   <h1 class="font-display text-4xl lg:text-5xl leading-tight tracking-tight mb-4 text-balance">
+     The fine print, <em class="font-medium">written for humans.</em>
+   </h1>
+   <p class="text-sm text-brand-gray-600 mb-12">Last updated: May 2026.</p>
 
-    <div class="divide-y divide-brand-gray-200 border-t border-brand-gray-200">
-      {sections.map((s, i) => (
-        <article class="py-8">
-          <h2 class="font-display text-xl lg:text-2xl mb-3 leading-snug">
-            <span class="text-brand-gray-400 mr-3 tabular-nums">{String(i + 1).padStart(2, '0')}</span>
-            {s.title}
-          </h2>
-          <p class="text-sm text-brand-gray-600 leading-relaxed">{s.body}</p>
-        </article>
-      ))}
-    </div>
+   <div class="divide-y divide-brand-gray-200 border-t border-brand-gray-200">
+     {sections.map((s, i) => (
+       <article class="py-8">
+         <h2 class="font-display text-xl lg:text-2xl mb-3 leading-snug">
+           <span class="text-brand-gray-400 mr-3 tabular-nums">{String(i + 1).padStart(2, '0')}</span>
+           {s.title}
+         </h2>
+         <p class="text-sm text-brand-gray-600 leading-relaxed">{s.body}</p>
+       </article>
+     ))}
+   </div>
 
-  </section>
+ </section>
 </ShopLayout>

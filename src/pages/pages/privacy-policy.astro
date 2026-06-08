@@ -2,43 +2,43 @@
 import ShopLayout from '~/layouts/ShopLayout.astro';
 
 const sections = [
-  { title: 'What we collect', body: 'Account information (name, email, shipping address, phone), order history, payment metadata handled by our payment processor (we never store full card numbers on our own infrastructure), product-page interactions captured by our analytics, and any messages you send to support.' },
-  { title: 'Why we collect it', body: 'To fulfil and ship your order, manage your subscription, respond to support enquiries, prevent fraud, comply with tax law, and improve the product. We do not sell personal data to third parties.' },
-  { title: 'Lawful basis (EU / UK)', body: 'Contract performance for orders and subscriptions; legitimate interest for fraud prevention and product improvement; consent for marketing email and non-essential cookies; legal obligation for tax records.' },
-  { title: 'Marketing email', body: 'You opt in explicitly at checkout or via the footer signup form. You can unsubscribe from any email with one click, or by emailing privacy@purist.online. Unsubscribing from marketing does not affect transactional email (order confirmations, shipping notifications).' },
-  { title: 'Cookies', body: 'We use a minimal set of essential cookies for the cart and checkout, and analytics cookies that fire only after you accept them. Full cookie list and toggle is available in the footer cookie preferences link.' },
-  { title: 'Sharing & processors', body: 'Order fulfilment uses our shipping partners. Payments go through our PCI-compliant payment processor. Email through our email service provider. Each of these processes data on our behalf, under a data processing agreement, and only for the purpose listed.' },
-  { title: 'Your rights', body: 'You can request a copy of the data we hold about you, ask us to correct it, or request deletion. Email privacy@purist.online with the email used on your account. We respond within 30 days.' },
-  { title: 'Retention', body: 'We retain order records for as long as tax law requires (typically seven years). Account data is retained while your account is active and for thirty days after deletion request.' },
-  { title: 'International transfers', body: 'Where data is transferred outside your home jurisdiction, we rely on the standard contractual clauses or an equivalent legal framework.' },
-  { title: 'Changes to this policy', body: 'We update this policy when our practices change. Material changes are emailed to active account holders at least thirty days before they take effect.' },
+ { title: 'What we collect', body: 'Account information (name, email, shipping address, phone), order history, payment metadata handled by our payment processor (we never store full card numbers on our own infrastructure), product-page interactions captured by our analytics, and any messages you send to support.' },
+ { title: 'Why we collect it', body: 'To fulfil and ship your order, manage your subscription, respond to support enquiries, prevent fraud, comply with tax law, and improve the product. We do not sell personal data to third parties.' },
+ { title: 'Lawful basis (EU / UK)', body: 'Contract performance for orders and subscriptions; legitimate interest for fraud prevention and product improvement; consent for marketing email and non-essential cookies; legal obligation for tax records.' },
+ { title: 'Marketing email', body: 'You opt in explicitly at checkout or via the footer signup form. You can unsubscribe from any email with one click, or by emailing privacy@purist.online. Unsubscribing from marketing does not affect transactional email (order confirmations, shipping notifications).' },
+ { title: 'Cookies', body: 'We use a minimal set of essential cookies for the cart and checkout, and analytics cookies that fire only after you accept them. Full cookie list and toggle is available in the footer cookie preferences link.' },
+ { title: 'Sharing & processors', body: 'Order fulfilment uses our shipping partners. Payments go through our PCI-compliant payment processor. Email through our email service provider. Each of these processes data on our behalf, under a data processing agreement, and only for the purpose listed.' },
+ { title: 'Your rights', body: 'You can request a copy of the data we hold about you, ask us to correct it, or request deletion. Email privacy@purist.online with the email used on your account. We respond within 30 days.' },
+ { title: 'Retention', body: 'We retain order records for as long as tax law requires (typically seven years). Account data is retained while your account is active and for thirty days after deletion request.' },
+ { title: 'International transfers', body: 'Where data is transferred outside your home jurisdiction, we rely on the standard contractual clauses or an equivalent legal framework.' },
+ { title: 'Changes to this policy', body: 'We update this policy when our practices change. Material changes are emailed to active account holders at least thirty days before they take effect.' },
 ];
 ---
 
 <ShopLayout
-  title="Privacy policy – PURIST"
-  description="How we collect, use and protect your data."
+ title="Privacy policy – PURIST"
+ description="How we collect, use and protect your data."
 >
-  <section class="container-x py-16 lg:py-20 max-w-3xl mx-auto">
-    <p class="eyebrow mb-4">Privacy policy</p>
-    <h1 class="font-display text-4xl lg:text-5xl leading-tight tracking-tight mb-4 text-balance">
-      Your data, <em class="font-medium">in plain language.</em>
-    </h1>
-    <p class="text-sm text-brand-gray-600 mb-12">
-      Last updated: May 2026. Questions? <a href="mailto:privacy@purist.online" class="underline underline-offset-4">privacy@purist.online</a>
-    </p>
+ <section class="container-x py-16 lg:py-20 max-w-3xl mx-auto">
+   <p class="eyebrow mb-4">Privacy policy</p>
+   <h1 class="font-display text-4xl lg:text-5xl leading-tight tracking-tight mb-4 text-balance">
+     Your data, <em class="font-medium">in plain language.</em>
+   </h1>
+   <p class="text-sm text-brand-gray-600 mb-12">
+     Last updated: May 2026. Questions? <a href="mailto:privacy@purist.online" class="underline underline-offset-4">privacy@purist.online</a>
+   </p>
 
-    <div class="divide-y divide-brand-gray-200 border-t border-brand-gray-200">
-      {sections.map((s, i) => (
-        <article class="py-8">
-          <h2 class="font-display text-xl lg:text-2xl mb-3 leading-snug">
-            <span class="text-brand-gray-400 mr-3 tabular-nums">{String(i + 1).padStart(2, '0')}</span>
-            {s.title}
-          </h2>
-          <p class="text-sm text-brand-gray-600 leading-relaxed">{s.body}</p>
-        </article>
-      ))}
-    </div>
+   <div class="divide-y divide-brand-gray-200 border-t border-brand-gray-200">
+     {sections.map((s, i) => (
+       <article class="py-8">
+         <h2 class="font-display text-xl lg:text-2xl mb-3 leading-snug">
+           <span class="text-brand-gray-400 mr-3 tabular-nums">{String(i + 1).padStart(2, '0')}</span>
+           {s.title}
+         </h2>
+         <p class="text-sm text-brand-gray-600 leading-relaxed">{s.body}</p>
+       </article>
+     ))}
+   </div>
 
-  </section>
+ </section>
 </ShopLayout>

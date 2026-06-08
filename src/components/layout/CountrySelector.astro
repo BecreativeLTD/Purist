@@ -1,129 +1,129 @@
 ---
 const countries = [
-  { code: 'US', name: 'United States', currency: 'USD', symbol: '$' },
-  { code: 'CA', name: 'Canada', currency: 'CAD', symbol: 'CA$' },
-  { code: 'GB', name: 'United Kingdom', currency: 'GBP', symbol: '£' },
-  { code: 'IE', name: 'Ireland', currency: 'EUR', symbol: '€' },
-  { code: 'FR', name: 'France', currency: 'EUR', symbol: '€' },
-  { code: 'DE', name: 'Germany', currency: 'EUR', symbol: '€' },
-  { code: 'ES', name: 'Spain', currency: 'EUR', symbol: '€' },
-  { code: 'IT', name: 'Italy', currency: 'EUR', symbol: '€' },
-  { code: 'NL', name: 'Netherlands', currency: 'EUR', symbol: '€' },
-  { code: 'BE', name: 'Belgium', currency: 'EUR', symbol: '€' },
-  { code: 'PT', name: 'Portugal', currency: 'EUR', symbol: '€' },
-  { code: 'AT', name: 'Austria', currency: 'EUR', symbol: '€' },
-  { code: 'CH', name: 'Switzerland', currency: 'CHF', symbol: 'CHF' },
-  { code: 'SE', name: 'Sweden', currency: 'SEK', symbol: 'kr' },
-  { code: 'NO', name: 'Norway', currency: 'NOK', symbol: 'kr' },
-  { code: 'DK', name: 'Denmark', currency: 'DKK', symbol: 'kr' },
-  { code: 'FI', name: 'Finland', currency: 'EUR', symbol: '€' },
-  { code: 'AU', name: 'Australia', currency: 'AUD', symbol: 'A$' },
-  { code: 'NZ', name: 'New Zealand', currency: 'NZD', symbol: 'NZ$' },
-  { code: 'JP', name: 'Japan', currency: 'JPY', symbol: '¥' },
-  { code: 'SG', name: 'Singapore', currency: 'SGD', symbol: 'S$' },
-  { code: 'AE', name: 'United Arab Emirates', currency: 'AED', symbol: 'AED' },
-  { code: 'IN', name: 'India', currency: 'INR', symbol: '₹' },
-  { code: 'BR', name: 'Brazil', currency: 'BRL', symbol: 'R$' },
-  { code: 'MX', name: 'Mexico', currency: 'MXN', symbol: 'MX$' },
-  { code: 'ZA', name: 'South Africa', currency: 'ZAR', symbol: 'R' },
-  { code: 'TR', name: 'Türkiye', currency: 'TRY', symbol: '₺' },
-  { code: 'KR', name: 'South Korea', currency: 'KRW', symbol: '₩' },
+ { code: 'US', name: 'United States', currency: 'USD', symbol: '$' },
+ { code: 'CA', name: 'Canada', currency: 'CAD', symbol: 'CA$' },
+ { code: 'GB', name: 'United Kingdom', currency: 'GBP', symbol: '£' },
+ { code: 'IE', name: 'Ireland', currency: 'EUR', symbol: '€' },
+ { code: 'FR', name: 'France', currency: 'EUR', symbol: '€' },
+ { code: 'DE', name: 'Germany', currency: 'EUR', symbol: '€' },
+ { code: 'ES', name: 'Spain', currency: 'EUR', symbol: '€' },
+ { code: 'IT', name: 'Italy', currency: 'EUR', symbol: '€' },
+ { code: 'NL', name: 'Netherlands', currency: 'EUR', symbol: '€' },
+ { code: 'BE', name: 'Belgium', currency: 'EUR', symbol: '€' },
+ { code: 'PT', name: 'Portugal', currency: 'EUR', symbol: '€' },
+ { code: 'AT', name: 'Austria', currency: 'EUR', symbol: '€' },
+ { code: 'CH', name: 'Switzerland', currency: 'CHF', symbol: 'CHF' },
+ { code: 'SE', name: 'Sweden', currency: 'SEK', symbol: 'kr' },
+ { code: 'NO', name: 'Norway', currency: 'NOK', symbol: 'kr' },
+ { code: 'DK', name: 'Denmark', currency: 'DKK', symbol: 'kr' },
+ { code: 'FI', name: 'Finland', currency: 'EUR', symbol: '€' },
+ { code: 'AU', name: 'Australia', currency: 'AUD', symbol: 'A$' },
+ { code: 'NZ', name: 'New Zealand', currency: 'NZD', symbol: 'NZ$' },
+ { code: 'JP', name: 'Japan', currency: 'JPY', symbol: '¥' },
+ { code: 'SG', name: 'Singapore', currency: 'SGD', symbol: 'S$' },
+ { code: 'AE', name: 'United Arab Emirates', currency: 'AED', symbol: 'AED' },
+ { code: 'IN', name: 'India', currency: 'INR', symbol: '₹' },
+ { code: 'BR', name: 'Brazil', currency: 'BRL', symbol: 'R$' },
+ { code: 'MX', name: 'Mexico', currency: 'MXN', symbol: 'MX$' },
+ { code: 'ZA', name: 'South Africa', currency: 'ZAR', symbol: 'R' },
+ { code: 'TR', name: 'Türkiye', currency: 'TRY', symbol: '₺' },
+ { code: 'KR', name: 'South Korea', currency: 'KRW', symbol: '₩' },
 ];
 ---
 
 <div class="relative" id="cs-wrap">
-  <button
-    type="button"
-    id="cs-trigger"
-    class="flex items-center gap-1.5 text-sm hover:opacity-70 transition"
-    aria-haspopup="listbox"
-    aria-expanded="false"
-  >
-    <span id="cs-flag" class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-brand-gray-200 text-[9px] font-semibold shrink-0 tracking-wide">US</span>
-    <span id="cs-label" class="hidden lg:inline">United States · USD</span>
-    <svg class="w-3 h-3 opacity-60" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
-      <path d="M3 4.5L6 7.5L9 4.5" stroke-linecap="round" stroke-linejoin="round"></path>
-    </svg>
-  </button>
+ <button
+   type="button"
+   id="cs-trigger"
+   class="flex items-center gap-1.5 text-sm hover:opacity-70 transition"
+   aria-haspopup="listbox"
+   aria-expanded="false"
+ >
+   <span id="cs-flag" class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-brand-gray-200 text-[9px] font-semibold shrink-0 tracking-wide">US</span>
+   <span id="cs-label" class="hidden lg:inline">United States · USD</span>
+   <svg class="w-3 h-3 opacity-60" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+     <path d="M3 4.5L6 7.5L9 4.5" stroke-linecap="round" stroke-linejoin="round"></path>
+   </svg>
+ </button>
 
-  <div
-    id="cs-dropdown"
-    role="listbox"
-    class="absolute right-0 top-full mt-2 w-72 max-h-96 overflow-y-auto bg-white border border-brand-gray-200 rounded-card shadow-lg z-50 hidden"
-  >
-    <ul class="py-2">
-      {countries.map((c) => (
-        <li role="option">
-          <button
-            type="button"
-            class="w-full flex items-center justify-between px-4 py-2.5 text-sm text-left hover:bg-brand-cream transition cs-option"
-            data-country={c.code}
-            data-name={c.name}
-            data-currency={c.currency}
-          >
-            <span>{c.name}</span>
-            <span class="text-brand-gray-400 text-xs">{c.currency}</span>
-          </button>
-        </li>
-      ))}
-    </ul>
-  </div>
+ <div
+   id="cs-dropdown"
+   role="listbox"
+   class="absolute right-0 top-full mt-2 w-72 max-h-96 overflow-y-auto bg-white border border-brand-gray-200 rounded-card shadow-lg z-50 hidden"
+ >
+   <ul class="py-2">
+     {countries.map((c) => (
+       <li role="option">
+         <button
+           type="button"
+           class="w-full flex items-center justify-between px-4 py-2.5 text-sm text-left hover:bg-brand-cream transition cs-option"
+           data-country={c.code}
+           data-name={c.name}
+           data-currency={c.currency}
+         >
+           <span>{c.name}</span>
+           <span class="text-brand-gray-400 text-xs">{c.currency}</span>
+         </button>
+       </li>
+     ))}
+   </ul>
+ </div>
 </div>
 
 <script>
 (function () {
-  var wrap    = document.getElementById('cs-wrap');
-  var trigger = document.getElementById('cs-trigger');
-  var dropdown = document.getElementById('cs-dropdown');
-  var flag    = document.getElementById('cs-flag');
-  var label   = document.getElementById('cs-label');
+ var wrap  = document.getElementById('cs-wrap');
+ var trigger = document.getElementById('cs-trigger');
+ var dropdown = document.getElementById('cs-dropdown');
+ var flag  = document.getElementById('cs-flag');
+ var label = document.getElementById('cs-label');
 
-  if (!wrap || !trigger || !dropdown || !flag || !label) return;
+ if (!wrap || !trigger || !dropdown || !flag || !label) return;
 
-  // Toggle dropdown
-  trigger.addEventListener('click', function (e) {
-    e.stopPropagation();
-    var isOpen = !dropdown.classList.contains('hidden');
-    dropdown.classList.toggle('hidden', isOpen);
-    trigger.setAttribute('aria-expanded', String(!isOpen));
-  });
+ // Toggle dropdown
+ trigger.addEventListener('click', function (e) {
+   e.stopPropagation();
+   var isOpen = !dropdown.classList.contains('hidden');
+   dropdown.classList.toggle('hidden', isOpen);
+   trigger.setAttribute('aria-expanded', String(!isOpen));
+ });
 
-  // Select country
-  dropdown.addEventListener('click', function (e) {
-    var btn = (e.target as HTMLElement).closest('.cs-option') as HTMLButtonElement | null;
-    if (!btn) return;
-    var code     = btn.dataset.country ?? 'US';
-    var name     = btn.dataset.name    ?? 'United States';
-    var currency = btn.dataset.currency ?? 'USD';
+ // Select country
+ dropdown.addEventListener('click', function (e) {
+   var btn = (e.target as HTMLElement).closest('.cs-option') as HTMLButtonElement | null;
+   if (!btn) return;
+   var code   = btn.dataset.country ?? 'US';
+   var name   = btn.dataset.name  ?? 'United States';
+   var currency = btn.dataset.currency ?? 'USD';
 
-    flag.textContent  = code;
-    label.textContent = name + ' · ' + currency;
+   flag.textContent = code;
+   label.textContent = name + ' · ' + currency;
 
-    // Persist choice
-    try { localStorage.setItem('purist_country', JSON.stringify({ code, name, currency })); } catch(_) {}
+   // Persist choice
+   try { localStorage.setItem('purist_country', JSON.stringify({ code, name, currency })); } catch(_) {}
 
-    dropdown.classList.add('hidden');
-    trigger.setAttribute('aria-expanded', 'false');
-  });
+   dropdown.classList.add('hidden');
+   trigger.setAttribute('aria-expanded', 'false');
+ });
 
-  // Close on outside click
-  document.addEventListener('click', function (e) {
-    if (!wrap.contains(e.target as Node)) {
-      dropdown.classList.add('hidden');
-      trigger.setAttribute('aria-expanded', 'false');
-    }
-  });
+ // Close on outside click
+ document.addEventListener('click', function (e) {
+   if (!wrap.contains(e.target as Node)) {
+     dropdown.classList.add('hidden');
+     trigger.setAttribute('aria-expanded', 'false');
+   }
+ });
 
-  // Restore saved choice
-  try {
-    var saved = localStorage.getItem('purist_country');
-    if (saved) {
-      var d = JSON.parse(saved);
-      if (d.code && d.name && d.currency) {
-        flag.textContent  = d.code;
-        label.textContent = d.name + ' · ' + d.currency;
-      }
-    }
-  } catch(_) {}
+ // Restore saved choice
+ try {
+   var saved = localStorage.getItem('purist_country');
+   if (saved) {
+     var d = JSON.parse(saved);
+     if (d.code && d.name && d.currency) {
+       flag.textContent = d.code;
+       label.textContent = d.name + ' · ' + d.currency;
+     }
+   }
+ } catch(_) {}
 })();
 </script>

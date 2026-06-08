@@ -7,55 +7,55 @@ import CartDrawer from '~/components/cart/CartDrawer.tsx';
 import WelcomePopup from '~/components/ui/WelcomePopup.tsx';
 
 export interface Props {
-  title?: string;
-  description?: string;
-  image?: string;
-  canonical?: string;
-  noindex?: boolean;
-  type?: 'website' | 'article' | 'product';
+ title?: string;
+ description?: string;
+ image?: string;
+ canonical?: string;
+ noindex?: boolean;
+ type?: 'website' | 'article' | 'product';
 }
 
 const props = Astro.props;
 ---
 
 <BaseLayout {...props}>
-  <slot name="head" slot="head" />
-  <AnnouncementBar />
-  <Header />
-  <main id="main-content">
-    <slot />
-  </main>
-  <Footer />
-  <CartDrawer client:idle />
-  <WelcomePopup client:idle />
+ <slot name="head" slot="head" />
+ <AnnouncementBar />
+ <Header />
+ <main id="main-content">
+   <slot />
+ </main>
+ <Footer />
+ <CartDrawer client:idle />
+ <WelcomePopup client:idle />
 
-  <!-- ── SCROLL TO TOP ── -->
-  <button
-    id="scroll-top"
-    type="button"
-    aria-label="Back to top"
-    style="position:fixed;bottom:28px;right:28px;z-index:50;width:36px;height:36px;border-radius:50%;background:#0A0A0A;border:1px solid rgba(255,255,255,0.10);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transform:translateY(8px);transition:opacity 0.25s ease,transform 0.25s ease,background 0.15s;pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,0.25);"
-    onmouseover="this.style.background='#1a1a1a'"
-    onmouseout="this.style.background='#0A0A0A'"
-  >
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="rgba(255,255,255,0.70)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M7 11V3M3 6l4-4 4 4"/>
-    </svg>
-  </button>
+ <!-- ── SCROLL TO TOP ── -->
+ <button
+   id="scroll-top"
+   type="button"
+   aria-label="Back to top"
+   style="position:fixed;bottom:28px;right:28px;z-index:50;width:36px;height:36px;border-radius:50%;background:#0A0A0A;border:1px solid rgba(255,255,255,0.10);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transform:translateY(8px);transition:opacity 0.25s ease,transform 0.25s ease,background 0.15s;pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,0.25);"
+   onmouseover="this.style.background='#1a1a1a'"
+   onmouseout="this.style.background='#0A0A0A'"
+ >
+   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="rgba(255,255,255,0.70)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+     <path d="M7 11V3M3 6l4-4 4 4"/>
+   </svg>
+ </button>
 
-  <script is:inline>
-    (function(){
-      var btn = document.getElementById('scroll-top');
-      if (!btn) return;
-      window.addEventListener('scroll', function(){
-        var show = window.scrollY > 400;
-        btn.style.opacity   = show ? '1'    : '0';
-        btn.style.transform = show ? 'translateY(0)' : 'translateY(8px)';
-        btn.style.pointerEvents = show ? 'auto' : 'none';
-      }, { passive: true });
-      btn.addEventListener('click', function(){
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-    })();
-  </script>
+ <script is:inline>
+   (function(){
+     var btn = document.getElementById('scroll-top');
+     if (!btn) return;
+     window.addEventListener('scroll', function(){
+       var show = window.scrollY > 400;
+       btn.style.opacity = show ? '1'  : '0';
+       btn.style.transform = show ? 'translateY(0)' : 'translateY(8px)';
+       btn.style.pointerEvents = show ? 'auto' : 'none';
+     }, { passive: true });
+     btn.addEventListener('click', function(){
+       window.scrollTo({ top: 0, behavior: 'smooth' });
+     });
+   })();
+ </script>
 </BaseLayout>

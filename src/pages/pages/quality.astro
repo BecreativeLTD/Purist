@@ -7,67 +7,67 @@ const PINK = '#c4847e';
 const PINK_BG = 'rgba(232,180,176,0.10)';
 
 const standards = [
-  { n: '01', title: 'Tested on real data before handover', desc: 'Every automation runs against your actual data — not dummy records — before we sign off. Edge cases are identified and resolved in testing, not discovered in production.' },
-  { n: '02', title: '24/7 monitoring from day one', desc: 'The moment a workflow goes live, it enters our monitoring stack. Error alerts fire within 90 seconds. You never find out about a failure from a client or a missed task.' },
-  { n: '03', title: 'Full source code handover', desc: 'You receive complete access to every workflow — source code, credentials, documentation. No black box, no platform lock-in. Your team or any developer can maintain it.' },
-  { n: '04', title: '30-day modification guarantee', desc: 'If the workflow does not behave exactly as specified in the first 30 days, we fix it at no cost. The deployment is not complete until you confirm it works as expected.' },
-  { n: '05', title: 'Structured change management', desc: 'Any change to a live workflow goes through a staging environment first. Changes are versioned, tested and rolled back instantly if something regresses.' },
-  { n: '06', title: 'Incident response SLA', desc: 'Critical incidents — workflow down, data error — are resolved within 4 hours. Standard issues within 24 hours. Every client has a dedicated Slack channel for direct access.' },
+ { n: '01', title: 'Tested on real data before handover', desc: 'Every automation runs against your actual data not dummy records before we sign off. Edge cases are identified and resolved in testing, not discovered in production.' },
+ { n: '02', title: '24/7 monitoring from day one', desc: 'The moment a workflow goes live, it enters our monitoring stack. Error alerts fire within 90 seconds. You never find out about a failure from a client or a missed task.' },
+ { n: '03', title: 'Full source code handover', desc: 'You receive complete access to every workflow source code, credentials, documentation. No black box, no platform lock-in. Your team or any developer can maintain it.' },
+ { n: '04', title: '30-day modification guarantee', desc: 'If the workflow does not behave exactly as specified in the first 30 days, we fix it at no cost. The deployment is not complete until you confirm it works as expected.' },
+ { n: '05', title: 'Structured change management', desc: 'Any change to a live workflow goes through a staging environment first. Changes are versioned, tested and rolled back instantly if something regresses.' },
+ { n: '06', title: 'Incident response SLA', desc: 'Critical incidents workflow down, data error are resolved within 4 hours. Standard issues within 24 hours. Every client has a dedicated Slack channel for direct access.' },
 ];
 ---
 
 <BaseLayout
-  title="Quality Standards — How PURIST Deploys | PURIST Automation"
-  description="PURIST quality standards: real-data testing, 24/7 monitoring, full source code handover, 30-day guarantee and structured incident response. Every deployment, every time."
+ title="Quality Standards How PURIST Deploys | PURIST Automation"
+ description="PURIST quality standards: real-data testing, 24/7 monitoring, full source code handover, 30-day guarantee and structured incident response. Every deployment, every time."
 >
-  <Header />
-  <main id="main-content">
+ <Header />
+ <main id="main-content">
 
-    <div class="py-16 lg:py-20" style="background:#0A0A0A">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-        <p class="text-xs uppercase tracking-widest font-bold mb-4" style={`color:${PINK}`}>Standards</p>
-        <h1 class="text-3xl lg:text-5xl font-bold text-white mb-5 leading-tight">Quality you can hold us to.</h1>
-        <p class="text-base lg:text-lg text-gray-400 max-w-2xl mx-auto">
-          Six non-negotiable standards on every PURIST deployment. Not aspirations — contractual commitments backed by a 30-day money-back guarantee.
-        </p>
-      </div>
-    </div>
+   <div class="py-16 lg:py-20" style="background:#0A0A0A">
+     <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+       <p class="text-xs uppercase tracking-widest font-bold mb-4" style={`color:${PINK}`}>Standards</p>
+       <h1 class="text-3xl lg:text-5xl font-bold text-white mb-5 leading-tight">Quality you can hold us to.</h1>
+       <p class="text-base lg:text-lg text-gray-400 max-w-2xl mx-auto">
+         Six non-negotiable standards on every PURIST deployment. Not aspirations contractual commitments backed by a 30-day money-back guarantee.
+       </p>
+     </div>
+   </div>
 
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-14 lg:py-20">
+   <div class="max-w-4xl mx-auto px-4 sm:px-6 py-14 lg:py-20">
 
-      <div class="space-y-5 mb-14">
-        {standards.map(s => (
-          <div class="flex gap-6 p-6 rounded-2xl border border-gray-100 bg-gray-50">
-            <span class="text-3xl font-bold text-gray-200 leading-none shrink-0 mt-1">{s.n}</span>
-            <div>
-              <h2 class="text-base font-bold text-gray-900 mb-2">{s.title}</h2>
-              <p class="text-sm text-gray-500 leading-relaxed">{s.desc}</p>
-            </div>
-          </div>
-        ))}
-      </div>
+     <div class="space-y-5 mb-14">
+       {standards.map(s => (
+         <div class="flex gap-6 p-6 rounded-2xl border border-gray-100 bg-gray-50">
+           <span class="text-3xl font-bold text-gray-200 leading-none shrink-0 mt-1">{s.n}</span>
+           <div>
+             <h2 class="text-base font-bold text-gray-900 mb-2">{s.title}</h2>
+             <p class="text-sm text-gray-500 leading-relaxed">{s.desc}</p>
+           </div>
+         </div>
+       ))}
+     </div>
 
-      <div class="grid sm:grid-cols-4 gap-4 mb-14">
-        {[
-          { value: '99.97%', label: 'uptime SLA' },
-          { value: '90 sec', label: 'error alert' },
-          { value: '4 h', label: 'critical fix' },
-          { value: '30 days', label: 'guarantee' },
-        ].map(s => (
-          <div class="rounded-xl border border-gray-200 p-5 text-center">
-            <p class="text-2xl font-bold mb-1" style={`color:${PINK}`}>{s.value}</p>
-            <p class="text-xs text-gray-400">{s.label}</p>
-          </div>
-        ))}
-      </div>
+     <div class="grid sm:grid-cols-4 gap-4 mb-14">
+       {[
+         { value: '99.97%', label: 'uptime SLA' },
+         { value: '90 sec', label: 'error alert' },
+         { value: '4 h', label: 'critical fix' },
+         { value: '30 days', label: 'guarantee' },
+       ].map(s => (
+         <div class="rounded-xl border border-gray-200 p-5 text-center">
+           <p class="text-2xl font-bold mb-1" style={`color:${PINK}`}>{s.value}</p>
+           <p class="text-xs text-gray-400">{s.label}</p>
+         </div>
+       ))}
+     </div>
 
-      <div class="rounded-2xl p-8 text-center" style={`background:${PINK_BG};border:1px solid rgba(196,132,126,0.20)`}>
-        <h2 class="text-xl font-bold text-gray-900 mb-3">Every deployment backed by a 30-day guarantee.</h2>
-        <p class="text-sm text-gray-600 mb-6 max-w-lg mx-auto">If your automation does not perform as specified, we fix it or refund it. No questions. Book a free audit to get started.</p>
-        <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style={`background:${PINK}`}>Book free audit →</a>
-      </div>
-    </div>
+     <div class="rounded-2xl p-8 text-center" style={`background:${PINK_BG};border:1px solid rgba(196,132,126,0.20)`}>
+       <h2 class="text-xl font-bold text-gray-900 mb-3">Every deployment backed by a 30-day guarantee.</h2>
+       <p class="text-sm text-gray-600 mb-6 max-w-lg mx-auto">If your automation does not perform as specified, we fix it or refund it. No questions. Book a free audit to get started.</p>
+       <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style={`background:${PINK}`}>Book free audit →</a>
+     </div>
+   </div>
 
-  </main>
-  <Footer />
+ </main>
+ <Footer />
 </BaseLayout>

@@ -4,17 +4,17 @@ import blogData from '~/data/blog.json';
 import { terms as _glossaryTerms } from '~/data/glossary';
 
 export function getStaticPaths() {
-  return blogData.articles.map((a) => ({
-    params: { slug: a.slug },
-    props: { article: a },
-  }));
+ return blogData.articles.map((a) => ({
+   params: { slug: a.slug },
+   props: { article: a },
+ }));
 }
 
 const { article } = Astro.props;
 const { categories, articles } = blogData;
 const category = categories.find((c) => c.id === article.category);
 const sameCat = articles.filter((a) => a.id !== article.id && a.category === article.category);
-const others  = articles.filter((a) => a.id !== article.id && a.category !== article.category);
+const others = articles.filter((a) => a.id !== article.id && a.category !== article.category);
 const moreArticles = [...sameCat, ...others].slice(0, 3);
 
 // ── Silo navigation ───────────────────────────────────────────
@@ -23,20 +23,20 @@ const siloName: string = (article as any).siloName ?? '';
 const isPillar: boolean = (article as any).isPillar ?? false;
 const pillarSlug: string = (article as any).pillarSlug ?? '';
 const siloClusterArticles = hasSilo
-  ? articles.filter((a) => (a as any).silo === (article as any).silo && a.slug !== article.slug)
-  : [];
+ ? articles.filter((a) => (a as any).silo === (article as any).silo && a.slug !== article.slug)
+ : [];
 const pillarArticle = hasSilo && !isPillar
-  ? articles.find((a) => a.slug === pillarSlug)
-  : null;
+ ? articles.find((a) => a.slug === pillarSlug)
+ : null;
 
 // ── Parse body into structured blocks ──────────────────────────
 type Block =
-  | { type: 'h2'; text: string; id: string }
-  | { type: 'h3'; text: string }
-  | { type: 'blockquote'; text: string }
-  | { type: 'callout'; text: string }
-  | { type: 'list'; items: string[] }
-  | { type: 'paragraph'; text: string; first: boolean };
+ | { type: 'h2'; text: string; id: string }
+ | { type: 'h3'; text: string }
+ | { type: 'blockquote'; text: string }
+ | { type: 'callout'; text: string }
+ | { type: 'list'; items: string[] }
+ | { type: 'paragraph'; text: string; first: boolean };
 
 const slugify = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
@@ -45,34 +45,34 @@ let firstPara = true;
 let listBuffer: string[] = [];
 
 const flushList = () => {
-  if (listBuffer.length) { blocks.push({ type: 'list', items: [...listBuffer] }); listBuffer = []; }
+ if (listBuffer.length) { blocks.push({ type: 'list', items: [...listBuffer] }); listBuffer = []; }
 };
 
 for (const raw of article.body.split('\n\n')) {
-  const line = raw.trim();
-  if (!line) continue;
+ const line = raw.trim();
+ if (!line) continue;
 
-  if (line.startsWith('## ')) {
-    flushList();
-    const text = line.slice(3);
-    blocks.push({ type: 'h2', text, id: slugify(text) });
-  } else if (line.startsWith('### ')) {
-    flushList();
-    blocks.push({ type: 'h3', text: line.slice(4) });
-  } else if (line.startsWith('> ')) {
-    flushList();
-    blocks.push({ type: 'blockquote', text: line.slice(2) });
-  } else if (line.startsWith('!! ')) {
-    flushList();
-    blocks.push({ type: 'callout', text: line.slice(3) });
-  } else if (line.startsWith('- ')) {
-    const items = line.split('\n').filter(l => l.startsWith('- ')).map(l => l.slice(2));
-    blocks.push({ type: 'list', items });
-  } else {
-    flushList();
-    blocks.push({ type: 'paragraph', text: line, first: firstPara });
-    firstPara = false;
-  }
+ if (line.startsWith('## ')) {
+   flushList();
+   const text = line.slice(3);
+   blocks.push({ type: 'h2', text, id: slugify(text) });
+ } else if (line.startsWith('### ')) {
+   flushList();
+   blocks.push({ type: 'h3', text: line.slice(4) });
+ } else if (line.startsWith('> ')) {
+   flushList();
+   blocks.push({ type: 'blockquote', text: line.slice(2) });
+ } else if (line.startsWith('!! ')) {
+   flushList();
+   blocks.push({ type: 'callout', text: line.slice(3) });
+ } else if (line.startsWith('- ')) {
+   const items = line.split('\n').filter(l => l.startsWith('- ')).map(l => l.slice(2));
+   blocks.push({ type: 'list', items });
+ } else {
+   flushList();
+   blocks.push({ type: 'paragraph', text: line, first: firstPara });
+   firstPara = false;
+ }
 }
 flushList();
 
@@ -85,10 +85,10 @@ const pageUrl = `${(Astro.site?.toString() ?? 'https://purist.online').replace(/
 
 // ── Markdown link parser ───────────────────────────────────────
 function parseMdLinks(text: string): string {
-  return text.replace(
-    /\[([^\]]+)\]\(([^)]+)\)/g,
-    '<a href="$2" style="color:#0A0A0A;font-weight:600;text-decoration:underline;text-decoration-color:rgba(232,180,176,0.8);text-underline-offset:3px;transition:text-decoration-color 0.15s;">$1</a>'
-  );
+ return text.replace(
+   /\[([^\]]+)\]\(([^)]+)\)/g,
+   '<a href="$2" style="color:#0A0A0A;font-weight:600;text-decoration:underline;text-decoration-color:rgba(232,180,176,0.8);text-underline-offset:3px;transition:text-decoration-color 0.15s;">$1</a>'
+ );
 }
 
 // ── Glossary auto-linker (first occurrence per term, max 10 per article) ──
@@ -96,98 +96,98 @@ const _sortedGlossary = [..._glossaryTerms].sort((a, b) => b.term.length - a.ter
 const _linkedSlugs = new Set<string>();
 
 function linkifyGlossary(text: string): string {
-  if (_linkedSlugs.size >= 10) return text;
-  let out = text;
-  for (const gt of _sortedGlossary) {
-    if (_linkedSlugs.has(gt.slug)) continue;
-    const esc = gt.term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const re = new RegExp(`(?<![\\w/.-])(${esc})(?![\\w/.-])`, 'i');
-    if (re.test(out)) {
-      out = out.replace(re, (match) => {
-        _linkedSlugs.add(gt.slug);
-        return `<a href="/pages/glossary/${gt.slug}" style="color:inherit;font-weight:600;text-decoration:underline;text-decoration-color:rgba(232,180,176,0.7);text-underline-offset:3px;" title="${gt.term} — see glossary">${match}</a>`;
-      });
-      if (_linkedSlugs.size >= 10) break;
-    }
-  }
-  return out;
+ if (_linkedSlugs.size >= 10) return text;
+ let out = text;
+ for (const gt of _sortedGlossary) {
+   if (_linkedSlugs.has(gt.slug)) continue;
+   const esc = gt.term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+   const re = new RegExp(`(?<![\\w/.-])(${esc})(?![\\w/.-])`, 'i');
+   if (re.test(out)) {
+     out = out.replace(re, (match) => {
+       _linkedSlugs.add(gt.slug);
+       return `<a href="/pages/glossary/${gt.slug}" style="color:inherit;font-weight:600;text-decoration:underline;text-decoration-color:rgba(232,180,176,0.7);text-underline-offset:3px;" title="${gt.term} see glossary">${match}</a>`;
+     });
+     if (_linkedSlugs.size >= 10) break;
+   }
+ }
+ return out;
 }
 const schemaDate = (() => {
-  const months: Record<string,string> = { January:'01',February:'02',March:'03',April:'04',May:'05',June:'06',July:'07',August:'08',September:'09',October:'10',November:'11',December:'12' };
-  const [m, y] = article.date.split(' ');
-  return `${y}-${months[m] ?? '01'}-01`;
+ const months: Record<string,string> = { January:'01',February:'02',March:'03',April:'04',May:'05',June:'06',July:'07',August:'08',September:'09',October:'10',November:'11',December:'12' };
+ const [m, y] = article.date.split(' ');
+ return `${y}-${months[m] ?? '01'}-01`;
 })();
 ---
 
 <ShopLayout
-  title={article.metaTitle ?? `${article.title} | PURIST`}
-  description={article.metaDescription ?? article.excerpt}
-  image={article.image}
-  canonical={pageUrl}
-  type="article"
+ title={article.metaTitle ?? `${article.title} | PURIST`}
+ description={article.metaDescription ?? article.excerpt}
+ image={article.image}
+ canonical={pageUrl}
+ type="article"
 >
 
 <Fragment slot="head">
-  {article.tags && article.tags.length > 0 && (
-    <meta name="keywords" content={article.tags.join(', ')} />
-  )}
-  <meta property="article:published_time" content={schemaDate} />
-  <meta property="article:author" content={article.author} />
-  <meta property="article:section" content={category?.name ?? article.category} />
-  {article.tags?.map((tag: string) => (
-    <meta property="article:tag" content={tag} />
-  ))}
+ {article.tags && article.tags.length > 0 && (
+   <meta name="keywords" content={article.tags.join(', ')} />
+ )}
+ <meta property="article:published_time" content={schemaDate} />
+ <meta property="article:author" content={article.author} />
+ <meta property="article:section" content={category?.name ?? article.category} />
+ {article.tags?.map((tag: string) => (
+   <meta property="article:tag" content={tag} />
+ ))}
 </Fragment>
 
 <style>
-  /* ── Article grid: single column on mobile ── */
-  #article-grid {
-    display: grid;
-    grid-template-columns: 1fr minmax(0,660px) minmax(0,220px) 1fr;
-    gap: 0 3rem;
-    align-items: start;
-  }
-  @media (max-width: 1023px) {
-    #article-grid {
-      grid-template-columns: 1fr !important;
-    }
-    #article-grid > div:first-child,
-    #article-grid > div:last-child {
-      display: none;
-    }
-  }
-  /* ── Article body font sizes on mobile ── */
-  @media (max-width: 639px) {
-    #article-grid p { font-size: 15px !important; line-height: 1.75 !important; }
-    #article-grid h2 { font-size: 1.35rem !important; }
-    #article-grid h3 { font-size: 1.1rem !important; }
-    #article-grid li { font-size: 14px !important; }
-  }
-  /* ── Hero title + excerpt sizes ── */
-  .article-title { font-size: clamp(1.55rem, 5vw, 2.75rem); }
-  .article-excerpt { font-size: 14px; }
-  @media (min-width: 640px) { .article-excerpt { font-size: 15px; } }
-  /* ── Hero content padding on small screens ── */
-  @media (max-width: 479px) {
-    .article-hero-content { padding-top: 6rem !important; padding-bottom: 2rem !important; }
-    .article-title { font-size: 1.45rem !important; }
-  }
-  /* ── Related articles grid ── */
-  .related-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
-  }
-  @media (max-width: 767px) {
-    .related-grid { grid-template-columns: 1fr !important; }
-  }
-  @media (min-width: 768px) and (max-width: 1023px) {
-    .related-grid { grid-template-columns: repeat(2, 1fr) !important; }
-  }
-  /* ── Share buttons on mobile ── */
-  @media (max-width: 480px) {
-    .share-row { flex-direction: column; align-items: flex-start !important; }
-  }
+ /* ── Article grid: single column on mobile ── */
+ #article-grid {
+   display: grid;
+   grid-template-columns: 1fr minmax(0,660px) minmax(0,220px) 1fr;
+   gap: 0 3rem;
+   align-items: start;
+ }
+ @media (max-width: 1023px) {
+   #article-grid {
+     grid-template-columns: 1fr !important;
+   }
+   #article-grid > div:first-child,
+   #article-grid > div:last-child {
+     display: none;
+   }
+ }
+ /* ── Article body font sizes on mobile ── */
+ @media (max-width: 639px) {
+   #article-grid p { font-size: 15px !important; line-height: 1.75 !important; }
+   #article-grid h2 { font-size: 1.35rem !important; }
+   #article-grid h3 { font-size: 1.1rem !important; }
+   #article-grid li { font-size: 14px !important; }
+ }
+ /* ── Hero title + excerpt sizes ── */
+ .article-title { font-size: clamp(1.55rem, 5vw, 2.75rem); }
+ .article-excerpt { font-size: 14px; }
+ @media (min-width: 640px) { .article-excerpt { font-size: 15px; } }
+ /* ── Hero content padding on small screens ── */
+ @media (max-width: 479px) {
+   .article-hero-content { padding-top: 6rem !important; padding-bottom: 2rem !important; }
+   .article-title { font-size: 1.45rem !important; }
+ }
+ /* ── Related articles grid ── */
+ .related-grid {
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   gap: 1.25rem;
+ }
+ @media (max-width: 767px) {
+   .related-grid { grid-template-columns: 1fr !important; }
+ }
+ @media (min-width: 768px) and (max-width: 1023px) {
+   .related-grid { grid-template-columns: repeat(2, 1fr) !important; }
+ }
+ /* ── Share buttons on mobile ── */
+ @media (max-width: 480px) {
+   .share-row { flex-direction: column; align-items: flex-start !important; }
+ }
 </style>
 
 <!-- ── PROGRESS BAR ───────────────────────────────────── -->
@@ -196,434 +196,434 @@ const schemaDate = (() => {
 <!-- ── HERO ──────────────────────────────────────────────────── -->
 <header style="background:#0A0A0A;position:relative;overflow:hidden;min-height:480px;display:flex;flex-direction:column;justify-content:flex-end;">
 
-  <!-- Full-bleed image as background -->
-  <div style="position:absolute;inset:0;">
-    <img src={article.image} alt={article.title} width="1200" height="630" style="width:100%;height:100%;object-fit:cover;opacity:0.32;" loading="eager"/>
-    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,10,0.15) 0%,rgba(10,10,10,0.55) 40%,#0A0A0A 85%);"></div>
-  </div>
+ <!-- Full-bleed image as background -->
+ <div style="position:absolute;inset:0;">
+   <img src={article.image} alt={article.title} width="1200" height="630" style="width:100%;height:100%;object-fit:cover;opacity:0.32;" loading="eager"/>
+   <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,10,0.15) 0%,rgba(10,10,10,0.55) 40%,#0A0A0A 85%);"></div>
+ </div>
 
-  <!-- Content on top of image -->
-  <div class="container-x article-hero-content" style="position:relative;z-index:10;padding-top:5rem;padding-bottom:2.5rem;">
+ <!-- Content on top of image -->
+ <div class="container-x article-hero-content" style="position:relative;z-index:10;padding-top:5rem;padding-bottom:2.5rem;">
 
-    <!-- Breadcrumb -->
-    <nav aria-label="Breadcrumb" style="margin-bottom:1.5rem;">
-      <ol itemscope itemtype="https://schema.org/BreadcrumbList" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;list-style:none;padding:0;margin:0;">
-        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-          <a itemprop="item" href="/" style="font-size:10px;font-weight:500;color:rgba(255,255,255,0.35);text-decoration:none;" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.35)'">
-            <span itemprop="name">Home</span>
-          </a>
-          <meta itemprop="position" content="1"/>
-        </li>
-        <li aria-hidden="true" style="color:rgba(255,255,255,0.18);font-size:10px;">/</li>
-        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-          <a itemprop="item" href="/pages/blog" style="font-size:10px;font-weight:500;color:rgba(255,255,255,0.35);text-decoration:none;" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.35)'">
-            <span itemprop="name">Blog</span>
-          </a>
-          <meta itemprop="position" content="2"/>
-        </li>
-        <li aria-hidden="true" style="color:rgba(255,255,255,0.18);font-size:10px;">/</li>
-        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="font-size:10px;color:rgba(255,255,255,0.4);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px;">
-          <span itemprop="name">{article.title}</span>
-          <meta itemprop="position" content="3"/>
-        </li>
-      </ol>
-    </nav>
+   <!-- Breadcrumb -->
+   <nav aria-label="Breadcrumb" style="margin-bottom:1.5rem;">
+     <ol itemscope itemtype="https://schema.org/BreadcrumbList" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;list-style:none;padding:0;margin:0;">
+       <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+         <a itemprop="item" href="/" style="font-size:10px;font-weight:500;color:rgba(255,255,255,0.35);text-decoration:none;" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.35)'">
+           <span itemprop="name">Home</span>
+         </a>
+         <meta itemprop="position" content="1"/>
+       </li>
+       <li aria-hidden="true" style="color:rgba(255,255,255,0.18);font-size:10px;">/</li>
+       <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+         <a itemprop="item" href="/pages/blog" style="font-size:10px;font-weight:500;color:rgba(255,255,255,0.35);text-decoration:none;" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.35)'">
+           <span itemprop="name">Blog</span>
+         </a>
+         <meta itemprop="position" content="2"/>
+       </li>
+       <li aria-hidden="true" style="color:rgba(255,255,255,0.18);font-size:10px;">/</li>
+       <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="font-size:10px;color:rgba(255,255,255,0.4);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px;">
+         <span itemprop="name">{article.title}</span>
+         <meta itemprop="position" content="3"/>
+       </li>
+     </ol>
+   </nav>
 
-    <div style="max-width:680px;">
-      <!-- Category + reading time -->
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;flex-wrap:wrap;">
-        <a href={`/pages/blog?cat=${article.category}`}
-           style="font-size:9px;text-transform:uppercase;letter-spacing:0.18em;font-weight:700;padding:4px 11px;border-radius:100px;background:rgba(232,180,176,0.14);color:#E8B4B0;border:1px solid rgba(232,180,176,0.25);text-decoration:none;">
-          {category?.name ?? article.category}
-        </a>
-        <span style="font-size:10px;color:rgba(255,255,255,0.3);">{article.readingTime}</span>
-        <span style="font-size:10px;color:rgba(255,255,255,0.16);">·</span>
-        <span style="font-size:10px;color:rgba(255,255,255,0.3);">{wordCount.toLocaleString()} words</span>
-      </div>
+   <div style="max-width:680px;">
+     <!-- Category + reading time -->
+     <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;flex-wrap:wrap;">
+       <a href={`/pages/blog?cat=${article.category}`}
+          style="font-size:9px;text-transform:uppercase;letter-spacing:0.18em;font-weight:700;padding:4px 11px;border-radius:100px;background:rgba(232,180,176,0.14);color:#E8B4B0;border:1px solid rgba(232,180,176,0.25);text-decoration:none;">
+         {category?.name ?? article.category}
+       </a>
+       <span style="font-size:10px;color:rgba(255,255,255,0.3);">{article.readingTime}</span>
+       <span style="font-size:10px;color:rgba(255,255,255,0.16);">·</span>
+       <span style="font-size:10px;color:rgba(255,255,255,0.3);">{wordCount.toLocaleString()} words</span>
+     </div>
 
-      <h1 class="article-title" style="font-family:'Fraunces',Georgia,serif;font-weight:400;letter-spacing:-0.025em;line-height:1.12;color:#fff;margin-bottom:1rem;">
-        {article.title}
-      </h1>
-      <p class="article-excerpt" style="line-height:1.75;color:rgba(255,255,255,0.45);margin-bottom:1.75rem;max-width:560px;">
-        {article.excerpt}
-      </p>
+     <h1 class="article-title" style="font-family:'Fraunces',Georgia,serif;font-weight:400;letter-spacing:-0.025em;line-height:1.12;color:#fff;margin-bottom:1rem;">
+       {article.title}
+     </h1>
+     <p class="article-excerpt" style="line-height:1.75;color:rgba(255,255,255,0.45);margin-bottom:1.75rem;max-width:560px;">
+       {article.excerpt}
+     </p>
 
-      <!-- Author + share -->
-      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-        <div style="width:32px;height:32px;border-radius:50%;background:rgba(232,180,176,0.15);border:1px solid rgba(232,180,176,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;">
-          <span style="font-family:'Fraunces',Georgia,serif;font-size:13px;font-weight:600;color:#E8B4B0;letter-spacing:-0.02em;line-height:1;">P</span>
-        </div>
-        <div>
-          <p style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.75);margin:0;">{article.author}</p>
-          <p style="font-size:9px;color:rgba(255,255,255,0.28);margin:0;">{article.date}</p>
-        </div>
-        <div style="margin-left:auto;display:flex;align-items:center;gap:14px;">
-          <a href={`https://x.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" style="font-size:10px;color:rgba(255,255,255,0.3);text-decoration:none;display:flex;align-items:center;gap:4px;" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            X
-          </a>
-          <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" style="font-size:10px;color:rgba(255,255,255,0.3);text-decoration:none;display:flex;align-items:center;gap:4px;" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            LinkedIn
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+     <!-- Author + share -->
+     <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+       <div style="width:32px;height:32px;border-radius:50%;background:rgba(232,180,176,0.15);border:1px solid rgba(232,180,176,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+         <span style="font-family:'Fraunces',Georgia,serif;font-size:13px;font-weight:600;color:#E8B4B0;letter-spacing:-0.02em;line-height:1;">P</span>
+       </div>
+       <div>
+         <p style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.75);margin:0;">{article.author}</p>
+         <p style="font-size:9px;color:rgba(255,255,255,0.28);margin:0;">{article.date}</p>
+       </div>
+       <div style="margin-left:auto;display:flex;align-items:center;gap:14px;">
+         <a href={`https://x.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" style="font-size:10px;color:rgba(255,255,255,0.3);text-decoration:none;display:flex;align-items:center;gap:4px;" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+           X
+         </a>
+         <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" style="font-size:10px;color:rgba(255,255,255,0.3);text-decoration:none;display:flex;align-items:center;gap:4px;" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+           LinkedIn
+         </a>
+       </div>
+     </div>
+   </div>
+ </div>
 </header>
 
 <!-- ── ARTICLE BODY ───────────────────────────────────────────── -->
 <article style="background:#fff;padding:5rem 0;" itemscope itemtype="https://schema.org/Article">
-  <meta itemprop="headline" content={article.title}/>
-  <meta itemprop="description" content={article.excerpt}/>
-  <meta itemprop="datePublished" content={schemaDate}/>
-  <meta itemprop="wordCount" content={String(wordCount)}/>
+ <meta itemprop="headline" content={article.title}/>
+ <meta itemprop="description" content={article.excerpt}/>
+ <meta itemprop="datePublished" content={schemaDate}/>
+ <meta itemprop="wordCount" content={String(wordCount)}/>
 
-  <div class="container-x">
-    <div id="article-grid">
+ <div class="container-x">
+   <div id="article-grid">
 
-      <!-- Left spacer -->
-      <div></div>
+     <!-- Left spacer -->
+     <div></div>
 
-      <!-- Main content -->
-      <div style="min-width:0;" itemprop="articleBody">
-        {blocks.map((block) => {
-          if (block.type === 'h2') return (
-            <h2 id={block.id} style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.4rem,3vw,1.9rem);font-weight:400;letter-spacing:-0.02em;line-height:1.2;color:#0A0A0A;margin:3rem 0 1.25rem;scroll-margin-top:80px;">
-              {block.text}
-            </h2>
-          );
-          if (block.type === 'h3') return (
-            <h3 style="font-family:'Fraunces',Georgia,serif;font-size:1.2rem;font-weight:400;letter-spacing:-0.01em;line-height:1.3;color:#0A0A0A;margin:2rem 0 0.75rem;">
-              {block.text}
-            </h3>
-          );
-          if (block.type === 'blockquote') return (
-            <blockquote style="border-left:3px solid #E8B4B0;padding:1.25rem 1.5rem;margin:2rem 0;background:#FDF9F8;border-radius:0 12px 12px 0;">
-              <p style="font-family:'Fraunces',Georgia,serif;font-size:1.1rem;font-style:italic;font-weight:400;color:#0A0A0A;line-height:1.6;margin:0;">{block.text}</p>
-            </blockquote>
-          );
-          if (block.type === 'callout') return (
-            <div style="background:#0A0A0A;border-radius:14px;padding:1.5rem 1.75rem;margin:2rem 0;display:flex;align-items:flex-start;gap:12px;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-              <p style="font-size:13.5px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0;font-weight:500;">{block.text}</p>
-            </div>
-          );
-          if (block.type === 'list') return (
-            <ul style="margin:1.25rem 0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:10px;">
-              {block.items.map((item: string) => (
-                <li style="display:flex;align-items:flex-start;gap:10px;font-size:15px;line-height:1.7;color:rgba(10,10,10,0.78);">
-                  <span style="width:5px;height:5px;border-radius:50%;background:#E8B4B0;flex-shrink:0;margin-top:9px;"></span>
-                  <Fragment set:html={parseMdLinks(linkifyGlossary(item))}/>
-                </li>
-              ))}
-            </ul>
-          );
-          if (block.type === 'paragraph' && block.first) return (
-            <p style="font-size:17px;line-height:1.8;color:#0A0A0A;margin-bottom:1.5rem;font-feature-settings:'kern' 1,'liga' 1;">
-              <span style="float:left;font-family:'Fraunces',Georgia,serif;font-size:4.5rem;line-height:0.82;margin-right:8px;margin-top:8px;color:#0A0A0A;">{block.text[0]}</span><Fragment set:html={parseMdLinks(linkifyGlossary(block.text.slice(1)))}/>
-            </p>
-          );
-          return (
-            <p style="font-size:16px;line-height:1.85;color:rgba(10,10,10,0.78);margin-bottom:1.5rem;" set:html={parseMdLinks(linkifyGlossary((block as any).text))}/>
-          );
-        })}
+     <!-- Main content -->
+     <div style="min-width:0;" itemprop="articleBody">
+       {blocks.map((block) => {
+         if (block.type === 'h2') return (
+           <h2 id={block.id} style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.4rem,3vw,1.9rem);font-weight:400;letter-spacing:-0.02em;line-height:1.2;color:#0A0A0A;margin:3rem 0 1.25rem;scroll-margin-top:80px;">
+             {block.text}
+           </h2>
+         );
+         if (block.type === 'h3') return (
+           <h3 style="font-family:'Fraunces',Georgia,serif;font-size:1.2rem;font-weight:400;letter-spacing:-0.01em;line-height:1.3;color:#0A0A0A;margin:2rem 0 0.75rem;">
+             {block.text}
+           </h3>
+         );
+         if (block.type === 'blockquote') return (
+           <blockquote style="border-left:3px solid #E8B4B0;padding:1.25rem 1.5rem;margin:2rem 0;background:#FDF9F8;border-radius:0 12px 12px 0;">
+             <p style="font-family:'Fraunces',Georgia,serif;font-size:1.1rem;font-style:italic;font-weight:400;color:#0A0A0A;line-height:1.6;margin:0;">{block.text}</p>
+           </blockquote>
+         );
+         if (block.type === 'callout') return (
+           <div style="background:#0A0A0A;border-radius:14px;padding:1.5rem 1.75rem;margin:2rem 0;display:flex;align-items:flex-start;gap:12px;">
+             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+             <p style="font-size:13.5px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0;font-weight:500;">{block.text}</p>
+           </div>
+         );
+         if (block.type === 'list') return (
+           <ul style="margin:1.25rem 0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:10px;">
+             {block.items.map((item: string) => (
+               <li style="display:flex;align-items:flex-start;gap:10px;font-size:15px;line-height:1.7;color:rgba(10,10,10,0.78);">
+                 <span style="width:5px;height:5px;border-radius:50%;background:#E8B4B0;flex-shrink:0;margin-top:9px;"></span>
+                 <Fragment set:html={parseMdLinks(linkifyGlossary(item))}/>
+               </li>
+             ))}
+           </ul>
+         );
+         if (block.type === 'paragraph' && block.first) return (
+           <p style="font-size:17px;line-height:1.8;color:#0A0A0A;margin-bottom:1.5rem;font-feature-settings:'kern' 1,'liga' 1;">
+             <span style="float:left;font-family:'Fraunces',Georgia,serif;font-size:4.5rem;line-height:0.82;margin-right:8px;margin-top:8px;color:#0A0A0A;">{block.text[0]}</span><Fragment set:html={parseMdLinks(linkifyGlossary(block.text.slice(1)))}/>
+           </p>
+         );
+         return (
+           <p style="font-size:16px;line-height:1.85;color:rgba(10,10,10,0.78);margin-bottom:1.5rem;" set:html={parseMdLinks(linkifyGlossary((block as any).text))}/>
+         );
+       })}
 
-        <!-- Tags -->
-        {article.tags && article.tags.length > 0 && (
-          <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(10,10,10,0.07);">
-            <p style="font-size:9.5px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(10,10,10,0.3);margin-bottom:10px;">Tags</p>
-            <div style="display:flex;flex-wrap:wrap;gap:6px;">
-              {article.tags.map((tag: string) => (
-                <span style="font-size:10px;padding:4px 10px;border-radius:100px;background:#F4EFE6;color:#6B6B6B;font-weight:500;">{tag}</span>
-              ))}
-            </div>
-          </div>
-        )}
+       <!-- Tags -->
+       {article.tags && article.tags.length > 0 && (
+         <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(10,10,10,0.07);">
+           <p style="font-size:9.5px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(10,10,10,0.3);margin-bottom:10px;">Tags</p>
+           <div style="display:flex;flex-wrap:wrap;gap:6px;">
+             {article.tags.map((tag: string) => (
+               <span style="font-size:10px;padding:4px 10px;border-radius:100px;background:#F4EFE6;color:#6B6B6B;font-weight:500;">{tag}</span>
+             ))}
+           </div>
+         </div>
+       )}
 
-        <!-- Author box -->
-        <div style="margin-top:3rem;padding:1.5rem;border-radius:16px;background:#F8F6F1;border:1px solid rgba(10,10,10,0.07);display:flex;gap:1rem;align-items:flex-start;">
-          <div style="width:44px;height:44px;border-radius:50%;background:#0A0A0A;border:1.5px solid rgba(10,10,10,0.12);flex-shrink:0;display:flex;align-items:center;justify-content:center;">
-            <span style="font-family:'Fraunces',Georgia,serif;font-size:18px;font-weight:600;color:#E8B4B0;letter-spacing:-0.02em;line-height:1;">P</span>
-          </div>
-          <div>
-            <p style="font-size:12px;font-weight:700;color:#0A0A0A;margin-bottom:2px;" itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">{article.author}</span></p>
-            <p style="font-size:11px;color:#6B6B6B;line-height:1.5;">The PURIST editorial team covers automation, AI agents, and operations strategy for businesses scaling with n8n, Make, and Claude AI.</p>
-          </div>
-        </div>
+       <!-- Author box -->
+       <div style="margin-top:3rem;padding:1.5rem;border-radius:16px;background:#F8F6F1;border:1px solid rgba(10,10,10,0.07);display:flex;gap:1rem;align-items:flex-start;">
+         <div style="width:44px;height:44px;border-radius:50%;background:#0A0A0A;border:1.5px solid rgba(10,10,10,0.12);flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+           <span style="font-family:'Fraunces',Georgia,serif;font-size:18px;font-weight:600;color:#E8B4B0;letter-spacing:-0.02em;line-height:1;">P</span>
+         </div>
+         <div>
+           <p style="font-size:12px;font-weight:700;color:#0A0A0A;margin-bottom:2px;" itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">{article.author}</span></p>
+           <p style="font-size:11px;color:#6B6B6B;line-height:1.5;">The PURIST editorial team covers automation, AI agents, and operations strategy for businesses scaling with n8n, Make, and Claude AI.</p>
+         </div>
+       </div>
 
-        <!-- Share bottom -->
-        <div style="margin-top:2.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
-          <span style="font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.14em;color:rgba(10,10,10,0.3);">Share</span>
-          <a href={`https://x.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:7px 14px;border-radius:8px;background:#0A0A0A;color:#fff;text-decoration:none;">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            Share on X
-          </a>
-          <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:7px 14px;border-radius:8px;border:1.5px solid #E5E5E5;color:#0A0A0A;text-decoration:none;">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            LinkedIn
-          </a>
-        </div>
-      </div>
+       <!-- Share bottom -->
+       <div style="margin-top:2.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+         <span style="font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.14em;color:rgba(10,10,10,0.3);">Share</span>
+         <a href={`https://x.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:7px 14px;border-radius:8px;background:#0A0A0A;color:#fff;text-decoration:none;">
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+           Share on X
+         </a>
+         <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:7px 14px;border-radius:8px;border:1.5px solid #E5E5E5;color:#0A0A0A;text-decoration:none;">
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+           LinkedIn
+         </a>
+       </div>
+     </div>
 
-      <!-- Sticky ToC (desktop) -->
-      <aside style="display:none;" id="toc-aside">
-        <div style="position:sticky;top:90px;">
-          <p style="font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(10,10,10,0.3);margin-bottom:12px;">In this article</p>
-          <nav>
-            <ol style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:2px;">
-              {toc.map((h, i) => (
-                <li>
-                  <a href={`#${h.id}`}
-                     class="toc-link"
-                     data-id={h.id}
-                     style="display:block;font-size:11px;line-height:1.45;padding:5px 10px 5px 12px;border-left:2px solid rgba(10,10,10,0.08);color:rgba(10,10,10,0.45);text-decoration:none;transition:all 0.15s;border-radius:0 4px 4px 0;"
-                     onmouseover="this.style.color='#0A0A0A';this.style.borderLeftColor='#0A0A0A'"
-                     onmouseout="if(!this.classList.contains('active')){this.style.color='rgba(10,10,10,0.45)';this.style.borderLeftColor='rgba(10,10,10,0.08)'}"
-                  >
-                    {h.text}
-                  </a>
-                </li>
-              ))}
-            </ol>
-          </nav>
+     <!-- Sticky ToC (desktop) -->
+     <aside style="display:none;" id="toc-aside">
+       <div style="position:sticky;top:90px;">
+         <p style="font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(10,10,10,0.3);margin-bottom:12px;">In this article</p>
+         <nav>
+           <ol style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:2px;">
+             {toc.map((h, i) => (
+               <li>
+                 <a href={`#${h.id}`}
+                    class="toc-link"
+                    data-id={h.id}
+                    style="display:block;font-size:11px;line-height:1.45;padding:5px 10px 5px 12px;border-left:2px solid rgba(10,10,10,0.08);color:rgba(10,10,10,0.45);text-decoration:none;transition:all 0.15s;border-radius:0 4px 4px 0;"
+                    onmouseover="this.style.color='#0A0A0A';this.style.borderLeftColor='#0A0A0A'"
+                    onmouseout="if(!this.classList.contains('active')){this.style.color='rgba(10,10,10,0.45)';this.style.borderLeftColor='rgba(10,10,10,0.08)'}"
+                 >
+                   {h.text}
+                 </a>
+               </li>
+             ))}
+           </ol>
+         </nav>
 
-          <!-- Silo navigation -->
-          {hasSilo && (
-            <div style="margin-top:1.75rem;padding:1.25rem;border-radius:14px;background:#F8F6F1;border:1px solid rgba(10,10,10,0.07);">
-              <p style="font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(10,10,10,0.3);margin-bottom:10px;">{isPillar ? '📚 Complete guide' : '📚 Part of this guide'}</p>
-              {!isPillar && pillarArticle && (
-                <a href={`/pages/blog/${pillarSlug}`} style="display:block;font-size:11px;font-weight:700;color:#0A0A0A;text-decoration:none;margin-bottom:10px;padding:7px 10px;background:#fff;border-radius:8px;border:1px solid rgba(10,10,10,0.1);">
-                  ← {(pillarArticle as any).title?.slice(0,45)}…
-                </a>
-              )}
-              <p style="font-size:9px;font-weight:600;color:rgba(10,10,10,0.4);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.12em;">{siloName}</p>
-              <div style="display:flex;flex-direction:column;gap:3px;">
-                {siloClusterArticles.slice(0, 6).map((a: any) => (
-                  <a href={`/pages/blog/${a.slug}`} style="font-size:10.5px;color:rgba(10,10,10,0.55);text-decoration:none;padding:4px 6px;border-radius:5px;line-height:1.4;transition:color 0.15s;" onmouseover="this.style.color='#0A0A0A'" onmouseout="this.style.color='rgba(10,10,10,0.55)'">
-                    → {a.title?.slice(0, 42)}{a.title?.length > 42 ? '…' : ''}
-                  </a>
-                ))}
-              </div>
-            </div>
-          )}
+         <!-- Silo navigation -->
+         {hasSilo && (
+           <div style="margin-top:1.75rem;padding:1.25rem;border-radius:14px;background:#F8F6F1;border:1px solid rgba(10,10,10,0.07);">
+             <p style="font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(10,10,10,0.3);margin-bottom:10px;">{isPillar ? '📚 Complete guide' : '📚 Part of this guide'}</p>
+             {!isPillar && pillarArticle && (
+               <a href={`/pages/blog/${pillarSlug}`} style="display:block;font-size:11px;font-weight:700;color:#0A0A0A;text-decoration:none;margin-bottom:10px;padding:7px 10px;background:#fff;border-radius:8px;border:1px solid rgba(10,10,10,0.1);">
+                 ← {(pillarArticle as any).title?.slice(0,45)}…
+               </a>
+             )}
+             <p style="font-size:9px;font-weight:600;color:rgba(10,10,10,0.4);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.12em;">{siloName}</p>
+             <div style="display:flex;flex-direction:column;gap:3px;">
+               {siloClusterArticles.slice(0, 6).map((a: any) => (
+                 <a href={`/pages/blog/${a.slug}`} style="font-size:10.5px;color:rgba(10,10,10,0.55);text-decoration:none;padding:4px 6px;border-radius:5px;line-height:1.4;transition:color 0.15s;" onmouseover="this.style.color='#0A0A0A'" onmouseout="this.style.color='rgba(10,10,10,0.55)'">
+                   → {a.title?.slice(0, 42)}{a.title?.length > 42 ? '…' : ''}
+                 </a>
+               ))}
+             </div>
+           </div>
+         )}
 
-          <!-- CTA inline -->
-          <div style="margin-top:1.5rem;padding:1.25rem;border-radius:14px;background:#0A0A0A;">
-            <p style="font-size:11px;font-weight:600;color:#fff;margin-bottom:6px;line-height:1.4;">Ready to automate your business?</p>
-            <p style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:12px;line-height:1.5;">Free audit within 48h.</p>
-            <a href="/pages/welcome" style="display:block;text-align:center;font-size:11px;font-weight:600;padding:9px;border-radius:8px;background:#E8B4B0;color:#0A0A0A;text-decoration:none;">
-              Book your free audit →
-            </a>
-          </div>
-        </div>
-      </aside>
+         <!-- CTA inline -->
+         <div style="margin-top:1.5rem;padding:1.25rem;border-radius:14px;background:#0A0A0A;">
+           <p style="font-size:11px;font-weight:600;color:#fff;margin-bottom:6px;line-height:1.4;">Ready to automate your business?</p>
+           <p style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:12px;line-height:1.5;">Free audit within 48h.</p>
+           <a href="/pages/welcome" style="display:block;text-align:center;font-size:11px;font-weight:600;padding:9px;border-radius:8px;background:#E8B4B0;color:#0A0A0A;text-decoration:none;">
+             Book your free audit →
+           </a>
+         </div>
+       </div>
+     </aside>
 
-      <!-- Right spacer -->
-      <div></div>
-    </div>
-  </div>
+     <!-- Right spacer -->
+     <div></div>
+   </div>
+ </div>
 </article>
 
 <!-- ── SILO CLUSTER LINKS ─────────────────────────────────────── -->
 {hasSilo && siloClusterArticles.length > 0 && (
-  <section style="background:#0A0A0A;padding:4rem 0;">
-    <div class="container-x">
-      <p style="font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:6px;">Complete guide</p>
-      <h2 style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.3rem,2.5vw,1.75rem);font-weight:400;color:#fff;margin-bottom:2rem;letter-spacing:-0.02em;">{siloName}</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;">
-        {!isPillar && pillarArticle && (
-          <a href={`/pages/blog/${pillarSlug}`} style="padding:14px 16px;border-radius:12px;background:rgba(232,180,176,0.12);border:1px solid rgba(232,180,176,0.25);text-decoration:none;display:flex;flex-direction:column;gap:4px;">
-            <span style="font-size:8.5px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#E8B4B0;">Pillar guide</span>
-            <span style="font-size:12px;font-weight:600;color:#fff;line-height:1.4;">{(pillarArticle as any).title?.slice(0,55)}{(pillarArticle as any).title?.length > 55 ? '…' : ''}</span>
-          </a>
-        )}
-        {siloClusterArticles.map((a: any) => (
-          <a href={`/pages/blog/${a.slug}`} style="padding:14px 16px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);text-decoration:none;display:flex;flex-direction:column;gap:4px;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='rgba(255,255,255,0.04)'">
-            <span style="font-size:8.5px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);">{a.readingTime}</span>
-            <span style="font-size:12px;font-weight:500;color:rgba(255,255,255,0.8);line-height:1.4;">{a.title?.slice(0,55)}{a.title?.length > 55 ? '…' : ''}</span>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
+ <section style="background:#0A0A0A;padding:4rem 0;">
+   <div class="container-x">
+     <p style="font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:6px;">Complete guide</p>
+     <h2 style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.3rem,2.5vw,1.75rem);font-weight:400;color:#fff;margin-bottom:2rem;letter-spacing:-0.02em;">{siloName}</h2>
+     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;">
+       {!isPillar && pillarArticle && (
+         <a href={`/pages/blog/${pillarSlug}`} style="padding:14px 16px;border-radius:12px;background:rgba(232,180,176,0.12);border:1px solid rgba(232,180,176,0.25);text-decoration:none;display:flex;flex-direction:column;gap:4px;">
+           <span style="font-size:8.5px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#E8B4B0;">Pillar guide</span>
+           <span style="font-size:12px;font-weight:600;color:#fff;line-height:1.4;">{(pillarArticle as any).title?.slice(0,55)}{(pillarArticle as any).title?.length > 55 ? '…' : ''}</span>
+         </a>
+       )}
+       {siloClusterArticles.map((a: any) => (
+         <a href={`/pages/blog/${a.slug}`} style="padding:14px 16px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);text-decoration:none;display:flex;flex-direction:column;gap:4px;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='rgba(255,255,255,0.04)'">
+           <span style="font-size:8.5px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);">{a.readingTime}</span>
+           <span style="font-size:12px;font-weight:500;color:rgba(255,255,255,0.8);line-height:1.4;">{a.title?.slice(0,55)}{a.title?.length > 55 ? '…' : ''}</span>
+         </a>
+       ))}
+     </div>
+   </div>
+ </section>
 )}
 
 <!-- ── RELATED ARTICLES ───────────────────────────────────────── -->
 {moreArticles.length > 0 && (
-  <section style="background:#F8F6F1;border-top:1px solid rgba(10,10,10,0.07);padding:5rem 0;">
-    <div class="container-x">
-      <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem;">
-        <div>
-          <p style="font-size:9px;text-transform:uppercase;letter-spacing:0.26em;font-weight:700;color:rgba(10,10,10,0.35);margin-bottom:6px;">Keep reading</p>
-          <h2 style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:400;letter-spacing:-0.02em;">More from the blog.</h2>
-        </div>
-        <a href="/pages/blog" style="font-size:11px;font-weight:600;color:rgba(10,10,10,0.4);text-decoration:none;display:flex;align-items:center;gap:6px;" onmouseover="this.style.color='#0A0A0A'" onmouseout="this.style.color='rgba(10,10,10,0.4)'">
-          All articles
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
-        </a>
-      </div>
+ <section style="background:#F8F6F1;border-top:1px solid rgba(10,10,10,0.07);padding:5rem 0;">
+   <div class="container-x">
+     <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem;">
+       <div>
+         <p style="font-size:9px;text-transform:uppercase;letter-spacing:0.26em;font-weight:700;color:rgba(10,10,10,0.35);margin-bottom:6px;">Keep reading</p>
+         <h2 style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:400;letter-spacing:-0.02em;">More from the blog.</h2>
+       </div>
+       <a href="/pages/blog" style="font-size:11px;font-weight:600;color:rgba(10,10,10,0.4);text-decoration:none;display:flex;align-items:center;gap:6px;" onmouseover="this.style.color='#0A0A0A'" onmouseout="this.style.color='rgba(10,10,10,0.4)'">
+         All articles
+         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+       </a>
+     </div>
 
-      <div class="related-grid">
-        {moreArticles.map((a) => (
-          <article style="background:#fff;border:1px solid rgba(10,10,10,0.07);border-radius:18px;overflow:hidden;transition:box-shadow 0.2s,transform 0.2s;display:flex;flex-direction:column;"
-                   onmouseover="this.style.boxShadow='0 8px 28px rgba(10,10,10,0.09)';this.style.transform='translateY(-2px)'"
-                   onmouseout="this.style.boxShadow='';this.style.transform=''">
-            <a href={`/pages/blog/${a.slug}`} style="display:block;aspect-ratio:16/9;position:relative;overflow:hidden;">
-              <img src={a.image} alt={a.title} width="480" height="270" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.7s;" loading="lazy"
-                   onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform=''"/>
-              <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(10,10,10,0.3) 100%);"></div>
-              <span style="position:absolute;bottom:12px;left:12px;font-size:8.5px;text-transform:uppercase;letter-spacing:0.15em;font-weight:700;padding:4px 10px;border-radius:100px;background:rgba(10,10,10,0.55);color:rgba(255,255,255,0.85);backdrop-filter:blur(6px);">
-                {categories.find((c) => c.id === a.category)?.name ?? a.category}
-              </span>
-            </a>
-            <div style="padding:1.25rem;display:flex;flex-direction:column;flex:1;">
-              <h3 style="font-family:'Fraunces',Georgia,serif;font-size:17px;line-height:1.3;letter-spacing:-0.01em;margin-bottom:8px;color:#0A0A0A;">
-                <a href={`/pages/blog/${a.slug}`} style="text-decoration:none;color:inherit;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">{a.title}</a>
-              </h3>
-              <p style="font-size:12px;line-height:1.6;color:rgba(10,10,10,0.48);flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{a.excerpt}</p>
-              <div style="display:flex;align-items:center;gap:6px;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(10,10,10,0.06);font-size:10px;color:rgba(10,10,10,0.35);">
-                <span>{a.date}</span>
-                <span>·</span>
-                <span>{a.readingTime}</span>
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
+     <div class="related-grid">
+       {moreArticles.map((a) => (
+         <article style="background:#fff;border:1px solid rgba(10,10,10,0.07);border-radius:18px;overflow:hidden;transition:box-shadow 0.2s,transform 0.2s;display:flex;flex-direction:column;"
+                  onmouseover="this.style.boxShadow='0 8px 28px rgba(10,10,10,0.09)';this.style.transform='translateY(-2px)'"
+                  onmouseout="this.style.boxShadow='';this.style.transform=''">
+           <a href={`/pages/blog/${a.slug}`} style="display:block;aspect-ratio:16/9;position:relative;overflow:hidden;">
+             <img src={a.image} alt={a.title} width="480" height="270" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.7s;" loading="lazy"
+                  onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform=''"/>
+             <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(10,10,10,0.3) 100%);"></div>
+             <span style="position:absolute;bottom:12px;left:12px;font-size:8.5px;text-transform:uppercase;letter-spacing:0.15em;font-weight:700;padding:4px 10px;border-radius:100px;background:rgba(10,10,10,0.55);color:rgba(255,255,255,0.85);backdrop-filter:blur(6px);">
+               {categories.find((c) => c.id === a.category)?.name ?? a.category}
+             </span>
+           </a>
+           <div style="padding:1.25rem;display:flex;flex-direction:column;flex:1;">
+             <h3 style="font-family:'Fraunces',Georgia,serif;font-size:17px;line-height:1.3;letter-spacing:-0.01em;margin-bottom:8px;color:#0A0A0A;">
+               <a href={`/pages/blog/${a.slug}`} style="text-decoration:none;color:inherit;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">{a.title}</a>
+             </h3>
+             <p style="font-size:12px;line-height:1.6;color:rgba(10,10,10,0.48);flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{a.excerpt}</p>
+             <div style="display:flex;align-items:center;gap:6px;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(10,10,10,0.06);font-size:10px;color:rgba(10,10,10,0.35);">
+               <span>{a.date}</span>
+               <span>·</span>
+               <span>{a.readingTime}</span>
+             </div>
+           </div>
+         </article>
+       ))}
+     </div>
+   </div>
+ </section>
 )}
 
 <!-- ── CTA STRIP ──────────────────────────────────────────────── -->
 <section style="background:#0A0A0A;padding:5rem 0;position:relative;overflow:hidden;">
-  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 50% 70% at 75% 50%,rgba(232,180,176,0.06) 0%,transparent 70%);pointer-events:none;"></div>
-  <div class="container-x" style="position:relative;z-index:10;text-align:center;max-width:600px;margin-left:auto;margin-right:auto;">
-    <p style="font-size:9px;text-transform:uppercase;letter-spacing:0.26em;font-weight:700;color:rgba(232,180,176,0.5);margin-bottom:1rem;">From audit to deployment</p>
-    <h2 style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.75rem,4vw,2.75rem);font-weight:400;color:#fff;line-height:1.15;letter-spacing:-0.02em;margin-bottom:2rem;">
-      Experience the automation<br/><em style="color:#E8B4B0;font-style:italic;">these articles are about.</em>
-    </h2>
-    <a href="/pages/welcome"
-       style="display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:12px;font-size:13.5px;font-weight:600;background:#E8B4B0;color:#0A0A0A;text-decoration:none;"
-       onmouseover="this.style.background='#d9a09b'" onmouseout="this.style.background='#E8B4B0'">
-      Book your free audit
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-    </a>
-  </div>
+ <div style="position:absolute;inset:0;background:radial-gradient(ellipse 50% 70% at 75% 50%,rgba(232,180,176,0.06) 0%,transparent 70%);pointer-events:none;"></div>
+ <div class="container-x" style="position:relative;z-index:10;text-align:center;max-width:600px;margin-left:auto;margin-right:auto;">
+   <p style="font-size:9px;text-transform:uppercase;letter-spacing:0.26em;font-weight:700;color:rgba(232,180,176,0.5);margin-bottom:1rem;">From audit to deployment</p>
+   <h2 style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.75rem,4vw,2.75rem);font-weight:400;color:#fff;line-height:1.15;letter-spacing:-0.02em;margin-bottom:2rem;">
+     Experience the automation<br/><em style="color:#E8B4B0;font-style:italic;">these articles are about.</em>
+   </h2>
+   <a href="/pages/welcome"
+      style="display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:12px;font-size:13.5px;font-weight:600;background:#E8B4B0;color:#0A0A0A;text-decoration:none;"
+      onmouseover="this.style.background='#d9a09b'" onmouseout="this.style.background='#E8B4B0'">
+     Book your free audit
+     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+   </a>
+ </div>
 </section>
 
 <!-- ── SCHEMA ─────────────────────────────────────────────────── -->
 <script type="application/ld+json" is:inline set:html={JSON.stringify({
-  '@context': 'https://schema.org',
-  '@type': 'Article',
-  '@id': `${pageUrl}#article`,
-  headline: article.title,
-  description: article.metaDescription ?? article.excerpt,
-  url: pageUrl,
-  datePublished: schemaDate,
-  dateModified: schemaDate,
-  wordCount: wordCount,
-  inLanguage: 'en-GB',
-  image: {
-    '@type': 'ImageObject',
-    url: `https://purist.online${article.image}`,
-    width: 1200,
-    height: 630,
-  },
-  thumbnailUrl: `https://purist.online${article.image}`,
-  author: {
-    '@type': 'Organization',
-    '@id': 'https://purist.online/#organization',
-    name: 'PURIST',
-    url: 'https://purist.online',
-  },
-  publisher: {
-    '@type': 'Organization',
-    '@id': 'https://purist.online/#organization',
-    name: 'PURIST',
-    url: 'https://purist.online',
-    logo: {
-      '@type': 'ImageObject',
-      url: 'https://purist.online/favicon.svg',
-      width: 512,
-      height: 512,
-    },
-  },
-  mainEntityOfPage: {
-    '@type': 'WebPage',
-    '@id': pageUrl,
-  },
-  isPartOf: {
-    '@type': 'WebSite',
-    '@id': 'https://purist.online/#website',
-    name: 'PURIST',
-    url: 'https://purist.online',
-  },
-  breadcrumb: {
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://purist.online' },
-      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://purist.online/pages/blog' },
-      { '@type': 'ListItem', position: 3, name: article.title, item: pageUrl },
-    ],
-  },
-  speakable: {
-    '@type': 'SpeakableSpecification',
-    cssSelector: ['h1', '.article-excerpt', 'blockquote p'],
-  },
-  about: (article.tags ?? []).slice(0, 5).map((tag: string) => ({
-    '@type': 'Thing',
-    name: tag,
-  })),
-  keywords: (article.tags ?? []).join(', '),
-  articleSection: category?.name ?? article.category,
-  articleBody: article.excerpt,
+ '@context': 'https://schema.org',
+ '@type': 'Article',
+ '@id': `${pageUrl}#article`,
+ headline: article.title,
+ description: article.metaDescription ?? article.excerpt,
+ url: pageUrl,
+ datePublished: schemaDate,
+ dateModified: schemaDate,
+ wordCount: wordCount,
+ inLanguage: 'en-GB',
+ image: {
+   '@type': 'ImageObject',
+   url: `https://purist.online${article.image}`,
+   width: 1200,
+   height: 630,
+ },
+ thumbnailUrl: `https://purist.online${article.image}`,
+ author: {
+   '@type': 'Organization',
+   '@id': 'https://purist.online/#organization',
+   name: 'PURIST',
+   url: 'https://purist.online',
+ },
+ publisher: {
+   '@type': 'Organization',
+   '@id': 'https://purist.online/#organization',
+   name: 'PURIST',
+   url: 'https://purist.online',
+   logo: {
+     '@type': 'ImageObject',
+     url: 'https://purist.online/favicon.svg',
+     width: 512,
+     height: 512,
+   },
+ },
+ mainEntityOfPage: {
+   '@type': 'WebPage',
+   '@id': pageUrl,
+ },
+ isPartOf: {
+   '@type': 'WebSite',
+   '@id': 'https://purist.online/#website',
+   name: 'PURIST',
+   url: 'https://purist.online',
+ },
+ breadcrumb: {
+   '@type': 'BreadcrumbList',
+   itemListElement: [
+     { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://purist.online' },
+     { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://purist.online/pages/blog' },
+     { '@type': 'ListItem', position: 3, name: article.title, item: pageUrl },
+   ],
+ },
+ speakable: {
+   '@type': 'SpeakableSpecification',
+   cssSelector: ['h1', '.article-excerpt', 'blockquote p'],
+ },
+ about: (article.tags ?? []).slice(0, 5).map((tag: string) => ({
+   '@type': 'Thing',
+   name: tag,
+ })),
+ keywords: (article.tags ?? []).join(', '),
+ articleSection: category?.name ?? article.category,
+ articleBody: article.excerpt,
 })}/>
 
 <script is:inline>
-  // Progress bar
-  var bar = document.getElementById('progress-bar');
-  if (bar) {
-    window.addEventListener('scroll', function() {
-      var doc = document.documentElement;
-      var scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
-      bar.style.width = Math.min(scrolled * 100, 100) + '%';
-    }, { passive: true });
-  }
+ // Progress bar
+ var bar = document.getElementById('progress-bar');
+ if (bar) {
+   window.addEventListener('scroll', function() {
+     var doc = document.documentElement;
+     var scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
+     bar.style.width = Math.min(scrolled * 100, 100) + '%';
+   }, { passive: true });
+ }
 
-  // Show ToC aside on desktop
-  var aside = document.getElementById('toc-aside');
-  if (aside && window.innerWidth >= 1024) {
-    aside.style.display = 'block';
-  }
-  window.addEventListener('resize', function() {
-    if (aside) aside.style.display = window.innerWidth >= 1024 ? 'block' : 'none';
-  });
+ // Show ToC aside on desktop
+ var aside = document.getElementById('toc-aside');
+ if (aside && window.innerWidth >= 1024) {
+   aside.style.display = 'block';
+ }
+ window.addEventListener('resize', function() {
+   if (aside) aside.style.display = window.innerWidth >= 1024 ? 'block' : 'none';
+ });
 
-  // Active ToC link on scroll
-  var tocLinks = document.querySelectorAll('.toc-link');
-  if (tocLinks.length) {
-    var headings = Array.from(document.querySelectorAll('h2[id]'));
-    var obs = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) {
-        if (e.isIntersecting) {
-          tocLinks.forEach(function(l) {
-            l.classList.remove('active');
-            l.style.color = 'rgba(10,10,10,0.45)';
-            l.style.borderLeftColor = 'rgba(10,10,10,0.08)';
-          });
-          var active = document.querySelector('.toc-link[data-id="' + e.target.id + '"]');
-          if (active) {
-            active.classList.add('active');
-            active.style.color = '#0A0A0A';
-            active.style.borderLeftColor = '#E8B4B0';
-            active.style.fontWeight = '600';
-          }
-        }
-      });
-    }, { rootMargin: '-20% 0px -70% 0px' });
-    headings.forEach(function(h) { obs.observe(h); });
-  }
+ // Active ToC link on scroll
+ var tocLinks = document.querySelectorAll('.toc-link');
+ if (tocLinks.length) {
+   var headings = Array.from(document.querySelectorAll('h2[id]'));
+   var obs = new IntersectionObserver(function(entries) {
+     entries.forEach(function(e) {
+       if (e.isIntersecting) {
+         tocLinks.forEach(function(l) {
+           l.classList.remove('active');
+           l.style.color = 'rgba(10,10,10,0.45)';
+           l.style.borderLeftColor = 'rgba(10,10,10,0.08)';
+         });
+         var active = document.querySelector('.toc-link[data-id="' + e.target.id + '"]');
+         if (active) {
+           active.classList.add('active');
+           active.style.color = '#0A0A0A';
+           active.style.borderLeftColor = '#E8B4B0';
+           active.style.fontWeight = '600';
+         }
+       }
+     });
+   }, { rootMargin: '-20% 0px -70% 0px' });
+   headings.forEach(function(h) { obs.observe(h); });
+ }
 </script>
 
 </ShopLayout>

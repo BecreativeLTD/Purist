@@ -4,47 +4,47 @@ import CheckoutForm from '~/components/cart/CheckoutForm.tsx';
 ---
 
 <BaseLayout
-  title="Checkout – PURIST"
-  description="Complete your order."
-  noindex
+ title="Checkout – PURIST"
+ description="Complete your order."
+ noindex
 >
-  <header class="border-b border-brand-gray-100">
-    <div class="container-x flex items-center justify-between h-16">
-      <a href="/" class="font-display text-2xl tracking-tight font-medium">PURIST</a>
-      <a href="/cart" class="text-xs text-brand-gray-600 hover:text-brand-black transition inline-flex items-center gap-1.5">
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M5 7h14l-1.5 12a2 2 0 01-2 1.7H8.5a2 2 0 01-2-1.7L5 7z" stroke-linejoin="round" />
-          <path d="M9 7V5a3 3 0 016 0v2" stroke-linejoin="round" />
-        </svg>
-        Edit bag
-      </a>
-    </div>
-  </header>
+ <header class="border-b border-brand-gray-100">
+   <div class="container-x flex items-center justify-between h-16">
+     <a href="/" class="font-display text-2xl tracking-tight font-medium">PURIST</a>
+     <a href="/cart" class="text-xs text-brand-gray-600 hover:text-brand-black transition inline-flex items-center gap-1.5">
+       <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+         <path d="M5 7h14l-1.5 12a2 2 0 01-2 1.7H8.5a2 2 0 01-2-1.7L5 7z" stroke-linejoin="round" />
+         <path d="M9 7V5a3 3 0 016 0v2" stroke-linejoin="round" />
+       </svg>
+       Edit bag
+     </a>
+   </div>
+ </header>
 
-  <nav aria-label="Checkout steps" class="border-b border-brand-gray-100">
-    <ol class="container-x flex items-center gap-2 text-xs text-brand-gray-600 py-3">
-      <li><a href="/cart" class="hover:text-brand-black transition">Bag</a></li>
-      <li aria-hidden="true">›</li>
-      <li class="text-brand-black font-medium">Information</li>
-      <li aria-hidden="true">›</li>
-      <li>Shipping</li>
-      <li aria-hidden="true">›</li>
-      <li>Payment</li>
-    </ol>
-  </nav>
+ <nav aria-label="Checkout steps" class="border-b border-brand-gray-100">
+   <ol class="container-x flex items-center gap-2 text-xs text-brand-gray-600 py-3">
+     <li><a href="/cart" class="hover:text-brand-black transition">Bag</a></li>
+     <li aria-hidden="true">›</li>
+     <li class="text-brand-black font-medium">Information</li>
+     <li aria-hidden="true">›</li>
+     <li>Shipping</li>
+     <li aria-hidden="true">›</li>
+     <li>Payment</li>
+   </ol>
+ </nav>
 
-  <main id="main-content" class="container-x py-12">
-    <CheckoutForm client:load />
-  </main>
+ <main id="main-content" class="container-x py-12">
+   <CheckoutForm client:load />
+ </main>
 
-  <footer class="border-t border-brand-gray-100 py-8 mt-12">
-    <div class="container-x flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-brand-gray-600">
-      <p>© 2026 PURIST® · Demo build</p>
-      <div class="flex items-center gap-6">
-        <a href="/pages/privacy-policy" class="hover:text-brand-black transition">Privacy</a>
-        <a href="/pages/terms-of-service" class="hover:text-brand-black transition">Terms</a>
-        <a href="/pages/contact-us" class="hover:text-brand-black transition">Support</a>
-      </div>
-    </div>
-  </footer>
+ <footer class="border-t border-brand-gray-100 py-8 mt-12">
+   <div class="container-x flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-brand-gray-600">
+     <p>© 2026 PURIST® · Demo build</p>
+     <div class="flex items-center gap-6">
+       <a href="/pages/privacy-policy" class="hover:text-brand-black transition">Privacy</a>
+       <a href="/pages/terms-of-service" class="hover:text-brand-black transition">Terms</a>
+       <a href="/pages/contact-us" class="hover:text-brand-black transition">Support</a>
+     </div>
+   </div>
+ </footer>
 </BaseLayout>

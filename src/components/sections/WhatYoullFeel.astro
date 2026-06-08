@@ -1,99 +1,99 @@
 ---
 const metrics = [
-  {
-    accent: '#C89840',
-    bg: 'rgba(200,152,64,0.08)',
-    border: 'rgba(200,152,64,0.2)',
-    title: 'Zero manual entry',
-    pct: 95,
-    body: '95% eliminated repetitive data tasks.',
-    svg: `<line x1="12" y1="4" x2="12" y2="11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-          <polygon points="8,10 12,3 16,10" fill="currentColor" opacity="0.8"/>
-          <path d="M6 14 Q4 14 4 16 Q4 20 12 20 Q20 20 20 16 Q20 14 18 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>`,
-  },
-  {
-    accent: '#2D5016',
-    bg: 'rgba(45,80,22,0.08)',
-    border: 'rgba(45,80,22,0.2)',
-    title: 'Faster operations',
-    pct: 85,
-    body: '85% cut response times dramatically.',
-    svg: `<circle cx="12" cy="13" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/>
-          <line x1="12" y1="13" x2="15" y2="10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-          <line x1="12" y1="7" x2="12" y2="5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="17.5" y1="8.5" x2="16.2" y2="9.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="19" y1="13" x2="17" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`,
-  },
-  {
-    accent: '#5248b8',
-    bg: 'rgba(82,72,184,0.08)',
-    border: 'rgba(82,72,184,0.2)',
-    title: 'Fewer errors',
-    pct: 80,
-    body: '80% reported reduction in mistakes.',
-    svg: `<path d="M12 3 L20 7 L20 13 Q20 18 12 21 Q4 18 4 13 L4 7 Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-          <polyline points="8.5,12 11,14.5 15.5,9.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`,
-  },
-  {
-    accent: '#c4847e',
-    bg: 'rgba(196,132,126,0.08)',
-    border: 'rgba(196,132,126,0.2)',
-    title: 'Team focus',
-    pct: 75,
-    body: '75% noticed team refocused on high-value work.',
-    svg: `<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/>
-          <circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.65"/>
-          <circle cx="12" cy="12" r="2" fill="currentColor" opacity="0.85"/>`,
-  },
+ {
+   accent: '#C89840',
+   bg: 'rgba(200,152,64,0.08)',
+   border: 'rgba(200,152,64,0.2)',
+   title: 'Zero manual entry',
+   pct: 95,
+   body: '95% eliminated repetitive data tasks.',
+   svg: `<line x1="12" y1="4" x2="12" y2="11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+         <polygon points="8,10 12,3 16,10" fill="currentColor" opacity="0.8"/>
+         <path d="M6 14 Q4 14 4 16 Q4 20 12 20 Q20 20 20 16 Q20 14 18 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>`,
+ },
+ {
+   accent: '#2D5016',
+   bg: 'rgba(45,80,22,0.08)',
+   border: 'rgba(45,80,22,0.2)',
+   title: 'Faster operations',
+   pct: 85,
+   body: '85% cut response times dramatically.',
+   svg: `<circle cx="12" cy="13" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/>
+         <line x1="12" y1="13" x2="15" y2="10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+         <line x1="12" y1="7" x2="12" y2="5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+         <line x1="17.5" y1="8.5" x2="16.2" y2="9.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+         <line x1="19" y1="13" x2="17" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`,
+ },
+ {
+   accent: '#5248b8',
+   bg: 'rgba(82,72,184,0.08)',
+   border: 'rgba(82,72,184,0.2)',
+   title: 'Fewer errors',
+   pct: 80,
+   body: '80% reported reduction in mistakes.',
+   svg: `<path d="M12 3 L20 7 L20 13 Q20 18 12 21 Q4 18 4 13 L4 7 Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+         <polyline points="8.5,12 11,14.5 15.5,9.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`,
+ },
+ {
+   accent: '#c4847e',
+   bg: 'rgba(196,132,126,0.08)',
+   border: 'rgba(196,132,126,0.2)',
+   title: 'Team focus',
+   pct: 75,
+   body: '75% noticed team refocused on high-value work.',
+   svg: `<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/>
+         <circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.65"/>
+         <circle cx="12" cy="12" r="2" fill="currentColor" opacity="0.85"/>`,
+ },
 ];
 ---
 
 <section class="bg-white py-12 lg:py-16">
-  <div class="container-x">
-    <div class="max-w-4xl mx-auto rounded-[20px] overflow-hidden" style="background:#F8F6F1;border:1px solid rgba(10,10,10,0.07);">
+ <div class="container-x">
+   <div class="max-w-4xl mx-auto rounded-[20px] overflow-hidden" style="background:#F8F6F1;border:1px solid rgba(10,10,10,0.07);">
 
-      <!-- Header -->
-      <div class="px-8 lg:px-12 pt-8 lg:pt-10 pb-6 border-b" style="border-color:rgba(10,10,10,0.06);">
-        <p class="text-[10px] uppercase tracking-[0.22em] font-semibold mb-2" style="color:rgba(10,10,10,0.38);">Client outcomes</p>
-        <h2 class="font-display text-2xl lg:text-3xl leading-tight text-balance">
-          What you'll experience.
-        </h2>
-      </div>
+     <!-- Header -->
+     <div class="px-8 lg:px-12 pt-8 lg:pt-10 pb-6 border-b" style="border-color:rgba(10,10,10,0.06);">
+       <p class="text-[10px] uppercase tracking-[0.22em] font-semibold mb-2" style="color:rgba(10,10,10,0.38);">Client outcomes</p>
+       <h2 class="font-display text-2xl lg:text-3xl leading-tight text-balance">
+         What you'll experience.
+       </h2>
+     </div>
 
-      <!-- Metrics -->
-      <div class="divide-y" style="divide-color:rgba(10,10,10,0.06);">
-        {metrics.map((m) => (
-          <div class="flex items-center gap-5 lg:gap-8 px-8 lg:px-12 py-5 lg:py-6 group transition-colors duration-200" style={`background:transparent;`}
-               onmouseover={`this.style.background='${m.bg}'`}
-               onmouseout="this.style.background='transparent'">
-            <!-- SVG icon tile -->
-            <div class="w-11 h-11 lg:w-12 lg:h-12 rounded-2xl shrink-0 flex items-center justify-center transition-all duration-200"
-                 style={`background:${m.bg};border:1px solid ${m.border};color:${m.accent};`}>
-              <svg class="w-5 h-5 lg:w-[22px] lg:h-[22px]" viewBox="0 0 24 24" fill="none" set:html={m.svg}/>
-            </div>
-            <!-- Text -->
-            <div class="flex-1 min-w-0">
-              <p class="font-display text-[15px] lg:text-base leading-tight text-brand-black">{m.title}</p>
-              <p class="text-xs lg:text-sm mt-0.5" style="color:rgba(10,10,10,0.5);">{m.body}</p>
-            </div>
-            <!-- Percentage + bar -->
-            <div class="flex items-center gap-3 shrink-0">
-              <div class="w-16 lg:w-20 h-1 rounded-full hidden sm:block" style="background:rgba(10,10,10,0.08);">
-                <div class="h-full rounded-full" style={`width:${m.pct}%;background:${m.accent};opacity:0.7;`}/>
-              </div>
-              <p class="font-display text-2xl lg:text-3xl tabular-nums font-medium" style={`color:${m.accent};`}>{m.pct}%</p>
-            </div>
-          </div>
-        ))}
-      </div>
+     <!-- Metrics -->
+     <div class="divide-y" style="divide-color:rgba(10,10,10,0.06);">
+       {metrics.map((m) => (
+         <div class="flex items-center gap-5 lg:gap-8 px-8 lg:px-12 py-5 lg:py-6 group transition-colors duration-200" style={`background:transparent;`}
+              onmouseover={`this.style.background='${m.bg}'`}
+              onmouseout="this.style.background='transparent'">
+           <!-- SVG icon tile -->
+           <div class="w-11 h-11 lg:w-12 lg:h-12 rounded-2xl shrink-0 flex items-center justify-center transition-all duration-200"
+                style={`background:${m.bg};border:1px solid ${m.border};color:${m.accent};`}>
+             <svg class="w-5 h-5 lg:w-[22px] lg:h-[22px]" viewBox="0 0 24 24" fill="none" set:html={m.svg}/>
+           </div>
+           <!-- Text -->
+           <div class="flex-1 min-w-0">
+             <p class="font-display text-[15px] lg:text-base leading-tight text-brand-black">{m.title}</p>
+             <p class="text-xs lg:text-sm mt-0.5" style="color:rgba(10,10,10,0.5);">{m.body}</p>
+           </div>
+           <!-- Percentage + bar -->
+           <div class="flex items-center gap-3 shrink-0">
+             <div class="w-16 lg:w-20 h-1 rounded-full hidden sm:block" style="background:rgba(10,10,10,0.08);">
+               <div class="h-full rounded-full" style={`width:${m.pct}%;background:${m.accent};opacity:0.7;`}/>
+             </div>
+             <p class="font-display text-2xl lg:text-3xl tabular-nums font-medium" style={`color:${m.accent};`}>{m.pct}%</p>
+           </div>
+         </div>
+       ))}
+     </div>
 
-      <!-- Footer note -->
-      <div class="px-8 lg:px-12 py-5 border-t" style="border-color:rgba(10,10,10,0.06);">
-        <p class="text-[10.5px] leading-relaxed" style="color:rgba(10,10,10,0.38);">
-          Results based on aggregated data from 500+ workflow deployments across four industry verticals.
-        </p>
-      </div>
+     <!-- Footer note -->
+     <div class="px-8 lg:px-12 py-5 border-t" style="border-color:rgba(10,10,10,0.06);">
+       <p class="text-[10.5px] leading-relaxed" style="color:rgba(10,10,10,0.38);">
+         Results based on aggregated data from 500+ workflow deployments across four industry verticals.
+       </p>
+     </div>
 
-    </div>
-  </div>
+   </div>
+ </div>
 </section>

@@ -1,68 +1,68 @@
 {
-  "athletes": [
-    {
-      "id": "founder",
-      "name": "H.D.",
-      "role": "Founder, PURIST",
-      "discipline": "Founder",
-      "image": "/images/athletes/founder.svg",
-      "quote": "I built PURIST because I saw businesses drowning in manual tasks they could automate in a weekend. We answered to the results first, the tech stack second."
-    },
-    {
-      "id": "client-dental",
-      "name": "Dr. M. Clarke",
-      "role": "Multi-Location Dental Group · 4 Clinics",
-      "discipline": "Healthcare",
-      "image": "/images/athletes/athlete-basketball.svg",
-      "quote": "We cut front-desk call time by 60%. Patients book online, get reminders automatically, and insurance verification runs itself. PURIST changed our operations."
-    },
-    {
-      "id": "client-realestate",
-      "name": "R. Okafor",
-      "role": "350+ Units Managed",
-      "discipline": "Real Estate",
-      "image": "/images/athletes/athlete-tennis.svg",
-      "quote": "Tenant inquiries, maintenance requests, lease renewals — everything that used to be spreadsheets and sticky notes now runs on autopilot."
-    },
-    {
-      "id": "client-agency",
-      "name": "S. Laurent",
-      "role": "Digital Marketing Agency · 45 Clients",
-      "discipline": "Marketing",
-      "image": "/images/athletes/athlete-f1.svg",
-      "quote": "Reporting used to take 2 days every month. Now it takes 2 minutes. My team focuses on strategy instead of copying data between tabs."
-    },
-    {
-      "id": "client-saas",
-      "name": "A. Patel",
-      "role": "Operations Lead · B2B SaaS",
-      "discipline": "Technology",
-      "image": "/images/athletes/physician-oncology.svg",
-      "quote": "I evaluate automation tools for a living. PURIST is one of the very few agencies I recommend to peers and use myself."
-    },
-    {
-      "id": "client-legal",
-      "name": "J. Thornton",
-      "role": "Managing Partner · Commercial Law",
-      "discipline": "Legal",
-      "image": "/images/athletes/athlete-tennis-doubles.svg",
-      "quote": "I spent a decade patching together tools. This is the simplest, most reliable operations system I have used."
-    },
-    {
-      "id": "client-ecom",
-      "name": "K. Yamamoto",
-      "role": "Director of Operations · DTC Brand",
-      "discipline": "E-commerce",
-      "image": "/images/athletes/athlete-freediver.svg",
-      "quote": "At our scale, a missed order or delayed response costs real money. PURIST is the backend I do not have to worry about."
-    },
-    {
-      "id": "client-staffing",
-      "name": "L. Morrison",
-      "role": "CEO · Staffing & Recruitment",
-      "discipline": "Staffing",
-      "image": "/images/athletes/athlete-mma.svg",
-      "quote": "Candidate screening used to burn 30 hours a week. Anything we automate has to earn its place. PURIST earned it."
-    }
-  ]
+ "athletes": [
+   {
+     "id": "founder",
+     "name": "H.D.",
+     "role": "Founder, PURIST",
+     "discipline": "Founder",
+     "image": "/images/athletes/founder.svg",
+     "quote": "I built PURIST because I saw businesses drowning in manual tasks they could automate in a weekend. We answered to the results first, the tech stack second."
+   },
+   {
+     "id": "client-dental",
+     "name": "Dr. M. Clarke",
+     "role": "Multi-Location Dental Group · 4 Clinics",
+     "discipline": "Healthcare",
+     "image": "/images/athletes/athlete-basketball.svg",
+     "quote": "We cut front-desk call time by 60%. Patients book online, get reminders automatically, and insurance verification runs itself. PURIST changed our operations."
+   },
+   {
+     "id": "client-realestate",
+     "name": "R. Okafor",
+     "role": "350+ Units Managed",
+     "discipline": "Real Estate",
+     "image": "/images/athletes/athlete-tennis.svg",
+     "quote": "Tenant inquiries, maintenance requests, lease renewals everything that used to be spreadsheets and sticky notes now runs on autopilot."
+   },
+   {
+     "id": "client-agency",
+     "name": "S. Laurent",
+     "role": "Digital Marketing Agency · 45 Clients",
+     "discipline": "Marketing",
+     "image": "/images/athletes/athlete-f1.svg",
+     "quote": "Reporting used to take 2 days every month. Now it takes 2 minutes. My team focuses on strategy instead of copying data between tabs."
+   },
+   {
+     "id": "client-saas",
+     "name": "A. Patel",
+     "role": "Operations Lead · B2B SaaS",
+     "discipline": "Technology",
+     "image": "/images/athletes/physician-oncology.svg",
+     "quote": "I evaluate automation tools for a living. PURIST is one of the very few agencies I recommend to peers and use myself."
+   },
+   {
+     "id": "client-legal",
+     "name": "J. Thornton",
+     "role": "Managing Partner · Commercial Law",
+     "discipline": "Legal",
+     "image": "/images/athletes/athlete-tennis-doubles.svg",
+     "quote": "I spent a decade patching together tools. This is the simplest, most reliable operations system I have used."
+   },
+   {
+     "id": "client-ecom",
+     "name": "K. Yamamoto",
+     "role": "Director of Operations · DTC Brand",
+     "discipline": "E-commerce",
+     "image": "/images/athletes/athlete-freediver.svg",
+     "quote": "At our scale, a missed order or delayed response costs real money. PURIST is the backend I do not have to worry about."
+   },
+   {
+     "id": "client-staffing",
+     "name": "L. Morrison",
+     "role": "CEO · Staffing & Recruitment",
+     "discipline": "Staffing",
+     "image": "/images/athletes/athlete-mma.svg",
+     "quote": "Candidate screening used to burn 30 hours a week. Anything we automate has to earn its place. PURIST earned it."
+   }
+ ]
 }

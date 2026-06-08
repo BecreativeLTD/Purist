@@ -4,60 +4,60 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
 import Button from '~/components/ui/Button.astro';
 
 const policy = [
-  { title: 'All plans — 30 days', body: 'Thirty days from the start of your first billing cycle. If your automations do not deliver measurable ROI, we refund your first month — no questions asked.' },
-  { title: 'Month-to-month billing', body: 'Cancel anytime. No long-term contracts, no early termination fees. Your workflows keep running through the end of the billing period.' },
-  { title: 'Custom integrations', body: 'Custom work is non-refundable once deployed to production, but covered by our 99.5% uptime SLA and ongoing support.' },
-  { title: 'Add-ons & resources', body: 'Digital resources (playbooks, templates) are non-refundable. Priority support add-ons follow the same 30-day guarantee as the core plan.' },
+ { title: 'All plans 30 days', body: 'Thirty days from the start of your first billing cycle. If your automations do not deliver measurable ROI, we refund your first month no questions asked.' },
+ { title: 'Month-to-month billing', body: 'Cancel anytime. No long-term contracts, no early termination fees. Your workflows keep running through the end of the billing period.' },
+ { title: 'Custom integrations', body: 'Custom work is non-refundable once deployed to production, but covered by our 99.5% uptime SLA and ongoing support.' },
+ { title: 'Add-ons & resources', body: 'Digital resources (playbooks, templates) are non-refundable. Priority support add-ons follow the same 30-day guarantee as the core plan.' },
 ];
 ---
 
 <ShopLayout
-  title="Refund policy – PURIST"
-  description="30-day money-back guarantee on all automation plans. No questions asked. Here are the details."
+ title="Refund policy – PURIST"
+ description="30-day money-back guarantee on all automation plans. No questions asked. Here are the details."
 >
-  <header class="bg-brand-cream">
-    <div class="container-x py-16 lg:py-20 max-w-3xl mx-auto text-center">
-      <p class="eyebrow mb-4">Refund policy</p>
-      <h1 class="font-display text-4xl lg:text-5xl xl:text-6xl leading-tight tracking-tight mb-6 text-balance">
-        Try it. Measure it. <em class="font-medium">Refunded if it doesn't deliver.</em>
-      </h1>
-      <p class="text-base text-brand-gray-600 text-pretty">
-        The guarantee is the whole point. Run your automations for 30 days,
-        and if you do not see measurable ROI we refund your first month.
-      </p>
-    </div>
-  </header>
+ <header class="bg-brand-cream">
+   <div class="container-x py-16 lg:py-20 max-w-3xl mx-auto text-center">
+     <p class="eyebrow mb-4">Refund policy</p>
+     <h1 class="font-display text-4xl lg:text-5xl xl:text-6xl leading-tight tracking-tight mb-6 text-balance">
+       Try it. Measure it. <em class="font-medium">Refunded if it doesn't deliver.</em>
+     </h1>
+     <p class="text-base text-brand-gray-600 text-pretty">
+       The guarantee is the whole point. Run your automations for 30 days,
+       and if you do not see measurable ROI we refund your first month.
+     </p>
+   </div>
+ </header>
 
-  <section class="bg-white py-20 lg:py-28">
-    <div class="container-x max-w-3xl mx-auto">
-      <div class="divide-y divide-brand-gray-200 border-y border-brand-gray-200">
-        {policy.map((p) => (
-          <article class="py-6">
-            <h2 class="font-display text-lg lg:text-xl mb-2 leading-snug">{p.title}</h2>
-            <p class="text-sm text-brand-gray-600 leading-relaxed">{p.body}</p>
-          </article>
-        ))}
-      </div>
+ <section class="bg-white py-20 lg:py-28">
+   <div class="container-x max-w-3xl mx-auto">
+     <div class="divide-y divide-brand-gray-200 border-y border-brand-gray-200">
+       {policy.map((p) => (
+         <article class="py-6">
+           <h2 class="font-display text-lg lg:text-xl mb-2 leading-snug">{p.title}</h2>
+           <p class="text-sm text-brand-gray-600 leading-relaxed">{p.body}</p>
+         </article>
+       ))}
+     </div>
 
-      <div class="bg-brand-cream rounded-card p-6 lg:p-8 mt-10">
-        <h2 class="font-display text-xl mb-3">How to request a refund</h2>
-        <ol class="space-y-2 text-sm text-brand-gray-600 list-decimal pl-5">
-          <li>Email <a href="mailto:hello@purist.online" class="underline underline-offset-4 hover:opacity-70">hello@purist.online</a> from the address used on your account.</li>
-          <li>Include your project ID (format: PUR-XXXXXX) and a brief description of why the ROI did not meet expectations.</li>
-          <li>We confirm within one business day. Refunds post in five business days, less for credit cards.</li>
-        </ol>
-      </div>
-    </div>
-  </section>
+     <div class="bg-brand-cream rounded-card p-6 lg:p-8 mt-10">
+       <h2 class="font-display text-xl mb-3">How to request a refund</h2>
+       <ol class="space-y-2 text-sm text-brand-gray-600 list-decimal pl-5">
+         <li>Email <a href="mailto:hello@purist.online" class="underline underline-offset-4 hover:opacity-70">hello@purist.online</a> from the address used on your account.</li>
+         <li>Include your project ID (format: PUR-XXXXXX) and a brief description of why the ROI did not meet expectations.</li>
+         <li>We confirm within one business day. Refunds post in five business days, less for credit cards.</li>
+       </ol>
+     </div>
+   </div>
+ </section>
 
-  <MoneyBackGuarantee />
+ <MoneyBackGuarantee />
 
-  <section class="bg-brand-beige py-16 lg:py-20 text-center">
-    <div class="container-x max-w-2xl">
-      <h2 class="font-display text-3xl lg:text-4xl mb-6 leading-tight text-balance">
-        Need help with your plan?
-      </h2>
-      <Button href="/pages/contact-us" size="lg">Contact support →</Button>
-    </div>
-  </section>
+ <section class="bg-brand-beige py-16 lg:py-20 text-center">
+   <div class="container-x max-w-2xl">
+     <h2 class="font-display text-3xl lg:text-4xl mb-6 leading-tight text-balance">
+       Need help with your plan?
+     </h2>
+     <Button href="/pages/contact-us" size="lg">Contact support →</Button>
+   </div>
+ </section>
 </ShopLayout>

@@ -4,119 +4,119 @@ import Button from '~/components/ui/Button.astro';
 const { comparison } = ingredientsData;
 
 function pillClasses(change: string): string {
-  if (change === 'NEW') return 'bg-brand-pink/30 text-brand-rust';
-  if (change === 'UPGRADE') return 'bg-brand-rust/15 text-brand-rust';
-  if (change === 'BIOACTIVE') return 'bg-brand-rust/15 text-brand-rust';
-  return 'bg-brand-green/15 text-brand-green';
+ if (change === 'NEW') return 'bg-brand-pink/30 text-brand-rust';
+ if (change === 'UPGRADE') return 'bg-brand-rust/15 text-brand-rust';
+ if (change === 'BIOACTIVE') return 'bg-brand-rust/15 text-brand-rust';
+ return 'bg-brand-green/15 text-brand-green';
 }
 ---
 
 <style>
-  @keyframes ic-float {
-    0%, 100% { transform: translateY(0px); }
-    50%       { transform: translateY(-3px); }
-  }
-  @keyframes ic-appear {
-    from { opacity: 0; transform: scale(0.82) translateY(4px); }
-    to   { opacity: 1; transform: scale(1) translateY(0); }
-  }
-  .ic-wrap {
-    transition: box-shadow 0.25s ease, background 0.25s ease;
-  }
-  .ic-wrap:hover {
-    box-shadow: 0 4px 14px rgba(0,0,0,0.10);
-  }
-  .ic-svg {
-    animation: ic-float 4.2s ease-in-out infinite;
-    will-change: transform;
-  }
+ @keyframes ic-float {
+   0%, 100% { transform: translateY(0px); }
+   50%     { transform: translateY(-3px); }
+ }
+ @keyframes ic-appear {
+   from { opacity: 0; transform: scale(0.82) translateY(4px); }
+   to { opacity: 1; transform: scale(1) translateY(0); }
+ }
+ .ic-wrap {
+   transition: box-shadow 0.25s ease, background 0.25s ease;
+ }
+ .ic-wrap:hover {
+   box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+ }
+ .ic-svg {
+   animation: ic-float 4.2s ease-in-out infinite;
+   will-change: transform;
+ }
 </style>
 
 <section class="bg-brand-cream py-20 lg:py-28">
-  <div class="container-x">
-    <div class="text-center max-w-3xl mx-auto mb-12">
-      <h2 class="font-display text-3xl lg:text-4xl xl:text-5xl mb-4 leading-tight text-balance">
-        {comparison.title.split('.').map((p, i, arr) =>
-          i === 0
-            ? <span><em class="font-medium">{p}.</em></span>
-            : (p && <span>{p}{i < arr.length - 1 ? '.' : ''}</span>)
-        )}
-      </h2>
-      <p class="text-base lg:text-lg text-brand-gray-600 text-pretty mb-6">{comparison.subtitle}</p>
-      <Button size="md">
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-          <path d="M9 2h7l5 5v15H4V2h5z" stroke-linejoin="round"/>
-          <path d="M9 2v5h7" stroke-linejoin="round"/>
-          <path d="M8 13h8M8 17h5" stroke-linecap="round"/>
-        </svg>
-        View full workflow specifications
-      </Button>
-    </div>
+ <div class="container-x">
+   <div class="text-center max-w-3xl mx-auto mb-12">
+     <h2 class="font-display text-3xl lg:text-4xl xl:text-5xl mb-4 leading-tight text-balance">
+       {comparison.title.split('.').map((p, i, arr) =>
+         i === 0
+           ? <span><em class="font-medium">{p}.</em></span>
+           : (p && <span>{p}{i < arr.length - 1 ? '.' : ''}</span>)
+       )}
+     </h2>
+     <p class="text-base lg:text-lg text-brand-gray-600 text-pretty mb-6">{comparison.subtitle}</p>
+     <Button size="md">
+       <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+         <path d="M9 2h7l5 5v15H4V2h5z" stroke-linejoin="round"/>
+         <path d="M9 2v5h7" stroke-linejoin="round"/>
+         <path d="M8 13h8M8 17h5" stroke-linecap="round"/>
+       </svg>
+       View full workflow specifications
+     </Button>
+   </div>
 
-    <!-- Premium table card -->
-    <div class="bg-white rounded-card shadow-sm border border-brand-gray-100 overflow-hidden max-w-5xl mx-auto">
-      <!-- Column headers -->
-      <div class="hidden md:grid grid-cols-[2fr_1fr_1fr_1.4fr] gap-4 px-6 lg:px-8 py-5 border-b border-brand-gray-100">
-        {comparison.columns.map((c, i) => (
-          <p class={`text-[10px] uppercase tracking-[0.18em] font-medium text-brand-gray-600 ${i === 2 ? 'text-brand-black' : ''}`}>
-            {c}
-          </p>
-        ))}
-      </div>
+   <!-- Premium table card -->
+   <div class="bg-white rounded-card shadow-sm border border-brand-gray-100 overflow-hidden max-w-5xl mx-auto">
+     <!-- Column headers -->
+     <div class="hidden md:grid grid-cols-[2fr_1fr_1fr_1.4fr] gap-4 px-6 lg:px-8 py-5 border-b border-brand-gray-100">
+       {comparison.columns.map((c, i) => (
+         <p class={`text-[10px] uppercase tracking-[0.18em] font-medium text-brand-gray-600 ${i === 2 ? 'text-brand-black' : ''}`}>
+           {c}
+         </p>
+       ))}
+     </div>
 
-      <!-- Rows -->
-      <div class="divide-y divide-brand-gray-100">
-        {comparison.rows.map((row, idx) => (
-          <div class={`grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_1.4fr] gap-3 md:gap-4 items-center px-6 lg:px-8 py-5 transition-colors hover:bg-brand-cream/40 ${idx % 2 === 1 ? 'bg-brand-cream/20' : ''}`}>
-            <!-- Ingredient (icon + italic name + sub-name) -->
-            <div class="flex items-center gap-4">
-              <div
-                class="ic-wrap w-10 h-10 lg:w-11 lg:h-11 rounded-lg flex items-center justify-center shrink-0"
-                style={`background:${row.iconBg};`}
-              >
-                <svg
-                  class="ic-svg w-5 h-5"
-                  style={`animation-delay:${(idx * 0.38).toFixed(2)}s`}
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke={row.iconColor}
-                  stroke-width="1.6"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d={row.icon}/>
-                </svg>
-              </div>
-              <div class="min-w-0">
-                <p class="font-display italic text-base lg:text-lg leading-tight">{row.name}</p>
-                <p class="text-[10px] tracking-[0.15em] uppercase text-brand-gray-600 mt-0.5 font-medium">{row.sub}</p>
-              </div>
-            </div>
+     <!-- Rows -->
+     <div class="divide-y divide-brand-gray-100">
+       {comparison.rows.map((row, idx) => (
+         <div class={`grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_1.4fr] gap-3 md:gap-4 items-center px-6 lg:px-8 py-5 transition-colors hover:bg-brand-cream/40 ${idx % 2 === 1 ? 'bg-brand-cream/20' : ''}`}>
+           <!-- Ingredient (icon + italic name + sub-name) -->
+           <div class="flex items-center gap-4">
+             <div
+               class="ic-wrap w-10 h-10 lg:w-11 lg:h-11 rounded-lg flex items-center justify-center shrink-0"
+               style={`background:${row.iconBg};`}
+             >
+               <svg
+                 class="ic-svg w-5 h-5"
+                 style={`animation-delay:${(idx * 0.38).toFixed(2)}s`}
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke={row.iconColor}
+                 stroke-width="1.6"
+                 stroke-linecap="round"
+                 stroke-linejoin="round"
+                 aria-hidden="true"
+               >
+                 <path d={row.icon}/>
+               </svg>
+             </div>
+             <div class="min-w-0">
+               <p class="font-display italic text-base lg:text-lg leading-tight">{row.name}</p>
+               <p class="text-[10px] tracking-[0.15em] uppercase text-brand-gray-600 mt-0.5 font-medium">{row.sub}</p>
+             </div>
+           </div>
 
-            <!-- Original (small col label on mobile) -->
-            <div class="md:contents">
-              <div class="md:hidden text-[10px] uppercase tracking-[0.15em] text-brand-gray-600 font-medium">Original</div>
-              <p class="text-sm text-brand-gray-600 tabular-nums">{row.original}</p>
-            </div>
+           <!-- Original (small col label on mobile) -->
+           <div class="md:contents">
+             <div class="md:hidden text-[10px] uppercase tracking-[0.15em] text-brand-gray-600 font-medium">Original</div>
+             <p class="text-sm text-brand-gray-600 tabular-nums">{row.original}</p>
+           </div>
 
-            <!-- PRO + delta pill -->
-            <div>
-              <div class="md:hidden text-[10px] uppercase tracking-[0.15em] text-brand-black font-medium mb-1">Automation Pro</div>
-              <p class="font-display text-xl lg:text-2xl text-brand-black tabular-nums leading-none">{row.pro}</p>
-              <span class={`inline-flex items-center mt-2 text-[10px] font-medium uppercase tracking-wider px-2.5 py-1 rounded-full ${pillClasses(row.change)}`}>
-                {row.change}
-              </span>
-            </div>
+           <!-- PRO + delta pill -->
+           <div>
+             <div class="md:hidden text-[10px] uppercase tracking-[0.15em] text-brand-black font-medium mb-1">Automation Pro</div>
+             <p class="font-display text-xl lg:text-2xl text-brand-black tabular-nums leading-none">{row.pro}</p>
+             <span class={`inline-flex items-center mt-2 text-[10px] font-medium uppercase tracking-wider px-2.5 py-1 rounded-full ${pillClasses(row.change)}`}>
+               {row.change}
+             </span>
+           </div>
 
-            <!-- Benefit -->
-            <div>
-              <div class="md:hidden text-[10px] uppercase tracking-[0.15em] text-brand-gray-600 font-medium mb-1">Your benefit</div>
-              <p class="text-sm text-brand-gray-900/90 leading-snug">{row.benefit}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
+           <!-- Benefit -->
+           <div>
+             <div class="md:hidden text-[10px] uppercase tracking-[0.15em] text-brand-gray-600 font-medium mb-1">Your benefit</div>
+             <p class="text-sm text-brand-gray-900/90 leading-snug">{row.benefit}</p>
+           </div>
+         </div>
+       ))}
+     </div>
+   </div>
+ </div>
 </section>

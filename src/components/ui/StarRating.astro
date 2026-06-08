@@ -1,9 +1,9 @@
 ---
 export interface Props {
-  rating: number;
-  size?: 'sm' | 'md' | 'lg';
-  showValue?: boolean;
-  reviewCount?: number;
+ rating: number;
+ size?: 'sm' | 'md' | 'lg';
+ showValue?: boolean;
+ reviewCount?: number;
 }
 
 const { rating, size = 'md', showValue = false, reviewCount } = Astro.props;
@@ -12,21 +12,21 @@ const stars = Array.from({ length: 5 }, (_, i) => i + 1);
 ---
 
 <div class="inline-flex items-center gap-2" role="img" aria-label={`Rated ${rating} out of 5`}>
-  <div class="flex items-center gap-0.5 text-brand-black">
-    {stars.map((n) => (
-      <svg
-        class={`${sizeMap[size]} ${n <= Math.round(rating) ? 'fill-current' : 'fill-brand-gray-200'}`}
-        viewBox="0 0 20 20"
-        aria-hidden="true"
-      >
-        <path d="M10 1.5l2.6 5.3 5.9.85-4.25 4.14 1 5.86L10 14.9l-5.25 2.76 1-5.86L1.5 7.65l5.9-.85L10 1.5z" />
-      </svg>
-    ))}
-  </div>
-  {showValue && (
-    <span class="text-sm font-medium">{rating}</span>
-  )}
-  {reviewCount !== undefined && (
-    <span class="text-sm text-brand-gray-600">{reviewCount.toLocaleString()} reviews</span>
-  )}
+ <div class="flex items-center gap-0.5 text-brand-black">
+   {stars.map((n) => (
+     <svg
+       class={`${sizeMap[size]} ${n <= Math.round(rating) ? 'fill-current' : 'fill-brand-gray-200'}`}
+       viewBox="0 0 20 20"
+       aria-hidden="true"
+     >
+       <path d="M10 1.5l2.6 5.3 5.9.85-4.25 4.14 1 5.86L10 14.9l-5.25 2.76 1-5.86L1.5 7.65l5.9-.85L10 1.5z" />
+     </svg>
+   ))}
+ </div>
+ {showValue && (
+   <span class="text-sm font-medium">{rating}</span>
+ )}
+ {reviewCount !== undefined && (
+   <span class="text-sm text-brand-gray-600">{reviewCount.toLocaleString()} reviews</span>
+ )}
 </div>

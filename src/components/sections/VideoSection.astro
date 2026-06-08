@@ -5,65 +5,65 @@ const CX = 330, CY = 298;
 const R1 = 98, R2 = 163, R3 = 232;
 
 function np(r: number, deg: number) {
-  const rad = (deg - 90) * Math.PI / 180;
-  return { x: +(CX + r * Math.cos(rad)).toFixed(2), y: +(CY + r * Math.sin(rad)).toFixed(2) };
+ const rad = (deg - 90) * Math.PI / 180;
+ return { x: +(CX + r * Math.cos(rad)).toFixed(2), y: +(CY + r * Math.sin(rad)).toFixed(2) };
 }
 function lbl(nodeR: number, nodeRadius: number, deg: number, gap = 14) {
-  const pt = np(nodeR + nodeRadius + gap, deg);
-  const a  = ((deg % 360) + 360) % 360;
-  const anchor = a > 22.5 && a < 157.5 ? 'start'
-               : a > 202.5 && a < 337.5 ? 'end' : 'middle';
-  const dy = anchor === 'middle' ? (a < 180 ? -1.5 : 4) : 3.5;
-  return { lx: pt.x, ly: +(pt.y + dy).toFixed(2), anchor };
+ const pt = np(nodeR + nodeRadius + gap, deg);
+ const a = ((deg % 360) + 360) % 360;
+ const anchor = a > 22.5 && a < 157.5 ? 'start'
+              : a > 202.5 && a < 337.5 ? 'end' : 'middle';
+ const dy = anchor === 'middle' ? (a < 180 ? -1.5 : 4) : 3.5;
+ return { lx: pt.x, ly: +(pt.y + dy).toFixed(2), anchor };
 }
 function tick(r: number, deg: number, len = 5) {
-  const a = np(r - len/2, deg), b = np(r + len/2, deg);
-  return `M ${a.x} ${a.y} L ${b.x} ${b.y}`;
+ const a = np(r - len/2, deg), b = np(r + len/2, deg);
+ return `M ${a.x} ${a.y} L ${b.x} ${b.y}`;
 }
 
 const r1nodes = [
-  { deg:   0, name:'CRM',       sub:'HubSpot · Salesforce' },
-  { deg:  45, name:'EMAIL',     sub:'Gmail · Outlook'      },
-  { deg:  90, name:'CALENDAR',  sub:'Cal · Bookings'       },
-  { deg: 135, name:'BILLING',   sub:'Xero · QuickBooks'    },
-  { deg: 180, name:'FORMS',     sub:'Typeform · JotForm'   },
-  { deg: 225, name:'PAYMENTS',  sub:'Stripe · GoCardless'  },
-  { deg: 270, name:'FILES',     sub:'Drive · Dropbox'      },
-  { deg: 315, name:'ANALYTICS', sub:'GA4 · Mixpanel'       },
+ { deg: 0, name:'CRM',     sub:'HubSpot · Salesforce' },
+ { deg: 45, name:'EMAIL',   sub:'Gmail · Outlook'    },
+ { deg: 90, name:'CALENDAR', sub:'Cal · Bookings'     },
+ { deg: 135, name:'BILLING', sub:'Xero · QuickBooks'  },
+ { deg: 180, name:'FORMS',   sub:'Typeform · JotForm' },
+ { deg: 225, name:'PAYMENTS', sub:'Stripe · GoCardless' },
+ { deg: 270, name:'FILES',   sub:'Drive · Dropbox'    },
+ { deg: 315, name:'ANALYTICS', sub:'GA4 · Mixpanel'     },
 ].map(n => ({ ...n, ...np(R1,n.deg), ...lbl(R1,7,n.deg,16) }));
 
 const r2nodes = [
-  { deg:   0, name:'TRIGGER',  detail:'< 5ms' },
-  { deg:  60, name:'AI PARSE', detail:'~80ms' },
-  { deg: 120, name:'EXECUTE',  detail:'~40ms' },
-  { deg: 180, name:'ROUTE',    detail:'< 2ms' },
-  { deg: 240, name:'CATCH',    detail:'retry' },
-  { deg: 300, name:'LOG',      detail:'async' },
+ { deg: 0, name:'TRIGGER', detail:'< 5ms' },
+ { deg: 60, name:'AI PARSE', detail:'~80ms' },
+ { deg: 120, name:'EXECUTE', detail:'~40ms' },
+ { deg: 180, name:'ROUTE',  detail:'< 2ms' },
+ { deg: 240, name:'CATCH',  detail:'retry' },
+ { deg: 300, name:'LOG',    detail:'async' },
 ].map(n => ({ ...n, ...np(R2,n.deg), ...lbl(R2,9.5,n.deg,14) }));
 
 const r3nodes = [
-  { deg:   0, name:'NOTIFY',    sub:'Push · SMS'   },
-  { deg:  45, name:'CRM SYNC',  sub:'Auto-update'  },
-  { deg:  90, name:'REPORT',    sub:'PDF · Email'   },
-  { deg: 135, name:'INVOICE',   sub:'Auto-sent'    },
-  { deg: 180, name:'SLACK',     sub:'Team alert'   },
-  { deg: 225, name:'DATABASE',  sub:'Write · Index'},
-  { deg: 270, name:'API RESP',  sub:'Webhook out'  },
-  { deg: 315, name:'DASHBOARD', sub:'Live refresh' },
+ { deg: 0, name:'NOTIFY',  sub:'Push · SMS' },
+ { deg: 45, name:'CRM SYNC', sub:'Auto-update' },
+ { deg: 90, name:'REPORT',  sub:'PDF · Email' },
+ { deg: 135, name:'INVOICE', sub:'Auto-sent'  },
+ { deg: 180, name:'SLACK',   sub:'Team alert' },
+ { deg: 225, name:'DATABASE', sub:'Write · Index'},
+ { deg: 270, name:'API RESP', sub:'Webhook out' },
+ { deg: 315, name:'DASHBOARD', sub:'Live refresh' },
 ].map(n => ({ ...n, ...np(R3,n.deg), ...lbl(R3,8,n.deg,13) }));
 
 // Paths for motion animation
 const r2r3map = [0,45,135,180,225,315];
 const motionPaths = {
-  in: [0,2,4,6].map(i => {
-    const n = r1nodes[i];
-    return `M ${CX} ${CY} L ${n.x} ${n.y}`;
-  }),
-  out: [0,2,4].map(i => {
-    const n  = r2nodes[i];
-    const r3 = r3nodes.find(m => m.deg === r2r3map[i]) ?? r3nodes[i];
-    return `M ${n.x} ${n.y} L ${r3.x} ${r3.y}`;
-  }),
+ in: [0,2,4,6].map(i => {
+   const n = r1nodes[i];
+   return `M ${CX} ${CY} L ${n.x} ${n.y}`;
+ }),
+ out: [0,2,4].map(i => {
+   const n = r2nodes[i];
+   const r3 = r3nodes.find(m => m.deg === r2r3map[i]) ?? r3nodes[i];
+   return `M ${n.x} ${n.y} L ${r3.x} ${r3.y}`;
+ }),
 };
 
 // Arc text paths
@@ -81,623 +81,623 @@ const r1delays = ['0s','0.8s','1.6s','2.4s','3.2s','4.0s','4.8s','5.6s'];
 // R2 activation delay table
 const r2delays = ['0s','1.17s','2.33s','3.5s','4.67s','5.83s'];
 
-// Outer compass ring — 12 graduation ticks every 30°
+// Outer compass ring 12 graduation ticks every 30°
 const compassTicks = Array.from({length:12}, (_,i) => {
-  const deg = i * 30;
-  const isMajor = deg % 90 === 0;
-  const len = isMajor ? 9 : deg % 60 === 0 ? 5.5 : 3;
-  const a = np(252, deg), b = np(252 - len, deg);
-  return { x1:a.x, y1:a.y, x2:b.x, y2:b.y, sw: isMajor ? 0.8 : 0.45 };
+ const deg = i * 30;
+ const isMajor = deg % 90 === 0;
+ const len = isMajor ? 9 : deg % 60 === 0 ? 5.5 : 3;
+ const a = np(252, deg), b = np(252 - len, deg);
+ return { x1:a.x, y1:a.y, x2:b.x, y2:b.y, sw: isMajor ? 0.8 : 0.45 };
 });
 ---
 
 <section class="relative overflow-hidden" style="background:#0A0A0A;border-top:1px solid rgba(255,255,255,0.05);">
 
-  <!-- HEADER -->
-  <div class="container-x pt-10 pb-6 lg:pt-16 lg:pb-10 relative z-10">
-    <div class="max-w-2xl">
-      <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-3 lg:mb-4" style="color:rgba(232,180,176,0.55);">Inside the engine</p>
-      <h2 class="font-display text-h1 leading-[1.08] tracking-[-0.025em] text-white mb-3 lg:mb-4 text-balance">
-        From raw data to deployed action —
-        <em class="font-medium" style="color:#E8B4B0;">in under 200 ms.</em>
-      </h2>
-      <p class="text-[12px] lg:text-[13px] leading-relaxed max-w-xl" style="color:rgba(255,255,255,0.34);">
-        Three orbital layers. Claude AI at the core. Data flows inward, decisions route outward, actions deploy in real time.
-      </p>
-    </div>
-  </div>
+ <!-- HEADER -->
+ <div class="container-x pt-10 pb-6 lg:pt-16 lg:pb-10 relative z-10">
+   <div class="max-w-2xl">
+     <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-3 lg:mb-4" style="color:rgba(232,180,176,0.55);">Inside the engine</p>
+     <h2 class="font-display text-h1 leading-[1.08] tracking-[-0.025em] text-white mb-3 lg:mb-4 text-balance">
+       From raw data to deployed action 
+       <em class="font-medium" style="color:#E8B4B0;">in under 200 ms.</em>
+     </h2>
+     <p class="text-[12px] lg:text-[13px] leading-relaxed max-w-xl" style="color:rgba(255,255,255,0.34);">
+       Three orbital layers. Claude AI at the core. Data flows inward, decisions route outward, actions deploy in real time.
+     </p>
+   </div>
+ </div>
 
-  <!-- GRID -->
-  <div class="grid lg:grid-cols-[1fr_320px] xl:grid-cols-[1fr_360px]"
-       style="padding-left:clamp(0.75rem,2vw,1.75rem);">
+ <!-- GRID -->
+ <div class="grid lg:grid-cols-[1fr_320px] xl:grid-cols-[1fr_360px]"
+      style="padding-left:clamp(0.75rem,2vw,1.75rem);">
 
-    <!-- SVG DIAGRAM -->
-    <div class="vsvg-wrap">
-      <!-- subtle grid — brand color, fades on all 4 edges via mask -->
-      <div style="position:absolute;inset:0;z-index:0;pointer-events:none;
-        background-image:
-          linear-gradient(rgba(232,180,176,0.07) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(232,180,176,0.07) 1px, transparent 1px);
-        background-size:48px 48px;
-        -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 100%);
-        mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 100%);"></div>
-      <svg viewBox="0 0 660 710"
-           width="100%" height="100%"
-           preserveAspectRatio="xMidYMid meet"
-           xmlns="http://www.w3.org/2000/svg"
-           aria-hidden="true">
-        <defs>
-          <radialGradient id="vg1" cx="50%" cy="50%" r="50%">
-            <stop offset="0%"   stop-color="#E8B4B0" stop-opacity="0.28"/>
-            <stop offset="55%"  stop-color="#E8B4B0" stop-opacity="0.06"/>
-            <stop offset="100%" stop-color="#E8B4B0" stop-opacity="0"/>
-          </radialGradient>
-          <radialGradient id="vg2" cx="50%" cy="50%" r="50%">
-            <stop offset="0%"  stop-color="#fff" stop-opacity="0.18"/>
-            <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
-          </radialGradient>
-          <filter id="vnfg" x="-100%" y="-100%" width="300%" height="300%">
-            <feGaussianBlur stdDeviation="2.8" result="b"/>
-            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-          <filter id="vcfg" x="-250%" y="-250%" width="600%" height="600%">
-            <feGaussianBlur stdDeviation="10"/>
-          </filter>
-          <filter id="vpkg" x="-150%" y="-150%" width="400%" height="400%">
-            <feGaussianBlur stdDeviation="4" result="b"/>
-            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-          <path id="va1" d={arc1} fill="none"/>
-          <path id="va2" d={arc2} fill="none"/>
-          <path id="va3" d={arc3} fill="none"/>
-          <!-- Outer ring circuit path (full circle at R=252) -->
-          <path id="vcircuit" fill="none"
-            d={`M ${CX} ${CY-252} A 252 252 0 1 1 ${CX-0.01} ${CY-252}`}/>
-          <!-- Motion paths for data packets -->
-          {motionPaths.in.map((d,i) => <path id={`vpi${i}`} d={d} fill="none"/>)}
-          {motionPaths.out.map((d,i) => <path id={`vpo${i}`} d={d} fill="none"/>)}
-        </defs>
+   <!-- SVG DIAGRAM -->
+   <div class="vsvg-wrap">
+     <!-- subtle grid brand color, fades on all 4 edges via mask -->
+     <div style="position:absolute;inset:0;z-index:0;pointer-events:none;
+       background-image:
+         linear-gradient(rgba(232,180,176,0.07) 1px, transparent 1px),
+         linear-gradient(90deg, rgba(232,180,176,0.07) 1px, transparent 1px);
+       background-size:48px 48px;
+       -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 100%);
+       mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 100%);"></div>
+     <svg viewBox="0 0 660 710"
+          width="100%" height="100%"
+          preserveAspectRatio="xMidYMid meet"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true">
+       <defs>
+         <radialGradient id="vg1" cx="50%" cy="50%" r="50%">
+           <stop offset="0%" stop-color="#E8B4B0" stop-opacity="0.28"/>
+           <stop offset="55%" stop-color="#E8B4B0" stop-opacity="0.06"/>
+           <stop offset="100%" stop-color="#E8B4B0" stop-opacity="0"/>
+         </radialGradient>
+         <radialGradient id="vg2" cx="50%" cy="50%" r="50%">
+           <stop offset="0%" stop-color="#fff" stop-opacity="0.18"/>
+           <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+         </radialGradient>
+         <filter id="vnfg" x="-100%" y="-100%" width="300%" height="300%">
+           <feGaussianBlur stdDeviation="2.8" result="b"/>
+           <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+         </filter>
+         <filter id="vcfg" x="-250%" y="-250%" width="600%" height="600%">
+           <feGaussianBlur stdDeviation="10"/>
+         </filter>
+         <filter id="vpkg" x="-150%" y="-150%" width="400%" height="400%">
+           <feGaussianBlur stdDeviation="4" result="b"/>
+           <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+         </filter>
+         <path id="va1" d={arc1} fill="none"/>
+         <path id="va2" d={arc2} fill="none"/>
+         <path id="va3" d={arc3} fill="none"/>
+         <!-- Outer ring circuit path (full circle at R=252) -->
+         <path id="vcircuit" fill="none"
+           d={`M ${CX} ${CY-252} A 252 252 0 1 1 ${CX-0.01} ${CY-252}`}/>
+         <!-- Motion paths for data packets -->
+         {motionPaths.in.map((d,i) => <path id={`vpi${i}`} d={d} fill="none"/>)}
+         {motionPaths.out.map((d,i) => <path id={`vpo${i}`} d={d} fill="none"/>)}
+       </defs>
 
-        <!-- AMBIENT GLOW -->
-        <ellipse cx={CX} cy={CY} rx="238" ry="218" fill="url(#vg1)" opacity="0.50"/>
-        <ellipse cx={CX} cy={CY} rx="112" ry="104" fill="url(#vg2)" opacity="0.40"/>
+       <!-- AMBIENT GLOW -->
+       <ellipse cx={CX} cy={CY} rx="238" ry="218" fill="url(#vg1)" opacity="0.50"/>
+       <ellipse cx={CX} cy={CY} rx="112" ry="104" fill="url(#vg2)" opacity="0.40"/>
 
-        <!-- STRUCTURAL RINGS (static) -->
-        <circle cx={CX} cy={CY} r={64}    fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
-        <circle cx={CX} cy={CY} r={R1}    fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="0.4"/>
-        <circle cx={CX} cy={CY} r={R2}    fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="0.4"/>
-        <circle cx={CX} cy={CY} r={R3}    fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="0.4"/>
-        <circle cx={CX} cy={CY} r={R3+22} fill="none" stroke="rgba(255,255,255,0.02)" stroke-width="0.3"/>
+       <!-- STRUCTURAL RINGS (static) -->
+       <circle cx={CX} cy={CY} r={64}  fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
+       <circle cx={CX} cy={CY} r={R1}  fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="0.4"/>
+       <circle cx={CX} cy={CY} r={R2}  fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="0.4"/>
+       <circle cx={CX} cy={CY} r={R3}  fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="0.4"/>
+       <circle cx={CX} cy={CY} r={R3+22} fill="none" stroke="rgba(255,255,255,0.02)" stroke-width="0.3"/>
 
-        <!-- TICK MARKS -->
-        {r1nodes.map(n => (
-          <path d={tick(R1,n.deg,6)} stroke="rgba(255,255,255,0.20)" stroke-width="0.6" stroke-linecap="round"/>
-        ))}
-        {r2nodes.map(n => (
-          <path d={tick(R2,n.deg,7)} stroke="rgba(232,180,176,0.28)" stroke-width="0.7" stroke-linecap="round"/>
-        ))}
-        {r3nodes.map(n => (
-          <path d={tick(R3,n.deg,6)} stroke="rgba(255,255,255,0.14)" stroke-width="0.6" stroke-linecap="round"/>
-        ))}
+       <!-- TICK MARKS -->
+       {r1nodes.map(n => (
+         <path d={tick(R1,n.deg,6)} stroke="rgba(255,255,255,0.20)" stroke-width="0.6" stroke-linecap="round"/>
+       ))}
+       {r2nodes.map(n => (
+         <path d={tick(R2,n.deg,7)} stroke="rgba(232,180,176,0.28)" stroke-width="0.7" stroke-linecap="round"/>
+       ))}
+       {r3nodes.map(n => (
+         <path d={tick(R3,n.deg,6)} stroke="rgba(255,255,255,0.14)" stroke-width="0.6" stroke-linecap="round"/>
+       ))}
 
-        <!-- ANIMATED RING DECORATORS (animateTransform — reliable at any scale) -->
-        <circle cx={CX} cy={CY} r={R2} fill="none" stroke="rgba(232,180,176,0.18)" stroke-width="0.65" stroke-dasharray="3 28">
-          <animateTransform attributeName="transform" type="rotate"
-            from={`0 ${CX} ${CY}`} to={`-360 ${CX} ${CY}`} dur="48s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx={CX} cy={CY} r={64} fill="none" stroke="rgba(232,180,176,0.22)" stroke-width="0.60" stroke-dasharray="2 12">
-          <animateTransform attributeName="transform" type="rotate"
-            from={`0 ${CX} ${CY}`} to={`-360 ${CX} ${CY}`} dur="14s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx={CX} cy={CY} r={R3} fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="0.4" stroke-dasharray="6 36">
-          <animateTransform attributeName="transform" type="rotate"
-            from={`0 ${CX} ${CY}`} to={`360 ${CX} ${CY}`} dur="80s" repeatCount="indefinite"/>
-        </circle>
+       <!-- ANIMATED RING DECORATORS (animateTransform reliable at any scale) -->
+       <circle cx={CX} cy={CY} r={R2} fill="none" stroke="rgba(232,180,176,0.18)" stroke-width="0.65" stroke-dasharray="3 28">
+         <animateTransform attributeName="transform" type="rotate"
+           from={`0 ${CX} ${CY}`} to={`-360 ${CX} ${CY}`} dur="48s" repeatCount="indefinite"/>
+       </circle>
+       <circle cx={CX} cy={CY} r={64} fill="none" stroke="rgba(232,180,176,0.22)" stroke-width="0.60" stroke-dasharray="2 12">
+         <animateTransform attributeName="transform" type="rotate"
+           from={`0 ${CX} ${CY}`} to={`-360 ${CX} ${CY}`} dur="14s" repeatCount="indefinite"/>
+       </circle>
+       <circle cx={CX} cy={CY} r={R3} fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="0.4" stroke-dasharray="6 36">
+         <animateTransform attributeName="transform" type="rotate"
+           from={`0 ${CX} ${CY}`} to={`360 ${CX} ${CY}`} dur="80s" repeatCount="indefinite"/>
+       </circle>
 
-        <!-- RADAR SWEEP -->
-        <g>
-          <animateTransform attributeName="transform" type="rotate"
-            from={`0 ${CX} ${CY}`} to={`360 ${CX} ${CY}`} dur="7s" repeatCount="indefinite"/>
-          <path d={radarWedge} fill="rgba(232,180,176,0.04)"/>
-          <line x1={CX} y1={CY} x2={CX} y2={CY-R2}
-            stroke="rgba(232,180,176,0.55)" stroke-width="0.65" stroke-linecap="round"/>
-          <circle cx={CX} cy={CY} r={R2} fill="none"
-            stroke="rgba(232,180,176,0.07)" stroke-width="14"
-            stroke-dasharray={`${R2*0.68} ${R2*8}`}/>
-        </g>
+       <!-- RADAR SWEEP -->
+       <g>
+         <animateTransform attributeName="transform" type="rotate"
+           from={`0 ${CX} ${CY}`} to={`360 ${CX} ${CY}`} dur="7s" repeatCount="indefinite"/>
+         <path d={radarWedge} fill="rgba(232,180,176,0.04)"/>
+         <line x1={CX} y1={CY} x2={CX} y2={CY-R2}
+           stroke="rgba(232,180,176,0.55)" stroke-width="0.65" stroke-linecap="round"/>
+         <circle cx={CX} cy={CY} r={R2} fill="none"
+           stroke="rgba(232,180,176,0.07)" stroke-width="14"
+           stroke-dasharray={`${R2*0.68} ${R2*8}`}/>
+       </g>
 
-        <!-- RADIAL SPOKES (static) -->
-        {r1nodes.map(n => (
-          <line x1={CX} y1={CY} x2={n.x} y2={n.y}
-            stroke="rgba(255,255,255,0.04)" stroke-width="0.4" stroke-dasharray="2.5 10"/>
-        ))}
+       <!-- RADIAL SPOKES (static) -->
+       {r1nodes.map(n => (
+         <line x1={CX} y1={CY} x2={n.x} y2={n.y}
+           stroke="rgba(255,255,255,0.04)" stroke-width="0.4" stroke-dasharray="2.5 10"/>
+       ))}
 
-        <!-- R2→R3 FLOW LINES (CSS dashoffset — simple and cheap) -->
-        {r2nodes.map((n,i) => {
-          const r3 = r3nodes.find(m => m.deg === r2r3map[i]) ?? r3nodes[i];
-          return <line x1={n.x} y1={n.y} x2={r3.x} y2={r3.y}
-            stroke="rgba(255,255,255,0.06)" stroke-width="0.4" stroke-dasharray="3.5 12"
-            class={`vflow vfd${i%4}`}/>;
-        })}
+       <!-- R2→R3 FLOW LINES (CSS dashoffset simple and cheap) -->
+       {r2nodes.map((n,i) => {
+         const r3 = r3nodes.find(m => m.deg === r2r3map[i]) ?? r3nodes[i];
+         return <line x1={n.x} y1={n.y} x2={r3.x} y2={r3.y}
+           stroke="rgba(255,255,255,0.06)" stroke-width="0.4" stroke-dasharray="3.5 12"
+           class={`vflow vfd${i%4}`}/>;
+       })}
 
-        <!-- DATA PACKETS: inbound (animateMotion — native SVG, no CSS) -->
-        {motionPaths.in.map((_, i) => (
-          <circle r="1.9" fill="rgba(255,255,255,0.88)">
-            <animateMotion dur="1.6s" begin={`${i*0.4}s`} repeatCount="indefinite">
-              <mpath href={`#vpi${i}`}/>
-            </animateMotion>
-            <animate attributeName="opacity" values="0;1;1;0"
-              keyTimes="0;0.08;0.90;1" dur="1.6s" begin={`${i*0.4}s`} repeatCount="indefinite"/>
-          </circle>
-        ))}
+       <!-- DATA PACKETS: inbound (animateMotion native SVG, no CSS) -->
+       {motionPaths.in.map((_, i) => (
+         <circle r="1.9" fill="rgba(255,255,255,0.88)">
+           <animateMotion dur="1.6s" begin={`${i*0.4}s`} repeatCount="indefinite">
+             <mpath href={`#vpi${i}`}/>
+           </animateMotion>
+           <animate attributeName="opacity" values="0;1;1;0"
+             keyTimes="0;0.08;0.90;1" dur="1.6s" begin={`${i*0.4}s`} repeatCount="indefinite"/>
+         </circle>
+       ))}
 
-        <!-- DATA PACKETS: outbound (animateMotion) -->
-        {motionPaths.out.map((_, i) => (
-          <circle r="1.7" fill="#E8B4B0">
-            <animateMotion dur="1.95s" begin={`${i*0.65}s`} repeatCount="indefinite">
-              <mpath href={`#vpo${i}`}/>
-            </animateMotion>
-            <animate attributeName="opacity" values="0;0.85;0.85;0"
-              keyTimes="0;0.08;0.90;1" dur="1.95s" begin={`${i*0.65}s`} repeatCount="indefinite"/>
-          </circle>
-        ))}
+       <!-- DATA PACKETS: outbound (animateMotion) -->
+       {motionPaths.out.map((_, i) => (
+         <circle r="1.7" fill="#E8B4B0">
+           <animateMotion dur="1.95s" begin={`${i*0.65}s`} repeatCount="indefinite">
+             <mpath href={`#vpo${i}`}/>
+           </animateMotion>
+           <animate attributeName="opacity" values="0;0.85;0.85;0"
+             keyTimes="0;0.08;0.90;1" dur="1.95s" begin={`${i*0.65}s`} repeatCount="indefinite"/>
+         </circle>
+       ))}
 
-        <!-- CENTER CORE -->
-        <circle cx={CX} cy={CY} r={56} fill="none" stroke="rgba(232,180,176,0.14)" stroke-width="0.8">
-          <animate attributeName="r" values="54;58;54" dur="3.6s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0.22;0.65;0.22" dur="3.6s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx={CX} cy={CY} r={46} fill="none" stroke="rgba(232,180,176,0.22)" stroke-width="0.7">
-          <animate attributeName="r" values="45;48;45" dur="2.5s" begin="0.9s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0.22;0.60;0.22" dur="2.5s" begin="0.9s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx={CX} cy={CY} r={36} fill="rgba(232,180,176,0.05)" stroke="rgba(232,180,176,0.32)" stroke-width="0.7"/>
-        <circle cx={CX} cy={CY} r={24} fill="rgba(232,180,176,0.12)" filter="url(#vcfg)"/>
-        <circle cx={CX} cy={CY} r={17} fill="rgba(232,180,176,0.30)"/>
-        <circle cx={CX} cy={CY} r={9}  fill="rgba(232,180,176,0.55)"/>
-        <text x={CX} y={CY-2} text-anchor="middle" font-family="ui-monospace,monospace"
-          font-size="5.8" fill="white" font-weight="700" letter-spacing="1.5"
-          text-rendering="geometricPrecision" opacity="0.95">CLAUDE</text>
-        <text x={CX} y={CY+7} text-anchor="middle" font-family="ui-monospace,monospace"
-          font-size="4.2" fill="white" font-weight="500" letter-spacing="0.8"
-          text-rendering="geometricPrecision" opacity="0.50">AI CORE</text>
+       <!-- CENTER CORE -->
+       <circle cx={CX} cy={CY} r={56} fill="none" stroke="rgba(232,180,176,0.14)" stroke-width="0.8">
+         <animate attributeName="r" values="54;58;54" dur="3.6s" repeatCount="indefinite"/>
+         <animate attributeName="opacity" values="0.22;0.65;0.22" dur="3.6s" repeatCount="indefinite"/>
+       </circle>
+       <circle cx={CX} cy={CY} r={46} fill="none" stroke="rgba(232,180,176,0.22)" stroke-width="0.7">
+         <animate attributeName="r" values="45;48;45" dur="2.5s" begin="0.9s" repeatCount="indefinite"/>
+         <animate attributeName="opacity" values="0.22;0.60;0.22" dur="2.5s" begin="0.9s" repeatCount="indefinite"/>
+       </circle>
+       <circle cx={CX} cy={CY} r={36} fill="rgba(232,180,176,0.05)" stroke="rgba(232,180,176,0.32)" stroke-width="0.7"/>
+       <circle cx={CX} cy={CY} r={24} fill="rgba(232,180,176,0.12)" filter="url(#vcfg)"/>
+       <circle cx={CX} cy={CY} r={17} fill="rgba(232,180,176,0.30)"/>
+       <circle cx={CX} cy={CY} r={9} fill="rgba(232,180,176,0.55)"/>
+       <text x={CX} y={CY-2} text-anchor="middle" font-family="ui-monospace,monospace"
+         font-size="5.8" fill="white" font-weight="700" letter-spacing="1.5"
+         text-rendering="geometricPrecision" opacity="0.95">CLAUDE</text>
+       <text x={CX} y={CY+7} text-anchor="middle" font-family="ui-monospace,monospace"
+         font-size="4.2" fill="white" font-weight="500" letter-spacing="0.8"
+         text-rendering="geometricPrecision" opacity="0.50">AI CORE</text>
 
-        <!-- RING 1 — INPUT NODES -->
-        {r1nodes.map((n,i) => (
-          <>
-            <circle cx={n.x} cy={n.y} r={7} fill="rgba(10,10,10,0.92)"
-              stroke="rgba(255,255,255,0.42)" stroke-width="0.75" filter="url(#vnfg)">
-              <animate attributeName="stroke-opacity" values="0.30;0.95;0.30"
-                dur="6.4s" begin={r1delays[i]} repeatCount="indefinite"/>
-            </circle>
-            <text x={n.lx} y={n.ly} text-anchor={n.anchor}
-              font-family="ui-monospace,monospace" font-size="6.2"
-              fill="rgba(255,255,255,0.58)" font-weight="700" letter-spacing="0.7"
-              text-rendering="geometricPrecision">{n.name}</text>
-            <text x={n.lx} y={n.ly+8.5} text-anchor={n.anchor}
-              font-family="ui-monospace,monospace" font-size="5.2"
-              fill="rgba(255,255,255,0.20)" letter-spacing="0.2"
-              text-rendering="geometricPrecision">{n.sub}</text>
-          </>
-        ))}
+       <!-- RING 1 INPUT NODES -->
+       {r1nodes.map((n,i) => (
+         <>
+           <circle cx={n.x} cy={n.y} r={7} fill="rgba(10,10,10,0.92)"
+             stroke="rgba(255,255,255,0.42)" stroke-width="0.75" filter="url(#vnfg)">
+             <animate attributeName="stroke-opacity" values="0.30;0.95;0.30"
+               dur="6.4s" begin={r1delays[i]} repeatCount="indefinite"/>
+           </circle>
+           <text x={n.lx} y={n.ly} text-anchor={n.anchor}
+             font-family="ui-monospace,monospace" font-size="6.2"
+             fill="rgba(255,255,255,0.58)" font-weight="700" letter-spacing="0.7"
+             text-rendering="geometricPrecision">{n.name}</text>
+           <text x={n.lx} y={n.ly+8.5} text-anchor={n.anchor}
+             font-family="ui-monospace,monospace" font-size="5.2"
+             fill="rgba(255,255,255,0.20)" letter-spacing="0.2"
+             text-rendering="geometricPrecision">{n.sub}</text>
+         </>
+       ))}
 
-        <!-- RING 2 — PROCESSING NODES -->
-        {r2nodes.map((n,i) => (
-          <>
-            <circle cx={n.x} cy={n.y} r={9.5} fill="rgba(10,10,10,0.96)"
-              stroke="rgba(232,180,176,0.58)" stroke-width="1.0" filter="url(#vpkg)">
-              <animate attributeName="stroke-opacity" values="0.40;1.00;0.40"
-                dur="7s" begin={r2delays[i]} repeatCount="indefinite"/>
-              <animate attributeName="r" values="9.5;11;9.5"
-                dur="7s" begin={r2delays[i]} repeatCount="indefinite"/>
-            </circle>
-            <circle cx={n.x} cy={n.y} r={2.2} fill="rgba(232,180,176,0.55)"/>
-            <text x={n.lx} y={n.ly} text-anchor={n.anchor}
-              font-family="ui-monospace,monospace" font-size="6.2"
-              fill="rgba(232,180,176,0.78)" font-weight="700" letter-spacing="0.6"
-              text-rendering="geometricPrecision">{n.name}</text>
-            <text x={n.lx} y={n.ly+8} text-anchor={n.anchor}
-              font-family="ui-monospace,monospace" font-size="5"
-              fill="rgba(232,180,176,0.38)" letter-spacing="0.2"
-              text-rendering="geometricPrecision">{n.detail}</text>
-          </>
-        ))}
+       <!-- RING 2 PROCESSING NODES -->
+       {r2nodes.map((n,i) => (
+         <>
+           <circle cx={n.x} cy={n.y} r={9.5} fill="rgba(10,10,10,0.96)"
+             stroke="rgba(232,180,176,0.58)" stroke-width="1.0" filter="url(#vpkg)">
+             <animate attributeName="stroke-opacity" values="0.40;1.00;0.40"
+               dur="7s" begin={r2delays[i]} repeatCount="indefinite"/>
+             <animate attributeName="r" values="9.5;11;9.5"
+               dur="7s" begin={r2delays[i]} repeatCount="indefinite"/>
+           </circle>
+           <circle cx={n.x} cy={n.y} r={2.2} fill="rgba(232,180,176,0.55)"/>
+           <text x={n.lx} y={n.ly} text-anchor={n.anchor}
+             font-family="ui-monospace,monospace" font-size="6.2"
+             fill="rgba(232,180,176,0.78)" font-weight="700" letter-spacing="0.6"
+             text-rendering="geometricPrecision">{n.name}</text>
+           <text x={n.lx} y={n.ly+8} text-anchor={n.anchor}
+             font-family="ui-monospace,monospace" font-size="5"
+             fill="rgba(232,180,176,0.38)" letter-spacing="0.2"
+             text-rendering="geometricPrecision">{n.detail}</text>
+         </>
+       ))}
 
-        <!-- RING 3 — OUTPUT NODES -->
-        {r3nodes.map(n => (
-          <>
-            <circle cx={n.x} cy={n.y} r={7.5} fill="rgba(10,10,10,0.90)"
-              stroke="rgba(255,255,255,0.22)" stroke-width="0.65"/>
-            <text x={n.lx} y={n.ly} text-anchor={n.anchor}
-              font-family="ui-monospace,monospace" font-size="6"
-              fill="rgba(255,255,255,0.38)" font-weight="600" letter-spacing="0.6"
-              text-rendering="geometricPrecision">{n.name}</text>
-            <text x={n.lx} y={n.ly+8.5} text-anchor={n.anchor}
-              font-family="ui-monospace,monospace" font-size="5"
-              fill="rgba(255,255,255,0.16)" letter-spacing="0.2"
-              text-rendering="geometricPrecision">{n.sub}</text>
-          </>
-        ))}
+       <!-- RING 3 OUTPUT NODES -->
+       {r3nodes.map(n => (
+         <>
+           <circle cx={n.x} cy={n.y} r={7.5} fill="rgba(10,10,10,0.90)"
+             stroke="rgba(255,255,255,0.22)" stroke-width="0.65"/>
+           <text x={n.lx} y={n.ly} text-anchor={n.anchor}
+             font-family="ui-monospace,monospace" font-size="6"
+             fill="rgba(255,255,255,0.38)" font-weight="600" letter-spacing="0.6"
+             text-rendering="geometricPrecision">{n.name}</text>
+           <text x={n.lx} y={n.ly+8.5} text-anchor={n.anchor}
+             font-family="ui-monospace,monospace" font-size="5"
+             fill="rgba(255,255,255,0.16)" letter-spacing="0.2"
+             text-rendering="geometricPrecision">{n.sub}</text>
+         </>
+       ))}
 
 
-        <!-- PHASE CALLOUTS — dot above number text, line extends from dot to orbit -->
-        <g font-family="ui-monospace,monospace" text-rendering="geometricPrecision">
-          <!-- 01 COLLECT -->
-          <circle cx="28" cy={CY-72} r="2" fill="rgba(255,255,255,0.38)"/>
-          <line x1="28" y1={CY-72} x2={CX-R1-10} y2={CY-32}
-            stroke="rgba(255,255,255,0.13)" stroke-width="0.45" stroke-dasharray="2.5 4"/>
-          <text x="8" y={CY-62} font-size="7"   fill="rgba(255,255,255,0.55)" font-weight="700" letter-spacing="0.8">01</text>
-          <text x="8" y={CY-53} font-size="5.5" fill="rgba(255,255,255,0.26)" letter-spacing="0.4">COLLECT</text>
-          <!-- 02 PROCESS -->
-          <circle cx="14" cy={CY-16} r="2" fill="rgba(232,180,176,0.65)"/>
-          <line x1="14" y1={CY-16} x2={CX-R2-10} y2={CY}
-            stroke="rgba(232,180,176,0.28)" stroke-width="0.45" stroke-dasharray="2.5 4"/>
-          <text x="0" y={CY-5}  font-size="7"   fill="rgba(232,180,176,0.75)" font-weight="700" letter-spacing="0.8">02</text>
-          <text x="0" y={CY+5}  font-size="5.5" fill="rgba(232,180,176,0.36)" letter-spacing="0.4">PROCESS</text>
-          <!-- 03 DEPLOY -->
-          <circle cx="28" cy={CY+50} r="2" fill="rgba(255,255,255,0.38)"/>
-          <line x1="28" y1={CY+50} x2={CX-R3+20} y2={CY+42}
-            stroke="rgba(255,255,255,0.13)" stroke-width="0.45" stroke-dasharray="2.5 4"/>
-          <text x="8" y={CY+62} font-size="7"   fill="rgba(255,255,255,0.55)" font-weight="700" letter-spacing="0.8">03</text>
-          <text x="8" y={CY+71} font-size="5.5" fill="rgba(255,255,255,0.26)" letter-spacing="0.4">DEPLOY</text>
-        </g>
+       <!-- PHASE CALLOUTS dot above number text, line extends from dot to orbit -->
+       <g font-family="ui-monospace,monospace" text-rendering="geometricPrecision">
+         <!-- 01 COLLECT -->
+         <circle cx="28" cy={CY-72} r="2" fill="rgba(255,255,255,0.38)"/>
+         <line x1="28" y1={CY-72} x2={CX-R1-10} y2={CY-32}
+           stroke="rgba(255,255,255,0.13)" stroke-width="0.45" stroke-dasharray="2.5 4"/>
+         <text x="8" y={CY-62} font-size="7" fill="rgba(255,255,255,0.55)" font-weight="700" letter-spacing="0.8">01</text>
+         <text x="8" y={CY-53} font-size="5.5" fill="rgba(255,255,255,0.26)" letter-spacing="0.4">COLLECT</text>
+         <!-- 02 PROCESS -->
+         <circle cx="14" cy={CY-16} r="2" fill="rgba(232,180,176,0.65)"/>
+         <line x1="14" y1={CY-16} x2={CX-R2-10} y2={CY}
+           stroke="rgba(232,180,176,0.28)" stroke-width="0.45" stroke-dasharray="2.5 4"/>
+         <text x="0" y={CY-5} font-size="7" fill="rgba(232,180,176,0.75)" font-weight="700" letter-spacing="0.8">02</text>
+         <text x="0" y={CY+5} font-size="5.5" fill="rgba(232,180,176,0.36)" letter-spacing="0.4">PROCESS</text>
+         <!-- 03 DEPLOY -->
+         <circle cx="28" cy={CY+50} r="2" fill="rgba(255,255,255,0.38)"/>
+         <line x1="28" y1={CY+50} x2={CX-R3+20} y2={CY+42}
+           stroke="rgba(255,255,255,0.13)" stroke-width="0.45" stroke-dasharray="2.5 4"/>
+         <text x="8" y={CY+62} font-size="7" fill="rgba(255,255,255,0.55)" font-weight="700" letter-spacing="0.8">03</text>
+         <text x="8" y={CY+71} font-size="5.5" fill="rgba(255,255,255,0.26)" letter-spacing="0.4">DEPLOY</text>
+       </g>
 
-        <!-- OUTER COMPASS RING — graduation ticks, brand color -->
-        <g opacity="0.28">
-          <circle cx={CX} cy={CY} r={252} fill="none"
-            stroke="rgba(232,180,176,0.40)" stroke-width="0.35"/>
-          {compassTicks.map(t => (
-            <line x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}
-              stroke="rgba(232,180,176,0.90)" stroke-width={t.sw} stroke-linecap="round"/>
-          ))}
-        </g>
+       <!-- OUTER COMPASS RING graduation ticks, brand color -->
+       <g opacity="0.28">
+         <circle cx={CX} cy={CY} r={252} fill="none"
+           stroke="rgba(232,180,176,0.40)" stroke-width="0.35"/>
+         {compassTicks.map(t => (
+           <line x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}
+             stroke="rgba(232,180,176,0.90)" stroke-width={t.sw} stroke-linecap="round"/>
+         ))}
+       </g>
 
-        <!-- CIRCUIT RUNNER — 2 packets orbiting the outer ring at different speeds -->
-        <!-- packet 1 -->
-        <circle r="2.2" fill="rgba(232,180,176,0.90)" filter="url(#vpkg)">
-          <animateMotion dur="18s" repeatCount="indefinite">
-            <mpath href="#vcircuit"/>
-          </animateMotion>
-        </circle>
-        <!-- packet 1 glow trail -->
-        <circle r="4.5" fill="rgba(232,180,176,0.18)">
-          <animateMotion dur="18s" repeatCount="indefinite">
-            <mpath href="#vcircuit"/>
-          </animateMotion>
-        </circle>
-        <!-- packet 2 — offset by half, slightly smaller -->
-        <circle r="1.6" fill="rgba(255,255,255,0.70)">
-          <animateMotion dur="18s" begin="-9s" repeatCount="indefinite">
-            <mpath href="#vcircuit"/>
-          </animateMotion>
-        </circle>
+       <!-- CIRCUIT RUNNER 2 packets orbiting the outer ring at different speeds -->
+       <!-- packet 1 -->
+       <circle r="2.2" fill="rgba(232,180,176,0.90)" filter="url(#vpkg)">
+         <animateMotion dur="18s" repeatCount="indefinite">
+           <mpath href="#vcircuit"/>
+         </animateMotion>
+       </circle>
+       <!-- packet 1 glow trail -->
+       <circle r="4.5" fill="rgba(232,180,176,0.18)">
+         <animateMotion dur="18s" repeatCount="indefinite">
+           <mpath href="#vcircuit"/>
+         </animateMotion>
+       </circle>
+       <!-- packet 2 offset by half, slightly smaller -->
+       <circle r="1.6" fill="rgba(255,255,255,0.70)">
+         <animateMotion dur="18s" begin="-9s" repeatCount="indefinite">
+           <mpath href="#vcircuit"/>
+         </animateMotion>
+       </circle>
 
-        <!-- INTERMEDIATE SPACING RING — between R2 and R3 -->
-        <circle cx={CX} cy={CY} r={198} fill="none"
-          stroke="rgba(255,255,255,0.035)" stroke-width="0.5" stroke-dasharray="2 20"/>
+       <!-- INTERMEDIATE SPACING RING between R2 and R3 -->
+       <circle cx={CX} cy={CY} r={198} fill="none"
+         stroke="rgba(255,255,255,0.035)" stroke-width="0.5" stroke-dasharray="2 20"/>
 
-        <!-- CAMERA CORNER BRACKETS + labels inside -->
-        <g stroke="rgba(232,180,176,0.38)" stroke-width="0.8" stroke-linecap="round" fill="none"
-          font-family="ui-monospace,monospace" text-rendering="geometricPrecision">
+       <!-- CAMERA CORNER BRACKETS + labels inside -->
+       <g stroke="rgba(232,180,176,0.38)" stroke-width="0.8" stroke-linecap="round" fill="none"
+         font-family="ui-monospace,monospace" text-rendering="geometricPrecision">
 
-          <!-- TOP-LEFT: corner anchor (28,36) — arm right 18px, arm down 18px -->
-          <path d="M 46,36 H 28 V 54"/>
-          <text x="34" y="66" font-size="4.8" fill="rgba(232,180,176,0.40)" letter-spacing="0.8" font-weight="600">INPUTS: 8 LIVE</text>
+         <!-- TOP-LEFT: corner anchor (28,36) arm right 18px, arm down 18px -->
+         <path d="M 46,36 H 28 V 54"/>
+         <text x="34" y="66" font-size="4.8" fill="rgba(232,180,176,0.40)" letter-spacing="0.8" font-weight="600">INPUTS: 8 LIVE</text>
 
-          <!-- TOP-RIGHT: corner anchor (632,36) — arm left 18px, arm down 18px -->
-          <path d="M 614,36 H 632 V 54"/>
-          <text x="626" y="66" text-anchor="end" font-size="4.8" fill="rgba(232,180,176,0.40)" letter-spacing="0.8" font-weight="600">ENGINE: n8n v1.71</text>
+         <!-- TOP-RIGHT: corner anchor (632,36) arm left 18px, arm down 18px -->
+         <path d="M 614,36 H 632 V 54"/>
+         <text x="626" y="66" text-anchor="end" font-size="4.8" fill="rgba(232,180,176,0.40)" letter-spacing="0.8" font-weight="600">ENGINE: n8n v1.71</text>
 
-          <!-- BOTTOM-LEFT: corner anchor (28,556) — arm right 18px, arm up 18px -->
-          <path d="M 46,556 H 28 V 538"/>
-          <text x="34" y="532" font-size="4.8" fill="rgba(232,180,176,0.40)" letter-spacing="0.8" font-weight="600">LATENCY: &lt;200ms</text>
+         <!-- BOTTOM-LEFT: corner anchor (28,556) arm right 18px, arm up 18px -->
+         <path d="M 46,556 H 28 V 538"/>
+         <text x="34" y="532" font-size="4.8" fill="rgba(232,180,176,0.40)" letter-spacing="0.8" font-weight="600">LATENCY: &lt;200ms</text>
 
-          <!-- BOTTOM-RIGHT: corner anchor (632,556) — arm left 18px, arm up 18px -->
-          <path d="M 614,556 H 632 V 538"/>
-          <text x="626" y="532" text-anchor="end" font-size="4.8" fill="rgba(232,180,176,0.40)" letter-spacing="0.8" font-weight="600">MODEL: OPUS 4.7</text>
-        </g>
+         <!-- BOTTOM-RIGHT: corner anchor (632,556) arm left 18px, arm up 18px -->
+         <path d="M 614,556 H 632 V 538"/>
+         <text x="626" y="532" text-anchor="end" font-size="4.8" fill="rgba(232,180,176,0.40)" letter-spacing="0.8" font-weight="600">MODEL: OPUS 4.7</text>
+       </g>
 
-        <!-- BLINKING DOTS — scattered at precise positions, staggered -->
-        {[
-          { deg:  22, r: 275, delay:'0s',    col:'rgba(232,180,176,0.70)' },
-          { deg:  78, r: 268, delay:'1.4s',  col:'rgba(255,255,255,0.50)' },
-          { deg: 150, r: 278, delay:'2.8s',  col:'rgba(232,180,176,0.60)' },
-          { deg: 195, r: 271, delay:'0.7s',  col:'rgba(255,255,255,0.45)' },
-          { deg: 258, r: 274, delay:'3.5s',  col:'rgba(232,180,176,0.65)' },
-          { deg: 318, r: 269, delay:'1.9s',  col:'rgba(255,255,255,0.48)' },
-        ].map(d => {
-          const p = np(d.r, d.deg);
-          return (
-            <circle cx={p.x} cy={p.y} r="1.5" fill={d.col}>
-              <animate attributeName="opacity" values="0;1;1;0"
-                keyTimes="0;0.1;0.5;1"
-                dur="3.2s" begin={d.delay} repeatCount="indefinite"/>
-              <animate attributeName="r" values="1.2;2.2;1.2"
-                dur="3.2s" begin={d.delay} repeatCount="indefinite"/>
-            </circle>
-          );
-        })}
+       <!-- BLINKING DOTS scattered at precise positions, staggered -->
+       {[
+         { deg: 22, r: 275, delay:'0s',  col:'rgba(232,180,176,0.70)' },
+         { deg: 78, r: 268, delay:'1.4s', col:'rgba(255,255,255,0.50)' },
+         { deg: 150, r: 278, delay:'2.8s', col:'rgba(232,180,176,0.60)' },
+         { deg: 195, r: 271, delay:'0.7s', col:'rgba(255,255,255,0.45)' },
+         { deg: 258, r: 274, delay:'3.5s', col:'rgba(232,180,176,0.65)' },
+         { deg: 318, r: 269, delay:'1.9s', col:'rgba(255,255,255,0.48)' },
+       ].map(d => {
+         const p = np(d.r, d.deg);
+         return (
+           <circle cx={p.x} cy={p.y} r="1.5" fill={d.col}>
+             <animate attributeName="opacity" values="0;1;1;0"
+               keyTimes="0;0.1;0.5;1"
+               dur="3.2s" begin={d.delay} repeatCount="indefinite"/>
+             <animate attributeName="r" values="1.2;2.2;1.2"
+               dur="3.2s" begin={d.delay} repeatCount="indefinite"/>
+           </circle>
+         );
+       })}
 
-        <!-- CARDINAL ANGLE MARKERS — 4 points outside R3, on the outer ring -->
-        <g font-family="ui-monospace,monospace" text-rendering="geometricPrecision" opacity="0.32">
-          <!-- N: top -->
-          <text x={CX-10} y={CY-258} font-size="4.8" fill="rgba(232,180,176,0.80)"
-            letter-spacing="1.4" font-weight="700">000°</text>
-          <!-- E: right -->
-          <text x={CX+258} y={CY-6} font-size="4.8" fill="rgba(232,180,176,0.80)"
-            letter-spacing="1.4" font-weight="700">090°</text>
-          <!-- S: bottom — offset right to avoid SLACK label at x=330 -->
-          <text x={CX+8} y={CY+264} font-size="4.8" fill="rgba(232,180,176,0.80)"
-            letter-spacing="1.4" font-weight="700">180°</text>
-          <!-- W: left -->
-          <text x={CX-274} y={CY+6} text-anchor="start" font-size="4.8" fill="rgba(232,180,176,0.80)"
-            letter-spacing="1.4" font-weight="700">270°</text>
-        </g>
+       <!-- CARDINAL ANGLE MARKERS 4 points outside R3, on the outer ring -->
+       <g font-family="ui-monospace,monospace" text-rendering="geometricPrecision" opacity="0.32">
+         <!-- N: top -->
+         <text x={CX-10} y={CY-258} font-size="4.8" fill="rgba(232,180,176,0.80)"
+           letter-spacing="1.4" font-weight="700">000°</text>
+         <!-- E: right -->
+         <text x={CX+258} y={CY-6} font-size="4.8" fill="rgba(232,180,176,0.80)"
+           letter-spacing="1.4" font-weight="700">090°</text>
+         <!-- S: bottom offset right to avoid SLACK label at x=330 -->
+         <text x={CX+8} y={CY+264} font-size="4.8" fill="rgba(232,180,176,0.80)"
+           letter-spacing="1.4" font-weight="700">180°</text>
+         <!-- W: left -->
+         <text x={CX-274} y={CY+6} text-anchor="start" font-size="4.8" fill="rgba(232,180,176,0.80)"
+           letter-spacing="1.4" font-weight="700">270°</text>
+       </g>
 
-        <!-- METRICS STRIP — centered below orbit, y=510 (orbit bottom at y=500) -->
-        <g font-family="ui-monospace,monospace" text-rendering="geometricPrecision">
-          <!-- subtle separator -->
-          <line x1={CX-160} y1="644" x2={CX+160} y2="644" stroke="rgba(255,255,255,0.06)" stroke-width="0.4"/>
+       <!-- METRICS STRIP centered below orbit, y=510 (orbit bottom at y=500) -->
+       <g font-family="ui-monospace,monospace" text-rendering="geometricPrecision">
+         <!-- subtle separator -->
+         <line x1={CX-160} y1="644" x2={CX+160} y2="644" stroke="rgba(255,255,255,0.06)" stroke-width="0.4"/>
 
-          <!-- 4 metrics centered at CX=330 -->
-          <text x={CX-159} y="662" text-anchor="middle" font-size="13" font-weight="700"
-            fill="rgba(255,255,255,0.72)" letter-spacing="-0.4">£168k</text>
-          <text x={CX-159} y="672" text-anchor="middle" font-size="5" fill="rgba(255,255,255,0.22)" letter-spacing="0.5">Avg. saved / client / yr</text>
+         <!-- 4 metrics centered at CX=330 -->
+         <text x={CX-159} y="662" text-anchor="middle" font-size="13" font-weight="700"
+           fill="rgba(255,255,255,0.72)" letter-spacing="-0.4">£168k</text>
+         <text x={CX-159} y="672" text-anchor="middle" font-size="5" fill="rgba(255,255,255,0.22)" letter-spacing="0.5">Avg. saved / client / yr</text>
 
-          <text x={CX-53} y="662" text-anchor="middle" font-size="13" font-weight="700"
-            fill="rgba(232,180,176,0.80)" letter-spacing="-0.4">9.2×</text>
-          <text x={CX-53} y="672" text-anchor="middle" font-size="5" fill="rgba(255,255,255,0.22)" letter-spacing="0.5">Return on investment</text>
+         <text x={CX-53} y="662" text-anchor="middle" font-size="13" font-weight="700"
+           fill="rgba(232,180,176,0.80)" letter-spacing="-0.4">9.2×</text>
+         <text x={CX-53} y="672" text-anchor="middle" font-size="5" fill="rgba(255,255,255,0.22)" letter-spacing="0.5">Return on investment</text>
 
-          <text x={CX+53} y="662" text-anchor="middle" font-size="13" font-weight="700"
-            fill="rgba(255,255,255,0.72)" letter-spacing="-0.4">Day 7</text>
-          <text x={CX+53} y="672" text-anchor="middle" font-size="5" fill="rgba(255,255,255,0.22)" letter-spacing="0.5">First ROI delivered</text>
+         <text x={CX+53} y="662" text-anchor="middle" font-size="13" font-weight="700"
+           fill="rgba(255,255,255,0.72)" letter-spacing="-0.4">Day 7</text>
+         <text x={CX+53} y="672" text-anchor="middle" font-size="5" fill="rgba(255,255,255,0.22)" letter-spacing="0.5">First ROI delivered</text>
 
-          <text x={CX+159} y="662" text-anchor="middle" font-size="13" font-weight="700"
-            fill="rgba(232,180,176,0.80)" letter-spacing="-0.4">99.97%</text>
-          <text x={CX+159} y="672" text-anchor="middle" font-size="5" fill="rgba(255,255,255,0.22)" letter-spacing="0.5">AI decision accuracy</text>
+         <text x={CX+159} y="662" text-anchor="middle" font-size="13" font-weight="700"
+           fill="rgba(232,180,176,0.80)" letter-spacing="-0.4">99.97%</text>
+         <text x={CX+159} y="672" text-anchor="middle" font-size="5" fill="rgba(255,255,255,0.22)" letter-spacing="0.5">AI decision accuracy</text>
 
-          <line x1={CX-160} y1="679" x2={CX+160} y2="679" stroke="rgba(255,255,255,0.04)" stroke-width="0.4"/>
-        </g>
+         <line x1={CX-160} y1="679" x2={CX+160} y2="679" stroke="rgba(255,255,255,0.04)" stroke-width="0.4"/>
+       </g>
 
-      </svg>
-    </div>
+     </svg>
+   </div>
 
-    <!-- RIGHT PANEL -->
-    <div class="vpanel flex flex-col gap-0 py-5 px-4 lg:py-7 lg:px-6">
+   <!-- RIGHT PANEL -->
+   <div class="vpanel flex flex-col gap-0 py-5 px-4 lg:py-7 lg:px-6">
 
-      <div class="pb-4 mb-4" style="border-bottom:1px solid rgba(255,255,255,0.06);">
-        <div class="flex items-center gap-2.5 mb-2">
-          <span class="w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-bold shrink-0"
-            style="background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.45);border:1px solid rgba(255,255,255,0.10);">01</span>
-          <p class="text-[10px] uppercase tracking-[0.18em] font-bold" style="color:rgba(255,255,255,0.50);">Collect</p>
-        </div>
-        <p class="text-[11px] leading-relaxed mb-2" style="color:rgba(255,255,255,0.28);">
-          8 live sources feed simultaneously — CRM, email, calendar, billing, payments, forms, files and analytics.
-        </p>
-        <div class="flex flex-wrap gap-1">
-          {['HubSpot','Xero','Stripe','Typeform','Gmail','Drive','GA4','Cal'].map(t => (
-            <span class="text-[8px] px-1.5 py-0.5 rounded" style="background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.26);border:1px solid rgba(255,255,255,0.07);">{t}</span>
-          ))}
-        </div>
-      </div>
+     <div class="pb-4 mb-4" style="border-bottom:1px solid rgba(255,255,255,0.06);">
+       <div class="flex items-center gap-2.5 mb-2">
+         <span class="w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-bold shrink-0"
+           style="background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.45);border:1px solid rgba(255,255,255,0.10);">01</span>
+         <p class="text-[10px] uppercase tracking-[0.18em] font-bold" style="color:rgba(255,255,255,0.50);">Collect</p>
+       </div>
+       <p class="text-[11px] leading-relaxed mb-2" style="color:rgba(255,255,255,0.28);">
+         8 live sources feed simultaneously CRM, email, calendar, billing, payments, forms, files and analytics.
+       </p>
+       <div class="flex flex-wrap gap-1">
+         {['HubSpot','Xero','Stripe','Typeform','Gmail','Drive','GA4','Cal'].map(t => (
+           <span class="text-[8px] px-1.5 py-0.5 rounded" style="background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.26);border:1px solid rgba(255,255,255,0.07);">{t}</span>
+         ))}
+       </div>
+     </div>
 
-      <div class="pb-4 mb-4" style="border-bottom:1px solid rgba(255,255,255,0.06);">
-        <div class="flex items-center gap-2.5 mb-2">
-          <span class="w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-bold shrink-0"
-            style="background:rgba(232,180,176,0.12);color:#E8B4B0;border:1px solid rgba(232,180,176,0.22);">02</span>
-          <p class="text-[10px] uppercase tracking-[0.18em] font-bold" style="color:#E8B4B0;">Process</p>
-        </div>
-        <p class="text-[11px] leading-relaxed mb-2" style="color:rgba(255,255,255,0.28);">
-          Claude Opus 4.7 reads full context, scores intent and routes through 6-node n8n pipelines in &lt;200ms.
-        </p>
-        <div class="grid grid-cols-2 gap-1.5">
-          {[{k:'329',v:'Active skills'},{k:'<200ms',v:'End-to-end'},{k:'6 nodes',v:'Pipeline depth'},{k:'99.5%',v:'Uptime SLA'}].map(s => (
-            <div class="rounded px-2 py-1.5" style="background:rgba(232,180,176,0.04);border:1px solid rgba(232,180,176,0.10);">
-              <p class="text-[11px] font-bold tabular-nums leading-none mb-0.5" style="color:#E8B4B0;">{s.k}</p>
-              <p class="text-[8px]" style="color:rgba(255,255,255,0.24);">{s.v}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+     <div class="pb-4 mb-4" style="border-bottom:1px solid rgba(255,255,255,0.06);">
+       <div class="flex items-center gap-2.5 mb-2">
+         <span class="w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-bold shrink-0"
+           style="background:rgba(232,180,176,0.12);color:#E8B4B0;border:1px solid rgba(232,180,176,0.22);">02</span>
+         <p class="text-[10px] uppercase tracking-[0.18em] font-bold" style="color:#E8B4B0;">Process</p>
+       </div>
+       <p class="text-[11px] leading-relaxed mb-2" style="color:rgba(255,255,255,0.28);">
+         Claude Opus 4.7 reads full context, scores intent and routes through 6-node n8n pipelines in &lt;200ms.
+       </p>
+       <div class="grid grid-cols-2 gap-1.5">
+         {[{k:'329',v:'Active skills'},{k:'<200ms',v:'End-to-end'},{k:'6 nodes',v:'Pipeline depth'},{k:'99.5%',v:'Uptime SLA'}].map(s => (
+           <div class="rounded px-2 py-1.5" style="background:rgba(232,180,176,0.04);border:1px solid rgba(232,180,176,0.10);">
+             <p class="text-[11px] font-bold tabular-nums leading-none mb-0.5" style="color:#E8B4B0;">{s.k}</p>
+             <p class="text-[8px]" style="color:rgba(255,255,255,0.24);">{s.v}</p>
+           </div>
+         ))}
+       </div>
+     </div>
 
-      <div class="pb-4 mb-4" style="border-bottom:1px solid rgba(255,255,255,0.06);">
-        <div class="flex items-center gap-2.5 mb-2">
-          <span class="w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-bold shrink-0"
-            style="background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.45);border:1px solid rgba(255,255,255,0.10);">03</span>
-          <p class="text-[10px] uppercase tracking-[0.18em] font-bold" style="color:rgba(255,255,255,0.50);">Deploy</p>
-        </div>
-        <p class="text-[11px] leading-relaxed mb-2" style="color:rgba(255,255,255,0.28);">
-          Notifications, CRM updates, invoices, Slack alerts, database writes — all in one atomic transaction.
-        </p>
-        <div class="flex flex-wrap gap-1">
-          {['Notify','CRM sync','Invoice','Slack','Database','API','Dashboard','PDF'].map(t => (
-            <span class="text-[8px] px-1.5 py-0.5 rounded" style="background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.26);border:1px solid rgba(255,255,255,0.07);">{t}</span>
-          ))}
-        </div>
-      </div>
+     <div class="pb-4 mb-4" style="border-bottom:1px solid rgba(255,255,255,0.06);">
+       <div class="flex items-center gap-2.5 mb-2">
+         <span class="w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-bold shrink-0"
+           style="background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.45);border:1px solid rgba(255,255,255,0.10);">03</span>
+         <p class="text-[10px] uppercase tracking-[0.18em] font-bold" style="color:rgba(255,255,255,0.50);">Deploy</p>
+       </div>
+       <p class="text-[11px] leading-relaxed mb-2" style="color:rgba(255,255,255,0.28);">
+         Notifications, CRM updates, invoices, Slack alerts, database writes all in one atomic transaction.
+       </p>
+       <div class="flex flex-wrap gap-1">
+         {['Notify','CRM sync','Invoice','Slack','Database','API','Dashboard','PDF'].map(t => (
+           <span class="text-[8px] px-1.5 py-0.5 rounded" style="background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.26);border:1px solid rgba(255,255,255,0.07);">{t}</span>
+         ))}
+       </div>
+     </div>
 
-      <!-- LIVE STATS -->
-      <div class="space-y-2">
-        <div class="flex items-center justify-between">
-          <span class="text-[8px] uppercase tracking-[0.18em] font-bold" style="color:rgba(255,255,255,0.18);">Live</span>
-          <span class="flex items-center gap-1.5">
-            <span class="vlive-dot" style="width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,0.6);display:inline-block;"/>
-            <span class="text-[8.5px] font-semibold" style="color:rgba(74,222,128,0.72);">RUNNING</span>
-          </span>
-        </div>
-        <div class="grid grid-cols-2 gap-1.5">
-          {[
-            {id:'e-tasks',v:'142,847',  l:'tasks / month',    c:'rgba(255,255,255,0.70)'},
-            {id:'e-saved',v:'£168,420', l:'saved (clients)',   c:'#E8B4B0'},
-            {id:'e-ms',   v:'186ms',    l:'avg. latency',      c:'rgba(255,255,255,0.70)'},
-            {id:'',       v:'99.5%',    l:'uptime SLA',        c:'rgba(255,255,255,0.70)'},
-          ].map(s => (
-            <div class="rounded px-2.5 py-2" style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.055);">
-              <p class="font-display text-[1rem] font-medium tabular-nums leading-none mb-0.5" style={`color:${s.c};`} id={s.id || undefined}>{s.v}</p>
-              <p class="text-[8px]" style="color:rgba(255,255,255,0.20);">{s.l}</p>
-            </div>
-          ))}
-        </div>
-        <div class="rounded p-2.5" style="background:rgba(255,255,255,0.018);border:1px solid rgba(255,255,255,0.045);">
-          <p class="text-[7px] uppercase tracking-[0.18em] font-bold mb-1.5" style="color:rgba(255,255,255,0.15);">Recent actions</p>
-          <div id="e-feed" class="space-y-1.5"></div>
-        </div>
-      </div>
+     <!-- LIVE STATS -->
+     <div class="space-y-2">
+       <div class="flex items-center justify-between">
+         <span class="text-[8px] uppercase tracking-[0.18em] font-bold" style="color:rgba(255,255,255,0.18);">Live</span>
+         <span class="flex items-center gap-1.5">
+           <span class="vlive-dot" style="width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,0.6);display:inline-block;"/>
+           <span class="text-[8.5px] font-semibold" style="color:rgba(74,222,128,0.72);">RUNNING</span>
+         </span>
+       </div>
+       <div class="grid grid-cols-2 gap-1.5">
+         {[
+           {id:'e-tasks',v:'142,847', l:'tasks / month',  c:'rgba(255,255,255,0.70)'},
+           {id:'e-saved',v:'£168,420', l:'saved (clients)', c:'#E8B4B0'},
+           {id:'e-ms', v:'186ms',  l:'avg. latency',    c:'rgba(255,255,255,0.70)'},
+           {id:'',     v:'99.5%',  l:'uptime SLA',      c:'rgba(255,255,255,0.70)'},
+         ].map(s => (
+           <div class="rounded px-2.5 py-2" style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.055);">
+             <p class="font-display text-[1rem] font-medium tabular-nums leading-none mb-0.5" style={`color:${s.c};`} id={s.id || undefined}>{s.v}</p>
+             <p class="text-[8px]" style="color:rgba(255,255,255,0.20);">{s.l}</p>
+           </div>
+         ))}
+       </div>
+       <div class="rounded p-2.5" style="background:rgba(255,255,255,0.018);border:1px solid rgba(255,255,255,0.045);">
+         <p class="text-[7px] uppercase tracking-[0.18em] font-bold mb-1.5" style="color:rgba(255,255,255,0.15);">Recent actions</p>
+         <div id="e-feed" class="space-y-1.5"></div>
+       </div>
+     </div>
 
-    </div>
-  </div>
+   </div>
+ </div>
 
-  <!-- BOTTOM STRIP -->
-  <div class="container-x py-4 lg:py-5" style="border-top:1px solid rgba(255,255,255,0.06);">
-    <div class="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-4 lg:gap-10 justify-between">
-      <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-4 lg:gap-10">
-        {[
-          {k:'n8n Certified Partner',v:'Official certification'  },
-          {k:'Claude Opus 4.7',     v:'Anthropic — latest model'},
-          {k:'5–10 day deploy',     v:'From audit to live'      },
-          {k:'312 audits',          v:'Completed to date'       },
-        ].map(s => (
-          <div>
-            <p class="text-[10px] lg:text-[10.5px] font-semibold" style="color:rgba(255,255,255,0.50);">{s.k}</p>
-            <p class="text-[9px]" style="color:rgba(255,255,255,0.20);">{s.v}</p>
-          </div>
-        ))}
-      </div>
-      <a href="/pages/welcome"
-         class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-[11px] font-semibold shrink-0"
-         style="background:rgba(232,180,176,0.10);color:#E8B4B0;border:1px solid rgba(232,180,176,0.22);"
-         onmouseover="this.style.background='rgba(232,180,176,0.18)'"
-         onmouseout="this.style.background='rgba(232,180,176,0.10)'">
-        Book your free audit
-        <svg class="w-3 h-3" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M2 7h10M8 3l4 4-4 4"/>
-        </svg>
-      </a>
-    </div>
-  </div>
+ <!-- BOTTOM STRIP -->
+ <div class="container-x py-4 lg:py-5" style="border-top:1px solid rgba(255,255,255,0.06);">
+   <div class="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-4 lg:gap-10 justify-between">
+     <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-4 lg:gap-10">
+       {[
+         {k:'n8n Certified Partner',v:'Official certification' },
+         {k:'Claude Opus 4.7',   v:'Anthropic latest model'},
+         {k:'5–10 day deploy',   v:'From audit to live'    },
+         {k:'312 audits',        v:'Completed to date'     },
+       ].map(s => (
+         <div>
+           <p class="text-[10px] lg:text-[10.5px] font-semibold" style="color:rgba(255,255,255,0.50);">{s.k}</p>
+           <p class="text-[9px]" style="color:rgba(255,255,255,0.20);">{s.v}</p>
+         </div>
+       ))}
+     </div>
+     <a href="/pages/welcome"
+        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-[11px] font-semibold shrink-0"
+        style="background:rgba(232,180,176,0.10);color:#E8B4B0;border:1px solid rgba(232,180,176,0.22);"
+        onmouseover="this.style.background='rgba(232,180,176,0.18)'"
+        onmouseout="this.style.background='rgba(232,180,176,0.10)'">
+       Book your free audit
+       <svg class="w-3 h-3" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+         <path d="M2 7h10M8 3l4 4-4 4"/>
+       </svg>
+     </a>
+   </div>
+ </div>
 
 </section>
 
 <style>
-  /* Flow lines dashoffset */
-  @keyframes vflow { from{stroke-dashoffset:0} to{stroke-dashoffset:-34} }
-  .vflow { animation:vflow 2s linear infinite; }
-  .vfd0  { animation-delay:0s; }
-  .vfd1  { animation-delay:0.5s; }
-  .vfd2  { animation-delay:1s; }
-  .vfd3  { animation-delay:1.5s; }
+ /* Flow lines dashoffset */
+ @keyframes vflow { from{stroke-dashoffset:0} to{stroke-dashoffset:-34} }
+ .vflow { animation:vflow 2s linear infinite; }
+ .vfd0 { animation-delay:0s; }
+ .vfd1 { animation-delay:0.5s; }
+ .vfd2 { animation-delay:1s; }
+ .vfd3 { animation-delay:1.5s; }
 
-  /* Live dot */
-  @keyframes vpulse { 0%,100%{opacity:.4;} 50%{opacity:1;} }
-  .vlive-dot { animation:vpulse 1.6s ease-in-out infinite; }
+ /* Live dot */
+ @keyframes vpulse { 0%,100%{opacity:.4;} 50%{opacity:1;} }
+ .vlive-dot { animation:vpulse 1.6s ease-in-out infinite; }
 
-  /* SVG container — adapts height to viewBox aspect ratio on mobile */
-  .vsvg-wrap {
-    position: relative;
-    overflow: hidden;
-    /* mobile: let SVG define height via aspect-ratio of viewBox 660×710 */
-    aspect-ratio: 660 / 710;
-    max-height: 90vw;       /* cap on small screens */
-  }
-  @media (min-width: 1024px) {
-    .vsvg-wrap {
-      aspect-ratio: unset;
-      height: clamp(500px, 62vw, 700px);
-      max-height: none;
-    }
-  }
+ /* SVG container adapts height to viewBox aspect ratio on mobile */
+ .vsvg-wrap {
+   position: relative;
+   overflow: hidden;
+   /* mobile: let SVG define height via aspect-ratio of viewBox 660×710 */
+   aspect-ratio: 660 / 710;
+   max-height: 90vw;     /* cap on small screens */
+ }
+ @media (min-width: 1024px) {
+   .vsvg-wrap {
+     aspect-ratio: unset;
+     height: clamp(500px, 62vw, 700px);
+     max-height: none;
+   }
+ }
 
-  /* Right panel border: top on mobile, left on desktop */
-  .vpanel {
-    border-top: 1px solid rgba(255,255,255,0.06);
-  }
-  @media (min-width: 1024px) {
-    .vpanel {
-      border-top: none;
-      border-left: 1px solid rgba(255,255,255,0.06);
-    }
-  }
+ /* Right panel border: top on mobile, left on desktop */
+ .vpanel {
+   border-top: 1px solid rgba(255,255,255,0.06);
+ }
+ @media (min-width: 1024px) {
+   .vpanel {
+     border-top: none;
+     border-left: 1px solid rgba(255,255,255,0.06);
+   }
+ }
 </style>
 
 <script is:inline>
 (function () {
-  var tasks = 142847, saved = 168420;
-  var iv1, iv2, iv3;
-  var started = false;
+ var tasks = 142847, saved = 168420;
+ var iv1, iv2, iv3;
+ var started = false;
 
-  var actions = [
-    {t:'CRM',      m:'Contact "J. Holloway" scored \u2014 High intent'},
-    {t:'EMAIL',    m:'Recall sent to 14 patients'                      },
-    {t:'INVOICE',  m:'\u00a31,240 invoice auto-dispatched'             },
-    {t:'SLACK',    m:'Low stock alert \u2192 #ops-channel'             },
-    {t:'BILLING',  m:'Payment \u00a3880 reconciled in Xero'            },
-    {t:'REPORT',   m:'Weekly PDF sent to 6 clients'                    },
-    {t:'CALENDAR', m:'Appointment confirmed \u2192 rescheduled'        },
-    {t:'API',      m:'Webhook delivered in 142 ms'                     },
-    {t:'DATABASE', m:'38 records indexed \u2192 search updated'        },
-    {t:'NOTIFY',   m:'SMS confirmation sent to client'                 },
-    {t:'FORMS',    m:'New lead \u2192 nurture sequence triggered'       },
-    {t:'DASHBOARD',m:'KPI board refreshed \u2014 38 metrics'           },
-  ];
+ var actions = [
+   {t:'CRM',    m:'Contact "J. Holloway" scored \u2014 High intent'},
+   {t:'EMAIL',  m:'Recall sent to 14 patients'                    },
+   {t:'INVOICE', m:'\u00a31,240 invoice auto-dispatched'           },
+   {t:'SLACK',  m:'Low stock alert \u2192 #ops-channel'           },
+   {t:'BILLING', m:'Payment \u00a3880 reconciled in Xero'          },
+   {t:'REPORT', m:'Weekly PDF sent to 6 clients'                  },
+   {t:'CALENDAR', m:'Appointment confirmed \u2192 rescheduled'      },
+   {t:'API',    m:'Webhook delivered in 142 ms'                   },
+   {t:'DATABASE', m:'38 records indexed \u2192 search updated'      },
+   {t:'NOTIFY', m:'SMS confirmation sent to client'               },
+   {t:'FORMS',  m:'New lead \u2192 nurture sequence triggered'     },
+   {t:'DASHBOARD',m:'KPI board refreshed \u2014 38 metrics'         },
+ ];
 
-  var idx = 0;
-  var feed = document.getElementById('e-feed');
+ var idx = 0;
+ var feed = document.getElementById('e-feed');
 
-  function addAction() {
-    if (!feed) return;
-    var a = actions[idx++ % actions.length];
-    var el = document.createElement('div');
-    el.style.cssText = 'display:flex;align-items:baseline;gap:6px;opacity:0;transition:opacity 0.32s;';
-    el.innerHTML =
-      '<span style="font-size:7px;font-weight:700;font-family:ui-monospace,monospace;' +
-      'color:rgba(232,180,176,0.58);white-space:nowrap;flex-shrink:0;">' + a.t + '</span>' +
-      '<span style="font-size:9px;color:rgba(255,255,255,0.50);overflow:hidden;' +
-      'text-overflow:ellipsis;white-space:nowrap;">' + a.m + '</span>';
-    feed.insertBefore(el, feed.firstChild);
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () { el.style.opacity = '1'; });
-    });
-    while (feed.children.length > 4) {
-      var last = feed.lastChild;
-      if (last) feed.removeChild(last);
-    }
-  }
+ function addAction() {
+   if (!feed) return;
+   var a = actions[idx++ % actions.length];
+   var el = document.createElement('div');
+   el.style.cssText = 'display:flex;align-items:baseline;gap:6px;opacity:0;transition:opacity 0.32s;';
+   el.innerHTML =
+     '<span style="font-size:7px;font-weight:700;font-family:ui-monospace,monospace;' +
+     'color:rgba(232,180,176,0.58);white-space:nowrap;flex-shrink:0;">' + a.t + '</span>' +
+     '<span style="font-size:9px;color:rgba(255,255,255,0.50);overflow:hidden;' +
+     'text-overflow:ellipsis;white-space:nowrap;">' + a.m + '</span>';
+   feed.insertBefore(el, feed.firstChild);
+   requestAnimationFrame(function () {
+     requestAnimationFrame(function () { el.style.opacity = '1'; });
+   });
+   while (feed.children.length > 4) {
+     var last = feed.lastChild;
+     if (last) feed.removeChild(last);
+   }
+ }
 
-  function startIntervals() {
-    if (started) return;
-    started = true;
-    addAction();
-    iv1 = setInterval(function () {
-      tasks += Math.floor(Math.random() * 3) + 1;
-      saved += Math.floor(Math.random() * 9) + 3;
-      var t = document.getElementById('e-tasks'), s = document.getElementById('e-saved');
-      if (t) t.textContent = tasks.toLocaleString('en-GB');
-      if (s) s.textContent = '\u00a3' + saved.toLocaleString('en-GB');
-    }, 440);
-    iv2 = setInterval(function () {
-      var el = document.getElementById('e-ms');
-      if (el) el.textContent = (172 + Math.floor(Math.random() * 26)) + 'ms';
-    }, 950);
-    iv3 = setInterval(addAction, 2200);
-  }
+ function startIntervals() {
+   if (started) return;
+   started = true;
+   addAction();
+   iv1 = setInterval(function () {
+     tasks += Math.floor(Math.random() * 3) + 1;
+     saved += Math.floor(Math.random() * 9) + 3;
+     var t = document.getElementById('e-tasks'), s = document.getElementById('e-saved');
+     if (t) t.textContent = tasks.toLocaleString('en-GB');
+     if (s) s.textContent = '\u00a3' + saved.toLocaleString('en-GB');
+   }, 440);
+   iv2 = setInterval(function () {
+     var el = document.getElementById('e-ms');
+     if (el) el.textContent = (172 + Math.floor(Math.random() * 26)) + 'ms';
+   }, 950);
+   iv3 = setInterval(addAction, 2200);
+ }
 
-  function stopIntervals() {
-    clearInterval(iv1); clearInterval(iv2); clearInterval(iv3);
-    started = false;
-  }
+ function stopIntervals() {
+   clearInterval(iv1); clearInterval(iv2); clearInterval(iv3);
+   started = false;
+ }
 
-  // Start only when section enters viewport, pause when it leaves
-  var section = document.getElementById('e-feed') && document.getElementById('e-feed').closest('section');
-  if (section && 'IntersectionObserver' in window) {
-    var obs = new IntersectionObserver(function (entries) {
-      entries[0].isIntersecting ? startIntervals() : stopIntervals();
-    }, { threshold: 0.1 });
-    obs.observe(section);
-  } else {
-    startIntervals();
-  }
+ // Start only when section enters viewport, pause when it leaves
+ var section = document.getElementById('e-feed') && document.getElementById('e-feed').closest('section');
+ if (section && 'IntersectionObserver' in window) {
+   var obs = new IntersectionObserver(function (entries) {
+     entries[0].isIntersecting ? startIntervals() : stopIntervals();
+   }, { threshold: 0.1 });
+   obs.observe(section);
+ } else {
+   startIntervals();
+ }
 
-  // Cleanup on ViewTransitions navigation
-  document.addEventListener('astro:before-swap', stopIntervals);
+ // Cleanup on ViewTransitions navigation
+ document.addEventListener('astro:before-swap', stopIntervals);
 })();
 </script>

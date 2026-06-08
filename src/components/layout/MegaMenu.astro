@@ -1,79 +1,79 @@
 ---
 const columns = [
-  {
-    title: 'Services',
-    links: [
-      { name: 'Automation Pro', href: '/products/foundation-pro' },
-      { name: 'AI Agent Deploy', href: '/products/longevity-protocol' },
-      { name: 'The Full Stack', href: '/products/founder-stack' },
-      { name: 'All services', href: '/collections/all' },
-    ],
-  },
-  {
-    title: 'Learn',
-    links: [
-      { name: 'How it works', href: '/pages/science' },
-      { name: 'Industries', href: '/pages/ingredients' },
-      { name: 'Reliability & monitoring', href: '/pages/quality' },
-      { name: 'Client stories', href: '/pages/wall-of-health' },
-    ],
-  },
-  {
-    title: 'Compare',
-    links: [
-      { name: 'PURIST vs DIY automation', href: '/pages/purist-vs-green-powders' },
-      { name: 'PURIST vs hiring in-house', href: '/pages/purist-vs-multivitamins' },
-      { name: 'PURIST vs other agencies', href: '/pages/purist-vs-meal-replacements' },
-    ],
-  },
+ {
+   title: 'Services',
+   links: [
+     { name: 'Automation Pro', href: '/products/foundation-pro' },
+     { name: 'AI Agent Deploy', href: '/products/longevity-protocol' },
+     { name: 'The Full Stack', href: '/products/founder-stack' },
+     { name: 'All services', href: '/collections/all' },
+   ],
+ },
+ {
+   title: 'Learn',
+   links: [
+     { name: 'How it works', href: '/pages/science' },
+     { name: 'Industries', href: '/pages/ingredients' },
+     { name: 'Reliability & monitoring', href: '/pages/quality' },
+     { name: 'Client stories', href: '/pages/wall-of-health' },
+   ],
+ },
+ {
+   title: 'Compare',
+   links: [
+     { name: 'PURIST vs DIY automation', href: '/pages/purist-vs-green-powders' },
+     { name: 'PURIST vs hiring in-house', href: '/pages/purist-vs-multivitamins' },
+     { name: 'PURIST vs other agencies', href: '/pages/purist-vs-meal-replacements' },
+   ],
+ },
 ];
 ---
 
 <!--
-  Positioned FIXED to the viewport (below the 64px header), not absolute to the
-  tiny nav link wrapper. bg-white now covers the full width of the screen.
-  Visibility is controlled by the parent `group` (the Shop link wrapper in Header.astro).
+ Positioned FIXED to the viewport (below the 64px header), not absolute to the
+ tiny nav link wrapper. bg-white now covers the full width of the screen.
+ Visibility is controlled by the parent `group` (the Shop link wrapper in Header.astro).
 -->
 <div
-  class="fixed left-0 right-0 top-16 hidden group-hover:block group-focus-within:block bg-white shadow-xl z-40 border-t border-brand-gray-200"
+ class="fixed left-0 right-0 top-16 hidden group-hover:block group-focus-within:block bg-white shadow-xl z-40 border-t border-brand-gray-200"
 >
-  <div class="container-x grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 py-10 lg:py-12">
-    {columns.map((col) => (
-      <div class="lg:col-span-3">
-        <p class="eyebrow mb-5">{col.title}</p>
-        <ul class="space-y-3">
-          {col.links.map((l) => (
-            <li>
-              <a
-                href={l.href}
-                class="text-[15px] whitespace-nowrap hover:opacity-60 transition leading-none inline-block"
-              >
-                {l.name}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    ))}
+ <div class="container-x grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 py-10 lg:py-12">
+   {columns.map((col) => (
+     <div class="lg:col-span-3">
+       <p class="eyebrow mb-5">{col.title}</p>
+       <ul class="space-y-3">
+         {col.links.map((l) => (
+           <li>
+             <a
+               href={l.href}
+               class="text-[15px] whitespace-nowrap hover:opacity-60 transition leading-none inline-block"
+             >
+               {l.name}
+             </a>
+           </li>
+         ))}
+       </ul>
+     </div>
+   ))}
 
-    <a
-      href="/products/founder-stack"
-      class="lg:col-span-3 group/card flex flex-col bg-brand-cream rounded-card p-5 hover:bg-brand-beige transition"
-    >
-      <span class="inline-flex self-start bg-brand-black text-white text-[10px] tracking-wider uppercase px-2 py-0.5 rounded mb-3">
-        Popular
-      </span>
-      <img
-        src="/images/products/foundation-pro-1.svg"
-        alt="The Full Stack automation service"
-        class="w-full aspect-[4/3] rounded-image object-cover mb-4 bg-brand-cream"
-        loading="lazy"
-      />
-      <h3 class="font-display text-lg mb-1 leading-tight whitespace-nowrap">The Full Stack</h3>
-      <p class="text-xs text-brand-gray-600 mb-3 leading-relaxed">
-        Complete workflow automation, AI agents, and 24/7 monitoring in one plan.
-      </p>
-      <span class="text-xs font-medium underline underline-offset-4 mt-auto">Learn more →</span>
-    </a>
-  </div>
+   <a
+     href="/products/founder-stack"
+     class="lg:col-span-3 group/card flex flex-col bg-brand-cream rounded-card p-5 hover:bg-brand-beige transition"
+   >
+     <span class="inline-flex self-start bg-brand-black text-white text-[10px] tracking-wider uppercase px-2 py-0.5 rounded mb-3">
+       Popular
+     </span>
+     <img
+       src="/images/products/foundation-pro-1.svg"
+       alt="The Full Stack automation service"
+       class="w-full aspect-[4/3] rounded-image object-cover mb-4 bg-brand-cream"
+       loading="lazy"
+     />
+     <h3 class="font-display text-lg mb-1 leading-tight whitespace-nowrap">The Full Stack</h3>
+     <p class="text-xs text-brand-gray-600 mb-3 leading-relaxed">
+       Complete workflow automation, AI agents, and 24/7 monitoring in one plan.
+     </p>
+     <span class="text-xs font-medium underline underline-offset-4 mt-auto">Learn more →</span>
+   </a>
+ </div>
 </div>

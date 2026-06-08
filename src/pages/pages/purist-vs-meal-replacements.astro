@@ -6,214 +6,214 @@ const PINK_DARK = '#c4847e';
 const PINK_BG = 'rgba(232,180,176,0.09)';
 
 const rows = [
-  { feature: 'Time to first result',  purist: '< 7 days',              other: '3–6 months onboarding' },
-  { feature: 'Monthly cost',          purist: 'From £797/mo',           other: '£4,000–£8,000/mo salary' },
-  { feature: 'Workflows delivered',   purist: '12+ in month one',       other: '1–2 depending on scope' },
-  { feature: 'Availability',          purist: '24/7 automated',         other: '40h/week, holidays, sick days' },
-  { feature: 'Knowledge retained',    purist: '100% — code you own',    other: 'Leaves with the employee' },
-  { feature: 'Scales instantly',      purist: 'Yes — unlimited',        other: 'Hire again' },
-  { feature: 'AI capabilities',       purist: 'Claude Opus built-in',   other: 'Depends on individual' },
-  { feature: 'Error monitoring',      purist: '24/7 — 90s alert',       other: 'Only when at desk' },
-  { feature: 'Guarantee',             purist: '30-day money back',      other: 'Probation period only' },
-  { feature: 'Risk if it fails',      purist: 'Full refund',            other: 'Redundancy cost + time lost' },
+ { feature: 'Time to first result', purist: '< 7 days',            other: '3–6 months onboarding' },
+ { feature: 'Monthly cost',        purist: 'From £797/mo',         other: '£4,000–£8,000/mo salary' },
+ { feature: 'Workflows delivered', purist: '12+ in month one',     other: '1–2 depending on scope' },
+ { feature: 'Availability',        purist: '24/7 automated',       other: '40h/week, holidays, sick days' },
+ { feature: 'Knowledge retained',  purist: '100% code you own',  other: 'Leaves with the employee' },
+ { feature: 'Scales instantly',    purist: 'Yes unlimited',      other: 'Hire again' },
+ { feature: 'AI capabilities',     purist: 'Claude Opus built-in', other: 'Depends on individual' },
+ { feature: 'Error monitoring',    purist: '24/7 90s alert',     other: 'Only when at desk' },
+ { feature: 'Guarantee',           purist: '30-day money back',    other: 'Probation period only' },
+ { feature: 'Risk if it fails',    purist: 'Full refund',          other: 'Redundancy cost + time lost' },
 ];
 
 const faqs = [
-  {
-    q: 'What does an automation developer actually cost in the UK?',
-    a: 'A mid-level automation developer in London earns £45,000–£65,000 base salary. Add employer NI (13.8%), pension contributions (3–5%), equipment, benefits, and management overhead, and the fully-loaded annual cost reaches £55,000–£80,000. That is £4,600–£6,700/month for a single person who covers your automation needs only during working hours, only when not sick or on leave, and only until they find a better offer.'
-  },
-  {
-    q: 'What does PURIST cost compared to hiring?',
-    a: 'PURIST\'s Full Stack plan — which includes both Automation Pro (9 production workflows) and AI Agent Deploy (4 AI capabilities) — starts at £1,197/month. That is roughly one-sixth the cost of a mid-level hire, with deployment in under 7 days, 24/7 monitoring, a 30-day money-back guarantee, and no knowledge risk if the relationship ends.'
-  },
-  {
-    q: 'What happens to our automations if we stop working with PURIST?',
-    a: 'You own everything PURIST builds. All workflows are deployed on your infrastructure, documented, and version-controlled. If you stop working with PURIST tomorrow, every automation continues running exactly as before. You can hand the code to any developer, modify it yourself, or simply let it run. There is no lock-in, no data extraction process, and no workflow rebuilding required.'
-  },
-  {
-    q: 'Can PURIST do everything an in-house developer could?',
-    a: 'PURIST focuses specifically on workflow automation and AI agent deployment. For teams that need custom application development, mobile apps, or deep backend engineering, an in-house developer is the right choice. For operations automation — the work that accounts for 60–80% of what most businesses hire their first developer to do — PURIST delivers faster, cheaper, and with better reliability than a single hire.'
-  },
-  {
-    q: 'How does PURIST handle our specific business logic?',
-    a: 'Every PURIST engagement starts with an audit call where we map your exact processes, business rules, and edge cases. Unlike a SaaS automation tool with fixed templates, every workflow is built to your specification from scratch. Complex branching logic, multi-system data flows, custom validation rules — these are standard, not premium add-ons.'
-  },
-  {
-    q: 'What industries does PURIST specialise in?',
-    a: 'PURIST has completed 500+ production deployments across dental and healthcare practices, real estate and property management agencies, marketing and creative agencies, DTC e-commerce businesses, commercial law firms, and staffing and recruitment agencies. Each industry has specific compliance, data, and workflow requirements that we understand deeply.'
-  },
+ {
+   q: 'What does an automation developer actually cost in the UK?',
+   a: 'A mid-level automation developer in London earns £45,000–£65,000 base salary. Add employer NI (13.8%), pension contributions (3–5%), equipment, benefits, and management overhead, and the fully-loaded annual cost reaches £55,000–£80,000. That is £4,600–£6,700/month for a single person who covers your automation needs only during working hours, only when not sick or on leave, and only until they find a better offer.'
+ },
+ {
+   q: 'What does PURIST cost compared to hiring?',
+   a: 'PURIST\'s Full Stack plan which includes both Automation Pro (9 production workflows) and AI Agent Deploy (4 AI capabilities) starts at £1,197/month. That is roughly one-sixth the cost of a mid-level hire, with deployment in under 7 days, 24/7 monitoring, a 30-day money-back guarantee, and no knowledge risk if the relationship ends.'
+ },
+ {
+   q: 'What happens to our automations if we stop working with PURIST?',
+   a: 'You own everything PURIST builds. All workflows are deployed on your infrastructure, documented, and version-controlled. If you stop working with PURIST tomorrow, every automation continues running exactly as before. You can hand the code to any developer, modify it yourself, or simply let it run. There is no lock-in, no data extraction process, and no workflow rebuilding required.'
+ },
+ {
+   q: 'Can PURIST do everything an in-house developer could?',
+   a: 'PURIST focuses specifically on workflow automation and AI agent deployment. For teams that need custom application development, mobile apps, or deep backend engineering, an in-house developer is the right choice. For operations automation the work that accounts for 60–80% of what most businesses hire their first developer to do PURIST delivers faster, cheaper, and with better reliability than a single hire.'
+ },
+ {
+   q: 'How does PURIST handle our specific business logic?',
+   a: 'Every PURIST engagement starts with an audit call where we map your exact processes, business rules, and edge cases. Unlike a SaaS automation tool with fixed templates, every workflow is built to your specification from scratch. Complex branching logic, multi-system data flows, custom validation rules these are standard, not premium add-ons.'
+ },
+ {
+   q: 'What industries does PURIST specialise in?',
+   a: 'PURIST has completed 500+ production deployments across dental and healthcare practices, real estate and property management agencies, marketing and creative agencies, DTC e-commerce businesses, commercial law firms, and staffing and recruitment agencies. Each industry has specific compliance, data, and workflow requirements that we understand deeply.'
+ },
 ];
 
 const pageUrl = 'https://purist.online/pages/purist-vs-meal-replacements';
 ---
 
 <ShopLayout
-  title="PURIST vs Hiring In-House — The Real Cost Comparison | PURIST Automation"
-  description="Compare hiring an automation developer vs deploying PURIST. 6x cheaper, faster results, 24/7 availability and no knowledge risk when someone leaves."
-  canonical={pageUrl}
+ title="PURIST vs Hiring In-House The Real Cost Comparison | PURIST Automation"
+ description="Compare hiring an automation developer vs deploying PURIST. 6x cheaper, faster results, 24/7 availability and no knowledge risk when someone leaves."
+ canonical={pageUrl}
 >
-  <!-- Breadcrumb -->
-  <nav aria-label="Breadcrumb" class="container-x py-4 text-xs text-brand-gray-600">
-    <ol class="flex items-center gap-1.5 flex-wrap">
-      <li><a href="/" class="hover:text-brand-black transition">Home</a></li>
-      <li aria-hidden="true">/</li>
-      <li><a href="/collections/all" class="hover:text-brand-black transition">Services</a></li>
-      <li aria-hidden="true">/</li>
-      <li class="text-brand-black">PURIST vs Hiring In-House</li>
-    </ol>
-  </nav>
+ <!-- Breadcrumb -->
+ <nav aria-label="Breadcrumb" class="container-x py-4 text-xs text-brand-gray-600">
+   <ol class="flex items-center gap-1.5 flex-wrap">
+     <li><a href="/" class="hover:text-brand-black transition">Home</a></li>
+     <li aria-hidden="true">/</li>
+     <li><a href="/collections/all" class="hover:text-brand-black transition">Services</a></li>
+     <li aria-hidden="true">/</li>
+     <li class="text-brand-black">PURIST vs Hiring In-House</li>
+   </ol>
+ </nav>
 
-  <!-- Hero -->
-  <header class="py-16 lg:py-24" style="background:#0A0A0A;">
-    <div class="container-x max-w-4xl mx-auto text-center">
-      <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-4" style={`color:${PINK_DARK};`}>Comparison</p>
-      <h1 class="font-display text-3xl lg:text-5xl text-white mb-5 leading-tight tracking-tight">PURIST vs Hiring In-House</h1>
-      <p class="text-base lg:text-lg max-w-2xl mx-auto mb-8 leading-relaxed" style="color:rgba(255,255,255,0.5);">
-        An automation developer costs £50–90k/year and delivers 1–2 workflows per month after a long onboarding. PURIST delivers 12+ workflows in under a week, at a fraction of the cost.
-      </p>
-      <div class="flex flex-wrap gap-4 justify-center">
-        <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-brand-black transition" style={`background:${PINK};`}>Book free audit →</a>
-        <a href="/collections/all" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm border border-gray-700 text-gray-300 hover:border-gray-500 transition">View plans</a>
-      </div>
-    </div>
-  </header>
+ <!-- Hero -->
+ <header class="py-16 lg:py-24" style="background:#0A0A0A;">
+   <div class="container-x max-w-4xl mx-auto text-center">
+     <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-4" style={`color:${PINK_DARK};`}>Comparison</p>
+     <h1 class="font-display text-3xl lg:text-5xl text-white mb-5 leading-tight tracking-tight">PURIST vs Hiring In-House</h1>
+     <p class="text-base lg:text-lg max-w-2xl mx-auto mb-8 leading-relaxed" style="color:rgba(255,255,255,0.5);">
+       An automation developer costs £50–90k/year and delivers 1–2 workflows per month after a long onboarding. PURIST delivers 12+ workflows in under a week, at a fraction of the cost.
+     </p>
+     <div class="flex flex-wrap gap-4 justify-center">
+       <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-brand-black transition" style={`background:${PINK};`}>Book free audit →</a>
+       <a href="/collections/all" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm border border-gray-700 text-gray-300 hover:border-gray-500 transition">View plans</a>
+     </div>
+   </div>
+ </header>
 
-  <!-- Comparison table -->
-  <section class="container-x max-w-4xl mx-auto py-14 lg:py-20">
+ <!-- Comparison table -->
+ <section class="container-x max-w-4xl mx-auto py-14 lg:py-20">
 
-    <div class="overflow-x-auto rounded-2xl border border-brand-gray-100 mb-14">
-      <table class="w-full text-sm">
-        <thead>
-          <tr class="border-b border-brand-gray-100 bg-brand-gray-50">
-            <th class="text-left px-5 py-4 font-semibold text-brand-gray-700 w-1/3">Factor</th>
-            <th class="text-center px-5 py-4 font-bold" style={`color:${PINK_DARK};`}>PURIST</th>
-            <th class="text-center px-5 py-4 font-semibold text-brand-gray-400">In-house hire</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-brand-gray-100">
-          {rows.map(r => (
-            <tr class="hover:bg-brand-gray-50 transition">
-              <td class="px-5 py-3.5 text-brand-gray-600 font-medium">{r.feature}</td>
-              <td class="px-5 py-3.5 text-center font-semibold text-brand-black">{r.purist}</td>
-              <td class="px-5 py-3.5 text-center text-brand-gray-400">{r.other}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+   <div class="overflow-x-auto rounded-2xl border border-brand-gray-100 mb-14">
+     <table class="w-full text-sm">
+       <thead>
+         <tr class="border-b border-brand-gray-100 bg-brand-gray-50">
+           <th class="text-left px-5 py-4 font-semibold text-brand-gray-700 w-1/3">Factor</th>
+           <th class="text-center px-5 py-4 font-bold" style={`color:${PINK_DARK};`}>PURIST</th>
+           <th class="text-center px-5 py-4 font-semibold text-brand-gray-400">In-house hire</th>
+         </tr>
+       </thead>
+       <tbody class="divide-y divide-brand-gray-100">
+         {rows.map(r => (
+           <tr class="hover:bg-brand-gray-50 transition">
+             <td class="px-5 py-3.5 text-brand-gray-600 font-medium">{r.feature}</td>
+             <td class="px-5 py-3.5 text-center font-semibold text-brand-black">{r.purist}</td>
+             <td class="px-5 py-3.5 text-center text-brand-gray-400">{r.other}</td>
+           </tr>
+         ))}
+       </tbody>
+     </table>
+   </div>
 
-    <!-- Stats -->
-    <div class="grid sm:grid-cols-3 gap-6 mb-14">
-      {[
-        { value: '6×',    label: 'Cheaper than a hire',   desc: 'PURIST Full Stack at £1,197/mo vs a mid-level automation dev at £72k/year fully loaded.' },
-        { value: '12+',   label: 'Workflows in month one', desc: 'A new hire spends months onboarding. PURIST is live in under 7 days.' },
-        { value: '100%',  label: 'Knowledge retained',    desc: 'Every workflow lives in your infrastructure. No knowledge walks out the door.' },
-      ].map(s => (
-        <div class="rounded-2xl border border-brand-gray-100 p-6 text-center">
-          <p class="font-display text-3xl mb-1" style={`color:${PINK_DARK};`}>{s.value}</p>
-          <p class="text-sm font-semibold text-brand-black mb-2">{s.label}</p>
-          <p class="text-xs text-brand-gray-600 leading-relaxed">{s.desc}</p>
-        </div>
-      ))}
-    </div>
+   <!-- Stats -->
+   <div class="grid sm:grid-cols-3 gap-6 mb-14">
+     {[
+       { value: '6×',  label: 'Cheaper than a hire', desc: 'PURIST Full Stack at £1,197/mo vs a mid-level automation dev at £72k/year fully loaded.' },
+       { value: '12+', label: 'Workflows in month one', desc: 'A new hire spends months onboarding. PURIST is live in under 7 days.' },
+       { value: '100%', label: 'Knowledge retained',  desc: 'Every workflow lives in your infrastructure. No knowledge walks out the door.' },
+     ].map(s => (
+       <div class="rounded-2xl border border-brand-gray-100 p-6 text-center">
+         <p class="font-display text-3xl mb-1" style={`color:${PINK_DARK};`}>{s.value}</p>
+         <p class="text-sm font-semibold text-brand-black mb-2">{s.label}</p>
+         <p class="text-xs text-brand-gray-600 leading-relaxed">{s.desc}</p>
+       </div>
+     ))}
+   </div>
 
-    <!-- The hidden costs of hiring -->
-    <div class="prose max-w-none mb-14">
-      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-5 tracking-tight">The hidden costs of hiring an automation developer</h2>
-      <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-4">
-        When a business decides to hire an automation developer, the salary figure on the job posting understates the true cost by 40–60%. The fully-loaded cost of a UK-based mid-level developer includes employer National Insurance contributions (13.8% on earnings above £9,100), pension contributions (3–5%), equipment and software licences (£3,000–5,000/year), benefits (healthcare, gym, etc.), recruitment fees (15–20% of salary if using an agency), and management overhead.
-      </p>
-      <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-4">
-        A developer earning £55,000 costs the business approximately £70,000–78,000 per year in fully-loaded terms. At that cost, they are available 40 hours per week during business hours, excluding holidays (28 days statutory minimum), sick leave (average 4.6 days/year in the UK), and the inevitable weeks of reduced productivity during onboarding.
-      </p>
-      <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-4">
-        Even a productive automation developer builds 1–3 new workflows per month once ramped. PURIST deploys 9+ workflows in under 7 days — then maintains them indefinitely.
-      </p>
+   <!-- The hidden costs of hiring -->
+   <div class="prose max-w-none mb-14">
+     <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-5 tracking-tight">The hidden costs of hiring an automation developer</h2>
+     <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-4">
+       When a business decides to hire an automation developer, the salary figure on the job posting understates the true cost by 40–60%. The fully-loaded cost of a UK-based mid-level developer includes employer National Insurance contributions (13.8% on earnings above £9,100), pension contributions (3–5%), equipment and software licences (£3,000–5,000/year), benefits (healthcare, gym, etc.), recruitment fees (15–20% of salary if using an agency), and management overhead.
+     </p>
+     <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-4">
+       A developer earning £55,000 costs the business approximately £70,000–78,000 per year in fully-loaded terms. At that cost, they are available 40 hours per week during business hours, excluding holidays (28 days statutory minimum), sick leave (average 4.6 days/year in the UK), and the inevitable weeks of reduced productivity during onboarding.
+     </p>
+     <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-4">
+       Even a productive automation developer builds 1–3 new workflows per month once ramped. PURIST deploys 9+ workflows in under 7 days then maintains them indefinitely.
+     </p>
 
-      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-5 tracking-tight">The knowledge problem</h2>
-      <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-4">
-        The most underestimated risk of in-house automation is knowledge concentration. When your automation developer leaves — and average developer tenure in the UK is 2.4 years — they take their understanding of your workflows with them. If the automation was poorly documented (most is), the business is left with running code that nobody fully understands and cannot safely modify.
-      </p>
-      <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-8">
-        PURIST treats documentation as a first-class deliverable. Every workflow includes a technical specification, business context notes, error handling documentation, and a runbook for common failure modes. If PURIST disappeared tomorrow, your team could hand the code to any developer and they could understand, maintain, and extend it within hours.
-      </p>
+     <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-5 tracking-tight">The knowledge problem</h2>
+     <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-4">
+       The most underestimated risk of in-house automation is knowledge concentration. When your automation developer leaves and average developer tenure in the UK is 2.4 years they take their understanding of your workflows with them. If the automation was poorly documented (most is), the business is left with running code that nobody fully understands and cannot safely modify.
+     </p>
+     <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-8">
+       PURIST treats documentation as a first-class deliverable. Every workflow includes a technical specification, business context notes, error handling documentation, and a runbook for common failure modes. If PURIST disappeared tomorrow, your team could hand the code to any developer and they could understand, maintain, and extend it within hours.
+     </p>
 
-      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-5 tracking-tight">When in-house is the right answer</h2>
-      <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-4">
-        PURIST is not the right choice for every business. Hiring in-house makes sense when: you need custom application development beyond automation, your workflows require deep integration with proprietary internal systems that resist external access, you have security requirements that prevent any external engineering engagement, or you are at a scale where a full internal automation team (3+ engineers) delivers better cost efficiency than managed services.
-      </p>
-      <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-4">
-        For most businesses under 200 employees, PURIST delivers better automation outcomes than an in-house hire — faster, cheaper, and with lower risk.
-      </p>
-    </div>
+     <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-5 tracking-tight">When in-house is the right answer</h2>
+     <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-4">
+       PURIST is not the right choice for every business. Hiring in-house makes sense when: you need custom application development beyond automation, your workflows require deep integration with proprietary internal systems that resist external access, you have security requirements that prevent any external engineering engagement, or you are at a scale where a full internal automation team (3+ engineers) delivers better cost efficiency than managed services.
+     </p>
+     <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-4">
+       For most businesses under 200 employees, PURIST delivers better automation outcomes than an in-house hire faster, cheaper, and with lower risk.
+     </p>
+   </div>
 
-    <!-- ROI CTA -->
-    <div class="rounded-2xl p-8 text-center mb-14" style={`background:${PINK_BG};border:1px solid rgba(196,132,126,0.20);`}>
-      <h2 class="font-display text-xl text-brand-black mb-3">Get a free ROI comparison for your business.</h2>
-      <p class="text-sm text-brand-gray-600 mb-6 max-w-lg mx-auto">In 60 minutes we calculate the exact cost of hiring vs deploying PURIST for your specific processes — and show you which automations to start with.</p>
-      <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style={`background:${PINK_DARK};`}>Book your free audit →</a>
-    </div>
+   <!-- ROI CTA -->
+   <div class="rounded-2xl p-8 text-center mb-14" style={`background:${PINK_BG};border:1px solid rgba(196,132,126,0.20);`}>
+     <h2 class="font-display text-xl text-brand-black mb-3">Get a free ROI comparison for your business.</h2>
+     <p class="text-sm text-brand-gray-600 mb-6 max-w-lg mx-auto">In 60 minutes we calculate the exact cost of hiring vs deploying PURIST for your specific processes and show you which automations to start with.</p>
+     <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style={`background:${PINK_DARK};`}>Book your free audit →</a>
+   </div>
 
-    <!-- FAQ -->
-    <div>
-      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-8 tracking-tight">Frequently asked questions</h2>
-      <div class="divide-y divide-brand-gray-100 border-y border-brand-gray-100">
-        {faqs.map(faq => (
-          <details class="group py-5">
-            <summary class="flex items-start justify-between gap-4 cursor-pointer list-none">
-              <h3 class="text-sm font-semibold text-brand-black leading-snug">{faq.q}</h3>
-              <svg class="w-4 h-4 shrink-0 mt-0.5 transition-transform group-open:rotate-45 text-brand-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-            </summary>
-            <p class="text-sm text-brand-gray-600 leading-relaxed mt-3 pr-8">{faq.a}</p>
-          </details>
-        ))}
-      </div>
-    </div>
-  </section>
+   <!-- FAQ -->
+   <div>
+     <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-8 tracking-tight">Frequently asked questions</h2>
+     <div class="divide-y divide-brand-gray-100 border-y border-brand-gray-100">
+       {faqs.map(faq => (
+         <details class="group py-5">
+           <summary class="flex items-start justify-between gap-4 cursor-pointer list-none">
+             <h3 class="text-sm font-semibold text-brand-black leading-snug">{faq.q}</h3>
+             <svg class="w-4 h-4 shrink-0 mt-0.5 transition-transform group-open:rotate-45 text-brand-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+           </summary>
+           <p class="text-sm text-brand-gray-600 leading-relaxed mt-3 pr-8">{faq.a}</p>
+         </details>
+       ))}
+     </div>
+   </div>
+ </section>
 
-  <!-- Related articles -->
-  <section class="bg-brand-cream py-14 border-t border-brand-gray-100">
-    <div class="container-x max-w-4xl mx-auto">
-      <p class="eyebrow mb-3">Related reading</p>
-      <h2 class="font-display text-2xl mb-8">Make a confident decision</h2>
-      <div class="grid sm:grid-cols-3 gap-4">
-        {[
-          { href: '/pages/blog/automation-consultant-vs-diy-how-to-decide-2026', label: 'Automation Consultant vs DIY: How to Decide', cat: 'Strategy' },
-          { href: '/pages/blog/calculating-automation-roi-the-honest-guide', label: 'Calculating Automation ROI', cat: 'ROI' },
-          { href: '/pages/blog/scaling-without-hiring-the-automation-playbook', label: 'Scaling Without Hiring: The Playbook', cat: 'Operations' },
-        ].map(l => (
-          <a href={l.href} class="group bg-white border border-brand-gray-100 rounded-2xl p-4 hover:border-brand-gray-300 transition-colors">
-            <p class="text-[9px] uppercase tracking-wider text-brand-rust font-semibold mb-2">{l.cat}</p>
-            <p class="text-sm font-semibold text-brand-black leading-snug group-hover:opacity-70 transition">{l.label} →</p>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
+ <!-- Related articles -->
+ <section class="bg-brand-cream py-14 border-t border-brand-gray-100">
+   <div class="container-x max-w-4xl mx-auto">
+     <p class="eyebrow mb-3">Related reading</p>
+     <h2 class="font-display text-2xl mb-8">Make a confident decision</h2>
+     <div class="grid sm:grid-cols-3 gap-4">
+       {[
+         { href: '/pages/blog/automation-consultant-vs-diy-how-to-decide-2026', label: 'Automation Consultant vs DIY: How to Decide', cat: 'Strategy' },
+         { href: '/pages/blog/calculating-automation-roi-the-honest-guide', label: 'Calculating Automation ROI', cat: 'ROI' },
+         { href: '/pages/blog/scaling-without-hiring-the-automation-playbook', label: 'Scaling Without Hiring: The Playbook', cat: 'Operations' },
+       ].map(l => (
+         <a href={l.href} class="group bg-white border border-brand-gray-100 rounded-2xl p-4 hover:border-brand-gray-300 transition-colors">
+           <p class="text-[9px] uppercase tracking-wider text-brand-rust font-semibold mb-2">{l.cat}</p>
+           <p class="text-sm font-semibold text-brand-black leading-snug group-hover:opacity-70 transition">{l.label} →</p>
+         </a>
+       ))}
+     </div>
+   </div>
+ </section>
 
-  <!-- JSON-LD -->
-  <script type="application/ld+json" is:inline set:html={JSON.stringify({
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://purist.online' },
-          { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://purist.online/collections/all' },
-          { '@type': 'ListItem', position: 3, name: 'PURIST vs Hiring In-House', item: pageUrl },
-        ],
-      },
-      {
-        '@type': 'FAQPage',
-        '@id': `${pageUrl}#faq`,
-        mainEntity: faqs.map(faq => ({
-          '@type': 'Question',
-          name: faq.q,
-          acceptedAnswer: { '@type': 'Answer', text: faq.a },
-        })),
-      },
-    ],
-  })}/>
+ <!-- JSON-LD -->
+ <script type="application/ld+json" is:inline set:html={JSON.stringify({
+   '@context': 'https://schema.org',
+   '@graph': [
+     {
+       '@type': 'BreadcrumbList',
+       itemListElement: [
+         { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://purist.online' },
+         { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://purist.online/collections/all' },
+         { '@type': 'ListItem', position: 3, name: 'PURIST vs Hiring In-House', item: pageUrl },
+       ],
+     },
+     {
+       '@type': 'FAQPage',
+       '@id': `${pageUrl}#faq`,
+       mainEntity: faqs.map(faq => ({
+         '@type': 'Question',
+         name: faq.q,
+         acceptedAnswer: { '@type': 'Answer', text: faq.a },
+       })),
+     },
+   ],
+ })}/>
 
 </ShopLayout>

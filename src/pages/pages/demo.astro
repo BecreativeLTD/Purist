@@ -2,927 +2,927 @@
 import ShopLayout from '~/layouts/ShopLayout.astro';
 ---
 
-<ShopLayout title="Live Demo — See PURIST Automation in Action" description="Watch real automations execute live, trigger sandbox workflows yourself, and book a personalised demo call.">
+<ShopLayout title="Live Demo See PURIST Automation in Action" description="Watch real automations execute live, trigger sandbox workflows yourself, and book a personalised demo call.">
 
-  <!-- Hero -->
-  <section class="bg-brand-black text-white pt-20 pb-14 lg:pt-28 relative overflow-hidden">
-    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(232,180,176,0.07) 0%,transparent 60%);"></div>
-    <div class="container-x relative z-10">
-      <div class="max-w-3xl mx-auto text-center">
-        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-6" style="border-color:rgba(232,180,176,0.25);background:rgba(232,180,176,0.06);">
-          <span class="w-1.5 h-1.5 rounded-full bg-green-400" style="animation:dm-pulse 2s ease-in-out infinite;"></span>
-          <span class="text-[10px] uppercase tracking-[0.18em] font-semibold" style="color:rgba(232,180,176,0.80);">Live demo environment · No account needed</span>
-        </div>
-        <h1 class="font-display text-[2.2rem] lg:text-[3rem] leading-[1.06] tracking-[-0.025em] text-white mb-4">
-          Don't take our word for it.<br/><em class="font-medium" style="color:#E8B4B0;">See it run.</em>
-        </h1>
-        <p class="text-[15px] leading-relaxed mb-10 max-w-xl mx-auto" style="color:rgba(255,255,255,0.45);">Three ways to experience PURIST automation — a live workflow canvas, a trigger-it-yourself sandbox, and a personalised call where we build yours live.</p>
-        <div class="flex flex-wrap justify-center gap-3">
-          {[{id:'workflow',label:'① Workflow canvas'},{id:'sandbox',label:'② Live sandbox'},{id:'booking',label:'③ Book a call'}].map(n=>(
-            <a href={'#'+n.id} class="px-4 py-2 rounded-full text-[11px] font-semibold border transition-all"
-              style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.55);border-color:rgba(255,255,255,0.10);"
-              onmouseover="this.style.background='rgba(232,180,176,0.12)';this.style.color='#E8B4B0';this.style.borderColor='rgba(232,180,176,0.30)';"
-              onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.color='rgba(255,255,255,0.55)';this.style.borderColor='rgba(255,255,255,0.10)';">
-              {n.label}
-            </a>
-          ))}
-        </div>
-      </div>
-    </div>
-  </section>
+ <!-- Hero -->
+ <section class="bg-brand-black text-white pt-20 pb-14 lg:pt-28 relative overflow-hidden">
+   <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(232,180,176,0.07) 0%,transparent 60%);"></div>
+   <div class="container-x relative z-10">
+     <div class="max-w-3xl mx-auto text-center">
+       <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-6" style="border-color:rgba(232,180,176,0.25);background:rgba(232,180,176,0.06);">
+         <span class="w-1.5 h-1.5 rounded-full bg-green-400" style="animation:dm-pulse 2s ease-in-out infinite;"></span>
+         <span class="text-[10px] uppercase tracking-[0.18em] font-semibold" style="color:rgba(232,180,176,0.80);">Live demo environment · No account needed</span>
+       </div>
+       <h1 class="font-display text-[2.2rem] lg:text-[3rem] leading-[1.06] tracking-[-0.025em] text-white mb-4">
+         Don't take our word for it.<br/><em class="font-medium" style="color:#E8B4B0;">See it run.</em>
+       </h1>
+       <p class="text-[15px] leading-relaxed mb-10 max-w-xl mx-auto" style="color:rgba(255,255,255,0.45);">Three ways to experience PURIST automation a live workflow canvas, a trigger-it-yourself sandbox, and a personalised call where we build yours live.</p>
+       <div class="flex flex-wrap justify-center gap-3">
+         {[{id:'workflow',label:'① Workflow canvas'},{id:'sandbox',label:'② Live sandbox'},{id:'booking',label:'③ Book a call'}].map(n=>(
+           <a href={'#'+n.id} class="px-4 py-2 rounded-full text-[11px] font-semibold border transition-all"
+             style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.55);border-color:rgba(255,255,255,0.10);"
+             onmouseover="this.style.background='rgba(232,180,176,0.12)';this.style.color='#E8B4B0';this.style.borderColor='rgba(232,180,176,0.30)';"
+             onmouseout="this.style.background='rgba(255,255,255,0.06)';this.style.color='rgba(255,255,255,0.55)';this.style.borderColor='rgba(255,255,255,0.10)';">
+             {n.label}
+           </a>
+         ))}
+       </div>
+     </div>
+   </div>
+ </section>
 
-  <!-- ══════════════════════════════════════════════════════════════════════
-       SECTION 1 — WORKFLOW CANVAS
-  ══════════════════════════════════════════════════════════════════════ -->
-  <section id="workflow" class="bg-[#0F0F0D] py-16 lg:py-24" style="scroll-margin-top:80px;">
-    <div class="container-x">
+ <!-- ══════════════════════════════════════════════════════════════════════
+      SECTION 1 WORKFLOW CANVAS
+ ══════════════════════════════════════════════════════════════════════ -->
+ <section id="workflow" class="bg-[#0F0F0D] py-16 lg:py-24" style="scroll-margin-top:80px;">
+   <div class="container-x">
 
-      <div class="max-w-4xl mx-auto mb-10 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5">
-        <div>
-          <p class="text-[9px] uppercase tracking-[0.24em] font-bold mb-3" style="color:rgba(232,180,176,0.50);">① Workflow canvas</p>
-          <h2 class="font-display text-[1.9rem] text-white leading-tight mb-2">Watch an automation<br/><em class="font-medium" style="color:#E8B4B0;">execute — node by node</em></h2>
-          <p class="text-[12px]" style="color:rgba(255,255,255,0.55);">Click any node to inspect its payload. Hit Run to watch it step through.</p>
-        </div>
-        <!-- Workflow template tabs -->
-        <div class="flex gap-1 p-1 rounded-[12px] shrink-0" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);">
-          {[{id:'lead',label:'Lead Nurture'},{id:'invoice',label:'Invoice Chase'},{id:'onboarding',label:'Onboarding'}].map((t,i)=>(
-            <button class="wf-tab px-3.5 py-1.5 rounded-[9px] text-[11px] font-semibold transition-all" data-wf={t.id}
-              style={i===0 ? 'background:#E8B4B0;color:#0A0A0A;' : 'color:rgba(255,255,255,0.60);'}>
-              {t.label}
-            </button>
-          ))}
-        </div>
-      </div>
+     <div class="max-w-4xl mx-auto mb-10 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5">
+       <div>
+         <p class="text-[9px] uppercase tracking-[0.24em] font-bold mb-3" style="color:rgba(232,180,176,0.50);">① Workflow canvas</p>
+         <h2 class="font-display text-[1.9rem] text-white leading-tight mb-2">Watch an automation<br/><em class="font-medium" style="color:#E8B4B0;">execute node by node</em></h2>
+         <p class="text-[12px]" style="color:rgba(255,255,255,0.55);">Click any node to inspect its payload. Hit Run to watch it step through.</p>
+       </div>
+       <!-- Workflow template tabs -->
+       <div class="flex gap-1 p-1 rounded-[12px] shrink-0" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);">
+         {[{id:'lead',label:'Lead Nurture'},{id:'invoice',label:'Invoice Chase'},{id:'onboarding',label:'Onboarding'}].map((t,i)=>(
+           <button class="wf-tab px-3.5 py-1.5 rounded-[9px] text-[11px] font-semibold transition-all" data-wf={t.id}
+             style={i===0 ? 'background:#E8B4B0;color:#0A0A0A;' : 'color:rgba(255,255,255,0.60);'}>
+             {t.label}
+           </button>
+         ))}
+       </div>
+     </div>
 
-      <!-- Canvas -->
-      <div class="max-w-4xl mx-auto rounded-[20px] overflow-hidden border" style="border-color:rgba(255,255,255,0.08);">
+     <!-- Canvas -->
+     <div class="max-w-4xl mx-auto rounded-[20px] overflow-hidden border" style="border-color:rgba(255,255,255,0.08);">
 
-        <!-- Canvas toolbar -->
-        <div class="flex items-center justify-between px-5 py-3 border-b" style="background:rgba(255,255,255,0.03);border-color:rgba(255,255,255,0.07);">
-          <div class="flex items-center gap-3">
-            <div class="flex gap-1.5">
-              <div class="w-2.5 h-2.5 rounded-full" style="background:rgba(255,99,99,0.45);"></div>
-              <div class="w-2.5 h-2.5 rounded-full" style="background:rgba(255,189,68,0.45);"></div>
-              <div class="w-2.5 h-2.5 rounded-full" style="background:rgba(45,196,68,0.45);"></div>
-            </div>
-            <span class="text-[10px] font-mono" style="color:rgba(255,255,255,0.55);" id="wf-tab-title">lead-nurture.workflow</span>
-          </div>
-          <div class="flex items-center gap-3">
-            <div id="wf-exec-stats" class="hidden items-center gap-4">
-              <span class="text-[10px]" style="color:rgba(255,255,255,0.58);" id="wf-stat-apis">0 API calls</span>
-              <span class="text-[10px]" style="color:rgba(74,222,128,0.70);" id="wf-stat-time">0ms</span>
-            </div>
-            <span class="text-[10px] font-semibold" style="color:rgba(255,255,255,0.55);" id="wf-status-label">Ready</span>
-            <button id="wf-run-btn" onclick="runWorkflow()"
-              class="px-4 py-1.5 rounded-full text-[11px] font-bold transition-all"
-              style="background:#E8B4B0;color:#0A0A0A;">
-              ▶ Run
-            </button>
-          </div>
-        </div>
+       <!-- Canvas toolbar -->
+       <div class="flex items-center justify-between px-5 py-3 border-b" style="background:rgba(255,255,255,0.03);border-color:rgba(255,255,255,0.07);">
+         <div class="flex items-center gap-3">
+           <div class="flex gap-1.5">
+             <div class="w-2.5 h-2.5 rounded-full" style="background:rgba(255,99,99,0.45);"></div>
+             <div class="w-2.5 h-2.5 rounded-full" style="background:rgba(255,189,68,0.45);"></div>
+             <div class="w-2.5 h-2.5 rounded-full" style="background:rgba(45,196,68,0.45);"></div>
+           </div>
+           <span class="text-[10px] font-mono" style="color:rgba(255,255,255,0.55);" id="wf-tab-title">lead-nurture.workflow</span>
+         </div>
+         <div class="flex items-center gap-3">
+           <div id="wf-exec-stats" class="hidden items-center gap-4">
+             <span class="text-[10px]" style="color:rgba(255,255,255,0.58);" id="wf-stat-apis">0 API calls</span>
+             <span class="text-[10px]" style="color:rgba(74,222,128,0.70);" id="wf-stat-time">0ms</span>
+           </div>
+           <span class="text-[10px] font-semibold" style="color:rgba(255,255,255,0.55);" id="wf-status-label">Ready</span>
+           <button id="wf-run-btn" onclick="runWorkflow()"
+             class="px-4 py-1.5 rounded-full text-[11px] font-bold transition-all"
+             style="background:#E8B4B0;color:#0A0A0A;">
+             ▶ Run
+           </button>
+         </div>
+       </div>
 
-        <!-- Workflow meta strip -->
-        <div class="flex items-center gap-3 px-5 py-2.5 border-b flex-wrap" style="background:rgba(255,255,255,0.015);border-color:rgba(255,255,255,0.05);">
-          <span class="text-[9.5px] font-mono" style="color:rgba(255,255,255,0.50);" id="wf-meta-nodes">6 nodes</span>
-          <span style="color:rgba(255,255,255,0.10);">·</span>
-          <span class="text-[9.5px] font-mono" style="color:rgba(255,255,255,0.50);">Manual: <strong id="wf-meta-manual" style="color:rgba(255,255,255,0.65);font-weight:600;">47 min/lead</strong></span>
-          <span style="color:rgba(255,255,255,0.10);">·</span>
-          <span class="text-[9.5px] font-mono" style="color:rgba(255,255,255,0.50);">Automated: <strong id="wf-meta-time" style="color:rgba(74,222,128,0.70);font-weight:600;">1.8s</strong></span>
-          <span class="ml-auto text-[9.5px] font-mono" style="color:rgba(255,255,255,0.50);">Annual saving: <strong id="wf-meta-saving" style="color:rgba(232,180,176,0.80);font-weight:600;">£38,000/yr</strong></span>
-        </div>
+       <!-- Workflow meta strip -->
+       <div class="flex items-center gap-3 px-5 py-2.5 border-b flex-wrap" style="background:rgba(255,255,255,0.015);border-color:rgba(255,255,255,0.05);">
+         <span class="text-[9.5px] font-mono" style="color:rgba(255,255,255,0.50);" id="wf-meta-nodes">6 nodes</span>
+         <span style="color:rgba(255,255,255,0.10);">·</span>
+         <span class="text-[9.5px] font-mono" style="color:rgba(255,255,255,0.50);">Manual: <strong id="wf-meta-manual" style="color:rgba(255,255,255,0.65);font-weight:600;">47 min/lead</strong></span>
+         <span style="color:rgba(255,255,255,0.10);">·</span>
+         <span class="text-[9.5px] font-mono" style="color:rgba(255,255,255,0.50);">Automated: <strong id="wf-meta-time" style="color:rgba(74,222,128,0.70);font-weight:600;">1.8s</strong></span>
+         <span class="ml-auto text-[9.5px] font-mono" style="color:rgba(255,255,255,0.50);">Annual saving: <strong id="wf-meta-saving" style="color:rgba(232,180,176,0.80);font-weight:600;">£38,000/yr</strong></span>
+       </div>
 
-        <!-- Dot-grid canvas area -->
-        <div class="relative px-5 py-8 overflow-x-auto" style="background:#0A0A09;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:22px 22px;min-height:200px;">
+       <!-- Dot-grid canvas area -->
+       <div class="relative px-5 py-8 overflow-x-auto" style="background:#0A0A09;background-image:radial-gradient(circle,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:22px 22px;min-height:200px;">
 
-          <!-- Nodes row -->
-          <div class="flex items-stretch gap-0 min-w-[680px] relative" id="wf-nodes-row">
-            <!-- nodes injected by JS -->
-          </div>
+         <!-- Nodes row -->
+         <div class="flex items-stretch gap-0 min-w-[680px] relative" id="wf-nodes-row">
+           <!-- nodes injected by JS -->
+         </div>
 
-          <!-- SVG connector layer (rendered behind nodes by JS) -->
-          <svg id="wf-svg" class="absolute inset-0 pointer-events-none" style="z-index:0;"></svg>
+         <!-- SVG connector layer (rendered behind nodes by JS) -->
+         <svg id="wf-svg" class="absolute inset-0 pointer-events-none" style="z-index:0;"></svg>
 
-        </div>
+       </div>
 
-        <!-- Split bottom: log + payload -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 border-t" style="border-color:rgba(255,255,255,0.07);">
+       <!-- Split bottom: log + payload -->
+       <div class="grid grid-cols-1 lg:grid-cols-2 border-t" style="border-color:rgba(255,255,255,0.07);">
 
-          <!-- Execution log -->
-          <div class="px-5 py-4 border-r" style="border-color:rgba(255,255,255,0.07);min-height:160px;">
-            <p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-3" style="color:rgba(255,255,255,0.20);">Execution log</p>
-            <div id="wf-log" class="space-y-1.5 font-mono text-[10.5px]">
-              <p style="color:rgba(255,255,255,0.18);">› Waiting for trigger…</p>
-            </div>
-          </div>
+         <!-- Execution log -->
+         <div class="px-5 py-4 border-r" style="border-color:rgba(255,255,255,0.07);min-height:160px;">
+           <p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-3" style="color:rgba(255,255,255,0.20);">Execution log</p>
+           <div id="wf-log" class="space-y-1.5 font-mono text-[10.5px]">
+             <p style="color:rgba(255,255,255,0.18);">› Waiting for trigger…</p>
+           </div>
+         </div>
 
-          <!-- Payload inspector -->
-          <div class="px-5 py-4" style="min-height:160px;">
-            <div class="flex items-center justify-between mb-3">
-              <p class="text-[9px] uppercase tracking-[0.18em] font-bold" style="color:rgba(255,255,255,0.20);">Payload inspector</p>
-              <p class="text-[9px] font-mono" style="color:rgba(255,255,255,0.12);">click a node</p>
-            </div>
-            <div id="wf-payload" class="font-mono text-[10px] leading-relaxed" style="color:rgba(255,255,255,0.55);">
-              <p>// Select a node to inspect its output</p>
-            </div>
-          </div>
+         <!-- Payload inspector -->
+         <div class="px-5 py-4" style="min-height:160px;">
+           <div class="flex items-center justify-between mb-3">
+             <p class="text-[9px] uppercase tracking-[0.18em] font-bold" style="color:rgba(255,255,255,0.20);">Payload inspector</p>
+             <p class="text-[9px] font-mono" style="color:rgba(255,255,255,0.12);">click a node</p>
+           </div>
+           <div id="wf-payload" class="font-mono text-[10px] leading-relaxed" style="color:rgba(255,255,255,0.55);">
+             <p>// Select a node to inspect its output</p>
+           </div>
+         </div>
 
-        </div>
+       </div>
 
-        <!-- Result bar -->
-        <div id="wf-result-bar" class="hidden px-5 py-4 border-t flex flex-wrap items-center gap-6" style="border-color:rgba(255,255,255,0.07);background:rgba(45,80,22,0.12);">
-          <div class="flex items-center gap-2">
-            <span class="w-5 h-5 rounded-full flex items-center justify-center" style="background:rgba(74,222,128,0.20);">
-              <svg class="w-3 h-3" style="color:#4ade80;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </span>
-            <span class="text-[12px] font-bold text-white" id="rb-title">Completed</span>
-          </div>
-          <div class="flex flex-wrap gap-5 text-[11px]" style="color:rgba(255,255,255,0.45);">
-            <span><strong class="text-white" id="rb-time">—</strong> execution time</span>
-            <span><strong class="text-white" id="rb-apis">—</strong> API calls</span>
-            <span>Manual equivalent: <strong style="color:#E8B4B0;" id="rb-manual">—</strong></span>
-            <span>Annual saving: <strong style="color:#4ade80;" id="rb-saving">—</strong></span>
-          </div>
-        </div>
+       <!-- Result bar -->
+       <div id="wf-result-bar" class="hidden px-5 py-4 border-t flex flex-wrap items-center gap-6" style="border-color:rgba(255,255,255,0.07);background:rgba(45,80,22,0.12);">
+         <div class="flex items-center gap-2">
+           <span class="w-5 h-5 rounded-full flex items-center justify-center" style="background:rgba(74,222,128,0.20);">
+             <svg class="w-3 h-3" style="color:#4ade80;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+           </span>
+           <span class="text-[12px] font-bold text-white" id="rb-title">Completed</span>
+         </div>
+         <div class="flex flex-wrap gap-5 text-[11px]" style="color:rgba(255,255,255,0.45);">
+           <span><strong class="text-white" id="rb-time"> </strong> execution time</span>
+           <span><strong class="text-white" id="rb-apis"> </strong> API calls</span>
+           <span>Manual equivalent: <strong style="color:#E8B4B0;" id="rb-manual"> </strong></span>
+           <span>Annual saving: <strong style="color:#4ade80;" id="rb-saving"> </strong></span>
+         </div>
+       </div>
 
-      </div>
-    </div>
-  </section>
+     </div>
+   </div>
+ </section>
 
-  <!-- ══════════════════════════════════════════════════════════════════════
-       SECTION 2 — LIVE SANDBOX
-  ══════════════════════════════════════════════════════════════════════ -->
-  <section id="sandbox" class="bg-brand-beige py-16 lg:py-24 border-t border-brand-gray-100" style="scroll-margin-top:80px;">
-    <div class="container-x">
-      <div class="max-w-4xl mx-auto mb-12">
-        <p class="eyebrow mb-3">② Live sandbox</p>
-        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-          <div>
-            <h2 class="font-display text-h2 mb-2">Trigger it yourself</h2>
-            <p class="text-sm text-brand-gray-600 max-w-lg">Three real scenarios. Enter your data, hit trigger — watch the automation execute with live API feedback.</p>
-          </div>
-          <div class="flex items-center gap-3 lg:flex-col lg:items-end shrink-0">
-            <div class="flex items-baseline gap-1.5">
-              <p class="font-display text-2xl text-brand-black leading-none" id="sb-exec-count">0</p>
-              <p class="text-[10px] uppercase tracking-wider text-brand-gray-500">executions</p>
-            </div>
-            <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full" style="background:rgba(45,80,22,0.07);">
-              <span class="w-1.5 h-1.5 rounded-full bg-green-400" style="animation:dm-pulse 2s ease-in-out infinite;"></span>
-              <span class="text-[9px] font-bold uppercase tracking-wider" style="color:#2D5016;">Live environment</span>
-            </div>
-          </div>
-        </div>
-      </div>
+ <!-- ══════════════════════════════════════════════════════════════════════
+      SECTION 2 LIVE SANDBOX
+ ══════════════════════════════════════════════════════════════════════ -->
+ <section id="sandbox" class="bg-brand-beige py-16 lg:py-24 border-t border-brand-gray-100" style="scroll-margin-top:80px;">
+   <div class="container-x">
+     <div class="max-w-4xl mx-auto mb-12">
+       <p class="eyebrow mb-3">② Live sandbox</p>
+       <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+         <div>
+           <h2 class="font-display text-h2 mb-2">Trigger it yourself</h2>
+           <p class="text-sm text-brand-gray-600 max-w-lg">Three real scenarios. Enter your data, hit trigger watch the automation execute with live API feedback.</p>
+         </div>
+         <div class="flex items-center gap-3 lg:flex-col lg:items-end shrink-0">
+           <div class="flex items-baseline gap-1.5">
+             <p class="font-display text-2xl text-brand-black leading-none" id="sb-exec-count">0</p>
+             <p class="text-[10px] uppercase tracking-wider text-brand-gray-500">executions</p>
+           </div>
+           <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full" style="background:rgba(45,80,22,0.07);">
+             <span class="w-1.5 h-1.5 rounded-full bg-green-400" style="animation:dm-pulse 2s ease-in-out infinite;"></span>
+             <span class="text-[9px] font-bold uppercase tracking-wider" style="color:#2D5016;">Live environment</span>
+           </div>
+         </div>
+       </div>
+     </div>
 
-      <div class="max-w-4xl mx-auto space-y-6">
+     <div class="max-w-4xl mx-auto space-y-6">
 
-        <!-- ─ Sandbox 1: Lead capture ─────────────────────────────────── -->
-        <div class="bg-white rounded-card border border-brand-gray-100 overflow-hidden">
-          <div class="h-[2px]" style="background:linear-gradient(90deg,#E8B4B0 0%,rgba(232,180,176,0.15) 55%,transparent 100%);"></div>
-          <div class="grid grid-cols-1 lg:grid-cols-2">
+       <!-- ─ Sandbox 1: Lead capture ─────────────────────────────────── -->
+       <div class="bg-white rounded-card border border-brand-gray-100 overflow-hidden">
+         <div class="h-[2px]" style="background:linear-gradient(90deg,#E8B4B0 0%,rgba(232,180,176,0.15) 55%,transparent 100%);"></div>
+         <div class="grid grid-cols-1 lg:grid-cols-2">
 
-            <!-- Input side -->
-            <div class="p-6 border-b lg:border-b-0 lg:border-r border-brand-gray-100">
-              <div class="flex items-center gap-3 mb-5">
-                <div class="w-10 h-10 rounded-[12px] flex items-center justify-center shrink-0" style="background:rgba(232,180,176,0.12);">
-                  <!-- Custom: person with signal waves -->
-                  <svg class="w-5 h-5" style="color:#c4847e;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
-                    <path d="M16.5 3.5a6 6 0 010 7M19.5 1a10 10 0 010 11"/>
-                  </svg>
-                </div>
-                <div>
-                  <p class="text-[10px] uppercase tracking-wider font-bold text-brand-gray-400">Lead capture</p>
-                  <h3 class="font-display text-base text-brand-black">CRM sync + personalised email</h3>
-                </div>
-                <div class="ml-auto flex items-center gap-1.5 px-2.5 py-1 rounded-full" style="background:rgba(45,80,22,0.08);">
-                  <svg class="w-3 h-3" style="color:#2D5016;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                  <span class="text-[10px] font-bold" style="color:#2D5016;">Live</span>
-                </div>
-              </div>
+           <!-- Input side -->
+           <div class="p-6 border-b lg:border-b-0 lg:border-r border-brand-gray-100">
+             <div class="flex items-center gap-3 mb-5">
+               <div class="w-10 h-10 rounded-[12px] flex items-center justify-center shrink-0" style="background:rgba(232,180,176,0.12);">
+                 <!-- Custom: person with signal waves -->
+                 <svg class="w-5 h-5" style="color:#c4847e;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                   <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                   <circle cx="12" cy="7" r="4"/>
+                   <path d="M16.5 3.5a6 6 0 010 7M19.5 1a10 10 0 010 11"/>
+                 </svg>
+               </div>
+               <div>
+                 <p class="text-[10px] uppercase tracking-wider font-bold text-brand-gray-400">Lead capture</p>
+                 <h3 class="font-display text-base text-brand-black">CRM sync + personalised email</h3>
+               </div>
+               <div class="ml-auto flex items-center gap-1.5 px-2.5 py-1 rounded-full" style="background:rgba(45,80,22,0.08);">
+                 <svg class="w-3 h-3" style="color:#2D5016;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                 <span class="text-[10px] font-bold" style="color:#2D5016;">Live</span>
+               </div>
+             </div>
 
-              <div class="space-y-2.5 mb-5">
-                <div>
-                  <label class="block text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400 mb-1.5">Lead name</label>
-                  <input id="sb1-name" type="text" placeholder="e.g. Alex Chen" class="w-full text-sm border border-brand-gray-200 rounded-[10px] px-3.5 py-2.5 outline-none focus:border-brand-black transition"/>
-                </div>
-                <div>
-                  <label class="block text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400 mb-1.5">Email address</label>
-                  <input id="sb1-email" type="email" placeholder="alex@company.com" class="w-full text-sm border border-brand-gray-200 rounded-[10px] px-3.5 py-2.5 outline-none focus:border-brand-black transition"/>
-                </div>
-                <div>
-                  <label class="block text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400 mb-1.5">Company</label>
-                  <input id="sb1-company" type="text" placeholder="Acme Corp" class="w-full text-sm border border-brand-gray-200 rounded-[10px] px-3.5 py-2.5 outline-none focus:border-brand-black transition"/>
-                </div>
-              </div>
+             <div class="space-y-2.5 mb-5">
+               <div>
+                 <label class="block text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400 mb-1.5">Lead name</label>
+                 <input id="sb1-name" type="text" placeholder="e.g. Alex Chen" class="w-full text-sm border border-brand-gray-200 rounded-[10px] px-3.5 py-2.5 outline-none focus:border-brand-black transition"/>
+               </div>
+               <div>
+                 <label class="block text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400 mb-1.5">Email address</label>
+                 <input id="sb1-email" type="email" placeholder="alex@company.com" class="w-full text-sm border border-brand-gray-200 rounded-[10px] px-3.5 py-2.5 outline-none focus:border-brand-black transition"/>
+               </div>
+               <div>
+                 <label class="block text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400 mb-1.5">Company</label>
+                 <input id="sb1-company" type="text" placeholder="Acme Corp" class="w-full text-sm border border-brand-gray-200 rounded-[10px] px-3.5 py-2.5 outline-none focus:border-brand-black transition"/>
+               </div>
+             </div>
 
-              <!-- API call chain preview -->
-              <div class="rounded-[10px] p-3.5 mb-4" style="background:#F7F7F5;border:1px solid #EBEBEB;">
-                <div class="flex items-center justify-between mb-2.5">
-                  <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400">Will execute</p>
-                  <span class="text-[9px] font-mono text-brand-gray-400">4 API calls</span>
-                </div>
-                <div class="space-y-1.5">
-                  {[
-                    ['POST','HubSpot /contacts','Create contact','#7B68EE'],
-                    ['POST','Gmail /send','Intro email','#c4847e'],
-                    ['POST','Slack /chat.postMessage','Sales alert','#C89840'],
-                    ['POST','n8n /scheduler','Queue follow-up','#2D5016']
-                  ].map(([method,endpoint,desc,col])=>(
-                    <div class="flex items-center gap-2">
-                      <span class="text-[9px] font-bold px-1.5 py-0.5 rounded font-mono" style={`background:${col}18;color:${col};`}>{method}</span>
-                      <span class="text-[10px] font-mono text-brand-gray-500 truncate flex-1">{endpoint}</span>
-                      <span class="text-[9.5px] text-brand-gray-400 shrink-0">{desc}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+             <!-- API call chain preview -->
+             <div class="rounded-[10px] p-3.5 mb-4" style="background:#F7F7F5;border:1px solid #EBEBEB;">
+               <div class="flex items-center justify-between mb-2.5">
+                 <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400">Will execute</p>
+                 <span class="text-[9px] font-mono text-brand-gray-400">4 API calls</span>
+               </div>
+               <div class="space-y-1.5">
+                 {[
+                   ['POST','HubSpot /contacts','Create contact','#7B68EE'],
+                   ['POST','Gmail /send','Intro email','#c4847e'],
+                   ['POST','Slack /chat.postMessage','Sales alert','#C89840'],
+                   ['POST','n8n /scheduler','Queue follow-up','#2D5016']
+                 ].map(([method,endpoint,desc,col])=>(
+                   <div class="flex items-center gap-2">
+                     <span class="text-[9px] font-bold px-1.5 py-0.5 rounded font-mono" style={`background:${col}18;color:${col};`}>{method}</span>
+                     <span class="text-[10px] font-mono text-brand-gray-500 truncate flex-1">{endpoint}</span>
+                     <span class="text-[9.5px] text-brand-gray-400 shrink-0">{desc}</span>
+                   </div>
+                 ))}
+               </div>
+             </div>
 
-              <button onclick="runSandbox(1)" id="sb1-btn"
-                class="w-full py-2.5 rounded-[10px] text-[12px] font-bold text-white transition-all flex items-center justify-center gap-2"
-                style="background:#0A0A0A;">
-                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                Trigger automation
-              </button>
-            </div>
+             <button onclick="runSandbox(1)" id="sb1-btn"
+               class="w-full py-2.5 rounded-[10px] text-[12px] font-bold text-white transition-all flex items-center justify-center gap-2"
+               style="background:#0A0A0A;">
+               <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+               Trigger automation
+             </button>
+           </div>
 
-            <!-- Output side -->
-            <div class="p-6 flex flex-col" style="background:#FAFAF8;">
-              <div class="flex items-center justify-between mb-4">
-                <p class="text-[10px] uppercase tracking-wider font-bold text-brand-gray-400">Output preview</p>
-                <span class="text-[9px] font-semibold px-2 py-0.5 rounded-full" style="background:rgba(232,180,176,0.12);color:#c4847e;">CRM + Email + Slack</span>
-              </div>
-              <div id="sb1-idle" class="flex-1 flex items-center justify-center">
-                <div class="text-center">
-                  <div class="w-10 h-10 rounded-full border-2 border-dashed border-brand-gray-200 flex items-center justify-center mx-auto mb-3">
-                    <svg class="w-4 h-4 text-brand-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                  </div>
-                  <p class="text-[11px] text-brand-gray-400">Trigger the automation to see live output</p>
-                </div>
-              </div>
-              <div id="sb1-output" class="hidden flex-1 flex flex-col gap-3">
-                <!-- Progress steps -->
-                <div id="sb1-steps" class="space-y-2"></div>
-                <!-- Email preview card -->
-                <div id="sb1-email-card" class="hidden rounded-[12px] border border-brand-gray-200 overflow-hidden mt-2" style="animation:slideUp 0.4s ease-out;">
-                  <div class="px-4 py-3 border-b border-brand-gray-100 bg-white">
-                    <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400 mb-2">Email delivered</p>
-                    <div class="space-y-1">
-                      <div class="flex gap-2 text-[11px]"><span class="text-brand-gray-400 w-10">From</span><span class="font-medium text-brand-black">hello@purist.co</span></div>
-                      <div class="flex gap-2 text-[11px]"><span class="text-brand-gray-400 w-10">To</span><span class="font-medium text-brand-black" id="sb1-to-field">—</span></div>
-                      <div class="flex gap-2 text-[11px]"><span class="text-brand-gray-400 w-10">Re</span><span class="font-medium text-brand-black" id="sb1-subject-field">—</span></div>
-                    </div>
-                  </div>
-                  <div class="px-4 py-3 bg-white">
-                    <p class="text-[11px] text-brand-gray-700 leading-relaxed" id="sb1-body-field"></p>
-                  </div>
-                  <div class="px-4 py-2 border-t border-brand-gray-100 flex items-center gap-2" style="background:#F7F7F5;">
-                    <div class="w-1.5 h-1.5 rounded-full bg-green-400"></div>
-                    <p class="text-[10px] text-brand-gray-500">Delivered · Open tracked · 5-touch sequence queued</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+           <!-- Output side -->
+           <div class="p-6 flex flex-col" style="background:#FAFAF8;">
+             <div class="flex items-center justify-between mb-4">
+               <p class="text-[10px] uppercase tracking-wider font-bold text-brand-gray-400">Output preview</p>
+               <span class="text-[9px] font-semibold px-2 py-0.5 rounded-full" style="background:rgba(232,180,176,0.12);color:#c4847e;">CRM + Email + Slack</span>
+             </div>
+             <div id="sb1-idle" class="flex-1 flex items-center justify-center">
+               <div class="text-center">
+                 <div class="w-10 h-10 rounded-full border-2 border-dashed border-brand-gray-200 flex items-center justify-center mx-auto mb-3">
+                   <svg class="w-4 h-4 text-brand-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                 </div>
+                 <p class="text-[11px] text-brand-gray-400">Trigger the automation to see live output</p>
+               </div>
+             </div>
+             <div id="sb1-output" class="hidden flex-1 flex flex-col gap-3">
+               <!-- Progress steps -->
+               <div id="sb1-steps" class="space-y-2"></div>
+               <!-- Email preview card -->
+               <div id="sb1-email-card" class="hidden rounded-[12px] border border-brand-gray-200 overflow-hidden mt-2" style="animation:slideUp 0.4s ease-out;">
+                 <div class="px-4 py-3 border-b border-brand-gray-100 bg-white">
+                   <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400 mb-2">Email delivered</p>
+                   <div class="space-y-1">
+                     <div class="flex gap-2 text-[11px]"><span class="text-brand-gray-400 w-10">From</span><span class="font-medium text-brand-black">hello@purist.co</span></div>
+                     <div class="flex gap-2 text-[11px]"><span class="text-brand-gray-400 w-10">To</span><span class="font-medium text-brand-black" id="sb1-to-field"> </span></div>
+                     <div class="flex gap-2 text-[11px]"><span class="text-brand-gray-400 w-10">Re</span><span class="font-medium text-brand-black" id="sb1-subject-field"> </span></div>
+                   </div>
+                 </div>
+                 <div class="px-4 py-3 bg-white">
+                   <p class="text-[11px] text-brand-gray-700 leading-relaxed" id="sb1-body-field"></p>
+                 </div>
+                 <div class="px-4 py-2 border-t border-brand-gray-100 flex items-center gap-2" style="background:#F7F7F5;">
+                   <div class="w-1.5 h-1.5 rounded-full bg-green-400"></div>
+                   <p class="text-[10px] text-brand-gray-500">Delivered · Open tracked · 5-touch sequence queued</p>
+                 </div>
+               </div>
+             </div>
+           </div>
 
-          </div>
-        </div>
+         </div>
+       </div>
 
-        <!-- ─ Sandbox 2: AI Triage ────────────────────────────────────── -->
-        <div class="bg-white rounded-card border border-brand-gray-100 overflow-hidden">
-          <div class="h-[2px]" style="background:linear-gradient(90deg,#7B68EE 0%,rgba(123,104,238,0.15) 55%,transparent 100%);"></div>
-          <div class="grid grid-cols-1 lg:grid-cols-2">
+       <!-- ─ Sandbox 2: AI Triage ────────────────────────────────────── -->
+       <div class="bg-white rounded-card border border-brand-gray-100 overflow-hidden">
+         <div class="h-[2px]" style="background:linear-gradient(90deg,#7B68EE 0%,rgba(123,104,238,0.15) 55%,transparent 100%);"></div>
+         <div class="grid grid-cols-1 lg:grid-cols-2">
 
-            <div class="p-6 border-b lg:border-b-0 lg:border-r border-brand-gray-100">
-              <div class="flex items-center gap-3 mb-5">
-                <div class="w-10 h-10 rounded-[12px] flex items-center justify-center shrink-0" style="background:rgba(123,104,238,0.10);">
-                  <!-- Custom: brain/circuit icon -->
-                  <svg class="w-5 h-5" style="color:#7B68EE;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>
-                  </svg>
-                </div>
-                <div>
-                  <p class="text-[10px] uppercase tracking-wider font-bold text-brand-gray-400">Claude AI</p>
-                  <h3 class="font-display text-base text-brand-black">Support ticket triage</h3>
-                </div>
-                <div class="ml-auto flex items-center gap-1.5 px-2.5 py-1 rounded-full" style="background:rgba(123,104,238,0.10);">
-                  <span class="text-[10px] font-bold" style="color:#7B68EE;">AI-powered</span>
-                </div>
-              </div>
+           <div class="p-6 border-b lg:border-b-0 lg:border-r border-brand-gray-100">
+             <div class="flex items-center gap-3 mb-5">
+               <div class="w-10 h-10 rounded-[12px] flex items-center justify-center shrink-0" style="background:rgba(123,104,238,0.10);">
+                 <!-- Custom: brain/circuit icon -->
+                 <svg class="w-5 h-5" style="color:#7B68EE;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                   <path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>
+                 </svg>
+               </div>
+               <div>
+                 <p class="text-[10px] uppercase tracking-wider font-bold text-brand-gray-400">Claude AI</p>
+                 <h3 class="font-display text-base text-brand-black">Support ticket triage</h3>
+               </div>
+               <div class="ml-auto flex items-center gap-1.5 px-2.5 py-1 rounded-full" style="background:rgba(123,104,238,0.10);">
+                 <span class="text-[10px] font-bold" style="color:#7B68EE;">AI-powered</span>
+               </div>
+             </div>
 
-              <div class="mb-4">
-                <label class="block text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400 mb-1.5">Paste any support message</label>
-                <textarea id="sb2-text" rows="5" placeholder="e.g. My payment failed and I can't access my account. I have a client demo in 2 hours — this is urgent."
-                  class="w-full text-sm border border-brand-gray-200 rounded-[10px] px-3.5 py-2.5 outline-none focus:border-brand-black transition resize-none"></textarea>
-              </div>
+             <div class="mb-4">
+               <label class="block text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400 mb-1.5">Paste any support message</label>
+               <textarea id="sb2-text" rows="5" placeholder="e.g. My payment failed and I can't access my account. I have a client demo in 2 hours this is urgent."
+                 class="w-full text-sm border border-brand-gray-200 rounded-[10px] px-3.5 py-2.5 outline-none focus:border-brand-black transition resize-none"></textarea>
+             </div>
 
-              <!-- Quick presets -->
-              <p class="text-[10px] text-brand-gray-400 mb-2">Try a preset:</p>
-              <div class="flex flex-wrap gap-1.5 mb-5">
-                {[
-                  ['Billing issue','My invoice is wrong, been charged twice this month.'],
-                  ['Urgent access','System down, team of 12 can\'t log in. Launch in 1 hour.'],
-                  ['General query','Can I change my plan? I need more seats.']
-                ].map(([label,val])=>(
-                  <button onclick={`document.getElementById('sb2-text').value='${val}';`}
-                    class="text-[10px] font-medium px-2.5 py-1 rounded-full border border-brand-gray-200 hover:border-brand-black transition text-brand-gray-600">
-                    {label}
-                  </button>
-                ))}
-              </div>
+             <!-- Quick presets -->
+             <p class="text-[10px] text-brand-gray-400 mb-2">Try a preset:</p>
+             <div class="flex flex-wrap gap-1.5 mb-5">
+               {[
+                 ['Billing issue','My invoice is wrong, been charged twice this month.'],
+                 ['Urgent access','System down, team of 12 can\'t log in. Launch in 1 hour.'],
+                 ['General query','Can I change my plan? I need more seats.']
+               ].map(([label,val])=>(
+                 <button onclick={`document.getElementById('sb2-text').value='${val}';`}
+                   class="text-[10px] font-medium px-2.5 py-1 rounded-full border border-brand-gray-200 hover:border-brand-black transition text-brand-gray-600">
+                   {label}
+                 </button>
+               ))}
+             </div>
 
-              <button onclick="runSandbox(2)" id="sb2-btn"
-                class="w-full py-2.5 rounded-[10px] text-[12px] font-bold text-white transition-all flex items-center justify-center gap-2"
-                style="background:#0A0A0A;">
-                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                Classify with Claude AI
-              </button>
-            </div>
+             <button onclick="runSandbox(2)" id="sb2-btn"
+               class="w-full py-2.5 rounded-[10px] text-[12px] font-bold text-white transition-all flex items-center justify-center gap-2"
+               style="background:#0A0A0A;">
+               <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+               Classify with Claude AI
+             </button>
+           </div>
 
-            <div class="p-6 flex flex-col" style="background:#FAFAF8;">
-              <div class="flex items-center justify-between mb-4">
-                <p class="text-[10px] uppercase tracking-wider font-bold text-brand-gray-400">Classification result</p>
-                <span class="text-[9px] font-semibold px-2 py-0.5 rounded-full" style="background:rgba(123,104,238,0.10);color:#7B68EE;">Claude AI · &lt;800ms</span>
-              </div>
-              <div id="sb2-idle" class="flex-1 flex items-center justify-center">
-                <div class="text-center">
-                  <div class="w-10 h-10 rounded-full border-2 border-dashed border-brand-gray-200 flex items-center justify-center mx-auto mb-3">
-                    <svg class="w-4 h-4 text-brand-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                  </div>
-                  <p class="text-[11px] text-brand-gray-400">Classification will appear here</p>
-                </div>
-              </div>
-              <div id="sb2-output" class="hidden flex-1 flex flex-col gap-3" style="animation:slideUp 0.4s ease-out;">
-                <!-- Urgency + confidence -->
-                <div class="flex items-center gap-3">
-                  <div id="sb2-urgency-badge" class="flex-1 rounded-[10px] px-4 py-3 flex items-center gap-3">
-                    <div id="sb2-urgency-dot" class="w-3 h-3 rounded-full shrink-0"></div>
-                    <div>
-                      <p class="text-[9px] uppercase tracking-wider font-bold opacity-60 mb-0.5">Urgency</p>
-                      <p class="text-[14px] font-bold" id="sb2-urgency-text">—</p>
-                    </div>
-                  </div>
-                  <div class="flex-1 rounded-[10px] px-4 py-3" style="background:#F3F3F0;">
-                    <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400 mb-0.5">Confidence</p>
-                    <p class="text-[14px] font-bold text-brand-black" id="sb2-confidence">—</p>
-                  </div>
-                </div>
-                <!-- Details grid -->
-                <div class="grid grid-cols-2 gap-2">
-                  <div class="rounded-[10px] px-3 py-2.5" style="background:#F3F3F0;">
-                    <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400 mb-0.5">Category</p>
-                    <p class="text-[12px] font-semibold text-brand-black" id="sb2-category">—</p>
-                  </div>
-                  <div class="rounded-[10px] px-3 py-2.5" style="background:#F3F3F0;">
-                    <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400 mb-0.5">Assigned to</p>
-                    <p class="text-[12px] font-semibold text-brand-black" id="sb2-owner">—</p>
-                  </div>
-                  <div class="rounded-[10px] px-3 py-2.5" style="background:#F3F3F0;">
-                    <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400 mb-0.5">SLA target</p>
-                    <p class="text-[12px] font-semibold text-brand-black" id="sb2-sla">—</p>
-                  </div>
-                  <div class="rounded-[10px] px-3 py-2.5" style="background:#F3F3F0;">
-                    <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400 mb-0.5">Sentiment</p>
-                    <p class="text-[12px] font-semibold text-brand-black" id="sb2-sentiment">—</p>
-                  </div>
-                </div>
-                <!-- Key phrases -->
-                <div>
-                  <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400 mb-1.5">Key phrases extracted</p>
-                  <div id="sb2-phrases" class="flex flex-wrap gap-1.5"></div>
-                </div>
-                <!-- Ticket created -->
-                <div class="rounded-[10px] border border-brand-gray-200 px-3 py-2.5 flex items-center justify-between">
-                  <div class="flex items-center gap-2">
-                    <div class="w-1.5 h-1.5 rounded-full bg-green-400"></div>
-                    <span class="text-[11px] text-brand-gray-600">Zendesk ticket <strong class="text-brand-black" id="sb2-ticket">#—</strong> created</span>
-                  </div>
-                  <span class="text-[10px] text-brand-gray-400" id="sb2-elapsed">0ms</span>
-                </div>
-              </div>
-            </div>
+           <div class="p-6 flex flex-col" style="background:#FAFAF8;">
+             <div class="flex items-center justify-between mb-4">
+               <p class="text-[10px] uppercase tracking-wider font-bold text-brand-gray-400">Classification result</p>
+               <span class="text-[9px] font-semibold px-2 py-0.5 rounded-full" style="background:rgba(123,104,238,0.10);color:#7B68EE;">Claude AI · &lt;800ms</span>
+             </div>
+             <div id="sb2-idle" class="flex-1 flex items-center justify-center">
+               <div class="text-center">
+                 <div class="w-10 h-10 rounded-full border-2 border-dashed border-brand-gray-200 flex items-center justify-center mx-auto mb-3">
+                   <svg class="w-4 h-4 text-brand-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                 </div>
+                 <p class="text-[11px] text-brand-gray-400">Classification will appear here</p>
+               </div>
+             </div>
+             <div id="sb2-output" class="hidden flex-1 flex flex-col gap-3" style="animation:slideUp 0.4s ease-out;">
+               <!-- Urgency + confidence -->
+               <div class="flex items-center gap-3">
+                 <div id="sb2-urgency-badge" class="flex-1 rounded-[10px] px-4 py-3 flex items-center gap-3">
+                   <div id="sb2-urgency-dot" class="w-3 h-3 rounded-full shrink-0"></div>
+                   <div>
+                     <p class="text-[9px] uppercase tracking-wider font-bold opacity-60 mb-0.5">Urgency</p>
+                     <p class="text-[14px] font-bold" id="sb2-urgency-text"> </p>
+                   </div>
+                 </div>
+                 <div class="flex-1 rounded-[10px] px-4 py-3" style="background:#F3F3F0;">
+                   <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400 mb-0.5">Confidence</p>
+                   <p class="text-[14px] font-bold text-brand-black" id="sb2-confidence"> </p>
+                 </div>
+               </div>
+               <!-- Details grid -->
+               <div class="grid grid-cols-2 gap-2">
+                 <div class="rounded-[10px] px-3 py-2.5" style="background:#F3F3F0;">
+                   <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400 mb-0.5">Category</p>
+                   <p class="text-[12px] font-semibold text-brand-black" id="sb2-category"> </p>
+                 </div>
+                 <div class="rounded-[10px] px-3 py-2.5" style="background:#F3F3F0;">
+                   <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400 mb-0.5">Assigned to</p>
+                   <p class="text-[12px] font-semibold text-brand-black" id="sb2-owner"> </p>
+                 </div>
+                 <div class="rounded-[10px] px-3 py-2.5" style="background:#F3F3F0;">
+                   <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400 mb-0.5">SLA target</p>
+                   <p class="text-[12px] font-semibold text-brand-black" id="sb2-sla"> </p>
+                 </div>
+                 <div class="rounded-[10px] px-3 py-2.5" style="background:#F3F3F0;">
+                   <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400 mb-0.5">Sentiment</p>
+                   <p class="text-[12px] font-semibold text-brand-black" id="sb2-sentiment"> </p>
+                 </div>
+               </div>
+               <!-- Key phrases -->
+               <div>
+                 <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400 mb-1.5">Key phrases extracted</p>
+                 <div id="sb2-phrases" class="flex flex-wrap gap-1.5"></div>
+               </div>
+               <!-- Ticket created -->
+               <div class="rounded-[10px] border border-brand-gray-200 px-3 py-2.5 flex items-center justify-between">
+                 <div class="flex items-center gap-2">
+                   <div class="w-1.5 h-1.5 rounded-full bg-green-400"></div>
+                   <span class="text-[11px] text-brand-gray-600">Zendesk ticket <strong class="text-brand-black" id="sb2-ticket"># </strong> created</span>
+                 </div>
+                 <span class="text-[10px] text-brand-gray-400" id="sb2-elapsed">0ms</span>
+               </div>
+             </div>
+           </div>
 
-          </div>
-        </div>
+         </div>
+       </div>
 
-        <!-- ─ Sandbox 3: Invoice ──────────────────────────────────────── -->
-        <div class="bg-white rounded-card border border-brand-gray-100 overflow-hidden">
-          <div class="h-[2px]" style="background:linear-gradient(90deg,#C89840 0%,rgba(200,152,64,0.15) 55%,transparent 100%);"></div>
-          <div class="grid grid-cols-1 lg:grid-cols-2">
+       <!-- ─ Sandbox 3: Invoice ──────────────────────────────────────── -->
+       <div class="bg-white rounded-card border border-brand-gray-100 overflow-hidden">
+         <div class="h-[2px]" style="background:linear-gradient(90deg,#C89840 0%,rgba(200,152,64,0.15) 55%,transparent 100%);"></div>
+         <div class="grid grid-cols-1 lg:grid-cols-2">
 
-            <div class="p-6 border-b lg:border-b-0 lg:border-r border-brand-gray-100">
-              <div class="flex items-center gap-3 mb-5">
-                <div class="w-10 h-10 rounded-[12px] flex items-center justify-center shrink-0" style="background:rgba(200,152,64,0.12);">
-                  <svg class="w-5 h-5" style="color:#C89840;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-                    <line x1="12" y1="18" x2="12" y2="12"/>
-                    <line x1="9" y1="15" x2="15" y2="15"/>
-                  </svg>
-                </div>
-                <div>
-                  <p class="text-[10px] uppercase tracking-wider font-bold text-brand-gray-400">Finance</p>
-                  <h3 class="font-display text-base text-brand-black">Invoice generation + chase</h3>
-                </div>
-                <div class="ml-auto flex items-center gap-1.5 px-2.5 py-1 rounded-full" style="background:rgba(200,152,64,0.10);">
-                  <span class="text-[10px] font-bold" style="color:#C89840;">6h/wk saved</span>
-                </div>
-              </div>
+           <div class="p-6 border-b lg:border-b-0 lg:border-r border-brand-gray-100">
+             <div class="flex items-center gap-3 mb-5">
+               <div class="w-10 h-10 rounded-[12px] flex items-center justify-center shrink-0" style="background:rgba(200,152,64,0.12);">
+                 <svg class="w-5 h-5" style="color:#C89840;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                   <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                   <polyline points="14 2 14 8 20 8"/>
+                   <line x1="12" y1="18" x2="12" y2="12"/>
+                   <line x1="9" y1="15" x2="15" y2="15"/>
+                 </svg>
+               </div>
+               <div>
+                 <p class="text-[10px] uppercase tracking-wider font-bold text-brand-gray-400">Finance</p>
+                 <h3 class="font-display text-base text-brand-black">Invoice generation + chase</h3>
+               </div>
+               <div class="ml-auto flex items-center gap-1.5 px-2.5 py-1 rounded-full" style="background:rgba(200,152,64,0.10);">
+                 <span class="text-[10px] font-bold" style="color:#C89840;">6h/wk saved</span>
+               </div>
+             </div>
 
-              <div class="space-y-2.5 mb-5">
-                <div class="grid grid-cols-2 gap-2.5">
-                  <div>
-                    <label class="block text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400 mb-1.5">Client name</label>
-                    <input id="sb3-client" type="text" placeholder="Acme Corp" class="w-full text-sm border border-brand-gray-200 rounded-[10px] px-3.5 py-2.5 outline-none focus:border-brand-black transition"/>
-                  </div>
-                  <div>
-                    <label class="block text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400 mb-1.5">Amount</label>
-                    <div class="relative">
-                      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-brand-gray-400">£</span>
-                      <input id="sb3-amount" type="number" placeholder="2400" class="w-full text-sm border border-brand-gray-200 rounded-[10px] pl-7 pr-3 py-2.5 outline-none focus:border-brand-black transition"/>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <label class="block text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400 mb-1.5">Service description</label>
-                  <input id="sb3-desc" type="text" placeholder="Automation build — Phase 1" class="w-full text-sm border border-brand-gray-200 rounded-[10px] px-3.5 py-2.5 outline-none focus:border-brand-black transition"/>
-                </div>
-                <div>
-                  <label class="block text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400 mb-1.5">Payment terms</label>
-                  <select id="sb3-terms" class="w-full text-sm border border-brand-gray-200 rounded-[10px] px-3.5 py-2.5 outline-none focus:border-brand-black transition bg-white">
-                    <option>Net 14</option><option>Net 30</option><option>Due on receipt</option>
-                  </select>
-                </div>
-              </div>
+             <div class="space-y-2.5 mb-5">
+               <div class="grid grid-cols-2 gap-2.5">
+                 <div>
+                   <label class="block text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400 mb-1.5">Client name</label>
+                   <input id="sb3-client" type="text" placeholder="Acme Corp" class="w-full text-sm border border-brand-gray-200 rounded-[10px] px-3.5 py-2.5 outline-none focus:border-brand-black transition"/>
+                 </div>
+                 <div>
+                   <label class="block text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400 mb-1.5">Amount</label>
+                   <div class="relative">
+                     <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-brand-gray-400">£</span>
+                     <input id="sb3-amount" type="number" placeholder="2400" class="w-full text-sm border border-brand-gray-200 rounded-[10px] pl-7 pr-3 py-2.5 outline-none focus:border-brand-black transition"/>
+                   </div>
+                 </div>
+               </div>
+               <div>
+                 <label class="block text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400 mb-1.5">Service description</label>
+                 <input id="sb3-desc" type="text" placeholder="Automation build Phase 1" class="w-full text-sm border border-brand-gray-200 rounded-[10px] px-3.5 py-2.5 outline-none focus:border-brand-black transition"/>
+               </div>
+               <div>
+                 <label class="block text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400 mb-1.5">Payment terms</label>
+                 <select id="sb3-terms" class="w-full text-sm border border-brand-gray-200 rounded-[10px] px-3.5 py-2.5 outline-none focus:border-brand-black transition bg-white">
+                   <option>Net 14</option><option>Net 30</option><option>Due on receipt</option>
+                 </select>
+               </div>
+             </div>
 
-              <button onclick="runSandbox(3)" id="sb3-btn"
-                class="w-full py-2.5 rounded-[10px] text-[12px] font-bold text-white transition-all flex items-center justify-center gap-2"
-                style="background:#0A0A0A;">
-                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                Generate invoice + sequence
-              </button>
-            </div>
+             <button onclick="runSandbox(3)" id="sb3-btn"
+               class="w-full py-2.5 rounded-[10px] text-[12px] font-bold text-white transition-all flex items-center justify-center gap-2"
+               style="background:#0A0A0A;">
+               <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+               Generate invoice + sequence
+             </button>
+           </div>
 
-            <div class="p-6 flex flex-col" style="background:#FAFAF8;">
-              <div class="flex items-center justify-between mb-4">
-                <p class="text-[10px] uppercase tracking-wider font-bold text-brand-gray-400">Invoice preview</p>
-                <span class="text-[9px] font-semibold px-2 py-0.5 rounded-full" style="background:rgba(200,152,64,0.10);color:#C89840;">Xero · PDF · Chase</span>
-              </div>
-              <div id="sb3-idle" class="flex-1 flex items-center justify-center">
-                <div class="text-center">
-                  <div class="w-10 h-10 rounded-full border-2 border-dashed border-brand-gray-200 flex items-center justify-center mx-auto mb-3">
-                    <svg class="w-4 h-4 text-brand-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                  </div>
-                  <p class="text-[11px] text-brand-gray-400">Invoice preview will render here</p>
-                </div>
-              </div>
-              <div id="sb3-output" class="hidden flex-1 flex flex-col gap-3" style="animation:slideUp 0.4s ease-out;">
-                <!-- Mini invoice -->
-                <div class="rounded-[12px] border border-brand-gray-200 overflow-hidden bg-white">
-                  <div class="px-4 py-3 flex items-center justify-between border-b border-brand-gray-100">
-                    <div>
-                      <p class="font-display text-base font-medium text-brand-black">PURIST</p>
-                      <p class="text-[10px] text-brand-gray-400">purist.co · hello@purist.co</p>
-                    </div>
-                    <div class="text-right">
-                      <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400">Invoice</p>
-                      <p class="text-[13px] font-bold text-brand-black" id="inv-number">#INV-—</p>
-                    </div>
-                  </div>
-                  <div class="px-4 py-3 border-b border-brand-gray-100">
-                    <div class="grid grid-cols-2 gap-3">
-                      <div>
-                        <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400 mb-1">Bill to</p>
-                        <p class="text-[12px] font-semibold text-brand-black" id="inv-client">—</p>
-                      </div>
-                      <div class="text-right">
-                        <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400 mb-1">Due date</p>
-                        <p class="text-[12px] font-semibold text-brand-black" id="inv-due">—</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="px-4 py-3 border-b border-brand-gray-100">
-                    <div class="flex items-center justify-between text-[11px]">
-                      <span class="text-brand-gray-600" id="inv-desc">—</span>
-                      <span class="font-bold text-brand-black" id="inv-amount">£—</span>
-                    </div>
-                  </div>
-                  <div class="px-4 py-3 flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-brand-black">Total</span>
-                    <span class="font-display text-lg text-brand-black" id="inv-total">£—</span>
-                  </div>
-                </div>
-                <!-- Chase sequence -->
-                <div>
-                  <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400 mb-2">Chase sequence queued</p>
-                  <div class="space-y-1.5">
-                    {[['Day 0','Invoice sent','Delivered'],['Day 7','Polite reminder','Scheduled'],['Day 14','Escalation email','Scheduled'],['Day 30','Final notice','Scheduled']].map(([day,action,status])=>(
-                      <div class="flex items-center gap-2 text-[10px]">
-                        <span class="w-10 font-bold text-brand-gray-400 shrink-0">{day}</span>
-                        <span class="flex-1 text-brand-gray-700">{action}</span>
-                        <span class="px-1.5 py-0.5 rounded-full font-bold" style={status==='Delivered'?'background:rgba(45,80,22,0.10);color:#2D5016;':'background:rgba(200,152,64,0.10);color:#C89840;'}>{status}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
+           <div class="p-6 flex flex-col" style="background:#FAFAF8;">
+             <div class="flex items-center justify-between mb-4">
+               <p class="text-[10px] uppercase tracking-wider font-bold text-brand-gray-400">Invoice preview</p>
+               <span class="text-[9px] font-semibold px-2 py-0.5 rounded-full" style="background:rgba(200,152,64,0.10);color:#C89840;">Xero · PDF · Chase</span>
+             </div>
+             <div id="sb3-idle" class="flex-1 flex items-center justify-center">
+               <div class="text-center">
+                 <div class="w-10 h-10 rounded-full border-2 border-dashed border-brand-gray-200 flex items-center justify-center mx-auto mb-3">
+                   <svg class="w-4 h-4 text-brand-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                 </div>
+                 <p class="text-[11px] text-brand-gray-400">Invoice preview will render here</p>
+               </div>
+             </div>
+             <div id="sb3-output" class="hidden flex-1 flex flex-col gap-3" style="animation:slideUp 0.4s ease-out;">
+               <!-- Mini invoice -->
+               <div class="rounded-[12px] border border-brand-gray-200 overflow-hidden bg-white">
+                 <div class="px-4 py-3 flex items-center justify-between border-b border-brand-gray-100">
+                   <div>
+                     <p class="font-display text-base font-medium text-brand-black">PURIST</p>
+                     <p class="text-[10px] text-brand-gray-400">purist.co · hello@purist.co</p>
+                   </div>
+                   <div class="text-right">
+                     <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400">Invoice</p>
+                     <p class="text-[13px] font-bold text-brand-black" id="inv-number">#INV- </p>
+                   </div>
+                 </div>
+                 <div class="px-4 py-3 border-b border-brand-gray-100">
+                   <div class="grid grid-cols-2 gap-3">
+                     <div>
+                       <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400 mb-1">Bill to</p>
+                       <p class="text-[12px] font-semibold text-brand-black" id="inv-client"> </p>
+                     </div>
+                     <div class="text-right">
+                       <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400 mb-1">Due date</p>
+                       <p class="text-[12px] font-semibold text-brand-black" id="inv-due"> </p>
+                     </div>
+                   </div>
+                 </div>
+                 <div class="px-4 py-3 border-b border-brand-gray-100">
+                   <div class="flex items-center justify-between text-[11px]">
+                     <span class="text-brand-gray-600" id="inv-desc"> </span>
+                     <span class="font-bold text-brand-black" id="inv-amount">£ </span>
+                   </div>
+                 </div>
+                 <div class="px-4 py-3 flex items-center justify-between">
+                   <span class="text-[11px] font-bold text-brand-black">Total</span>
+                   <span class="font-display text-lg text-brand-black" id="inv-total">£ </span>
+                 </div>
+               </div>
+               <!-- Chase sequence -->
+               <div>
+                 <p class="text-[9px] uppercase tracking-wider font-bold text-brand-gray-400 mb-2">Chase sequence queued</p>
+                 <div class="space-y-1.5">
+                   {[['Day 0','Invoice sent','Delivered'],['Day 7','Polite reminder','Scheduled'],['Day 14','Escalation email','Scheduled'],['Day 30','Final notice','Scheduled']].map(([day,action,status])=>(
+                     <div class="flex items-center gap-2 text-[10px]">
+                       <span class="w-10 font-bold text-brand-gray-400 shrink-0">{day}</span>
+                       <span class="flex-1 text-brand-gray-700">{action}</span>
+                       <span class="px-1.5 py-0.5 rounded-full font-bold" style={status==='Delivered'?'background:rgba(45,80,22,0.10);color:#2D5016;':'background:rgba(200,152,64,0.10);color:#C89840;'}>{status}</span>
+                     </div>
+                   ))}
+                 </div>
+               </div>
+             </div>
+           </div>
 
-          </div>
-        </div>
+         </div>
+       </div>
 
-      </div>
-    </div>
-  </section>
+     </div>
+   </div>
+ </section>
 
-  <!-- ══════════════════════════════════════════════════════════════════════
-       SECTION 3 — BOOK A CALL
-  ══════════════════════════════════════════════════════════════════════ -->
-  <section id="booking" class="bg-white py-16 lg:py-24 border-t border-brand-gray-100" style="scroll-margin-top:80px;">
-    <div class="container-x">
-      <div class="max-w-4xl mx-auto">
+ <!-- ══════════════════════════════════════════════════════════════════════
+      SECTION 3 BOOK A CALL
+ ══════════════════════════════════════════════════════════════════════ -->
+ <section id="booking" class="bg-white py-16 lg:py-24 border-t border-brand-gray-100" style="scroll-margin-top:80px;">
+   <div class="container-x">
+     <div class="max-w-4xl mx-auto">
 
-        <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
+       <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
 
-          <!-- Left: form -->
-          <div class="flex-1">
-            <p class="eyebrow mb-3">③ Book a call</p>
-            <h2 class="font-display text-h2 mb-3">We build yours live — on screen</h2>
-            <p class="text-sm text-brand-gray-600 mb-10">3 questions. We arrive with your first automation already mapped. No slides, no sales pitch — just building.</p>
+         <!-- Left: form -->
+         <div class="flex-1">
+           <p class="eyebrow mb-3">③ Book a call</p>
+           <h2 class="font-display text-h2 mb-3">We build yours live on screen</h2>
+           <p class="text-sm text-brand-gray-600 mb-10">3 questions. We arrive with your first automation already mapped. No slides, no sales pitch just building.</p>
 
-            <!-- Step indicators -->
-            <div class="flex items-start gap-0 mb-10">
-              {[{n:1,l:'Industry'},{n:2,l:'Bottleneck'},{n:3,l:'Team'},{n:4,l:'Book'}].map(({n,l},i)=>(
-                <div class="flex items-start flex-1">
-                  <div class="flex flex-col items-center shrink-0">
-                    <div class="bk-dot w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold transition-all duration-300 z-10" data-step={n}
-                      style={n===1?'background:#0A0A0A;color:#fff;':'background:#F3F3F0;color:#9CA3AF;'}>
-                      {n}
-                    </div>
-                    <p class="text-[8.5px] font-semibold mt-1.5 text-center leading-none tracking-wide" style="color:#C0BAB0;width:56px;">{l}</p>
-                  </div>
-                  {i < 3 && <div class="bk-line flex-1 h-0.5 transition-all duration-500 mt-3.5" data-after={n} style="background:#F3F3F0;"></div>}
-                </div>
-              ))}
-            </div>
+           <!-- Step indicators -->
+           <div class="flex items-start gap-0 mb-10">
+             {[{n:1,l:'Industry'},{n:2,l:'Bottleneck'},{n:3,l:'Team'},{n:4,l:'Book'}].map(({n,l},i)=>(
+               <div class="flex items-start flex-1">
+                 <div class="flex flex-col items-center shrink-0">
+                   <div class="bk-dot w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold transition-all duration-300 z-10" data-step={n}
+                     style={n===1?'background:#0A0A0A;color:#fff;':'background:#F3F3F0;color:#9CA3AF;'}>
+                     {n}
+                   </div>
+                   <p class="text-[8.5px] font-semibold mt-1.5 text-center leading-none tracking-wide" style="color:#C0BAB0;width:56px;">{l}</p>
+                 </div>
+                 {i < 3 && <div class="bk-line flex-1 h-0.5 transition-all duration-500 mt-3.5" data-after={n} style="background:#F3F3F0;"></div>}
+               </div>
+             ))}
+           </div>
 
-            <!-- Step 1 -->
-            <div id="bk-1" class="bk-step">
-              <h3 class="font-display text-lg mb-1">What's your industry?</h3>
-              <p class="text-[12px] text-brand-gray-500 mb-5">We'll arrive with workflows built for your sector.</p>
-              <div class="grid grid-cols-2 gap-2">
+           <!-- Step 1 -->
+           <div id="bk-1" class="bk-step">
+             <h3 class="font-display text-lg mb-1">What's your industry?</h3>
+             <p class="text-[12px] text-brand-gray-500 mb-5">We'll arrive with workflows built for your sector.</p>
+             <div class="grid grid-cols-2 gap-2">
 
-                <button class="bk-opt text-left px-4 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition flex items-center gap-3" data-step="1" data-val="Dental / Medical">
-                  <span class="w-7 h-7 rounded-[8px] flex items-center justify-center shrink-0" style="background:#F3F3F0;">
-                    <svg class="w-3.5 h-3.5 text-brand-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8 2 5 5 5 8c0 2.5 1 4.5 2 6l1 8h4v-5h2v5h4l1-8c1-1.5 2-3.5 2-6 0-3-3-6-7-6z"/></svg>
-                  </span>
-                  <span class="text-[12px] font-medium text-brand-black">Dental / Medical</span>
-                </button>
+               <button class="bk-opt text-left px-4 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition flex items-center gap-3" data-step="1" data-val="Dental / Medical">
+                 <span class="w-7 h-7 rounded-[8px] flex items-center justify-center shrink-0" style="background:#F3F3F0;">
+                   <svg class="w-3.5 h-3.5 text-brand-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8 2 5 5 5 8c0 2.5 1 4.5 2 6l1 8h4v-5h2v5h4l1-8c1-1.5 2-3.5 2-6 0-3-3-6-7-6z"/></svg>
+                 </span>
+                 <span class="text-[12px] font-medium text-brand-black">Dental / Medical</span>
+               </button>
 
-                <button class="bk-opt text-left px-4 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition flex items-center gap-3" data-step="1" data-val="Real Estate">
-                  <span class="w-7 h-7 rounded-[8px] flex items-center justify-center shrink-0" style="background:#F3F3F0;">
-                    <svg class="w-3.5 h-3.5 text-brand-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                  </span>
-                  <span class="text-[12px] font-medium text-brand-black">Real Estate</span>
-                </button>
+               <button class="bk-opt text-left px-4 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition flex items-center gap-3" data-step="1" data-val="Real Estate">
+                 <span class="w-7 h-7 rounded-[8px] flex items-center justify-center shrink-0" style="background:#F3F3F0;">
+                   <svg class="w-3.5 h-3.5 text-brand-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                 </span>
+                 <span class="text-[12px] font-medium text-brand-black">Real Estate</span>
+               </button>
 
-                <button class="bk-opt text-left px-4 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition flex items-center gap-3" data-step="1" data-val="Agency / Creative">
-                  <span class="w-7 h-7 rounded-[8px] flex items-center justify-center shrink-0" style="background:#F3F3F0;">
-                    <svg class="w-3.5 h-3.5 text-brand-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 011.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
-                  </span>
-                  <span class="text-[12px] font-medium text-brand-black">Agency / Creative</span>
-                </button>
+               <button class="bk-opt text-left px-4 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition flex items-center gap-3" data-step="1" data-val="Agency / Creative">
+                 <span class="w-7 h-7 rounded-[8px] flex items-center justify-center shrink-0" style="background:#F3F3F0;">
+                   <svg class="w-3.5 h-3.5 text-brand-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 011.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+                 </span>
+                 <span class="text-[12px] font-medium text-brand-black">Agency / Creative</span>
+               </button>
 
-                <button class="bk-opt text-left px-4 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition flex items-center gap-3" data-step="1" data-val="E-commerce">
-                  <span class="w-7 h-7 rounded-[8px] flex items-center justify-center shrink-0" style="background:#F3F3F0;">
-                    <svg class="w-3.5 h-3.5 text-brand-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-                  </span>
-                  <span class="text-[12px] font-medium text-brand-black">E-commerce</span>
-                </button>
+               <button class="bk-opt text-left px-4 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition flex items-center gap-3" data-step="1" data-val="E-commerce">
+                 <span class="w-7 h-7 rounded-[8px] flex items-center justify-center shrink-0" style="background:#F3F3F0;">
+                   <svg class="w-3.5 h-3.5 text-brand-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                 </span>
+                 <span class="text-[12px] font-medium text-brand-black">E-commerce</span>
+               </button>
 
-                <button class="bk-opt text-left px-4 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition flex items-center gap-3" data-step="1" data-val="SaaS / Tech">
-                  <span class="w-7 h-7 rounded-[8px] flex items-center justify-center shrink-0" style="background:#F3F3F0;">
-                    <svg class="w-3.5 h-3.5 text-brand-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                  </span>
-                  <span class="text-[12px] font-medium text-brand-black">SaaS / Tech</span>
-                </button>
+               <button class="bk-opt text-left px-4 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition flex items-center gap-3" data-step="1" data-val="SaaS / Tech">
+                 <span class="w-7 h-7 rounded-[8px] flex items-center justify-center shrink-0" style="background:#F3F3F0;">
+                   <svg class="w-3.5 h-3.5 text-brand-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                 </span>
+                 <span class="text-[12px] font-medium text-brand-black">SaaS / Tech</span>
+               </button>
 
-                <button class="bk-opt text-left px-4 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition flex items-center gap-3" data-step="1" data-val="Finance">
-                  <span class="w-7 h-7 rounded-[8px] flex items-center justify-center shrink-0" style="background:#F3F3F0;">
-                    <svg class="w-3.5 h-3.5 text-brand-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-                  </span>
-                  <span class="text-[12px] font-medium text-brand-black">Finance</span>
-                </button>
+               <button class="bk-opt text-left px-4 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition flex items-center gap-3" data-step="1" data-val="Finance">
+                 <span class="w-7 h-7 rounded-[8px] flex items-center justify-center shrink-0" style="background:#F3F3F0;">
+                   <svg class="w-3.5 h-3.5 text-brand-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+                 </span>
+                 <span class="text-[12px] font-medium text-brand-black">Finance</span>
+               </button>
 
-                <button class="bk-opt text-left px-4 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition flex items-center gap-3" data-step="1" data-val="Law Firm">
-                  <span class="w-7 h-7 rounded-[8px] flex items-center justify-center shrink-0" style="background:#F3F3F0;">
-                    <svg class="w-3.5 h-3.5 text-brand-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V2M4 6l4 8M20 6l-4 8M4 14h8M12 14h8"/><line x1="4" y1="6" x2="20" y2="6"/></svg>
-                  </span>
-                  <span class="text-[12px] font-medium text-brand-black">Law Firm</span>
-                </button>
+               <button class="bk-opt text-left px-4 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition flex items-center gap-3" data-step="1" data-val="Law Firm">
+                 <span class="w-7 h-7 rounded-[8px] flex items-center justify-center shrink-0" style="background:#F3F3F0;">
+                   <svg class="w-3.5 h-3.5 text-brand-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V2M4 6l4 8M20 6l-4 8M4 14h8M12 14h8"/><line x1="4" y1="6" x2="20" y2="6"/></svg>
+                 </span>
+                 <span class="text-[12px] font-medium text-brand-black">Law Firm</span>
+               </button>
 
-                <button class="bk-opt text-left px-4 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition flex items-center gap-3" data-step="1" data-val="Other">
-                  <span class="w-7 h-7 rounded-[8px] flex items-center justify-center shrink-0" style="background:#F3F3F0;">
-                    <svg class="w-3.5 h-3.5 text-brand-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                  </span>
-                  <span class="text-[12px] font-medium text-brand-black">Other</span>
-                </button>
+               <button class="bk-opt text-left px-4 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition flex items-center gap-3" data-step="1" data-val="Other">
+                 <span class="w-7 h-7 rounded-[8px] flex items-center justify-center shrink-0" style="background:#F3F3F0;">
+                   <svg class="w-3.5 h-3.5 text-brand-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                 </span>
+                 <span class="text-[12px] font-medium text-brand-black">Other</span>
+               </button>
 
-              </div>
-            </div>
+             </div>
+           </div>
 
-            <!-- Step 2 -->
-            <div id="bk-2" class="bk-step hidden">
-              <h3 class="font-display text-lg mb-1">Biggest bottleneck?</h3>
-              <p class="text-[12px] text-brand-gray-500 mb-5">We'll solve this live on the call.</p>
-              <div class="grid grid-cols-1 gap-2">
-                {[
-                  ['Following up with leads takes too long',  'M13 10V3L4 14h7v7l9-11h-7z', 'lead follow-up + CRM sync'],
-                  ['Invoicing and cash collection is manual', 'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8', 'invoice + 3-touch chase'],
-                  ['Onboarding new clients is chaotic',       'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100 8 4 4 0 000-8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75', '14-step onboarding sequence'],
-                  ['Reporting eats half my Monday',           'M18 20V10M12 20V4M6 20v-6', 'weekly KPI auto-digest'],
-                  ['Support volume is overwhelming us',       'M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z', 'AI ticket triage + routing'],
-                ].map(([label, iconPath, hint]) => (
-                  <button class="bk-opt text-left px-4 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition flex items-center gap-3 group" data-step="2" data-val={label}>
-                    <span class="w-7 h-7 rounded-[8px] flex items-center justify-center shrink-0" style="background:#F3F3F0;">
-                      <svg class="w-3.5 h-3.5 text-brand-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d={iconPath}/></svg>
-                    </span>
-                    <div>
-                      <p class="text-[12px] font-medium text-brand-black leading-snug">{label}</p>
-                      <p class="text-[10px] text-brand-gray-400 mt-0.5 group-hover:text-brand-gray-600 transition">→ We'll build: {hint}</p>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
+           <!-- Step 2 -->
+           <div id="bk-2" class="bk-step hidden">
+             <h3 class="font-display text-lg mb-1">Biggest bottleneck?</h3>
+             <p class="text-[12px] text-brand-gray-500 mb-5">We'll solve this live on the call.</p>
+             <div class="grid grid-cols-1 gap-2">
+               {[
+                 ['Following up with leads takes too long', 'M13 10V3L4 14h7v7l9-11h-7z', 'lead follow-up + CRM sync'],
+                 ['Invoicing and cash collection is manual', 'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8', 'invoice + 3-touch chase'],
+                 ['Onboarding new clients is chaotic',     'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100 8 4 4 0 000-8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75', '14-step onboarding sequence'],
+                 ['Reporting eats half my Monday',         'M18 20V10M12 20V4M6 20v-6', 'weekly KPI auto-digest'],
+                 ['Support volume is overwhelming us',     'M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z', 'AI ticket triage + routing'],
+               ].map(([label, iconPath, hint]) => (
+                 <button class="bk-opt text-left px-4 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition flex items-center gap-3 group" data-step="2" data-val={label}>
+                   <span class="w-7 h-7 rounded-[8px] flex items-center justify-center shrink-0" style="background:#F3F3F0;">
+                     <svg class="w-3.5 h-3.5 text-brand-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d={iconPath}/></svg>
+                   </span>
+                   <div>
+                     <p class="text-[12px] font-medium text-brand-black leading-snug">{label}</p>
+                     <p class="text-[10px] text-brand-gray-400 mt-0.5 group-hover:text-brand-gray-600 transition">→ We'll build: {hint}</p>
+                   </div>
+                 </button>
+               ))}
+             </div>
+           </div>
 
-            <!-- Step 3 -->
-            <div id="bk-3" class="bk-step hidden">
-              <h3 class="font-display text-lg mb-1">Team size and urgency?</h3>
-              <p class="text-[12px] text-brand-gray-500 mb-5">Shapes the scope and starting point.</p>
-              <div class="grid grid-cols-2 gap-2 mb-5">
-                {[['1–5','Solo / micro'],['6–15','Small team'],['16–30','Growing'],['30+','Scale-up']].map(([n,sub])=>(
-                  <button class="bk-opt text-left px-4 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition" data-step="3a" data-val={n+' people'}>
-                    <p class="text-[13px] font-bold text-brand-black leading-none mb-0.5">{n}</p>
-                    <p class="text-[10px] text-brand-gray-400">{sub}</p>
-                  </button>
-                ))}
-              </div>
-              <p class="text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400 mb-3">When do you want to move?</p>
-              <div class="grid grid-cols-3 gap-2">
-                {[
-                  ['This week',     'M13 10V3L4 14h7v7l9-11h-7z',          'Urgent'],
-                  ['This month',    'M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z', 'Planned'],
-                  ['Just exploring','M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8zM12 12m-3 0a3 3 0 100 6 3 3 0 000-6z', 'Research'],
-                ].map(([t, icon, sub]) => (
-                  <button class="bk-opt px-3 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition text-center" data-step="3b" data-val={t}>
-                    <span class="w-6 h-6 rounded-[7px] flex items-center justify-center mx-auto mb-2" style="background:#F3F3F0;">
-                      <svg class="w-3 h-3 text-brand-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d={icon}/></svg>
-                    </span>
-                    <p class="text-[11px] font-semibold text-brand-black leading-none">{t}</p>
-                    <p class="text-[9px] text-brand-gray-400 mt-0.5">{sub}</p>
-                  </button>
-                ))}
-              </div>
-            </div>
+           <!-- Step 3 -->
+           <div id="bk-3" class="bk-step hidden">
+             <h3 class="font-display text-lg mb-1">Team size and urgency?</h3>
+             <p class="text-[12px] text-brand-gray-500 mb-5">Shapes the scope and starting point.</p>
+             <div class="grid grid-cols-2 gap-2 mb-5">
+               {[['1–5','Solo / micro'],['6–15','Small team'],['16–30','Growing'],['30+','Scale-up']].map(([n,sub])=>(
+                 <button class="bk-opt text-left px-4 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition" data-step="3a" data-val={n+' people'}>
+                   <p class="text-[13px] font-bold text-brand-black leading-none mb-0.5">{n}</p>
+                   <p class="text-[10px] text-brand-gray-400">{sub}</p>
+                 </button>
+               ))}
+             </div>
+             <p class="text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400 mb-3">When do you want to move?</p>
+             <div class="grid grid-cols-3 gap-2">
+               {[
+                 ['This week',   'M13 10V3L4 14h7v7l9-11h-7z',        'Urgent'],
+                 ['This month',  'M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z', 'Planned'],
+                 ['Just exploring','M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8zM12 12m-3 0a3 3 0 100 6 3 3 0 000-6z', 'Research'],
+               ].map(([t, icon, sub]) => (
+                 <button class="bk-opt px-3 py-3.5 rounded-[12px] border border-brand-gray-200 hover:border-brand-black transition text-center" data-step="3b" data-val={t}>
+                   <span class="w-6 h-6 rounded-[7px] flex items-center justify-center mx-auto mb-2" style="background:#F3F3F0;">
+                     <svg class="w-3 h-3 text-brand-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d={icon}/></svg>
+                   </span>
+                   <p class="text-[11px] font-semibold text-brand-black leading-none">{t}</p>
+                   <p class="text-[9px] text-brand-gray-400 mt-0.5">{sub}</p>
+                 </button>
+               ))}
+             </div>
+           </div>
 
-            <!-- Step 4 -->
-            <div id="bk-4" class="bk-step hidden">
-              <h3 class="font-display text-lg mb-1">Your demo is ready</h3>
-              <p class="text-[12px] text-brand-gray-500 mb-5">Based on your answers, here's exactly what we'll cover.</p>
-              <div class="rounded-[14px] border border-brand-gray-100 overflow-hidden mb-5">
-                <div class="h-[2px]" style="background:linear-gradient(90deg,#0A0A0A 0%,rgba(10,10,10,0.08) 55%,transparent 100%);"></div>
-                <div class="p-5 bg-brand-beige">
-                  <div class="flex items-center justify-between mb-4">
-                    <p class="text-[9px] uppercase tracking-[0.18em] font-bold text-brand-gray-400">30-min agenda — built for you</p>
-                    <span class="text-[9px] font-bold px-2 py-0.5 rounded-full" style="background:#0A0A0A;color:#fff;">Live build</span>
-                  </div>
-                  <div class="space-y-3">
-                    {[
-                      {n:'01',label:'Live build',id:'bk-agenda-live',accent:'#E8B4B0'},
-                      {n:'02',label:'Workflow audit of your current stack',id:null,accent:'#7B68EE'},
-                      {n:'03',label:'ROI projection — your exact numbers',id:null,accent:'#4ade80'},
-                      {n:'04',label:'Your 3-automation quick-win roadmap',id:null,accent:'#C89840'},
-                    ].map(item=>(
-                      <div class="flex items-start gap-3">
-                        <span class="text-[9px] font-bold shrink-0 mt-0.5 w-5" style={`color:${item.accent};opacity:0.7;`}>{item.n}</span>
-                        <p class="text-[12px] font-medium text-brand-black leading-snug" id={item.id||undefined}>{item.label}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <a href="/pages/welcome" class="flex items-center justify-center gap-2 w-full py-4 rounded-button text-[13px] font-bold text-white bg-brand-black hover:bg-brand-gray-900 transition mb-3">
-                Book my free 30-minute demo
-                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </a>
-              <p class="text-center text-[11px] text-brand-gray-400">Free · No sales pressure · We arrive prepared</p>
-            </div>
+           <!-- Step 4 -->
+           <div id="bk-4" class="bk-step hidden">
+             <h3 class="font-display text-lg mb-1">Your demo is ready</h3>
+             <p class="text-[12px] text-brand-gray-500 mb-5">Based on your answers, here's exactly what we'll cover.</p>
+             <div class="rounded-[14px] border border-brand-gray-100 overflow-hidden mb-5">
+               <div class="h-[2px]" style="background:linear-gradient(90deg,#0A0A0A 0%,rgba(10,10,10,0.08) 55%,transparent 100%);"></div>
+               <div class="p-5 bg-brand-beige">
+                 <div class="flex items-center justify-between mb-4">
+                   <p class="text-[9px] uppercase tracking-[0.18em] font-bold text-brand-gray-400">30-min agenda built for you</p>
+                   <span class="text-[9px] font-bold px-2 py-0.5 rounded-full" style="background:#0A0A0A;color:#fff;">Live build</span>
+                 </div>
+                 <div class="space-y-3">
+                   {[
+                     {n:'01',label:'Live build',id:'bk-agenda-live',accent:'#E8B4B0'},
+                     {n:'02',label:'Workflow audit of your current stack',id:null,accent:'#7B68EE'},
+                     {n:'03',label:'ROI projection your exact numbers',id:null,accent:'#4ade80'},
+                     {n:'04',label:'Your 3-automation quick-win roadmap',id:null,accent:'#C89840'},
+                   ].map(item=>(
+                     <div class="flex items-start gap-3">
+                       <span class="text-[9px] font-bold shrink-0 mt-0.5 w-5" style={`color:${item.accent};opacity:0.7;`}>{item.n}</span>
+                       <p class="text-[12px] font-medium text-brand-black leading-snug" id={item.id||undefined}>{item.label}</p>
+                     </div>
+                   ))}
+                 </div>
+               </div>
+             </div>
+             <a href="/pages/welcome" class="flex items-center justify-center gap-2 w-full py-4 rounded-button text-[13px] font-bold text-white bg-brand-black hover:bg-brand-gray-900 transition mb-3">
+               Book my free 30-minute demo
+               <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+             </a>
+             <p class="text-center text-[11px] text-brand-gray-400">Free · No sales pressure · We arrive prepared</p>
+           </div>
 
-          </div>
+         </div>
 
-          <!-- Right: live ROI counter -->
-          <div class="lg:w-64 shrink-0">
-            <div class="sticky top-24 rounded-[18px] border border-brand-gray-100 overflow-hidden shadow-sm">
-              <!-- Header -->
-              <div class="px-5 py-4 border-b border-brand-gray-100" style="background:linear-gradient(135deg,rgba(232,180,176,0.06) 0%,transparent 60%);">
-                <div class="flex items-center gap-2 mb-0.5">
-                  <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#E8B4B0;animation:dm-pulse 2s ease-in-out infinite;"></span>
-                  <p class="text-[9px] uppercase tracking-[0.18em] font-bold text-brand-gray-400">Live ROI estimate</p>
-                </div>
-                <p class="text-[10px] text-brand-gray-400 pl-3.5">Updates as you answer</p>
-              </div>
-              <!-- ROI multiple hero -->
-              <div class="px-5 pt-5 pb-3 border-b border-brand-gray-100">
-                <p class="text-[9px] uppercase tracking-wider text-brand-gray-400 mb-1">Estimated return</p>
-                <p class="font-display text-[2.2rem] leading-none text-brand-black" id="roi-mult">—</p>
-                <p class="text-[9px] text-brand-gray-400 mt-1">on automation investment</p>
-              </div>
-              <!-- Metrics -->
-              <div class="px-5 py-4 space-y-3.5">
-                <div>
-                  <div class="flex items-baseline justify-between mb-1">
-                    <p class="text-[9px] uppercase tracking-wider text-brand-gray-400">Cost of inaction</p>
-                    <p class="font-display text-[1.1rem] text-brand-black leading-none" id="roi-cost">£—</p>
-                  </div>
-                  <div class="h-1 rounded-full bg-brand-gray-100 overflow-hidden">
-                    <div id="roi-bar-cost" class="h-full rounded-full transition-all duration-700" style="width:0%;background:#E5E5DC;"></div>
-                  </div>
-                </div>
-                <div>
-                  <div class="flex items-baseline justify-between mb-1">
-                    <p class="text-[9px] uppercase tracking-wider text-brand-gray-400">Annual saving</p>
-                    <p class="font-display text-[1.1rem] leading-none" style="color:#E8B4B0;" id="roi-saving">£—</p>
-                  </div>
-                  <div class="h-1 rounded-full bg-brand-gray-100 overflow-hidden">
-                    <div id="roi-bar-saving" class="h-full rounded-full transition-all duration-700" style="width:0%;background:#E8B4B0;"></div>
-                  </div>
-                </div>
-                <div>
-                  <div class="flex items-baseline justify-between mb-1">
-                    <p class="text-[9px] uppercase tracking-wider text-brand-gray-400">Hours/week returned</p>
-                    <p class="font-display text-[1.1rem] leading-none" style="color:#2D5016;" id="roi-hours">—</p>
-                  </div>
-                  <div class="h-1 rounded-full bg-brand-gray-100 overflow-hidden">
-                    <div id="roi-bar-hours" class="h-full rounded-full transition-all duration-700" style="width:0%;background:#4ade80;opacity:0.5;"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="px-5 pb-4">
-                <p class="text-[9px] text-brand-gray-400 leading-relaxed">Industry averages · £35/h blended rate · PURIST 2025 data</p>
-              </div>
-            </div>
-          </div>
+         <!-- Right: live ROI counter -->
+         <div class="lg:w-64 shrink-0">
+           <div class="sticky top-24 rounded-[18px] border border-brand-gray-100 overflow-hidden shadow-sm">
+             <!-- Header -->
+             <div class="px-5 py-4 border-b border-brand-gray-100" style="background:linear-gradient(135deg,rgba(232,180,176,0.06) 0%,transparent 60%);">
+               <div class="flex items-center gap-2 mb-0.5">
+                 <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#E8B4B0;animation:dm-pulse 2s ease-in-out infinite;"></span>
+                 <p class="text-[9px] uppercase tracking-[0.18em] font-bold text-brand-gray-400">Live ROI estimate</p>
+               </div>
+               <p class="text-[10px] text-brand-gray-400 pl-3.5">Updates as you answer</p>
+             </div>
+             <!-- ROI multiple hero -->
+             <div class="px-5 pt-5 pb-3 border-b border-brand-gray-100">
+               <p class="text-[9px] uppercase tracking-wider text-brand-gray-400 mb-1">Estimated return</p>
+               <p class="font-display text-[2.2rem] leading-none text-brand-black" id="roi-mult"> </p>
+               <p class="text-[9px] text-brand-gray-400 mt-1">on automation investment</p>
+             </div>
+             <!-- Metrics -->
+             <div class="px-5 py-4 space-y-3.5">
+               <div>
+                 <div class="flex items-baseline justify-between mb-1">
+                   <p class="text-[9px] uppercase tracking-wider text-brand-gray-400">Cost of inaction</p>
+                   <p class="font-display text-[1.1rem] text-brand-black leading-none" id="roi-cost">£ </p>
+                 </div>
+                 <div class="h-1 rounded-full bg-brand-gray-100 overflow-hidden">
+                   <div id="roi-bar-cost" class="h-full rounded-full transition-all duration-700" style="width:0%;background:#E5E5DC;"></div>
+                 </div>
+               </div>
+               <div>
+                 <div class="flex items-baseline justify-between mb-1">
+                   <p class="text-[9px] uppercase tracking-wider text-brand-gray-400">Annual saving</p>
+                   <p class="font-display text-[1.1rem] leading-none" style="color:#E8B4B0;" id="roi-saving">£ </p>
+                 </div>
+                 <div class="h-1 rounded-full bg-brand-gray-100 overflow-hidden">
+                   <div id="roi-bar-saving" class="h-full rounded-full transition-all duration-700" style="width:0%;background:#E8B4B0;"></div>
+                 </div>
+               </div>
+               <div>
+                 <div class="flex items-baseline justify-between mb-1">
+                   <p class="text-[9px] uppercase tracking-wider text-brand-gray-400">Hours/week returned</p>
+                   <p class="font-display text-[1.1rem] leading-none" style="color:#2D5016;" id="roi-hours"> </p>
+                 </div>
+                 <div class="h-1 rounded-full bg-brand-gray-100 overflow-hidden">
+                   <div id="roi-bar-hours" class="h-full rounded-full transition-all duration-700" style="width:0%;background:#4ade80;opacity:0.5;"></div>
+                 </div>
+               </div>
+             </div>
+             <div class="px-5 pb-4">
+               <p class="text-[9px] text-brand-gray-400 leading-relaxed">Industry averages · £35/h blended rate · PURIST 2025 data</p>
+             </div>
+           </div>
+         </div>
 
-        </div>
-      </div>
-    </div>
-  </section>
+       </div>
+     </div>
+   </div>
+ </section>
 
 </ShopLayout>
 
 <style is:global>
-  @keyframes dm-pulse { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.4)} }
-  @keyframes slideUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-  @keyframes fadeLog { from{opacity:0;transform:translateX(-4px)} to{opacity:1;transform:translateX(0)} }
-  @keyframes packet { 0%{left:0%;opacity:0} 10%{opacity:1} 90%{opacity:1} 100%{left:100%;opacity:0} }
+ @keyframes dm-pulse { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.4)} }
+ @keyframes slideUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+ @keyframes fadeLog { from{opacity:0;transform:translateX(-4px)} to{opacity:1;transform:translateX(0)} }
+ @keyframes packet { 0%{left:0%;opacity:0} 10%{opacity:1} 90%{opacity:1} 100%{left:100%;opacity:0} }
 
-  .bk-opt.selected { background:#0A0A0A !important; color:#fff !important; border-color:#0A0A0A !important; }
-  .bk-opt.selected p { color:rgba(255,255,255,0.70) !important; }
+ .bk-opt.selected { background:#0A0A0A !important; color:#fff !important; border-color:#0A0A0A !important; }
+ .bk-opt.selected p { color:rgba(255,255,255,0.70) !important; }
 
-  /* ── Node cards (all global — injected via JS) ───────────────────────── */
-  .wf-node-card {
-    border-radius: 18px;
-    border: 1px solid rgba(255,255,255,0.07);
-    background: rgba(255,255,255,0.025);
-    padding: 18px 16px 14px;
-    min-width: 118px;
-    cursor: pointer;
-    transition: border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
-    position: relative;
-    overflow: hidden;
-  }
-  .wf-node-card:hover {
-    border-color: rgba(255,255,255,0.14);
-    background: rgba(255,255,255,0.04);
-  }
-  /* Top accent bar */
-  .wf-node-topbar {
-    position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    border-radius: 18px 18px 0 0;
-    transition: opacity 0.3s;
-    opacity: 0;
-  }
-  .wf-node-card.running .wf-node-topbar {
-    opacity: 1;
-    background: linear-gradient(90deg, #E8B4B0, #c4847e);
-    animation: topbar-pulse 1.2s ease-in-out infinite;
-  }
-  .wf-node-card.done .wf-node-topbar {
-    opacity: 1;
-    background: linear-gradient(90deg, #2D5016, #4ade80);
-  }
-  @keyframes topbar-pulse { 0%,100%{opacity:0.55} 50%{opacity:1} }
+ /* ── Node cards (all global injected via JS) ───────────────────────── */
+ .wf-node-card {
+   border-radius: 18px;
+   border: 1px solid rgba(255,255,255,0.07);
+   background: rgba(255,255,255,0.025);
+   padding: 18px 16px 14px;
+   min-width: 118px;
+   cursor: pointer;
+   transition: border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+   position: relative;
+   overflow: hidden;
+ }
+ .wf-node-card:hover {
+   border-color: rgba(255,255,255,0.14);
+   background: rgba(255,255,255,0.04);
+ }
+ /* Top accent bar */
+ .wf-node-topbar {
+   position: absolute; top: 0; left: 0; right: 0; height: 2px;
+   border-radius: 18px 18px 0 0;
+   transition: opacity 0.3s;
+   opacity: 0;
+ }
+ .wf-node-card.running .wf-node-topbar {
+   opacity: 1;
+   background: linear-gradient(90deg, #E8B4B0, #c4847e);
+   animation: topbar-pulse 1.2s ease-in-out infinite;
+ }
+ .wf-node-card.done .wf-node-topbar {
+   opacity: 1;
+   background: linear-gradient(90deg, #2D5016, #4ade80);
+ }
+ @keyframes topbar-pulse { 0%,100%{opacity:0.55} 50%{opacity:1} }
 
-  .wf-node-card.running {
-    border-color: rgba(232,180,176,0.22);
-    box-shadow: 0 0 28px rgba(232,180,176,0.08);
-  }
-  .wf-node-card.done {
-    border-color: rgba(45,80,22,0.28);
-    background: rgba(45,80,22,0.03);
-  }
+ .wf-node-card.running {
+   border-color: rgba(232,180,176,0.22);
+   box-shadow: 0 0 28px rgba(232,180,176,0.08);
+ }
+ .wf-node-card.done {
+   border-color: rgba(45,80,22,0.28);
+   background: rgba(45,80,22,0.03);
+ }
 
-  /* Icon — bare SVG, no bg box */
-  .wf-node-icon {
-    width: 20px; height: 20px;
-    margin-bottom: 14px;
-    transition: transform 0.3s;
-  }
-  .wf-node-icon svg { width: 100%; height: 100%; display: block; }
-  .wf-node-card.running .wf-node-icon { animation: iconFloat 1.4s ease-in-out infinite; }
-  @keyframes iconFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-2px)} }
+ /* Icon bare SVG, no bg box */
+ .wf-node-icon {
+   width: 20px; height: 20px;
+   margin-bottom: 14px;
+   transition: transform 0.3s;
+ }
+ .wf-node-icon svg { width: 100%; height: 100%; display: block; }
+ .wf-node-card.running .wf-node-icon { animation: iconFloat 1.4s ease-in-out infinite; }
+ @keyframes iconFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-2px)} }
 
-  /* Type label */
-  .wf-node-type {
-    font-size: 8.5px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    font-weight: 700;
-    margin-bottom: 5px;
-    transition: color 0.3s;
-  }
-  /* Name */
-  .wf-node-label {
-    font-size: 11.5px;
-    font-weight: 600;
-    color: rgba(255,255,255,0.82);
-    line-height: 1.35;
-    margin-bottom: 12px;
-  }
-  /* Status row */
-  .wf-node-status {
-    display: flex; align-items: center; gap: 5px;
-    padding-top: 10px;
-    border-top: 1px solid rgba(255,255,255,0.05);
-  }
-  .node-dot {
-    width: 5px; height: 5px; border-radius: 50%;
-    background: rgba(255,255,255,0.12);
-    flex-shrink: 0;
-    transition: background 0.3s;
-  }
-  .node-status-text {
-    font-size: 9px;
-    color: rgba(255,255,255,0.50);
-    transition: color 0.3s;
-    font-weight: 500;
-  }
-  .wf-node-card.running .node-dot { background:#E8B4B0; animation:dot-pulse 1s ease-in-out infinite; }
-  .wf-node-card.running .node-status-text { color:#E8B4B0; }
-  .wf-node-card.done .node-dot { background:#4ade80; }
-  .wf-node-card.done .node-status-text { color:rgba(74,222,128,0.75); }
-  @keyframes dot-pulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
+ /* Type label */
+ .wf-node-type {
+   font-size: 8.5px;
+   letter-spacing: 0.18em;
+   text-transform: uppercase;
+   font-weight: 700;
+   margin-bottom: 5px;
+   transition: color 0.3s;
+ }
+ /* Name */
+ .wf-node-label {
+   font-size: 11.5px;
+   font-weight: 600;
+   color: rgba(255,255,255,0.82);
+   line-height: 1.35;
+   margin-bottom: 12px;
+ }
+ /* Status row */
+ .wf-node-status {
+   display: flex; align-items: center; gap: 5px;
+   padding-top: 10px;
+   border-top: 1px solid rgba(255,255,255,0.05);
+ }
+ .node-dot {
+   width: 5px; height: 5px; border-radius: 50%;
+   background: rgba(255,255,255,0.12);
+   flex-shrink: 0;
+   transition: background 0.3s;
+ }
+ .node-status-text {
+   font-size: 9px;
+   color: rgba(255,255,255,0.50);
+   transition: color 0.3s;
+   font-weight: 500;
+ }
+ .wf-node-card.running .node-dot { background:#E8B4B0; animation:dot-pulse 1s ease-in-out infinite; }
+ .wf-node-card.running .node-status-text { color:#E8B4B0; }
+ .wf-node-card.done .node-dot { background:#4ade80; }
+ .wf-node-card.done .node-status-text { color:rgba(74,222,128,0.75); }
+ @keyframes dot-pulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
 
-  /* Connectors */
-  .wf-connector {
-    flex:1; height:5px; border-radius:99px;
-    background:rgba(255,255,255,0.07);
-    position:relative; margin-top:26px;
-    min-width:14px; overflow:hidden;
-    transition:background 0.4s;
-  }
-  .wf-connector::after {
-    content:''; position:absolute; inset:0;
-    background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.10) 50%,transparent 100%);
-    background-size:200% 100%;
-    animation:conn-shimmer 2.5s ease-in-out infinite;
-  }
-  @keyframes conn-shimmer {
-    0%   { background-position:200% 0; }
-    100% { background-position:-200% 0; }
-  }
-  .wf-connector.running {
-    background:rgba(232,180,176,0.18);
-  }
-  .wf-connector.running::after {
-    background:linear-gradient(90deg,transparent 0%,#E8B4B0 50%,transparent 100%);
-    background-size:200% 100%;
-    animation:conn-flow 0.65s linear infinite;
-    box-shadow:0 0 8px rgba(232,180,176,0.6);
-  }
-  @keyframes conn-flow {
-    0%   { background-position:-200% 0; }
-    100% { background-position: 200% 0; }
-  }
-  /* Done: solid green, subtle right-to-right fill */
-  .wf-connector.done {
-    background:rgba(45,80,22,0.45);
-  }
-  .wf-connector.done::after {
-    background:linear-gradient(90deg,transparent 0%,rgba(74,222,128,0.25) 50%,transparent 100%);
-    background-size:300% 100%;
-    animation:conn-shimmer 3s ease-in-out infinite;
-  }
+ /* Connectors */
+ .wf-connector {
+   flex:1; height:5px; border-radius:99px;
+   background:rgba(255,255,255,0.07);
+   position:relative; margin-top:26px;
+   min-width:14px; overflow:hidden;
+   transition:background 0.4s;
+ }
+ .wf-connector::after {
+   content:''; position:absolute; inset:0;
+   background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.10) 50%,transparent 100%);
+   background-size:200% 100%;
+   animation:conn-shimmer 2.5s ease-in-out infinite;
+ }
+ @keyframes conn-shimmer {
+   0% { background-position:200% 0; }
+   100% { background-position:-200% 0; }
+ }
+ .wf-connector.running {
+   background:rgba(232,180,176,0.18);
+ }
+ .wf-connector.running::after {
+   background:linear-gradient(90deg,transparent 0%,#E8B4B0 50%,transparent 100%);
+   background-size:200% 100%;
+   animation:conn-flow 0.65s linear infinite;
+   box-shadow:0 0 8px rgba(232,180,176,0.6);
+ }
+ @keyframes conn-flow {
+   0% { background-position:-200% 0; }
+   100% { background-position: 200% 0; }
+ }
+ /* Done: solid green, subtle right-to-right fill */
+ .wf-connector.done {
+   background:rgba(45,80,22,0.45);
+ }
+ .wf-connector.done::after {
+   background:linear-gradient(90deg,transparent 0%,rgba(74,222,128,0.25) 50%,transparent 100%);
+   background-size:300% 100%;
+   animation:conn-shimmer 3s ease-in-out infinite;
+ }
 </style>
 
 <script is:inline>
@@ -932,99 +932,99 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
 
 // Premium Lucide-style icons: each node has icons[] array of path strings
 var WORKFLOWS = {
-  lead: {
-    title: 'lead-nurture.workflow', manual: '47 min / lead', apis: 4, time: '1.8s', saving: '£38,000/yr',
-    nodes: [
-      { type:'Trigger', label:'Form submission', color:'#E8B4B0', textColor:'#c4847e',
-        icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
-        run:'Receiving…', done:'✓ Fired', data:'{"form_id":"xRk9q","respondent":"alex@co.com","fields":4,"score":null}' },
-      { type:'CRM', label:'Create contact', color:'#7B68EE', textColor:'#7B68EE',
-        icons:['M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2','M12 11a4 4 0 100-8 4 4 0 000 8z','M16 3.13a4 4 0 010 7.75'],
-        run:'Creating…', done:'✓ Created', data:'{"contact_id":78432,"pipeline":"Sales","stage":"New Lead","owner":"jamie@purist.co"}' },
-      { type:'Email', label:'Personalised intro', color:'#E8B4B0', textColor:'#c4847e',
-        icons:['M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'],
-        run:'Sending…', done:'✓ Sent', data:'{"to":"alex@co.com","template":"intro_v3","vars":{"name":"Alex","company":"Acme"},"opened":false}' },
-      { type:'Notify', label:'Sales team alert', color:'#C89840', textColor:'#C89840',
-        icons:['M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9','M13.73 21a2 2 0 01-3.46 0'],
-        run:'Posting…', done:'✓ Sent', data:'{"channel":"#sales","text":"New lead: Alex Chen — Acme Corp","mention":"@lead-owner"}' },
-      { type:'Wait', label:'24 h delay', color:'#6B7280', textColor:'rgba(255,255,255,0.58)',
-        icons:['M12 22a10 10 0 110-20 10 10 0 010 20z','M12 6v6l4 2'],
-        run:'Queuing…', done:'✓ Queued', data:'{"delay":86400,"type":"business_hours","resume_at":"2026-06-01T09:00:00Z"}' },
-      { type:'Done', label:'Complete', color:'#2D5016', textColor:'#4ade80',
-        icons:['M22 11.08V12a10 10 0 11-5.93-9.14','M22 4L12 14.01l-3-3'],
-        run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":1847,"nodes_executed":5,"errors":0}' },
-    ],
-    logs:[
-      {color:'#E8B4B0',text:'→ Trigger fired — Typeform submission received (alex@co.com)'},
-      {color:'#7B68EE',text:'→ HubSpot POST /contacts — 201 Created · id:78432 · 312ms'},
-      {color:'#E8B4B0',text:'→ Gmail POST /send — 200 OK · template:intro_v3 · 524ms'},
-      {color:'#C89840',text:'→ Slack POST /chat.postMessage — 200 OK · #sales · 188ms'},
-      {color:'rgba(255,255,255,0.55)',text:'→ Scheduler: follow-up queued T+24h (business hours)'},
-      {color:'#4ade80',text:'✓ Complete · 1847ms · 4 API calls · 0 errors'},
-    ]
-  },
-  invoice: {
-    title: 'invoice-chase.workflow', manual: '2.5h / invoice', apis: 5, time: '2.2s', saving: '£52,000/yr',
-    nodes: [
-      { type:'Trigger', label:'Deal closed', color:'#E8B4B0', textColor:'#c4847e',
-        icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
-        run:'Receiving…', done:'✓ Fired', data:'{"event":"deal.won","deal_id":"D-8821","value":4800,"client":"Brightwave Ltd"}' },
-      { type:'Finance', label:'Create invoice', color:'#C89840', textColor:'#C89840',
-        icons:['M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z','M14 2v6h6','M16 13H8','M16 17H8','M10 9H8'],
-        run:'Creating…', done:'✓ Created', data:'{"invoice_id":"INV-2291","amount":4800,"due":"2026-06-14","status":"AWAITING_PAYMENT"}' },
-      { type:'Email', label:'Send to client', color:'#E8B4B0', textColor:'#c4847e',
-        icons:['M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'],
-        run:'Sending…', done:'✓ Sent', data:'{"to":"accounts@brightwave.com","attachment":"INV-2291.pdf","tracking":true}' },
-      { type:'Schedule', label:'Chase sequence', color:'#7B68EE', textColor:'#7B68EE',
-        icons:['M8 7V3m8 4V3','M3 11h18','M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'],
-        run:'Queuing…', done:'✓ Queued', data:'{"touches":[{"day":7,"type":"reminder"},{"day":14,"type":"escalation"},{"day":30,"type":"final"}]}' },
-      { type:'CRM', label:'Update stage', color:'#6B7280', textColor:'rgba(255,255,255,0.58)',
-        icons:['M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2','M12 11a4 4 0 100-8 4 4 0 000 8z'],
-        run:'Updating…', done:'✓ Updated', data:'{"deal_id":"D-8821","stage":"Invoice Sent","follow_up_task":true}' },
-      { type:'Done', label:'Complete', color:'#2D5016', textColor:'#4ade80',
-        icons:['M22 11.08V12a10 10 0 11-5.93-9.14','M22 4L12 14.01l-3-3'],
-        run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":2211,"nodes_executed":5,"errors":0}' },
-    ],
-    logs:[
-      {color:'#E8B4B0',text:'→ Trigger: deal.won · Brightwave Ltd · £4,800'},
-      {color:'#C89840',text:'→ Xero POST /invoices — 201 Created · INV-2291 · due 14 Jun'},
-      {color:'#E8B4B0',text:'→ Gmail POST /send — 200 OK · PDF attached · tracking on'},
-      {color:'#7B68EE',text:'→ Scheduler: 3 chase emails queued (Day 7, 14, 30)'},
-      {color:'rgba(255,255,255,0.55)',text:'→ HubSpot PATCH /deals/D-8821 — stage: Invoice Sent'},
-      {color:'#4ade80',text:'✓ Complete · 2211ms · 5 API calls · 0 errors'},
-    ]
-  },
-  onboarding: {
-    title: 'client-onboarding.workflow', manual: '3.5h / client', apis: 6, time: '3.1s', saving: '£61,000/yr',
-    nodes: [
-      { type:'Trigger', label:'Contract signed', color:'#E8B4B0', textColor:'#c4847e',
-        icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
-        run:'Receiving…', done:'✓ Fired', data:'{"event":"contract.signed","client":"Nova Studio","signer":"emma@novastudio.io"}' },
-      { type:'Email', label:'Welcome pack', color:'#7B68EE', textColor:'#7B68EE',
-        icons:['M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'],
-        run:'Sending…', done:'✓ Sent', data:'{"to":"emma@novastudio.io","template":"welcome_pack_v2","attachments":["brief.pdf","access.pdf"]}' },
-      { type:'Calendar', label:'Kick-off invite', color:'#E8B4B0', textColor:'#c4847e',
-        icons:['M8 7V3m8 4V3','M3 11h18','M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'],
-        run:'Inviting…', done:'✓ Sent', data:'{"calendly_url":"cal.purist.co/kick-off","duration":60,"sent_to":"emma@novastudio.io"}' },
-      { type:'Sign', label:'DocuSign NDA', color:'#C89840', textColor:'#C89840',
-        icons:['M12 20h9','M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z'],
-        run:'Sending…', done:'✓ Sent', data:'{"envelope_id":"ENV-9921","template":"onboarding_v3","signers":["emma@novastudio.io"]}' },
-      { type:'Channel', label:'Slack workspace', color:'#6B7280', textColor:'rgba(255,255,255,0.58)',
-        icons:['M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z'],
-        run:'Creating…', done:'✓ Created', data:'{"channel":"client-nova-studio","invited":["pm@purist.co","dev@purist.co","emma@novastudio.io"]}' },
-      { type:'Done', label:'Complete', color:'#2D5016', textColor:'#4ade80',
-        icons:['M22 11.08V12a10 10 0 11-5.93-9.14','M22 4L12 14.01l-3-3'],
-        run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":3102,"nodes_executed":5,"errors":0}' },
-    ],
-    logs:[
-      {color:'#E8B4B0',text:'→ Trigger: contract.signed · Nova Studio · emma@novastudio.io'},
-      {color:'#7B68EE',text:'→ Gmail POST /send — 200 OK · welcome pack + access doc'},
-      {color:'#E8B4B0',text:'→ Calendly POST /scheduling-links — kick-off invite · 60 min'},
-      {color:'#C89840',text:'→ DocuSign POST /envelopes — ENV-9921 created · awaiting sign'},
-      {color:'rgba(255,255,255,0.55)',text:'→ Slack POST /conversations.create — #client-nova-studio · 3 members'},
-      {color:'#4ade80',text:'✓ Complete · 3102ms · 6 API calls · 0 errors'},
-    ]
-  }
+ lead: {
+   title: 'lead-nurture.workflow', manual: '47 min / lead', apis: 4, time: '1.8s', saving: '£38,000/yr',
+   nodes: [
+     { type:'Trigger', label:'Form submission', color:'#E8B4B0', textColor:'#c4847e',
+       icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
+       run:'Receiving…', done:'✓ Fired', data:'{"form_id":"xRk9q","respondent":"alex@co.com","fields":4,"score":null}' },
+     { type:'CRM', label:'Create contact', color:'#7B68EE', textColor:'#7B68EE',
+       icons:['M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2','M12 11a4 4 0 100-8 4 4 0 000 8z','M16 3.13a4 4 0 010 7.75'],
+       run:'Creating…', done:'✓ Created', data:'{"contact_id":78432,"pipeline":"Sales","stage":"New Lead","owner":"jamie@purist.co"}' },
+     { type:'Email', label:'Personalised intro', color:'#E8B4B0', textColor:'#c4847e',
+       icons:['M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'],
+       run:'Sending…', done:'✓ Sent', data:'{"to":"alex@co.com","template":"intro_v3","vars":{"name":"Alex","company":"Acme"},"opened":false}' },
+     { type:'Notify', label:'Sales team alert', color:'#C89840', textColor:'#C89840',
+       icons:['M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9','M13.73 21a2 2 0 01-3.46 0'],
+       run:'Posting…', done:'✓ Sent', data:'{"channel":"#sales","text":"New lead: Alex Chen Acme Corp","mention":"@lead-owner"}' },
+     { type:'Wait', label:'24 h delay', color:'#6B7280', textColor:'rgba(255,255,255,0.58)',
+       icons:['M12 22a10 10 0 110-20 10 10 0 010 20z','M12 6v6l4 2'],
+       run:'Queuing…', done:'✓ Queued', data:'{"delay":86400,"type":"business_hours","resume_at":"2026-06-01T09:00:00Z"}' },
+     { type:'Done', label:'Complete', color:'#2D5016', textColor:'#4ade80',
+       icons:['M22 11.08V12a10 10 0 11-5.93-9.14','M22 4L12 14.01l-3-3'],
+       run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":1847,"nodes_executed":5,"errors":0}' },
+   ],
+   logs:[
+     {color:'#E8B4B0',text:'→ Trigger fired Typeform submission received (alex@co.com)'},
+     {color:'#7B68EE',text:'→ HubSpot POST /contacts 201 Created · id:78432 · 312ms'},
+     {color:'#E8B4B0',text:'→ Gmail POST /send 200 OK · template:intro_v3 · 524ms'},
+     {color:'#C89840',text:'→ Slack POST /chat.postMessage 200 OK · #sales · 188ms'},
+     {color:'rgba(255,255,255,0.55)',text:'→ Scheduler: follow-up queued T+24h (business hours)'},
+     {color:'#4ade80',text:'✓ Complete · 1847ms · 4 API calls · 0 errors'},
+   ]
+ },
+ invoice: {
+   title: 'invoice-chase.workflow', manual: '2.5h / invoice', apis: 5, time: '2.2s', saving: '£52,000/yr',
+   nodes: [
+     { type:'Trigger', label:'Deal closed', color:'#E8B4B0', textColor:'#c4847e',
+       icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
+       run:'Receiving…', done:'✓ Fired', data:'{"event":"deal.won","deal_id":"D-8821","value":4800,"client":"Brightwave Ltd"}' },
+     { type:'Finance', label:'Create invoice', color:'#C89840', textColor:'#C89840',
+       icons:['M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z','M14 2v6h6','M16 13H8','M16 17H8','M10 9H8'],
+       run:'Creating…', done:'✓ Created', data:'{"invoice_id":"INV-2291","amount":4800,"due":"2026-06-14","status":"AWAITING_PAYMENT"}' },
+     { type:'Email', label:'Send to client', color:'#E8B4B0', textColor:'#c4847e',
+       icons:['M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'],
+       run:'Sending…', done:'✓ Sent', data:'{"to":"accounts@brightwave.com","attachment":"INV-2291.pdf","tracking":true}' },
+     { type:'Schedule', label:'Chase sequence', color:'#7B68EE', textColor:'#7B68EE',
+       icons:['M8 7V3m8 4V3','M3 11h18','M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'],
+       run:'Queuing…', done:'✓ Queued', data:'{"touches":[{"day":7,"type":"reminder"},{"day":14,"type":"escalation"},{"day":30,"type":"final"}]}' },
+     { type:'CRM', label:'Update stage', color:'#6B7280', textColor:'rgba(255,255,255,0.58)',
+       icons:['M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2','M12 11a4 4 0 100-8 4 4 0 000 8z'],
+       run:'Updating…', done:'✓ Updated', data:'{"deal_id":"D-8821","stage":"Invoice Sent","follow_up_task":true}' },
+     { type:'Done', label:'Complete', color:'#2D5016', textColor:'#4ade80',
+       icons:['M22 11.08V12a10 10 0 11-5.93-9.14','M22 4L12 14.01l-3-3'],
+       run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":2211,"nodes_executed":5,"errors":0}' },
+   ],
+   logs:[
+     {color:'#E8B4B0',text:'→ Trigger: deal.won · Brightwave Ltd · £4,800'},
+     {color:'#C89840',text:'→ Xero POST /invoices 201 Created · INV-2291 · due 14 Jun'},
+     {color:'#E8B4B0',text:'→ Gmail POST /send 200 OK · PDF attached · tracking on'},
+     {color:'#7B68EE',text:'→ Scheduler: 3 chase emails queued (Day 7, 14, 30)'},
+     {color:'rgba(255,255,255,0.55)',text:'→ HubSpot PATCH /deals/D-8821 stage: Invoice Sent'},
+     {color:'#4ade80',text:'✓ Complete · 2211ms · 5 API calls · 0 errors'},
+   ]
+ },
+ onboarding: {
+   title: 'client-onboarding.workflow', manual: '3.5h / client', apis: 6, time: '3.1s', saving: '£61,000/yr',
+   nodes: [
+     { type:'Trigger', label:'Contract signed', color:'#E8B4B0', textColor:'#c4847e',
+       icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
+       run:'Receiving…', done:'✓ Fired', data:'{"event":"contract.signed","client":"Nova Studio","signer":"emma@novastudio.io"}' },
+     { type:'Email', label:'Welcome pack', color:'#7B68EE', textColor:'#7B68EE',
+       icons:['M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'],
+       run:'Sending…', done:'✓ Sent', data:'{"to":"emma@novastudio.io","template":"welcome_pack_v2","attachments":["brief.pdf","access.pdf"]}' },
+     { type:'Calendar', label:'Kick-off invite', color:'#E8B4B0', textColor:'#c4847e',
+       icons:['M8 7V3m8 4V3','M3 11h18','M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'],
+       run:'Inviting…', done:'✓ Sent', data:'{"calendly_url":"cal.purist.co/kick-off","duration":60,"sent_to":"emma@novastudio.io"}' },
+     { type:'Sign', label:'DocuSign NDA', color:'#C89840', textColor:'#C89840',
+       icons:['M12 20h9','M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z'],
+       run:'Sending…', done:'✓ Sent', data:'{"envelope_id":"ENV-9921","template":"onboarding_v3","signers":["emma@novastudio.io"]}' },
+     { type:'Channel', label:'Slack workspace', color:'#6B7280', textColor:'rgba(255,255,255,0.58)',
+       icons:['M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z'],
+       run:'Creating…', done:'✓ Created', data:'{"channel":"client-nova-studio","invited":["pm@purist.co","dev@purist.co","emma@novastudio.io"]}' },
+     { type:'Done', label:'Complete', color:'#2D5016', textColor:'#4ade80',
+       icons:['M22 11.08V12a10 10 0 11-5.93-9.14','M22 4L12 14.01l-3-3'],
+       run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":3102,"nodes_executed":5,"errors":0}' },
+   ],
+   logs:[
+     {color:'#E8B4B0',text:'→ Trigger: contract.signed · Nova Studio · emma@novastudio.io'},
+     {color:'#7B68EE',text:'→ Gmail POST /send 200 OK · welcome pack + access doc'},
+     {color:'#E8B4B0',text:'→ Calendly POST /scheduling-links kick-off invite · 60 min'},
+     {color:'#C89840',text:'→ DocuSign POST /envelopes ENV-9921 created · awaiting sign'},
+     {color:'rgba(255,255,255,0.55)',text:'→ Slack POST /conversations.create #client-nova-studio · 3 members'},
+     {color:'#4ade80',text:'✓ Complete · 3102ms · 6 API calls · 0 errors'},
+   ]
+ }
 };
 
 var currentWf = 'lead';
@@ -1034,192 +1034,192 @@ var sbCount = 0;
 // ── Render workflow nodes ──────────────────────────────────────────────────
 
 function renderNodes(wfId) {
-  var wf = WORKFLOWS[wfId];
-  var row = document.getElementById('wf-nodes-row');
-  row.innerHTML = '';
-  document.getElementById('wf-tab-title').textContent = wf.title;
-  // Update meta strip
-  document.getElementById('wf-meta-nodes').textContent = wf.nodes.length + ' nodes';
-  document.getElementById('wf-meta-manual').textContent = wf.manual;
-  document.getElementById('wf-meta-time').textContent = wf.time;
-  document.getElementById('wf-meta-saving').textContent = wf.saving;
+ var wf = WORKFLOWS[wfId];
+ var row = document.getElementById('wf-nodes-row');
+ row.innerHTML = '';
+ document.getElementById('wf-tab-title').textContent = wf.title;
+ // Update meta strip
+ document.getElementById('wf-meta-nodes').textContent = wf.nodes.length + ' nodes';
+ document.getElementById('wf-meta-manual').textContent = wf.manual;
+ document.getElementById('wf-meta-time').textContent = wf.time;
+ document.getElementById('wf-meta-saving').textContent = wf.saving;
 
-  wf.nodes.forEach(function(node, i) {
-    var isLast = i === wf.nodes.length - 1;
-    // Build SVG paths
-    var paths = node.icons.map(function(d) {
-      return '<path d="' + d + '"/>';
-    }).join('');
+ wf.nodes.forEach(function(node, i) {
+   var isLast = i === wf.nodes.length - 1;
+   // Build SVG paths
+   var paths = node.icons.map(function(d) {
+     return '<path d="' + d + '"/>';
+   }).join('');
 
-    var html = '<div style="display:flex;align-items:center;flex:1;">';
-    // Node card
-    html += '<div class="wf-node-card" onclick="inspectNode(' + i + ')" data-idx="' + i + '">';
-    // Top accent bar
-    html += '<div class="wf-node-topbar"></div>';
-    // Icon — bare, no background box
-    html += '<div class="wf-node-icon">';
-    html += '<svg viewBox="0 0 24 24" fill="none" stroke="' + node.textColor + '" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' + paths + '</svg>';
-    html += '</div>';
-    // Type
-    html += '<p class="wf-node-type" style="color:' + node.textColor + ';opacity:0.45;">' + node.type + '</p>';
-    // Label
-    html += '<p class="wf-node-label">' + node.label + '</p>';
-    // Status
-    html += '<div class="wf-node-status"><div class="node-dot"></div><span class="node-status-text">Idle</span></div>';
-    html += '</div>';
-    // Connector
-    if (!isLast) {
-      html += '<div class="wf-connector" id="conn-' + i + '"></div>';
-    }
-    html += '</div>';
-    row.innerHTML += html;
-  });
+   var html = '<div style="display:flex;align-items:center;flex:1;">';
+   // Node card
+   html += '<div class="wf-node-card" onclick="inspectNode(' + i + ')" data-idx="' + i + '">';
+   // Top accent bar
+   html += '<div class="wf-node-topbar"></div>';
+   // Icon bare, no background box
+   html += '<div class="wf-node-icon">';
+   html += '<svg viewBox="0 0 24 24" fill="none" stroke="' + node.textColor + '" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' + paths + '</svg>';
+   html += '</div>';
+   // Type
+   html += '<p class="wf-node-type" style="color:' + node.textColor + ';opacity:0.45;">' + node.type + '</p>';
+   // Label
+   html += '<p class="wf-node-label">' + node.label + '</p>';
+   // Status
+   html += '<div class="wf-node-status"><div class="node-dot"></div><span class="node-status-text">Idle</span></div>';
+   html += '</div>';
+   // Connector
+   if (!isLast) {
+     html += '<div class="wf-connector" id="conn-' + i + '"></div>';
+   }
+   html += '</div>';
+   row.innerHTML += html;
+ });
 }
 
 function inspectNode(idx) {
-  var wf = WORKFLOWS[currentWf];
-  var node = wf.nodes[idx];
-  var el = document.getElementById('wf-payload');
-  el.innerHTML = '<span style="color:#E8B4B0;">// ' + node.type + ': ' + node.label.replace('\n',' ') + ' output</span>\n' +
-    JSON.stringify(JSON.parse(node.data), null, 2)
-      .replace(/("[\w_]+"):/g, '<span style="color:#7B68EE;">$1</span>:')
-      .replace(/:\s*(".*?")/g, ': <span style="color:#E8B4B0;">$1</span>')
-      .replace(/:\s*(\d+\.?\d*)/g, ': <span style="color:#C89840;">$1</span>')
-      .replace(/:\s*(true|false|null)/g, ': <span style="color:#4ade80;">$1</span>');
-  el.style.whiteSpace = 'pre';
-  el.style.color = 'rgba(255,255,255,0.55)';
+ var wf = WORKFLOWS[currentWf];
+ var node = wf.nodes[idx];
+ var el = document.getElementById('wf-payload');
+ el.innerHTML = '<span style="color:#E8B4B0;">// ' + node.type + ': ' + node.label.replace('\n',' ') + ' output</span>\n' +
+   JSON.stringify(JSON.parse(node.data), null, 2)
+     .replace(/("[\w_]+"):/g, '<span style="color:#7B68EE;">$1</span>:')
+     .replace(/:\s*(".*?")/g, ': <span style="color:#E8B4B0;">$1</span>')
+     .replace(/:\s*(\d+\.?\d*)/g, ': <span style="color:#C89840;">$1</span>')
+     .replace(/:\s*(true|false|null)/g, ': <span style="color:#4ade80;">$1</span>');
+ el.style.whiteSpace = 'pre';
+ el.style.color = 'rgba(255,255,255,0.55)';
 }
 
 // ── Run workflow ───────────────────────────────────────────────────────────
 
 function runWorkflow() {
-  if (wfRunning) return;
-  wfRunning = true;
+ if (wfRunning) return;
+ wfRunning = true;
 
-  var wf = WORKFLOWS[currentWf];
-  var btn = document.getElementById('wf-run-btn');
-  btn.textContent = '● Running';
-  btn.style.background = 'rgba(232,180,176,0.20)';
-  btn.style.color = '#E8B4B0';
-  btn.disabled = true;
+ var wf = WORKFLOWS[currentWf];
+ var btn = document.getElementById('wf-run-btn');
+ btn.textContent = '● Running';
+ btn.style.background = 'rgba(232,180,176,0.20)';
+ btn.style.color = '#E8B4B0';
+ btn.disabled = true;
 
-  document.getElementById('wf-status-label').textContent = 'Executing…';
-  document.getElementById('wf-result-bar').classList.add('hidden');
-  document.getElementById('wf-exec-stats').classList.add('hidden');
-  document.getElementById('wf-log').innerHTML = '';
-  document.getElementById('wf-payload').innerHTML = '<p style="color:rgba(255,255,255,0.18);">// Executing…</p>';
+ document.getElementById('wf-status-label').textContent = 'Executing…';
+ document.getElementById('wf-result-bar').classList.add('hidden');
+ document.getElementById('wf-exec-stats').classList.add('hidden');
+ document.getElementById('wf-log').innerHTML = '';
+ document.getElementById('wf-payload').innerHTML = '<p style="color:rgba(255,255,255,0.18);">// Executing…</p>';
 
-  // Reset nodes
-  document.querySelectorAll('.wf-node-card').forEach(function(c) {
-    c.classList.remove('running','done');
-    var dot = c.querySelector('.node-dot');
-    var lbl = c.querySelector('.node-status span');
-    if (dot) dot.style.background = 'rgba(255,255,255,0.15)';
-    if (lbl) { lbl.textContent = 'Idle'; lbl.style.color = 'rgba(255,255,255,0.55)'; }
-  });
-  document.querySelectorAll('.wf-connector').forEach(function(c) { c.classList.remove('done','running'); c.innerHTML = ''; });
+ // Reset nodes
+ document.querySelectorAll('.wf-node-card').forEach(function(c) {
+   c.classList.remove('running','done');
+   var dot = c.querySelector('.node-dot');
+   var lbl = c.querySelector('.node-status span');
+   if (dot) dot.style.background = 'rgba(255,255,255,0.15)';
+   if (lbl) { lbl.textContent = 'Idle'; lbl.style.color = 'rgba(255,255,255,0.55)'; }
+ });
+ document.querySelectorAll('.wf-connector').forEach(function(c) { c.classList.remove('done','running'); c.innerHTML = ''; });
 
-  var delay = 0;
-  var stepMs = 620;
+ var delay = 0;
+ var stepMs = 620;
 
-  wf.nodes.forEach(function(node, i) {
-    var startAt = delay + i * stepMs;
+ wf.nodes.forEach(function(node, i) {
+   var startAt = delay + i * stepMs;
 
-    // Activate node
-    setTimeout(function() {
-      var cards = document.querySelectorAll('.wf-node-card');
-      var card = cards[i];
-      if (!card) return;
-      card.classList.add('running');
-      var lbl = card.querySelector('.node-status-text');
-      if (lbl) lbl.textContent = node.run;
-      if (i > 0) {
-        var conn = document.getElementById('conn-' + (i-1));
-        if (conn) { conn.classList.add('running'); conn.classList.remove('done'); }
-      }
-    }, startAt);
+   // Activate node
+   setTimeout(function() {
+     var cards = document.querySelectorAll('.wf-node-card');
+     var card = cards[i];
+     if (!card) return;
+     card.classList.add('running');
+     var lbl = card.querySelector('.node-status-text');
+     if (lbl) lbl.textContent = node.run;
+     if (i > 0) {
+       var conn = document.getElementById('conn-' + (i-1));
+       if (conn) { conn.classList.add('running'); conn.classList.remove('done'); }
+     }
+   }, startAt);
 
-    // Complete node
-    setTimeout(function() {
-      var cards = document.querySelectorAll('.wf-node-card');
-      var card = cards[i];
-      if (!card) return;
-      card.classList.remove('running');
-      card.classList.add('done');
-      var lbl = card.querySelector('.node-status-text');
-      if (lbl) lbl.textContent = node.done;
+   // Complete node
+   setTimeout(function() {
+     var cards = document.querySelectorAll('.wf-node-card');
+     var card = cards[i];
+     if (!card) return;
+     card.classList.remove('running');
+     card.classList.add('done');
+     var lbl = card.querySelector('.node-status-text');
+     if (lbl) lbl.textContent = node.done;
 
-      if (i > 0) {
-        var conn = document.getElementById('conn-' + (i-1));
-        if (conn) { conn.classList.add('done'); conn.classList.remove('running'); }
-      }
+     if (i > 0) {
+       var conn = document.getElementById('conn-' + (i-1));
+       if (conn) { conn.classList.add('done'); conn.classList.remove('running'); }
+     }
 
-      // Log
-      if (wf.logs[i]) {
-        var p = document.createElement('p');
-        p.style.color = wf.logs[i].color;
-        p.style.animation = 'fadeLog 0.25s ease-out';
-        p.textContent = wf.logs[i].text;
-        document.getElementById('wf-log').appendChild(p);
-      }
+     // Log
+     if (wf.logs[i]) {
+       var p = document.createElement('p');
+       p.style.color = wf.logs[i].color;
+       p.style.animation = 'fadeLog 0.25s ease-out';
+       p.textContent = wf.logs[i].text;
+       document.getElementById('wf-log').appendChild(p);
+     }
 
-      // Auto-inspect last node
-      if (i === wf.nodes.length - 1) {
-        inspectNode(i);
-      }
-    }, startAt + 420);
-  });
+     // Auto-inspect last node
+     if (i === wf.nodes.length - 1) {
+       inspectNode(i);
+     }
+   }, startAt + 420);
+ });
 
-  // Final
-  var totalDur = wf.nodes.length * stepMs + 450;
-  setTimeout(function() {
-    var apis = wf.apis;
-    var statEl = document.getElementById('wf-exec-stats');
-    statEl.classList.remove('hidden');
-    statEl.style.display = 'flex';
-    document.getElementById('wf-stat-apis').textContent = apis + ' API calls';
-    document.getElementById('wf-stat-time').textContent = wf.time;
+ // Final
+ var totalDur = wf.nodes.length * stepMs + 450;
+ setTimeout(function() {
+   var apis = wf.apis;
+   var statEl = document.getElementById('wf-exec-stats');
+   statEl.classList.remove('hidden');
+   statEl.style.display = 'flex';
+   document.getElementById('wf-stat-apis').textContent = apis + ' API calls';
+   document.getElementById('wf-stat-time').textContent = wf.time;
 
-    document.getElementById('wf-status-label').textContent = 'Complete';
-    var rb = document.getElementById('wf-result-bar');
-    rb.classList.remove('hidden');
-    rb.style.display = 'flex';
-    document.getElementById('rb-time').textContent = wf.time;
-    document.getElementById('rb-apis').textContent = apis + ' calls';
-    document.getElementById('rb-manual').textContent = wf.manual;
-    document.getElementById('rb-saving').textContent = wf.saving;
+   document.getElementById('wf-status-label').textContent = 'Complete';
+   var rb = document.getElementById('wf-result-bar');
+   rb.classList.remove('hidden');
+   rb.style.display = 'flex';
+   document.getElementById('rb-time').textContent = wf.time;
+   document.getElementById('rb-apis').textContent = apis + ' calls';
+   document.getElementById('rb-manual').textContent = wf.manual;
+   document.getElementById('rb-saving').textContent = wf.saving;
 
-    btn.textContent = '↺ Run again';
-    btn.style.background = '#E8B4B0';
-    btn.style.color = '#0A0A0A';
-    btn.disabled = false;
-    btn.onclick = function() { wfRunning = false; runWorkflow(); };
-    wfRunning = false;
-  }, totalDur);
+   btn.textContent = '↺ Run again';
+   btn.style.background = '#E8B4B0';
+   btn.style.color = '#0A0A0A';
+   btn.disabled = false;
+   btn.onclick = function() { wfRunning = false; runWorkflow(); };
+   wfRunning = false;
+ }, totalDur);
 }
 
 // ── Workflow tabs ──────────────────────────────────────────────────────────
 
 document.querySelectorAll('.wf-tab').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    currentWf = this.dataset.wf;
-    document.querySelectorAll('.wf-tab').forEach(function(b) {
-      b.style.background = 'transparent';
-      b.style.color = 'rgba(255,255,255,0.60)';
-    });
-    this.style.background = '#E8B4B0';
-    this.style.color = '#0A0A0A';
-    renderNodes(currentWf);
-    document.getElementById('wf-log').innerHTML = '<p style="color:rgba(255,255,255,0.18);">› Waiting for trigger…</p>';
-    document.getElementById('wf-payload').innerHTML = '<p style="color:rgba(255,255,255,0.18);">// Click a node to inspect its payload</p>';
-    document.getElementById('wf-result-bar').classList.add('hidden');
-    document.getElementById('wf-exec-stats').classList.add('hidden');
-    document.getElementById('wf-status-label').textContent = 'Ready';
-    document.getElementById('wf-run-btn').textContent = '▶ Run';
-    document.getElementById('wf-run-btn').style.background = '#E8B4B0';
-    document.getElementById('wf-run-btn').style.color = '#0A0A0A';
-    wfRunning = false;
-  });
+ btn.addEventListener('click', function() {
+   currentWf = this.dataset.wf;
+   document.querySelectorAll('.wf-tab').forEach(function(b) {
+     b.style.background = 'transparent';
+     b.style.color = 'rgba(255,255,255,0.60)';
+   });
+   this.style.background = '#E8B4B0';
+   this.style.color = '#0A0A0A';
+   renderNodes(currentWf);
+   document.getElementById('wf-log').innerHTML = '<p style="color:rgba(255,255,255,0.18);">› Waiting for trigger…</p>';
+   document.getElementById('wf-payload').innerHTML = '<p style="color:rgba(255,255,255,0.18);">// Click a node to inspect its payload</p>';
+   document.getElementById('wf-result-bar').classList.add('hidden');
+   document.getElementById('wf-exec-stats').classList.add('hidden');
+   document.getElementById('wf-status-label').textContent = 'Ready';
+   document.getElementById('wf-run-btn').textContent = '▶ Run';
+   document.getElementById('wf-run-btn').style.background = '#E8B4B0';
+   document.getElementById('wf-run-btn').style.color = '#0A0A0A';
+   wfRunning = false;
+ });
 });
 
 renderNodes('lead');
@@ -1229,210 +1229,210 @@ renderNodes('lead');
 // ══════════════════════════════════════════════════════════════════════════
 
 function sbStep(text, color) {
-  color = color || '#2D5016';
-  var div = document.createElement('div');
-  div.style.cssText = 'display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;background:rgba(45,80,22,0.06);border:1px solid rgba(45,80,22,0.12);font-size:11px;color:#374151;animation:slideUp 0.3s ease-out;';
-  div.innerHTML = '<div style="width:6px;height:6px;border-radius:50%;background:' + color + ';flex-shrink:0;"></div><span>' + text + '</span>';
-  return div;
+ color = color || '#2D5016';
+ var div = document.createElement('div');
+ div.style.cssText = 'display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;background:rgba(45,80,22,0.06);border:1px solid rgba(45,80,22,0.12);font-size:11px;color:#374151;animation:slideUp 0.3s ease-out;';
+ div.innerHTML = '<div style="width:6px;height:6px;border-radius:50%;background:' + color + ';flex-shrink:0;"></div><span>' + text + '</span>';
+ return div;
 }
 
 function setBtnLoading(btn) {
-  btn.disabled = true;
-  btn.style.opacity = '0.6';
-  btn.innerHTML = '<svg class="w-3.5 h-3.5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-6-8.5"/></svg> Running…';
+ btn.disabled = true;
+ btn.style.opacity = '0.6';
+ btn.innerHTML = '<svg class="w-3.5 h-3.5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-6-8.5"/></svg> Running…';
 }
 
 function setBtnDone(btn, label) {
-  btn.disabled = false;
-  btn.style.opacity = '1';
-  btn.innerHTML = '✓ ' + label;
-  sbCount++;
-  document.getElementById('sb-exec-count').textContent = sbCount;
+ btn.disabled = false;
+ btn.style.opacity = '1';
+ btn.innerHTML = '✓ ' + label;
+ sbCount++;
+ document.getElementById('sb-exec-count').textContent = sbCount;
 }
 
 function runSandbox(id) {
-  var btn = document.getElementById('sb' + id + '-btn');
-  setBtnLoading(btn);
+ var btn = document.getElementById('sb' + id + '-btn');
+ setBtnLoading(btn);
 
-  if (id === 1) {
-    var name    = document.getElementById('sb1-name').value.trim()    || 'Alex Chen';
-    var email   = document.getElementById('sb1-email').value.trim()   || 'alex@example.com';
-    var company = document.getElementById('sb1-company').value.trim() || 'Acme Corp';
+ if (id === 1) {
+   var name  = document.getElementById('sb1-name').value.trim()  || 'Alex Chen';
+   var email = document.getElementById('sb1-email').value.trim() || 'alex@example.com';
+   var company = document.getElementById('sb1-company').value.trim() || 'Acme Corp';
 
-    document.getElementById('sb1-idle').classList.add('hidden');
-    document.getElementById('sb1-output').classList.remove('hidden');
-    document.getElementById('sb1-email-card').classList.add('hidden');
-    var steps = document.getElementById('sb1-steps');
-    steps.innerHTML = '';
+   document.getElementById('sb1-idle').classList.add('hidden');
+   document.getElementById('sb1-output').classList.remove('hidden');
+   document.getElementById('sb1-email-card').classList.add('hidden');
+   var steps = document.getElementById('sb1-steps');
+   steps.innerHTML = '';
 
-    var seq = [
-      [380,  '✓ HubSpot: Contact "' + name + '" created (id: ' + (78000+Math.floor(Math.random()*999)) + ')', '#7B68EE'],
-      [850,  '✓ Gmail: Intro email dispatched → ' + email, '#E8B4B0'],
-      [1300, '✓ Slack: Sales team notified — @lead-owner assigned', '#C89840'],
-      [1700, '✓ Scheduler: 5-touch follow-up sequence queued (T+1, 3, 7, 14, 30 days)', '#2D5016'],
-    ];
-    seq.forEach(function(s) {
-      setTimeout(function() { steps.appendChild(sbStep(s[1], s[2])); }, s[0]);
-    });
-    setTimeout(function() {
-      var card = document.getElementById('sb1-email-card');
-      document.getElementById('sb1-to-field').textContent = email;
-      document.getElementById('sb1-subject-field').textContent = 'Welcome to PURIST, ' + name.split(' ')[0] + ' — your onboarding starts here';
-      document.getElementById('sb1-body-field').textContent = 'Hi ' + name.split(' ')[0] + ',\n\nWe\'ve just set up your profile in our system. I\'m Jamie, your account lead — I\'ll be reaching out in the next 24 hours to map your first automation.\n\nIn the meantime, here\'s a link to our onboarding pack.\n\nBest,\nJamie @ PURIST';
-      card.classList.remove('hidden');
-      setBtnDone(btn, 'Run again');
-    }, 2100);
-  }
+   var seq = [
+     [380, '✓ HubSpot: Contact "' + name + '" created (id: ' + (78000+Math.floor(Math.random()*999)) + ')', '#7B68EE'],
+     [850, '✓ Gmail: Intro email dispatched → ' + email, '#E8B4B0'],
+     [1300, '✓ Slack: Sales team notified @lead-owner assigned', '#C89840'],
+     [1700, '✓ Scheduler: 5-touch follow-up sequence queued (T+1, 3, 7, 14, 30 days)', '#2D5016'],
+   ];
+   seq.forEach(function(s) {
+     setTimeout(function() { steps.appendChild(sbStep(s[1], s[2])); }, s[0]);
+   });
+   setTimeout(function() {
+     var card = document.getElementById('sb1-email-card');
+     document.getElementById('sb1-to-field').textContent = email;
+     document.getElementById('sb1-subject-field').textContent = 'Welcome to PURIST, ' + name.split(' ')[0] + ' your onboarding starts here';
+     document.getElementById('sb1-body-field').textContent = 'Hi ' + name.split(' ')[0] + ',\n\nWe\'ve just set up your profile in our system. I\'m Jamie, your account lead I\'ll be reaching out in the next 24 hours to map your first automation.\n\nIn the meantime, here\'s a link to our onboarding pack.\n\nBest,\nJamie @ PURIST';
+     card.classList.remove('hidden');
+     setBtnDone(btn, 'Run again');
+   }, 2100);
+ }
 
-  if (id === 2) {
-    var text = document.getElementById('sb2-text').value.trim();
-    if (!text || text.length < 8) {
-      text = "My payment failed and I can't access my account. I have a client demo in 2 hours — this is urgent.";
-      document.getElementById('sb2-text').value = text;
-    }
-    document.getElementById('sb2-idle').classList.add('hidden');
-    document.getElementById('sb2-output').classList.add('hidden');
+ if (id === 2) {
+   var text = document.getElementById('sb2-text').value.trim();
+   if (!text || text.length < 8) {
+     text = "My payment failed and I can't access my account. I have a client demo in 2 hours this is urgent.";
+     document.getElementById('sb2-text').value = text;
+   }
+   document.getElementById('sb2-idle').classList.add('hidden');
+   document.getElementById('sb2-output').classList.add('hidden');
 
-    var urgency, urgColor, bgColor, category, owner, sla, sentiment, confidence;
-    if (/urgent|asap|now|deadline|critical|immediately|hour|minutes/i.test(text)) {
-      urgency='Urgent'; urgColor='#dc2626'; bgColor='rgba(220,38,38,0.08)'; confidence = Math.floor(Math.random()*6)+91+'%'; sla='2 hours';
-    } else if (/problem|issue|broken|fail|wrong|not working/i.test(text)) {
-      urgency='Medium'; urgColor='#C89840'; bgColor='rgba(200,152,64,0.08)'; confidence = Math.floor(Math.random()*8)+84+'%'; sla='8 hours';
-    } else {
-      urgency='Low'; urgColor='#2D5016'; bgColor='rgba(45,80,22,0.08)'; confidence = Math.floor(Math.random()*6)+88+'%'; sla='24 hours';
-    }
-    if (/payment|invoice|billing|charge|refund|money/i.test(text)) { category='Billing'; owner='Finance Support'; }
-    else if (/account|access|login|password|locked/i.test(text)) { category='Account Access'; owner='Identity Team'; }
-    else if (/bug|crash|error|down|broken|not working/i.test(text)) { category='Technical'; owner='Engineering'; }
-    else if (/plan|upgrade|downgrade|seat|pricing/i.test(text)) { category='Sales'; owner='Account Manager'; }
-    else { category='General'; owner='Support Queue'; }
-    sentiment = /angry|furious|disappointed|terrible|awful|worst/i.test(text) ? 'Negative 😠' : /urgent|critical|deadline/i.test(text) ? 'Frustrated 😰' : 'Neutral 😐';
+   var urgency, urgColor, bgColor, category, owner, sla, sentiment, confidence;
+   if (/urgent|asap|now|deadline|critical|immediately|hour|minutes/i.test(text)) {
+     urgency='Urgent'; urgColor='#dc2626'; bgColor='rgba(220,38,38,0.08)'; confidence = Math.floor(Math.random()*6)+91+'%'; sla='2 hours';
+   } else if (/problem|issue|broken|fail|wrong|not working/i.test(text)) {
+     urgency='Medium'; urgColor='#C89840'; bgColor='rgba(200,152,64,0.08)'; confidence = Math.floor(Math.random()*8)+84+'%'; sla='8 hours';
+   } else {
+     urgency='Low'; urgColor='#2D5016'; bgColor='rgba(45,80,22,0.08)'; confidence = Math.floor(Math.random()*6)+88+'%'; sla='24 hours';
+   }
+   if (/payment|invoice|billing|charge|refund|money/i.test(text)) { category='Billing'; owner='Finance Support'; }
+   else if (/account|access|login|password|locked/i.test(text)) { category='Account Access'; owner='Identity Team'; }
+   else if (/bug|crash|error|down|broken|not working/i.test(text)) { category='Technical'; owner='Engineering'; }
+   else if (/plan|upgrade|downgrade|seat|pricing/i.test(text)) { category='Sales'; owner='Account Manager'; }
+   else { category='General'; owner='Support Queue'; }
+   sentiment = /angry|furious|disappointed|terrible|awful|worst/i.test(text) ? 'Negative 😠' : /urgent|critical|deadline/i.test(text) ? 'Frustrated 😰' : 'Neutral 😐';
 
-    // Extract phrases
-    var words = text.match(/\b[a-zA-Z]{4,}\b/g) || [];
-    var stop = ['that','this','with','have','from','they','will','your','just','been','more','also','were','what','when'];
-    var phrases = words.filter(function(w){ return stop.indexOf(w.toLowerCase()) === -1; }).slice(0, 5);
+   // Extract phrases
+   var words = text.match(/\b[a-zA-Z]{4,}\b/g) || [];
+   var stop = ['that','this','with','have','from','they','will','your','just','been','more','also','were','what','when'];
+   var phrases = words.filter(function(w){ return stop.indexOf(w.toLowerCase()) === -1; }).slice(0, 5);
 
-    var t = Math.floor(Math.random()*200)+280;
+   var t = Math.floor(Math.random()*200)+280;
 
-    setTimeout(function() {
-      var out = document.getElementById('sb2-output');
-      out.classList.remove('hidden');
-      document.getElementById('sb2-urgency-badge').style.background = bgColor;
-      document.getElementById('sb2-urgency-dot').style.background = urgColor;
-      document.getElementById('sb2-urgency-text').textContent = urgency;
-      document.getElementById('sb2-urgency-text').style.color = urgColor;
-      document.getElementById('sb2-confidence').textContent = confidence;
-      document.getElementById('sb2-category').textContent = category;
-      document.getElementById('sb2-owner').textContent = owner;
-      document.getElementById('sb2-sla').textContent = sla;
-      document.getElementById('sb2-sentiment').textContent = sentiment;
-      document.getElementById('sb2-ticket').textContent = '#' + (4000+Math.floor(Math.random()*999));
-      document.getElementById('sb2-elapsed').textContent = t + 'ms';
-      var phEl = document.getElementById('sb2-phrases');
-      phEl.innerHTML = '';
-      phrases.forEach(function(p) {
-        phEl.innerHTML += '<span style="display:inline-block;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:600;background:rgba(123,104,238,0.10);color:#7B68EE;margin:2px;">' + p + '</span>';
-      });
-      setBtnDone(btn, 'Classify again');
-    }, 800);
-  }
+   setTimeout(function() {
+     var out = document.getElementById('sb2-output');
+     out.classList.remove('hidden');
+     document.getElementById('sb2-urgency-badge').style.background = bgColor;
+     document.getElementById('sb2-urgency-dot').style.background = urgColor;
+     document.getElementById('sb2-urgency-text').textContent = urgency;
+     document.getElementById('sb2-urgency-text').style.color = urgColor;
+     document.getElementById('sb2-confidence').textContent = confidence;
+     document.getElementById('sb2-category').textContent = category;
+     document.getElementById('sb2-owner').textContent = owner;
+     document.getElementById('sb2-sla').textContent = sla;
+     document.getElementById('sb2-sentiment').textContent = sentiment;
+     document.getElementById('sb2-ticket').textContent = '#' + (4000+Math.floor(Math.random()*999));
+     document.getElementById('sb2-elapsed').textContent = t + 'ms';
+     var phEl = document.getElementById('sb2-phrases');
+     phEl.innerHTML = '';
+     phrases.forEach(function(p) {
+       phEl.innerHTML += '<span style="display:inline-block;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:600;background:rgba(123,104,238,0.10);color:#7B68EE;margin:2px;">' + p + '</span>';
+     });
+     setBtnDone(btn, 'Classify again');
+   }, 800);
+ }
 
-  if (id === 3) {
-    var client  = document.getElementById('sb3-client').value.trim()  || 'Acme Corp';
-    var amount  = document.getElementById('sb3-amount').value.trim()  || '2400';
-    var desc    = document.getElementById('sb3-desc').value.trim()    || 'Automation build — Phase 1';
-    var terms   = document.getElementById('sb3-terms').value;
-    var invNum  = 'INV-' + (2000+Math.floor(Math.random()*999));
-    var today   = new Date();
-    var daysAdd = terms === 'Net 14' ? 14 : terms === 'Net 30' ? 30 : 0;
-    var due     = new Date(today.getTime() + daysAdd*86400000);
-    var dueStr  = due.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+ if (id === 3) {
+   var client = document.getElementById('sb3-client').value.trim() || 'Acme Corp';
+   var amount = document.getElementById('sb3-amount').value.trim() || '2400';
+   var desc  = document.getElementById('sb3-desc').value.trim()  || 'Automation build Phase 1';
+   var terms = document.getElementById('sb3-terms').value;
+   var invNum = 'INV-' + (2000+Math.floor(Math.random()*999));
+   var today = new Date();
+   var daysAdd = terms === 'Net 14' ? 14 : terms === 'Net 30' ? 30 : 0;
+   var due   = new Date(today.getTime() + daysAdd*86400000);
+   var dueStr = due.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
 
-    document.getElementById('sb3-idle').classList.add('hidden');
-    document.getElementById('sb3-output').classList.remove('hidden');
-    document.getElementById('inv-number').textContent = invNum;
-    document.getElementById('inv-client').textContent = client;
-    document.getElementById('inv-due').textContent = dueStr;
-    document.getElementById('inv-desc').textContent = desc;
-    document.getElementById('inv-amount').textContent = '£' + parseFloat(amount).toLocaleString('en-GB');
-    document.getElementById('inv-total').textContent = '£' + parseFloat(amount).toLocaleString('en-GB');
+   document.getElementById('sb3-idle').classList.add('hidden');
+   document.getElementById('sb3-output').classList.remove('hidden');
+   document.getElementById('inv-number').textContent = invNum;
+   document.getElementById('inv-client').textContent = client;
+   document.getElementById('inv-due').textContent = dueStr;
+   document.getElementById('inv-desc').textContent = desc;
+   document.getElementById('inv-amount').textContent = '£' + parseFloat(amount).toLocaleString('en-GB');
+   document.getElementById('inv-total').textContent = '£' + parseFloat(amount).toLocaleString('en-GB');
 
-    setTimeout(function() { setBtnDone(btn, 'Generate another'); }, 1200);
-  }
+   setTimeout(function() { setBtnDone(btn, 'Generate another'); }, 1200);
+ }
 }
 
 // ══════════════════════════════════════════════════════════════════════════
-// BOOKING — ROI + multi-step
+// BOOKING ROI + multi-step
 // ══════════════════════════════════════════════════════════════════════════
 
 var bkData = {};
 var PAIN_LABEL = {
-  'Following up with leads takes too long': 'Live build: lead follow-up + CRM sync sequence',
-  'Invoicing and cash collection is manual': 'Live build: invoice generation + 3-touch chase',
-  'Onboarding new clients is chaotic': 'Live build: 14-step client onboarding automation',
-  'Reporting eats half my Monday': 'Live build: auto-generated weekly KPI digest',
-  'Support volume is overwhelming us': 'Live build: Claude AI ticket triage + routing',
+ 'Following up with leads takes too long': 'Live build: lead follow-up + CRM sync sequence',
+ 'Invoicing and cash collection is manual': 'Live build: invoice generation + 3-touch chase',
+ 'Onboarding new clients is chaotic': 'Live build: 14-step client onboarding automation',
+ 'Reporting eats half my Monday': 'Live build: auto-generated weekly KPI digest',
+ 'Support volume is overwhelming us': 'Live build: Claude AI ticket triage + routing',
 };
 var IND_HRS = { 'Dental / Medical':18,'Real Estate':12,'Agency / Creative':14,'E-commerce':16,'SaaS / Tech':11,'Finance':10,'Law Firm':12,'Other':14 };
 
 function updateROI() {
-  var ind  = bkData['1'] || null;
-  var size = bkData['3a'] || null;
-  var pain = bkData['2'] || null;
+ var ind = bkData['1'] || null;
+ var size = bkData['3a'] || null;
+ var pain = bkData['2'] || null;
 
-  if (!ind && !size && !pain) return;
+ if (!ind && !size && !pain) return;
 
-  var hrs = IND_HRS[ind] || 14;
-  var sizeMap = { '1–5 people':0.5,'6–15 people':1,'16–30 people':2,'30+ people':3.5 };
-  var mult = sizeMap[size] || 1;
-  var weekHrs = Math.round(hrs * mult);
-  var annualCost = weekHrs * 35 * 52;
-  var saving = Math.round(annualCost * 0.70);
-  var roi = (saving / 2400).toFixed(1);
+ var hrs = IND_HRS[ind] || 14;
+ var sizeMap = { '1–5 people':0.5,'6–15 people':1,'16–30 people':2,'30+ people':3.5 };
+ var mult = sizeMap[size] || 1;
+ var weekHrs = Math.round(hrs * mult);
+ var annualCost = weekHrs * 35 * 52;
+ var saving = Math.round(annualCost * 0.70);
+ var roi = (saving / 2400).toFixed(1);
 
-  document.getElementById('roi-cost').textContent = '£' + (annualCost/1000).toFixed(0) + 'k/yr';
-  document.getElementById('roi-saving').textContent = '£' + (saving/1000).toFixed(0) + 'k/yr';
-  document.getElementById('roi-hours').textContent = weekHrs + 'h/wk';
-  document.getElementById('roi-mult').textContent = roi + '×';
-  // Progress bars — normalise relative to max plausible values
-  var maxCost = 180000; var maxSave = 130000; var maxHrs = 120;
-  document.getElementById('roi-bar-cost').style.width = Math.min(100, Math.round(annualCost/maxCost*100)) + '%';
-  document.getElementById('roi-bar-saving').style.width = Math.min(100, Math.round(saving/maxSave*100)) + '%';
-  document.getElementById('roi-bar-hours').style.width = Math.min(100, Math.round(weekHrs/maxHrs*100)) + '%';
+ document.getElementById('roi-cost').textContent = '£' + (annualCost/1000).toFixed(0) + 'k/yr';
+ document.getElementById('roi-saving').textContent = '£' + (saving/1000).toFixed(0) + 'k/yr';
+ document.getElementById('roi-hours').textContent = weekHrs + 'h/wk';
+ document.getElementById('roi-mult').textContent = roi + '×';
+ // Progress bars normalise relative to max plausible values
+ var maxCost = 180000; var maxSave = 130000; var maxHrs = 120;
+ document.getElementById('roi-bar-cost').style.width = Math.min(100, Math.round(annualCost/maxCost*100)) + '%';
+ document.getElementById('roi-bar-saving').style.width = Math.min(100, Math.round(saving/maxSave*100)) + '%';
+ document.getElementById('roi-bar-hours').style.width = Math.min(100, Math.round(weekHrs/maxHrs*100)) + '%';
 }
 
 document.querySelectorAll('.bk-opt').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    var step = this.dataset.step;
-    document.querySelectorAll('.bk-opt[data-step="' + step + '"]').forEach(function(b){ b.classList.remove('selected'); });
-    this.classList.add('selected');
-    bkData[step] = this.dataset.val;
-    updateROI();
+ btn.addEventListener('click', function() {
+   var step = this.dataset.step;
+   document.querySelectorAll('.bk-opt[data-step="' + step + '"]').forEach(function(b){ b.classList.remove('selected'); });
+   this.classList.add('selected');
+   bkData[step] = this.dataset.val;
+   updateROI();
 
-    var advance = { '1':2, '2':3, '3b':4 };
-    if (advance[step]) {
-      setTimeout(function() {
-        var next = advance[step];
-        document.querySelectorAll('.bk-step').forEach(function(s){ s.classList.add('hidden'); });
-        document.getElementById('bk-' + next).classList.remove('hidden');
+   var advance = { '1':2, '2':3, '3b':4 };
+   if (advance[step]) {
+     setTimeout(function() {
+       var next = advance[step];
+       document.querySelectorAll('.bk-step').forEach(function(s){ s.classList.add('hidden'); });
+       document.getElementById('bk-' + next).classList.remove('hidden');
 
-        document.querySelectorAll('.bk-dot').forEach(function(dot){
-          var s = parseInt(dot.dataset.step);
-          if (s < next) { dot.style.background='#2D5016'; dot.style.color='#fff'; dot.textContent='✓'; }
-          else if (s === next) { dot.style.background='#0A0A0A'; dot.style.color='#fff'; dot.textContent=s; }
-          else { dot.style.background='#F3F3F0'; dot.style.color='#9CA3AF'; dot.textContent=s; }
-        });
-        document.querySelectorAll('.bk-line').forEach(function(line){
-          line.style.background = parseInt(line.dataset.after) < next ? '#2D5016' : '#F3F3F0';
-        });
+       document.querySelectorAll('.bk-dot').forEach(function(dot){
+         var s = parseInt(dot.dataset.step);
+         if (s < next) { dot.style.background='#2D5016'; dot.style.color='#fff'; dot.textContent='✓'; }
+         else if (s === next) { dot.style.background='#0A0A0A'; dot.style.color='#fff'; dot.textContent=s; }
+         else { dot.style.background='#F3F3F0'; dot.style.color='#9CA3AF'; dot.textContent=s; }
+       });
+       document.querySelectorAll('.bk-line').forEach(function(line){
+         line.style.background = parseInt(line.dataset.after) < next ? '#2D5016' : '#F3F3F0';
+       });
 
-        if (next === 4 && bkData['2']) {
-          var live = PAIN_LABEL[bkData['2']] || 'Live build: your #1 pain point automated on screen';
-          document.getElementById('bk-agenda-live').textContent = live;
-        }
-      }, 200);
-    }
-  });
+       if (next === 4 && bkData['2']) {
+         var live = PAIN_LABEL[bkData['2']] || 'Live build: your #1 pain point automated on screen';
+         document.getElementById('bk-agenda-live').textContent = live;
+       }
+     }, 200);
+   }
+ });
 });
 </script>

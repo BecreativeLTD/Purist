@@ -4,77 +4,77 @@ const { logos } = logosData;
 ---
 
 <section class="bg-white py-10 lg:py-12 border-y border-brand-gray-100">
-  <div class="container-x">
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-      <!-- Cartouche stats — gauche -->
-      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-brand-gray-200 bg-brand-gray-50 shrink-0">
-        <span class="w-1 h-1 rounded-full bg-brand-green shrink-0" style="animation:af-pulse 2.4s ease-in-out infinite;"></span>
-        <span style="font-size:9px;font-weight:600;color:#0A0A0A;letter-spacing:0.03em;">312+ businesses</span>
-        <span class="w-px h-2.5 bg-brand-gray-200 shrink-0"></span>
-        <span style="font-size:9px;color:#6B7280;">14h saved / week</span>
-        <span class="w-px h-2.5 bg-brand-gray-200 shrink-0"></span>
-        <span style="font-size:9px;color:#6B7280;">99.97% uptime</span>
-      </div>
+ <div class="container-x">
+   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+     <!-- Cartouche stats gauche -->
+     <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-brand-gray-200 bg-brand-gray-50 shrink-0">
+       <span class="w-1 h-1 rounded-full bg-brand-green shrink-0" style="animation:af-pulse 2.4s ease-in-out infinite;"></span>
+       <span style="font-size:9px;font-weight:600;color:#0A0A0A;letter-spacing:0.03em;">312+ businesses</span>
+       <span class="w-px h-2.5 bg-brand-gray-200 shrink-0"></span>
+       <span style="font-size:9px;color:#6B7280;">14h saved / week</span>
+       <span class="w-px h-2.5 bg-brand-gray-200 shrink-0"></span>
+       <span style="font-size:9px;color:#6B7280;">99.97% uptime</span>
+     </div>
 
-      <!-- Cartouche label + Clutch badge — droite -->
-      <div class="flex items-center gap-3 flex-wrap">
-        <div class="inline-flex items-center px-3 py-1.5 rounded-full border border-brand-gray-200 bg-brand-gray-50">
-          <p style="margin:0;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;font-weight:500;color:#6B7280;">As featured in &amp; powered by</p>
-        </div>
-        <a href="https://clutch.co/profile/purist" target="_blank" rel="noopener noreferrer"
-           class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-brand-gray-200 bg-brand-gray-50 hover:border-[#FF3D2E]/40 transition-colors"
-           aria-label="PURIST verified on Clutch">
-          <svg width="12" height="12" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="20" cy="20" r="20" fill="#FF3D2E"/>
-            <path d="M20 8C13.373 8 8 13.373 8 20s5.373 12 12 12 12-5.373 12-12S26.627 8 20 8zm0 5.5a6.5 6.5 0 110 13 6.5 6.5 0 010-13zm0 3a3.5 3.5 0 100 7 3.5 3.5 0 000-7z" fill="white"/>
-          </svg>
-          <span style="font-size:9px;font-weight:600;color:#0A0A0A;letter-spacing:0.03em;">Verified on Clutch</span>
-        </a>
-      </div>
-    </div>
-  </div>
+     <!-- Cartouche label + Clutch badge droite -->
+     <div class="flex items-center gap-3 flex-wrap">
+       <div class="inline-flex items-center px-3 py-1.5 rounded-full border border-brand-gray-200 bg-brand-gray-50">
+         <p style="margin:0;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;font-weight:500;color:#6B7280;">As featured in &amp; powered by</p>
+       </div>
+       <a href="https://clutch.co/profile/purist" target="_blank" rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-brand-gray-200 bg-brand-gray-50 hover:border-[#FF3D2E]/40 transition-colors"
+          aria-label="PURIST verified on Clutch">
+         <svg width="12" height="12" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+           <circle cx="20" cy="20" r="20" fill="#FF3D2E"/>
+           <path d="M20 8C13.373 8 8 13.373 8 20s5.373 12 12 12 12-5.373 12-12S26.627 8 20 8zm0 5.5a6.5 6.5 0 110 13 6.5 6.5 0 010-13zm0 3a3.5 3.5 0 100 7 3.5 3.5 0 000-7z" fill="white"/>
+         </svg>
+         <span style="font-size:9px;font-weight:600;color:#0A0A0A;letter-spacing:0.03em;">Verified on Clutch</span>
+       </a>
+     </div>
+   </div>
+ </div>
 
-  <!-- Marquee — slow, subtle scroll on all screen sizes -->
-  <div class="overflow-hidden">
-    <div class="marquee-track items-center gap-20">
-      {[...logos, ...logos].map((l) => (
-        <img src={l.src} alt={l.name}
-             width="120" height="20"
-             class="logo-item h-4 lg:h-5 w-auto object-contain shrink-0"
-             loading="lazy" />
-      ))}
-    </div>
-  </div>
+ <!-- Marquee slow, subtle scroll on all screen sizes -->
+ <div class="overflow-hidden">
+   <div class="marquee-track items-center gap-20">
+     {[...logos, ...logos].map((l) => (
+       <img src={l.src} alt={l.name}
+            width="120" height="20"
+            class="logo-item h-4 lg:h-5 w-auto object-contain shrink-0"
+            loading="lazy" />
+     ))}
+   </div>
+ </div>
 </section>
 
 <style>
-  .marquee-track {
-    display: flex;
-    width: max-content;
-    animation: marquee 55s linear infinite;
-  }
-  .marquee-track:hover {
-    animation-play-state: paused;
-  }
+ .marquee-track {
+   display: flex;
+   width: max-content;
+   animation: marquee 55s linear infinite;
+ }
+ .marquee-track:hover {
+   animation-play-state: paused;
+ }
 
-  /* Default: grayscale + muted */
-  .logo-item {
-    filter: grayscale(100%) opacity(0.45);
-    transition: filter 0.3s ease, transform 0.3s ease;
-  }
+ /* Default: grayscale + muted */
+ .logo-item {
+   filter: grayscale(100%) opacity(0.45);
+   transition: filter 0.3s ease, transform 0.3s ease;
+ }
 
-  /* Hover: full colour, slight lift */
-  .logo-item:hover {
-    filter: grayscale(0%) opacity(1);
-    transform: scale(1.08);
-  }
+ /* Hover: full colour, slight lift */
+ .logo-item:hover {
+   filter: grayscale(0%) opacity(1);
+   transform: scale(1.08);
+ }
 
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
-  @keyframes af-pulse {
-    0%,100% { opacity: 0.5; transform: scale(1); }
-    50%     { opacity: 1;   transform: scale(1.35); }
-  }
+ @keyframes marquee {
+   from { transform: translateX(0); }
+   to { transform: translateX(-50%); }
+ }
+ @keyframes af-pulse {
+   0%,100% { opacity: 0.5; transform: scale(1); }
+   50%   { opacity: 1; transform: scale(1.35); }
+ }
 </style>

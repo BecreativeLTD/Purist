@@ -1,196 +1,196 @@
 {
-  "comparison": {
-    "title": "Meet the new Automation Pro.",
-    "subtitle": "Production-grade workflows. Maximum reliability.",
-    "columns": ["Automation", "Basic setup", "Pro version", "Your benefit"],
-    "rows": [
-      {
-        "name": "Lead Capture",
-        "sub": "MULTI-CHANNEL INTAKE",
-        "iconBg": "rgba(45,80,22,0.08)",
-        "iconColor": "#2D5016",
-        "icon": "M22 3H2l8 9.46V19l4 2v-8.54L22 3z",
-        "original": "Manual",
-        "pro": "Automated",
-        "change": "UPGRADE",
-        "benefit": "Zero leads missed"
-      },
-      {
-        "name": "CRM Sync",
-        "sub": "REAL-TIME INTEGRATION",
-        "iconBg": "rgba(10,10,10,0.06)",
-        "iconColor": "#404040",
-        "icon": "M1 4v6h6M23 20v-6h-6M20.49 9A9 9 0 005.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 013.51 15",
-        "original": "CSV import",
-        "pro": "Live sync",
-        "change": "+300%",
-        "benefit": "Always up-to-date data"
-      },
-      {
-        "name": "Email Sequences",
-        "sub": "BEHAVIOURAL TRIGGERS",
-        "iconBg": "rgba(160,82,45,0.09)",
-        "iconColor": "#A0522D",
-        "icon": "M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zM22 6l-10 7L2 6",
-        "original": "Batch send",
-        "pro": "Smart triggers",
-        "change": "+150%",
-        "benefit": "Right message, right time"
-      },
-      {
-        "name": "Invoicing",
-        "sub": "AUTO-GENERATE & SEND",
-        "iconBg": "rgba(45,80,22,0.08)",
-        "iconColor": "#2D5016",
-        "icon": "M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8",
-        "original": "2 hours/wk",
-        "pro": "0 hours/wk",
-        "change": "-100%",
-        "benefit": "Invoices on autopilot"
-      },
-      {
-        "name": "Reporting",
-        "sub": "DASHBOARD AUTOMATION",
-        "iconBg": "rgba(10,10,10,0.06)",
-        "iconColor": "#404040",
-        "icon": "M18 20V10M12 20V4M6 20v-6",
-        "original": "2 days/mo",
-        "pro": "2 min/mo",
-        "change": "-99%",
-        "benefit": "Real-time visibility"
-      },
-      {
-        "name": "Error Handling",
-        "sub": "RETRY & DEAD-LETTER",
-        "iconBg": "rgba(160,82,45,0.09)",
-        "iconColor": "#A0522D",
-        "icon": "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4",
-        "original": "None",
-        "pro": "Full coverage",
-        "change": "NEW",
-        "benefit": "Nothing fails silently"
-      },
-      {
-        "name": "Onboarding",
-        "sub": "CLIENT WELCOME FLOW",
-        "iconBg": "rgba(45,80,22,0.08)",
-        "iconColor": "#2D5016",
-        "icon": "M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8zM16 11l2 2 4-4",
-        "original": "14 days",
-        "pro": "3 days",
-        "change": "-78%",
-        "benefit": "Clients start faster"
-      },
-      {
-        "name": "Support Routing",
-        "sub": "AI-POWERED TRIAGE",
-        "iconBg": "rgba(10,10,10,0.06)",
-        "iconColor": "#404040",
-        "icon": "M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2zM9 9h6M9 13h4",
-        "original": "4 hr response",
-        "pro": "8 min response",
-        "change": "-97%",
-        "benefit": "Instant ticket routing"
-      },
-      {
-        "name": "Scheduling",
-        "sub": "SMART BOOKING",
-        "iconBg": "rgba(160,82,45,0.09)",
-        "iconColor": "#A0522D",
-        "icon": "M8 2v3M16 2v3M3 9h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2zM8 14h.01M12 14h.01M16 14h.01",
-        "original": "Phone calls",
-        "pro": "Self-service",
-        "change": "NEW",
-        "benefit": "24/7 online booking"
-      },
-      {
-        "name": "Data Backup",
-        "sub": "AUTOMATED SNAPSHOTS",
-        "iconBg": "rgba(45,80,22,0.08)",
-        "iconColor": "#2D5016",
-        "icon": "M8 17l4 4 4-4M12 12v9M20.88 18.09A5 5 0 0018 9h-1.26A8 8 0 103 16.29",
-        "original": "Manual",
-        "pro": "Automated daily",
-        "change": "UPGRADE",
-        "benefit": "Never lose data"
-      },
-      {
-        "name": "Monitoring",
-        "sub": "24/7 HEALTH CHECKS",
-        "iconBg": "rgba(10,10,10,0.06)",
-        "iconColor": "#404040",
-        "icon": "M22 12h-4l-3 9L9 3l-3 9H2",
-        "original": "None",
-        "pro": "Real-time alerts",
-        "change": "NEW",
-        "benefit": "Proactive issue detection"
-      }
-    ]
-  },
-  "vsGreens": {
-    "title": "The new gold standard",
-    "subtitle": "Head-to-head comparison against doing it yourself or hiring in-house.",
-    "columns": ["Capability", "PURIST", "DIY / In-house"],
-    "rows": [
-      { "name": "Time to deploy",     "ours": "5–10 days", "theirs": "3–6 months",  "delta": "-90%"  },
-      { "name": "Error handling",      "ours": "Built-in",  "theirs": "DIY",   "delta": "+100%"  },
-      { "name": "Monitoring",      "ours": "24/7",  "theirs": "Manual",  "delta": "+100%"  },
-      { "name": "Documentation","ours": "Complete",     "theirs": "Sparse",     "delta": "+100%"  },
-      { "name": "Maintenance",     "ours": "Included",  "theirs": "Your time",    "delta": "+100%" },
-      { "name": "Cost per year",      "ours": "$9,588",  "theirs": "$48,000+",   "delta": "-80%" },
-      { "name": "Uptime SLA",       "ours": "99.5%",  "theirs": "No SLA",  "delta": "+99%" },
-      { "name": "Scaling",       "ours": "On-demand",  "theirs": "Rebuild",  "delta": "+100%" },
-      { "name": "Security",         "ours": "SOC 2 ready",    "theirs": "Varies",  "delta": "+100%" },
-      { "name": "Industry expertise",      "ours": "4 verticals",    "theirs": "Generic",  "delta": "+100%" },
-      { "name": "Support",     "ours": "Same-day",  "theirs": "Stack Overflow",  "delta": "+100%"  }
-    ],
-    "totalCount": 12
-  },
-  "organSystems": [
-    {
-      "icon": "📥",
-      "title": "Lead capture",
-      "body": "Multi-channel lead intake from forms, chat, social media and referrals. Every lead enters your CRM instantly with zero manual entry."
-    },
-    {
-      "icon": "🔄",
-      "title": "CRM sync",
-      "body": "Real-time bidirectional sync between your CRM, email, calendar and project management tools. No more copy-pasting between tabs."
-    },
-    {
-      "icon": "📧",
-      "title": "Email automation",
-      "body": "Behavioural trigger sequences for onboarding, follow-ups, re-engagement and nurture campaigns. Right message, right time, every time."
-    },
-    {
-      "icon": "💰",
-      "title": "Invoicing & payments",
-      "body": "Auto-generate invoices, send payment reminders and reconcile transactions. From proposal to payment without touching a spreadsheet."
-    },
-    {
-      "icon": "📊",
-      "title": "Reporting & analytics",
-      "body": "Automated dashboards that pull data from every tool in your stack. Real-time visibility into revenue, pipeline and operations."
-    },
-    {
-      "icon": "🎯",
-      "title": "Client onboarding",
-      "body": "Structured welcome flows with automated task creation, document collection and milestone tracking. Clients start faster, churn less."
-    },
-    {
-      "icon": "🤖",
-      "title": "AI support routing",
-      "body": "Intelligent ticket triage that categorises, prioritises and routes support requests. Average response time drops from hours to minutes."
-    },
-    {
-      "icon": "📅",
-      "title": "Smart scheduling",
-      "body": "Self-service booking with availability sync, reminders and no-show follow-ups. Eliminates phone tag and scheduling back-and-forth."
-    },
-    {
-      "icon": "🔒",
-      "title": "Backup & monitoring",
-      "body": "Automated data snapshots, 24/7 health checks and real-time alerts. If something breaks, we know before you do."
-    }
-  ]
+ "comparison": {
+   "title": "Meet the new Automation Pro.",
+   "subtitle": "Production-grade workflows. Maximum reliability.",
+   "columns": ["Automation", "Basic setup", "Pro version", "Your benefit"],
+   "rows": [
+     {
+       "name": "Lead Capture",
+       "sub": "MULTI-CHANNEL INTAKE",
+       "iconBg": "rgba(45,80,22,0.08)",
+       "iconColor": "#2D5016",
+       "icon": "M22 3H2l8 9.46V19l4 2v-8.54L22 3z",
+       "original": "Manual",
+       "pro": "Automated",
+       "change": "UPGRADE",
+       "benefit": "Zero leads missed"
+     },
+     {
+       "name": "CRM Sync",
+       "sub": "REAL-TIME INTEGRATION",
+       "iconBg": "rgba(10,10,10,0.06)",
+       "iconColor": "#404040",
+       "icon": "M1 4v6h6M23 20v-6h-6M20.49 9A9 9 0 005.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 013.51 15",
+       "original": "CSV import",
+       "pro": "Live sync",
+       "change": "+300%",
+       "benefit": "Always up-to-date data"
+     },
+     {
+       "name": "Email Sequences",
+       "sub": "BEHAVIOURAL TRIGGERS",
+       "iconBg": "rgba(160,82,45,0.09)",
+       "iconColor": "#A0522D",
+       "icon": "M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zM22 6l-10 7L2 6",
+       "original": "Batch send",
+       "pro": "Smart triggers",
+       "change": "+150%",
+       "benefit": "Right message, right time"
+     },
+     {
+       "name": "Invoicing",
+       "sub": "AUTO-GENERATE & SEND",
+       "iconBg": "rgba(45,80,22,0.08)",
+       "iconColor": "#2D5016",
+       "icon": "M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8",
+       "original": "2 hours/wk",
+       "pro": "0 hours/wk",
+       "change": "-100%",
+       "benefit": "Invoices on autopilot"
+     },
+     {
+       "name": "Reporting",
+       "sub": "DASHBOARD AUTOMATION",
+       "iconBg": "rgba(10,10,10,0.06)",
+       "iconColor": "#404040",
+       "icon": "M18 20V10M12 20V4M6 20v-6",
+       "original": "2 days/mo",
+       "pro": "2 min/mo",
+       "change": "-99%",
+       "benefit": "Real-time visibility"
+     },
+     {
+       "name": "Error Handling",
+       "sub": "RETRY & DEAD-LETTER",
+       "iconBg": "rgba(160,82,45,0.09)",
+       "iconColor": "#A0522D",
+       "icon": "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4",
+       "original": "None",
+       "pro": "Full coverage",
+       "change": "NEW",
+       "benefit": "Nothing fails silently"
+     },
+     {
+       "name": "Onboarding",
+       "sub": "CLIENT WELCOME FLOW",
+       "iconBg": "rgba(45,80,22,0.08)",
+       "iconColor": "#2D5016",
+       "icon": "M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8zM16 11l2 2 4-4",
+       "original": "14 days",
+       "pro": "3 days",
+       "change": "-78%",
+       "benefit": "Clients start faster"
+     },
+     {
+       "name": "Support Routing",
+       "sub": "AI-POWERED TRIAGE",
+       "iconBg": "rgba(10,10,10,0.06)",
+       "iconColor": "#404040",
+       "icon": "M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2zM9 9h6M9 13h4",
+       "original": "4 hr response",
+       "pro": "8 min response",
+       "change": "-97%",
+       "benefit": "Instant ticket routing"
+     },
+     {
+       "name": "Scheduling",
+       "sub": "SMART BOOKING",
+       "iconBg": "rgba(160,82,45,0.09)",
+       "iconColor": "#A0522D",
+       "icon": "M8 2v3M16 2v3M3 9h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2zM8 14h.01M12 14h.01M16 14h.01",
+       "original": "Phone calls",
+       "pro": "Self-service",
+       "change": "NEW",
+       "benefit": "24/7 online booking"
+     },
+     {
+       "name": "Data Backup",
+       "sub": "AUTOMATED SNAPSHOTS",
+       "iconBg": "rgba(45,80,22,0.08)",
+       "iconColor": "#2D5016",
+       "icon": "M8 17l4 4 4-4M12 12v9M20.88 18.09A5 5 0 0018 9h-1.26A8 8 0 103 16.29",
+       "original": "Manual",
+       "pro": "Automated daily",
+       "change": "UPGRADE",
+       "benefit": "Never lose data"
+     },
+     {
+       "name": "Monitoring",
+       "sub": "24/7 HEALTH CHECKS",
+       "iconBg": "rgba(10,10,10,0.06)",
+       "iconColor": "#404040",
+       "icon": "M22 12h-4l-3 9L9 3l-3 9H2",
+       "original": "None",
+       "pro": "Real-time alerts",
+       "change": "NEW",
+       "benefit": "Proactive issue detection"
+     }
+   ]
+ },
+ "vsGreens": {
+   "title": "The new gold standard",
+   "subtitle": "Head-to-head comparison against doing it yourself or hiring in-house.",
+   "columns": ["Capability", "PURIST", "DIY / In-house"],
+   "rows": [
+     { "name": "Time to deploy",   "ours": "5–10 days", "theirs": "3–6 months", "delta": "-90%" },
+     { "name": "Error handling",    "ours": "Built-in", "theirs": "DIY", "delta": "+100%" },
+     { "name": "Monitoring",    "ours": "24/7", "theirs": "Manual", "delta": "+100%" },
+     { "name": "Documentation","ours": "Complete",   "theirs": "Sparse",   "delta": "+100%" },
+     { "name": "Maintenance",   "ours": "Included", "theirs": "Your time",  "delta": "+100%" },
+     { "name": "Cost per year",    "ours": "$9,588", "theirs": "$48,000+", "delta": "-80%" },
+     { "name": "Uptime SLA",     "ours": "99.5%", "theirs": "No SLA", "delta": "+99%" },
+     { "name": "Scaling",     "ours": "On-demand", "theirs": "Rebuild", "delta": "+100%" },
+     { "name": "Security",       "ours": "SOC 2 ready",  "theirs": "Varies", "delta": "+100%" },
+     { "name": "Industry expertise",    "ours": "4 verticals",  "theirs": "Generic", "delta": "+100%" },
+     { "name": "Support",   "ours": "Same-day", "theirs": "Stack Overflow", "delta": "+100%" }
+   ],
+   "totalCount": 12
+ },
+ "organSystems": [
+   {
+     "icon": "📥",
+     "title": "Lead capture",
+     "body": "Multi-channel lead intake from forms, chat, social media and referrals. Every lead enters your CRM instantly with zero manual entry."
+   },
+   {
+     "icon": "🔄",
+     "title": "CRM sync",
+     "body": "Real-time bidirectional sync between your CRM, email, calendar and project management tools. No more copy-pasting between tabs."
+   },
+   {
+     "icon": "📧",
+     "title": "Email automation",
+     "body": "Behavioural trigger sequences for onboarding, follow-ups, re-engagement and nurture campaigns. Right message, right time, every time."
+   },
+   {
+     "icon": "💰",
+     "title": "Invoicing & payments",
+     "body": "Auto-generate invoices, send payment reminders and reconcile transactions. From proposal to payment without touching a spreadsheet."
+   },
+   {
+     "icon": "📊",
+     "title": "Reporting & analytics",
+     "body": "Automated dashboards that pull data from every tool in your stack. Real-time visibility into revenue, pipeline and operations."
+   },
+   {
+     "icon": "🎯",
+     "title": "Client onboarding",
+     "body": "Structured welcome flows with automated task creation, document collection and milestone tracking. Clients start faster, churn less."
+   },
+   {
+     "icon": "🤖",
+     "title": "AI support routing",
+     "body": "Intelligent ticket triage that categorises, prioritises and routes support requests. Average response time drops from hours to minutes."
+   },
+   {
+     "icon": "📅",
+     "title": "Smart scheduling",
+     "body": "Self-service booking with availability sync, reminders and no-show follow-ups. Eliminates phone tag and scheduling back-and-forth."
+   },
+   {
+     "icon": "🔒",
+     "title": "Backup & monitoring",
+     "body": "Automated data snapshots, 24/7 health checks and real-time alerts. If something breaks, we know before you do."
+   }
+ ]
 }

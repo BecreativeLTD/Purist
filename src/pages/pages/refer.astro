@@ -2,379 +2,379 @@
 import ShopLayout from '~/layouts/ShopLayout.astro';
 
 const steps = [
-  {
-    n: '01',
-    title: 'Sign in and grab your code',
-    body: 'Your unique referral code and link live in your dashboard. Share them anywhere — email, LinkedIn, WhatsApp, or in person.',
-    icon: 'M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z',
-  },
-  {
-    n: '02',
-    title: 'They book a free audit',
-    body: 'Anyone who uses your code or link gets a full 30-minute automation audit — zero cost, zero obligation. A genuine gift, not a sales trap.',
-    icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
-  },
-  {
-    n: '03',
-    title: 'You earn $200 per client',
-    body: 'When your referral becomes a client, $200 in service credit posts to your account. Unlimited referrals. No cap. No expiry.',
-    icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
-  },
+ {
+   n: '01',
+   title: 'Sign in and grab your code',
+   body: 'Your unique referral code and link live in your dashboard. Share them anywhere email, LinkedIn, WhatsApp, or in person.',
+   icon: 'M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z',
+ },
+ {
+   n: '02',
+   title: 'They book a free audit',
+   body: 'Anyone who uses your code or link gets a full 30-minute automation audit zero cost, zero obligation. A genuine gift, not a sales trap.',
+   icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+ },
+ {
+   n: '03',
+   title: 'You earn $200 per client',
+   body: 'When your referral becomes a client, $200 in service credit posts to your account. Unlimited referrals. No cap. No expiry.',
+   icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+ },
 ];
 
 const earningsRows = [
-  { refs: 1, credit: '$200',   equiv: '1 month retainer top-up'  },
-  { refs: 3, credit: '$600',   equiv: '3 months of extra delivery' },
-  { refs: 5, credit: '$1,000', equiv: 'A full quarter, on the house' },
-  { refs: 10, credit: '$2,000', equiv: 'Nearly half your annual plan' },
+ { refs: 1, credit: '$200', equiv: '1 month retainer top-up' },
+ { refs: 3, credit: '$600', equiv: '3 months of extra delivery' },
+ { refs: 5, credit: '$1,000', equiv: 'A full quarter, on the house' },
+ { refs: 10, credit: '$2,000', equiv: 'Nearly half your annual plan' },
 ];
 
 const whatTheyGet = [
-  { icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2', title: 'Full automation audit', desc: 'A senior PURIST engineer reviews their current stack and maps the top 3 quick wins.' },
-  { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Custom workflow map', desc: 'They leave with a prioritised workflow plan — which tools, which sequences, in which order.' },
-  { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: '30 minutes, zero cost', desc: 'No credit card. No pitch. Just actionable insight they can use immediately, even if they never become a client.' },
+ { icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2', title: 'Full automation audit', desc: 'A senior PURIST engineer reviews their current stack and maps the top 3 quick wins.' },
+ { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Custom workflow map', desc: 'They leave with a prioritised workflow plan which tools, which sequences, in which order.' },
+ { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: '30 minutes, zero cost', desc: 'No credit card. No pitch. Just actionable insight they can use immediately, even if they never become a client.' },
 ];
 
 const faqs = [
-  { q: 'How do I get my referral code?', a: 'Sign in to your PURIST account and go to the Refer section of your dashboard. Your unique code and a pre-built share link are waiting there.' },
-  { q: 'When does my $200 credit arrive?', a: 'Credit posts to your account once the referred client signs their first monthly plan and the 30-day guarantee window has closed. You\'ll get an email confirmation when it lands.' },
-  { q: 'Is there a limit on how many people I can refer?', a: 'None at all. Refer 1 or refer 100 — every qualified referral earns $200. There is no cap, no ceiling, and no expiry on the credits you earn.' },
-  { q: 'Does my referral get anything?', a: 'Yes — a completely free 30-minute automation audit worth £500, with zero obligation to become a client.' },
-  { q: 'Can I use my credit immediately?', a: 'Credit is available as soon as it posts and can be applied to any PURIST service plan, add-on, or retainer renewal.' },
-  { q: 'Who qualifies as a referral?', a: 'Any new business that books an audit via your link and converts to a paid plan within 90 days. One credit per new client account.' },
+ { q: 'How do I get my referral code?', a: 'Sign in to your PURIST account and go to the Refer section of your dashboard. Your unique code and a pre-built share link are waiting there.' },
+ { q: 'When does my $200 credit arrive?', a: 'Credit posts to your account once the referred client signs their first monthly plan and the 30-day guarantee window has closed. You\'ll get an email confirmation when it lands.' },
+ { q: 'Is there a limit on how many people I can refer?', a: 'None at all. Refer 1 or refer 100 every qualified referral earns $200. There is no cap, no ceiling, and no expiry on the credits you earn.' },
+ { q: 'Does my referral get anything?', a: 'Yes a completely free 30-minute automation audit worth £500, with zero obligation to become a client.' },
+ { q: 'Can I use my credit immediately?', a: 'Credit is available as soon as it posts and can be applied to any PURIST service plan, add-on, or retainer renewal.' },
+ { q: 'Who qualifies as a referral?', a: 'Any new business that books an audit via your link and converts to a paid plan within 90 days. One credit per new client account.' },
 ];
 ---
 
 <ShopLayout
-  title="Refer a client — Earn $200 per referral | PURIST"
-  description="Share PURIST with businesses you know. They get a free automation audit worth £500. You earn $200 in service credit per referral. No cap."
+ title="Refer a client Earn $200 per referral | PURIST"
+ description="Share PURIST with businesses you know. They get a free automation audit worth £500. You earn $200 in service credit per referral. No cap."
 >
 
-  <!-- ── HERO ────────────────────────────────────────────── -->
-  <header class="bg-brand-cream relative overflow-hidden">
-    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 40% at 70% 50%,rgba(232,180,176,0.18) 0%,transparent 65%);"></div>
-    <div class="container-x py-20 lg:py-28 max-w-6xl mx-auto relative z-10">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+ <!-- ── HERO ────────────────────────────────────────────── -->
+ <header class="bg-brand-cream relative overflow-hidden">
+   <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 40% at 70% 50%,rgba(232,180,176,0.18) 0%,transparent 65%);"></div>
+   <div class="container-x py-20 lg:py-28 max-w-6xl mx-auto relative z-10">
+     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-        <!-- Left: copy -->
-        <div>
-          <p class="text-[9px] uppercase tracking-[0.28em] font-bold text-brand-rust mb-5">Refer a client</p>
-          <h1 class="font-display text-[2.4rem] lg:text-[3.2rem] leading-[1.06] tracking-[-0.025em] mb-5 text-balance text-brand-black">
-            Give a free audit.<br/>
-            Earn $200.<br/>
-            <em class="font-medium" style="color:#E8B4B0;">No cap. No expiry.</em>
-          </h1>
-          <p class="text-[15px] lg:text-[16px] text-brand-gray-600 leading-relaxed mb-8 max-w-md">
-            Share your unique code with any business you know. They get a full 30-minute automation audit at no cost. You earn $200 in service credit every time one of them becomes a client.
-          </p>
-          <div class="flex flex-wrap gap-3">
-            <a href="/login"
-              class="inline-flex items-center gap-2 px-6 py-3.5 rounded-[12px] bg-brand-black text-white text-[13px] font-semibold transition-all hover:bg-brand-gray-900">
-              Sign in to get your code
-              <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-            </a>
-            <a href="/pages/welcome"
-              class="inline-flex items-center gap-2 px-6 py-3.5 rounded-[12px] border border-brand-gray-200 text-brand-black text-[13px] font-semibold transition-all hover:bg-white">
-              Not a client yet? Start here
-            </a>
-          </div>
-        </div>
+       <!-- Left: copy -->
+       <div>
+         <p class="text-[9px] uppercase tracking-[0.28em] font-bold text-brand-rust mb-5">Refer a client</p>
+         <h1 class="font-display text-[2.4rem] lg:text-[3.2rem] leading-[1.06] tracking-[-0.025em] mb-5 text-balance text-brand-black">
+           Give a free audit.<br/>
+           Earn $200.<br/>
+           <em class="font-medium" style="color:#E8B4B0;">No cap. No expiry.</em>
+         </h1>
+         <p class="text-[15px] lg:text-[16px] text-brand-gray-600 leading-relaxed mb-8 max-w-md">
+           Share your unique code with any business you know. They get a full 30-minute automation audit at no cost. You earn $200 in service credit every time one of them becomes a client.
+         </p>
+         <div class="flex flex-wrap gap-3">
+           <a href="/login"
+             class="inline-flex items-center gap-2 px-6 py-3.5 rounded-[12px] bg-brand-black text-white text-[13px] font-semibold transition-all hover:bg-brand-gray-900">
+             Sign in to get your code
+             <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+           </a>
+           <a href="/pages/welcome"
+             class="inline-flex items-center gap-2 px-6 py-3.5 rounded-[12px] border border-brand-gray-200 text-brand-black text-[13px] font-semibold transition-all hover:bg-white">
+             Not a client yet? Start here
+           </a>
+         </div>
+       </div>
 
-        <!-- Right: referral code preview card -->
-        <div class="bg-white rounded-[20px] border border-brand-gray-100 p-7 shadow-sm">
-          <p class="text-[9px] uppercase tracking-[0.22em] font-bold text-brand-gray-400 mb-4">Your referral code looks like this</p>
+       <!-- Right: referral code preview card -->
+       <div class="bg-white rounded-[20px] border border-brand-gray-100 p-7 shadow-sm">
+         <p class="text-[9px] uppercase tracking-[0.22em] font-bold text-brand-gray-400 mb-4">Your referral code looks like this</p>
 
-          <!-- Code display -->
-          <div class="flex items-center gap-3 bg-brand-cream rounded-[12px] px-4 py-3.5 mb-4 border border-brand-sand">
-            <span class="font-mono text-[18px] font-bold tracking-[0.08em] text-brand-black flex-1 select-all" id="demo-code">PURIST-YOURNAME</span>
-            <button onclick="copyDemo()" class="text-[10px] font-semibold text-brand-rust hover:text-brand-black transition px-2 py-1 rounded-[6px] hover:bg-brand-sand" aria-label="Copy referral code">
-              Copy
-            </button>
-          </div>
+         <!-- Code display -->
+         <div class="flex items-center gap-3 bg-brand-cream rounded-[12px] px-4 py-3.5 mb-4 border border-brand-sand">
+           <span class="font-mono text-[18px] font-bold tracking-[0.08em] text-brand-black flex-1 select-all" id="demo-code">PURIST-YOURNAME</span>
+           <button onclick="copyDemo()" class="text-[10px] font-semibold text-brand-rust hover:text-brand-black transition px-2 py-1 rounded-[6px] hover:bg-brand-sand" aria-label="Copy referral code">
+             Copy
+           </button>
+         </div>
 
-          <!-- What it unlocks -->
-          <div class="space-y-3 mb-5">
-            <div class="flex items-start gap-3">
-              <div class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style="background:rgba(45,80,22,0.12);">
-                <svg class="w-3 h-3" viewBox="0 0 12 12" fill="none" stroke="#2D5016" stroke-width="1.8" stroke-linecap="round"><path d="M2 6l3 3 5-5"/></svg>
-              </div>
-              <div>
-                <p class="text-[12.5px] font-semibold text-brand-black">They get a free audit (worth £500)</p>
-                <p class="text-[11px] text-brand-gray-500 mt-0.5">Full 30-min session with a PURIST engineer. No card required.</p>
-              </div>
-            </div>
-            <div class="flex items-start gap-3">
-              <div class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style="background:rgba(45,80,22,0.12);">
-                <svg class="w-3 h-3" viewBox="0 0 12 12" fill="none" stroke="#2D5016" stroke-width="1.8" stroke-linecap="round"><path d="M2 6l3 3 5-5"/></svg>
-              </div>
-              <div>
-                <p class="text-[12.5px] font-semibold text-brand-black">You earn $200 in service credit</p>
-                <p class="text-[11px] text-brand-gray-500 mt-0.5">Posts automatically when they sign. No chasing required.</p>
-              </div>
-            </div>
-            <div class="flex items-start gap-3">
-              <div class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style="background:rgba(45,80,22,0.12);">
-                <svg class="w-3 h-3" viewBox="0 0 12 12" fill="none" stroke="#2D5016" stroke-width="1.8" stroke-linecap="round"><path d="M2 6l3 3 5-5"/></svg>
-              </div>
-              <div>
-                <p class="text-[12.5px] font-semibold text-brand-black">No cap, no expiry</p>
-                <p class="text-[11px] text-brand-gray-500 mt-0.5">Refer as many as you like. Every one counts.</p>
-              </div>
-            </div>
-          </div>
+         <!-- What it unlocks -->
+         <div class="space-y-3 mb-5">
+           <div class="flex items-start gap-3">
+             <div class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style="background:rgba(45,80,22,0.12);">
+               <svg class="w-3 h-3" viewBox="0 0 12 12" fill="none" stroke="#2D5016" stroke-width="1.8" stroke-linecap="round"><path d="M2 6l3 3 5-5"/></svg>
+             </div>
+             <div>
+               <p class="text-[12.5px] font-semibold text-brand-black">They get a free audit (worth £500)</p>
+               <p class="text-[11px] text-brand-gray-500 mt-0.5">Full 30-min session with a PURIST engineer. No card required.</p>
+             </div>
+           </div>
+           <div class="flex items-start gap-3">
+             <div class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style="background:rgba(45,80,22,0.12);">
+               <svg class="w-3 h-3" viewBox="0 0 12 12" fill="none" stroke="#2D5016" stroke-width="1.8" stroke-linecap="round"><path d="M2 6l3 3 5-5"/></svg>
+             </div>
+             <div>
+               <p class="text-[12.5px] font-semibold text-brand-black">You earn $200 in service credit</p>
+               <p class="text-[11px] text-brand-gray-500 mt-0.5">Posts automatically when they sign. No chasing required.</p>
+             </div>
+           </div>
+           <div class="flex items-start gap-3">
+             <div class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style="background:rgba(45,80,22,0.12);">
+               <svg class="w-3 h-3" viewBox="0 0 12 12" fill="none" stroke="#2D5016" stroke-width="1.8" stroke-linecap="round"><path d="M2 6l3 3 5-5"/></svg>
+             </div>
+             <div>
+               <p class="text-[12.5px] font-semibold text-brand-black">No cap, no expiry</p>
+               <p class="text-[11px] text-brand-gray-500 mt-0.5">Refer as many as you like. Every one counts.</p>
+             </div>
+           </div>
+         </div>
 
-          <a href="/login" class="block w-full text-center py-2.5 rounded-[10px] text-[12px] font-semibold transition-all"
-            style="background:#0A0A0A;color:white;"
-            onmouseover="this.style.background='#222'" onmouseout="this.style.background='#0A0A0A'">
-            Sign in to reveal your real code →
-          </a>
-        </div>
+         <a href="/login" class="block w-full text-center py-2.5 rounded-[10px] text-[12px] font-semibold transition-all"
+           style="background:#0A0A0A;color:white;"
+           onmouseover="this.style.background='#222'" onmouseout="this.style.background='#0A0A0A'">
+           Sign in to reveal your real code →
+         </a>
+       </div>
 
-      </div>
-    </div>
-  </header>
+     </div>
+   </div>
+ </header>
 
-  <!-- ── STATS BAR ─────────────────────────────────────── -->
-  <div class="bg-brand-black text-white py-6 border-b border-white/[0.06]">
-    <div class="container-x">
-      <div class="flex flex-wrap justify-center gap-10 lg:gap-20">
-        {[
-          { n: '$200', label: 'per qualified referral' },
-          { n: '£500', label: 'audit value you gift them' },
-          { n: '0', label: 'cap on referrals' },
-          { n: '30', label: 'days to credit posting' },
-        ].map(s => (
-          <div class="text-center">
-            <p class="font-display text-[1.8rem] leading-none text-white mb-1">{s.n}</p>
-            <p class="text-[10px] text-white/55 uppercase tracking-[0.12em]">{s.label}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
+ <!-- ── STATS BAR ─────────────────────────────────────── -->
+ <div class="bg-brand-black text-white py-6 border-b border-white/[0.06]">
+   <div class="container-x">
+     <div class="flex flex-wrap justify-center gap-10 lg:gap-20">
+       {[
+         { n: '$200', label: 'per qualified referral' },
+         { n: '£500', label: 'audit value you gift them' },
+         { n: '0', label: 'cap on referrals' },
+         { n: '30', label: 'days to credit posting' },
+       ].map(s => (
+         <div class="text-center">
+           <p class="font-display text-[1.8rem] leading-none text-white mb-1">{s.n}</p>
+           <p class="text-[10px] text-white/55 uppercase tracking-[0.12em]">{s.label}</p>
+         </div>
+       ))}
+     </div>
+   </div>
+ </div>
 
-  <!-- ── HOW IT WORKS ───────────────────────────────────── -->
-  <section class="bg-white py-20 lg:py-28">
-    <div class="container-x max-w-5xl mx-auto">
-      <div class="text-center mb-14">
-        <p class="text-[9px] uppercase tracking-[0.28em] font-bold text-brand-rust mb-3">How it works</p>
-        <h2 class="font-display text-[1.8rem] lg:text-[2.2rem] leading-[1.1] text-brand-black">Three steps. That's it.</h2>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {steps.map((s) => (
-          <article class="scroll-fade">
-            <div class="w-11 h-11 rounded-[12px] flex items-center justify-center mb-4" style="background:rgba(232,180,176,0.15);">
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d={s.icon}/></svg>
-            </div>
-            <p class="font-display text-[2.5rem] text-brand-gray-200 leading-none mb-2">{s.n}</p>
-            <h3 class="font-display text-[1.15rem] leading-snug text-brand-black mb-2">{s.title}</h3>
-            <p class="text-[13px] text-brand-gray-600 leading-relaxed">{s.body}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
+ <!-- ── HOW IT WORKS ───────────────────────────────────── -->
+ <section class="bg-white py-20 lg:py-28">
+   <div class="container-x max-w-5xl mx-auto">
+     <div class="text-center mb-14">
+       <p class="text-[9px] uppercase tracking-[0.28em] font-bold text-brand-rust mb-3">How it works</p>
+       <h2 class="font-display text-[1.8rem] lg:text-[2.2rem] leading-[1.1] text-brand-black">Three steps. That's it.</h2>
+     </div>
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+       {steps.map((s) => (
+         <article class="scroll-fade">
+           <div class="w-11 h-11 rounded-[12px] flex items-center justify-center mb-4" style="background:rgba(232,180,176,0.15);">
+             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d={s.icon}/></svg>
+           </div>
+           <p class="font-display text-[2.5rem] text-brand-gray-200 leading-none mb-2">{s.n}</p>
+           <h3 class="font-display text-[1.15rem] leading-snug text-brand-black mb-2">{s.title}</h3>
+           <p class="text-[13px] text-brand-gray-600 leading-relaxed">{s.body}</p>
+         </article>
+       ))}
+     </div>
+   </div>
+ </section>
 
-  <!-- ── WHAT YOUR REFERRAL GETS ────────────────────────── -->
-  <section class="bg-brand-beige py-20 lg:py-28">
-    <div class="container-x max-w-5xl mx-auto">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <div>
-          <p class="text-[9px] uppercase tracking-[0.28em] font-bold text-brand-rust mb-4">What they receive</p>
-          <h2 class="font-display text-[1.8rem] lg:text-[2.2rem] leading-[1.1] text-brand-black mb-4">
-            You're giving them something genuinely valuable.
-          </h2>
-          <p class="text-[14px] text-brand-gray-600 leading-relaxed mb-8">
-            The free audit your referral receives isn't a lead magnet. It's a real session with a senior PURIST engineer who maps their current operations and shows them exactly where automation would save time and money. Most businesses leave with 3 specific quick wins they can act on immediately.
-          </p>
-          <a href="/pages/welcome"
-            class="inline-flex items-center gap-2 text-[12px] font-semibold text-brand-black border-b border-brand-black pb-0.5 hover:opacity-60 transition">
-            See what an audit covers ↗
-          </a>
-        </div>
-        <div class="space-y-4">
-          {whatTheyGet.map(w => (
-            <div class="bg-white rounded-[16px] border border-brand-gray-100 p-5 flex items-start gap-4">
-              <div class="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0" style="background:rgba(45,80,22,0.08);">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="#2D5016" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d={w.icon}/></svg>
-              </div>
-              <div>
-                <p class="text-[13px] font-semibold text-brand-black mb-0.5">{w.title}</p>
-                <p class="text-[12px] text-brand-gray-600 leading-snug">{w.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </section>
+ <!-- ── WHAT YOUR REFERRAL GETS ────────────────────────── -->
+ <section class="bg-brand-beige py-20 lg:py-28">
+   <div class="container-x max-w-5xl mx-auto">
+     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+       <div>
+         <p class="text-[9px] uppercase tracking-[0.28em] font-bold text-brand-rust mb-4">What they receive</p>
+         <h2 class="font-display text-[1.8rem] lg:text-[2.2rem] leading-[1.1] text-brand-black mb-4">
+           You're giving them something genuinely valuable.
+         </h2>
+         <p class="text-[14px] text-brand-gray-600 leading-relaxed mb-8">
+           The free audit your referral receives isn't a lead magnet. It's a real session with a senior PURIST engineer who maps their current operations and shows them exactly where automation would save time and money. Most businesses leave with 3 specific quick wins they can act on immediately.
+         </p>
+         <a href="/pages/welcome"
+           class="inline-flex items-center gap-2 text-[12px] font-semibold text-brand-black border-b border-brand-black pb-0.5 hover:opacity-60 transition">
+           See what an audit covers ↗
+         </a>
+       </div>
+       <div class="space-y-4">
+         {whatTheyGet.map(w => (
+           <div class="bg-white rounded-[16px] border border-brand-gray-100 p-5 flex items-start gap-4">
+             <div class="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0" style="background:rgba(45,80,22,0.08);">
+               <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="#2D5016" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d={w.icon}/></svg>
+             </div>
+             <div>
+               <p class="text-[13px] font-semibold text-brand-black mb-0.5">{w.title}</p>
+               <p class="text-[12px] text-brand-gray-600 leading-snug">{w.desc}</p>
+             </div>
+           </div>
+         ))}
+       </div>
+     </div>
+   </div>
+ </section>
 
-  <!-- ── EARNINGS POTENTIAL ─────────────────────────────── -->
-  <section class="bg-brand-black text-white py-20 lg:py-28">
-    <div class="container-x max-w-4xl mx-auto">
-      <div class="text-center mb-14">
-        <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-3" style="color:rgba(232,180,176,0.55);">Earnings potential</p>
-        <h2 class="font-display text-[1.8rem] lg:text-[2.2rem] leading-[1.1] text-white">
-          The maths are simple.
-        </h2>
-        <p class="text-[13px] mt-3 max-w-md mx-auto" style="color:rgba(255,255,255,0.55);">Every qualified referral earns $200. There is no ceiling.</p>
-      </div>
+ <!-- ── EARNINGS POTENTIAL ─────────────────────────────── -->
+ <section class="bg-brand-black text-white py-20 lg:py-28">
+   <div class="container-x max-w-4xl mx-auto">
+     <div class="text-center mb-14">
+       <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-3" style="color:rgba(232,180,176,0.55);">Earnings potential</p>
+       <h2 class="font-display text-[1.8rem] lg:text-[2.2rem] leading-[1.1] text-white">
+         The maths are simple.
+       </h2>
+       <p class="text-[13px] mt-3 max-w-md mx-auto" style="color:rgba(255,255,255,0.55);">Every qualified referral earns $200. There is no ceiling.</p>
+     </div>
 
-      <div class="rounded-[16px] overflow-hidden border" style="border-color:rgba(255,255,255,0.08);">
-        <div class="grid grid-cols-3 px-6 py-3 text-[9px] uppercase tracking-[0.16em] font-bold" style="color:rgba(255,255,255,0.40);background:rgba(255,255,255,0.03);">
-          <span>Referrals</span>
-          <span>Your credit</span>
-          <span>Equivalent to</span>
-        </div>
-        {earningsRows.map((r, idx) => (
-          <div class={`grid grid-cols-3 px-6 py-4 items-center ${idx < earningsRows.length - 1 ? 'border-b' : ''}`}
-               style="border-color:rgba(255,255,255,0.06);">
-            <span class="font-display text-[1.3rem] text-white">{r.refs}</span>
-            <span class="font-display text-[1.3rem]" style="color:#E8B4B0;">{r.credit}</span>
-            <span class="text-[12px]" style="color:rgba(255,255,255,0.55);">{r.equiv}</span>
-          </div>
-        ))}
-      </div>
+     <div class="rounded-[16px] overflow-hidden border" style="border-color:rgba(255,255,255,0.08);">
+       <div class="grid grid-cols-3 px-6 py-3 text-[9px] uppercase tracking-[0.16em] font-bold" style="color:rgba(255,255,255,0.40);background:rgba(255,255,255,0.03);">
+         <span>Referrals</span>
+         <span>Your credit</span>
+         <span>Equivalent to</span>
+       </div>
+       {earningsRows.map((r, idx) => (
+         <div class={`grid grid-cols-3 px-6 py-4 items-center ${idx < earningsRows.length - 1 ? 'border-b' : ''}`}
+              style="border-color:rgba(255,255,255,0.06);">
+           <span class="font-display text-[1.3rem] text-white">{r.refs}</span>
+           <span class="font-display text-[1.3rem]" style="color:#E8B4B0;">{r.credit}</span>
+           <span class="text-[12px]" style="color:rgba(255,255,255,0.55);">{r.equiv}</span>
+         </div>
+       ))}
+     </div>
 
-      <div class="text-center mt-10">
-        <a href="/login"
-          class="inline-flex items-center gap-2 px-6 py-3.5 rounded-[12px] text-[13px] font-semibold transition-all"
-          style="background:#E8B4B0;color:#0A0A0A;"
-          onmouseover="this.style.background='#d9a09b'" onmouseout="this.style.background='#E8B4B0'">
-          Get your referral code
-          <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-        </a>
-      </div>
-    </div>
-  </section>
+     <div class="text-center mt-10">
+       <a href="/login"
+         class="inline-flex items-center gap-2 px-6 py-3.5 rounded-[12px] text-[13px] font-semibold transition-all"
+         style="background:#E8B4B0;color:#0A0A0A;"
+         onmouseover="this.style.background='#d9a09b'" onmouseout="this.style.background='#E8B4B0'">
+         Get your referral code
+         <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+       </a>
+     </div>
+   </div>
+ </section>
 
-  <!-- ── COUPON / SHARE SECTION ─────────────────────────── -->
-  <section class="bg-white py-20 lg:py-28">
-    <div class="container-x max-w-4xl mx-auto">
-      <div class="text-center mb-12">
-        <p class="text-[9px] uppercase tracking-[0.28em] font-bold text-brand-rust mb-3">Share your code</p>
-        <h2 class="font-display text-[1.8rem] lg:text-[2.2rem] leading-[1.1] text-brand-black mb-3">
-          Three ways to share.
-        </h2>
-        <p class="text-[14px] text-brand-gray-600">Sign in to get your real code. Here's how people use it.</p>
-      </div>
+ <!-- ── COUPON / SHARE SECTION ─────────────────────────── -->
+ <section class="bg-white py-20 lg:py-28">
+   <div class="container-x max-w-4xl mx-auto">
+     <div class="text-center mb-12">
+       <p class="text-[9px] uppercase tracking-[0.28em] font-bold text-brand-rust mb-3">Share your code</p>
+       <h2 class="font-display text-[1.8rem] lg:text-[2.2rem] leading-[1.1] text-brand-black mb-3">
+         Three ways to share.
+       </h2>
+       <p class="text-[14px] text-brand-gray-600">Sign in to get your real code. Here's how people use it.</p>
+     </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-        <!-- By code -->
-        <div class="rounded-[16px] border border-brand-gray-100 p-6 bg-brand-cream">
-          <div class="w-10 h-10 rounded-[10px] bg-brand-black flex items-center justify-center mb-4">
-            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-          </div>
-          <h3 class="font-display text-[1.1rem] text-brand-black mb-2">Share your code</h3>
-          <p class="text-[12px] text-brand-gray-600 leading-relaxed mb-4">Give your code in a message, email, or conversation. They enter it when booking their audit.</p>
-          <div class="bg-white rounded-[8px] px-3 py-2 font-mono text-[13px] font-bold text-brand-black tracking-wider border border-brand-sand">
-            PURIST-YOURNAME
-          </div>
-        </div>
+       <!-- By code -->
+       <div class="rounded-[16px] border border-brand-gray-100 p-6 bg-brand-cream">
+         <div class="w-10 h-10 rounded-[10px] bg-brand-black flex items-center justify-center mb-4">
+           <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+         </div>
+         <h3 class="font-display text-[1.1rem] text-brand-black mb-2">Share your code</h3>
+         <p class="text-[12px] text-brand-gray-600 leading-relaxed mb-4">Give your code in a message, email, or conversation. They enter it when booking their audit.</p>
+         <div class="bg-white rounded-[8px] px-3 py-2 font-mono text-[13px] font-bold text-brand-black tracking-wider border border-brand-sand">
+           PURIST-YOURNAME
+         </div>
+       </div>
 
-        <!-- By link -->
-        <div class="rounded-[16px] border border-brand-gray-100 p-6 bg-brand-cream">
-          <div class="w-10 h-10 rounded-[10px] bg-brand-black flex items-center justify-center mb-4">
-            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
-          </div>
-          <h3 class="font-display text-[1.1rem] text-brand-black mb-2">Share your link</h3>
-          <p class="text-[12px] text-brand-gray-600 leading-relaxed mb-4">One click and they land directly on the booking page with your code pre-applied.</p>
-          <div class="bg-white rounded-[8px] px-3 py-2 font-mono text-[11px] text-brand-gray-500 border border-brand-sand overflow-hidden text-ellipsis whitespace-nowrap">
-            purist.online/audit?ref=YOUR...
-          </div>
-        </div>
+       <!-- By link -->
+       <div class="rounded-[16px] border border-brand-gray-100 p-6 bg-brand-cream">
+         <div class="w-10 h-10 rounded-[10px] bg-brand-black flex items-center justify-center mb-4">
+           <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+         </div>
+         <h3 class="font-display text-[1.1rem] text-brand-black mb-2">Share your link</h3>
+         <p class="text-[12px] text-brand-gray-600 leading-relaxed mb-4">One click and they land directly on the booking page with your code pre-applied.</p>
+         <div class="bg-white rounded-[8px] px-3 py-2 font-mono text-[11px] text-brand-gray-500 border border-brand-sand overflow-hidden text-ellipsis whitespace-nowrap">
+           purist.online/audit?ref=YOUR...
+         </div>
+       </div>
 
-        <!-- By email -->
-        <div class="rounded-[16px] border border-brand-gray-100 p-6 bg-brand-cream">
-          <div class="w-10 h-10 rounded-[10px] bg-brand-black flex items-center justify-center mb-4">
-            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-          </div>
-          <h3 class="font-display text-[1.1rem] text-brand-black mb-2">Forward a template</h3>
-          <p class="text-[12px] text-brand-gray-600 leading-relaxed mb-4">Your dashboard includes a ready-to-send email template. Personalise and send in 30 seconds.</p>
-          <a href="/login" class="text-[11px] font-semibold text-brand-black border-b border-brand-black pb-0.5 hover:opacity-60 transition">
-            Sign in to get the template →
-          </a>
-        </div>
+       <!-- By email -->
+       <div class="rounded-[16px] border border-brand-gray-100 p-6 bg-brand-cream">
+         <div class="w-10 h-10 rounded-[10px] bg-brand-black flex items-center justify-center mb-4">
+           <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+         </div>
+         <h3 class="font-display text-[1.1rem] text-brand-black mb-2">Forward a template</h3>
+         <p class="text-[12px] text-brand-gray-600 leading-relaxed mb-4">Your dashboard includes a ready-to-send email template. Personalise and send in 30 seconds.</p>
+         <a href="/login" class="text-[11px] font-semibold text-brand-black border-b border-brand-black pb-0.5 hover:opacity-60 transition">
+           Sign in to get the template →
+         </a>
+       </div>
 
-      </div>
-    </div>
-  </section>
+     </div>
+   </div>
+ </section>
 
-  <!-- ── FAQ ────────────────────────────────────────────── -->
-  <section class="bg-brand-beige py-20 lg:py-28">
-    <div class="container-x max-w-3xl mx-auto">
-      <div class="text-center mb-12">
-        <p class="text-[9px] uppercase tracking-[0.28em] font-bold text-brand-rust mb-3">FAQ</p>
-        <h2 class="font-display text-[1.8rem] lg:text-[2.2rem] leading-[1.1] text-brand-black">Common questions.</h2>
-      </div>
+ <!-- ── FAQ ────────────────────────────────────────────── -->
+ <section class="bg-brand-beige py-20 lg:py-28">
+   <div class="container-x max-w-3xl mx-auto">
+     <div class="text-center mb-12">
+       <p class="text-[9px] uppercase tracking-[0.28em] font-bold text-brand-rust mb-3">FAQ</p>
+       <h2 class="font-display text-[1.8rem] lg:text-[2.2rem] leading-[1.1] text-brand-black">Common questions.</h2>
+     </div>
 
-      <div class="space-y-3">
-        {faqs.map((f, i) => (
-          <details class="bg-white rounded-[14px] border border-brand-gray-100 overflow-hidden group">
-            <summary class="flex items-center justify-between gap-4 px-6 py-4.5 cursor-pointer list-none select-none">
-              <span class="text-[13.5px] font-semibold text-brand-black">{f.q}</span>
-              <svg class="w-4 h-4 shrink-0 text-brand-gray-400 transition-transform group-open:rotate-180" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 6l5 5 5-5"/></svg>
-            </summary>
-            <div class="px-6 pb-5 text-[13px] text-brand-gray-600 leading-relaxed border-t border-brand-gray-100 pt-4">
-              {f.a}
-            </div>
-          </details>
-        ))}
-      </div>
-    </div>
-  </section>
+     <div class="space-y-3">
+       {faqs.map((f, i) => (
+         <details class="bg-white rounded-[14px] border border-brand-gray-100 overflow-hidden group">
+           <summary class="flex items-center justify-between gap-4 px-6 py-4.5 cursor-pointer list-none select-none">
+             <span class="text-[13.5px] font-semibold text-brand-black">{f.q}</span>
+             <svg class="w-4 h-4 shrink-0 text-brand-gray-400 transition-transform group-open:rotate-180" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 6l5 5 5-5"/></svg>
+           </summary>
+           <div class="px-6 pb-5 text-[13px] text-brand-gray-600 leading-relaxed border-t border-brand-gray-100 pt-4">
+             {f.a}
+           </div>
+         </details>
+       ))}
+     </div>
+   </div>
+ </section>
 
-  <!-- ── FINAL CTA ───────────────────────────────────────── -->
-  <section class="bg-brand-black text-white py-16 lg:py-20">
-    <div class="container-x text-center max-w-2xl mx-auto">
-      <p class="text-[9px] uppercase tracking-[0.24em] font-bold mb-4" style="color:rgba(232,180,176,0.55);">Start referring today</p>
-      <h2 class="font-display text-[1.8rem] lg:text-[2.2rem] leading-[1.08] text-white mb-4 text-balance">
-        Know a business that needs automating?
-        <em class="font-medium" style="color:#E8B4B0;"> Send them to us.</em>
-      </h2>
-      <p class="text-[13px] mb-8" style="color:rgba(255,255,255,0.50);">Sign in to grab your code. Share it in under a minute. Earn credit for every client that comes through.</p>
-      <div class="flex flex-wrap items-center justify-center gap-3">
-        <a href="/login"
-          class="inline-flex items-center gap-2 px-6 py-3.5 rounded-[14px] text-[13px] font-semibold transition-all"
-          style="background:#E8B4B0;color:#0A0A0A;"
-          onmouseover="this.style.background='#d9a09b'" onmouseout="this.style.background='#E8B4B0'">
-          Sign in to get your code →
-        </a>
-        <a href="/pages/welcome"
-          class="inline-flex items-center gap-2 px-6 py-3.5 rounded-[14px] text-[13px] font-semibold border transition-all"
-          style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.70);"
-          onmouseover="this.style.borderColor='rgba(255,255,255,0.35)';this.style.color='white'"
-          onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='rgba(255,255,255,0.70)'">
-          Not a client yet? Start here
-        </a>
-      </div>
-    </div>
-  </section>
+ <!-- ── FINAL CTA ───────────────────────────────────────── -->
+ <section class="bg-brand-black text-white py-16 lg:py-20">
+   <div class="container-x text-center max-w-2xl mx-auto">
+     <p class="text-[9px] uppercase tracking-[0.24em] font-bold mb-4" style="color:rgba(232,180,176,0.55);">Start referring today</p>
+     <h2 class="font-display text-[1.8rem] lg:text-[2.2rem] leading-[1.08] text-white mb-4 text-balance">
+       Know a business that needs automating?
+       <em class="font-medium" style="color:#E8B4B0;"> Send them to us.</em>
+     </h2>
+     <p class="text-[13px] mb-8" style="color:rgba(255,255,255,0.50);">Sign in to grab your code. Share it in under a minute. Earn credit for every client that comes through.</p>
+     <div class="flex flex-wrap items-center justify-center gap-3">
+       <a href="/login"
+         class="inline-flex items-center gap-2 px-6 py-3.5 rounded-[14px] text-[13px] font-semibold transition-all"
+         style="background:#E8B4B0;color:#0A0A0A;"
+         onmouseover="this.style.background='#d9a09b'" onmouseout="this.style.background='#E8B4B0'">
+         Sign in to get your code →
+       </a>
+       <a href="/pages/welcome"
+         class="inline-flex items-center gap-2 px-6 py-3.5 rounded-[14px] text-[13px] font-semibold border transition-all"
+         style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.70);"
+         onmouseover="this.style.borderColor='rgba(255,255,255,0.35)';this.style.color='white'"
+         onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='rgba(255,255,255,0.70)'">
+         Not a client yet? Start here
+       </a>
+     </div>
+   </div>
+ </section>
 
-  <!-- ── FINE PRINT ─────────────────────────────────────── -->
-  <section class="bg-white py-10 border-t border-brand-gray-100">
-    <div class="container-x max-w-2xl text-center">
-      <p class="text-[11px] text-brand-gray-400 leading-relaxed">
-        Referral credit posts once the referred client signs their first monthly plan and the 30-day guarantee window closes. Credit can be applied to any PURIST service plan or retainer renewal. One credit per new client account. Referral links tracked for 90 days from first click. Full terms on the <a href="/pages/terms-of-service" class="underline underline-offset-2 hover:text-brand-black transition">Terms of Service</a> page.
-      </p>
-    </div>
-  </section>
+ <!-- ── FINE PRINT ─────────────────────────────────────── -->
+ <section class="bg-white py-10 border-t border-brand-gray-100">
+   <div class="container-x max-w-2xl text-center">
+     <p class="text-[11px] text-brand-gray-400 leading-relaxed">
+       Referral credit posts once the referred client signs their first monthly plan and the 30-day guarantee window closes. Credit can be applied to any PURIST service plan or retainer renewal. One credit per new client account. Referral links tracked for 90 days from first click. Full terms on the <a href="/pages/terms-of-service" class="underline underline-offset-2 hover:text-brand-black transition">Terms of Service</a> page.
+     </p>
+   </div>
+ </section>
 
 </ShopLayout>
 
 <script is:inline>
 function copyDemo() {
-  var code = document.getElementById('demo-code');
-  if (!code) return;
-  try {
-    navigator.clipboard.writeText(code.textContent.trim()).then(function() {
-      var btn = event.target;
-      var orig = btn.textContent;
-      btn.textContent = 'Copied!';
-      btn.style.color = '#2D5016';
-      setTimeout(function() { btn.textContent = orig; btn.style.color = ''; }, 1800);
-    });
-  } catch(e) {}
+ var code = document.getElementById('demo-code');
+ if (!code) return;
+ try {
+   navigator.clipboard.writeText(code.textContent.trim()).then(function() {
+     var btn = event.target;
+     var orig = btn.textContent;
+     btn.textContent = 'Copied!';
+     btn.style.color = '#2D5016';
+     setTimeout(function() { btn.textContent = orig; btn.style.color = ''; }, 1800);
+   });
+ } catch(e) {}
 }
 </script>

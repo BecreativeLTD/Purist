@@ -3,312 +3,312 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
 import Button from '~/components/ui/Button.astro';
 
 const phases = [
-  {
-    phase: '01',
-    title: 'Discovery & Audit',
-    duration: 'Day 1–2',
-    status: 'completed',
-    description: 'We map your current operations end-to-end — every tool, every manual process, every bottleneck.',
-    deliverables: [
-      'Operations audit report (20+ page PDF)',
-      'Current tech stack mapping',
-      'Bottleneck identification matrix',
-      'ROI projection per workflow',
-      'Priority scoring (ICE framework)',
-    ],
-    tasks: [
-      { name: 'Kickoff call — 60 min deep-dive', done: true },
-      { name: 'Access provisioning (CRM, email, tools)', done: true },
-      { name: 'Current process documentation', done: true },
-      { name: 'Pain point prioritization workshop', done: true },
-      { name: 'Audit report delivery & review', done: true },
-    ],
-  },
-  {
-    phase: '02',
-    title: 'Architecture & Design',
-    duration: 'Day 3–4',
-    status: 'completed',
-    description: 'We design your automation architecture — workflow diagrams, integration maps, and error handling strategies.',
-    deliverables: [
-      'Workflow architecture diagram',
-      'Integration dependency map',
-      'Error handling & retry strategy',
-      'Data flow specification',
-      'Security & compliance checklist',
-    ],
-    tasks: [
-      { name: 'Workflow blueprint creation', done: true },
-      { name: 'Integration point mapping', done: true },
-      { name: 'Error handling design', done: true },
-      { name: 'Security review & sign-off', done: true },
-      { name: 'Architecture review call', done: true },
-    ],
-  },
-  {
-    phase: '03',
-    title: 'Build & Configure',
-    duration: 'Day 4–7',
-    status: 'in-progress',
-    description: 'Our engineers build your workflows in n8n, configure AI agents, and connect all integrations.',
-    deliverables: [
-      'Production-ready n8n workflows',
-      'AI agent configuration & training',
-      'Integration testing results',
-      'Monitoring dashboard setup',
-      'Error alerting configuration',
-    ],
-    tasks: [
-      { name: 'n8n workflow development', done: true },
-      { name: 'Claude AI agent configuration', done: true },
-      { name: 'CRM integration & sync', done: true },
-      { name: 'Email automation setup', done: false },
-      { name: 'Monitoring & alerting setup', done: false },
-    ],
-  },
-  {
-    phase: '04',
-    title: 'Test & Validate',
-    duration: 'Day 7–8',
-    status: 'upcoming',
-    description: 'Comprehensive testing — every workflow, every edge case, every failure scenario. Nothing ships until it passes.',
-    deliverables: [
-      'End-to-end test report',
-      'Load testing results',
-      'Failure scenario documentation',
-      'Data validation report',
-      'Sign-off checklist',
-    ],
-    tasks: [
-      { name: 'Unit testing per workflow', done: false },
-      { name: 'Integration testing', done: false },
-      { name: 'Load & stress testing', done: false },
-      { name: 'Edge case simulation', done: false },
-      { name: 'Client UAT session', done: false },
-    ],
-  },
-  {
-    phase: '05',
-    title: 'Deploy & Go Live',
-    duration: 'Day 8–10',
-    status: 'upcoming',
-    description: 'Controlled rollout with real-time monitoring. Your team gets trained, documentation gets delivered, and support begins.',
-    deliverables: [
-      'Production deployment',
-      'Team training session (recorded)',
-      'Complete documentation package',
-      'Monitoring dashboard access',
-      'Support channel setup',
-    ],
-    tasks: [
-      { name: 'Staged production rollout', done: false },
-      { name: 'Team training & walkthrough', done: false },
-      { name: 'Documentation handoff', done: false },
-      { name: 'Dashboard access provisioning', done: false },
-      { name: 'Post-launch monitoring (48h)', done: false },
-    ],
-  },
+ {
+   phase: '01',
+   title: 'Discovery & Audit',
+   duration: 'Day 1–2',
+   status: 'completed',
+   description: 'We map your current operations end-to-end every tool, every manual process, every bottleneck.',
+   deliverables: [
+     'Operations audit report (20+ page PDF)',
+     'Current tech stack mapping',
+     'Bottleneck identification matrix',
+     'ROI projection per workflow',
+     'Priority scoring (ICE framework)',
+   ],
+   tasks: [
+     { name: 'Kickoff call 60 min deep-dive', done: true },
+     { name: 'Access provisioning (CRM, email, tools)', done: true },
+     { name: 'Current process documentation', done: true },
+     { name: 'Pain point prioritization workshop', done: true },
+     { name: 'Audit report delivery & review', done: true },
+   ],
+ },
+ {
+   phase: '02',
+   title: 'Architecture & Design',
+   duration: 'Day 3–4',
+   status: 'completed',
+   description: 'We design your automation architecture workflow diagrams, integration maps, and error handling strategies.',
+   deliverables: [
+     'Workflow architecture diagram',
+     'Integration dependency map',
+     'Error handling & retry strategy',
+     'Data flow specification',
+     'Security & compliance checklist',
+   ],
+   tasks: [
+     { name: 'Workflow blueprint creation', done: true },
+     { name: 'Integration point mapping', done: true },
+     { name: 'Error handling design', done: true },
+     { name: 'Security review & sign-off', done: true },
+     { name: 'Architecture review call', done: true },
+   ],
+ },
+ {
+   phase: '03',
+   title: 'Build & Configure',
+   duration: 'Day 4–7',
+   status: 'in-progress',
+   description: 'Our engineers build your workflows in n8n, configure AI agents, and connect all integrations.',
+   deliverables: [
+     'Production-ready n8n workflows',
+     'AI agent configuration & training',
+     'Integration testing results',
+     'Monitoring dashboard setup',
+     'Error alerting configuration',
+   ],
+   tasks: [
+     { name: 'n8n workflow development', done: true },
+     { name: 'Claude AI agent configuration', done: true },
+     { name: 'CRM integration & sync', done: true },
+     { name: 'Email automation setup', done: false },
+     { name: 'Monitoring & alerting setup', done: false },
+   ],
+ },
+ {
+   phase: '04',
+   title: 'Test & Validate',
+   duration: 'Day 7–8',
+   status: 'upcoming',
+   description: 'Comprehensive testing every workflow, every edge case, every failure scenario. Nothing ships until it passes.',
+   deliverables: [
+     'End-to-end test report',
+     'Load testing results',
+     'Failure scenario documentation',
+     'Data validation report',
+     'Sign-off checklist',
+   ],
+   tasks: [
+     { name: 'Unit testing per workflow', done: false },
+     { name: 'Integration testing', done: false },
+     { name: 'Load & stress testing', done: false },
+     { name: 'Edge case simulation', done: false },
+     { name: 'Client UAT session', done: false },
+   ],
+ },
+ {
+   phase: '05',
+   title: 'Deploy & Go Live',
+   duration: 'Day 8–10',
+   status: 'upcoming',
+   description: 'Controlled rollout with real-time monitoring. Your team gets trained, documentation gets delivered, and support begins.',
+   deliverables: [
+     'Production deployment',
+     'Team training session (recorded)',
+     'Complete documentation package',
+     'Monitoring dashboard access',
+     'Support channel setup',
+   ],
+   tasks: [
+     { name: 'Staged production rollout', done: false },
+     { name: 'Team training & walkthrough', done: false },
+     { name: 'Documentation handoff', done: false },
+     { name: 'Dashboard access provisioning', done: false },
+     { name: 'Post-launch monitoring (48h)', done: false },
+   ],
+ },
 ];
 
 const milestones = [
-  { label: 'Discovery', day: 'Day 1', done: true },
-  { label: 'Architecture', day: 'Day 3', done: true },
-  { label: 'Build', day: 'Day 5', done: false, active: true },
-  { label: 'Test', day: 'Day 8', done: false },
-  { label: 'Go Live', day: 'Day 10', done: false },
+ { label: 'Discovery', day: 'Day 1', done: true },
+ { label: 'Architecture', day: 'Day 3', done: true },
+ { label: 'Build', day: 'Day 5', done: false, active: true },
+ { label: 'Test', day: 'Day 8', done: false },
+ { label: 'Go Live', day: 'Day 10', done: false },
 ];
 
 const teamMembers = [
-  { role: 'Automation Architect', name: 'Lead Engineer', status: 'assigned' },
-  { role: 'AI Solutions Engineer', name: 'Claude Specialist', status: 'assigned' },
-  { role: 'Integration Specialist', name: 'Data Engineer', status: 'assigned' },
-  { role: 'Client Success Lead', name: 'Your Point of Contact', status: 'assigned' },
+ { role: 'Automation Architect', name: 'Lead Engineer', status: 'assigned' },
+ { role: 'AI Solutions Engineer', name: 'Claude Specialist', status: 'assigned' },
+ { role: 'Integration Specialist', name: 'Data Engineer', status: 'assigned' },
+ { role: 'Client Success Lead', name: 'Your Point of Contact', status: 'assigned' },
 ];
 ---
 
-<ShopLayout title="Client Onboarding — PURIST" description="Your PURIST onboarding journey — from discovery to go-live in 10 business days.">
-  <!-- Onboarding Header -->
-  <section class="bg-brand-black pt-28 pb-12">
-    <div class="container-x">
-      <div class="flex flex-wrap items-start justify-between gap-6 mb-10">
-        <div>
-          <p class="text-xs text-white/40 uppercase tracking-wider mb-2">Client Portal</p>
-          <h1 class="font-display text-3xl lg:text-4xl text-white mb-2">Onboarding Journey</h1>
-          <p class="text-base text-white/50 max-w-lg">From discovery to production in 10 business days. Track every phase, deliverable and milestone.</p>
-        </div>
-        <div class="flex items-center gap-4">
-          <div class="text-right">
-            <p class="text-xs text-white/40 uppercase tracking-wider mb-1">Progress</p>
-            <p class="font-display text-3xl text-brand-rust">52%</p>
-          </div>
-          <div class="w-20 h-20 rounded-full border-4 border-white/10 flex items-center justify-center relative">
-            <svg class="w-20 h-20 absolute -rotate-90" viewBox="0 0 80 80">
-              <circle cx="40" cy="40" r="36" fill="none" stroke="#A0522D" stroke-width="4" stroke-dasharray="226" stroke-dashoffset="108" stroke-linecap="round"/>
-            </svg>
-            <span class="text-xs text-white/60">Day 6</span>
-          </div>
-        </div>
-      </div>
+<ShopLayout title="Client Onboarding PURIST" description="Your PURIST onboarding journey from discovery to go-live in 10 business days.">
+ <!-- Onboarding Header -->
+ <section class="bg-brand-black pt-28 pb-12">
+   <div class="container-x">
+     <div class="flex flex-wrap items-start justify-between gap-6 mb-10">
+       <div>
+         <p class="text-xs text-white/40 uppercase tracking-wider mb-2">Client Portal</p>
+         <h1 class="font-display text-3xl lg:text-4xl text-white mb-2">Onboarding Journey</h1>
+         <p class="text-base text-white/50 max-w-lg">From discovery to production in 10 business days. Track every phase, deliverable and milestone.</p>
+       </div>
+       <div class="flex items-center gap-4">
+         <div class="text-right">
+           <p class="text-xs text-white/40 uppercase tracking-wider mb-1">Progress</p>
+           <p class="font-display text-3xl text-brand-rust">52%</p>
+         </div>
+         <div class="w-20 h-20 rounded-full border-4 border-white/10 flex items-center justify-center relative">
+           <svg class="w-20 h-20 absolute -rotate-90" viewBox="0 0 80 80">
+             <circle cx="40" cy="40" r="36" fill="none" stroke="#A0522D" stroke-width="4" stroke-dasharray="226" stroke-dashoffset="108" stroke-linecap="round"/>
+           </svg>
+           <span class="text-xs text-white/60">Day 6</span>
+         </div>
+       </div>
+     </div>
 
-      <!-- Timeline Bar -->
-      <div class="flex items-center gap-0 mb-6">
-        {milestones.map((m, i) => (
-          <div class="flex-1 flex items-center">
-            <div class={`flex flex-col items-center gap-1.5 ${m.done ? 'text-brand-rust' : m.active ? 'text-white' : 'text-white/30'}`}>
-              <div class={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium ${m.done ? 'bg-brand-rust text-white' : m.active ? 'bg-white/10 border-2 border-brand-rust text-white' : 'bg-white/5 border border-white/10'}`}>
-                {m.done ? '✓' : (i + 1)}
-              </div>
-              <span class="text-[11px] font-medium">{m.label}</span>
-              <span class="text-[10px] opacity-60">{m.day}</span>
-            </div>
-            {i < milestones.length - 1 && (
-              <div class={`flex-1 h-0.5 mx-2 ${m.done ? 'bg-brand-rust' : 'bg-white/10'}`}></div>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
+     <!-- Timeline Bar -->
+     <div class="flex items-center gap-0 mb-6">
+       {milestones.map((m, i) => (
+         <div class="flex-1 flex items-center">
+           <div class={`flex flex-col items-center gap-1.5 ${m.done ? 'text-brand-rust' : m.active ? 'text-white' : 'text-white/30'}`}>
+             <div class={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium ${m.done ? 'bg-brand-rust text-white' : m.active ? 'bg-white/10 border-2 border-brand-rust text-white' : 'bg-white/5 border border-white/10'}`}>
+               {m.done ? '✓' : (i + 1)}
+             </div>
+             <span class="text-[11px] font-medium">{m.label}</span>
+             <span class="text-[10px] opacity-60">{m.day}</span>
+           </div>
+           {i < milestones.length - 1 && (
+             <div class={`flex-1 h-0.5 mx-2 ${m.done ? 'bg-brand-rust' : 'bg-white/10'}`}></div>
+           )}
+         </div>
+       ))}
+     </div>
+   </div>
+ </section>
 
-  <!-- Phases -->
-  <section class="bg-brand-cream py-10 lg:py-16">
-    <div class="container-x">
-      <div class="grid lg:grid-cols-3 gap-6">
-        <!-- Main: Phases (2 cols) -->
-        <div class="lg:col-span-2 space-y-6">
-          {phases.map((p) => (
-            <div class={`bg-white rounded-card border overflow-hidden ${p.status === 'in-progress' ? 'border-brand-rust/30 ring-1 ring-brand-rust/10' : 'border-brand-gray-100'}`}>
-              <div class="flex items-center justify-between px-6 py-4 border-b border-brand-gray-100">
-                <div class="flex items-center gap-4">
-                  <span class={`w-10 h-10 rounded-full flex items-center justify-center font-display text-sm ${p.status === 'completed' ? 'bg-brand-green/10 text-brand-green' : p.status === 'in-progress' ? 'bg-brand-rust/10 text-brand-rust' : 'bg-brand-gray-100 text-brand-gray-600'}`}>
-                    {p.status === 'completed' ? '✓' : p.phase}
-                  </span>
-                  <div>
-                    <h2 class="font-display text-lg">{p.title}</h2>
-                    <p class="text-xs text-brand-gray-600">{p.duration}</p>
-                  </div>
-                </div>
-                <span class={`text-[10px] uppercase tracking-wider font-medium px-2.5 py-1 rounded-full ${p.status === 'completed' ? 'bg-green-50 text-green-700' : p.status === 'in-progress' ? 'bg-amber-50 text-amber-700' : 'bg-brand-gray-100 text-brand-gray-600'}`}>
-                  {p.status === 'in-progress' ? 'In Progress' : p.status === 'completed' ? 'Completed' : 'Upcoming'}
-                </span>
-              </div>
+ <!-- Phases -->
+ <section class="bg-brand-cream py-10 lg:py-16">
+   <div class="container-x">
+     <div class="grid lg:grid-cols-3 gap-6">
+       <!-- Main: Phases (2 cols) -->
+       <div class="lg:col-span-2 space-y-6">
+         {phases.map((p) => (
+           <div class={`bg-white rounded-card border overflow-hidden ${p.status === 'in-progress' ? 'border-brand-rust/30 ring-1 ring-brand-rust/10' : 'border-brand-gray-100'}`}>
+             <div class="flex items-center justify-between px-6 py-4 border-b border-brand-gray-100">
+               <div class="flex items-center gap-4">
+                 <span class={`w-10 h-10 rounded-full flex items-center justify-center font-display text-sm ${p.status === 'completed' ? 'bg-brand-green/10 text-brand-green' : p.status === 'in-progress' ? 'bg-brand-rust/10 text-brand-rust' : 'bg-brand-gray-100 text-brand-gray-600'}`}>
+                   {p.status === 'completed' ? '✓' : p.phase}
+                 </span>
+                 <div>
+                   <h2 class="font-display text-lg">{p.title}</h2>
+                   <p class="text-xs text-brand-gray-600">{p.duration}</p>
+                 </div>
+               </div>
+               <span class={`text-[10px] uppercase tracking-wider font-medium px-2.5 py-1 rounded-full ${p.status === 'completed' ? 'bg-green-50 text-green-700' : p.status === 'in-progress' ? 'bg-amber-50 text-amber-700' : 'bg-brand-gray-100 text-brand-gray-600'}`}>
+                 {p.status === 'in-progress' ? 'In Progress' : p.status === 'completed' ? 'Completed' : 'Upcoming'}
+               </span>
+             </div>
 
-              <div class="p-6">
-                <p class="text-sm text-brand-gray-600 mb-5">{p.description}</p>
+             <div class="p-6">
+               <p class="text-sm text-brand-gray-600 mb-5">{p.description}</p>
 
-                <div class="grid md:grid-cols-2 gap-6">
-                  <!-- Tasks -->
-                  <div>
-                    <p class="text-[11px] text-brand-gray-600 uppercase tracking-wider font-medium mb-3">Tasks</p>
-                    <ul class="space-y-2">
-                      {p.tasks.map((t) => (
-                        <li class="flex items-center gap-2.5 text-sm">
-                          <span class={`w-4 h-4 rounded flex items-center justify-center shrink-0 ${t.done ? 'bg-brand-green/10' : 'border border-brand-gray-200'}`}>
-                            {t.done && <svg class="w-2.5 h-2.5 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>}
-                          </span>
-                          <span class={t.done ? 'text-brand-gray-600 line-through' : 'text-brand-black'}>{t.name}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+               <div class="grid md:grid-cols-2 gap-6">
+                 <!-- Tasks -->
+                 <div>
+                   <p class="text-[11px] text-brand-gray-600 uppercase tracking-wider font-medium mb-3">Tasks</p>
+                   <ul class="space-y-2">
+                     {p.tasks.map((t) => (
+                       <li class="flex items-center gap-2.5 text-sm">
+                         <span class={`w-4 h-4 rounded flex items-center justify-center shrink-0 ${t.done ? 'bg-brand-green/10' : 'border border-brand-gray-200'}`}>
+                           {t.done && <svg class="w-2.5 h-2.5 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>}
+                         </span>
+                         <span class={t.done ? 'text-brand-gray-600 line-through' : 'text-brand-black'}>{t.name}</span>
+                       </li>
+                     ))}
+                   </ul>
+                 </div>
 
-                  <!-- Deliverables -->
-                  <div>
-                    <p class="text-[11px] text-brand-gray-600 uppercase tracking-wider font-medium mb-3">Deliverables</p>
-                    <ul class="space-y-2">
-                      {p.deliverables.map((d) => (
-                        <li class="flex items-start gap-2 text-sm text-brand-gray-600">
-                          <span class="text-brand-rust mt-0.5 shrink-0">→</span>
-                          {d}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+                 <!-- Deliverables -->
+                 <div>
+                   <p class="text-[11px] text-brand-gray-600 uppercase tracking-wider font-medium mb-3">Deliverables</p>
+                   <ul class="space-y-2">
+                     {p.deliverables.map((d) => (
+                       <li class="flex items-start gap-2 text-sm text-brand-gray-600">
+                         <span class="text-brand-rust mt-0.5 shrink-0">→</span>
+                         {d}
+                       </li>
+                     ))}
+                   </ul>
+                 </div>
+               </div>
+             </div>
+           </div>
+         ))}
+       </div>
 
-        <!-- Sidebar -->
-        <div class="space-y-6">
-          <!-- Your Team -->
-          <div class="bg-white rounded-card border border-brand-gray-100 overflow-hidden">
-            <div class="px-6 py-4 border-b border-brand-gray-100">
-              <h2 class="font-display text-lg">Your PURIST Team</h2>
-            </div>
-            <div class="divide-y divide-brand-gray-100/50">
-              {teamMembers.map((tm) => (
-                <div class="px-6 py-3 flex items-center gap-3">
-                  <div class="w-8 h-8 rounded-full bg-brand-cream flex items-center justify-center">
-                    <span class="text-xs font-medium text-brand-rust">{tm.role.charAt(0)}</span>
-                  </div>
-                  <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-brand-black truncate">{tm.role}</p>
-                    <p class="text-xs text-brand-gray-600">{tm.name}</p>
-                  </div>
-                  <span class="w-2 h-2 rounded-full bg-green-500 shrink-0"></span>
-                </div>
-              ))}
-            </div>
-          </div>
+       <!-- Sidebar -->
+       <div class="space-y-6">
+         <!-- Your Team -->
+         <div class="bg-white rounded-card border border-brand-gray-100 overflow-hidden">
+           <div class="px-6 py-4 border-b border-brand-gray-100">
+             <h2 class="font-display text-lg">Your PURIST Team</h2>
+           </div>
+           <div class="divide-y divide-brand-gray-100/50">
+             {teamMembers.map((tm) => (
+               <div class="px-6 py-3 flex items-center gap-3">
+                 <div class="w-8 h-8 rounded-full bg-brand-cream flex items-center justify-center">
+                   <span class="text-xs font-medium text-brand-rust">{tm.role.charAt(0)}</span>
+                 </div>
+                 <div class="flex-1 min-w-0">
+                   <p class="text-sm font-medium text-brand-black truncate">{tm.role}</p>
+                   <p class="text-xs text-brand-gray-600">{tm.name}</p>
+                 </div>
+                 <span class="w-2 h-2 rounded-full bg-green-500 shrink-0"></span>
+               </div>
+             ))}
+           </div>
+         </div>
 
-          <!-- Key Dates -->
-          <div class="bg-white rounded-card border border-brand-gray-100 p-6">
-            <h2 class="font-display text-lg mb-4">Key Dates</h2>
-            <div class="space-y-3">
-              <div class="flex items-center justify-between">
-                <span class="text-sm text-brand-gray-600">Project Start</span>
-                <span class="text-sm font-medium">May 19, 2026</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-sm text-brand-gray-600">Audit Complete</span>
-                <span class="text-sm font-medium text-brand-green">May 20 ✓</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-sm text-brand-gray-600">Architecture Sign-off</span>
-                <span class="text-sm font-medium text-brand-green">May 22 ✓</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-sm text-brand-gray-600">Build Complete</span>
-                <span class="text-sm font-medium text-brand-rust">May 28 (est.)</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-sm text-brand-gray-600">Go Live</span>
-                <span class="text-sm font-medium">May 30 (est.)</span>
-              </div>
-            </div>
-          </div>
+         <!-- Key Dates -->
+         <div class="bg-white rounded-card border border-brand-gray-100 p-6">
+           <h2 class="font-display text-lg mb-4">Key Dates</h2>
+           <div class="space-y-3">
+             <div class="flex items-center justify-between">
+               <span class="text-sm text-brand-gray-600">Project Start</span>
+               <span class="text-sm font-medium">May 19, 2026</span>
+             </div>
+             <div class="flex items-center justify-between">
+               <span class="text-sm text-brand-gray-600">Audit Complete</span>
+               <span class="text-sm font-medium text-brand-green">May 20 ✓</span>
+             </div>
+             <div class="flex items-center justify-between">
+               <span class="text-sm text-brand-gray-600">Architecture Sign-off</span>
+               <span class="text-sm font-medium text-brand-green">May 22 ✓</span>
+             </div>
+             <div class="flex items-center justify-between">
+               <span class="text-sm text-brand-gray-600">Build Complete</span>
+               <span class="text-sm font-medium text-brand-rust">May 28 (est.)</span>
+             </div>
+             <div class="flex items-center justify-between">
+               <span class="text-sm text-brand-gray-600">Go Live</span>
+               <span class="text-sm font-medium">May 30 (est.)</span>
+             </div>
+           </div>
+         </div>
 
-          <!-- Documents -->
-          <div class="bg-white rounded-card border border-brand-gray-100 p-6">
-            <h2 class="font-display text-lg mb-4">Documents</h2>
-            <div class="space-y-2">
-              {[
-                'Operations Audit Report.pdf',
-                'Workflow Architecture.pdf',
-                'Integration Map.pdf',
-                'Security Checklist.pdf',
-                'Team Training Guide.pdf',
-              ].map((doc) => (
-                <div class="flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-brand-cream/60 hover:bg-brand-cream transition cursor-pointer">
-                  <svg class="w-4 h-4 text-brand-rust shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  <span class="text-sm text-brand-black truncate">{doc}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+         <!-- Documents -->
+         <div class="bg-white rounded-card border border-brand-gray-100 p-6">
+           <h2 class="font-display text-lg mb-4">Documents</h2>
+           <div class="space-y-2">
+             {[
+               'Operations Audit Report.pdf',
+               'Workflow Architecture.pdf',
+               'Integration Map.pdf',
+               'Security Checklist.pdf',
+               'Team Training Guide.pdf',
+             ].map((doc) => (
+               <div class="flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-brand-cream/60 hover:bg-brand-cream transition cursor-pointer">
+                 <svg class="w-4 h-4 text-brand-rust shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                   <path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"/>
+                 </svg>
+                 <span class="text-sm text-brand-black truncate">{doc}</span>
+               </div>
+             ))}
+           </div>
+         </div>
 
-          <!-- Support -->
-          <div class="bg-brand-black rounded-card p-6">
-            <h2 class="font-display text-lg text-white mb-3">Need Help?</h2>
-            <p class="text-sm text-white/50 mb-4">Your Client Success Lead is available for any questions during onboarding.</p>
-            <Button href="/pages/contact-us" full>Contact your team →</Button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+         <!-- Support -->
+         <div class="bg-brand-black rounded-card p-6">
+           <h2 class="font-display text-lg text-white mb-3">Need Help?</h2>
+           <p class="text-sm text-white/50 mb-4">Your Client Success Lead is available for any questions during onboarding.</p>
+           <Button href="/pages/contact-us" full>Contact your team →</Button>
+         </div>
+       </div>
+     </div>
+   </div>
+ </section>
 </ShopLayout>

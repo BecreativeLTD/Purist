@@ -1,6 +1,6 @@
 ---
 import '~/styles/global.css';
-// Self-hosted variable fonts — served from same CDN, no external connection needed
+// Self-hosted variable fonts served from same CDN, no external connection needed
 import '@fontsource-variable/inter/standard.css';
 import '@fontsource-variable/fraunces/opsz.css';
 import '@fontsource-variable/fraunces/opsz-italic.css';
@@ -8,12 +8,12 @@ import { ViewTransitions } from 'astro:transitions';
 import SEO from '~/components/seo/SEO.astro';
 
 export interface Props {
-  title?: string;
-  description?: string;
-  image?: string;
-  canonical?: string;
-  noindex?: boolean;
-  type?: 'website' | 'article' | 'product';
+ title?: string;
+ description?: string;
+ image?: string;
+ canonical?: string;
+ noindex?: boolean;
+ type?: 'website' | 'article' | 'product';
 }
 
 const { title, description, image, canonical, noindex, type } = Astro.props;
@@ -21,65 +21,65 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0A0A0A" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="alternate" type="text/plain" title="LLMs.txt" href="/llms.txt" />
-    <SEO {title} {description} {image} {canonical} {noindex} {type} />
-    <slot name="head" />
-    <ViewTransitions />
-  </head>
-  <body>
-    <a
-      href="#main-content"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-brand-black focus:text-white focus:px-4 focus:py-2 focus:rounded"
-    >
-      Skip to content
-    </a>
-    <slot />
+ <head>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <meta name="theme-color" content="#0A0A0A" />
+   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+   <link rel="manifest" href="/manifest.json" />
+   <link rel="alternate" type="text/plain" title="LLMs.txt" href="/llms.txt" />
+   <SEO {title} {description} {image} {canonical} {noindex} {type} />
+   <slot name="head" />
+   <ViewTransitions />
+ </head>
+ <body>
+   <a
+     href="#main-content"
+     class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-brand-black focus:text-white focus:px-4 focus:py-2 focus:rounded"
+   >
+     Skip to content
+   </a>
+   <slot />
 
-    <script>
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((e) => {
-            if (e.isIntersecting) {
-              e.target.classList.add('in-view');
-              observer.unobserve(e.target);
-            }
-          });
-        },
-        { threshold: 0.15 },
-      );
+   <script>
+     const observer = new IntersectionObserver(
+       (entries) => {
+         entries.forEach((e) => {
+           if (e.isIntersecting) {
+             e.target.classList.add('in-view');
+             observer.unobserve(e.target);
+           }
+         });
+       },
+       { threshold: 0.15 },
+     );
 
-      function bind() {
-        document.querySelectorAll('.scroll-fade:not(.in-view)').forEach((el) => observer.observe(el));
-      }
-      bind();
-      document.addEventListener('astro:page-load', bind);
-    </script>
+     function bind() {
+       document.querySelectorAll('.scroll-fade:not(.in-view)').forEach((el) => observer.observe(el));
+     }
+     bind();
+     document.addEventListener('astro:page-load', bind);
+   </script>
 
-    <!-- Currency detection + conversion — runs after DOM ready -->
-    <script>
-      import '~/scripts/currency.ts';
-    </script>
+   <!-- Currency detection + conversion runs after DOM ready -->
+   <script>
+     import '~/scripts/currency.ts';
+   </script>
 
-    <!-- Google Analytics — deferred to end of body so it never blocks render -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4XMEM7DE1B"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-4XMEM7DE1B');
-    </script>
-    <script is:inline>
-      document.addEventListener('astro:page-load', function() {
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'page_view', { page_path: location.pathname });
-        }
-      });
-    </script>
-  </body>
+   <!-- Google Analytics deferred to end of body so it never blocks render -->
+   <script async src="https://www.googletagmanager.com/gtag/js?id=G-4XMEM7DE1B"></script>
+   <script is:inline>
+     window.dataLayer = window.dataLayer || [];
+     function gtag(){dataLayer.push(arguments);}
+     gtag('js', new Date());
+     gtag('config', 'G-4XMEM7DE1B');
+   </script>
+   <script is:inline>
+     document.addEventListener('astro:page-load', function() {
+       if (typeof gtag !== 'undefined') {
+         gtag('event', 'page_view', { page_path: location.pathname });
+       }
+     });
+   </script>
+ </body>
 </html>

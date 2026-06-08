@@ -1,74 +1,74 @@
 ---
 const cards = [
-  {
-    icon: 'M13 2L3 14h7l-1 8 10-12h-7l1-8z',
-    title: 'Conversational AI support',
-    body: 'AI-powered chatbots that handle 80% of support tickets — routing complex issues to humans, resolving the rest instantly.',
-    tag: 'GPT-4 + CLAUDE + RAG PIPELINE',
-  },
-  {
-    icon: 'M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4zM9 12l2 2 4-4',
-    title: 'Intelligent lead scoring',
-    body: 'AI agents that monitor real-time signals — job changes, funding events, tech stack updates — and score prospects automatically.',
-    tag: 'INTENT SIGNALS + PREDICTIVE SCORING',
-  },
-  {
-    icon: 'M3 12a9 9 0 1018 0 9 9 0 00-18 0zM12 7v5l3 3',
-    title: 'Document processing',
-    body: 'Extract, classify and route data from invoices, contracts and forms — eliminating manual data entry entirely.',
-    tag: 'OCR + NLP EXTRACTION',
-  },
-  {
-    icon: 'M12 2a9 9 0 100 18 9 9 0 000-18zm-3 6l4 4-4 4M13 8l4 4-4 4',
-    title: 'Predictive analytics',
-    body: 'Forecast churn, revenue and demand using your own data — making decisions based on signals, not gut feelings.',
-    tag: 'TIME SERIES + ML MODELS',
-  },
+ {
+   icon: 'M13 2L3 14h7l-1 8 10-12h-7l1-8z',
+   title: 'Conversational AI support',
+   body: 'AI-powered chatbots that handle 80% of support tickets routing complex issues to humans, resolving the rest instantly.',
+   tag: 'GPT-4 + CLAUDE + RAG PIPELINE',
+ },
+ {
+   icon: 'M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4zM9 12l2 2 4-4',
+   title: 'Intelligent lead scoring',
+   body: 'AI agents that monitor real-time signals job changes, funding events, tech stack updates and score prospects automatically.',
+   tag: 'INTENT SIGNALS + PREDICTIVE SCORING',
+ },
+ {
+   icon: 'M3 12a9 9 0 1018 0 9 9 0 00-18 0zM12 7v5l3 3',
+   title: 'Document processing',
+   body: 'Extract, classify and route data from invoices, contracts and forms eliminating manual data entry entirely.',
+   tag: 'OCR + NLP EXTRACTION',
+ },
+ {
+   icon: 'M12 2a9 9 0 100 18 9 9 0 000-18zm-3 6l4 4-4 4M13 8l4 4-4 4',
+   title: 'Predictive analytics',
+   body: 'Forecast churn, revenue and demand using your own data making decisions based on signals, not gut feelings.',
+   tag: 'TIME SERIES + ML MODELS',
+ },
 ];
 ---
 
 <section class="relative overflow-hidden">
-  <!-- Atmospheric background -->
-  <div class="absolute inset-0 -z-0">
-    <img
-      src="/images/products/longevity-protocol-3.svg"
-      alt=""
-      aria-hidden="true"
-      class="w-full h-full object-cover"
-      style="filter: blur(40px) saturate(0.95); transform: scale(1.15);"
-      loading="lazy"
-    />
-    <div class="absolute inset-0 bg-gradient-to-b from-brand-cream/95 via-brand-cream/85 to-brand-cream/95"></div>
-  </div>
+ <!-- Atmospheric background -->
+ <div class="absolute inset-0 -z-0">
+   <img
+     src="/images/products/longevity-protocol-3.svg"
+     alt=""
+     aria-hidden="true"
+     class="w-full h-full object-cover"
+     style="filter: blur(40px) saturate(0.95); transform: scale(1.15);"
+     loading="lazy"
+   />
+   <div class="absolute inset-0 bg-gradient-to-b from-brand-cream/95 via-brand-cream/85 to-brand-cream/95"></div>
+ </div>
 
-  <div class="container-x relative z-10 py-20 lg:py-28">
-    <div class="text-center max-w-3xl mx-auto mb-14">
-      <span class="inline-block bg-white/80 backdrop-blur rounded-full text-[11px] tracking-[0.15em] uppercase font-medium px-4 py-1.5 mb-6">
-        AI Agents — advanced intelligence layer
-      </span>
-      <h2 class="font-display text-3xl lg:text-4xl xl:text-5xl mb-4 leading-tight text-balance">
-        Business intelligence, <em class="font-medium">automated.</em>
-      </h2>
-      <p class="text-base text-brand-gray-600 max-w-xl mx-auto">
-        The AI Agent Deploy half of the system — handling every repetitive task that drains your team's time and focus.
-      </p>
-    </div>
+ <div class="container-x relative z-10 py-20 lg:py-28">
+   <div class="text-center max-w-3xl mx-auto mb-14">
+     <span class="inline-block bg-white/80 backdrop-blur rounded-full text-[11px] tracking-[0.15em] uppercase font-medium px-4 py-1.5 mb-6">
+       AI Agents advanced intelligence layer
+     </span>
+     <h2 class="font-display text-3xl lg:text-4xl xl:text-5xl mb-4 leading-tight text-balance">
+       Business intelligence, <em class="font-medium">automated.</em>
+     </h2>
+     <p class="text-base text-brand-gray-600 max-w-xl mx-auto">
+       The AI Agent Deploy half of the system handling every repetitive task that drains your team's time and focus.
+     </p>
+   </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
-      {cards.map((c) => (
-        <article class="bg-white/70 backdrop-blur-md rounded-card p-6 lg:p-7 flex flex-col scroll-fade border border-white/60">
-          <div class="w-11 h-11 rounded-lg bg-brand-sand flex items-center justify-center mb-6">
-            <svg class="w-5 h-5 text-brand-rust" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d={c.icon}/>
-            </svg>
-          </div>
-          <h3 class="font-display text-lg lg:text-xl mb-3 leading-snug">{c.title}</h3>
-          <p class="text-sm text-brand-gray-600 leading-relaxed flex-1 mb-6">{c.body}</p>
-          <p class="text-[10px] uppercase tracking-[0.15em] text-brand-rust font-medium pt-4 border-t border-brand-gray-200/60">
-            {c.tag}
-          </p>
-        </article>
-      ))}
-    </div>
-  </div>
+   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+     {cards.map((c) => (
+       <article class="bg-white/70 backdrop-blur-md rounded-card p-6 lg:p-7 flex flex-col scroll-fade border border-white/60">
+         <div class="w-11 h-11 rounded-lg bg-brand-sand flex items-center justify-center mb-6">
+           <svg class="w-5 h-5 text-brand-rust" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+             <path d={c.icon}/>
+           </svg>
+         </div>
+         <h3 class="font-display text-lg lg:text-xl mb-3 leading-snug">{c.title}</h3>
+         <p class="text-sm text-brand-gray-600 leading-relaxed flex-1 mb-6">{c.body}</p>
+         <p class="text-[10px] uppercase tracking-[0.15em] text-brand-rust font-medium pt-4 border-t border-brand-gray-200/60">
+           {c.tag}
+         </p>
+       </article>
+     ))}
+   </div>
+ </div>
 </section>

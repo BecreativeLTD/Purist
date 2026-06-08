@@ -7,63 +7,63 @@ const PINK = '#c4847e';
 const PINK_BG = 'rgba(232,180,176,0.10)';
 
 const categories = [
-  { cat: 'CRM & Sales', tools: ['HubSpot', 'Salesforce', 'Pipedrive', 'Close', 'Zoho CRM', 'Copper'] },
-  { cat: 'Communication', tools: ['Slack', 'Gmail', 'Outlook', 'Twilio', 'WhatsApp Business', 'Intercom'] },
-  { cat: 'Finance & Billing', tools: ['Stripe', 'QuickBooks', 'Xero', 'FreeAgent', 'GoCardless', 'Chargebee'] },
-  { cat: 'E-commerce', tools: ['Shopify', 'WooCommerce', 'Magento', 'Klaviyo', 'Gorgias', 'Recharge'] },
-  { cat: 'Forms & Data', tools: ['Typeform', 'Jotform', 'Airtable', 'Google Sheets', 'Notion', 'Monday.com'] },
-  { cat: 'Documents', tools: ['DocuSign', 'PandaDoc', 'Google Docs', 'PDF generation', 'Dropbox', 'OneDrive'] },
-  { cat: 'HR & Recruiting', tools: ['BambooHR', 'Workable', 'Greenhouse', 'Lever', 'Personio', 'Rippling'] },
-  { cat: 'Marketing', tools: ['Mailchimp', 'ActiveCampaign', 'Brevo', 'Meta Ads', 'Google Ads', 'LinkedIn Ads'] },
-  { cat: 'AI & Intelligence', tools: ['Claude Opus', 'OpenAI GPT-4', 'Perplexity', 'Whisper', 'ElevenLabs', 'Mistral'] },
-  { cat: 'Infrastructure', tools: ['Webhooks', 'REST APIs', 'GraphQL', 'PostgreSQL', 'MySQL', 'Redis'] },
+ { cat: 'CRM & Sales', tools: ['HubSpot', 'Salesforce', 'Pipedrive', 'Close', 'Zoho CRM', 'Copper'] },
+ { cat: 'Communication', tools: ['Slack', 'Gmail', 'Outlook', 'Twilio', 'WhatsApp Business', 'Intercom'] },
+ { cat: 'Finance & Billing', tools: ['Stripe', 'QuickBooks', 'Xero', 'FreeAgent', 'GoCardless', 'Chargebee'] },
+ { cat: 'E-commerce', tools: ['Shopify', 'WooCommerce', 'Magento', 'Klaviyo', 'Gorgias', 'Recharge'] },
+ { cat: 'Forms & Data', tools: ['Typeform', 'Jotform', 'Airtable', 'Google Sheets', 'Notion', 'Monday.com'] },
+ { cat: 'Documents', tools: ['DocuSign', 'PandaDoc', 'Google Docs', 'PDF generation', 'Dropbox', 'OneDrive'] },
+ { cat: 'HR & Recruiting', tools: ['BambooHR', 'Workable', 'Greenhouse', 'Lever', 'Personio', 'Rippling'] },
+ { cat: 'Marketing', tools: ['Mailchimp', 'ActiveCampaign', 'Brevo', 'Meta Ads', 'Google Ads', 'LinkedIn Ads'] },
+ { cat: 'AI & Intelligence', tools: ['Claude Opus', 'OpenAI GPT-4', 'Perplexity', 'Whisper', 'ElevenLabs', 'Mistral'] },
+ { cat: 'Infrastructure', tools: ['Webhooks', 'REST APIs', 'GraphQL', 'PostgreSQL', 'MySQL', 'Redis'] },
 ];
 ---
 
 <BaseLayout
-  title="Integrations — Tools PURIST Connects | PURIST Automation"
-  description="PURIST connects 200+ tools including HubSpot, Salesforce, Shopify, Stripe, Slack, and Claude AI. See the full integration stack we deploy in under 7 days."
+ title="Integrations Tools PURIST Connects | PURIST Automation"
+ description="PURIST connects 200+ tools including HubSpot, Salesforce, Shopify, Stripe, Slack, and Claude AI. See the full integration stack we deploy in under 7 days."
 >
-  <Header />
-  <main id="main-content">
+ <Header />
+ <main id="main-content">
 
-    <div class="py-16 lg:py-20" style="background:#0A0A0A">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-        <p class="text-xs uppercase tracking-widest font-bold mb-4" style={`color:${PINK}`}>Integrations</p>
-        <h1 class="text-3xl lg:text-5xl font-bold text-white mb-5 leading-tight">200+ tools. One connected stack.</h1>
-        <p class="text-base lg:text-lg text-gray-400 max-w-2xl mx-auto">
-          PURIST connects your existing tools — CRM, billing, support, marketing, HR and AI — into a single automated workflow. No rip-and-replace. No new software to learn.
-        </p>
-      </div>
-    </div>
+   <div class="py-16 lg:py-20" style="background:#0A0A0A">
+     <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+       <p class="text-xs uppercase tracking-widest font-bold mb-4" style={`color:${PINK}`}>Integrations</p>
+       <h1 class="text-3xl lg:text-5xl font-bold text-white mb-5 leading-tight">200+ tools. One connected stack.</h1>
+       <p class="text-base lg:text-lg text-gray-400 max-w-2xl mx-auto">
+         PURIST connects your existing tools CRM, billing, support, marketing, HR and AI into a single automated workflow. No rip-and-replace. No new software to learn.
+       </p>
+     </div>
+   </div>
 
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-14 lg:py-20">
+   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-14 lg:py-20">
 
-      <div class="space-y-8 mb-14">
-        {categories.map(c => (
-          <div>
-            <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">{c.cat}</p>
-            <div class="flex flex-wrap gap-2">
-              {c.tools.map(t => (
-                <span class="text-sm font-medium px-4 py-2 rounded-full border border-gray-200 bg-gray-50 text-gray-700">{t}</span>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
+     <div class="space-y-8 mb-14">
+       {categories.map(c => (
+         <div>
+           <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">{c.cat}</p>
+           <div class="flex flex-wrap gap-2">
+             {c.tools.map(t => (
+               <span class="text-sm font-medium px-4 py-2 rounded-full border border-gray-200 bg-gray-50 text-gray-700">{t}</span>
+             ))}
+           </div>
+         </div>
+       ))}
+     </div>
 
-      <div class="rounded-2xl border border-gray-200 p-6 mb-14 text-center">
-        <p class="text-sm text-gray-500 mb-1">Don't see your tool?</p>
-        <p class="text-sm font-medium text-gray-900">If it has an API, we connect it. Book a free audit and we confirm compatibility on the call.</p>
-      </div>
+     <div class="rounded-2xl border border-gray-200 p-6 mb-14 text-center">
+       <p class="text-sm text-gray-500 mb-1">Don't see your tool?</p>
+       <p class="text-sm font-medium text-gray-900">If it has an API, we connect it. Book a free audit and we confirm compatibility on the call.</p>
+     </div>
 
-      <div class="rounded-2xl p-8 text-center" style={`background:${PINK_BG};border:1px solid rgba(196,132,126,0.20)`}>
-        <h2 class="text-xl font-bold text-gray-900 mb-3">Tell us your stack. We build the automation.</h2>
-        <p class="text-sm text-gray-600 mb-6 max-w-lg mx-auto">In the free audit we map every tool you use today and design the integration that saves the most time first.</p>
-        <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style={`background:${PINK}`}>Book free audit →</a>
-      </div>
-    </div>
+     <div class="rounded-2xl p-8 text-center" style={`background:${PINK_BG};border:1px solid rgba(196,132,126,0.20)`}>
+       <h2 class="text-xl font-bold text-gray-900 mb-3">Tell us your stack. We build the automation.</h2>
+       <p class="text-sm text-gray-600 mb-6 max-w-lg mx-auto">In the free audit we map every tool you use today and design the integration that saves the most time first.</p>
+       <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style={`background:${PINK}`}>Book free audit →</a>
+     </div>
+   </div>
 
-  </main>
-  <Footer />
+ </main>
+ <Footer />
 </BaseLayout>

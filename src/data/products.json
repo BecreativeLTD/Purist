@@ -1,136 +1,136 @@
 {
-  "products": [
-    {
-      "id": "founder-stack",
-      "slug": "founder-stack",
-      "title": "The Full Stack",
-      "eyebrow": "AUTOMATION + AI AGENTS",
-      "badge": "BEST VALUE · COMPLETE SYSTEM",
-      "shortDescription": "Automation workflows plus AI agents. One complete system designed for today's operations and tomorrow's scale.",
-      "longDescription": "The Full Stack combines our Automation Pro workflows with AI Agent deployment — covering lead generation, client onboarding, CRM sync, invoicing, support tickets and reporting. One setup. Replaces a cabinet of disconnected SaaS tools.",
-      "images": [
-        "/images/products/founder-stack-1.svg",
-        "/images/products/founder-stack-2.svg",
-        "/images/products/founder-stack-3.svg",
-        "/images/products/founder-stack-4.svg"
-      ],
-      "price": {
-        "subscription": 1499,
-        "oneTime": 2499,
-        "discount": 30,
-        "currency": "GBP"
-      },
-      "rating": 4.9,
-      "reviewCount": 312,
-      "bullets": [
-        "The complete system — automation today, AI agents tomorrow",
-        "30-day money-back guarantee",
-        "n8n, Make & Zapier certified workflows",
-        "Replaces over £4,000 a year of disconnected SaaS tools"
-      ],
-      "flavors": [
-        { "id": "dental", "name": "Dental & Healthcare" },
-        { "id": "realestate", "name": "Real Estate & Property" },
-        { "id": "agency", "name": "Agencies & Consulting" },
-        { "id": "ecommerce", "name": "E-commerce & Retail" }
-      ]
-    },
-    {
-      "id": "foundation-pro",
-      "slug": "foundation-pro",
-      "title": "Automation Pro",
-      "eyebrow": "WORKFLOW AUTOMATION",
-      "badge": "MOST POPULAR",
-      "shortDescription": "12 production-ready workflows in a single deployment. Built with certified automation engineers.",
-      "longDescription": "Automation Pro consolidates your operations: lead capture, CRM sync, email sequences, invoicing, reporting, onboarding and support — at reliability levels informed by production environments rather than demo videos.",
-      "images": [
-        "/images/products/foundation-pro-1.svg",
-        "/images/products/foundation-pro-2.svg",
-        "/images/products/foundation-pro-3.svg",
-        "/images/products/foundation-pro-4.svg"
-      ],
-      "price": {
-        "subscription": 799,
-        "oneTime": 1299,
-        "discount": 30,
-        "currency": "GBP"
-      },
-      "rating": 4.9,
-      "reviewCount": 487,
-      "bullets": [
-        "Replaces 12 manual processes and disconnected tools",
-        "Client results: 95% less manual data entry · 85% faster response time · 80% fewer errors",
-        "n8n, Make & Zapier certified",
-        "30-day money-back guarantee"
-      ],
-      "flavors": [
-        { "id": "dental", "name": "Dental & Healthcare" },
-        { "id": "realestate", "name": "Real Estate & Property" },
-        { "id": "agency", "name": "Agencies & Consulting" },
-        { "id": "ecommerce", "name": "E-commerce & Retail" }
-      ]
-    },
-    {
-      "id": "longevity-protocol",
-      "slug": "longevity-protocol",
-      "title": "AI Agent Deploy",
-      "eyebrow": "INTELLIGENT AUTOMATION",
-      "badge": "NEXT-LEVEL AI",
-      "shortDescription": "Custom AI agents. One deployment. Handles every repetitive task your team wastes hours on.",
-      "longDescription": "AI Agent Deploy works on the intelligence layer — conversational AI for support, lead qualification bots, document processing, smart scheduling and predictive analytics. Built around the latest AI models and deployed into your existing stack.",
-      "images": [
-        "/images/products/longevity-protocol-1.svg",
-        "/images/products/longevity-protocol-2.svg",
-        "/images/products/longevity-protocol-3.svg",
-        "/images/products/longevity-protocol-4.svg"
-      ],
-      "price": {
-        "subscription": 999,
-        "oneTime": 1799,
-        "discount": 20,
-        "currency": "GBP"
-      },
-      "rating": 4.9,
-      "reviewCount": 198,
-      "bullets": [
-        "Handles every repetitive task your team does manually",
-        "AI-powered lead qualification, support and scheduling",
-        "Integrates with your existing CRM, email and tools",
-        "30-day money-back guarantee"
-      ],
-      "flavors": [
-        { "id": "dental", "name": "Dental & Healthcare" },
-        { "id": "realestate", "name": "Real Estate & Property" }
-      ]
-    }
-  ],
-  "enterprise": {
-    "id": "enterprise",
-    "title": "Enterprise",
-    "eyebrow": "DEDICATED INFRASTRUCTURE",
-    "badge": "FOR SCALING TEAMS",
-    "shortDescription": "Dedicated n8n instance, SLA guarantee, and a dedicated automation engineer. Built for multi-location businesses and agencies scaling past 50 clients.",
-    "price": {
-      "subscription": 3499,
-      "setup": 4999,
-      "currency": "GBP"
-    },
-    "sla": "99.97%",
-    "responseTime": "1h",
-    "bullets": [
-      "Dedicated n8n instance — no shared infrastructure",
-      "99.97% uptime SLA with financial guarantee",
-      "Dedicated automation engineer — 20h/mo included",
-      "Unlimited workflows — build as you scale",
-      "Priority support: 1h response, 24/7 monitoring",
-      "Multi-location deployment — clinics, agencies, franchises",
-      "Custom integrations — any API, any system"
-    ],
-    "addons": [
-      { "id": "extra-workflow",  "name": "Extra Workflow",        "price": 299,  "unit": "one-time", "description": "Any single workflow added to your plan — deployed in 48h." },
-      { "id": "quarterly-audit", "name": "Quarterly Audit",       "price": 499,  "unit": "quarter",  "description": "Full performance review + optimisation report every 90 days.", "popular": true },
-      { "id": "team-training",   "name": "Team Training",         "price": 799,  "unit": "one-time", "description": "2-hour live session — your team learns to monitor and expand the system." },
-      { "id": "migration",       "name": "Zapier / Make Migration","price": 1499, "unit": "one-time", "description": "Full migration of your existing workflows to n8n — faster, cheaper, more reliable." }
-    ]
-  }
+ "products": [
+   {
+     "id": "founder-stack",
+     "slug": "founder-stack",
+     "title": "The Full Stack",
+     "eyebrow": "AUTOMATION + AI AGENTS",
+     "badge": "BEST VALUE · COMPLETE SYSTEM",
+     "shortDescription": "Automation workflows plus AI agents. One complete system designed for today's operations and tomorrow's scale.",
+     "longDescription": "The Full Stack combines our Automation Pro workflows with AI Agent deployment covering lead generation, client onboarding, CRM sync, invoicing, support tickets and reporting. One setup. Replaces a cabinet of disconnected SaaS tools.",
+     "images": [
+       "/images/products/founder-stack-1.svg",
+       "/images/products/founder-stack-2.svg",
+       "/images/products/founder-stack-3.svg",
+       "/images/products/founder-stack-4.svg"
+     ],
+     "price": {
+       "subscription": 1499,
+       "oneTime": 2499,
+       "discount": 30,
+       "currency": "GBP"
+     },
+     "rating": 4.9,
+     "reviewCount": 312,
+     "bullets": [
+       "The complete system automation today, AI agents tomorrow",
+       "30-day money-back guarantee",
+       "n8n, Make & Zapier certified workflows",
+       "Replaces over £4,000 a year of disconnected SaaS tools"
+     ],
+     "flavors": [
+       { "id": "dental", "name": "Dental & Healthcare" },
+       { "id": "realestate", "name": "Real Estate & Property" },
+       { "id": "agency", "name": "Agencies & Consulting" },
+       { "id": "ecommerce", "name": "E-commerce & Retail" }
+     ]
+   },
+   {
+     "id": "foundation-pro",
+     "slug": "foundation-pro",
+     "title": "Automation Pro",
+     "eyebrow": "WORKFLOW AUTOMATION",
+     "badge": "MOST POPULAR",
+     "shortDescription": "12 production-ready workflows in a single deployment. Built with certified automation engineers.",
+     "longDescription": "Automation Pro consolidates your operations: lead capture, CRM sync, email sequences, invoicing, reporting, onboarding and support at reliability levels informed by production environments rather than demo videos.",
+     "images": [
+       "/images/products/foundation-pro-1.svg",
+       "/images/products/foundation-pro-2.svg",
+       "/images/products/foundation-pro-3.svg",
+       "/images/products/foundation-pro-4.svg"
+     ],
+     "price": {
+       "subscription": 799,
+       "oneTime": 1299,
+       "discount": 30,
+       "currency": "GBP"
+     },
+     "rating": 4.9,
+     "reviewCount": 487,
+     "bullets": [
+       "Replaces 12 manual processes and disconnected tools",
+       "Client results: 95% less manual data entry · 85% faster response time · 80% fewer errors",
+       "n8n, Make & Zapier certified",
+       "30-day money-back guarantee"
+     ],
+     "flavors": [
+       { "id": "dental", "name": "Dental & Healthcare" },
+       { "id": "realestate", "name": "Real Estate & Property" },
+       { "id": "agency", "name": "Agencies & Consulting" },
+       { "id": "ecommerce", "name": "E-commerce & Retail" }
+     ]
+   },
+   {
+     "id": "longevity-protocol",
+     "slug": "longevity-protocol",
+     "title": "AI Agent Deploy",
+     "eyebrow": "INTELLIGENT AUTOMATION",
+     "badge": "NEXT-LEVEL AI",
+     "shortDescription": "Custom AI agents. One deployment. Handles every repetitive task your team wastes hours on.",
+     "longDescription": "AI Agent Deploy works on the intelligence layer conversational AI for support, lead qualification bots, document processing, smart scheduling and predictive analytics. Built around the latest AI models and deployed into your existing stack.",
+     "images": [
+       "/images/products/longevity-protocol-1.svg",
+       "/images/products/longevity-protocol-2.svg",
+       "/images/products/longevity-protocol-3.svg",
+       "/images/products/longevity-protocol-4.svg"
+     ],
+     "price": {
+       "subscription": 999,
+       "oneTime": 1799,
+       "discount": 20,
+       "currency": "GBP"
+     },
+     "rating": 4.9,
+     "reviewCount": 198,
+     "bullets": [
+       "Handles every repetitive task your team does manually",
+       "AI-powered lead qualification, support and scheduling",
+       "Integrates with your existing CRM, email and tools",
+       "30-day money-back guarantee"
+     ],
+     "flavors": [
+       { "id": "dental", "name": "Dental & Healthcare" },
+       { "id": "realestate", "name": "Real Estate & Property" }
+     ]
+   }
+ ],
+ "enterprise": {
+   "id": "enterprise",
+   "title": "Enterprise",
+   "eyebrow": "DEDICATED INFRASTRUCTURE",
+   "badge": "FOR SCALING TEAMS",
+   "shortDescription": "Dedicated n8n instance, SLA guarantee, and a dedicated automation engineer. Built for multi-location businesses and agencies scaling past 50 clients.",
+   "price": {
+     "subscription": 3499,
+     "setup": 4999,
+     "currency": "GBP"
+   },
+   "sla": "99.97%",
+   "responseTime": "1h",
+   "bullets": [
+     "Dedicated n8n instance no shared infrastructure",
+     "99.97% uptime SLA with financial guarantee",
+     "Dedicated automation engineer 20h/mo included",
+     "Unlimited workflows build as you scale",
+     "Priority support: 1h response, 24/7 monitoring",
+     "Multi-location deployment clinics, agencies, franchises",
+     "Custom integrations any API, any system"
+   ],
+   "addons": [
+     { "id": "extra-workflow", "name": "Extra Workflow",      "price": 299, "unit": "one-time", "description": "Any single workflow added to your plan deployed in 48h." },
+     { "id": "quarterly-audit", "name": "Quarterly Audit",     "price": 499, "unit": "quarter", "description": "Full performance review + optimisation report every 90 days.", "popular": true },
+     { "id": "team-training", "name": "Team Training",       "price": 799, "unit": "one-time", "description": "2-hour live session your team learns to monitor and expand the system." },
+     { "id": "migration",     "name": "Zapier / Make Migration","price": 1499, "unit": "one-time", "description": "Full migration of your existing workflows to n8n faster, cheaper, more reliable." }
+   ]
+ }
 }

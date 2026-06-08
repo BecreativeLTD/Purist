@@ -2,146 +2,146 @@
 import ShopLayout from '~/layouts/ShopLayout.astro';
 
 const topics = [
-  { id: 'project', label: 'My project or deployment' },
-  { id: 'subscription', label: 'Manage my plan' },
-  { id: 'service', label: 'Service or workflow question' },
-  { id: 'enterprise', label: 'Enterprise or multi-location' },
-  { id: 'press', label: 'Press or media' },
-  { id: 'other', label: 'Something else' },
+ { id: 'project', label: 'My project or deployment' },
+ { id: 'subscription', label: 'Manage my plan' },
+ { id: 'service', label: 'Service or workflow question' },
+ { id: 'enterprise', label: 'Enterprise or multi-location' },
+ { id: 'press', label: 'Press or media' },
+ { id: 'other', label: 'Something else' },
 ];
 ---
 
 <ShopLayout
-  title="Contact us – PURIST"
-  description="Reach the team. We reply within one business day."
+ title="Contact us – PURIST"
+ description="Reach the team. We reply within one business day."
 >
-  <section class="container-x py-16 lg:py-20 grid lg:grid-cols-12 gap-12 lg:gap-16">
-    <div class="lg:col-span-5">
-      <p class="eyebrow mb-4">Contact us</p>
-      <h1 class="font-display text-4xl lg:text-5xl leading-tight tracking-tight mb-6 text-balance">
-        Real humans. <em class="font-medium">One business day.</em>
-      </h1>
-      <p class="text-base text-brand-gray-600 mb-10 leading-relaxed">
-        Every email lands with a real member of the PURIST team. Most replies go out the
-        same day; the longest you should ever wait is one business day.
-      </p>
+ <section class="container-x py-16 lg:py-20 grid lg:grid-cols-12 gap-12 lg:gap-16">
+   <div class="lg:col-span-5">
+     <p class="eyebrow mb-4">Contact us</p>
+     <h1 class="font-display text-4xl lg:text-5xl leading-tight tracking-tight mb-6 text-balance">
+       Real humans. <em class="font-medium">One business day.</em>
+     </h1>
+     <p class="text-base text-brand-gray-600 mb-10 leading-relaxed">
+       Every email lands with a real member of the PURIST team. Most replies go out the
+       same day; the longest you should ever wait is one business day.
+     </p>
 
-      <div class="space-y-6 text-sm">
-        <div>
-          <p class="eyebrow mb-1">Support</p>
-          <a href="mailto:hello@purist.online" class="hover:opacity-70 transition link-underline">hello@purist.online</a>
-        </div>
-        <div>
-          <p class="eyebrow mb-1">Press</p>
-          <a href="mailto:press@purist.online" class="hover:opacity-70 transition link-underline">press@purist.online</a>
-        </div>
-        <div>
-          <p class="eyebrow mb-1">Enterprise</p>
-          <a href="mailto:enterprise@purist.online" class="hover:opacity-70 transition link-underline">enterprise@purist.online</a>
-        </div>
-        <div>
-          <p class="eyebrow mb-1">Hours</p>
-          <p class="text-brand-gray-600">Mon – Fri · 9:00 – 18:00 CET</p>
-        </div>
-      </div>
-    </div>
+     <div class="space-y-6 text-sm">
+       <div>
+         <p class="eyebrow mb-1">Support</p>
+         <a href="mailto:hello@purist.online" class="hover:opacity-70 transition link-underline">hello@purist.online</a>
+       </div>
+       <div>
+         <p class="eyebrow mb-1">Press</p>
+         <a href="mailto:press@purist.online" class="hover:opacity-70 transition link-underline">press@purist.online</a>
+       </div>
+       <div>
+         <p class="eyebrow mb-1">Enterprise</p>
+         <a href="mailto:enterprise@purist.online" class="hover:opacity-70 transition link-underline">enterprise@purist.online</a>
+       </div>
+       <div>
+         <p class="eyebrow mb-1">Hours</p>
+         <p class="text-brand-gray-600">Mon – Fri · 9:00 – 18:00 CET</p>
+       </div>
+     </div>
+   </div>
 
-    <form id="contact-form" class="lg:col-span-7 bg-brand-cream rounded-card p-6 lg:p-10 space-y-5">
-      <h2 class="font-display text-xl mb-2">Send us a message</h2>
+   <form id="contact-form" class="lg:col-span-7 bg-brand-cream rounded-card p-6 lg:p-10 space-y-5">
+     <h2 class="font-display text-xl mb-2">Send us a message</h2>
 
-      <div class="grid sm:grid-cols-2 gap-4">
-        <label class="block">
-          <span class="block text-xs text-brand-gray-600 mb-1.5">First name</span>
-          <input id="cf-firstname" name="firstName" type="text" required
-            class="w-full bg-white border border-brand-gray-200 rounded-button px-4 py-3 text-sm focus:border-brand-black focus:outline-none transition" />
-        </label>
-        <label class="block">
-          <span class="block text-xs text-brand-gray-600 mb-1.5">Last name</span>
-          <input id="cf-lastname" name="lastName" type="text"
-            class="w-full bg-white border border-brand-gray-200 rounded-button px-4 py-3 text-sm focus:border-brand-black focus:outline-none transition" />
-        </label>
-      </div>
+     <div class="grid sm:grid-cols-2 gap-4">
+       <label class="block">
+         <span class="block text-xs text-brand-gray-600 mb-1.5">First name</span>
+         <input id="cf-firstname" name="firstName" type="text" required
+           class="w-full bg-white border border-brand-gray-200 rounded-button px-4 py-3 text-sm focus:border-brand-black focus:outline-none transition" />
+       </label>
+       <label class="block">
+         <span class="block text-xs text-brand-gray-600 mb-1.5">Last name</span>
+         <input id="cf-lastname" name="lastName" type="text"
+           class="w-full bg-white border border-brand-gray-200 rounded-button px-4 py-3 text-sm focus:border-brand-black focus:outline-none transition" />
+       </label>
+     </div>
 
-      <label class="block">
-        <span class="block text-xs text-brand-gray-600 mb-1.5">Email</span>
-        <input id="cf-email" name="email" type="email" required
-          class="w-full bg-white border border-brand-gray-200 rounded-button px-4 py-3 text-sm focus:border-brand-black focus:outline-none transition" />
-      </label>
+     <label class="block">
+       <span class="block text-xs text-brand-gray-600 mb-1.5">Email</span>
+       <input id="cf-email" name="email" type="email" required
+         class="w-full bg-white border border-brand-gray-200 rounded-button px-4 py-3 text-sm focus:border-brand-black focus:outline-none transition" />
+     </label>
 
-      <label class="block">
-        <span class="block text-xs text-brand-gray-600 mb-1.5">Topic</span>
-        <select id="cf-topic" name="topic"
-          class="w-full bg-white border border-brand-gray-200 rounded-button px-4 py-3 text-sm focus:border-brand-black focus:outline-none transition">
-          {topics.map((t) => <option value={t.id}>{t.label}</option>)}
-        </select>
-      </label>
+     <label class="block">
+       <span class="block text-xs text-brand-gray-600 mb-1.5">Topic</span>
+       <select id="cf-topic" name="topic"
+         class="w-full bg-white border border-brand-gray-200 rounded-button px-4 py-3 text-sm focus:border-brand-black focus:outline-none transition">
+         {topics.map((t) => <option value={t.id}>{t.label}</option>)}
+       </select>
+     </label>
 
-      <label class="block">
-        <span class="block text-xs text-brand-gray-600 mb-1.5">Project ID (if relevant)</span>
-        <input id="cf-projectid" name="projectId" type="text" placeholder="PUR-XXXXXX"
-          class="w-full bg-white border border-brand-gray-200 rounded-button px-4 py-3 text-sm focus:border-brand-black focus:outline-none transition" />
-      </label>
+     <label class="block">
+       <span class="block text-xs text-brand-gray-600 mb-1.5">Project ID (if relevant)</span>
+       <input id="cf-projectid" name="projectId" type="text" placeholder="PUR-XXXXXX"
+         class="w-full bg-white border border-brand-gray-200 rounded-button px-4 py-3 text-sm focus:border-brand-black focus:outline-none transition" />
+     </label>
 
-      <label class="block">
-        <span class="block text-xs text-brand-gray-600 mb-1.5">Message</span>
-        <textarea id="cf-message" name="message" rows="5" required
-          class="w-full bg-white border border-brand-gray-200 rounded-button px-4 py-3 text-sm focus:border-brand-black focus:outline-none transition resize-y"></textarea>
-      </label>
+     <label class="block">
+       <span class="block text-xs text-brand-gray-600 mb-1.5">Message</span>
+       <textarea id="cf-message" name="message" rows="5" required
+         class="w-full bg-white border border-brand-gray-200 rounded-button px-4 py-3 text-sm focus:border-brand-black focus:outline-none transition resize-y"></textarea>
+     </label>
 
-      <button id="cf-submit" type="submit"
-        class="w-full bg-brand-black text-white text-sm font-semibold py-3.5 rounded-button hover:opacity-80 transition">
-        Send message →
-      </button>
+     <button id="cf-submit" type="submit"
+       class="w-full bg-brand-black text-white text-sm font-semibold py-3.5 rounded-button hover:opacity-80 transition">
+       Send message →
+     </button>
 
-      <p id="cf-success" class="hidden bg-brand-green/15 text-brand-green text-sm p-4 rounded-card">
-        ✓ Message sent — we'll reply within 1 business day.
-      </p>
-      <p id="cf-error" class="hidden bg-red-50 text-red-600 text-sm p-4 rounded-card">
-        Something went wrong. Please email us at hello@purist.online
-      </p>
-    </form>
-  </section>
+     <p id="cf-success" class="hidden bg-brand-green/15 text-brand-green text-sm p-4 rounded-card">
+       ✓ Message sent we'll reply within 1 business day.
+     </p>
+     <p id="cf-error" class="hidden bg-red-50 text-red-600 text-sm p-4 rounded-card">
+       Something went wrong. Please email us at hello@purist.online
+     </p>
+   </form>
+ </section>
 
-  <script is:inline>
-    document.getElementById('contact-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      var btn = document.getElementById('cf-submit');
-      btn.textContent = 'Sending…';
-      btn.disabled = true;
-      document.getElementById('cf-success').classList.add('hidden');
-      document.getElementById('cf-error').classList.add('hidden');
+ <script is:inline>
+   document.getElementById('contact-form').addEventListener('submit', function(e) {
+     e.preventDefault();
+     var btn = document.getElementById('cf-submit');
+     btn.textContent = 'Sending…';
+     btn.disabled = true;
+     document.getElementById('cf-success').classList.add('hidden');
+     document.getElementById('cf-error').classList.add('hidden');
 
-      var data = {
-        firstName: document.getElementById('cf-firstname').value,
-        lastName:  document.getElementById('cf-lastname').value,
-        email:     document.getElementById('cf-email').value,
-        topic:     document.getElementById('cf-topic').value,
-        projectId: document.getElementById('cf-projectid').value,
-        message:   document.getElementById('cf-message').value,
-      };
+     var data = {
+       firstName: document.getElementById('cf-firstname').value,
+       lastName: document.getElementById('cf-lastname').value,
+       email:   document.getElementById('cf-email').value,
+       topic:   document.getElementById('cf-topic').value,
+       projectId: document.getElementById('cf-projectid').value,
+       message: document.getElementById('cf-message').value,
+     };
 
-      fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-      .then(function(r) { return r.json(); })
-      .then(function(res) {
-        if (res.success) {
-          document.getElementById('cf-success').classList.remove('hidden');
-          document.getElementById('contact-form').reset();
-        } else {
-          document.getElementById('cf-error').classList.remove('hidden');
-        }
-        btn.textContent = 'Send message →';
-        btn.disabled = false;
-      })
-      .catch(function() {
-        document.getElementById('cf-error').classList.remove('hidden');
-        btn.textContent = 'Send message →';
-        btn.disabled = false;
-      });
-    });
-  </script>
+     fetch('/api/contact', {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify(data),
+     })
+     .then(function(r) { return r.json(); })
+     .then(function(res) {
+       if (res.success) {
+         document.getElementById('cf-success').classList.remove('hidden');
+         document.getElementById('contact-form').reset();
+       } else {
+         document.getElementById('cf-error').classList.remove('hidden');
+       }
+       btn.textContent = 'Send message →';
+       btn.disabled = false;
+     })
+     .catch(function() {
+       document.getElementById('cf-error').classList.remove('hidden');
+       btn.textContent = 'Send message →';
+       btn.disabled = false;
+     });
+   });
+ </script>
 
 </ShopLayout>

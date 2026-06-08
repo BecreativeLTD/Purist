@@ -1,329 +1,329 @@
 ---
-// AddonsSection.astro — À la carte add-ons + Enterprise tier
+// AddonsSection.astro À la carte add-ons + Enterprise tier
 ---
 
 <section id="addons" class="relative overflow-hidden py-12 lg:py-20" style="background:#0A0A0A;">
 
-  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(232,180,176,0.04) 0%,transparent 60%);"/>
-  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 40% 50% at 90% 80%,rgba(232,180,176,0.03) 0%,transparent 55%);"/>
+ <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(232,180,176,0.04) 0%,transparent 60%);"/>
+ <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 40% 50% at 90% 80%,rgba(232,180,176,0.03) 0%,transparent 55%);"/>
 
-  <div class="container-x relative z-10">
+ <div class="container-x relative z-10">
 
-    <!-- ── SECTION HEADER ── -->
-    <div class="max-w-2xl mb-10 lg:mb-14">
-      <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-3" style="color:rgba(232,180,176,0.55);">Expand your system</p>
-      <h2 class="font-display text-[1.8rem] lg:text-[2.4rem] leading-[1.08] tracking-[-0.025em] text-white mb-3 text-balance">
-        Every business is different.<br/>
-        <em class="font-medium" style="color:#E8B4B0;">Build exactly what you need.</em>
-      </h2>
-      <p class="text-[13px] leading-relaxed max-w-xl" style="color:rgba(255,255,255,0.36);">
-        Add specific capabilities to any existing plan, or move to a fully dedicated infrastructure with an SLA guarantee.
-      </p>
-    </div>
+   <!-- ── SECTION HEADER ── -->
+   <div class="max-w-2xl mb-10 lg:mb-14">
+     <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-3" style="color:rgba(232,180,176,0.55);">Expand your system</p>
+     <h2 class="font-display text-[1.8rem] lg:text-[2.4rem] leading-[1.08] tracking-[-0.025em] text-white mb-3 text-balance">
+       Every business is different.<br/>
+       <em class="font-medium" style="color:#E8B4B0;">Build exactly what you need.</em>
+     </h2>
+     <p class="text-[13px] leading-relaxed max-w-xl" style="color:rgba(255,255,255,0.36);">
+       Add specific capabilities to any existing plan, or move to a fully dedicated infrastructure with an SLA guarantee.
+     </p>
+   </div>
 
-    <!-- ── SUB-SECTION 1: À LA CARTE ADD-ONS ── -->
-    <div class="mb-6">
-      <p class="text-[9px] uppercase tracking-[0.20em] font-bold mb-5" style="color:rgba(255,255,255,0.24);">À la carte add-ons</p>
+   <!-- ── SUB-SECTION 1: À LA CARTE ADD-ONS ── -->
+   <div class="mb-6">
+     <p class="text-[9px] uppercase tracking-[0.20em] font-bold mb-5" style="color:rgba(255,255,255,0.24);">À la carte add-ons</p>
 
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
 
-        <!-- Card 1: Extra Workflow -->
-        <div class="addon-card rounded-[18px] p-5 lg:p-6 flex flex-col relative overflow-hidden"
-             style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);">
-          <div class="absolute top-0 left-0 right-0 h-[2px] rounded-t-[18px]" style="background:linear-gradient(90deg,#E8B4B0 0%,rgba(232,180,176,0.3) 100%);opacity:0.5;"/>
-          <!-- Icon -->
-          <div class="w-9 h-9 rounded-[10px] flex items-center justify-center mb-5 shrink-0"
-               style="background:rgba(232,180,176,0.08);border:1px solid rgba(232,180,176,0.14);">
-            <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="#E8B4B0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M2 4h4v4H2zM10 4h4v4h-4z"/>
-              <path d="M4 8v2a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V8"/>
-              <path d="M8 12v2"/>
-            </svg>
-          </div>
-          <!-- Price -->
-          <div class="mb-4">
-            <p class="font-display text-[1.6rem] leading-none font-medium text-white tabular-nums" data-price="299">£299</p>
-            <p class="text-[8.5px] uppercase tracking-[0.16em] font-bold mt-1" style="color:rgba(232,180,176,0.60);">one-time</p>
-          </div>
-          <!-- Title + description -->
-          <p class="text-[12px] font-semibold text-white mb-2 leading-snug">Extra Workflow</p>
-          <p class="text-[11px] leading-relaxed flex-1 mb-4" style="color:rgba(255,255,255,0.38);">
-            Add any single automation to your plan — scoped, built and deployed in 48 hours.
-          </p>
-          <!-- Included list -->
-          <ul class="space-y-1.5 mb-5">
-            {['Custom build to your spec','48h deployment SLA','Tested + documented'].map(f => (
-              <li class="flex items-center gap-2">
-                <svg class="w-3 h-3 shrink-0" viewBox="0 0 12 12" fill="none" stroke="#E8B4B0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg>
-                <span class="text-[10px]" style="color:rgba(255,255,255,0.35);">{f}</span>
-              </li>
-            ))}
-          </ul>
-          <!-- CTA -->
-          <button
-            class="addon-add-btn w-full text-[10.5px] font-semibold py-2.5 rounded-[10px] transition-all duration-150 flex items-center justify-center gap-1.5"
-            style="background:rgba(232,180,176,0.10);border:1px solid rgba(232,180,176,0.18);color:#E8B4B0;"
-            data-product-id="addon-extra-workflow"
-            data-title="Extra Workflow"
-            data-price="299"
-            data-plan="oneTime"
-            data-image="/images/products/addon-extra-workflow.svg">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v10M2 7h10"/></svg>
-            Add to cart
-          </button>
-        </div>
+       <!-- Card 1: Extra Workflow -->
+       <div class="addon-card rounded-[18px] p-5 lg:p-6 flex flex-col relative overflow-hidden"
+            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);">
+         <div class="absolute top-0 left-0 right-0 h-[2px] rounded-t-[18px]" style="background:linear-gradient(90deg,#E8B4B0 0%,rgba(232,180,176,0.3) 100%);opacity:0.5;"/>
+         <!-- Icon -->
+         <div class="w-9 h-9 rounded-[10px] flex items-center justify-center mb-5 shrink-0"
+              style="background:rgba(232,180,176,0.08);border:1px solid rgba(232,180,176,0.14);">
+           <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="#E8B4B0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+             <path d="M2 4h4v4H2zM10 4h4v4h-4z"/>
+             <path d="M4 8v2a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V8"/>
+             <path d="M8 12v2"/>
+           </svg>
+         </div>
+         <!-- Price -->
+         <div class="mb-4">
+           <p class="font-display text-[1.6rem] leading-none font-medium text-white tabular-nums" data-price="299">£299</p>
+           <p class="text-[8.5px] uppercase tracking-[0.16em] font-bold mt-1" style="color:rgba(232,180,176,0.60);">one-time</p>
+         </div>
+         <!-- Title + description -->
+         <p class="text-[12px] font-semibold text-white mb-2 leading-snug">Extra Workflow</p>
+         <p class="text-[11px] leading-relaxed flex-1 mb-4" style="color:rgba(255,255,255,0.38);">
+           Add any single automation to your plan scoped, built and deployed in 48 hours.
+         </p>
+         <!-- Included list -->
+         <ul class="space-y-1.5 mb-5">
+           {['Custom build to your spec','48h deployment SLA','Tested + documented'].map(f => (
+             <li class="flex items-center gap-2">
+               <svg class="w-3 h-3 shrink-0" viewBox="0 0 12 12" fill="none" stroke="#E8B4B0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg>
+               <span class="text-[10px]" style="color:rgba(255,255,255,0.35);">{f}</span>
+             </li>
+           ))}
+         </ul>
+         <!-- CTA -->
+         <button
+           class="addon-add-btn w-full text-[10.5px] font-semibold py-2.5 rounded-[10px] transition-all duration-150 flex items-center justify-center gap-1.5"
+           style="background:rgba(232,180,176,0.10);border:1px solid rgba(232,180,176,0.18);color:#E8B4B0;"
+           data-product-id="addon-extra-workflow"
+           data-title="Extra Workflow"
+           data-price="299"
+           data-plan="oneTime"
+           data-image="/images/products/addon-extra-workflow.svg">
+           <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v10M2 7h10"/></svg>
+           Add to cart
+         </button>
+       </div>
 
-        <!-- Card 2: Quarterly Audit (Most popular) -->
-        <div class="addon-card rounded-[18px] p-5 lg:p-6 flex flex-col relative overflow-hidden"
-             style="background:rgba(232,180,176,0.05);border:1px solid rgba(232,180,176,0.20);">
-          <div class="absolute top-0 left-0 right-0 h-[2px] rounded-t-[18px]" style="background:linear-gradient(90deg,#E8B4B0 0%,rgba(232,180,176,0.4) 100%);opacity:0.8;"/>
-          <!-- Most popular badge -->
-          <div class="absolute top-4 right-4">
-            <span class="text-[8px] uppercase tracking-[0.12em] font-bold px-2 py-0.5 rounded-full"
-                  style="background:rgba(232,180,176,0.16);color:#E8B4B0;border:1px solid rgba(232,180,176,0.30);">Most popular</span>
-          </div>
-          <!-- Icon -->
-          <div class="w-9 h-9 rounded-[10px] flex items-center justify-center mb-5 shrink-0"
-               style="background:rgba(232,180,176,0.12);border:1px solid rgba(232,180,176,0.24);">
-            <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="#E8B4B0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="6.5" cy="6.5" r="4"/>
-              <path d="M11 11l3 3"/>
-              <path d="M6.5 4.5v2l1.5 1"/>
-            </svg>
-          </div>
-          <!-- Price -->
-          <div class="mb-4">
-            <p class="font-display text-[1.6rem] leading-none font-medium text-white tabular-nums" data-price="499">£499</p>
-            <p class="text-[8.5px] uppercase tracking-[0.16em] font-bold mt-1" style="color:rgba(232,180,176,0.60);">/quarter</p>
-          </div>
-          <!-- Title + description -->
-          <p class="text-[12px] font-semibold text-white mb-2 leading-snug">Quarterly Audit</p>
-          <p class="text-[11px] leading-relaxed flex-1 mb-4" style="color:rgba(255,255,255,0.38);">
-            Full performance review + optimisation report. Every 90 days, your system gets smarter.
-          </p>
-          <!-- Included list -->
-          <ul class="space-y-1.5 mb-5">
-            {['Full workflow performance review','Optimisation recommendations','Written report + 60-min call'].map(f => (
-              <li class="flex items-center gap-2">
-                <svg class="w-3 h-3 shrink-0" viewBox="0 0 12 12" fill="none" stroke="#E8B4B0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg>
-                <span class="text-[10px]" style="color:rgba(255,255,255,0.35);">{f}</span>
-              </li>
-            ))}
-          </ul>
-          <!-- CTA -->
-          <button
-            class="addon-add-btn w-full text-[10.5px] font-semibold py-2.5 rounded-[10px] transition-all duration-150 flex items-center justify-center gap-1.5"
-            style="background:rgba(232,180,176,0.14);border:1px solid rgba(232,180,176,0.28);color:#E8B4B0;"
-            data-product-id="addon-quarterly-audit"
-            data-title="Quarterly Audit"
-            data-price="499"
-            data-plan="oneTime"
-            data-image="/images/products/addon-quarterly-audit.svg">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v10M2 7h10"/></svg>
-            Add to cart
-          </button>
-        </div>
+       <!-- Card 2: Quarterly Audit (Most popular) -->
+       <div class="addon-card rounded-[18px] p-5 lg:p-6 flex flex-col relative overflow-hidden"
+            style="background:rgba(232,180,176,0.05);border:1px solid rgba(232,180,176,0.20);">
+         <div class="absolute top-0 left-0 right-0 h-[2px] rounded-t-[18px]" style="background:linear-gradient(90deg,#E8B4B0 0%,rgba(232,180,176,0.4) 100%);opacity:0.8;"/>
+         <!-- Most popular badge -->
+         <div class="absolute top-4 right-4">
+           <span class="text-[8px] uppercase tracking-[0.12em] font-bold px-2 py-0.5 rounded-full"
+                 style="background:rgba(232,180,176,0.16);color:#E8B4B0;border:1px solid rgba(232,180,176,0.30);">Most popular</span>
+         </div>
+         <!-- Icon -->
+         <div class="w-9 h-9 rounded-[10px] flex items-center justify-center mb-5 shrink-0"
+              style="background:rgba(232,180,176,0.12);border:1px solid rgba(232,180,176,0.24);">
+           <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="#E8B4B0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+             <circle cx="6.5" cy="6.5" r="4"/>
+             <path d="M11 11l3 3"/>
+             <path d="M6.5 4.5v2l1.5 1"/>
+           </svg>
+         </div>
+         <!-- Price -->
+         <div class="mb-4">
+           <p class="font-display text-[1.6rem] leading-none font-medium text-white tabular-nums" data-price="499">£499</p>
+           <p class="text-[8.5px] uppercase tracking-[0.16em] font-bold mt-1" style="color:rgba(232,180,176,0.60);">/quarter</p>
+         </div>
+         <!-- Title + description -->
+         <p class="text-[12px] font-semibold text-white mb-2 leading-snug">Quarterly Audit</p>
+         <p class="text-[11px] leading-relaxed flex-1 mb-4" style="color:rgba(255,255,255,0.38);">
+           Full performance review + optimisation report. Every 90 days, your system gets smarter.
+         </p>
+         <!-- Included list -->
+         <ul class="space-y-1.5 mb-5">
+           {['Full workflow performance review','Optimisation recommendations','Written report + 60-min call'].map(f => (
+             <li class="flex items-center gap-2">
+               <svg class="w-3 h-3 shrink-0" viewBox="0 0 12 12" fill="none" stroke="#E8B4B0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg>
+               <span class="text-[10px]" style="color:rgba(255,255,255,0.35);">{f}</span>
+             </li>
+           ))}
+         </ul>
+         <!-- CTA -->
+         <button
+           class="addon-add-btn w-full text-[10.5px] font-semibold py-2.5 rounded-[10px] transition-all duration-150 flex items-center justify-center gap-1.5"
+           style="background:rgba(232,180,176,0.14);border:1px solid rgba(232,180,176,0.28);color:#E8B4B0;"
+           data-product-id="addon-quarterly-audit"
+           data-title="Quarterly Audit"
+           data-price="499"
+           data-plan="oneTime"
+           data-image="/images/products/addon-quarterly-audit.svg">
+           <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v10M2 7h10"/></svg>
+           Add to cart
+         </button>
+       </div>
 
-        <!-- Card 3: Team Training -->
-        <div class="addon-card rounded-[18px] p-5 lg:p-6 flex flex-col relative overflow-hidden"
-             style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);">
-          <div class="absolute top-0 left-0 right-0 h-[2px] rounded-t-[18px]" style="background:linear-gradient(90deg,#B4C8E8 0%,rgba(180,200,232,0.3) 100%);opacity:0.5;"/>
-          <!-- Icon -->
-          <div class="w-9 h-9 rounded-[10px] flex items-center justify-center mb-5 shrink-0"
-               style="background:rgba(180,200,232,0.08);border:1px solid rgba(180,200,232,0.14);">
-            <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="#B4C8E8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M8 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
-              <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3z"/>
-              <path d="M13 7l-2 3 2 1"/>
-            </svg>
-          </div>
-          <!-- Price -->
-          <div class="mb-4">
-            <p class="font-display text-[1.6rem] leading-none font-medium text-white tabular-nums" data-price="799">£799</p>
-            <p class="text-[8.5px] uppercase tracking-[0.16em] font-bold mt-1" style="color:rgba(180,200,232,0.60);">one-time</p>
-          </div>
-          <!-- Title + description -->
-          <p class="text-[12px] font-semibold text-white mb-2 leading-snug">Team Training</p>
-          <p class="text-[11px] leading-relaxed flex-1 mb-4" style="color:rgba(255,255,255,0.38);">
-            2-hour live session. Your team learns to use, monitor and expand the system themselves.
-          </p>
-          <!-- Included list -->
-          <ul class="space-y-1.5 mb-5">
-            {['2-hour live Zoom session','Recording + reference guide','Q&A + hands-on walkthrough'].map(f => (
-              <li class="flex items-center gap-2">
-                <svg class="w-3 h-3 shrink-0" viewBox="0 0 12 12" fill="none" stroke="#B4C8E8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg>
-                <span class="text-[10px]" style="color:rgba(255,255,255,0.35);">{f}</span>
-              </li>
-            ))}
-          </ul>
-          <!-- CTA -->
-          <button
-            class="addon-add-btn w-full text-[10.5px] font-semibold py-2.5 rounded-[10px] transition-all duration-150 flex items-center justify-center gap-1.5"
-            style="background:rgba(180,200,232,0.08);border:1px solid rgba(180,200,232,0.16);color:#B4C8E8;"
-            data-product-id="addon-team-training"
-            data-title="Team Training"
-            data-price="799"
-            data-plan="oneTime"
-            data-image="/images/products/addon-team-training.svg">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v10M2 7h10"/></svg>
-            Add to cart
-          </button>
-        </div>
+       <!-- Card 3: Team Training -->
+       <div class="addon-card rounded-[18px] p-5 lg:p-6 flex flex-col relative overflow-hidden"
+            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);">
+         <div class="absolute top-0 left-0 right-0 h-[2px] rounded-t-[18px]" style="background:linear-gradient(90deg,#B4C8E8 0%,rgba(180,200,232,0.3) 100%);opacity:0.5;"/>
+         <!-- Icon -->
+         <div class="w-9 h-9 rounded-[10px] flex items-center justify-center mb-5 shrink-0"
+              style="background:rgba(180,200,232,0.08);border:1px solid rgba(180,200,232,0.14);">
+           <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="#B4C8E8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+             <path d="M8 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
+             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3z"/>
+             <path d="M13 7l-2 3 2 1"/>
+           </svg>
+         </div>
+         <!-- Price -->
+         <div class="mb-4">
+           <p class="font-display text-[1.6rem] leading-none font-medium text-white tabular-nums" data-price="799">£799</p>
+           <p class="text-[8.5px] uppercase tracking-[0.16em] font-bold mt-1" style="color:rgba(180,200,232,0.60);">one-time</p>
+         </div>
+         <!-- Title + description -->
+         <p class="text-[12px] font-semibold text-white mb-2 leading-snug">Team Training</p>
+         <p class="text-[11px] leading-relaxed flex-1 mb-4" style="color:rgba(255,255,255,0.38);">
+           2-hour live session. Your team learns to use, monitor and expand the system themselves.
+         </p>
+         <!-- Included list -->
+         <ul class="space-y-1.5 mb-5">
+           {['2-hour live Zoom session','Recording + reference guide','Q&A + hands-on walkthrough'].map(f => (
+             <li class="flex items-center gap-2">
+               <svg class="w-3 h-3 shrink-0" viewBox="0 0 12 12" fill="none" stroke="#B4C8E8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg>
+               <span class="text-[10px]" style="color:rgba(255,255,255,0.35);">{f}</span>
+             </li>
+           ))}
+         </ul>
+         <!-- CTA -->
+         <button
+           class="addon-add-btn w-full text-[10.5px] font-semibold py-2.5 rounded-[10px] transition-all duration-150 flex items-center justify-center gap-1.5"
+           style="background:rgba(180,200,232,0.08);border:1px solid rgba(180,200,232,0.16);color:#B4C8E8;"
+           data-product-id="addon-team-training"
+           data-title="Team Training"
+           data-price="799"
+           data-plan="oneTime"
+           data-image="/images/products/addon-team-training.svg">
+           <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v10M2 7h10"/></svg>
+           Add to cart
+         </button>
+       </div>
 
-        <!-- Card 4: Zapier/Make Migration -->
-        <div class="addon-card rounded-[18px] p-5 lg:p-6 flex flex-col relative overflow-hidden"
-             style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);">
-          <div class="absolute top-0 left-0 right-0 h-[2px] rounded-t-[18px]" style="background:linear-gradient(90deg,#C8B4E8 0%,rgba(200,180,232,0.3) 100%);opacity:0.5;"/>
-          <!-- Icon -->
-          <div class="w-9 h-9 rounded-[10px] flex items-center justify-center mb-5 shrink-0"
-               style="background:rgba(200,180,232,0.08);border:1px solid rgba(200,180,232,0.14);">
-            <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="#C8B4E8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M3 5h4"/>
-              <path d="M9 5h4"/>
-              <path d="M3 11h4"/>
-              <path d="M9 11h4"/>
-              <path d="M7 5l2 6"/>
-              <path d="M9 5L7 11"/>
-            </svg>
-          </div>
-          <!-- Price -->
-          <div class="mb-4">
-            <p class="font-display text-[1.6rem] leading-none font-medium text-white tabular-nums" data-price="1499">£1,499</p>
-            <p class="text-[8.5px] uppercase tracking-[0.16em] font-bold mt-1" style="color:rgba(200,180,232,0.60);">one-time</p>
-          </div>
-          <!-- Title + description -->
-          <p class="text-[12px] font-semibold text-white mb-2 leading-snug">Zapier / Make Migration</p>
-          <p class="text-[11px] leading-relaxed flex-1 mb-4" style="color:rgba(255,255,255,0.38);">
-            We migrate your existing workflows to n8n — faster, cheaper and more reliable.
-          </p>
-          <!-- Included list -->
-          <ul class="space-y-1.5 mb-5">
-            {['Full audit of existing automations','Rebuilt + optimised in n8n','7-day post-migration support'].map(f => (
-              <li class="flex items-center gap-2">
-                <svg class="w-3 h-3 shrink-0" viewBox="0 0 12 12" fill="none" stroke="#C8B4E8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg>
-                <span class="text-[10px]" style="color:rgba(255,255,255,0.35);">{f}</span>
-              </li>
-            ))}
-          </ul>
-          <!-- CTA -->
-          <button
-            class="addon-add-btn w-full text-[10.5px] font-semibold py-2.5 rounded-[10px] transition-all duration-150 flex items-center justify-center gap-1.5"
-            style="background:rgba(200,180,232,0.08);border:1px solid rgba(200,180,232,0.16);color:#C8B4E8;"
-            data-product-id="addon-zapier-migration"
-            data-title="Zapier / Make Migration"
-            data-price="1499"
-            data-plan="oneTime"
-            data-image="/images/products/addon-zapier-migration.svg">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v10M2 7h10"/></svg>
-            Add to cart
-          </button>
-        </div>
+       <!-- Card 4: Zapier/Make Migration -->
+       <div class="addon-card rounded-[18px] p-5 lg:p-6 flex flex-col relative overflow-hidden"
+            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);">
+         <div class="absolute top-0 left-0 right-0 h-[2px] rounded-t-[18px]" style="background:linear-gradient(90deg,#C8B4E8 0%,rgba(200,180,232,0.3) 100%);opacity:0.5;"/>
+         <!-- Icon -->
+         <div class="w-9 h-9 rounded-[10px] flex items-center justify-center mb-5 shrink-0"
+              style="background:rgba(200,180,232,0.08);border:1px solid rgba(200,180,232,0.14);">
+           <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="#C8B4E8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+             <path d="M3 5h4"/>
+             <path d="M9 5h4"/>
+             <path d="M3 11h4"/>
+             <path d="M9 11h4"/>
+             <path d="M7 5l2 6"/>
+             <path d="M9 5L7 11"/>
+           </svg>
+         </div>
+         <!-- Price -->
+         <div class="mb-4">
+           <p class="font-display text-[1.6rem] leading-none font-medium text-white tabular-nums" data-price="1499">£1,499</p>
+           <p class="text-[8.5px] uppercase tracking-[0.16em] font-bold mt-1" style="color:rgba(200,180,232,0.60);">one-time</p>
+         </div>
+         <!-- Title + description -->
+         <p class="text-[12px] font-semibold text-white mb-2 leading-snug">Zapier / Make Migration</p>
+         <p class="text-[11px] leading-relaxed flex-1 mb-4" style="color:rgba(255,255,255,0.38);">
+           We migrate your existing workflows to n8n faster, cheaper and more reliable.
+         </p>
+         <!-- Included list -->
+         <ul class="space-y-1.5 mb-5">
+           {['Full audit of existing automations','Rebuilt + optimised in n8n','7-day post-migration support'].map(f => (
+             <li class="flex items-center gap-2">
+               <svg class="w-3 h-3 shrink-0" viewBox="0 0 12 12" fill="none" stroke="#C8B4E8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg>
+               <span class="text-[10px]" style="color:rgba(255,255,255,0.35);">{f}</span>
+             </li>
+           ))}
+         </ul>
+         <!-- CTA -->
+         <button
+           class="addon-add-btn w-full text-[10.5px] font-semibold py-2.5 rounded-[10px] transition-all duration-150 flex items-center justify-center gap-1.5"
+           style="background:rgba(200,180,232,0.08);border:1px solid rgba(200,180,232,0.16);color:#C8B4E8;"
+           data-product-id="addon-zapier-migration"
+           data-title="Zapier / Make Migration"
+           data-price="1499"
+           data-plan="oneTime"
+           data-image="/images/products/addon-zapier-migration.svg">
+           <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v10M2 7h10"/></svg>
+           Add to cart
+         </button>
+       </div>
 
-      </div>
-    </div>
+     </div>
+   </div>
 
-    <!-- ── SUB-SECTION 2: ENTERPRISE ── -->
-    <div class="rounded-[20px] p-6 lg:p-10 relative overflow-hidden"
-         style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-left:3px solid #E8B4B0;">
+   <!-- ── SUB-SECTION 2: ENTERPRISE ── -->
+   <div class="rounded-[20px] p-6 lg:p-10 relative overflow-hidden"
+        style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-left:3px solid #E8B4B0;">
 
-      <!-- Subtle background glow -->
-      <div class="absolute top-0 right-0 w-64 h-64 pointer-events-none"
-           style="background:radial-gradient(ellipse at 80% 10%,rgba(232,180,176,0.06),transparent 65%);"/>
+     <!-- Subtle background glow -->
+     <div class="absolute top-0 right-0 w-64 h-64 pointer-events-none"
+          style="background:radial-gradient(ellipse at 80% 10%,rgba(232,180,176,0.06),transparent 65%);"/>
 
-      <div class="relative z-10 grid lg:grid-cols-[1fr_auto] gap-8 lg:gap-12 items-start">
+     <div class="relative z-10 grid lg:grid-cols-[1fr_auto] gap-8 lg:gap-12 items-start">
 
-        <!-- Left: copy + bullets -->
-        <div>
-          <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-3" style="color:rgba(232,180,176,0.55);">Enterprise</p>
-          <h3 class="font-display text-[1.5rem] lg:text-[2rem] leading-[1.1] tracking-[-0.02em] text-white mb-3 text-balance">
-            Dedicated infrastructure.<br/>SLA guaranteed.<br/>
-            <em class="font-medium" style="color:#E8B4B0;">Team of engineers, not a template.</em>
-          </h3>
-          <p class="text-[13px] leading-relaxed mb-6 max-w-xl" style="color:rgba(255,255,255,0.36);">
-            For businesses that need dedicated infrastructure, financial uptime guarantees, and a committed automation engineer — not a shared platform.
-          </p>
+       <!-- Left: copy + bullets -->
+       <div>
+         <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-3" style="color:rgba(232,180,176,0.55);">Enterprise</p>
+         <h3 class="font-display text-[1.5rem] lg:text-[2rem] leading-[1.1] tracking-[-0.02em] text-white mb-3 text-balance">
+           Dedicated infrastructure.<br/>SLA guaranteed.<br/>
+           <em class="font-medium" style="color:#E8B4B0;">Team of engineers, not a template.</em>
+         </h3>
+         <p class="text-[13px] leading-relaxed mb-6 max-w-xl" style="color:rgba(255,255,255,0.36);">
+           For businesses that need dedicated infrastructure, financial uptime guarantees, and a committed automation engineer not a shared platform.
+         </p>
 
-          <!-- Bullets -->
-          <ul class="space-y-2.5">
-            {[
-              'Dedicated n8n instance — no shared infrastructure',
-              '99.97% uptime SLA with financial guarantee',
-              'Dedicated automation engineer (20h/mo included)',
-              'Unlimited workflows — build as you scale',
-              'Priority support: 1h response, 24/7 monitoring',
-              'Multi-location deployment (clinics, agencies, franchises)',
-              'Custom integrations — any API, any system',
-            ].map(bullet => (
-              <li class="flex items-start gap-3">
-                <svg class="w-3.5 h-3.5 mt-0.5 shrink-0" viewBox="0 0 14 14" fill="none" stroke="#E8B4B0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <polyline points="2,7 5.5,10.5 12,3"/>
-                </svg>
-                <span class="text-[12px] leading-snug" style="color:rgba(255,255,255,0.60);">{bullet}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+         <!-- Bullets -->
+         <ul class="space-y-2.5">
+           {[
+             'Dedicated n8n instance no shared infrastructure',
+             '99.97% uptime SLA with financial guarantee',
+             'Dedicated automation engineer (20h/mo included)',
+             'Unlimited workflows build as you scale',
+             'Priority support: 1h response, 24/7 monitoring',
+             'Multi-location deployment (clinics, agencies, franchises)',
+             'Custom integrations any API, any system',
+           ].map(bullet => (
+             <li class="flex items-start gap-3">
+               <svg class="w-3.5 h-3.5 mt-0.5 shrink-0" viewBox="0 0 14 14" fill="none" stroke="#E8B4B0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                 <polyline points="2,7 5.5,10.5 12,3"/>
+               </svg>
+               <span class="text-[12px] leading-snug" style="color:rgba(255,255,255,0.60);">{bullet}</span>
+             </li>
+           ))}
+         </ul>
+       </div>
 
-        <!-- Right: price + CTA -->
-        <div class="lg:text-right shrink-0">
-          <p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-1" style="color:rgba(255,255,255,0.28);">Starting from</p>
-          <p class="font-display text-[2.2rem] lg:text-[2.8rem] leading-none font-medium text-white mb-1 tabular-nums" data-price="3499">£3,499</p>
-          <p class="text-[12px] mb-6" style="color:rgba(255,255,255,0.36);">/month</p>
+       <!-- Right: price + CTA -->
+       <div class="lg:text-right shrink-0">
+         <p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-1" style="color:rgba(255,255,255,0.28);">Starting from</p>
+         <p class="font-display text-[2.2rem] lg:text-[2.8rem] leading-none font-medium text-white mb-1 tabular-nums" data-price="3499">£3,499</p>
+         <p class="text-[12px] mb-6" style="color:rgba(255,255,255,0.36);">/month</p>
 
-          <a href="/pages/welcome"
-             class="inline-flex items-center gap-2.5 px-5 py-3.5 rounded-[14px] text-[13px] font-semibold transition-all duration-150"
-             style="background:#E8B4B0;color:#0A0A0A;"
-             onmouseover="this.style.background='#d9a09b'"
-             onmouseout="this.style.background='#E8B4B0'">
-            Talk to our team
-            <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 8h10M9 4l4 4-4 4"/>
-            </svg>
-          </a>
+         <a href="/pages/welcome"
+            class="inline-flex items-center gap-2.5 px-5 py-3.5 rounded-[14px] text-[13px] font-semibold transition-all duration-150"
+            style="background:#E8B4B0;color:#0A0A0A;"
+            onmouseover="this.style.background='#d9a09b'"
+            onmouseout="this.style.background='#E8B4B0'">
+           Talk to our team
+           <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+             <path d="M3 8h10M9 4l4 4-4 4"/>
+           </svg>
+         </a>
 
-          <p class="text-[9.5px] mt-3" style="color:rgba(255,255,255,0.22);">Bespoke quote within 24h</p>
-        </div>
+         <p class="text-[9.5px] mt-3" style="color:rgba(255,255,255,0.22);">Bespoke quote within 24h</p>
+       </div>
 
-      </div>
-    </div>
+     </div>
+   </div>
 
-  </div>
+ </div>
 </section>
 
 <style>
-  .addon-card { transition: border-color 0.18s, background 0.18s, transform 0.18s; }
-  .addon-card:hover { transform: translateY(-2px); border-color: rgba(232,180,176,0.25) !important; background: rgba(255,255,255,0.06) !important; }
-  .addon-add-btn:hover { filter: brightness(1.15); }
-  .addon-add-btn.added { background: rgba(45,80,22,0.20) !important; border-color: rgba(45,80,22,0.40) !important; color: #7ec86e !important; }
+ .addon-card { transition: border-color 0.18s, background 0.18s, transform 0.18s; }
+ .addon-card:hover { transform: translateY(-2px); border-color: rgba(232,180,176,0.25) !important; background: rgba(255,255,255,0.06) !important; }
+ .addon-add-btn:hover { filter: brightness(1.15); }
+ .addon-add-btn.added { background: rgba(45,80,22,0.20) !important; border-color: rgba(45,80,22,0.40) !important; color: #7ec86e !important; }
 </style>
 
 <script>
-  import { addItem } from '~/stores/cart';
+ import { addItem } from '~/stores/cart';
 
-  document.querySelectorAll<HTMLButtonElement>('.addon-add-btn').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const productId = btn.dataset.productId!;
-      const title     = btn.dataset.title!;
-      const price     = parseFloat(btn.dataset.price!);
-      const plan      = (btn.dataset.plan ?? 'oneTime') as 'oneTime' | 'subscription';
+ document.querySelectorAll<HTMLButtonElement>('.addon-add-btn').forEach((btn) => {
+   btn.addEventListener('click', () => {
+     const productId = btn.dataset.productId!;
+     const title   = btn.dataset.title!;
+     const price   = parseFloat(btn.dataset.price!);
+     const plan    = (btn.dataset.plan ?? 'oneTime') as 'oneTime' | 'subscription';
 
-      addItem({
-        productId,
-        title,
-        plan,
-        price,
-        quantity: 1,
-        image: btn.dataset.image ?? '/images/products/addon-quarterly-audit.svg',
-      });
+     addItem({
+       productId,
+       title,
+       plan,
+       price,
+       quantity: 1,
+       image: btn.dataset.image ?? '/images/products/addon-quarterly-audit.svg',
+     });
 
-      // Visual feedback
-      const originalHTML = btn.innerHTML;
-      btn.classList.add('added');
-      btn.innerHTML = `<svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,7 5.5,10.5 12,3"/></svg> Added`;
-      setTimeout(() => {
-        btn.classList.remove('added');
-        btn.innerHTML = originalHTML;
-      }, 2000);
-    });
-  });
+     // Visual feedback
+     const originalHTML = btn.innerHTML;
+     btn.classList.add('added');
+     btn.innerHTML = `<svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,7 5.5,10.5 12,3"/></svg> Added`;
+     setTimeout(() => {
+       btn.classList.remove('added');
+       btn.innerHTML = originalHTML;
+     }, 2000);
+   });
+ });
 </script>

@@ -4,49 +4,49 @@ import CharityPartnership from '~/components/sections/CharityPartnership.astro';
 import Button from '~/components/ui/Button.astro';
 
 const pillars = [
-  { metric: '500+', label: 'Automations deployed across industries', body: 'Production-grade workflows running 24/7.' },
-  { metric: '50K+', label: 'Hours saved for client teams annually', body: 'Manual tasks eliminated, teams refocused on growth.' },
-  { metric: '6', label: 'Industries served and counting', body: 'Dental, real estate, agencies, e-commerce, legal, staffing.' },
+ { metric: '500+', label: 'Automations deployed across industries', body: 'Production-grade workflows running 24/7.' },
+ { metric: '50K+', label: 'Hours saved for client teams annually', body: 'Manual tasks eliminated, teams refocused on growth.' },
+ { metric: '6', label: 'Industries served and counting', body: 'Dental, real estate, agencies, e-commerce, legal, staffing.' },
 ];
 ---
 
 <ShopLayout
-  title="Our approach – PURIST"
-  description="How PURIST builds production-grade automations that save 20+ hours per week across dental, real estate, agencies and e-commerce."
+ title="Our approach – PURIST"
+ description="How PURIST builds production-grade automations that save 20+ hours per week across dental, real estate, agencies and e-commerce."
 >
-  <header class="bg-brand-cream">
-    <div class="container-x py-16 lg:py-20 max-w-3xl mx-auto text-center">
-      <p class="eyebrow mb-4">Our approach</p>
-      <h1 class="font-display text-4xl lg:text-5xl xl:text-6xl leading-tight tracking-tight mb-6 text-balance">
-        Automation built <em class="font-medium">where it moves the needle.</em>
-      </h1>
-      <p class="text-base lg:text-lg text-brand-gray-600 text-pretty">
-        We deploy production-grade workflows using n8n, Make, and custom AI agents —
-        eliminating bottlenecks so your team can focus on growth instead of busywork.
-      </p>
-    </div>
-  </header>
+ <header class="bg-brand-cream">
+   <div class="container-x py-16 lg:py-20 max-w-3xl mx-auto text-center">
+     <p class="eyebrow mb-4">Our approach</p>
+     <h1 class="font-display text-4xl lg:text-5xl xl:text-6xl leading-tight tracking-tight mb-6 text-balance">
+       Automation built <em class="font-medium">where it moves the needle.</em>
+     </h1>
+     <p class="text-base lg:text-lg text-brand-gray-600 text-pretty">
+       We deploy production-grade workflows using n8n, Make, and custom AI agents 
+       eliminating bottlenecks so your team can focus on growth instead of busywork.
+     </p>
+   </div>
+ </header>
 
-  <section class="bg-white py-20 lg:py-28">
-    <div class="container-x grid grid-cols-1 md:grid-cols-3 gap-6">
-      {pillars.map((p) => (
-        <article class="bg-brand-cream rounded-card p-8 scroll-fade">
-          <p class="font-display text-5xl mb-3">{p.metric}</p>
-          <h2 class="font-display text-lg mb-2 leading-tight">{p.label}</h2>
-          <p class="text-sm text-brand-gray-600 leading-relaxed">{p.body}</p>
-        </article>
-      ))}
-    </div>
-  </section>
+ <section class="bg-white py-20 lg:py-28">
+   <div class="container-x grid grid-cols-1 md:grid-cols-3 gap-6">
+     {pillars.map((p) => (
+       <article class="bg-brand-cream rounded-card p-8 scroll-fade">
+         <p class="font-display text-5xl mb-3">{p.metric}</p>
+         <h2 class="font-display text-lg mb-2 leading-tight">{p.label}</h2>
+         <p class="text-sm text-brand-gray-600 leading-relaxed">{p.body}</p>
+       </article>
+     ))}
+   </div>
+ </section>
 
-  <CharityPartnership />
+ <CharityPartnership />
 
-  <section class="bg-brand-beige py-16 lg:py-20 text-center">
-    <div class="container-x max-w-2xl">
-      <h2 class="font-display text-3xl lg:text-4xl mb-6 leading-tight text-balance">
-        Every workflow. Every integration. <em class="font-medium">Measured and optimized.</em>
-      </h2>
-      <Button href="/pages/about-us" size="lg">Read about us →</Button>
-    </div>
-  </section>
+ <section class="bg-brand-beige py-16 lg:py-20 text-center">
+   <div class="container-x max-w-2xl">
+     <h2 class="font-display text-3xl lg:text-4xl mb-6 leading-tight text-balance">
+       Every workflow. Every integration. <em class="font-medium">Measured and optimized.</em>
+     </h2>
+     <Button href="/pages/about-us" size="lg">Read about us →</Button>
+   </div>
+ </section>
 </ShopLayout>

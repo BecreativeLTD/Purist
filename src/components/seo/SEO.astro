@@ -1,20 +1,20 @@
 ---
 export interface Props {
-  title?: string;
-  description?: string;
-  image?: string;
-  canonical?: string;
-  type?: 'website' | 'article' | 'product';
-  noindex?: boolean;
+ title?: string;
+ description?: string;
+ image?: string;
+ canonical?: string;
+ type?: 'website' | 'article' | 'product';
+ noindex?: boolean;
 }
 
 const {
-  title = 'Workflow Automation and AI Agents for Business',
-  description = '500+ production deployments across dental, real estate, agencies, e-commerce, legal and staffing. n8n workflows and Claude AI agents. Deployed in days, 99.97% uptime.',
-  image,
-  canonical,
-  type = 'website',
-  noindex = false,
+ title = 'Workflow Automation and AI Agents for Business',
+ description = '500+ production deployments across dental, real estate, agencies, e-commerce, legal and staffing. n8n workflows and Claude AI agents. Deployed in days, 99.97% uptime.',
+ image,
+ canonical,
+ type = 'website',
+ noindex = false,
 } = Astro.props;
 
 const fullTitle = title.includes('PURIST') ? title : `${title} · PURIST`;
@@ -23,8 +23,8 @@ const canonicalURL = canonical || `${Astro.url.origin}${Astro.url.pathname}`;
 // ogImage always uses the canonical site domain so social crawlers get a stable URL
 const ogBase = (Astro.site?.toString() ?? Astro.url.origin).replace(/\/$/, '');
 const ogImage = image
-  ? `${ogBase}${image.startsWith('/') ? image : `/${image}`}`
-  : `${ogBase}/og-default.png`;
+ ? `${ogBase}${image.startsWith('/') ? image : `/${image}`}`
+ : `${ogBase}/og-default.png`;
 ---
 
 <title>{fullTitle}</title>
@@ -50,173 +50,173 @@ const ogImage = image
 <meta property="og:locale" content="en_GB" />
 
 <script type="application/ld+json" is:inline set:html={JSON.stringify({
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'Organization',
-      '@id': 'https://purist.online/#organization',
-      name: 'PURIST',
-      url: 'https://purist.online',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://purist.online/favicon.svg',
-        width: 512,
-        height: 512,
-      },
-      foundingDate: '2024',
-      description: 'Production-grade business automation and AI agent agency. 500+ deployments across UK, US and Europe. n8n, Make, Zapier and Claude AI workflows deployed in under 7 days. 99.97% uptime.',
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: 'London',
-        addressCountry: 'GB',
-      },
-      slogan: 'Automate operations. Own the code. Keep the results.',
-      areaServed: [
-        { '@type': 'Country', name: 'United Kingdom' },
-        { '@type': 'Country', name: 'United States' },
-        { '@type': 'Country', name: 'Ireland' },
-        { '@type': 'Country', name: 'Australia' },
-        { '@type': 'Country', name: 'Canada' },
-        { '@type': 'Country', name: 'France' },
-        { '@type': 'Country', name: 'Germany' },
-        { '@type': 'Country', name: 'Netherlands' },
-        { '@type': 'Country', name: 'Belgium' },
-        { '@type': 'Country', name: 'Spain' },
-        { '@type': 'Country', name: 'Italy' },
-        { '@type': 'AdministrativeArea', name: 'European Union' },
-      ],
-      knowsAbout: [
-        'workflow automation',
-        'business automation',
-        'automation agency',
-        'n8n',
-        'n8n agency',
-        'Make automation',
-        'Make.com agency',
-        'Zapier',
-        'Zapier alternative',
-        'AI agents',
-        'AI agent agency',
-        'Claude AI',
-        'Claude AI agent developer',
-        'business process automation',
-        'CRM automation',
-        'dental practice automation',
-        'marketing agency automation',
-        'real estate automation',
-        'e-commerce automation',
-        'legal workflow automation',
-        'staffing agency automation',
-        'operational efficiency',
-        'ROI measurement',
-        'no-code automation',
-        'workflow automation UK',
-        'business automation US',
-        'automation consultant Europe',
-      ],
-      contactPoint: [
-        {
-          '@type': 'ContactPoint',
-          email: 'hello@purist.online',
-          contactType: 'customer support',
-          availableLanguage: ['English', 'French'],
-        },
-        {
-          '@type': 'ContactPoint',
-          email: 'press@purist.online',
-          contactType: 'press',
-        },
-      ],
-      hasOfferCatalog: {
-        '@type': 'OfferCatalog',
-        name: 'Automation Services',
-        itemListElement: [
-          {
-            '@type': 'Offer',
-            itemOffered: {
-              '@type': 'Service',
-              name: 'Automation Pro',
-              url: 'https://purist.online/products/foundation-pro',
-              description: 'Production-grade workflow automation deployed in days. Includes 9 core workflows, 24/7 monitoring, error handling, and full documentation.',
-              serviceType: 'Workflow Automation',
-              provider: { '@id': 'https://purist.online/#organization' },
-            },
-          },
-          {
-            '@type': 'Offer',
-            itemOffered: {
-              '@type': 'Service',
-              name: 'The Full Stack',
-              url: 'https://purist.online/products/founder-stack',
-              description: 'End-to-end operations automation for scaling teams. Automation Pro plus AI Agent Deploy in one engagement.',
-              serviceType: 'Business Process Automation',
-              provider: { '@id': 'https://purist.online/#organization' },
-            },
-          },
-          {
-            '@type': 'Offer',
-            itemOffered: {
-              '@type': 'Service',
-              name: 'AI Agent Deploy',
-              url: 'https://purist.online/products/longevity-protocol',
-              description: 'Conversational AI agents handling scheduling, intake, lead qualification, and support routing. Built on Claude with structured output and human-in-the-loop safeguards.',
-              serviceType: 'AI Agent Development',
-              provider: { '@id': 'https://purist.online/#organization' },
-            },
-          },
-        ],
-      },
-      sameAs: [
-        'https://www.linkedin.com/company/purist-automation',
-        'https://twitter.com/purist_hq',
-        'https://github.com/purist-hq',
-      ],
-    },
-    {
-      '@type': 'WebSite',
-      '@id': 'https://purist.online/#website',
-      url: 'https://purist.online',
-      name: 'PURIST',
-      description: 'Production-grade business automation and AI agents.',
-      publisher: { '@id': 'https://purist.online/#organization' },
-      potentialAction: {
-        '@type': 'SearchAction',
-        target: 'https://purist.online/pages/blog?q={search_term_string}',
-        'query-input': 'required name=search_term_string',
-      },
-    },
-    {
-      '@type': type === 'article' ? 'Article' : type === 'product' ? 'ProductPage' : 'WebPage',
-      '@id': `${canonicalURL}#webpage`,
-      url: canonicalURL,
-      name: fullTitle,
-      description: description,
-      inLanguage: 'en-GB',
-      isPartOf: { '@id': 'https://purist.online/#website' },
-      about: { '@id': 'https://purist.online/#organization' },
-      speakable: {
-        '@type': 'SpeakableSpecification',
-        cssSelector: ['h1', 'h2', '.article-excerpt', 'p:first-of-type'],
-      },
-      potentialAction: {
-        '@type': 'ReadAction',
-        target: canonicalURL,
-      },
-    },
-    {
-      '@type': 'ItemList',
-      name: 'PURIST Navigation',
-      itemListElement: [
-        { '@type': 'SiteLinksSearchBox', url: 'https://purist.online' },
-        { '@type': 'ListItem', position: 1, name: 'Services', url: 'https://purist.online/collections/all' },
-        { '@type': 'ListItem', position: 2, name: 'Automation Pro', url: 'https://purist.online/products/foundation-pro' },
-        { '@type': 'ListItem', position: 3, name: 'AI Agent Deploy', url: 'https://purist.online/products/longevity-protocol' },
-        { '@type': 'ListItem', position: 4, name: 'Blog', url: 'https://purist.online/pages/blog' },
-        { '@type': 'ListItem', position: 5, name: 'Case Studies', url: 'https://purist.online/pages/wall-of-health' },
-        { '@type': 'ListItem', position: 6, name: 'FAQs', url: 'https://purist.online/pages/faq' },
-        { '@type': 'ListItem', position: 7, name: 'Free Audit', url: 'https://purist.online/pages/welcome' },
-        { '@type': 'ListItem', position: 8, name: 'Contact', url: 'https://purist.online/pages/contact-us' },
-      ],
-    },
-  ],
+ '@context': 'https://schema.org',
+ '@graph': [
+   {
+     '@type': 'Organization',
+     '@id': 'https://purist.online/#organization',
+     name: 'PURIST',
+     url: 'https://purist.online',
+     logo: {
+       '@type': 'ImageObject',
+       url: 'https://purist.online/favicon.svg',
+       width: 512,
+       height: 512,
+     },
+     foundingDate: '2024',
+     description: 'Production-grade business automation and AI agent agency. 500+ deployments across UK, US and Europe. n8n, Make, Zapier and Claude AI workflows deployed in under 7 days. 99.97% uptime.',
+     address: {
+       '@type': 'PostalAddress',
+       addressLocality: 'London',
+       addressCountry: 'GB',
+     },
+     slogan: 'Automate operations. Own the code. Keep the results.',
+     areaServed: [
+       { '@type': 'Country', name: 'United Kingdom' },
+       { '@type': 'Country', name: 'United States' },
+       { '@type': 'Country', name: 'Ireland' },
+       { '@type': 'Country', name: 'Australia' },
+       { '@type': 'Country', name: 'Canada' },
+       { '@type': 'Country', name: 'France' },
+       { '@type': 'Country', name: 'Germany' },
+       { '@type': 'Country', name: 'Netherlands' },
+       { '@type': 'Country', name: 'Belgium' },
+       { '@type': 'Country', name: 'Spain' },
+       { '@type': 'Country', name: 'Italy' },
+       { '@type': 'AdministrativeArea', name: 'European Union' },
+     ],
+     knowsAbout: [
+       'workflow automation',
+       'business automation',
+       'automation agency',
+       'n8n',
+       'n8n agency',
+       'Make automation',
+       'Make.com agency',
+       'Zapier',
+       'Zapier alternative',
+       'AI agents',
+       'AI agent agency',
+       'Claude AI',
+       'Claude AI agent developer',
+       'business process automation',
+       'CRM automation',
+       'dental practice automation',
+       'marketing agency automation',
+       'real estate automation',
+       'e-commerce automation',
+       'legal workflow automation',
+       'staffing agency automation',
+       'operational efficiency',
+       'ROI measurement',
+       'no-code automation',
+       'workflow automation UK',
+       'business automation US',
+       'automation consultant Europe',
+     ],
+     contactPoint: [
+       {
+         '@type': 'ContactPoint',
+         email: 'hello@purist.online',
+         contactType: 'customer support',
+         availableLanguage: ['English', 'French'],
+       },
+       {
+         '@type': 'ContactPoint',
+         email: 'press@purist.online',
+         contactType: 'press',
+       },
+     ],
+     hasOfferCatalog: {
+       '@type': 'OfferCatalog',
+       name: 'Automation Services',
+       itemListElement: [
+         {
+           '@type': 'Offer',
+           itemOffered: {
+             '@type': 'Service',
+             name: 'Automation Pro',
+             url: 'https://purist.online/products/foundation-pro',
+             description: 'Production-grade workflow automation deployed in days. Includes 9 core workflows, 24/7 monitoring, error handling, and full documentation.',
+             serviceType: 'Workflow Automation',
+             provider: { '@id': 'https://purist.online/#organization' },
+           },
+         },
+         {
+           '@type': 'Offer',
+           itemOffered: {
+             '@type': 'Service',
+             name: 'The Full Stack',
+             url: 'https://purist.online/products/founder-stack',
+             description: 'End-to-end operations automation for scaling teams. Automation Pro plus AI Agent Deploy in one engagement.',
+             serviceType: 'Business Process Automation',
+             provider: { '@id': 'https://purist.online/#organization' },
+           },
+         },
+         {
+           '@type': 'Offer',
+           itemOffered: {
+             '@type': 'Service',
+             name: 'AI Agent Deploy',
+             url: 'https://purist.online/products/longevity-protocol',
+             description: 'Conversational AI agents handling scheduling, intake, lead qualification, and support routing. Built on Claude with structured output and human-in-the-loop safeguards.',
+             serviceType: 'AI Agent Development',
+             provider: { '@id': 'https://purist.online/#organization' },
+           },
+         },
+       ],
+     },
+     sameAs: [
+       'https://www.linkedin.com/company/purist-automation',
+       'https://twitter.com/purist_hq',
+       'https://github.com/purist-hq',
+     ],
+   },
+   {
+     '@type': 'WebSite',
+     '@id': 'https://purist.online/#website',
+     url: 'https://purist.online',
+     name: 'PURIST',
+     description: 'Production-grade business automation and AI agents.',
+     publisher: { '@id': 'https://purist.online/#organization' },
+     potentialAction: {
+       '@type': 'SearchAction',
+       target: 'https://purist.online/pages/blog?q={search_term_string}',
+       'query-input': 'required name=search_term_string',
+     },
+   },
+   {
+     '@type': type === 'article' ? 'Article' : type === 'product' ? 'ProductPage' : 'WebPage',
+     '@id': `${canonicalURL}#webpage`,
+     url: canonicalURL,
+     name: fullTitle,
+     description: description,
+     inLanguage: 'en-GB',
+     isPartOf: { '@id': 'https://purist.online/#website' },
+     about: { '@id': 'https://purist.online/#organization' },
+     speakable: {
+       '@type': 'SpeakableSpecification',
+       cssSelector: ['h1', 'h2', '.article-excerpt', 'p:first-of-type'],
+     },
+     potentialAction: {
+       '@type': 'ReadAction',
+       target: canonicalURL,
+     },
+   },
+   {
+     '@type': 'ItemList',
+     name: 'PURIST Navigation',
+     itemListElement: [
+       { '@type': 'SiteLinksSearchBox', url: 'https://purist.online' },
+       { '@type': 'ListItem', position: 1, name: 'Services', url: 'https://purist.online/collections/all' },
+       { '@type': 'ListItem', position: 2, name: 'Automation Pro', url: 'https://purist.online/products/foundation-pro' },
+       { '@type': 'ListItem', position: 3, name: 'AI Agent Deploy', url: 'https://purist.online/products/longevity-protocol' },
+       { '@type': 'ListItem', position: 4, name: 'Blog', url: 'https://purist.online/pages/blog' },
+       { '@type': 'ListItem', position: 5, name: 'Case Studies', url: 'https://purist.online/pages/wall-of-health' },
+       { '@type': 'ListItem', position: 6, name: 'FAQs', url: 'https://purist.online/pages/faq' },
+       { '@type': 'ListItem', position: 7, name: 'Free Audit', url: 'https://purist.online/pages/welcome' },
+       { '@type': 'ListItem', position: 8, name: 'Contact', url: 'https://purist.online/pages/contact-us' },
+     ],
+   },
+ ],
 })} />

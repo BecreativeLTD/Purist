@@ -1,16 +1,16 @@
 {
-  "logos": [
-    { "name": "Stripe",            "src": "/images/press/stripe-hd.svg" },
-    { "name": "n8n",               "src": "/images/press/n8n-hd.svg" },
-    { "name": "Anthropic",         "src": "/images/press/claude-3.svg" },
-    { "name": "Slack",             "src": "/images/press/slack.svg" },
-    { "name": "Shopify",           "src": "/images/press/shopify.svg" },
-    { "name": "Make",              "src": "/images/press/make.svg" },
-    { "name": "ClickUp",           "src": "/images/press/clickup.svg" },
-    { "name": "WordPress",         "src": "/images/press/wordpress.svg" },
-    { "name": "HubSpot",           "src": "/images/press/hubspot.svg" },
-    { "name": "Zapier",            "src": "/images/press/zapier.svg" },
-    { "name": "Airtable",          "src": "/images/press/airtable.svg" },
-    { "name": "Notion",            "src": "/images/press/notion.svg" }
-  ]
+ "logos": [
+   { "name": "Stripe",          "src": "/images/press/stripe-hd.svg" },
+   { "name": "n8n",             "src": "/images/press/n8n-hd.svg" },
+   { "name": "Anthropic",       "src": "/images/press/claude-3.svg" },
+   { "name": "Slack",           "src": "/images/press/slack.svg" },
+   { "name": "Shopify",         "src": "/images/press/shopify.svg" },
+   { "name": "Make",            "src": "/images/press/make.svg" },
+   { "name": "ClickUp",         "src": "/images/press/clickup.svg" },
+   { "name": "WordPress",       "src": "/images/press/wordpress.svg" },
+   { "name": "HubSpot",         "src": "/images/press/hubspot.svg" },
+   { "name": "Zapier",          "src": "/images/press/zapier.svg" },
+   { "name": "Airtable",        "src": "/images/press/airtable.svg" },
+   { "name": "Notion",          "src": "/images/press/notion.svg" }
+ ]
 }

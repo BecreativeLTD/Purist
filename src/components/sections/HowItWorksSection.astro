@@ -1,432 +1,432 @@
 ---
-// HowItWorksSection.astro — 4-phase deployment timeline
+// HowItWorksSection.astro 4-phase deployment timeline
 ---
 
 <section class="relative overflow-hidden py-16 lg:py-24" style="background:#0D0D0D;border-top:1px solid rgba(255,255,255,0.05);">
 
-  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(232,180,176,0.04) 0%,transparent 60%);"/>
+ <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(232,180,176,0.04) 0%,transparent 60%);"/>
 
-  <div class="container-x relative z-10">
+ <div class="container-x relative z-10">
 
-    <!-- ── HEADER ── -->
-    <div class="max-w-2xl mb-14 lg:mb-20">
-      <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-3" style="color:rgba(232,180,176,0.55);">From audit to ROI</p>
-      <h2 class="font-display text-[1.9rem] lg:text-[2.6rem] leading-[1.08] tracking-[-0.025em] text-white mb-4 text-balance">
-        How PURIST deploys —
-        <em class="font-medium" style="color:#E8B4B0;">from day one to month three.</em>
-      </h2>
-      <p class="text-[13px] lg:text-[14px] leading-relaxed max-w-xl" style="color:rgba(255,255,255,0.36);">
-        No black box. Here is exactly what happens after you book — what we build, what you see, and when you start saving time.
-      </p>
-    </div>
+   <!-- ── HEADER ── -->
+   <div class="max-w-2xl mb-14 lg:mb-20">
+     <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-3" style="color:rgba(232,180,176,0.55);">From audit to ROI</p>
+     <h2 class="font-display text-[1.9rem] lg:text-[2.6rem] leading-[1.08] tracking-[-0.025em] text-white mb-4 text-balance">
+       How PURIST deploys 
+       <em class="font-medium" style="color:#E8B4B0;">from day one to month three.</em>
+     </h2>
+     <p class="text-[13px] lg:text-[14px] leading-relaxed max-w-xl" style="color:rgba(255,255,255,0.36);">
+       No black box. Here is exactly what happens after you book what we build, what you see, and when you start saving time.
+     </p>
+   </div>
 
-    <!-- ── STEPPER ── -->
-    <div class="relative">
+   <!-- ── STEPPER ── -->
+   <div class="relative">
 
-      <!--
-        Connector line — spans center-of-col-1 to center-of-col-4 (12.5% → 87.5% of container).
-        Gradient stops create 3 visible segments that fade to transparent AT each circle center:
-          col1=0%  col2=33.33%  col3=66.66%  col4=100%  (relative to line width)
-      -->
-      <div class="hidden lg:block absolute h-px pointer-events-none" style="top:26px;left:12.5%;right:12.5%;background:linear-gradient(90deg,transparent 0%,rgba(232,180,176,0.20) 8%,rgba(232,180,176,0.20) 26%,transparent 33%,rgba(232,180,176,0.20) 40%,rgba(232,180,176,0.20) 60%,transparent 67%,rgba(232,180,176,0.20) 74%,rgba(232,180,176,0.20) 94%,transparent 100%);"/>
+     <!--
+       Connector line spans center-of-col-1 to center-of-col-4 (12.5% → 87.5% of container).
+       Gradient stops create 3 visible segments that fade to transparent AT each circle center:
+         col1=0% col2=33.33% col3=66.66% col4=100% (relative to line width)
+     -->
+     <div class="hidden lg:block absolute h-px pointer-events-none" style="top:26px;left:12.5%;right:12.5%;background:linear-gradient(90deg,transparent 0%,rgba(232,180,176,0.20) 8%,rgba(232,180,176,0.20) 26%,transparent 33%,rgba(232,180,176,0.20) 40%,rgba(232,180,176,0.20) 60%,transparent 67%,rgba(232,180,176,0.20) 74%,rgba(232,180,176,0.20) 94%,transparent 100%);"/>
 
-      <div class="grid grid-cols-1 lg:grid-cols-4 gap-10 lg:gap-6">
+     <div class="grid grid-cols-1 lg:grid-cols-4 gap-10 lg:gap-6">
 
-        {[
-          {
-            phase: '01',
-            title: 'Free audit',
-            time: 'Day 0',
-            color: 'rgba(255,255,255,0.62)',
-            hex: '#9A9A9A',
-            items: [
-              '60-min call — map every manual process',
-              'ROI estimate generated live',
-              'Priority workflow shortlist',
-              'No commitment required',
-            ],
-            icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
-          },
-          {
-            phase: '02',
-            title: 'Deploy',
-            time: 'Week 1–2',
-            color: '#E8B4B0',
-            hex: '#E8B4B0',
-            items: [
-              'n8n instance provisioned on dedicated VPS',
-              'Top 3 workflows built + tested',
-              'Claude AI connected to your data',
-              'Error handling + monitoring activated',
-            ],
-            icon: 'M13 10V3L4 14h7v7l9-11h-7z',
-          },
-          {
-            phase: '03',
-            title: 'Full stack live',
-            time: 'Month 1',
-            color: '#C89840',
-            hex: '#C89840',
-            items: [
-              'All workflows in production',
-              'CRM, email, billing, reporting connected',
-              'Live dashboard — metrics updated every 15 min',
-              'Monthly PDF report auto-sent to you',
-            ],
-            icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
-          },
-          {
-            phase: '04',
-            title: 'ROI confirmed',
-            time: 'Month 3',
-            color: '#4ade80',
-            hex: '#4ade80',
-            items: [
-              'First performance review included',
-              'Hours saved vs. benchmark verified',
-              'Next workflow priorities identified',
-              'System expands as you grow',
-            ],
-            icon: 'M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z',
-          },
-        ].map((step) => (
-          <div class="flex flex-col">
+       {[
+         {
+           phase: '01',
+           title: 'Free audit',
+           time: 'Day 0',
+           color: 'rgba(255,255,255,0.62)',
+           hex: '#9A9A9A',
+           items: [
+             '60-min call map every manual process',
+             'ROI estimate generated live',
+             'Priority workflow shortlist',
+             'No commitment required',
+           ],
+           icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
+         },
+         {
+           phase: '02',
+           title: 'Deploy',
+           time: 'Week 1–2',
+           color: '#E8B4B0',
+           hex: '#E8B4B0',
+           items: [
+             'n8n instance provisioned on dedicated VPS',
+             'Top 3 workflows built + tested',
+             'Claude AI connected to your data',
+             'Error handling + monitoring activated',
+           ],
+           icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+         },
+         {
+           phase: '03',
+           title: 'Full stack live',
+           time: 'Month 1',
+           color: '#C89840',
+           hex: '#C89840',
+           items: [
+             'All workflows in production',
+             'CRM, email, billing, reporting connected',
+             'Live dashboard metrics updated every 15 min',
+             'Monthly PDF report auto-sent to you',
+           ],
+           icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+         },
+         {
+           phase: '04',
+           title: 'ROI confirmed',
+           time: 'Month 3',
+           color: '#4ade80',
+           hex: '#4ade80',
+           items: [
+             'First performance review included',
+             'Hours saved vs. benchmark verified',
+             'Next workflow priorities identified',
+             'System expands as you grow',
+           ],
+           icon: 'M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z',
+         },
+       ].map((step) => (
+         <div class="flex flex-col">
 
-            <!-- Step ring with icon — opaque bg masks the line beneath; centered on desktop -->
-            <div class="relative z-10 self-start lg:self-center mb-5">
-              <div class="w-[52px] h-[52px] rounded-full flex items-center justify-center"
-                   style={`background:#0D0D0D;box-shadow:inset 0 0 0 52px ${step.hex}0f;border:1.5px solid ${step.hex}50;`}>
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke={step.hex} stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                  <path d={step.icon}/>
-                </svg>
-              </div>
-            </div>
+           <!-- Step ring with icon opaque bg masks the line beneath; centered on desktop -->
+           <div class="relative z-10 self-start lg:self-center mb-5">
+             <div class="w-[52px] h-[52px] rounded-full flex items-center justify-center"
+                  style={`background:#0D0D0D;box-shadow:inset 0 0 0 52px ${step.hex}0f;border:1.5px solid ${step.hex}50;`}>
+               <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke={step.hex} stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                 <path d={step.icon}/>
+               </svg>
+             </div>
+           </div>
 
-            <!-- Phase number + timeframe badge -->
-            <div class="flex items-center gap-2.5 mb-4">
-              <span class="font-display text-[11px] font-semibold tracking-[0.18em]" style={`color:${step.color};`}>{step.phase}</span>
-              <span class="h-px w-3" style={`background:${step.hex}45;`}/>
-              <span class="text-[9px] uppercase tracking-[0.20em] font-medium px-2 py-0.5 rounded-full"
-                    style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.32);border:1px solid rgba(255,255,255,0.08);">{step.time}</span>
-            </div>
+           <!-- Phase number + timeframe badge -->
+           <div class="flex items-center gap-2.5 mb-4">
+             <span class="font-display text-[11px] font-semibold tracking-[0.18em]" style={`color:${step.color};`}>{step.phase}</span>
+             <span class="h-px w-3" style={`background:${step.hex}45;`}/>
+             <span class="text-[9px] uppercase tracking-[0.20em] font-medium px-2 py-0.5 rounded-full"
+                   style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.32);border:1px solid rgba(255,255,255,0.08);">{step.time}</span>
+           </div>
 
-            <!-- Title -->
-            <h3 class="font-display text-[1.25rem] lg:text-[1.35rem] leading-tight tracking-[-0.01em] text-white mb-5">{step.title}</h3>
+           <!-- Title -->
+           <h3 class="font-display text-[1.25rem] lg:text-[1.35rem] leading-tight tracking-[-0.01em] text-white mb-5">{step.title}</h3>
 
-            <!-- Separator -->
-            <div class="w-8 h-px mb-5" style={`background:${step.hex}30;`}/>
+           <!-- Separator -->
+           <div class="w-8 h-px mb-5" style={`background:${step.hex}30;`}/>
 
-            <!-- Bullet items -->
-            <ul class="space-y-2.5">
-              {step.items.map((item) => (
-                <li class="flex items-start gap-2.5">
-                  <svg class="w-[13px] h-[13px] shrink-0 mt-[2px]" viewBox="0 0 13 13" fill="none" stroke={step.hex} stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="2,6.5 5,9.5 11,3.5"/>
-                  </svg>
-                  <span class="text-[12.5px] leading-relaxed" style="color:rgba(255,255,255,0.42);">{item}</span>
-                </li>
-              ))}
-            </ul>
+           <!-- Bullet items -->
+           <ul class="space-y-2.5">
+             {step.items.map((item) => (
+               <li class="flex items-start gap-2.5">
+                 <svg class="w-[13px] h-[13px] shrink-0 mt-[2px]" viewBox="0 0 13 13" fill="none" stroke={step.hex} stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                   <polyline points="2,6.5 5,9.5 11,3.5"/>
+                 </svg>
+                 <span class="text-[12.5px] leading-relaxed" style="color:rgba(255,255,255,0.42);">{item}</span>
+               </li>
+             ))}
+           </ul>
 
-          </div>
-        ))}
+         </div>
+       ))}
 
-      </div>
-    </div>
+     </div>
+   </div>
 
-    <!-- ── BACKEND FLOW ── -->
-    <div id="flow-diagram" class="mt-16 lg:mt-20 rounded-[20px] overflow-hidden" style="border:1px solid rgba(255,255,255,0.07);">
+   <!-- ── BACKEND FLOW ── -->
+   <div id="flow-diagram" class="mt-16 lg:mt-20 rounded-[20px] overflow-hidden" style="border:1px solid rgba(255,255,255,0.07);">
 
-      <!-- Header bar -->
-      <div class="px-6 py-5 lg:px-8 lg:py-6 flex items-center justify-between flex-wrap gap-3" style="background:rgba(255,255,255,0.03);border-bottom:1px solid rgba(255,255,255,0.06);">
-        <div>
-          <p class="text-[9px] uppercase tracking-[0.24em] font-bold mb-1" style="color:rgba(232,180,176,0.55);">Under the hood</p>
-          <h3 class="font-display text-[1.1rem] lg:text-[1.2rem] text-white">What runs in your backend — 24/7</h3>
-        </div>
-        <div class="flex items-center gap-4 flex-wrap">
-          <!-- Live event counter -->
-          <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
-            <span class="w-1.5 h-1.5 rounded-full" style="background:#E8B4B0;animation:pulse-pink 1.2s ease-in-out infinite;"/>
-            <span class="text-[9.5px] font-semibold tabular-nums" style="color:rgba(255,255,255,0.50);">EVENTS <span id="flow-counter" style="color:#E8B4B0;">0</span> / hr</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full" style="background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,0.6);animation:pulse-green 1.6s ease-in-out infinite;"/>
-            <span class="text-[10.5px] font-semibold" style="color:rgba(74,222,128,0.72);">ALL SYSTEMS OPERATIONAL</span>
-          </div>
-        </div>
-      </div>
+     <!-- Header bar -->
+     <div class="px-6 py-5 lg:px-8 lg:py-6 flex items-center justify-between flex-wrap gap-3" style="background:rgba(255,255,255,0.03);border-bottom:1px solid rgba(255,255,255,0.06);">
+       <div>
+         <p class="text-[9px] uppercase tracking-[0.24em] font-bold mb-1" style="color:rgba(232,180,176,0.55);">Under the hood</p>
+         <h3 class="font-display text-[1.1rem] lg:text-[1.2rem] text-white">What runs in your backend 24/7</h3>
+       </div>
+       <div class="flex items-center gap-4 flex-wrap">
+         <!-- Live event counter -->
+         <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
+           <span class="w-1.5 h-1.5 rounded-full" style="background:#E8B4B0;animation:pulse-pink 1.2s ease-in-out infinite;"/>
+           <span class="text-[9.5px] font-semibold tabular-nums" style="color:rgba(255,255,255,0.50);">EVENTS <span id="flow-counter" style="color:#E8B4B0;">0</span> / hr</span>
+         </div>
+         <div class="flex items-center gap-2">
+           <span class="w-2 h-2 rounded-full" style="background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,0.6);animation:pulse-green 1.6s ease-in-out infinite;"/>
+           <span class="text-[10.5px] font-semibold" style="color:rgba(74,222,128,0.72);">ALL SYSTEMS OPERATIONAL</span>
+         </div>
+       </div>
+     </div>
 
-      <div class="p-4 sm:p-6 lg:p-8 overflow-x-auto -webkit-overflow-scrolling-touch">
-        <div class="min-w-[340px]">
+     <div class="p-4 sm:p-6 lg:p-8 overflow-x-auto -webkit-overflow-scrolling-touch">
+       <div class="min-w-[340px]">
 
-          <!-- ── INPUTS ── -->
-          <div class="mb-2">
-            <p class="text-[8.5px] uppercase tracking-[0.22em] font-bold mb-3" style="color:rgba(255,255,255,0.55);">Inputs — live triggers</p>
-            <div class="flex flex-wrap gap-2" id="input-pills">
-              {['Form submitted','New CRM lead','Payment received','Email received','Calendar booking','API webhook','Scheduled job','AI message'].map((t,i) => (
-                <span data-input-pill={i} class="flow-pill text-[10px] font-medium px-2.5 py-1 rounded-full transition-all duration-200 cursor-default select-none"
-                      style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);color:rgba(255,255,255,0.46);">{t}</span>
-              ))}
-            </div>
-          </div>
+         <!-- ── INPUTS ── -->
+         <div class="mb-2">
+           <p class="text-[8.5px] uppercase tracking-[0.22em] font-bold mb-3" style="color:rgba(255,255,255,0.55);">Inputs live triggers</p>
+           <div class="flex flex-wrap gap-2" id="input-pills">
+             {['Form submitted','New CRM lead','Payment received','Email received','Calendar booking','API webhook','Scheduled job','AI message'].map((t,i) => (
+               <span data-input-pill={i} class="flow-pill text-[10px] font-medium px-2.5 py-1 rounded-full transition-all duration-200 cursor-default select-none"
+                     style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);color:rgba(255,255,255,0.46);">{t}</span>
+             ))}
+           </div>
+         </div>
 
-          <!-- ── CONNECTOR 1 — animated packet ── -->
-          <div class="relative flex items-start gap-2 my-1 pl-1" style="height:40px;">
-            <div class="relative" style="width:1px;height:40px;margin-left:6px;">
-              <div style="position:absolute;top:0;left:0;width:1px;height:100%;background:linear-gradient(180deg,rgba(232,180,176,0.28),rgba(232,180,176,0.06));"/>
-              <div id="packet-1" class="flow-packet" style="background:#E8B4B0;box-shadow:0 0 6px rgba(232,180,176,0.8);top:-4px;"/>
-            </div>
-            <svg class="w-2.5 h-2.5 mt-[30px] ml-[-3px]" viewBox="0 0 10 10" fill="rgba(232,180,176,0.45)" stroke="none"><path d="M5 0l5 10H0z" transform="rotate(180 5 5)"/></svg>
-          </div>
+         <!-- ── CONNECTOR 1 animated packet ── -->
+         <div class="relative flex items-start gap-2 my-1 pl-1" style="height:40px;">
+           <div class="relative" style="width:1px;height:40px;margin-left:6px;">
+             <div style="position:absolute;top:0;left:0;width:1px;height:100%;background:linear-gradient(180deg,rgba(232,180,176,0.28),rgba(232,180,176,0.06));"/>
+             <div id="packet-1" class="flow-packet" style="background:#E8B4B0;box-shadow:0 0 6px rgba(232,180,176,0.8);top:-4px;"/>
+           </div>
+           <svg class="w-2.5 h-2.5 mt-[30px] ml-[-3px]" viewBox="0 0 10 10" fill="rgba(232,180,176,0.45)" stroke="none"><path d="M5 0l5 10H0z" transform="rotate(180 5 5)"/></svg>
+         </div>
 
-          <!-- ── n8n ENGINE ── -->
-          <div id="n8n-box" class="flow-box rounded-[14px] p-4 mb-1 flex flex-wrap items-center gap-4 transition-all duration-300"
-               style="background:rgba(232,180,176,0.06);border:1px solid rgba(232,180,176,0.15);">
-            <div class="flex items-center gap-3">
-              <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(232,180,176,0.15);">
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                </svg>
-              </div>
-              <div>
-                <p class="text-[12px] font-semibold text-white">n8n Workflow Engine</p>
-                <p class="text-[10px]" style="color:rgba(232,180,176,0.55);">Self-hosted · Dedicated VPS · 329 active skills</p>
-              </div>
-            </div>
-            <!-- Animated processing tags -->
-            <div class="flex flex-wrap gap-1.5 ml-auto" id="n8n-tags">
-              {['Route','Validate','Retry','Log','Alert'].map((tag,i) => (
-                <span data-tag-idx={i} class="flow-tag text-[9px] font-bold uppercase tracking-[0.12em] px-2 py-0.5 rounded transition-all duration-150"
-                      style="background:rgba(232,180,176,0.10);color:#E8B4B0;">{tag}</span>
-              ))}
-            </div>
-          </div>
+         <!-- ── n8n ENGINE ── -->
+         <div id="n8n-box" class="flow-box rounded-[14px] p-4 mb-1 flex flex-wrap items-center gap-4 transition-all duration-300"
+              style="background:rgba(232,180,176,0.06);border:1px solid rgba(232,180,176,0.15);">
+           <div class="flex items-center gap-3">
+             <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(232,180,176,0.15);">
+               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                 <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+               </svg>
+             </div>
+             <div>
+               <p class="text-[12px] font-semibold text-white">n8n Workflow Engine</p>
+               <p class="text-[10px]" style="color:rgba(232,180,176,0.55);">Self-hosted · Dedicated VPS · 329 active skills</p>
+             </div>
+           </div>
+           <!-- Animated processing tags -->
+           <div class="flex flex-wrap gap-1.5 ml-auto" id="n8n-tags">
+             {['Route','Validate','Retry','Log','Alert'].map((tag,i) => (
+               <span data-tag-idx={i} class="flow-tag text-[9px] font-bold uppercase tracking-[0.12em] px-2 py-0.5 rounded transition-all duration-150"
+                     style="background:rgba(232,180,176,0.10);color:#E8B4B0;">{tag}</span>
+             ))}
+           </div>
+         </div>
 
-          <!-- ── CONNECTOR 2 ── -->
-          <div class="relative flex items-start gap-2 my-1 pl-1" style="height:40px;">
-            <div class="relative" style="width:1px;height:40px;margin-left:6px;">
-              <div style="position:absolute;top:0;left:0;width:1px;height:100%;background:linear-gradient(180deg,rgba(232,180,176,0.28),rgba(232,180,176,0.06));"/>
-              <div id="packet-2" class="flow-packet" style="background:#E8B4B0;box-shadow:0 0 6px rgba(232,180,176,0.8);top:-4px;"/>
-            </div>
-            <svg class="w-2.5 h-2.5 mt-[30px] ml-[-3px]" viewBox="0 0 10 10" fill="rgba(232,180,176,0.45)" stroke="none"><path d="M5 0l5 10H0z" transform="rotate(180 5 5)"/></svg>
-          </div>
+         <!-- ── CONNECTOR 2 ── -->
+         <div class="relative flex items-start gap-2 my-1 pl-1" style="height:40px;">
+           <div class="relative" style="width:1px;height:40px;margin-left:6px;">
+             <div style="position:absolute;top:0;left:0;width:1px;height:100%;background:linear-gradient(180deg,rgba(232,180,176,0.28),rgba(232,180,176,0.06));"/>
+             <div id="packet-2" class="flow-packet" style="background:#E8B4B0;box-shadow:0 0 6px rgba(232,180,176,0.8);top:-4px;"/>
+           </div>
+           <svg class="w-2.5 h-2.5 mt-[30px] ml-[-3px]" viewBox="0 0 10 10" fill="rgba(232,180,176,0.45)" stroke="none"><path d="M5 0l5 10H0z" transform="rotate(180 5 5)"/></svg>
+         </div>
 
-          <!-- ── CLAUDE AI ── -->
-          <div id="claude-box" class="flow-box rounded-[14px] p-4 mb-1 flex flex-wrap items-center gap-4 transition-all duration-300"
-               style="background:rgba(45,80,22,0.07);border:1px solid rgba(45,80,22,0.22);">
-            <div class="flex items-center gap-3">
-              <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(45,80,22,0.20);">
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#4a8a2a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 2a2 2 0 012 2v1h3a2 2 0 012 2v7a4 4 0 01-4 4H9a4 4 0 01-4-4V7a2 2 0 012-2h3V4a2 2 0 012-2z"/>
-                </svg>
-              </div>
-              <div>
-                <p class="text-[12px] font-semibold text-white">Claude AI — Opus 4.7</p>
-                <p class="text-[10px]" style="color:rgba(74,138,42,0.70);">Intent classification · Structured output · Confidence scoring · Escalation routing</p>
-              </div>
-            </div>
-            <div class="ml-auto text-right">
-              <p class="font-display text-[1.1rem] font-medium tabular-nums" id="latency-display" style="color:rgba(74,138,42,0.85);">~80ms</p>
-              <p class="text-[9px]" style="color:rgba(255,255,255,0.55);">inference latency</p>
-            </div>
-          </div>
+         <!-- ── CLAUDE AI ── -->
+         <div id="claude-box" class="flow-box rounded-[14px] p-4 mb-1 flex flex-wrap items-center gap-4 transition-all duration-300"
+              style="background:rgba(45,80,22,0.07);border:1px solid rgba(45,80,22,0.22);">
+           <div class="flex items-center gap-3">
+             <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(45,80,22,0.20);">
+               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#4a8a2a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                 <path d="M12 2a2 2 0 012 2v1h3a2 2 0 012 2v7a4 4 0 01-4 4H9a4 4 0 01-4-4V7a2 2 0 012-2h3V4a2 2 0 012-2z"/>
+               </svg>
+             </div>
+             <div>
+               <p class="text-[12px] font-semibold text-white">Claude AI Opus 4.7</p>
+               <p class="text-[10px]" style="color:rgba(74,138,42,0.70);">Intent classification · Structured output · Confidence scoring · Escalation routing</p>
+             </div>
+           </div>
+           <div class="ml-auto text-right">
+             <p class="font-display text-[1.1rem] font-medium tabular-nums" id="latency-display" style="color:rgba(74,138,42,0.85);">~80ms</p>
+             <p class="text-[9px]" style="color:rgba(255,255,255,0.55);">inference latency</p>
+           </div>
+         </div>
 
-          <!-- ── CONNECTOR 3 ── -->
-          <div class="relative flex items-start gap-2 my-1 pl-1" style="height:40px;">
-            <div class="relative" style="width:1px;height:40px;margin-left:6px;">
-              <div style="position:absolute;top:0;left:0;width:1px;height:100%;background:linear-gradient(180deg,rgba(74,222,128,0.30),rgba(74,222,128,0.06));"/>
-              <div id="packet-3" class="flow-packet" style="background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,0.8);top:-4px;"/>
-            </div>
-            <svg class="w-2.5 h-2.5 mt-[30px] ml-[-3px]" viewBox="0 0 10 10" fill="rgba(74,222,128,0.45)" stroke="none"><path d="M5 0l5 10H0z" transform="rotate(180 5 5)"/></svg>
-          </div>
+         <!-- ── CONNECTOR 3 ── -->
+         <div class="relative flex items-start gap-2 my-1 pl-1" style="height:40px;">
+           <div class="relative" style="width:1px;height:40px;margin-left:6px;">
+             <div style="position:absolute;top:0;left:0;width:1px;height:100%;background:linear-gradient(180deg,rgba(74,222,128,0.30),rgba(74,222,128,0.06));"/>
+             <div id="packet-3" class="flow-packet" style="background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,0.8);top:-4px;"/>
+           </div>
+           <svg class="w-2.5 h-2.5 mt-[30px] ml-[-3px]" viewBox="0 0 10 10" fill="rgba(74,222,128,0.45)" stroke="none"><path d="M5 0l5 10H0z" transform="rotate(180 5 5)"/></svg>
+         </div>
 
-          <!-- ── OUTPUTS ── -->
-          <div>
-            <p class="text-[8.5px] uppercase tracking-[0.22em] font-bold mb-3" style="color:rgba(255,255,255,0.55);">Outputs — deployed instantly</p>
-            <div class="flex flex-wrap gap-2" id="output-pills">
-              {['CRM updated','Invoice sent','Slack alert','SMS confirmation','Report generated','Database written','Webhook fired','Email dispatched'].map((t,i) => (
-                <span data-output-pill={i} class="flow-pill text-[10px] font-medium px-2.5 py-1 rounded-full transition-all duration-200 cursor-default select-none"
-                      style="background:rgba(45,80,22,0.10);border:1px solid rgba(45,80,22,0.25);color:rgba(74,138,42,0.80);">{t}</span>
-              ))}
-            </div>
-          </div>
+         <!-- ── OUTPUTS ── -->
+         <div>
+           <p class="text-[8.5px] uppercase tracking-[0.22em] font-bold mb-3" style="color:rgba(255,255,255,0.55);">Outputs deployed instantly</p>
+           <div class="flex flex-wrap gap-2" id="output-pills">
+             {['CRM updated','Invoice sent','Slack alert','SMS confirmation','Report generated','Database written','Webhook fired','Email dispatched'].map((t,i) => (
+               <span data-output-pill={i} class="flow-pill text-[10px] font-medium px-2.5 py-1 rounded-full transition-all duration-200 cursor-default select-none"
+                     style="background:rgba(45,80,22,0.10);border:1px solid rgba(45,80,22,0.25);color:rgba(74,138,42,0.80);">{t}</span>
+             ))}
+           </div>
+         </div>
 
-          <!-- ── STATS ROW ── -->
-          <div class="mt-5 pt-5 flex items-center justify-between flex-wrap gap-4" style="border-top:1px solid rgba(255,255,255,0.06);">
-            <div class="flex items-center gap-8">
-              <div>
-                <p class="text-[8.5px] uppercase tracking-[0.16em] mb-1" style="color:rgba(255,255,255,0.55);">End-to-end latency</p>
-                <p class="font-display text-[1.3rem] font-medium text-white leading-none">&lt;200ms</p>
-              </div>
-              <div>
-                <p class="text-[8.5px] uppercase tracking-[0.16em] mb-1" style="color:rgba(255,255,255,0.55);">Uptime SLA</p>
-                <p class="font-display text-[1.3rem] font-medium text-white leading-none">99.97%</p>
-              </div>
-              <div>
-                <p class="text-[8.5px] uppercase tracking-[0.16em] mb-1" style="color:rgba(255,255,255,0.55);">Error alert within</p>
-                <p class="font-display text-[1.3rem] font-medium text-white leading-none">90 sec</p>
-              </div>
-            </div>
-            <a href="/pages/welcome"
-               class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-[12px] font-semibold transition-all duration-150"
-               style="background:rgba(232,180,176,0.10);color:#E8B4B0;border:1px solid rgba(232,180,176,0.22);"
-               onmouseover="this.style.background='rgba(232,180,176,0.18)'"
-               onmouseout="this.style.background='rgba(232,180,176,0.10)'"
-            >
-              See it in action
-              <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 7h10M8 3l4 4-4 4"/>
-              </svg>
-            </a>
-          </div>
+         <!-- ── STATS ROW ── -->
+         <div class="mt-5 pt-5 flex items-center justify-between flex-wrap gap-4" style="border-top:1px solid rgba(255,255,255,0.06);">
+           <div class="flex items-center gap-8">
+             <div>
+               <p class="text-[8.5px] uppercase tracking-[0.16em] mb-1" style="color:rgba(255,255,255,0.55);">End-to-end latency</p>
+               <p class="font-display text-[1.3rem] font-medium text-white leading-none">&lt;200ms</p>
+             </div>
+             <div>
+               <p class="text-[8.5px] uppercase tracking-[0.16em] mb-1" style="color:rgba(255,255,255,0.55);">Uptime SLA</p>
+               <p class="font-display text-[1.3rem] font-medium text-white leading-none">99.97%</p>
+             </div>
+             <div>
+               <p class="text-[8.5px] uppercase tracking-[0.16em] mb-1" style="color:rgba(255,255,255,0.55);">Error alert within</p>
+               <p class="font-display text-[1.3rem] font-medium text-white leading-none">90 sec</p>
+             </div>
+           </div>
+           <a href="/pages/welcome"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-[12px] font-semibold transition-all duration-150"
+              style="background:rgba(232,180,176,0.10);color:#E8B4B0;border:1px solid rgba(232,180,176,0.22);"
+              onmouseover="this.style.background='rgba(232,180,176,0.18)'"
+              onmouseout="this.style.background='rgba(232,180,176,0.10)'"
+           >
+             See it in action
+             <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+               <path d="M2 7h10M8 3l4 4-4 4"/>
+             </svg>
+           </a>
+         </div>
 
-        </div>
-      </div>
-    </div>
+       </div>
+     </div>
+   </div>
 
-  </div>
+ </div>
 </section>
 
 <style>
-  @keyframes pulse-green { 0%,100%{opacity:0.5;transform:scale(1);} 50%{opacity:1;transform:scale(1.4);} }
-  @keyframes pulse-pink  { 0%,100%{opacity:0.4;transform:scale(1);} 50%{opacity:1;transform:scale(1.5);} }
+ @keyframes pulse-green { 0%,100%{opacity:0.5;transform:scale(1);} 50%{opacity:1;transform:scale(1.4);} }
+ @keyframes pulse-pink { 0%,100%{opacity:0.4;transform:scale(1);} 50%{opacity:1;transform:scale(1.5);} }
 
-  /* Packet dot travelling down a connector */
-  .flow-packet {
-    position: absolute;
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    left: -2px;
-    opacity: 0;
-    pointer-events: none;
-  }
+ /* Packet dot travelling down a connector */
+ .flow-packet {
+   position: absolute;
+   width: 5px; height: 5px;
+   border-radius: 50%;
+   left: -2px;
+   opacity: 0;
+   pointer-events: none;
+ }
 
-  /* Input pill fired state */
-  .flow-pill.pill-firing {
-    background: rgba(232,180,176,0.18) !important;
-    border-color: rgba(232,180,176,0.55) !important;
-    color: rgba(255,255,255,0.90) !important;
-    box-shadow: 0 0 10px rgba(232,180,176,0.25);
-  }
+ /* Input pill fired state */
+ .flow-pill.pill-firing {
+   background: rgba(232,180,176,0.18) !important;
+   border-color: rgba(232,180,176,0.55) !important;
+   color: rgba(255,255,255,0.90) !important;
+   box-shadow: 0 0 10px rgba(232,180,176,0.25);
+ }
 
-  /* Output pill executed state */
-  .flow-pill.pill-executed {
-    background: rgba(74,222,128,0.15) !important;
-    border-color: rgba(74,222,128,0.50) !important;
-    color: rgba(74,222,128,1) !important;
-    box-shadow: 0 0 10px rgba(74,222,128,0.25);
-  }
+ /* Output pill executed state */
+ .flow-pill.pill-executed {
+   background: rgba(74,222,128,0.15) !important;
+   border-color: rgba(74,222,128,0.50) !important;
+   color: rgba(74,222,128,1) !important;
+   box-shadow: 0 0 10px rgba(74,222,128,0.25);
+ }
 
-  /* n8n / Claude box active pulse */
-  .flow-box.box-active {
-    border-color: rgba(232,180,176,0.45) !important;
-    background: rgba(232,180,176,0.11) !important;
-  }
-  #claude-box.box-active {
-    border-color: rgba(74,138,42,0.50) !important;
-    background: rgba(45,80,22,0.16) !important;
-  }
+ /* n8n / Claude box active pulse */
+ .flow-box.box-active {
+   border-color: rgba(232,180,176,0.45) !important;
+   background: rgba(232,180,176,0.11) !important;
+ }
+ #claude-box.box-active {
+   border-color: rgba(74,138,42,0.50) !important;
+   background: rgba(45,80,22,0.16) !important;
+ }
 
-  /* Processing tag highlight */
-  .flow-tag.tag-active {
-    background: rgba(232,180,176,0.28) !important;
-    color: #fff !important;
-  }
+ /* Processing tag highlight */
+ .flow-tag.tag-active {
+   background: rgba(232,180,176,0.28) !important;
+   color: #fff !important;
+ }
 </style>
 
 <script is:inline>
 (function () {
-  var inputPills  = Array.from(document.querySelectorAll('[data-input-pill]'));
-  var outputPills = Array.from(document.querySelectorAll('[data-output-pill]'));
-  var n8nTags     = Array.from(document.querySelectorAll('[data-tag-idx]'));
-  var n8nBox      = document.getElementById('n8n-box');
-  var claudeBox   = document.getElementById('claude-box');
-  var counter     = document.getElementById('flow-counter');
-  var latency     = document.getElementById('latency-display');
-  var packets     = [
-    document.getElementById('packet-1'),
-    document.getElementById('packet-2'),
-    document.getElementById('packet-3'),
-  ];
+ var inputPills = Array.from(document.querySelectorAll('[data-input-pill]'));
+ var outputPills = Array.from(document.querySelectorAll('[data-output-pill]'));
+ var n8nTags   = Array.from(document.querySelectorAll('[data-tag-idx]'));
+ var n8nBox    = document.getElementById('n8n-box');
+ var claudeBox = document.getElementById('claude-box');
+ var counter   = document.getElementById('flow-counter');
+ var latency   = document.getElementById('latency-display');
+ var packets   = [
+   document.getElementById('packet-1'),
+   document.getElementById('packet-2'),
+   document.getElementById('packet-3'),
+ ];
 
-  var eventCount = Math.floor(Math.random() * 40) + 280; // start ~280-320
+ var eventCount = Math.floor(Math.random() * 40) + 280; // start ~280-320
 
-  function animatePacket(el, durationMs, delayMs) {
-    if (!el) return;
-    setTimeout(function() {
-      el.style.transition = 'none';
-      el.style.top = '-4px';
-      el.style.opacity = '0';
-      // Force reflow
-      el.getBoundingClientRect();
-      el.style.transition = 'top ' + durationMs + 'ms linear, opacity 80ms ease';
-      el.style.opacity = '1';
-      el.style.top = 'calc(100% + 4px)';
-      setTimeout(function() { el.style.opacity = '0'; }, durationMs - 80);
-    }, delayMs);
-  }
+ function animatePacket(el, durationMs, delayMs) {
+   if (!el) return;
+   setTimeout(function() {
+     el.style.transition = 'none';
+     el.style.top = '-4px';
+     el.style.opacity = '0';
+     // Force reflow
+     el.getBoundingClientRect();
+     el.style.transition = 'top ' + durationMs + 'ms linear, opacity 80ms ease';
+     el.style.opacity = '1';
+     el.style.top = 'calc(100% + 4px)';
+     setTimeout(function() { el.style.opacity = '0'; }, durationMs - 80);
+   }, delayMs);
+ }
 
-  function flashTag(idx) {
-    var tag = n8nTags[idx];
-    if (!tag) return;
-    tag.classList.add('tag-active');
-    setTimeout(function() { tag.classList.remove('tag-active'); }, 400);
-  }
+ function flashTag(idx) {
+   var tag = n8nTags[idx];
+   if (!tag) return;
+   tag.classList.add('tag-active');
+   setTimeout(function() { tag.classList.remove('tag-active'); }, 400);
+ }
 
-  function fireEvent() {
-    // 1. Flash random input pill
-    var inp = inputPills[Math.floor(Math.random() * inputPills.length)];
-    inp.classList.add('pill-firing');
+ function fireEvent() {
+   // 1. Flash random input pill
+   var inp = inputPills[Math.floor(Math.random() * inputPills.length)];
+   inp.classList.add('pill-firing');
 
-    // 2. Packet down connector 1 → n8n
-    animatePacket(packets[0], 320, 80);
+   // 2. Packet down connector 1 → n8n
+   animatePacket(packets[0], 320, 80);
 
-    // 3. n8n processes (box glow + sequential tag highlights)
-    setTimeout(function() {
-      inp.classList.remove('pill-firing');
-      n8nBox.classList.add('box-active');
-      // Highlight 2-3 random tags sequentially
-      var tagOrder = n8nTags.map(function(_,i){return i;}).sort(function(){return Math.random()-0.5;}).slice(0,3);
-      tagOrder.forEach(function(idx, i) { setTimeout(function(){ flashTag(idx); }, i * 120); });
-      setTimeout(function() { n8nBox.classList.remove('box-active'); }, 600);
-    }, 420);
+   // 3. n8n processes (box glow + sequential tag highlights)
+   setTimeout(function() {
+     inp.classList.remove('pill-firing');
+     n8nBox.classList.add('box-active');
+     // Highlight 2-3 random tags sequentially
+     var tagOrder = n8nTags.map(function(_,i){return i;}).sort(function(){return Math.random()-0.5;}).slice(0,3);
+     tagOrder.forEach(function(idx, i) { setTimeout(function(){ flashTag(idx); }, i * 120); });
+     setTimeout(function() { n8nBox.classList.remove('box-active'); }, 600);
+   }, 420);
 
-    // 4. Packet down connector 2 → Claude
-    animatePacket(packets[1], 300, 500);
+   // 4. Packet down connector 2 → Claude
+   animatePacket(packets[1], 300, 500);
 
-    // 5. Claude processes
-    setTimeout(function() {
-      claudeBox.classList.add('box-active');
-      // Jitter latency display
-      if (latency) {
-        var ms = 68 + Math.floor(Math.random() * 28);
-        latency.textContent = '~' + ms + 'ms';
-      }
-      setTimeout(function() { claudeBox.classList.remove('box-active'); }, 500);
-    }, 820);
+   // 5. Claude processes
+   setTimeout(function() {
+     claudeBox.classList.add('box-active');
+     // Jitter latency display
+     if (latency) {
+       var ms = 68 + Math.floor(Math.random() * 28);
+       latency.textContent = '~' + ms + 'ms';
+     }
+     setTimeout(function() { claudeBox.classList.remove('box-active'); }, 500);
+   }, 820);
 
-    // 6. Packet down connector 3 → output
-    animatePacket(packets[2], 280, 900);
+   // 6. Packet down connector 3 → output
+   animatePacket(packets[2], 280, 900);
 
-    // 7. Flash random output pill
-    setTimeout(function() {
-      var out = outputPills[Math.floor(Math.random() * outputPills.length)];
-      out.classList.add('pill-executed');
-      setTimeout(function() { out.classList.remove('pill-executed'); }, 700);
-    }, 1200);
+   // 7. Flash random output pill
+   setTimeout(function() {
+     var out = outputPills[Math.floor(Math.random() * outputPills.length)];
+     out.classList.add('pill-executed');
+     setTimeout(function() { out.classList.remove('pill-executed'); }, 700);
+   }, 1200);
 
-    // 8. Increment counter
-    eventCount++;
-    if (counter) counter.textContent = eventCount;
-  }
+   // 8. Increment counter
+   eventCount++;
+   if (counter) counter.textContent = eventCount;
+ }
 
-  // Schedule events at random intervals (2.5–5.5 seconds)
-  function scheduleNext() {
-    var delay = 2500 + Math.random() * 3000;
-    setTimeout(function() { fireEvent(); scheduleNext(); }, delay);
-  }
+ // Schedule events at random intervals (2.5–5.5 seconds)
+ function scheduleNext() {
+   var delay = 2500 + Math.random() * 3000;
+   setTimeout(function() { fireEvent(); scheduleNext(); }, delay);
+ }
 
-  // Start after a short initial delay
-  setTimeout(scheduleNext, 1200);
+ // Start after a short initial delay
+ setTimeout(scheduleNext, 1200);
 })();
 </script>

@@ -1,826 +1,826 @@
 ---
-// ROICalculator.astro — Interactive ROI Calculator
+// ROICalculator.astro Interactive ROI Calculator
 ---
 
 <section id="roi-calc" class="relative overflow-hidden py-12 lg:py-16" style="background:#0A0A0A;">
 
-  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(232,180,176,0.05) 0%,transparent 55%);"/>
-  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 40% 40% at 10% 80%,rgba(45,80,22,0.04) 0%,transparent 60%);"/>
+ <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(232,180,176,0.05) 0%,transparent 55%);"/>
+ <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 40% 40% at 10% 80%,rgba(45,80,22,0.04) 0%,transparent 60%);"/>
 
-  <div class="container-x relative z-10">
+ <div class="container-x relative z-10">
 
-    <!-- ── HEADER ── -->
-    <div class="max-w-3xl mb-7 lg:mb-9">
-      <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-3" style="color:rgba(232,180,176,0.55);">ROI Calculator</p>
-      <h2 class="font-display text-[1.8rem] lg:text-[2.4rem] leading-[1.08] tracking-[-0.025em] text-white mb-3 text-balance">
-        Your automation ROI,<br/><em class="font-medium" style="color:#E8B4B0;">calculated to the penny.</em>
-      </h2>
-      <p class="text-[13px] leading-relaxed max-w-2xl" style="color:rgba(255,255,255,0.60);">
-        Every figure uses verified benchmarks from 500+ automation deployments — task coverage rates, error frequencies, and hourly costs by UK industry.
-      </p>
-    </div>
+   <!-- ── HEADER ── -->
+   <div class="max-w-3xl mb-7 lg:mb-9">
+     <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-3" style="color:rgba(232,180,176,0.55);">ROI Calculator</p>
+     <h2 class="font-display text-[1.8rem] lg:text-[2.4rem] leading-[1.08] tracking-[-0.025em] text-white mb-3 text-balance">
+       Your automation ROI,<br/><em class="font-medium" style="color:#E8B4B0;">calculated to the penny.</em>
+     </h2>
+     <p class="text-[13px] leading-relaxed max-w-2xl" style="color:rgba(255,255,255,0.60);">
+       Every figure uses verified benchmarks from 500+ automation deployments task coverage rates, error frequencies, and hourly costs by UK industry.
+     </p>
+   </div>
 
-    <!-- ── INDUSTRY TABS ── -->
-    <div class="flex flex-wrap gap-1.5 mb-6" id="ind-tabs">
-      {[
-        { id: 'dental',    label: 'Dental / Medical'  },
-        { id: 'legal',     label: 'Law Firm'          },
-        { id: 'agency',    label: 'Agency'            },
-        { id: 'ecommerce', label: 'E-commerce'        },
-        { id: 'saas',      label: 'SaaS / Tech'       },
-        { id: 'realestate',label: 'Real Estate'       },
-        { id: 'finance',   label: 'Finance / Accounting'},
-      ].map((ind, i) => (
-        <button
-          class="ind-tab text-[11px] font-semibold px-3.5 py-1.5 rounded-full transition-all duration-150"
-          data-ind={ind.id}
-          aria-label={`Calculate ROI for ${ind.label}`}
-          style={i === 0
-            ? 'background:#E8B4B0;color:#0A0A0A;'
-            : 'background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.46);border:1px solid rgba(255,255,255,0.09);'}
-        >{ind.label}</button>
-      ))}
-    </div>
+   <!-- ── INDUSTRY TABS ── -->
+   <div class="flex flex-wrap gap-1.5 mb-6" id="ind-tabs">
+     {[
+       { id: 'dental',  label: 'Dental / Medical' },
+       { id: 'legal',   label: 'Law Firm'        },
+       { id: 'agency',  label: 'Agency'          },
+       { id: 'ecommerce', label: 'E-commerce'      },
+       { id: 'saas',    label: 'SaaS / Tech'     },
+       { id: 'realestate',label: 'Real Estate'     },
+       { id: 'finance', label: 'Finance / Accounting'},
+     ].map((ind, i) => (
+       <button
+         class="ind-tab text-[11px] font-semibold px-3.5 py-1.5 rounded-full transition-all duration-150"
+         data-ind={ind.id}
+         aria-label={`Calculate ROI for ${ind.label}`}
+         style={i === 0
+           ? 'background:#E8B4B0;color:#0A0A0A;'
+           : 'background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.46);border:1px solid rgba(255,255,255,0.09);'}
+       >{ind.label}</button>
+     ))}
+   </div>
 
-    <!-- ── MAIN GRID ── -->
-    <div class="grid lg:grid-cols-[390px_1fr] xl:grid-cols-[420px_1fr] gap-4 lg:gap-5 mb-6">
+   <!-- ── MAIN GRID ── -->
+   <div class="grid lg:grid-cols-[390px_1fr] xl:grid-cols-[420px_1fr] gap-4 lg:gap-5 mb-6">
 
-      <!-- ═══ LEFT: INPUTS ═══ -->
-      <div class="rounded-[18px] p-5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);">
+     <!-- ═══ LEFT: INPUTS ═══ -->
+     <div class="rounded-[18px] p-5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);">
 
-        <p class="text-[9px] uppercase tracking-[0.22em] font-bold mb-4" style="color:rgba(255,255,255,0.55);">Adjust your numbers</p>
+       <p class="text-[9px] uppercase tracking-[0.22em] font-bold mb-4" style="color:rgba(255,255,255,0.55);">Adjust your numbers</p>
 
-        <!-- Team size -->
-        <div class="roi-slider-group mb-4">
-          <div class="flex items-center justify-between mb-1.5">
-            <label class="roi-lbl" for="sl-team">Team size</label>
-            <span class="roi-val"><span id="val-team">8</span> people</span>
-          </div>
-          <input id="sl-team" type="range" min="1" max="100" value="8" step="1" class="roi-range"/>
-          <div class="roi-ticks"><span>1</span><span>50</span><span>100</span></div>
-        </div>
+       <!-- Team size -->
+       <div class="roi-slider-group mb-4">
+         <div class="flex items-center justify-between mb-1.5">
+           <label class="roi-lbl" for="sl-team">Team size</label>
+           <span class="roi-val"><span id="val-team">8</span> people</span>
+         </div>
+         <input id="sl-team" type="range" min="1" max="100" value="8" step="1" class="roi-range"/>
+         <div class="roi-ticks"><span>1</span><span>50</span><span>100</span></div>
+       </div>
 
-        <!-- Hourly cost -->
-        <div class="roi-slider-group mb-4">
-          <div class="flex items-center justify-between mb-1.5">
-            <label class="roi-lbl" for="sl-hourly">Avg. hourly cost</label>
-            <span class="roi-val">£<span id="val-hourly">26</span>/hr</span>
-          </div>
-          <input id="sl-hourly" type="range" min="15" max="150" value="26" step="1" class="roi-range"/>
-          <div class="roi-ticks"><span>£15</span><span>£80</span><span>£150</span></div>
-        </div>
+       <!-- Hourly cost -->
+       <div class="roi-slider-group mb-4">
+         <div class="flex items-center justify-between mb-1.5">
+           <label class="roi-lbl" for="sl-hourly">Avg. hourly cost</label>
+           <span class="roi-val">£<span id="val-hourly">26</span>/hr</span>
+         </div>
+         <input id="sl-hourly" type="range" min="15" max="150" value="26" step="1" class="roi-range"/>
+         <div class="roi-ticks"><span>£15</span><span>£80</span><span>£150</span></div>
+       </div>
 
-        <!-- Manual hours/week -->
-        <div class="roi-slider-group mb-4">
-          <div class="flex items-center justify-between mb-1.5">
-            <label class="roi-lbl" for="sl-manual">Manual hours / week <span class="roi-lbl-sub">per person</span></label>
-            <span class="roi-val"><span id="val-manual">16</span>h/wk</span>
-          </div>
-          <input id="sl-manual" type="range" min="1" max="30" value="16" step="0.5" class="roi-range"/>
-          <div class="roi-ticks"><span>1h</span><span>15h</span><span>30h</span></div>
-        </div>
+       <!-- Manual hours/week -->
+       <div class="roi-slider-group mb-4">
+         <div class="flex items-center justify-between mb-1.5">
+           <label class="roi-lbl" for="sl-manual">Manual hours / week <span class="roi-lbl-sub">per person</span></label>
+           <span class="roi-val"><span id="val-manual">16</span>h/wk</span>
+         </div>
+         <input id="sl-manual" type="range" min="1" max="30" value="16" step="0.5" class="roi-range"/>
+         <div class="roi-ticks"><span>1h</span><span>15h</span><span>30h</span></div>
+       </div>
 
-        <!-- Advanced -->
-        <div class="mb-4" style="border-top:1px solid rgba(255,255,255,0.06);padding-top:1rem;">
-          <button id="adv-toggle" aria-expanded="false" aria-controls="adv-panel" class="flex items-center gap-2 transition-all" style="color:rgba(255,255,255,0.32);">
-            <svg id="adv-arrow" class="w-3 h-3 transition-transform duration-200" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 5l4 4 4-4"/>
-            </svg>
-            <span class="text-[10.5px] font-semibold uppercase tracking-[0.14em]">Advanced inputs</span>
-          </button>
-          <div id="adv-panel" class="hidden mt-4 space-y-4">
-            <div class="roi-slider-group">
-              <div class="flex items-center justify-between mb-1.5">
-                <label class="roi-lbl" for="sl-tools">Monthly SaaS stack <span class="roi-lbl-sub">subscriptions</span></label>
-                <span class="roi-val">£<span id="val-tools">750</span>/mo</span>
-              </div>
-              <input id="sl-tools" type="range" min="0" max="5000" value="750" step="50" class="roi-range roi-range--purple"/>
-              <div class="roi-ticks"><span>£0</span><span>£2.5K</span><span>£5K</span></div>
-            </div>
-            <div class="roi-slider-group">
-              <div class="flex items-center justify-between mb-1.5">
-                <label class="roi-lbl" for="sl-error">Error rate in manual tasks</label>
-                <span class="roi-val"><span id="val-error">12</span>%</span>
-              </div>
-              <input id="sl-error" type="range" min="1" max="30" value="12" step="1" class="roi-range roi-range--green"/>
-              <div class="roi-ticks"><span>1%</span><span>15%</span><span>30%</span></div>
-            </div>
-            <div class="roi-slider-group">
-              <div class="flex items-center justify-between mb-1.5">
-                <label class="roi-lbl" for="sl-turnover">Staff turnover / year <span class="roi-lbl-sub">replacement cost £4–8K each</span></label>
-                <span class="roi-val"><span id="val-turnover">2</span> people</span>
-              </div>
-              <input id="sl-turnover" type="range" min="0" max="20" value="2" step="1" class="roi-range roi-range--amber"/>
-              <div class="roi-ticks"><span>0</span><span>10</span><span>20</span></div>
-            </div>
-          </div>
-        </div>
+       <!-- Advanced -->
+       <div class="mb-4" style="border-top:1px solid rgba(255,255,255,0.06);padding-top:1rem;">
+         <button id="adv-toggle" aria-expanded="false" aria-controls="adv-panel" class="flex items-center gap-2 transition-all" style="color:rgba(255,255,255,0.32);">
+           <svg id="adv-arrow" class="w-3 h-3 transition-transform duration-200" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+             <path d="M3 5l4 4 4-4"/>
+           </svg>
+           <span class="text-[10.5px] font-semibold uppercase tracking-[0.14em]">Advanced inputs</span>
+         </button>
+         <div id="adv-panel" class="hidden mt-4 space-y-4">
+           <div class="roi-slider-group">
+             <div class="flex items-center justify-between mb-1.5">
+               <label class="roi-lbl" for="sl-tools">Monthly SaaS stack <span class="roi-lbl-sub">subscriptions</span></label>
+               <span class="roi-val">£<span id="val-tools">750</span>/mo</span>
+             </div>
+             <input id="sl-tools" type="range" min="0" max="5000" value="750" step="50" class="roi-range roi-range--purple"/>
+             <div class="roi-ticks"><span>£0</span><span>£2.5K</span><span>£5K</span></div>
+           </div>
+           <div class="roi-slider-group">
+             <div class="flex items-center justify-between mb-1.5">
+               <label class="roi-lbl" for="sl-error">Error rate in manual tasks</label>
+               <span class="roi-val"><span id="val-error">12</span>%</span>
+             </div>
+             <input id="sl-error" type="range" min="1" max="30" value="12" step="1" class="roi-range roi-range--green"/>
+             <div class="roi-ticks"><span>1%</span><span>15%</span><span>30%</span></div>
+           </div>
+           <div class="roi-slider-group">
+             <div class="flex items-center justify-between mb-1.5">
+               <label class="roi-lbl" for="sl-turnover">Staff turnover / year <span class="roi-lbl-sub">replacement cost £4–8K each</span></label>
+               <span class="roi-val"><span id="val-turnover">2</span> people</span>
+             </div>
+             <input id="sl-turnover" type="range" min="0" max="20" value="2" step="1" class="roi-range roi-range--amber"/>
+             <div class="roi-ticks"><span>0</span><span>10</span><span>20</span></div>
+           </div>
+         </div>
+       </div>
 
-        <!-- Scenario -->
-        <div class="mb-4" style="border-top:1px solid rgba(255,255,255,0.06);padding-top:1rem;">
-          <p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-2.5" style="color:rgba(255,255,255,0.26);">Scenario</p>
-          <div class="flex gap-1.5" id="tier-btns">
-            <button class="tier-btn text-[10.5px] font-semibold px-3 py-1.5 rounded-full transition-all duration-100"
-              data-tier="0" aria-label="Conservative ROI scenario" style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.44);border:1px solid rgba(255,255,255,0.08);">Conservative</button>
-            <button class="tier-btn text-[10.5px] font-semibold px-3 py-1.5 rounded-full transition-all duration-100"
-              data-tier="1" aria-label="Realistic ROI scenario" style="background:#E8B4B0;color:#0A0A0A;">Realistic</button>
-            <button class="tier-btn text-[10.5px] font-semibold px-3 py-1.5 rounded-full transition-all duration-100"
-              data-tier="2" aria-label="Optimistic ROI scenario" style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.44);border:1px solid rgba(255,255,255,0.08);">Optimistic</button>
-          </div>
-        </div>
+       <!-- Scenario -->
+       <div class="mb-4" style="border-top:1px solid rgba(255,255,255,0.06);padding-top:1rem;">
+         <p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-2.5" style="color:rgba(255,255,255,0.26);">Scenario</p>
+         <div class="flex gap-1.5" id="tier-btns">
+           <button class="tier-btn text-[10.5px] font-semibold px-3 py-1.5 rounded-full transition-all duration-100"
+             data-tier="0" aria-label="Conservative ROI scenario" style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.44);border:1px solid rgba(255,255,255,0.08);">Conservative</button>
+           <button class="tier-btn text-[10.5px] font-semibold px-3 py-1.5 rounded-full transition-all duration-100"
+             data-tier="1" aria-label="Realistic ROI scenario" style="background:#E8B4B0;color:#0A0A0A;">Realistic</button>
+           <button class="tier-btn text-[10.5px] font-semibold px-3 py-1.5 rounded-full transition-all duration-100"
+             data-tier="2" aria-label="Optimistic ROI scenario" style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.44);border:1px solid rgba(255,255,255,0.08);">Optimistic</button>
+         </div>
+       </div>
 
-        <!-- Processes -->
-        <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:1rem;">
-          <p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-2.5" style="color:rgba(255,255,255,0.26);">Automatable processes detected</p>
-          <ul id="process-list" class="space-y-1.5"></ul>
-          <p class="text-[9.5px] mt-2.5" style="color:rgba(255,255,255,0.22);">Based on <span id="proc-ind-label">dental practice</span> workflow patterns</p>
-        </div>
+       <!-- Processes -->
+       <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:1rem;">
+         <p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-2.5" style="color:rgba(255,255,255,0.26);">Automatable processes detected</p>
+         <ul id="process-list" class="space-y-1.5"></ul>
+         <p class="text-[9.5px] mt-2.5" style="color:rgba(255,255,255,0.22);">Based on <span id="proc-ind-label">dental practice</span> workflow patterns</p>
+       </div>
 
-        <!-- PURIST cost indicator -->
-        <div class="mt-4 pt-4 flex items-center justify-between" style="border-top:1px solid rgba(255,255,255,0.06);">
-          <span class="text-[10px]" style="color:rgba(255,255,255,0.55);">PURIST monthly retainer</span>
-          <span class="text-[11px] font-bold tabular-nums" style="color:rgba(232,180,176,0.70);" id="purist-cost-display">£2,800/mo</span>
-        </div>
+       <!-- PURIST cost indicator -->
+       <div class="mt-4 pt-4 flex items-center justify-between" style="border-top:1px solid rgba(255,255,255,0.06);">
+         <span class="text-[10px]" style="color:rgba(255,255,255,0.55);">PURIST monthly retainer</span>
+         <span class="text-[11px] font-bold tabular-nums" style="color:rgba(232,180,176,0.70);" id="purist-cost-display">£2,800/mo</span>
+       </div>
 
-      </div>
+     </div>
 
-      <!-- ═══ RIGHT: RESULTS ═══ -->
-      <div class="space-y-3">
+     <!-- ═══ RIGHT: RESULTS ═══ -->
+     <div class="space-y-3">
 
-        <!-- Hero: Annual net savings -->
-        <div class="rounded-[18px] p-5 relative overflow-hidden" style="background:rgba(232,180,176,0.07);border:1px solid rgba(232,180,176,0.17);">
-          <div class="flex items-start justify-between flex-wrap gap-3">
-            <div>
-              <p class="text-[9px] uppercase tracking-[0.22em] font-bold mb-2" style="color:rgba(232,180,176,0.60);">Net annual savings</p>
-              <div class="font-display text-[2.2rem] lg:text-[2.8rem] leading-none font-medium text-white tabular-nums transition-all duration-300" id="res-annual">£47,820</div>
-              <p class="text-[11px] mt-2" style="color:rgba(255,255,255,0.60);">
-                After PURIST cost · <span id="res-rate-text" class="font-semibold" style="color:rgba(255,255,255,0.55);">76%</span> coverage · <span id="res-team-text">8 people</span>
-              </p>
-            </div>
-            <div class="text-right">
-              <span id="res-tier-badge" class="text-[9px] uppercase tracking-[0.16em] font-bold px-2.5 py-1 rounded-full" style="background:rgba(232,180,176,0.14);color:#E8B4B0;">Realistic</span>
-              <p class="text-[9px] mt-2 uppercase tracking-[0.14em]" style="color:rgba(255,255,255,0.22);">Gross before cost</p>
-              <p class="text-[13px] font-bold tabular-nums mt-0.5" style="color:rgba(255,255,255,0.50);" id="res-gross">£56,420</p>
-            </div>
-          </div>
-        </div>
+       <!-- Hero: Annual net savings -->
+       <div class="rounded-[18px] p-5 relative overflow-hidden" style="background:rgba(232,180,176,0.07);border:1px solid rgba(232,180,176,0.17);">
+         <div class="flex items-start justify-between flex-wrap gap-3">
+           <div>
+             <p class="text-[9px] uppercase tracking-[0.22em] font-bold mb-2" style="color:rgba(232,180,176,0.60);">Net annual savings</p>
+             <div class="font-display text-[2.2rem] lg:text-[2.8rem] leading-none font-medium text-white tabular-nums transition-all duration-300" id="res-annual">£47,820</div>
+             <p class="text-[11px] mt-2" style="color:rgba(255,255,255,0.60);">
+               After PURIST cost · <span id="res-rate-text" class="font-semibold" style="color:rgba(255,255,255,0.55);">76%</span> coverage · <span id="res-team-text">8 people</span>
+             </p>
+           </div>
+           <div class="text-right">
+             <span id="res-tier-badge" class="text-[9px] uppercase tracking-[0.16em] font-bold px-2.5 py-1 rounded-full" style="background:rgba(232,180,176,0.14);color:#E8B4B0;">Realistic</span>
+             <p class="text-[9px] mt-2 uppercase tracking-[0.14em]" style="color:rgba(255,255,255,0.22);">Gross before cost</p>
+             <p class="text-[13px] font-bold tabular-nums mt-0.5" style="color:rgba(255,255,255,0.50);" id="res-gross">£56,420</p>
+           </div>
+         </div>
+       </div>
 
 
-        <!-- 6 KPI CARDS -->
-        <div class="grid grid-cols-3 gap-2.5">
-          <div class="rounded-[14px] p-3.5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
-            <p class="font-display text-[1.35rem] lg:text-[1.55rem] leading-none font-medium tabular-nums mb-1" style="color:#E8B4B0;" id="kpi-hours">324 h</p>
-            <p class="text-[10px]" style="color:rgba(255,255,255,0.32);">Hours saved/mo</p>
-          </div>
-          <div class="rounded-[14px] p-3.5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
-            <p class="font-display text-[1.35rem] lg:text-[1.55rem] leading-none font-medium tabular-nums mb-1 text-white" id="kpi-monthly">£3,985</p>
-            <p class="text-[10px]" style="color:rgba(255,255,255,0.32);">Net savings/mo</p>
-          </div>
-          <div class="rounded-[14px] p-3.5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
-            <p class="font-display text-[1.35rem] lg:text-[1.55rem] leading-none font-medium tabular-nums mb-1" style="color:#C89840;" id="kpi-roi">8.4×</p>
-            <p class="text-[10px]" style="color:rgba(255,255,255,0.32);">Gross ROI</p>
-          </div>
-          <div class="rounded-[14px] p-3.5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
-            <p class="font-display text-[1.35rem] lg:text-[1.55rem] leading-none font-medium tabular-nums mb-1" style="color:#2D5016;" id="kpi-payback">3 wks</p>
-            <p class="text-[10px]" style="color:rgba(255,255,255,0.32);">Payback period</p>
-          </div>
-          <div class="rounded-[14px] p-3.5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
-            <p class="font-display text-[1.35rem] lg:text-[1.55rem] leading-none font-medium tabular-nums mb-1" style="color:#7B68EE;" id="kpi-ftes">2.1</p>
-            <p class="text-[10px]" style="color:rgba(255,255,255,0.32);">FTEs freed</p>
-          </div>
-          <div class="rounded-[14px] p-3.5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
-            <p class="font-display text-[1.35rem] lg:text-[1.55rem] leading-none font-medium tabular-nums mb-1 text-white" id="kpi-tasks">487</p>
-            <p class="text-[10px]" style="color:rgba(255,255,255,0.32);">Tasks/day automated</p>
-          </div>
-        </div>
+       <!-- 6 KPI CARDS -->
+       <div class="grid grid-cols-3 gap-2.5">
+         <div class="rounded-[14px] p-3.5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
+           <p class="font-display text-[1.35rem] lg:text-[1.55rem] leading-none font-medium tabular-nums mb-1" style="color:#E8B4B0;" id="kpi-hours">324 h</p>
+           <p class="text-[10px]" style="color:rgba(255,255,255,0.32);">Hours saved/mo</p>
+         </div>
+         <div class="rounded-[14px] p-3.5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
+           <p class="font-display text-[1.35rem] lg:text-[1.55rem] leading-none font-medium tabular-nums mb-1 text-white" id="kpi-monthly">£3,985</p>
+           <p class="text-[10px]" style="color:rgba(255,255,255,0.32);">Net savings/mo</p>
+         </div>
+         <div class="rounded-[14px] p-3.5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
+           <p class="font-display text-[1.35rem] lg:text-[1.55rem] leading-none font-medium tabular-nums mb-1" style="color:#C89840;" id="kpi-roi">8.4×</p>
+           <p class="text-[10px]" style="color:rgba(255,255,255,0.32);">Gross ROI</p>
+         </div>
+         <div class="rounded-[14px] p-3.5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
+           <p class="font-display text-[1.35rem] lg:text-[1.55rem] leading-none font-medium tabular-nums mb-1" style="color:#2D5016;" id="kpi-payback">3 wks</p>
+           <p class="text-[10px]" style="color:rgba(255,255,255,0.32);">Payback period</p>
+         </div>
+         <div class="rounded-[14px] p-3.5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
+           <p class="font-display text-[1.35rem] lg:text-[1.55rem] leading-none font-medium tabular-nums mb-1" style="color:#7B68EE;" id="kpi-ftes">2.1</p>
+           <p class="text-[10px]" style="color:rgba(255,255,255,0.32);">FTEs freed</p>
+         </div>
+         <div class="rounded-[14px] p-3.5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
+           <p class="font-display text-[1.35rem] lg:text-[1.55rem] leading-none font-medium tabular-nums mb-1 text-white" id="kpi-tasks">487</p>
+           <p class="text-[10px]" style="color:rgba(255,255,255,0.32);">Tasks/day automated</p>
+         </div>
+       </div>
 
-        <!-- SAVINGS BREAKDOWN -->
-        <div class="rounded-[16px] p-4 lg:p-5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
-          <p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-4" style="color:rgba(255,255,255,0.55);">Where the savings come from</p>
-          <div class="space-y-3">
+       <!-- SAVINGS BREAKDOWN -->
+       <div class="rounded-[16px] p-4 lg:p-5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
+         <p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-4" style="color:rgba(255,255,255,0.55);">Where the savings come from</p>
+         <div class="space-y-3">
 
-            <div>
-              <div class="flex items-center justify-between mb-1.5">
-                <span class="flex items-center gap-2 text-[11.5px]" style="color:rgba(255,255,255,0.55);">
-                  <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#E8B4B0;"/>Time recovered
-                </span>
-                <div class="flex items-center gap-2">
-                  <span class="text-[9.5px] tabular-nums" style="color:rgba(255,255,255,0.55);" id="bk-time-pct">78%</span>
-                  <span class="text-[11.5px] font-semibold tabular-nums" style="color:#E8B4B0;" id="bk-time-val">£3,120/mo</span>
-                </div>
-              </div>
-              <div class="h-1 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.07);">
-                <div id="bk-time-bar" class="h-full rounded-full transition-all duration-500" style="width:78%;background:linear-gradient(90deg,#E8B4B0,#c4847e);"/>
-              </div>
-            </div>
+           <div>
+             <div class="flex items-center justify-between mb-1.5">
+               <span class="flex items-center gap-2 text-[11.5px]" style="color:rgba(255,255,255,0.55);">
+                 <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#E8B4B0;"/>Time recovered
+               </span>
+               <div class="flex items-center gap-2">
+                 <span class="text-[9.5px] tabular-nums" style="color:rgba(255,255,255,0.55);" id="bk-time-pct">78%</span>
+                 <span class="text-[11.5px] font-semibold tabular-nums" style="color:#E8B4B0;" id="bk-time-val">£3,120/mo</span>
+               </div>
+             </div>
+             <div class="h-1 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.07);">
+               <div id="bk-time-bar" class="h-full rounded-full transition-all duration-500" style="width:78%;background:linear-gradient(90deg,#E8B4B0,#c4847e);"/>
+             </div>
+           </div>
 
-            <div>
-              <div class="flex items-center justify-between mb-1.5">
-                <span class="flex items-center gap-2 text-[11.5px]" style="color:rgba(255,255,255,0.55);">
-                  <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#2D5016;opacity:0.9;"/>Error & rework
-                </span>
-                <div class="flex items-center gap-2">
-                  <span class="text-[9.5px] tabular-nums" style="color:rgba(255,255,255,0.55);" id="bk-error-pct">14%</span>
-                  <span class="text-[11.5px] font-semibold tabular-nums" style="color:#4a8a2a;" id="bk-error-val">£548/mo</span>
-                </div>
-              </div>
-              <div class="h-1 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.07);">
-                <div id="bk-error-bar" class="h-full rounded-full transition-all duration-500" style="width:14%;background:linear-gradient(90deg,#2D5016,#4a8a2a);opacity:0.85;"/>
-              </div>
-            </div>
+           <div>
+             <div class="flex items-center justify-between mb-1.5">
+               <span class="flex items-center gap-2 text-[11.5px]" style="color:rgba(255,255,255,0.55);">
+                 <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#2D5016;opacity:0.9;"/>Error & rework
+               </span>
+               <div class="flex items-center gap-2">
+                 <span class="text-[9.5px] tabular-nums" style="color:rgba(255,255,255,0.55);" id="bk-error-pct">14%</span>
+                 <span class="text-[11.5px] font-semibold tabular-nums" style="color:#4a8a2a;" id="bk-error-val">£548/mo</span>
+               </div>
+             </div>
+             <div class="h-1 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.07);">
+               <div id="bk-error-bar" class="h-full rounded-full transition-all duration-500" style="width:14%;background:linear-gradient(90deg,#2D5016,#4a8a2a);opacity:0.85;"/>
+             </div>
+           </div>
 
-            <div>
-              <div class="flex items-center justify-between mb-1.5">
-                <span class="flex items-center gap-2 text-[11.5px]" style="color:rgba(255,255,255,0.55);">
-                  <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#7B68EE;"/>Tools consolidated
-                </span>
-                <div class="flex items-center gap-2">
-                  <span class="text-[9.5px] tabular-nums" style="color:rgba(255,255,255,0.55);" id="bk-tools-pct">8%</span>
-                  <span class="text-[11.5px] font-semibold tabular-nums" style="color:#7B68EE;" id="bk-tools-val">£316/mo</span>
-                </div>
-              </div>
-              <div class="h-1 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.07);">
-                <div id="bk-tools-bar" class="h-full rounded-full transition-all duration-500" style="width:8%;background:linear-gradient(90deg,#7B68EE,#9b8eff);opacity:0.85;"/>
-              </div>
-            </div>
+           <div>
+             <div class="flex items-center justify-between mb-1.5">
+               <span class="flex items-center gap-2 text-[11.5px]" style="color:rgba(255,255,255,0.55);">
+                 <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#7B68EE;"/>Tools consolidated
+               </span>
+               <div class="flex items-center gap-2">
+                 <span class="text-[9.5px] tabular-nums" style="color:rgba(255,255,255,0.55);" id="bk-tools-pct">8%</span>
+                 <span class="text-[11.5px] font-semibold tabular-nums" style="color:#7B68EE;" id="bk-tools-val">£316/mo</span>
+               </div>
+             </div>
+             <div class="h-1 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.07);">
+               <div id="bk-tools-bar" class="h-full rounded-full transition-all duration-500" style="width:8%;background:linear-gradient(90deg,#7B68EE,#9b8eff);opacity:0.85;"/>
+             </div>
+           </div>
 
-            <div>
-              <div class="flex items-center justify-between mb-1.5">
-                <span class="flex items-center gap-2 text-[11.5px]" style="color:rgba(255,255,255,0.55);">
-                  <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#C89840;"/>Staff retention
-                </span>
-                <div class="flex items-center gap-2">
-                  <span class="text-[9.5px] tabular-nums" style="color:rgba(255,255,255,0.55);" id="bk-staff-pct">—</span>
-                  <span class="text-[11.5px] font-semibold tabular-nums" style="color:#C89840;" id="bk-staff-val">£0/mo</span>
-                </div>
-              </div>
-              <div class="h-1 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.07);">
-                <div id="bk-staff-bar" class="h-full rounded-full transition-all duration-500" style="width:0%;background:linear-gradient(90deg,#C89840,#e0b050);"/>
-              </div>
-            </div>
+           <div>
+             <div class="flex items-center justify-between mb-1.5">
+               <span class="flex items-center gap-2 text-[11.5px]" style="color:rgba(255,255,255,0.55);">
+                 <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#C89840;"/>Staff retention
+               </span>
+               <div class="flex items-center gap-2">
+                 <span class="text-[9.5px] tabular-nums" style="color:rgba(255,255,255,0.55);" id="bk-staff-pct"> </span>
+                 <span class="text-[11.5px] font-semibold tabular-nums" style="color:#C89840;" id="bk-staff-val">£0/mo</span>
+               </div>
+             </div>
+             <div class="h-1 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.07);">
+               <div id="bk-staff-bar" class="h-full rounded-full transition-all duration-500" style="width:0%;background:linear-gradient(90deg,#C89840,#e0b050);"/>
+             </div>
+           </div>
 
-          </div>
+         </div>
 
-          <div class="mt-3 pt-3 flex items-center justify-between flex-wrap gap-2" style="border-top:1px solid rgba(255,255,255,0.06);">
-            <span class="text-[10px]" style="color:rgba(255,255,255,0.55);">vs. hiring a specialist (£68K/yr fully loaded)</span>
-            <span class="text-[11px] font-bold" style="color:#E8B4B0;" id="vs-hire-label">Save £46K/yr vs. hiring</span>
-          </div>
-        </div>
+         <div class="mt-3 pt-3 flex items-center justify-between flex-wrap gap-2" style="border-top:1px solid rgba(255,255,255,0.06);">
+           <span class="text-[10px]" style="color:rgba(255,255,255,0.55);">vs. hiring a specialist (£68K/yr fully loaded)</span>
+           <span class="text-[11px] font-bold" style="color:#E8B4B0;" id="vs-hire-label">Save £46K/yr vs. hiring</span>
+         </div>
+       </div>
 
-        <!-- COST OF WAITING + 5YR + QUICK WINS -->
-        <div class="grid sm:grid-cols-3 gap-2.5">
+       <!-- COST OF WAITING + 5YR + QUICK WINS -->
+       <div class="grid sm:grid-cols-3 gap-2.5">
 
-          <div class="rounded-[16px] p-4" style="background:rgba(220,38,38,0.07);border:1px solid rgba(220,38,38,0.14);">
-            <div class="flex items-center gap-2 mb-2">
-              <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#f87171;animation:roi-pulse 1.4s ease-in-out infinite;"/>
-              <p class="text-[8.5px] uppercase tracking-[0.18em] font-bold" style="color:rgba(248,113,113,0.65);">Cost of waiting</p>
-            </div>
-            <p class="font-display text-[1.25rem] lg:text-[1.4rem] leading-none font-medium tabular-nums mb-1" style="color:#fca5a5;">
-              −£<span id="cost-ticker">0.00</span>
-            </p>
-            <p class="text-[9.5px]" style="color:rgba(255,255,255,0.26);">lost since page opened</p>
-          </div>
+         <div class="rounded-[16px] p-4" style="background:rgba(220,38,38,0.07);border:1px solid rgba(220,38,38,0.14);">
+           <div class="flex items-center gap-2 mb-2">
+             <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#f87171;animation:roi-pulse 1.4s ease-in-out infinite;"/>
+             <p class="text-[8.5px] uppercase tracking-[0.18em] font-bold" style="color:rgba(248,113,113,0.65);">Cost of waiting</p>
+           </div>
+           <p class="font-display text-[1.25rem] lg:text-[1.4rem] leading-none font-medium tabular-nums mb-1" style="color:#fca5a5;">
+             −£<span id="cost-ticker">0.00</span>
+           </p>
+           <p class="text-[9.5px]" style="color:rgba(255,255,255,0.26);">lost since page opened</p>
+         </div>
 
-          <div class="rounded-[16px] p-4" style="background:rgba(200,152,64,0.07);border:1px solid rgba(200,152,64,0.17);">
-            <p class="text-[8.5px] uppercase tracking-[0.18em] font-bold mb-2" style="color:rgba(200,152,64,0.60);">5-year projection</p>
-            <p class="font-display text-[1.25rem] lg:text-[1.4rem] leading-none font-medium tabular-nums mb-1" style="color:#C89840;" id="res-5yr">£239,100</p>
-            <p class="text-[9.5px]" style="color:rgba(255,255,255,0.26);">net cumulative value</p>
-          </div>
+         <div class="rounded-[16px] p-4" style="background:rgba(200,152,64,0.07);border:1px solid rgba(200,152,64,0.17);">
+           <p class="text-[8.5px] uppercase tracking-[0.18em] font-bold mb-2" style="color:rgba(200,152,64,0.60);">5-year projection</p>
+           <p class="font-display text-[1.25rem] lg:text-[1.4rem] leading-none font-medium tabular-nums mb-1" style="color:#C89840;" id="res-5yr">£239,100</p>
+           <p class="text-[9.5px]" style="color:rgba(255,255,255,0.26);">net cumulative value</p>
+         </div>
 
-          <div class="rounded-[16px] p-4" style="background:rgba(45,80,22,0.08);border:1px solid rgba(45,80,22,0.22);">
-            <p class="text-[8.5px] uppercase tracking-[0.18em] font-bold mb-2" style="color:rgba(74,138,42,0.70);">Deploy timeline</p>
-            <div class="space-y-1.5">
-              <div class="flex items-center gap-2">
-                <span class="text-[9px] font-bold tabular-nums w-10 shrink-0" style="color:#4a8a2a;">Wk 1–2</span>
-                <span class="text-[9px]" style="color:rgba(255,255,255,0.38);">Audit + top 3 flows</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="text-[9px] font-bold tabular-nums w-10 shrink-0" style="color:#4a8a2a;">Mo 1</span>
-                <span class="text-[9px]" style="color:rgba(255,255,255,0.38);">Full stack live</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="text-[9px] font-bold tabular-nums w-10 shrink-0" style="color:#4a8a2a;">Mo 3</span>
-                <span class="text-[9px]" style="color:rgba(255,255,255,0.38);">ROI confirmed</span>
-              </div>
-            </div>
-          </div>
+         <div class="rounded-[16px] p-4" style="background:rgba(45,80,22,0.08);border:1px solid rgba(45,80,22,0.22);">
+           <p class="text-[8.5px] uppercase tracking-[0.18em] font-bold mb-2" style="color:rgba(74,138,42,0.70);">Deploy timeline</p>
+           <div class="space-y-1.5">
+             <div class="flex items-center gap-2">
+               <span class="text-[9px] font-bold tabular-nums w-10 shrink-0" style="color:#4a8a2a;">Wk 1–2</span>
+               <span class="text-[9px]" style="color:rgba(255,255,255,0.38);">Audit + top 3 flows</span>
+             </div>
+             <div class="flex items-center gap-2">
+               <span class="text-[9px] font-bold tabular-nums w-10 shrink-0" style="color:#4a8a2a;">Mo 1</span>
+               <span class="text-[9px]" style="color:rgba(255,255,255,0.38);">Full stack live</span>
+             </div>
+             <div class="flex items-center gap-2">
+               <span class="text-[9px] font-bold tabular-nums w-10 shrink-0" style="color:#4a8a2a;">Mo 3</span>
+               <span class="text-[9px]" style="color:rgba(255,255,255,0.38);">ROI confirmed</span>
+             </div>
+           </div>
+         </div>
 
-        </div>
+       </div>
 
-        <!-- EMAIL CAPTURE — get the full report before CTA -->
-        <div id="roi-email-gate" class="rounded-[14px] p-4 lg:p-5" style="background:rgba(232,180,176,0.06);border:1px solid rgba(232,180,176,0.18);">
-          <div class="flex items-start gap-3 mb-3">
-            <span class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5" style="background:rgba(232,180,176,0.15);">
-              <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="#E8B4B0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 3H2a1 1 0 00-1 1v8a1 1 0 001 1h12a1 1 0 001-1V4a1 1 0 00-1-1zM1 4l7 5 7-5"/>
-              </svg>
-            </span>
-            <div>
-              <p class="text-[12px] font-semibold text-white mb-0.5">Get your full ROI report by email</p>
-              <p class="text-[11px]" style="color:rgba(255,255,255,0.38);">Your personalised breakdown — including 5-year projection, process list and recommended plan.</p>
-            </div>
-          </div>
-          <form id="roi-email-form" class="flex gap-2" onsubmit="roiEmailSubmit(event)">
-            <label for="roi-email-input" class="sr-only">Email address for ROI report</label>
-            <input
-              type="email"
-              id="roi-email-input"
-              placeholder="your@email.com"
-              aria-label="Email address for ROI report"
-              required
-              class="flex-1 rounded-[10px] px-3.5 py-2.5 text-[12.5px] outline-none transition-all"
-              style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:white;"
-              onfocus="this.style.borderColor='rgba(232,180,176,0.50)'"
-              onblur="this.style.borderColor='rgba(255,255,255,0.12)'"
-            />
-            <button
-              type="submit"
-              class="shrink-0 px-4 py-2.5 rounded-[10px] text-[12px] font-semibold transition-all duration-150"
-              style="background:#E8B4B0;color:#0A0A0A;"
-              onmouseover="this.style.background='#d9a09b'"
-              onmouseout="this.style.background='#E8B4B0'"
-            >Send report</button>
-          </form>
-          <div id="roi-email-success" class="hidden items-center gap-2 mt-2">
-            <svg class="w-4 h-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8l4 4 8-8"/></svg>
-            <p class="text-[11.5px]" style="color:rgba(74,222,128,0.85);">Report sent — check your inbox. We'll follow up within 24h.</p>
-          </div>
-        </div>
+       <!-- EMAIL CAPTURE get the full report before CTA -->
+       <div id="roi-email-gate" class="rounded-[14px] p-4 lg:p-5" style="background:rgba(232,180,176,0.06);border:1px solid rgba(232,180,176,0.18);">
+         <div class="flex items-start gap-3 mb-3">
+           <span class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5" style="background:rgba(232,180,176,0.15);">
+             <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="#E8B4B0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+               <path d="M14 3H2a1 1 0 00-1 1v8a1 1 0 001 1h12a1 1 0 001-1V4a1 1 0 00-1-1zM1 4l7 5 7-5"/>
+             </svg>
+           </span>
+           <div>
+             <p class="text-[12px] font-semibold text-white mb-0.5">Get your full ROI report by email</p>
+             <p class="text-[11px]" style="color:rgba(255,255,255,0.38);">Your personalised breakdown including 5-year projection, process list and recommended plan.</p>
+           </div>
+         </div>
+         <form id="roi-email-form" class="flex gap-2" onsubmit="roiEmailSubmit(event)">
+           <label for="roi-email-input" class="sr-only">Email address for ROI report</label>
+           <input
+             type="email"
+             id="roi-email-input"
+             placeholder="your@email.com"
+             aria-label="Email address for ROI report"
+             required
+             class="flex-1 rounded-[10px] px-3.5 py-2.5 text-[12.5px] outline-none transition-all"
+             style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:white;"
+             onfocus="this.style.borderColor='rgba(232,180,176,0.50)'"
+             onblur="this.style.borderColor='rgba(255,255,255,0.12)'"
+           />
+           <button
+             type="submit"
+             class="shrink-0 px-4 py-2.5 rounded-[10px] text-[12px] font-semibold transition-all duration-150"
+             style="background:#E8B4B0;color:#0A0A0A;"
+             onmouseover="this.style.background='#d9a09b'"
+             onmouseout="this.style.background='#E8B4B0'"
+           >Send report</button>
+         </form>
+         <div id="roi-email-success" class="hidden items-center gap-2 mt-2">
+           <svg class="w-4 h-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8l4 4 8-8"/></svg>
+           <p class="text-[11.5px]" style="color:rgba(74,222,128,0.85);">Report sent check your inbox. We'll follow up within 24h.</p>
+         </div>
+       </div>
 
-        <!-- CTA -->
-        <a href="/pages/welcome"
-          class="flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-[14px] text-[13px] font-semibold transition-all duration-150"
-          style="background:#E8B4B0;color:#0A0A0A;"
-          onmouseover="this.style.background='#d9a09b'"
-          onmouseout="this.style.background='#E8B4B0'"
-        >
-          Book my free audit — see the full analysis
-          <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 8h10M9 4l4 4-4 4"/>
-          </svg>
-        </a>
+       <!-- CTA -->
+       <a href="/pages/welcome"
+         class="flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-[14px] text-[13px] font-semibold transition-all duration-150"
+         style="background:#E8B4B0;color:#0A0A0A;"
+         onmouseover="this.style.background='#d9a09b'"
+         onmouseout="this.style.background='#E8B4B0'"
+       >
+         Book my free audit see the full analysis
+         <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+           <path d="M3 8h10M9 4l4 4-4 4"/>
+         </svg>
+       </a>
 
-      </div>
-    </div>
+     </div>
+   </div>
 
-    <!-- ── BENCHMARK STRIP ── -->
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 pt-6 mb-4" style="border-top:1px solid rgba(255,255,255,0.07);">
-      {[
-        { n: '40%',    l: 'of SMB time on manual tasks',             src: 'McKinsey 2024'      },
-        { n: '70–80%', l: 'of repetitive tasks automatable',         src: 'Gartner 2024'       },
-        { n: '£24/hr', l: 'avg. UK admin all-in hourly cost',        src: 'ONS Labour 2024'    },
-        { n: '2.3h',   l: 'daily rework from data errors',           src: 'Forrester 2023'     },
-        { n: '£168K',  l: 'avg. first-year savings (PURIST)',        src: '500+ clients'       },
-      ].map(b => (
-        <div>
-          <p class="font-display text-lg lg:text-xl font-medium mb-1 leading-none" style="color:rgba(255,255,255,0.78);">{b.n}</p>
-          <p class="text-[10.5px] leading-snug mb-1" style="color:rgba(255,255,255,0.60);">{b.l}</p>
-          <p class="text-[8.5px] uppercase tracking-[0.12em]" style="color:rgba(255,255,255,0.50);">{b.src}</p>
-        </div>
-      ))}
-    </div>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pb-2">
-      {[
-        { n: '3 wks',  l: 'avg. payback period',                     src: 'PURIST 2024'        },
-        { n: '312',    l: 'automation audits completed',              src: 'PURIST clients'     },
-        { n: '99.5%',  l: 'workflow uptime SLA',                     src: 'PURIST infra'       },
-        { n: '6.2×',   l: 'avg. gross ROI multiplier',               src: 'PURIST 2024'        },
-      ].map(b => (
-        <div>
-          <p class="font-display text-lg lg:text-xl font-medium mb-1 leading-none" style="color:rgba(255,255,255,0.78);">{b.n}</p>
-          <p class="text-[10.5px] leading-snug mb-1" style="color:rgba(255,255,255,0.60);">{b.l}</p>
-          <p class="text-[8.5px] uppercase tracking-[0.12em]" style="color:rgba(255,255,255,0.50);">{b.src}</p>
-        </div>
-      ))}
-    </div>
+   <!-- ── BENCHMARK STRIP ── -->
+   <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 pt-6 mb-4" style="border-top:1px solid rgba(255,255,255,0.07);">
+     {[
+       { n: '40%',  l: 'of SMB time on manual tasks',           src: 'McKinsey 2024'    },
+       { n: '70–80%', l: 'of repetitive tasks automatable',       src: 'Gartner 2024'     },
+       { n: '£24/hr', l: 'avg. UK admin all-in hourly cost',      src: 'ONS Labour 2024'  },
+       { n: '2.3h', l: 'daily rework from data errors',         src: 'Forrester 2023'   },
+       { n: '£168K', l: 'avg. first-year savings (PURIST)',      src: '500+ clients'     },
+     ].map(b => (
+       <div>
+         <p class="font-display text-lg lg:text-xl font-medium mb-1 leading-none" style="color:rgba(255,255,255,0.78);">{b.n}</p>
+         <p class="text-[10.5px] leading-snug mb-1" style="color:rgba(255,255,255,0.60);">{b.l}</p>
+         <p class="text-[8.5px] uppercase tracking-[0.12em]" style="color:rgba(255,255,255,0.50);">{b.src}</p>
+       </div>
+     ))}
+   </div>
+   <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pb-2">
+     {[
+       { n: '3 wks', l: 'avg. payback period',                   src: 'PURIST 2024'      },
+       { n: '312',  l: 'automation audits completed',            src: 'PURIST clients'   },
+       { n: '99.5%', l: 'workflow uptime SLA',                   src: 'PURIST infra'     },
+       { n: '6.2×', l: 'avg. gross ROI multiplier',             src: 'PURIST 2024'      },
+     ].map(b => (
+       <div>
+         <p class="font-display text-lg lg:text-xl font-medium mb-1 leading-none" style="color:rgba(255,255,255,0.78);">{b.n}</p>
+         <p class="text-[10.5px] leading-snug mb-1" style="color:rgba(255,255,255,0.60);">{b.l}</p>
+         <p class="text-[8.5px] uppercase tracking-[0.12em]" style="color:rgba(255,255,255,0.50);">{b.src}</p>
+       </div>
+     ))}
+   </div>
 
-  </div>
+ </div>
 </section>
 
 <style>
-  @keyframes roi-pulse { 0%,100%{ opacity:0.5; transform:scale(1); } 50%{ opacity:1; transform:scale(1.4); } }
+ @keyframes roi-pulse { 0%,100%{ opacity:0.5; transform:scale(1); } 50%{ opacity:1; transform:scale(1.4); } }
 
-  .roi-range {
-    -webkit-appearance: none; appearance: none;
-    width: 100%; height: 3px; border-radius: 2px;
-    background: rgba(255,255,255,0.10); outline: none; cursor: pointer; display: block;
-  }
-  .roi-range::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 16px; height: 16px; border-radius: 50%;
-    background: #E8B4B0; border: 2px solid #0A0A0A;
-    box-shadow: 0 0 0 3px rgba(232,180,176,0.22); cursor: pointer; transition: box-shadow .15s;
-  }
-  .roi-range::-webkit-slider-thumb:hover { box-shadow: 0 0 0 5px rgba(232,180,176,0.30); }
-  .roi-range::-moz-range-thumb {
-    width: 16px; height: 16px; border-radius: 50%;
-    background: #E8B4B0; border: 2px solid #0A0A0A;
-    box-shadow: 0 0 0 3px rgba(232,180,176,0.22); cursor: pointer;
-  }
-  .roi-range--purple::-webkit-slider-thumb { background:#7B68EE; box-shadow:0 0 0 3px rgba(123,104,238,0.22); }
-  .roi-range--purple::-moz-range-thumb     { background:#7B68EE; }
-  .roi-range--green::-webkit-slider-thumb  { background:#2D5016; box-shadow:0 0 0 3px rgba(45,80,22,0.22); }
-  .roi-range--green::-moz-range-thumb      { background:#2D5016; }
-  .roi-range--amber::-webkit-slider-thumb  { background:#C89840; box-shadow:0 0 0 3px rgba(200,152,64,0.22); }
-  .roi-range--amber::-moz-range-thumb      { background:#C89840; }
+ .roi-range {
+   -webkit-appearance: none; appearance: none;
+   width: 100%; height: 3px; border-radius: 2px;
+   background: rgba(255,255,255,0.10); outline: none; cursor: pointer; display: block;
+ }
+ .roi-range::-webkit-slider-thumb {
+   -webkit-appearance: none;
+   width: 16px; height: 16px; border-radius: 50%;
+   background: #E8B4B0; border: 2px solid #0A0A0A;
+   box-shadow: 0 0 0 3px rgba(232,180,176,0.22); cursor: pointer; transition: box-shadow .15s;
+ }
+ .roi-range::-webkit-slider-thumb:hover { box-shadow: 0 0 0 5px rgba(232,180,176,0.30); }
+ .roi-range::-moz-range-thumb {
+   width: 16px; height: 16px; border-radius: 50%;
+   background: #E8B4B0; border: 2px solid #0A0A0A;
+   box-shadow: 0 0 0 3px rgba(232,180,176,0.22); cursor: pointer;
+ }
+ .roi-range--purple::-webkit-slider-thumb { background:#7B68EE; box-shadow:0 0 0 3px rgba(123,104,238,0.22); }
+ .roi-range--purple::-moz-range-thumb   { background:#7B68EE; }
+ .roi-range--green::-webkit-slider-thumb { background:#2D5016; box-shadow:0 0 0 3px rgba(45,80,22,0.22); }
+ .roi-range--green::-moz-range-thumb    { background:#2D5016; }
+ .roi-range--amber::-webkit-slider-thumb { background:#C89840; box-shadow:0 0 0 3px rgba(200,152,64,0.22); }
+ .roi-range--amber::-moz-range-thumb    { background:#C89840; }
 
-  .roi-lbl     { font-size:11px; font-weight:600; color:rgba(255,255,255,0.55); display:block; }
-  .roi-lbl-sub { font-size:9.5px; font-weight:400; color:rgba(255,255,255,0.55); }
-  .roi-val     { font-size:11.5px; font-weight:700; color:rgba(255,255,255,0.75); font-family:ui-monospace,monospace; white-space:nowrap; }
-  .roi-ticks   { display:flex; justify-content:space-between; font-size:9px; color:rgba(255,255,255,0.22); margin-top:4px; letter-spacing:0.04em; }
+ .roi-lbl   { font-size:11px; font-weight:600; color:rgba(255,255,255,0.55); display:block; }
+ .roi-lbl-sub { font-size:9.5px; font-weight:400; color:rgba(255,255,255,0.55); }
+ .roi-val   { font-size:11.5px; font-weight:700; color:rgba(255,255,255,0.75); font-family:ui-monospace,monospace; white-space:nowrap; }
+ .roi-ticks { display:flex; justify-content:space-between; font-size:9px; color:rgba(255,255,255,0.22); margin-top:4px; letter-spacing:0.04em; }
 
-  .ind-tab:not([style*="background:#E8B4B0"]):hover {
-    background: rgba(255,255,255,0.10) !important;
-    color: rgba(255,255,255,0.72) !important;
-  }
+ .ind-tab:not([style*="background:#E8B4B0"]):hover {
+   background: rgba(255,255,255,0.10) !important;
+   color: rgba(255,255,255,0.72) !important;
+ }
 </style>
 
 <script is:inline>
 (function() {
 
-  var INDUSTRIES = {
-    dental: {
-      label: 'Dental / Medical', indLabel: 'dental practice',
-      rates: [0.66, 0.76, 0.84],
-      defaults: { team:8, hourly:26, manual:16, toolCost:750, error:12, turnover:2 },
-      toolRep: 0.35,
-      processes: [
-        'Patient recall & reactivation campaigns',
-        'Insurance pre-authorisation requests',
-        'Appointment confirmations & reminders',
-        'Billing statements & payment chasing',
-        'Referral letter generation & dispatch',
-        'Clinical stock reordering triggers',
-        'CQC compliance report generation',
-      ],
-    },
-    legal: {
-      label: 'Law Firm / Legal', indLabel: 'law firm',
-      rates: [0.46, 0.62, 0.74],
-      defaults: { team:6, hourly:72, manual:20, toolCost:1200, error:18, turnover:1 },
-      toolRep: 0.28,
-      processes: [
-        'Document drafting & clause formatting',
-        'Court deadline tracking & calendar alerts',
-        'Client matter status update emails',
-        'Time recording & billing dispatch',
-        'File indexing & matter management',
-        'AML compliance checks & reporting',
-        'Disbursements reconciliation',
-      ],
-    },
-    agency: {
-      label: 'Agency / Creative', indLabel: 'creative agency',
-      rates: [0.56, 0.70, 0.82],
-      defaults: { team:10, hourly:48, manual:18, toolCost:1400, error:14, turnover:3 },
-      toolRep: 0.40,
-      processes: [
-        'Client reporting & dashboard builds',
-        'Media monitoring & alert routing',
-        'Invoice generation & payment chasing',
-        'Project status update emails',
-        'Social media scheduling & analytics',
-        'New client onboarding sequences',
-        'Scope-creep tracking & alerts',
-      ],
-    },
-    ecommerce: {
-      label: 'E-commerce', indLabel: 'e-commerce operation',
-      rates: [0.68, 0.80, 0.88],
-      defaults: { team:12, hourly:24, manual:22, toolCost:600, error:14, turnover:4 },
-      toolRep: 0.45,
-      processes: [
-        'Order processing & fulfilment updates',
-        'Inventory sync across all channels',
-        'Customer support ticket routing',
-        'Returns & refund processing',
-        'Supplier purchase order generation',
-        'Review request & UGC collection',
-        'Dynamic pricing & repricing rules',
-      ],
-    },
-    saas: {
-      label: 'SaaS / Tech', indLabel: 'SaaS company',
-      rates: [0.60, 0.74, 0.86],
-      defaults: { team:15, hourly:58, manual:24, toolCost:2000, error:10, turnover:2 },
-      toolRep: 0.50,
-      processes: [
-        'User onboarding sequence automation',
-        'Churn risk monitoring & alerts',
-        'Failed payment recovery (dunning)',
-        'Support ticket categorisation & routing',
-        'Usage analytics & board reporting',
-        'Trial-to-paid conversion workflows',
-        'Changelog & release note distribution',
-      ],
-    },
-    realestate: {
-      label: 'Real Estate', indLabel: 'estate agency',
-      rates: [0.58, 0.72, 0.83],
-      defaults: { team:7, hourly:38, manual:19, toolCost:800, error:11, turnover:2 },
-      toolRep: 0.38,
-      processes: [
-        'Property listing creation & syndication',
-        'Viewing appointment scheduling & reminders',
-        'Offer letter & MEMORANDUM generation',
-        'Tenant referencing & credit checks',
-        'Rent collection & arrears chasing',
-        'Maintenance request routing',
-        'Landlord monthly statement dispatch',
-      ],
-    },
-    finance: {
-      label: 'Finance / Accounting', indLabel: 'finance team',
-      rates: [0.52, 0.68, 0.80],
-      defaults: { team:9, hourly:55, manual:21, toolCost:1600, error:16, turnover:1 },
-      toolRep: 0.42,
-      processes: [
-        'Invoice matching & PO reconciliation',
-        'Bank feed categorisation & coding',
-        'Month-end close checklist automation',
-        'VAT return data extraction & filing',
-        'Expense claim processing & approvals',
-        'Budget variance alerts & reports',
-        'Audit trail documentation & archiving',
-      ],
-    },
-  };
+ var INDUSTRIES = {
+   dental: {
+     label: 'Dental / Medical', indLabel: 'dental practice',
+     rates: [0.66, 0.76, 0.84],
+     defaults: { team:8, hourly:26, manual:16, toolCost:750, error:12, turnover:2 },
+     toolRep: 0.35,
+     processes: [
+       'Patient recall & reactivation campaigns',
+       'Insurance pre-authorisation requests',
+       'Appointment confirmations & reminders',
+       'Billing statements & payment chasing',
+       'Referral letter generation & dispatch',
+       'Clinical stock reordering triggers',
+       'CQC compliance report generation',
+     ],
+   },
+   legal: {
+     label: 'Law Firm / Legal', indLabel: 'law firm',
+     rates: [0.46, 0.62, 0.74],
+     defaults: { team:6, hourly:72, manual:20, toolCost:1200, error:18, turnover:1 },
+     toolRep: 0.28,
+     processes: [
+       'Document drafting & clause formatting',
+       'Court deadline tracking & calendar alerts',
+       'Client matter status update emails',
+       'Time recording & billing dispatch',
+       'File indexing & matter management',
+       'AML compliance checks & reporting',
+       'Disbursements reconciliation',
+     ],
+   },
+   agency: {
+     label: 'Agency / Creative', indLabel: 'creative agency',
+     rates: [0.56, 0.70, 0.82],
+     defaults: { team:10, hourly:48, manual:18, toolCost:1400, error:14, turnover:3 },
+     toolRep: 0.40,
+     processes: [
+       'Client reporting & dashboard builds',
+       'Media monitoring & alert routing',
+       'Invoice generation & payment chasing',
+       'Project status update emails',
+       'Social media scheduling & analytics',
+       'New client onboarding sequences',
+       'Scope-creep tracking & alerts',
+     ],
+   },
+   ecommerce: {
+     label: 'E-commerce', indLabel: 'e-commerce operation',
+     rates: [0.68, 0.80, 0.88],
+     defaults: { team:12, hourly:24, manual:22, toolCost:600, error:14, turnover:4 },
+     toolRep: 0.45,
+     processes: [
+       'Order processing & fulfilment updates',
+       'Inventory sync across all channels',
+       'Customer support ticket routing',
+       'Returns & refund processing',
+       'Supplier purchase order generation',
+       'Review request & UGC collection',
+       'Dynamic pricing & repricing rules',
+     ],
+   },
+   saas: {
+     label: 'SaaS / Tech', indLabel: 'SaaS company',
+     rates: [0.60, 0.74, 0.86],
+     defaults: { team:15, hourly:58, manual:24, toolCost:2000, error:10, turnover:2 },
+     toolRep: 0.50,
+     processes: [
+       'User onboarding sequence automation',
+       'Churn risk monitoring & alerts',
+       'Failed payment recovery (dunning)',
+       'Support ticket categorisation & routing',
+       'Usage analytics & board reporting',
+       'Trial-to-paid conversion workflows',
+       'Changelog & release note distribution',
+     ],
+   },
+   realestate: {
+     label: 'Real Estate', indLabel: 'estate agency',
+     rates: [0.58, 0.72, 0.83],
+     defaults: { team:7, hourly:38, manual:19, toolCost:800, error:11, turnover:2 },
+     toolRep: 0.38,
+     processes: [
+       'Property listing creation & syndication',
+       'Viewing appointment scheduling & reminders',
+       'Offer letter & MEMORANDUM generation',
+       'Tenant referencing & credit checks',
+       'Rent collection & arrears chasing',
+       'Maintenance request routing',
+       'Landlord monthly statement dispatch',
+     ],
+   },
+   finance: {
+     label: 'Finance / Accounting', indLabel: 'finance team',
+     rates: [0.52, 0.68, 0.80],
+     defaults: { team:9, hourly:55, manual:21, toolCost:1600, error:16, turnover:1 },
+     toolRep: 0.42,
+     processes: [
+       'Invoice matching & PO reconciliation',
+       'Bank feed categorisation & coding',
+       'Month-end close checklist automation',
+       'VAT return data extraction & filing',
+       'Expense claim processing & approvals',
+       'Budget variance alerts & reports',
+       'Audit trail documentation & archiving',
+     ],
+   },
+ };
 
-  var TIER_LABELS = ['Conservative', 'Realistic', 'Optimistic'];
-  var currentInd  = 'dental';
-  var currentTier = 1;
-  var tickerInterval = null;
-  var openedAt = Date.now();
+ var TIER_LABELS = ['Conservative', 'Realistic', 'Optimistic'];
+ var currentInd = 'dental';
+ var currentTier = 1;
+ var tickerInterval = null;
+ var openedAt = Date.now();
 
-  var _currencySymbol = '£';
-  var _currencyRate   = 1;
-  window.addEventListener('puristCurrency', function(e) {
-    _currencySymbol = e.detail.symbol;
-    _currencyRate   = e.detail.rate;
-    render(); // re-render with new currency
-  });
+ var _currencySymbol = '£';
+ var _currencyRate = 1;
+ window.addEventListener('puristCurrency', function(e) {
+   _currencySymbol = e.detail.symbol;
+   _currencyRate = e.detail.rate;
+   render(); // re-render with new currency
+ });
 
-  function fmtGBP(n) {
-    n = Math.round(n * _currencyRate);
-    var s = _currencySymbol;
-    if (n >= 1000000) return s + (n/1000000).toFixed(1) + 'M';
-    if (n >= 100000)  return s + Math.round(n/1000) + 'K';
-    return s + n.toLocaleString('en-GB');
-  }
-  function fmtK(n) {
-    if (n * _currencyRate >= 10000) return _currencySymbol + Math.round(n * _currencyRate / 1000) + 'K';
-    return fmtGBP(n);
-  }
+ function fmtGBP(n) {
+   n = Math.round(n * _currencyRate);
+   var s = _currencySymbol;
+   if (n >= 1000000) return s + (n/1000000).toFixed(1) + 'M';
+   if (n >= 100000) return s + Math.round(n/1000) + 'K';
+   return s + n.toLocaleString('en-GB');
+ }
+ function fmtK(n) {
+   if (n * _currencyRate >= 10000) return _currencySymbol + Math.round(n * _currencyRate / 1000) + 'K';
+   return fmtGBP(n);
+ }
 
-  function getPuristCost(team) {
-    if (team <= 5)  return 1800;
-    if (team <= 15) return 2800;
-    if (team <= 30) return 4200;
-    return 6500;
-  }
-  function getSetupCost(team) {
-    if (team <= 5)  return 3500;
-    if (team <= 15) return 5500;
-    if (team <= 30) return 8000;
-    return 12000;
-  }
+ function getPuristCost(team) {
+   if (team <= 5) return 1800;
+   if (team <= 15) return 2800;
+   if (team <= 30) return 4200;
+   return 6500;
+ }
+ function getSetupCost(team) {
+   if (team <= 5) return 3500;
+   if (team <= 15) return 5500;
+   if (team <= 30) return 8000;
+   return 12000;
+ }
 
-  function calculate() {
-    var ind      = INDUSTRIES[currentInd];
-    var rate     = ind.rates[currentTier];
-    var team     = parseInt(document.getElementById('sl-team').value);
-    var hourly   = parseInt(document.getElementById('sl-hourly').value);
-    var manual   = parseFloat(document.getElementById('sl-manual').value);
-    var toolCost = parseInt(document.getElementById('sl-tools').value);
-    var errRate  = parseInt(document.getElementById('sl-error').value);
-    var turnover = parseInt(document.getElementById('sl-turnover').value);
+ function calculate() {
+   var ind    = INDUSTRIES[currentInd];
+   var rate   = ind.rates[currentTier];
+   var team   = parseInt(document.getElementById('sl-team').value);
+   var hourly = parseInt(document.getElementById('sl-hourly').value);
+   var manual = parseFloat(document.getElementById('sl-manual').value);
+   var toolCost = parseInt(document.getElementById('sl-tools').value);
+   var errRate = parseInt(document.getElementById('sl-error').value);
+   var turnover = parseInt(document.getElementById('sl-turnover').value);
 
-    var totalManualMo = team * manual * 4.33;
-    var hoursSaved    = totalManualMo * rate;
-    var timeSavings   = hoursSaved * hourly;
+   var totalManualMo = team * manual * 4.33;
+   var hoursSaved  = totalManualMo * rate;
+   var timeSavings = hoursSaved * hourly;
 
-    var monthlyErrors = totalManualMo * (errRate/100) * rate;
-    var errorSavings  = monthlyErrors * 2.4 * hourly * 0.80;
+   var monthlyErrors = totalManualMo * (errRate/100) * rate;
+   var errorSavings = monthlyErrors * 2.4 * hourly * 0.80;
 
-    var toolSavings   = toolCost * ind.toolRep * Math.min(rate * 0.9, 0.72);
+   var toolSavings = toolCost * ind.toolRep * Math.min(rate * 0.9, 0.72);
 
-    // Staff retention: avg £6K replacement cost per leaver reduced by 40% (automation reduces burnout)
-    var staffSavings  = (turnover * 6000 * 0.40) / 12;
+   // Staff retention: avg £6K replacement cost per leaver reduced by 40% (automation reduces burnout)
+   var staffSavings = (turnover * 6000 * 0.40) / 12;
 
-    var grossMonthly  = timeSavings + errorSavings + toolSavings + staffSavings;
-    var puristMonthly = getPuristCost(team);
-    var setupCost     = getSetupCost(team);
-    var netMonthly    = grossMonthly - puristMonthly;
-    var netAnnual     = netMonthly * 12;
-    var roiMult       = grossMonthly > 0 ? Math.round((grossMonthly/puristMonthly)*10)/10 : 0;
-    var paybackWeeks  = netMonthly > 50 ? Math.ceil(setupCost/(netMonthly/4.33)) : 0;
-    var fiveYear      = Math.max(0, netMonthly * 60 - setupCost);
-    var costPerDay    = Math.max(0, netMonthly/30.4);
+   var grossMonthly = timeSavings + errorSavings + toolSavings + staffSavings;
+   var puristMonthly = getPuristCost(team);
+   var setupCost   = getSetupCost(team);
+   var netMonthly  = grossMonthly - puristMonthly;
+   var netAnnual   = netMonthly * 12;
+   var roiMult     = grossMonthly > 0 ? Math.round((grossMonthly/puristMonthly)*10)/10 : 0;
+   var paybackWeeks = netMonthly > 50 ? Math.ceil(setupCost/(netMonthly/4.33)) : 0;
+   var fiveYear    = Math.max(0, netMonthly * 60 - setupCost);
+   var costPerDay  = Math.max(0, netMonthly/30.4);
 
-    // FTEs freed (hoursSaved / 160 working hrs per month)
-    var fteFreed      = Math.round((hoursSaved/160)*10)/10;
-    // Tasks/day automated (assume avg 0.25h per task)
-    var tasksDay      = Math.round(hoursSaved / 0.25 / 30.4);
+   // FTEs freed (hoursSaved / 160 working hrs per month)
+   var fteFreed    = Math.round((hoursSaved/160)*10)/10;
+   // Tasks/day automated (assume avg 0.25h per task)
+   var tasksDay    = Math.round(hoursSaved / 0.25 / 30.4);
 
-    var totalGross    = Math.max(1, timeSavings + errorSavings + toolSavings + staffSavings);
-    var timePct       = Math.round((timeSavings/totalGross)*100);
-    var errorPct      = Math.round((errorSavings/totalGross)*100);
-    var toolsPct      = Math.round((toolSavings/totalGross)*100);
-    var staffPct      = Math.max(0, 100 - timePct - errorPct - toolsPct);
+   var totalGross  = Math.max(1, timeSavings + errorSavings + toolSavings + staffSavings);
+   var timePct     = Math.round((timeSavings/totalGross)*100);
+   var errorPct    = Math.round((errorSavings/totalGross)*100);
+   var toolsPct    = Math.round((toolSavings/totalGross)*100);
+   var staffPct    = Math.max(0, 100 - timePct - errorPct - toolsPct);
 
-    var vHire = 68000 - (puristMonthly*12);
+   var vHire = 68000 - (puristMonthly*12);
 
-    return {
-      team, hourly, manual, rate,
-      hoursSaved: Math.round(hoursSaved),
-      timeSavings: Math.round(timeSavings),
-      errorSavings: Math.round(errorSavings),
-      toolSavings: Math.round(toolSavings),
-      staffSavings: Math.round(staffSavings),
-      grossMonthly: Math.round(grossMonthly),
-      puristMonthly,
-      netMonthly: Math.round(netMonthly),
-      netAnnual: Math.round(netAnnual),
-      roiMult, paybackWeeks,
-      fiveYear: Math.round(fiveYear),
-      costPerDay, fteFreed, tasksDay,
-      timePct, errorPct, toolsPct, staffPct,
-      vHire: Math.round(vHire),
-    };
-  }
+   return {
+     team, hourly, manual, rate,
+     hoursSaved: Math.round(hoursSaved),
+     timeSavings: Math.round(timeSavings),
+     errorSavings: Math.round(errorSavings),
+     toolSavings: Math.round(toolSavings),
+     staffSavings: Math.round(staffSavings),
+     grossMonthly: Math.round(grossMonthly),
+     puristMonthly,
+     netMonthly: Math.round(netMonthly),
+     netAnnual: Math.round(netAnnual),
+     roiMult, paybackWeeks,
+     fiveYear: Math.round(fiveYear),
+     costPerDay, fteFreed, tasksDay,
+     timePct, errorPct, toolsPct, staffPct,
+     vHire: Math.round(vHire),
+   };
+ }
 
-  function setText(id, v) { var el=document.getElementById(id); if(el) el.textContent=v; }
-  function setWidth(id, pct) { var el=document.getElementById(id); if(el) el.style.width=Math.max(2,Math.min(100,pct))+'%'; }
+ function setText(id, v) { var el=document.getElementById(id); if(el) el.textContent=v; }
+ function setWidth(id, pct) { var el=document.getElementById(id); if(el) el.style.width=Math.max(2,Math.min(100,pct))+'%'; }
 
-  function render() {
-    var d = calculate();
+ function render() {
+   var d = calculate();
 
-    setText('res-annual',    fmtGBP(d.netAnnual));
-    setText('res-gross',     fmtGBP(d.grossMonthly * 12));
-    setText('res-rate-text', Math.round(d.rate*100)+'%');
-    setText('res-team-text', d.team+(d.team===1?' person':' people'));
-    setText('res-tier-badge', TIER_LABELS[currentTier]);
+   setText('res-annual',  fmtGBP(d.netAnnual));
+   setText('res-gross',   fmtGBP(d.grossMonthly * 12));
+   setText('res-rate-text', Math.round(d.rate*100)+'%');
+   setText('res-team-text', d.team+(d.team===1?' person':' people'));
+   setText('res-tier-badge', TIER_LABELS[currentTier]);
 
-    setText('kpi-hours',   d.hoursSaved+' h');
-    setText('kpi-monthly', fmtGBP(d.netMonthly));
-    setText('kpi-roi',     d.roiMult+'×');
-    setText('kpi-payback', d.paybackWeeks > 0 ? d.paybackWeeks+' wks' : '< 1 wk');
-    setText('kpi-ftes',    d.fteFreed);
-    setText('kpi-tasks',   d.tasksDay);
+   setText('kpi-hours', d.hoursSaved+' h');
+   setText('kpi-monthly', fmtGBP(d.netMonthly));
+   setText('kpi-roi',   d.roiMult+'×');
+   setText('kpi-payback', d.paybackWeeks > 0 ? d.paybackWeeks+' wks' : '< 1 wk');
+   setText('kpi-ftes',  d.fteFreed);
+   setText('kpi-tasks', d.tasksDay);
 
-    setWidth('bk-time-bar',  d.timePct);
-    setWidth('bk-error-bar', d.errorPct);
-    setWidth('bk-tools-bar', d.toolsPct);
-    setWidth('bk-staff-bar', d.staffPct);
-    setText('bk-time-val',   fmtGBP(d.timeSavings)+'/mo');
-    setText('bk-error-val',  fmtGBP(d.errorSavings)+'/mo');
-    setText('bk-tools-val',  fmtGBP(d.toolSavings)+'/mo');
-    setText('bk-staff-val',  fmtGBP(d.staffSavings)+'/mo');
-    setText('bk-time-pct',   d.timePct+'%');
-    setText('bk-error-pct',  d.errorPct+'%');
-    setText('bk-tools-pct',  d.toolsPct+'%');
-    setText('bk-staff-pct',  d.staffPct+'%');
+   setWidth('bk-time-bar', d.timePct);
+   setWidth('bk-error-bar', d.errorPct);
+   setWidth('bk-tools-bar', d.toolsPct);
+   setWidth('bk-staff-bar', d.staffPct);
+   setText('bk-time-val', fmtGBP(d.timeSavings)+'/mo');
+   setText('bk-error-val', fmtGBP(d.errorSavings)+'/mo');
+   setText('bk-tools-val', fmtGBP(d.toolSavings)+'/mo');
+   setText('bk-staff-val', fmtGBP(d.staffSavings)+'/mo');
+   setText('bk-time-pct', d.timePct+'%');
+   setText('bk-error-pct', d.errorPct+'%');
+   setText('bk-tools-pct', d.toolsPct+'%');
+   setText('bk-staff-pct', d.staffPct+'%');
 
-    setText('vs-hire-label', d.vHire > 0 ? 'Save '+fmtK(d.vHire)+'/yr vs. hiring' : d.roiMult+'× return on investment');
-    setText('res-5yr', fmtGBP(d.fiveYear));
-    setText('purist-cost-display', '£'+d.puristMonthly.toLocaleString('en-GB')+'/mo');
+   setText('vs-hire-label', d.vHire > 0 ? 'Save '+fmtK(d.vHire)+'/yr vs. hiring' : d.roiMult+'× return on investment');
+   setText('res-5yr', fmtGBP(d.fiveYear));
+   setText('purist-cost-display', '£'+d.puristMonthly.toLocaleString('en-GB')+'/mo');
 
-    restartTicker(d.costPerDay);
-  }
+   restartTicker(d.costPerDay);
+ }
 
-  function restartTicker(costPerDay) {
-    if (tickerInterval) clearInterval(tickerInterval);
-    var tickerValue = costPerDay * ((Date.now()-openedAt)/86400000);
-    var costPerMs   = costPerDay/86400000;
-    tickerInterval  = setInterval(function() {
-      tickerValue += costPerMs*100;
-      var el = document.getElementById('cost-ticker');
-      if (el) el.textContent = tickerValue.toFixed(2);
-    }, 100);
-  }
+ function restartTicker(costPerDay) {
+   if (tickerInterval) clearInterval(tickerInterval);
+   var tickerValue = costPerDay * ((Date.now()-openedAt)/86400000);
+   var costPerMs = costPerDay/86400000;
+   tickerInterval = setInterval(function() {
+     tickerValue += costPerMs*100;
+     var el = document.getElementById('cost-ticker');
+     if (el) el.textContent = tickerValue.toFixed(2);
+   }, 100);
+ }
 
-  function updateSliderFill(slider, color) {
-    var pct = ((parseFloat(slider.value)-parseFloat(slider.min))/(parseFloat(slider.max)-parseFloat(slider.min)))*100;
-    slider.style.background = 'linear-gradient(to right,'+color+' '+pct+'%,rgba(255,255,255,0.10) '+pct+'%)';
-  }
+ function updateSliderFill(slider, color) {
+   var pct = ((parseFloat(slider.value)-parseFloat(slider.min))/(parseFloat(slider.max)-parseFloat(slider.min)))*100;
+   slider.style.background = 'linear-gradient(to right,'+color+' '+pct+'%,rgba(255,255,255,0.10) '+pct+'%)';
+ }
 
-  function renderProcesses() {
-    var ind  = INDUSTRIES[currentInd];
-    var list = document.getElementById('process-list');
-    var lbl  = document.getElementById('proc-ind-label');
-    if (!list) return;
-    list.innerHTML = '';
-    ind.processes.forEach(function(p) {
-      var li = document.createElement('li');
-      li.style.cssText = 'display:flex;align-items:flex-start;gap:7px;';
-      li.innerHTML =
-        '<svg style="width:11px;height:11px;flex-shrink:0;margin-top:1px;color:#2D5016;" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg>' +
-        '<span style="font-size:11px;color:rgba(255,255,255,0.50);line-height:1.4;">'+p+'</span>';
-      list.appendChild(li);
-    });
-    if (lbl) lbl.textContent = ind.indLabel;
-  }
+ function renderProcesses() {
+   var ind = INDUSTRIES[currentInd];
+   var list = document.getElementById('process-list');
+   var lbl = document.getElementById('proc-ind-label');
+   if (!list) return;
+   list.innerHTML = '';
+   ind.processes.forEach(function(p) {
+     var li = document.createElement('li');
+     li.style.cssText = 'display:flex;align-items:flex-start;gap:7px;';
+     li.innerHTML =
+       '<svg style="width:11px;height:11px;flex-shrink:0;margin-top:1px;color:#2D5016;" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg>' +
+       '<span style="font-size:11px;color:rgba(255,255,255,0.50);line-height:1.4;">'+p+'</span>';
+     list.appendChild(li);
+   });
+   if (lbl) lbl.textContent = ind.indLabel;
+ }
 
-  function switchIndustry(id) {
-    currentInd = id;
-    var d = INDUSTRIES[id].defaults;
-    var map = [['sl-team','val-team',d.team],['sl-hourly','val-hourly',d.hourly],['sl-manual','val-manual',d.manual],['sl-tools','val-tools',d.toolCost],['sl-error','val-error',d.error],['sl-turnover','val-turnover',d.turnover]];
-    map.forEach(function(m) {
-      var sl=document.getElementById(m[0]); if(sl){sl.value=m[2];updateSliderFill(sl,getSliderColor(m[0]));}
-      setText(m[1],m[2]);
-    });
-    document.querySelectorAll('.ind-tab').forEach(function(btn) {
-      var a=btn.dataset.ind===id;
-      btn.style.background=a?'#E8B4B0':'rgba(255,255,255,0.06)';
-      btn.style.color=a?'#0A0A0A':'rgba(255,255,255,0.46)';
-      btn.style.border=a?'':'1px solid rgba(255,255,255,0.09)';
-    });
-    renderProcesses(); render();
-  }
+ function switchIndustry(id) {
+   currentInd = id;
+   var d = INDUSTRIES[id].defaults;
+   var map = [['sl-team','val-team',d.team],['sl-hourly','val-hourly',d.hourly],['sl-manual','val-manual',d.manual],['sl-tools','val-tools',d.toolCost],['sl-error','val-error',d.error],['sl-turnover','val-turnover',d.turnover]];
+   map.forEach(function(m) {
+     var sl=document.getElementById(m[0]); if(sl){sl.value=m[2];updateSliderFill(sl,getSliderColor(m[0]));}
+     setText(m[1],m[2]);
+   });
+   document.querySelectorAll('.ind-tab').forEach(function(btn) {
+     var a=btn.dataset.ind===id;
+     btn.style.background=a?'#E8B4B0':'rgba(255,255,255,0.06)';
+     btn.style.color=a?'#0A0A0A':'rgba(255,255,255,0.46)';
+     btn.style.border=a?'':'1px solid rgba(255,255,255,0.09)';
+   });
+   renderProcesses(); render();
+ }
 
-  function switchTier(tier) {
-    currentTier = tier;
-    document.querySelectorAll('.tier-btn').forEach(function(btn) {
-      var a=parseInt(btn.dataset.tier)===tier;
-      btn.style.background=a?'#E8B4B0':'rgba(255,255,255,0.06)';
-      btn.style.color=a?'#0A0A0A':'rgba(255,255,255,0.44)';
-      btn.style.border=a?'':'1px solid rgba(255,255,255,0.08)';
-    });
-    render();
-  }
+ function switchTier(tier) {
+   currentTier = tier;
+   document.querySelectorAll('.tier-btn').forEach(function(btn) {
+     var a=parseInt(btn.dataset.tier)===tier;
+     btn.style.background=a?'#E8B4B0':'rgba(255,255,255,0.06)';
+     btn.style.color=a?'#0A0A0A':'rgba(255,255,255,0.44)';
+     btn.style.border=a?'':'1px solid rgba(255,255,255,0.08)';
+   });
+   render();
+ }
 
-  function getSliderColor(id) {
-    if (id==='sl-tools')    return '#7B68EE';
-    if (id==='sl-error')    return '#2D5016';
-    if (id==='sl-turnover') return '#C89840';
-    return '#E8B4B0';
-  }
+ function getSliderColor(id) {
+   if (id==='sl-tools')  return '#7B68EE';
+   if (id==='sl-error')  return '#2D5016';
+   if (id==='sl-turnover') return '#C89840';
+   return '#E8B4B0';
+ }
 
-  ['sl-team','sl-hourly','sl-manual','sl-tools','sl-error','sl-turnover'].forEach(function(id,i) {
-    var sl=document.getElementById(id); if(!sl)return;
-    var valIds=['val-team','val-hourly','val-manual','val-tools','val-error','val-turnover'];
-    updateSliderFill(sl,getSliderColor(id));
-    sl.addEventListener('input',function(){setText(valIds[i],this.value);updateSliderFill(this,getSliderColor(id));render();});
-  });
+ ['sl-team','sl-hourly','sl-manual','sl-tools','sl-error','sl-turnover'].forEach(function(id,i) {
+   var sl=document.getElementById(id); if(!sl)return;
+   var valIds=['val-team','val-hourly','val-manual','val-tools','val-error','val-turnover'];
+   updateSliderFill(sl,getSliderColor(id));
+   sl.addEventListener('input',function(){setText(valIds[i],this.value);updateSliderFill(this,getSliderColor(id));render();});
+ });
 
-  document.querySelectorAll('.ind-tab').forEach(function(btn){btn.addEventListener('click',function(){switchIndustry(this.dataset.ind);});});
-  document.querySelectorAll('.tier-btn').forEach(function(btn){btn.addEventListener('click',function(){switchTier(parseInt(this.dataset.tier));});});
+ document.querySelectorAll('.ind-tab').forEach(function(btn){btn.addEventListener('click',function(){switchIndustry(this.dataset.ind);});});
+ document.querySelectorAll('.tier-btn').forEach(function(btn){btn.addEventListener('click',function(){switchTier(parseInt(this.dataset.tier));});});
 
-  var advToggle=document.getElementById('adv-toggle');
-  var advPanel=document.getElementById('adv-panel');
-  var advArrow=document.getElementById('adv-arrow');
-  if(advToggle&&advPanel){
-    advToggle.addEventListener('click',function(){
-      var open=!advPanel.classList.contains('hidden');
-      advPanel.classList.toggle('hidden',open);
-      if(advArrow)advArrow.style.transform=open?'':'rotate(180deg)';
-      advToggle.style.color=open?'rgba(255,255,255,0.32)':'rgba(255,255,255,0.65)';
-    });
-  }
+ var advToggle=document.getElementById('adv-toggle');
+ var advPanel=document.getElementById('adv-panel');
+ var advArrow=document.getElementById('adv-arrow');
+ if(advToggle&&advPanel){
+   advToggle.addEventListener('click',function(){
+     var open=!advPanel.classList.contains('hidden');
+     advPanel.classList.toggle('hidden',open);
+     if(advArrow)advArrow.style.transform=open?'':'rotate(180deg)';
+     advToggle.style.color=open?'rgba(255,255,255,0.32)':'rgba(255,255,255,0.65)';
+   });
+ }
 
-  renderProcesses();
+ renderProcesses();
 
-  // Start ticker only when ROI section is visible
-  var roiSection = document.getElementById('cost-ticker') && document.getElementById('cost-ticker').closest('section');
-  if (roiSection && 'IntersectionObserver' in window) {
-    var roiObs = new IntersectionObserver(function(entries) {
-      if (entries[0].isIntersecting) { render(); roiObs.disconnect(); }
-    }, { threshold: 0.15 });
-    roiObs.observe(roiSection);
-  } else {
-    render();
-  }
+ // Start ticker only when ROI section is visible
+ var roiSection = document.getElementById('cost-ticker') && document.getElementById('cost-ticker').closest('section');
+ if (roiSection && 'IntersectionObserver' in window) {
+   var roiObs = new IntersectionObserver(function(entries) {
+     if (entries[0].isIntersecting) { render(); roiObs.disconnect(); }
+   }, { threshold: 0.15 });
+   roiObs.observe(roiSection);
+ } else {
+   render();
+ }
 
-  // Cleanup ticker on ViewTransitions navigation
-  document.addEventListener('astro:before-swap', function() {
-    if (tickerInterval) { clearInterval(tickerInterval); tickerInterval = null; }
-  });
+ // Cleanup ticker on ViewTransitions navigation
+ document.addEventListener('astro:before-swap', function() {
+   if (tickerInterval) { clearInterval(tickerInterval); tickerInterval = null; }
+ });
 
 })();
 
 // ROI email capture handler
 function roiEmailSubmit(e) {
-  e.preventDefault();
-  var email = document.getElementById('roi-email-input').value;
-  var form  = document.getElementById('roi-email-form');
-  var success = document.getElementById('roi-email-success');
-  if (!email) return;
-  // Store in localStorage + fire a webhook if available
-  try { localStorage.setItem('purist_roi_email', email); } catch(_) {}
-  // Visual feedback immediately
-  form.style.display = 'none';
-  success.style.display = 'flex';
-  // Fire to n8n webhook (replace with real endpoint)
-  var payload = {
-    email: email,
-    timestamp: new Date().toISOString(),
-    page: location.href,
-    source: 'roi_calculator'
-  };
-  fetch('/api/lead-capture', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  }).catch(function(){});  // silent fail — UX not affected
+ e.preventDefault();
+ var email = document.getElementById('roi-email-input').value;
+ var form = document.getElementById('roi-email-form');
+ var success = document.getElementById('roi-email-success');
+ if (!email) return;
+ // Store in localStorage + fire a webhook if available
+ try { localStorage.setItem('purist_roi_email', email); } catch(_) {}
+ // Visual feedback immediately
+ form.style.display = 'none';
+ success.style.display = 'flex';
+ // Fire to n8n webhook (replace with real endpoint)
+ var payload = {
+   email: email,
+   timestamp: new Date().toISOString(),
+   page: location.href,
+   source: 'roi_calculator'
+ };
+ fetch('/api/lead-capture', {
+   method: 'POST',
+   headers: { 'Content-Type': 'application/json' },
+   body: JSON.stringify(payload)
+ }).catch(function(){}); // silent fail UX not affected
 }
 </script>

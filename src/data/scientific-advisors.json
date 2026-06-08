@@ -1,80 +1,80 @@
 {
-  "advisors": [
-    {
-      "id": "advisor-automation",
-      "name": "Lead Automation Architect",
-      "credentials": "n8n Certified · 500+ Workflows · 12 Years Systems Engineering",
-      "specialty": "Workflow architecture, API integrations",
-      "image": "/images/advisors/advisor-microbiome.svg",
-      "bio": "Leads our automation engineering team with over 500 production n8n and Make workflows deployed. Brings a decade of systems integration experience across healthcare, real estate and enterprise SaaS."
-    },
-    {
-      "id": "advisor-ai",
-      "name": "AI Solutions Engineer",
-      "credentials": "Claude & GPT Specialist · RAG Architect · Former Big Tech AI",
-      "specialty": "AI agents, LLM deployment, RAG pipelines",
-      "image": "/images/advisors/advisor-aerospace.svg",
-      "bio": "Expert in deploying AI systems in production — from conversational agents to document processing pipelines. Translates cutting-edge AI research into reliable, measurable business tools."
-    },
-    {
-      "id": "advisor-ops",
-      "name": "Operations Strategist",
-      "credentials": "Lean Six Sigma Black Belt · 200+ Process Redesigns",
-      "specialty": "Process optimisation, operational efficiency",
-      "image": "/images/advisors/advisor-integrative.svg",
-      "bio": "Bridges operational strategy and technology implementation. Advocates for automation decisions driven by ROI, not trends — every workflow must earn its place."
-    },
-    {
-      "id": "advisor-data",
-      "name": "Data Integration Specialist",
-      "credentials": "ETL Architect · 150+ API Integrations Deployed",
-      "specialty": "CRM integration, data pipelines, analytics",
-      "image": "/images/advisors/advisor-cardio.svg",
-      "bio": "Author of production integrations connecting hundreds of SaaS platforms. Expert in the silent data breakages that cost businesses thousands in lost leads and broken workflows."
-    },
-    {
-      "id": "advisor-security",
-      "name": "Security & Compliance Lead",
-      "credentials": "SOC 2 · GDPR · HIPAA · ISO 27001 Certified",
-      "specialty": "Data security, privacy, regulated industries",
-      "image": "/images/advisors/advisor-functional.svg",
-      "bio": "Built compliance programmes for SaaS companies and healthcare providers. Ensures every automation meets security and privacy standards before deployment."
-    },
-    {
-      "id": "advisor-crm",
-      "name": "CRM & Sales Automation Expert",
-      "credentials": "HubSpot · Salesforce · Pipedrive Certified · Revenue Ops",
-      "specialty": "Sales pipeline automation, lead scoring",
-      "image": "/images/advisors/advisor-sports.svg",
-      "bio": "Trusted by sales teams across SaaS, real estate and professional services for the automation setups that turn CRM data into closed deals and predictable revenue."
-    },
-    {
-      "id": "advisor-scale",
-      "name": "Scale Operations Architect",
-      "credentials": "DevOps · 99.9% Uptime SLA · Monitoring Expert",
-      "specialty": "System reliability, uptime, scaling",
-      "image": "/images/advisors/advisor-longevity.svg",
-      "bio": "Pioneered monitoring and alerting systems for workflow automation at scale. Ensures your automations run 24/7 without silent failures — because downtime costs more than prevention."
-    },
-    {
-      "id": "advisor-vertical",
-      "name": "Industry Verticals Lead",
-      "credentials": "Healthcare · Legal · Real Estate · E-commerce Specialist",
-      "specialty": "Industry-specific workflow design",
-      "image": "/images/advisors/advisor-nutrition.svg",
-      "bio": "Translates industry-specific pain points into automation solutions. Holds every workflow accountable to real operational needs, not generic templates."
-    },
-    {
-      "id": "advisor-support",
-      "name": "Client Success Engineer",
-      "credentials": "Customer Success · Technical Training · Adoption Specialist",
-      "specialty": "Onboarding, training, ongoing optimisation",
-      "image": "/images/advisors/advisor-ortho.svg",
-      "bio": "Works directly with clients from deployment to optimisation. Ensures every automation delivers measurable ROI and that teams actually adopt the new workflows."
-    }
-  ],
-  "featuredQuote": {
-    "advisorId": "advisor-ops",
-    "text": "I rarely recommend automation agencies. What changed my mind on PURIST was the documentation, the production monitoring, and an engineering team willing to say no when the ROI did not justify the build."
-  }
+ "advisors": [
+   {
+     "id": "advisor-automation",
+     "name": "Lead Automation Architect",
+     "credentials": "n8n Certified · 500+ Workflows · 12 Years Systems Engineering",
+     "specialty": "Workflow architecture, API integrations",
+     "image": "/images/advisors/advisor-microbiome.svg",
+     "bio": "Leads our automation engineering team with over 500 production n8n and Make workflows deployed. Brings a decade of systems integration experience across healthcare, real estate and enterprise SaaS."
+   },
+   {
+     "id": "advisor-ai",
+     "name": "AI Solutions Engineer",
+     "credentials": "Claude & GPT Specialist · RAG Architect · Former Big Tech AI",
+     "specialty": "AI agents, LLM deployment, RAG pipelines",
+     "image": "/images/advisors/advisor-aerospace.svg",
+     "bio": "Expert in deploying AI systems in production from conversational agents to document processing pipelines. Translates cutting-edge AI research into reliable, measurable business tools."
+   },
+   {
+     "id": "advisor-ops",
+     "name": "Operations Strategist",
+     "credentials": "Lean Six Sigma Black Belt · 200+ Process Redesigns",
+     "specialty": "Process optimisation, operational efficiency",
+     "image": "/images/advisors/advisor-integrative.svg",
+     "bio": "Bridges operational strategy and technology implementation. Advocates for automation decisions driven by ROI, not trends every workflow must earn its place."
+   },
+   {
+     "id": "advisor-data",
+     "name": "Data Integration Specialist",
+     "credentials": "ETL Architect · 150+ API Integrations Deployed",
+     "specialty": "CRM integration, data pipelines, analytics",
+     "image": "/images/advisors/advisor-cardio.svg",
+     "bio": "Author of production integrations connecting hundreds of SaaS platforms. Expert in the silent data breakages that cost businesses thousands in lost leads and broken workflows."
+   },
+   {
+     "id": "advisor-security",
+     "name": "Security & Compliance Lead",
+     "credentials": "SOC 2 · GDPR · HIPAA · ISO 27001 Certified",
+     "specialty": "Data security, privacy, regulated industries",
+     "image": "/images/advisors/advisor-functional.svg",
+     "bio": "Built compliance programmes for SaaS companies and healthcare providers. Ensures every automation meets security and privacy standards before deployment."
+   },
+   {
+     "id": "advisor-crm",
+     "name": "CRM & Sales Automation Expert",
+     "credentials": "HubSpot · Salesforce · Pipedrive Certified · Revenue Ops",
+     "specialty": "Sales pipeline automation, lead scoring",
+     "image": "/images/advisors/advisor-sports.svg",
+     "bio": "Trusted by sales teams across SaaS, real estate and professional services for the automation setups that turn CRM data into closed deals and predictable revenue."
+   },
+   {
+     "id": "advisor-scale",
+     "name": "Scale Operations Architect",
+     "credentials": "DevOps · 99.9% Uptime SLA · Monitoring Expert",
+     "specialty": "System reliability, uptime, scaling",
+     "image": "/images/advisors/advisor-longevity.svg",
+     "bio": "Pioneered monitoring and alerting systems for workflow automation at scale. Ensures your automations run 24/7 without silent failures because downtime costs more than prevention."
+   },
+   {
+     "id": "advisor-vertical",
+     "name": "Industry Verticals Lead",
+     "credentials": "Healthcare · Legal · Real Estate · E-commerce Specialist",
+     "specialty": "Industry-specific workflow design",
+     "image": "/images/advisors/advisor-nutrition.svg",
+     "bio": "Translates industry-specific pain points into automation solutions. Holds every workflow accountable to real operational needs, not generic templates."
+   },
+   {
+     "id": "advisor-support",
+     "name": "Client Success Engineer",
+     "credentials": "Customer Success · Technical Training · Adoption Specialist",
+     "specialty": "Onboarding, training, ongoing optimisation",
+     "image": "/images/advisors/advisor-ortho.svg",
+     "bio": "Works directly with clients from deployment to optimisation. Ensures every automation delivers measurable ROI and that teams actually adopt the new workflows."
+   }
+ ],
+ "featuredQuote": {
+   "advisorId": "advisor-ops",
+   "text": "I rarely recommend automation agencies. What changed my mind on PURIST was the documentation, the production monitoring, and an engineering team willing to say no when the ROI did not justify the build."
+ }
 }

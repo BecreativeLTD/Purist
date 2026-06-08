@@ -7,84 +7,84 @@ const PINK = '#c4847e';
 const PINK_BG = 'rgba(232,180,176,0.10)';
 
 const principles = [
-  { n: '01', title: 'Trigger-first design', desc: 'Every automation starts with a precise trigger — a webhook, a schedule, a database event or a form submission. We define the exact condition before writing a single step. No ambiguous "when something happens" logic.' },
-  { n: '02', title: 'Idempotent by default', desc: 'Every workflow we build handles duplicate events gracefully. If the same trigger fires twice, the result is the same — no double-sends, no double-records, no corrupted data.' },
-  { n: '03', title: 'Error-first architecture', desc: 'We design the failure path before the happy path. Every workflow has a dead-letter queue, an error branch and an alert. You never find out about a failure from a client.' },
-  { n: '04', title: 'Self-hosted infrastructure', desc: 'Your automations run on a dedicated VPS — not a shared SaaS cloud. Your data never touches a third-party automation platform. Full control, full ownership.' },
-  { n: '05', title: 'AI at the decision layer', desc: 'Claude Opus handles classification, extraction, drafting and routing — not as a bolt-on, but as a native step in the workflow. Latency under 80ms. Deterministic output with structured prompts.' },
-  { n: '06', title: 'Observable and auditable', desc: 'Every workflow execution is logged with input, output and duration. You can audit any run. We can replay any failure. Nothing is a black box.' },
+ { n: '01', title: 'Trigger-first design', desc: 'Every automation starts with a precise trigger a webhook, a schedule, a database event or a form submission. We define the exact condition before writing a single step. No ambiguous "when something happens" logic.' },
+ { n: '02', title: 'Idempotent by default', desc: 'Every workflow we build handles duplicate events gracefully. If the same trigger fires twice, the result is the same no double-sends, no double-records, no corrupted data.' },
+ { n: '03', title: 'Error-first architecture', desc: 'We design the failure path before the happy path. Every workflow has a dead-letter queue, an error branch and an alert. You never find out about a failure from a client.' },
+ { n: '04', title: 'Self-hosted infrastructure', desc: 'Your automations run on a dedicated VPS not a shared SaaS cloud. Your data never touches a third-party automation platform. Full control, full ownership.' },
+ { n: '05', title: 'AI at the decision layer', desc: 'Claude Opus handles classification, extraction, drafting and routing not as a bolt-on, but as a native step in the workflow. Latency under 80ms. Deterministic output with structured prompts.' },
+ { n: '06', title: 'Observable and auditable', desc: 'Every workflow execution is logged with input, output and duration. You can audit any run. We can replay any failure. Nothing is a black box.' },
 ];
 ---
 
 <BaseLayout
-  title="The Science of Automation — How PURIST Builds | PURIST Automation"
-  description="The engineering principles behind PURIST automation deployments. Idempotent design, error-first architecture, self-hosted infrastructure and Claude AI at the decision layer."
+ title="The Science of Automation How PURIST Builds | PURIST Automation"
+ description="The engineering principles behind PURIST automation deployments. Idempotent design, error-first architecture, self-hosted infrastructure and Claude AI at the decision layer."
 >
-  <Header />
-  <main id="main-content">
+ <Header />
+ <main id="main-content">
 
-    <div class="py-16 lg:py-20" style="background:#0A0A0A">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-        <p class="text-xs uppercase tracking-widest font-bold mb-4" style={`color:${PINK}`}>Engineering</p>
-        <h1 class="text-3xl lg:text-5xl font-bold text-white mb-5 leading-tight">The Science of Automation</h1>
-        <p class="text-base lg:text-lg text-gray-400 max-w-2xl mx-auto">
-          Most automations break because they were built for the happy path only. PURIST builds for production — idempotent, error-aware, self-hosted and fully observable from day one.
-        </p>
-      </div>
-    </div>
+   <div class="py-16 lg:py-20" style="background:#0A0A0A">
+     <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+       <p class="text-xs uppercase tracking-widest font-bold mb-4" style={`color:${PINK}`}>Engineering</p>
+       <h1 class="text-3xl lg:text-5xl font-bold text-white mb-5 leading-tight">The Science of Automation</h1>
+       <p class="text-base lg:text-lg text-gray-400 max-w-2xl mx-auto">
+         Most automations break because they were built for the happy path only. PURIST builds for production idempotent, error-aware, self-hosted and fully observable from day one.
+       </p>
+     </div>
+   </div>
 
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-14 lg:py-20">
+   <div class="max-w-4xl mx-auto px-4 sm:px-6 py-14 lg:py-20">
 
-      <div class="space-y-6 mb-14">
-        {principles.map(p => (
-          <div class="flex gap-6 p-6 rounded-2xl border border-gray-100 bg-gray-50">
-            <span class="text-3xl font-bold text-gray-200 leading-none shrink-0 mt-1">{p.n}</span>
-            <div>
-              <h2 class="text-base font-bold text-gray-900 mb-2">{p.title}</h2>
-              <p class="text-sm text-gray-500 leading-relaxed">{p.desc}</p>
-            </div>
-          </div>
-        ))}
-      </div>
+     <div class="space-y-6 mb-14">
+       {principles.map(p => (
+         <div class="flex gap-6 p-6 rounded-2xl border border-gray-100 bg-gray-50">
+           <span class="text-3xl font-bold text-gray-200 leading-none shrink-0 mt-1">{p.n}</span>
+           <div>
+             <h2 class="text-base font-bold text-gray-900 mb-2">{p.title}</h2>
+             <p class="text-sm text-gray-500 leading-relaxed">{p.desc}</p>
+           </div>
+         </div>
+       ))}
+     </div>
 
-      <div class="grid sm:grid-cols-2 gap-6 mb-14">
-        <div class="rounded-2xl border border-gray-200 p-6">
-          <p class="text-xs font-semibold uppercase tracking-wider mb-4" style={`color:${PINK}`}>Stack</p>
-          <ul class="space-y-2 text-sm text-gray-600">
-            {['n8n v1.71 — self-hosted on dedicated VPS', 'Claude Opus 4 — AI inference at < 80ms', 'PostgreSQL — workflow state and audit logs', 'Redis — queue management and deduplication', 'Caddy — reverse proxy with automatic TLS', 'Grafana — uptime and performance dashboards'].map(item => (
-              <li class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full shrink-0" style={`background:${PINK}`}></span>
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div class="rounded-2xl border border-gray-200 p-6">
-          <p class="text-xs font-semibold uppercase tracking-wider mb-4" style={`color:${PINK}`}>SLA</p>
-          <ul class="space-y-3 text-sm text-gray-600">
-            {[
-              { label: 'Uptime', value: '99.97% guaranteed' },
-              { label: 'Error alert', value: '< 90 seconds' },
-              { label: 'Critical fix', value: '< 4 hours' },
-              { label: 'Standard fix', value: '< 24 hours' },
-              { label: 'Deployment', value: '< 7 business days' },
-            ].map(item => (
-              <li class="flex items-center justify-between">
-                <span class="text-gray-400">{item.label}</span>
-                <span class="font-semibold text-gray-900">{item.value}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+     <div class="grid sm:grid-cols-2 gap-6 mb-14">
+       <div class="rounded-2xl border border-gray-200 p-6">
+         <p class="text-xs font-semibold uppercase tracking-wider mb-4" style={`color:${PINK}`}>Stack</p>
+         <ul class="space-y-2 text-sm text-gray-600">
+           {['n8n v1.71 self-hosted on dedicated VPS', 'Claude Opus 4 AI inference at < 80ms', 'PostgreSQL workflow state and audit logs', 'Redis queue management and deduplication', 'Caddy reverse proxy with automatic TLS', 'Grafana uptime and performance dashboards'].map(item => (
+             <li class="flex items-center gap-2">
+               <span class="w-1.5 h-1.5 rounded-full shrink-0" style={`background:${PINK}`}></span>
+               {item}
+             </li>
+           ))}
+         </ul>
+       </div>
+       <div class="rounded-2xl border border-gray-200 p-6">
+         <p class="text-xs font-semibold uppercase tracking-wider mb-4" style={`color:${PINK}`}>SLA</p>
+         <ul class="space-y-3 text-sm text-gray-600">
+           {[
+             { label: 'Uptime', value: '99.97% guaranteed' },
+             { label: 'Error alert', value: '< 90 seconds' },
+             { label: 'Critical fix', value: '< 4 hours' },
+             { label: 'Standard fix', value: '< 24 hours' },
+             { label: 'Deployment', value: '< 7 business days' },
+           ].map(item => (
+             <li class="flex items-center justify-between">
+               <span class="text-gray-400">{item.label}</span>
+               <span class="font-semibold text-gray-900">{item.value}</span>
+             </li>
+           ))}
+         </ul>
+       </div>
+     </div>
 
-      <div class="rounded-2xl p-8 text-center" style={`background:${PINK_BG};border:1px solid rgba(196,132,126,0.20)`}>
-        <h2 class="text-xl font-bold text-gray-900 mb-3">See the stack in action.</h2>
-        <p class="text-sm text-gray-600 mb-6 max-w-lg mx-auto">Book a free audit and we walk through the exact architecture we would deploy for your business — live on the call.</p>
-        <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style={`background:${PINK}`}>Book free audit →</a>
-      </div>
-    </div>
+     <div class="rounded-2xl p-8 text-center" style={`background:${PINK_BG};border:1px solid rgba(196,132,126,0.20)`}>
+       <h2 class="text-xl font-bold text-gray-900 mb-3">See the stack in action.</h2>
+       <p class="text-sm text-gray-600 mb-6 max-w-lg mx-auto">Book a free audit and we walk through the exact architecture we would deploy for your business live on the call.</p>
+       <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style={`background:${PINK}`}>Book free audit →</a>
+     </div>
+   </div>
 
-  </main>
-  <Footer />
+ </main>
+ <Footer />
 </BaseLayout>

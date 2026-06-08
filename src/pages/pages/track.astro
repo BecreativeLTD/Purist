@@ -4,43 +4,43 @@ import Button from '~/components/ui/Button.astro';
 ---
 
 <ShopLayout
-  title="Project status – PURIST"
-  description="Check the deployment status of your PURIST automation project."
-  noindex
+ title="Project status – PURIST"
+ description="Check the deployment status of your PURIST automation project."
+ noindex
 >
-  <section class="container-x py-16 lg:py-24 max-w-xl mx-auto">
-    <p class="eyebrow mb-4 text-center">Project status</p>
-    <h1 class="font-display text-4xl lg:text-5xl leading-tight tracking-tight mb-4 text-center text-balance">
-      Where is my <em class="font-medium">project?</em>
-    </h1>
-    <p class="text-sm text-brand-gray-600 mb-10 text-center">
-      Enter your project ID and the email used on your account. We will pull the latest
-      deployment status.
-    </p>
+ <section class="container-x py-16 lg:py-24 max-w-xl mx-auto">
+   <p class="eyebrow mb-4 text-center">Project status</p>
+   <h1 class="font-display text-4xl lg:text-5xl leading-tight tracking-tight mb-4 text-center text-balance">
+     Where is my <em class="font-medium">project?</em>
+   </h1>
+   <p class="text-sm text-brand-gray-600 mb-10 text-center">
+     Enter your project ID and the email used on your account. We will pull the latest
+     deployment status.
+   </p>
 
-    <form class="bg-brand-cream rounded-card p-6 lg:p-8 space-y-4" onsubmit="event.preventDefault(); this.querySelector('[data-result]').classList.remove('hidden');">
-      <label class="block">
-        <span class="block text-xs text-brand-gray-600 mb-1.5">Project ID</span>
-        <input type="text" required placeholder="PUR-XXXXXX" class="w-full bg-white border border-brand-gray-200 rounded-button px-4 py-3 text-sm focus:border-brand-black focus:outline-none transition" />
-      </label>
-      <label class="block">
-        <span class="block text-xs text-brand-gray-600 mb-1.5">Email</span>
-        <input type="email" required class="w-full bg-white border border-brand-gray-200 rounded-button px-4 py-3 text-sm focus:border-brand-black focus:outline-none transition" />
-      </label>
-      <Button type="submit" full>Look up project →</Button>
+   <form class="bg-brand-cream rounded-card p-6 lg:p-8 space-y-4" onsubmit="event.preventDefault(); this.querySelector('[data-result]').classList.remove('hidden');">
+     <label class="block">
+       <span class="block text-xs text-brand-gray-600 mb-1.5">Project ID</span>
+       <input type="text" required placeholder="PUR-XXXXXX" class="w-full bg-white border border-brand-gray-200 rounded-button px-4 py-3 text-sm focus:border-brand-black focus:outline-none transition" />
+     </label>
+     <label class="block">
+       <span class="block text-xs text-brand-gray-600 mb-1.5">Email</span>
+       <input type="email" required class="w-full bg-white border border-brand-gray-200 rounded-button px-4 py-3 text-sm focus:border-brand-black focus:outline-none transition" />
+     </label>
+     <Button type="submit" full>Look up project →</Button>
 
-      <div data-result class="hidden bg-white rounded-card p-5 text-sm border border-brand-gray-200">
-        <p class="font-medium mb-2">Demo mode</p>
-        <p class="text-brand-gray-600 leading-relaxed">
-          No project management backend is connected in this build. In production, this
-          form posts to the project API and returns the latest deployment status.
-        </p>
-      </div>
-    </form>
+     <div data-result class="hidden bg-white rounded-card p-5 text-sm border border-brand-gray-200">
+       <p class="font-medium mb-2">Demo mode</p>
+       <p class="text-brand-gray-600 leading-relaxed">
+         No project management backend is connected in this build. In production, this
+         form posts to the project API and returns the latest deployment status.
+       </p>
+     </div>
+   </form>
 
-    <p class="text-center text-sm text-brand-gray-600 mt-8">
-      Cannot find your project ID?
-      <a href="/pages/contact-us" class="underline underline-offset-4 hover:opacity-70">Contact support</a>.
-    </p>
-  </section>
+   <p class="text-center text-sm text-brand-gray-600 mt-8">
+     Cannot find your project ID?
+     <a href="/pages/contact-us" class="underline underline-offset-4 hover:opacity-70">Contact support</a>.
+   </p>
+ </section>
 </ShopLayout>
