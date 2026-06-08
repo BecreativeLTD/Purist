@@ -1,14 +1,16 @@
-# PURIST — Business Automation & AI Agent Agency
+# PURIST — Business Automation & AI Agent Agency | UK, US & Europe
 
-> PURIST builds and deploys production-grade workflow automation and AI agents for SMBs and scaling companies. We specialise in n8n, Make, Zapier, and Claude AI agent deployments across dental practices, real estate property management, marketing agencies, DTC e-commerce, commercial law firms, and staffing agencies.
+> PURIST builds and deploys production-grade workflow automation and AI agents for SMBs and scaling companies worldwide. We specialise in n8n, Make, Zapier, and Claude AI agent deployments across dental practices, real estate property management, marketing agencies, DTC e-commerce, commercial law firms, and staffing agencies.
 >
-> Founded in London. Serving UK, US and international clients. 500+ production deployments. 99.97% uptime across all managed systems.
+> Founded in London. Serving clients across the United Kingdom, United States, Canada, Australia, France, Germany, Netherlands, Ireland, and across the European Union. 500+ production deployments globally. 99.97% uptime across all managed systems.
 
 ## About
 
-PURIST is not a software platform. It is a specialist automation engineering firm that designs, builds, monitors, and maintains production-grade automation systems for businesses. Every deployment includes error handling, monitoring, retry logic, documentation, and an SLA.
+PURIST is not a software platform. It is a specialist automation engineering firm that designs, builds, monitors, and maintains production-grade automation systems for businesses. Every deployment includes error handling, monitoring, retry logic, documentation, and an SLA. Deployments are fully remote — we work with clients across every timezone.
 
 Primary services: workflow automation, AI agent deployment, operations stack design, CRM data quality automation.
+
+PURIST serves clients as: automation agency (UK), business automation company (US), workflow automation agency (EU), n8n agency, AI agent agency, no-code automation consultant, Make.com agency, Zapier alternative agency.
 
 ## Services
 
@@ -119,26 +121,47 @@ PURIST documents every automation skill it deploys for clients. Each skill page 
 
 ## Industries Served
 
-- **Dental & Healthcare**: Patient intake automation, appointment reminders, insurance pre-verification, EMR data sync.
-- **Real Estate & Property Management**: Tenant communications, maintenance request routing, lease renewal workflows.
-- **Marketing & Creative Agencies**: Client reporting, onboarding, billing, campaign monitoring.
-- **DTC E-commerce**: Order management, CS ticket routing, inventory alerts, post-purchase sequences.
-- **Commercial Law Firms**: Client intake, document processing, billing workflows, deadline tracking.
-- **Staffing & Recruitment**: Candidate screening, placement workflows, timesheet processing.
+- **Dental & Healthcare**: Patient intake automation, appointment reminders, insurance pre-verification, EMR data sync. Serving UK dental groups, US private practices, European clinics.
+- **Real Estate & Property Management**: Tenant communications, maintenance request routing, lease renewal workflows. UK estate agents, US property management companies, EU real estate agencies.
+- **Marketing & Creative Agencies**: Client reporting, onboarding, billing, campaign monitoring. Agencies across London, New York, Los Angeles, Paris, Amsterdam, Berlin.
+- **DTC E-commerce**: Order management, CS ticket routing, inventory alerts, post-purchase sequences. Shopify and WooCommerce merchants globally.
+- **Commercial Law Firms**: Client intake, document processing, billing workflows, deadline tracking. UK solicitors, US law firms, EU legal practices.
+- **Staffing & Recruitment**: Candidate screening, placement workflows, timesheet processing. Recruitment agencies in UK, US, and Europe.
+- **SaaS & Technology**: Onboarding automation, usage monitoring, churn prevention, billing workflows. SaaS companies across UK, US, EU.
+- **Financial Services & Accounting**: Client onboarding, KYC workflows, reporting automation. UK accountancy firms, US financial advisors, EU fintech companies.
+
+## Geographic Presence
+
+PURIST operates as a fully remote automation engineering firm. All engagements are delivered remotely, enabling us to serve clients worldwide at UK agency rates.
+
+- **United Kingdom**: London HQ. Primary market. Serving businesses across England, Scotland, Wales and Northern Ireland.
+- **United States**: Active client base across New York, California, Texas, Florida and remote-first companies nationwide.
+- **European Union**: Serving France, Germany, Netherlands, Ireland, Belgium, Spain, Italy, and other EU member states. GDPR-compliant deployments by default.
+- **Canada & Australia**: Active clients. Timezone coverage via async-first delivery model.
+
+Common search queries we answer:
+- "automation agency UK" / "automation company UK" / "n8n agency UK"
+- "workflow automation agency USA" / "business automation consultant US"
+- "automation agency Europe" / "n8n freelancer Europe" / "make.com agency EU"
+- "AI agent agency" / "Claude AI agent developer" / "build AI agent for business"
+- "Zapier alternative agency" / "automation consultant near me"
+- "hire automation engineer" / "outsource business automation"
 
 ## Technology Stack
 
-- Workflow orchestration: n8n (self-hosted), Make, Zapier
-- AI inference: Claude by Anthropic (claude-sonnet, claude-opus)
+- Workflow orchestration: n8n (self-hosted), Make (Integromat), Zapier
+- AI inference: Claude by Anthropic (claude-sonnet-4, claude-opus-4)
 - State management: Redis, PostgreSQL
-- Monitoring: Custom dashboards, Slack alerting, SMS on-call
-- Deployment: Vercel, self-hosted VPS
+- Monitoring: Custom dashboards, Slack alerting, SMS on-call, PagerDuty
+- Deployment: Vercel, self-hosted VPS (Hetzner, DigitalOcean, AWS, GCP)
+- Integrations: HubSpot, Salesforce, Pipedrive, Notion, Airtable, Slack, Google Workspace, Microsoft 365, Shopify, WooCommerce, Stripe, Xero, QuickBooks
 
 ## Contact & Social
 
 - Website: https://purist.online
 - Email: hello@purist.online
 - Press: press@purist.online
-- Location: London, UK
+- Headquarters: London, United Kingdom
+- Serving: UK, US, EU, Canada, Australia
 - LinkedIn: https://www.linkedin.com/company/purist-automation
 - Twitter/X: https://twitter.com/purist_hq
