@@ -81,5 +81,62 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
        }
      });
    </script>
+   <!-- Conversion event tracking -->
+   <script is:inline>
+     document.addEventListener('DOMContentLoaded', function() {
+       function track(eventName, params) {
+         if (typeof gtag !== 'undefined') gtag('event', eventName, params);
+       }
+
+       // Track all CTA clicks (Book audit, contact, demo, welcome)
+       document.addEventListener('click', function(e) {
+         var el = e.target.closest('a, button');
+         if (!el) return;
+         var href = el.getAttribute('href') || '';
+         var text = (el.innerText || el.textContent || '').trim().slice(0, 60);
+
+         // Book audit clicks
+         if (href.includes('welcome') || text.toLowerCase().includes('audit') || text.toLowerCase().includes('book')) {
+           track('cta_click', { cta_text: text, destination: href, page: location.pathname });
+         }
+         // Demo clicks
+         if (href.includes('demo') || text.toLowerCase().includes('demo')) {
+           track('demo_click', { cta_text: text, page: location.pathname });
+         }
+         // Contact clicks
+         if (href.includes('contact') || href.includes('mailto')) {
+           track('contact_click', { cta_text: text, page: location.pathname });
+         }
+         // Popup submit tracked separately via form
+       });
+
+       // Track scroll depth (25%, 50%, 75%, 90%)
+       var scrollMilestones = { 25: false, 50: false, 75: false, 90: false };
+       window.addEventListener('scroll', function() {
+         var scrolled = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+         Object.keys(scrollMilestones).forEach(function(pct) {
+           if (!scrollMilestones[pct] && scrolled >= parseInt(pct)) {
+             scrollMilestones[pct] = true;
+             track('scroll_depth', { percent: parseInt(pct), page: location.pathname });
+           }
+         });
+       }, { passive: true });
+
+       // Track time on page (15s, 30s, 60s = engaged visitor)
+       [15, 30, 60].forEach(function(sec) {
+         setTimeout(function() {
+           track('time_on_page', { seconds: sec, page: location.pathname });
+         }, sec * 1000);
+       });
+
+       // Track popup email form submission
+       document.addEventListener('submit', function(e) {
+         var form = e.target;
+         if (form && form.closest('[role="dialog"]')) {
+           track('popup_form_submit', { page: location.pathname });
+         }
+       });
+     });
+   </script>
  </body>
 </html>

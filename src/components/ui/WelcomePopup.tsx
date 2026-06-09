@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'preact/hooks';
 
 const STORAGE_KEY = 'purist:popup:v2';
-const SHOW_DELAY_MS = 7000;
+const SHOW_DELAY_MS = 25000;
 
 export default function WelcomePopup() {
  const [open, setOpen]         = useState(false);
