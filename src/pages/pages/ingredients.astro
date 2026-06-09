@@ -1,69 +1,118 @@
 ---
-import BaseLayout from '~/layouts/BaseLayout.astro';
-import Header from '~/components/layout/Header.astro';
-import Footer from '~/components/layout/Footer.astro';
-
-const PINK = '#c4847e';
-const PINK_BG = 'rgba(232,180,176,0.10)';
+import ShopLayout from '~/layouts/ShopLayout.astro';
 
 const categories = [
- { cat: 'CRM & Sales', tools: ['HubSpot', 'Salesforce', 'Pipedrive', 'Close', 'Zoho CRM', 'Copper'] },
- { cat: 'Communication', tools: ['Slack', 'Gmail', 'Outlook', 'Twilio', 'WhatsApp Business', 'Intercom'] },
- { cat: 'Finance & Billing', tools: ['Stripe', 'QuickBooks', 'Xero', 'FreeAgent', 'GoCardless', 'Chargebee'] },
- { cat: 'E-commerce', tools: ['Shopify', 'WooCommerce', 'Magento', 'Klaviyo', 'Gorgias', 'Recharge'] },
- { cat: 'Forms & Data', tools: ['Typeform', 'Jotform', 'Airtable', 'Google Sheets', 'Notion', 'Monday.com'] },
- { cat: 'Documents', tools: ['DocuSign', 'PandaDoc', 'Google Docs', 'PDF generation', 'Dropbox', 'OneDrive'] },
- { cat: 'HR & Recruiting', tools: ['BambooHR', 'Workable', 'Greenhouse', 'Lever', 'Personio', 'Rippling'] },
- { cat: 'Marketing', tools: ['Mailchimp', 'ActiveCampaign', 'Brevo', 'Meta Ads', 'Google Ads', 'LinkedIn Ads'] },
- { cat: 'AI & Intelligence', tools: ['Claude Opus', 'OpenAI GPT-4', 'Perplexity', 'Whisper', 'ElevenLabs', 'Mistral'] },
- { cat: 'Infrastructure', tools: ['Webhooks', 'REST APIs', 'GraphQL', 'PostgreSQL', 'MySQL', 'Redis'] },
+  { cat: 'CRM & Sales', tools: ['HubSpot', 'Salesforce', 'Pipedrive', 'Close', 'Zoho CRM', 'Copper'] },
+  { cat: 'Communication', tools: ['Slack', 'Gmail', 'Outlook', 'Twilio', 'WhatsApp Business', 'Intercom'] },
+  { cat: 'Finance & Billing', tools: ['Stripe', 'QuickBooks', 'Xero', 'FreeAgent', 'GoCardless', 'Chargebee'] },
+  { cat: 'E-commerce', tools: ['Shopify', 'WooCommerce', 'Magento', 'Klaviyo', 'Gorgias', 'Recharge'] },
+  { cat: 'Forms & Data', tools: ['Typeform', 'Jotform', 'Airtable', 'Google Sheets', 'Notion', 'Monday.com'] },
+  { cat: 'Documents', tools: ['DocuSign', 'PandaDoc', 'Google Docs', 'PDF generation', 'Dropbox', 'OneDrive'] },
+  { cat: 'HR & Recruiting', tools: ['BambooHR', 'Workable', 'Greenhouse', 'Lever', 'Personio', 'Rippling'] },
+  { cat: 'Marketing', tools: ['Mailchimp', 'ActiveCampaign', 'Brevo', 'Meta Ads', 'Google Ads', 'LinkedIn Ads'] },
+  { cat: 'AI & Intelligence', tools: ['Claude Opus', 'OpenAI GPT-4', 'Perplexity', 'Whisper', 'ElevenLabs', 'Mistral'] },
+  { cat: 'Infrastructure', tools: ['Webhooks', 'REST APIs', 'GraphQL', 'PostgreSQL', 'MySQL', 'Redis'] },
 ];
 ---
 
-<BaseLayout
- title="Integrations Tools PURIST Connects | PURIST Automation"
- description="PURIST connects 200+ tools including HubSpot, Salesforce, Shopify, Stripe, Slack, and Claude AI. See the full integration stack we deploy in under 7 days."
+<ShopLayout
+  title="400+ Integrations | PURIST Automation"
+  description="PURIST connects your entire stack — CRM, payments, email, documents, AI. 400+ integrations, deployed in 5–10 business days."
 >
- <Header />
- <main id="main-content">
 
-   <div class="py-16 lg:py-20" style="background:#0A0A0A">
-     <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-       <p class="text-xs uppercase tracking-widest font-bold mb-4" style={`color:${PINK}`}>Integrations</p>
-       <h1 class="text-3xl lg:text-5xl font-bold text-white mb-5 leading-tight">200+ tools. One connected stack.</h1>
-       <p class="text-base lg:text-lg text-gray-400 max-w-2xl mx-auto">
-         PURIST connects your existing tools CRM, billing, support, marketing, HR and AI into a single automated workflow. No rip-and-replace. No new software to learn.
-       </p>
-     </div>
-   </div>
+  <!-- HERO — dark -->
+  <section style="background:#0A0A0A; padding:100px 24px 80px;">
+    <div style="max-width:720px; margin:0 auto; text-align:center;">
+      <p style="font-family:'Inter',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:rgba(232,180,176,0.70); margin-bottom:20px;">
+        Integrations
+      </p>
+      <h1 style="font-family:'Fraunces',serif; font-weight:400; font-size:clamp(40px,6vw,64px); line-height:1.05; color:#FFFFFF; margin-bottom:24px;">
+        400+ tools.<br/><em>One connected stack.</em>
+      </h1>
+      <p style="font-family:'Inter',sans-serif; font-size:16px; color:rgba(255,255,255,0.50); line-height:1.7; max-width:520px; margin:0 auto;">
+        PURIST connects your existing tools — CRM, billing, support, marketing, HR, and AI — into a single automated workflow. No rip-and-replace. No new software to learn.
+      </p>
+    </div>
+  </section>
 
-   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-14 lg:py-20">
+  <!-- STATS ROW — dark -->
+  <section style="background:#0A0A0A; padding:0 24px 80px;">
+    <div style="max-width:720px; margin:0 auto; display:flex; gap:16px; flex-wrap:wrap; justify-content:center;">
+      {[
+        { num: '400+', label: 'integrations' },
+        { num: '5–10', label: 'days to deploy' },
+        { num: '99.97%', label: 'uptime SLA' },
+      ].map(s => (
+        <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:9999px; padding:10px 24px; text-align:center;">
+          <span style="font-family:'Fraunces',serif; font-weight:400; font-size:22px; color:#E8B4B0;">{s.num}</span>
+          <span style="font-family:'Inter',sans-serif; font-size:12px; color:rgba(255,255,255,0.40); margin-left:8px;">{s.label}</span>
+        </div>
+      ))}
+    </div>
+  </section>
 
-     <div class="space-y-8 mb-14">
-       {categories.map(c => (
-         <div>
-           <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">{c.cat}</p>
-           <div class="flex flex-wrap gap-2">
-             {c.tools.map(t => (
-               <span class="text-sm font-medium px-4 py-2 rounded-full border border-gray-200 bg-gray-50 text-gray-700">{t}</span>
-             ))}
-           </div>
-         </div>
-       ))}
-     </div>
+  <!-- INTEGRATION GRID — cream -->
+  <section style="background:#F8F6F1; padding:80px 24px;">
+    <div style="max-width:860px; margin:0 auto;">
 
-     <div class="rounded-2xl border border-gray-200 p-6 mb-14 text-center">
-       <p class="text-sm text-gray-500 mb-1">Don't see your tool?</p>
-       <p class="text-sm font-medium text-gray-900">If it has an API, we connect it. Book a free audit and we confirm compatibility on the call.</p>
-     </div>
+      <p style="font-family:'Inter',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:rgba(10,10,10,0.35); text-align:center; margin-bottom:56px;">
+        Your entire stack, covered
+      </p>
 
-     <div class="rounded-2xl p-8 text-center" style={`background:${PINK_BG};border:1px solid rgba(196,132,126,0.20)`}>
-       <h2 class="text-xl font-bold text-gray-900 mb-3">Tell us your stack. We build the automation.</h2>
-       <p class="text-sm text-gray-600 mb-6 max-w-lg mx-auto">In the free audit we map every tool you use today and design the integration that saves the most time first.</p>
-       <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style={`background:${PINK}`}>Book free audit →</a>
-     </div>
-   </div>
+      <div style="display:flex; flex-direction:column; gap:40px;">
+        {categories.map(c => (
+          <div>
+            <p style="font-family:'Inter',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(10,10,10,0.35); margin-bottom:14px;">
+              {c.cat}
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:8px;">
+              {c.tools.map(t => (
+                <span style="font-family:'Inter',sans-serif; font-size:13px; font-weight:500; padding:7px 16px; border-radius:9999px; background:rgba(232,180,176,0.10); border:1px solid rgba(196,132,126,0.20); color:#0A0A0A;">
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
 
- </main>
- <Footer />
-</BaseLayout>
+      <!-- Don't see your tool -->
+      <div style="margin-top:56px; background:#FFFFFF; border:1px solid #E5E7EB; border-radius:18px; padding:32px; text-align:center;">
+        <p style="font-family:'Fraunces',serif; font-weight:400; font-size:22px; color:#0A0A0A; margin-bottom:10px;">
+          Don't see your tool?
+        </p>
+        <p style="font-family:'Inter',sans-serif; font-size:14px; color:rgba(10,10,10,0.55); line-height:1.6;">
+          If it has an API, we connect it. Book a free audit and we confirm compatibility on the call.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA — dark -->
+  <section style="background:#0A0A0A; padding:80px 24px 100px;">
+    <div style="max-width:600px; margin:0 auto; text-align:center;">
+      <h2 style="font-family:'Fraunces',serif; font-weight:400; font-size:clamp(28px,4vw,42px); line-height:1.1; color:#FFFFFF; margin-bottom:16px;">
+        Tell us your stack.<br/><em style="color:#E8B4B0;">We build the automation.</em>
+      </h2>
+      <p style="font-family:'Inter',sans-serif; font-size:15px; color:rgba(255,255,255,0.45); line-height:1.7; margin-bottom:36px; max-width:480px; margin-left:auto; margin-right:auto;">
+        In the free audit we map every tool you use today and design the workflow that saves the most time first.
+      </p>
+      <a
+        href="/pages/welcome"
+        style="display:inline-flex; align-items:center; gap:8px; background:#F8F6F1; color:#0A0A0A; font-family:'Inter',sans-serif; font-size:14px; font-weight:500; padding:14px 28px; border-radius:9999px; text-decoration:none; transition:opacity 0.2s;"
+      >
+        Book a free audit →
+      </a>
+      <div style="margin-top:20px; display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
+        {['No credit card', 'Deployed in 5–10 days', '30-day guarantee'].map(t => (
+          <span style="font-family:'Inter',sans-serif; font-size:11px; color:rgba(255,255,255,0.35); display:flex; align-items:center; gap:5px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.5" stroke-linecap="round"><path d="M5 12l5 5L20 7"/></svg>
+            {t}
+          </span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</ShopLayout>
