@@ -193,9 +193,7 @@ const columns = [
        <!-- PURIST Docs -->
        <div class="bg-brand-black p-5 lg:p-6">
          <div class="flex items-center gap-2 mb-3">
-           <div class="w-6 h-6 rounded-md flex items-center justify-center" style="background:rgba(232,180,176,0.1);">
-             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-           </div>
+           <span class="w-2 h-2 rounded-full shrink-0" style="background:#E8B4B0;"></span>
            <span class="text-[11px] font-semibold text-white/80 uppercase tracking-wide">PURIST</span>
          </div>
          <ul class="space-y-2">
@@ -213,9 +211,7 @@ const columns = [
        <!-- Claude AI Docs -->
        <div class="bg-brand-black p-5 lg:p-6">
          <div class="flex items-center gap-2 mb-3">
-           <div class="w-6 h-6 rounded-md flex items-center justify-center" style="background:rgba(204,149,96,0.1);">
-             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#CC9560" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><path d="M12 6v6l4 2"/></svg>
-           </div>
+           <span class="w-2 h-2 rounded-full shrink-0" style="background:#CC9560;"></span>
            <span class="text-[11px] font-semibold text-white/80 uppercase tracking-wide">Claude AI</span>
          </div>
          <ul class="space-y-2">
@@ -229,31 +225,27 @@ const columns = [
          </ul>
        </div>
 
-       <!-- Claude Skills Docs -->
+       <!-- Claude Skills Docs — PURIST's own skill library -->
        <div class="bg-brand-black p-5 lg:p-6">
          <div class="flex items-center gap-2 mb-3">
-           <div class="w-6 h-6 rounded-md flex items-center justify-center" style="background:rgba(74,222,128,0.08);">
-             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-           </div>
+           <span class="w-2 h-2 rounded-full shrink-0" style="background:#4ADE80;"></span>
            <span class="text-[11px] font-semibold text-white/80 uppercase tracking-wide">Claude Skills</span>
          </div>
          <ul class="space-y-2">
-           <li><a href="https://github.com/BecreativeLTD/claude-skills" target="_blank" rel="noopener noreferrer" class="text-[11px] text-white/50 hover:text-white/80 transition leading-snug block">GitHub repository <span class="text-white/25">↗</span></a></li>
-           <li><a href="https://github.com/BecreativeLTD/claude-skills#installation" target="_blank" rel="noopener noreferrer" class="text-[11px] text-white/50 hover:text-white/80 transition leading-snug block">Installation guide <span class="text-white/25">↗</span></a></li>
-           <li><a href="https://github.com/BecreativeLTD/claude-skills#skills-catalog" target="_blank" rel="noopener noreferrer" class="text-[11px] text-white/50 hover:text-white/80 transition leading-snug block">329 skills catalogue <span class="text-white/25">↗</span></a></li>
-           <li><a href="https://github.com/BecreativeLTD/claude-skills#engineering" target="_blank" rel="noopener noreferrer" class="text-[11px] text-white/50 hover:text-white/80 transition leading-snug block">Engineering skills <span class="text-white/25">↗</span></a></li>
-           <li><a href="https://github.com/BecreativeLTD/claude-skills#marketing" target="_blank" rel="noopener noreferrer" class="text-[11px] text-white/50 hover:text-white/80 transition leading-snug block">Marketing skills <span class="text-white/25">↗</span></a></li>
-           <li><a href="https://github.com/BecreativeLTD/claude-skills#contributing" target="_blank" rel="noopener noreferrer" class="text-[11px] text-white/50 hover:text-white/80 transition leading-snug block">Contributing guide <span class="text-white/25">↗</span></a></li>
-           <li><a href="https://github.com/BecreativeLTD/claude-skills/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" class="text-[11px] text-white/50 hover:text-white/80 transition leading-snug block">Open-source license <span class="text-white/25">↗</span></a></li>
+           <li><a href="/pages/stack-dna#skills" class="text-[11px] text-white/50 hover:text-white/80 transition leading-snug block">Skills overview</a></li>
+           <li><a href="/pages/stack-dna#installation" class="text-[11px] text-white/50 hover:text-white/80 transition leading-snug block">Installation guide</a></li>
+           <li><a href="/pages/stack-dna#catalog" class="text-[11px] text-white/50 hover:text-white/80 transition leading-snug block">329 skills catalogue</a></li>
+           <li><a href="/pages/stack-dna#engineering" class="text-[11px] text-white/50 hover:text-white/80 transition leading-snug block">Engineering skills</a></li>
+           <li><a href="/pages/stack-dna#marketing" class="text-[11px] text-white/50 hover:text-white/80 transition leading-snug block">Marketing skills</a></li>
+           <li><a href="/pages/stack-dna#product" class="text-[11px] text-white/50 hover:text-white/80 transition leading-snug block">Product skills</a></li>
+           <li><a href="/pages/stack-dna#compliance" class="text-[11px] text-white/50 hover:text-white/80 transition leading-snug block">Compliance &amp; legal</a></li>
          </ul>
        </div>
 
        <!-- Anthropic Docs -->
        <div class="bg-brand-black p-5 lg:p-6">
          <div class="flex items-center gap-2 mb-3">
-           <div class="w-6 h-6 rounded-md flex items-center justify-center" style="background:rgba(96,165,250,0.08);">
-             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-           </div>
+           <span class="w-2 h-2 rounded-full shrink-0" style="background:#60A5FA;"></span>
            <span class="text-[11px] font-semibold text-white/80 uppercase tracking-wide">Anthropic</span>
          </div>
          <ul class="space-y-2">
@@ -269,9 +261,7 @@ const columns = [
        <!-- n8n Docs -->
        <div class="bg-brand-black p-5 lg:p-6">
          <div class="flex items-center gap-2 mb-3">
-           <div class="w-6 h-6 rounded-md flex items-center justify-center" style="background:rgba(234,84,85,0.08);">
-             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#EA5455" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-           </div>
+           <span class="w-2 h-2 rounded-full shrink-0" style="background:#EA5455;"></span>
            <span class="text-[11px] font-semibold text-white/80 uppercase tracking-wide">n8n</span>
          </div>
          <ul class="space-y-2">
