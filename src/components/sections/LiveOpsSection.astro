@@ -58,10 +58,6 @@
                 <stop offset="0%" stop-color="#E8B4B0" stop-opacity="0.2"/>
                 <stop offset="100%" stop-color="#E8B4B0" stop-opacity="0"/>
               </linearGradient>
-              <filter id="lo-glow">
-                <feGaussianBlur stdDeviation="3" result="blur"/>
-                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
             </defs>
             <!-- Horizontal grid lines -->
             <line x1="4" y1="25" x2="476" y2="25" stroke="rgba(248,246,241,0.04)" stroke-width="0.5"/>
@@ -74,10 +70,8 @@
             <!-- Chart elements -->
             <path class="lo-chart-area" fill="url(#lo-grad)"/>
             <path class="lo-chart-line" fill="none" stroke="#E8B4B0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <!-- Live dot with glow -->
-            <circle class="lo-chart-dot-glow" r="8" fill="#E8B4B0" opacity="0.2" filter="url(#lo-glow)"/>
-            <circle class="lo-chart-dot-ring" r="5" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.3"/>
-            <circle class="lo-chart-dot" r="3" fill="#E8B4B0"/>
+            <!-- Live dot — clean, small -->
+            <circle class="lo-chart-dot" r="2.5" fill="#E8B4B0"/>
           </svg>
           <div class="lo-chart-labels">
             <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>Now</span>
@@ -276,16 +270,6 @@
   .lo-chart {
     width: 100%; height: 80px; display: block;
   }
-  :global(.lo-chart-dot-glow) { animation: lo-dot-pulse 2s ease-in-out infinite; }
-  :global(.lo-chart-dot-ring) { animation: lo-dot-ring 2s ease-in-out infinite; }
-  @keyframes lo-dot-pulse {
-    0%, 100% { opacity: 0.2; r: 8; }
-    50% { opacity: 0.08; r: 12; }
-  }
-  @keyframes lo-dot-ring {
-    0%, 100% { opacity: 0.3; r: 5; }
-    50% { opacity: 0.1; r: 8; }
-  }
   .lo-chart-labels {
     display: flex; justify-content: space-between; margin-top: 0.35rem;
     font-family: 'Inter Variable', sans-serif; font-size: 0.58rem;
@@ -446,14 +430,10 @@
     var svgLine = document.querySelector('.lo-chart-line');
     var svgArea = document.querySelector('.lo-chart-area');
     var svgDot  = document.querySelector('.lo-chart-dot');
-    var svgGlow = document.querySelector('.lo-chart-dot-glow');
-    var svgRing = document.querySelector('.lo-chart-dot-ring');
 
     if (svgLine) svgLine.setAttribute('d', lineD);
     if (svgArea) svgArea.setAttribute('d', areaD);
-    [svgDot, svgGlow, svgRing].forEach(function(el) {
-      if (el) { el.setAttribute('cx', lastPt.x); el.setAttribute('cy', lastPt.y); }
-    });
+    if (svgDot) { svgDot.setAttribute('cx', lastPt.x); svgDot.setAttribute('cy', lastPt.y); }
 
     /* ---- Event feed ---- */
     var feed = document.getElementById('lo-feed');
