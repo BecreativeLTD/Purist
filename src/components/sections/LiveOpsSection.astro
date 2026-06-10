@@ -306,6 +306,9 @@
   .lo-chart {
     width: 100%; height: 120px; display: block; flex: 1;
   }
+  .lo-chart path, .lo-chart circle {
+    transition: d 1.5s ease-in-out, cx 1.5s ease-in-out, cy 1.5s ease-in-out;
+  }
   .lo-chart-labels {
     display: flex; justify-content: space-between; margin-top: 0.35rem;
     font-family: 'Inter Variable', sans-serif; font-size: 0.58rem;
@@ -500,14 +503,55 @@
     var $lineLatency = el('lo-line-latency');
     var $dotEvents = el('lo-dot-events'), $dotSuccess = el('lo-dot-success'), $dotLatency = el('lo-dot-latency');
 
-    if ($lineEvents) $lineEvents.setAttribute('d', eventsLine);
-    if ($areaEvents) $areaEvents.setAttribute('d', eventsArea);
-    if ($lineSuccess) $lineSuccess.setAttribute('d', successLine);
-    if ($areaSuccess) $areaSuccess.setAttribute('d', successArea);
-    if ($lineLatency) $lineLatency.setAttribute('d', latencyLine);
-    if ($dotEvents) { $dotEvents.setAttribute('cx', eventsLast.x); $dotEvents.setAttribute('cy', eventsLast.y); }
-    if ($dotSuccess) { $dotSuccess.setAttribute('cx', successLast.x); $dotSuccess.setAttribute('cy', successLast.y); }
-    if ($dotLatency) { $dotLatency.setAttribute('cx', latencyLast.x); $dotLatency.setAttribute('cy', latencyLast.y); }
+    function renderChart() {
+      var ePts = toPoints(eventsData, eventsMax);
+      var sNorm = successBase.map(function(v) { return ((v - 98) / 2) * eventsMax; });
+      var sPts = toPoints(sNorm, eventsMax);
+      var lNorm = latencyBase.map(function(v) { return (v / 200) * eventsMax; });
+      var lPts = toPoints(lNorm, eventsMax);
+
+      var eLine = catmullRom(ePts, 0.25);
+      var eLast = ePts[ePts.length - 1], eFirst = ePts[0];
+      var eArea = eLine + ' L' + eLast.x.toFixed(1) + ' ' + (H - PAD) + ' L' + eFirst.x.toFixed(1) + ' ' + (H - PAD) + ' Z';
+
+      var sLine = catmullRom(sPts, 0.25);
+      var sLast = sPts[sPts.length - 1], sFirst = sPts[0];
+      var sArea = sLine + ' L' + sLast.x.toFixed(1) + ' ' + (H - PAD) + ' L' + sFirst.x.toFixed(1) + ' ' + (H - PAD) + ' Z';
+
+      var lLine = catmullRom(lPts, 0.25);
+      var lLast = lPts[lPts.length - 1];
+
+      if ($lineEvents) $lineEvents.setAttribute('d', eLine);
+      if ($areaEvents) $areaEvents.setAttribute('d', eArea);
+      if ($lineSuccess) $lineSuccess.setAttribute('d', sLine);
+      if ($areaSuccess) $areaSuccess.setAttribute('d', sArea);
+      if ($lineLatency) $lineLatency.setAttribute('d', lLine);
+      if ($dotEvents) { $dotEvents.setAttribute('cx', eLast.x); $dotEvents.setAttribute('cy', eLast.y); }
+      if ($dotSuccess) { $dotSuccess.setAttribute('cx', sLast.x); $dotSuccess.setAttribute('cy', sLast.y); }
+      if ($dotLatency) { $dotLatency.setAttribute('cx', lLast.x); $dotLatency.setAttribute('cy', lLast.y); }
+    }
+
+    renderChart();
+
+    // Live update: shift all series left, add new data point on the right every 2s
+    setInterval(function () {
+      // Events: vary around last value with slight drift
+      var lastE = eventsData[eventsData.length - 1];
+      var newE = Math.max(200, Math.min(4000, lastE + Math.floor((Math.random() - 0.48) * 120)));
+      eventsData.shift(); eventsData.push(newE);
+
+      // Success rate: micro-fluctuations near 99.x%
+      var lastS = successBase[successBase.length - 1];
+      var newS = Math.max(98.8, Math.min(100, lastS + (Math.random() - 0.5) * 0.3));
+      successBase.shift(); successBase.push(Math.round(newS * 10) / 10);
+
+      // Latency: small jitter
+      var lastL = latencyBase[latencyBase.length - 1];
+      var newL = Math.max(45, Math.min(200, lastL + Math.floor((Math.random() - 0.5) * 18)));
+      latencyBase.shift(); latencyBase.push(newL);
+
+      renderChart();
+    }, 2000);
 
     /* ---- Event feed ---- */
     var feed = document.getElementById('lo-feed');
