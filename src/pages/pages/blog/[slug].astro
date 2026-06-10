@@ -117,6 +117,38 @@ const schemaDate = (() => {
  const [m, y] = article.date.split(' ');
  return `${y}-${months[m] ?? '01'}-01`;
 })();
+
+// ── FAQ Schema extraction ──────────────────────────────────
+// Finds ## Frequently Asked Questions section and extracts Q&A pairs
+const faqItems: { question: string; answer: string }[] = (() => {
+  const body = article.body;
+  const faqStart = body.search(/## Frequently Asked Questions/i);
+  if (faqStart === -1) return [];
+  const faqSection = body.slice(faqStart);
+  const items: { question: string; answer: string }[] = [];
+  const qaRegex = /### ([^\n]+)\n\n([\s\S]+?)(?=\n\n###|\n\n##|$)/g;
+  let match;
+  while ((match = qaRegex.exec(faqSection)) !== null) {
+    const question = match[1].trim();
+    const answer = match[2].trim().replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').slice(0, 500);
+    if (question && answer) items.push({ question, answer });
+  }
+  return items.slice(0, 10);
+})();
+
+// ── HowTo Schema extraction ────────────────────────────────
+// For tutorial/guide articles with numbered step sections
+const isHowTo = ['guides', 'automation'].includes(article.category) && article.body.includes('### Step ');
+const howToSteps: { name: string; text: string }[] = (() => {
+  if (!isHowTo) return [];
+  const stepRegex = /### Step \d+[:\s–-]+([^\n]+)\n\n([\s\S]+?)(?=\n\n###|\n\n##|$)/g;
+  const steps: { name: string; text: string }[] = [];
+  let match;
+  while ((match = stepRegex.exec(article.body)) !== null) {
+    steps.push({ name: match[1].trim(), text: match[2].trim().replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').slice(0, 300) });
+  }
+  return steps.slice(0, 10);
+})();
 ---
 
 <ShopLayout
@@ -368,29 +400,60 @@ const schemaDate = (() => {
 
      <!-- Sticky ToC (desktop) -->
      <aside style="display:none;" id="toc-aside">
-       <div style="position:sticky;top:90px;">
-         <p style="font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(10,10,10,0.3);margin-bottom:12px;">In this article</p>
-         <nav>
-           <ol style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:2px;">
-             {toc.map((h, i) => (
-               <li>
-                 <a href={`#${h.id}`}
-                    class="toc-link"
-                    data-id={h.id}
-                    style="display:block;font-size:11px;line-height:1.45;padding:5px 10px 5px 12px;border-left:2px solid rgba(10,10,10,0.08);color:rgba(10,10,10,0.45);text-decoration:none;transition:all 0.15s;border-radius:0 4px 4px 0;"
-                    onmouseover="this.style.color='#0A0A0A';this.style.borderLeftColor='#0A0A0A'"
-                    onmouseout="if(!this.classList.contains('active')){this.style.color='rgba(10,10,10,0.45)';this.style.borderLeftColor='rgba(10,10,10,0.08)'}"
-                 >
-                   {h.text}
-                 </a>
-               </li>
-             ))}
-           </ol>
-         </nav>
+       <div style="position:sticky;top:90px;display:flex;flex-direction:column;gap:16px;max-height:calc(100vh - 110px);overflow-y:auto;scrollbar-width:none;padding-right:2px;">
 
-         <!-- Silo navigation -->
+         <!-- IN THIS ARTICLE -->
+         <div style="background:#F8F6F1;border:1px solid rgba(10,10,10,0.07);border-radius:14px;padding:16px 18px;">
+           <p style="font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(10,10,10,0.35);margin-bottom:12px;">In this article</p>
+           <nav aria-label="Table of contents">
+             <ol style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:1px;">
+               {toc.map((h) => (
+                 <li>
+                   <a href={`#${h.id}`}
+                      class="toc-link"
+                      data-id={h.id}
+                      style="display:block;font-size:11px;line-height:1.5;padding:5px 10px 5px 12px;border-left:2px solid rgba(10,10,10,0.08);color:rgba(10,10,10,0.45);text-decoration:none;transition:all 0.15s;border-radius:0 4px 4px 0;"
+                      onmouseover="this.style.color='#0A0A0A';this.style.borderLeftColor='#0A0A0A'"
+                      onmouseout="if(!this.classList.contains('active')){this.style.color='rgba(10,10,10,0.45)';this.style.borderLeftColor='rgba(10,10,10,0.08)'}"
+                   >
+                     {h.text}
+                   </a>
+                 </li>
+               ))}
+             </ol>
+           </nav>
+           <!-- Reading time + word count -->
+           <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(10,10,10,0.06);display:flex;gap:10px;align-items:center;">
+             <span style="font-size:9.5px;color:rgba(10,10,10,0.35);">⏱ {article.readingTime}</span>
+             <span style="font-size:9.5px;color:rgba(10,10,10,0.2);">·</span>
+             <span style="font-size:9.5px;color:rgba(10,10,10,0.35);">{wordCount.toLocaleString()} words</span>
+           </div>
+         </div>
+
+         <!-- E-E-A-T TRUST SIGNALS -->
+         <div style="background:#fff;border:1px solid rgba(10,10,10,0.07);border-radius:14px;padding:16px 18px;">
+           <p style="font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(10,10,10,0.3);margin-bottom:12px;">Why trust PURIST</p>
+           <div style="display:flex;flex-direction:column;gap:9px;">
+             {[
+               { icon: '✓', label: '500+ workflows deployed' },
+               { icon: '✓', label: '14h saved per client weekly' },
+               { icon: '✓', label: '99.97% uptime SLA' },
+               { icon: '✓', label: '9.4× avg ROI in 60 days' },
+             ].map(s => (
+               <div style="display:flex;align-items:center;gap:8px;">
+                 <span style="width:16px;height:16px;border-radius:50%;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:9px;color:#2D5016;font-weight:700;">{s.icon}</span>
+                 <span style="font-size:10.5px;color:rgba(10,10,10,0.6);line-height:1.4;">{s.label}</span>
+               </div>
+             ))}
+           </div>
+           <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(10,10,10,0.06);">
+             <p style="font-size:9px;color:rgba(10,10,10,0.3);line-height:1.5;">Written by the PURIST engineering team. Updated {article.date}.</p>
+           </div>
+         </div>
+
+         <!-- SILO NAVIGATION -->
          {hasSilo && (
-           <div style="margin-top:1.75rem;padding:1.25rem;border-radius:14px;background:#F8F6F1;border:1px solid rgba(10,10,10,0.07);">
+           <div style="background:#F8F6F1;border:1px solid rgba(10,10,10,0.07);border-radius:14px;padding:16px 18px;">
              <p style="font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(10,10,10,0.3);margin-bottom:10px;">{isPillar ? '📚 Complete guide' : '📚 Part of this guide'}</p>
              {!isPillar && pillarArticle && (
                <a href={`/pages/blog/${pillarSlug}`} style="display:block;font-size:11px;font-weight:700;color:#0A0A0A;text-decoration:none;margin-bottom:10px;padding:7px 10px;background:#fff;border-radius:8px;border:1px solid rgba(10,10,10,0.1);">
@@ -398,7 +461,7 @@ const schemaDate = (() => {
                </a>
              )}
              <p style="font-size:9px;font-weight:600;color:rgba(10,10,10,0.4);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.12em;">{siloName}</p>
-             <div style="display:flex;flex-direction:column;gap:3px;">
+             <div style="display:flex;flex-direction:column;gap:2px;">
                {siloClusterArticles.slice(0, 6).map((a: any) => (
                  <a href={`/pages/blog/${a.slug}`} style="font-size:10.5px;color:rgba(10,10,10,0.55);text-decoration:none;padding:4px 6px;border-radius:5px;line-height:1.4;transition:color 0.15s;" onmouseover="this.style.color='#0A0A0A'" onmouseout="this.style.color='rgba(10,10,10,0.55)'">
                    → {a.title?.slice(0, 42)}{a.title?.length > 42 ? '…' : ''}
@@ -408,14 +471,24 @@ const schemaDate = (() => {
            </div>
          )}
 
-         <!-- CTA inline -->
-         <div style="margin-top:1.5rem;padding:1.25rem;border-radius:14px;background:#0A0A0A;">
-           <p style="font-size:11px;font-weight:600;color:#fff;margin-bottom:6px;line-height:1.4;">Ready to automate your business?</p>
-           <p style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:12px;line-height:1.5;">Free audit within 48h.</p>
-           <a href="/pages/welcome" style="display:block;text-align:center;font-size:11px;font-weight:600;padding:9px;border-radius:8px;background:#E8B4B0;color:#0A0A0A;text-decoration:none;">
+         <!-- CTA -->
+         <div style="border-radius:14px;background:#0A0A0A;padding:16px 18px;">
+           <div style="display:inline-flex;align-items:center;gap:5px;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.25);border-radius:100px;padding:3px 8px;margin-bottom:10px;">
+             <span style="width:5px;height:5px;border-radius:50%;background:#4ADE80;display:inline-block;"></span>
+             <span style="font-size:8.5px;font-weight:600;color:#4ADE80;letter-spacing:0.1em;text-transform:uppercase;">Free audit available</span>
+           </div>
+           <p style="font-size:12px;font-weight:600;color:#fff;margin-bottom:4px;line-height:1.4;">Ready to automate your business?</p>
+           <p style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:12px;line-height:1.5;">Map your workflows in a free 30-min audit. Deployed in 5–10 days.</p>
+           <a href="/pages/welcome" style="display:block;text-align:center;font-size:11px;font-weight:600;padding:10px;border-radius:9px;background:#E8B4B0;color:#0A0A0A;text-decoration:none;" onmouseover="this.style.background='#d9a09b'" onmouseout="this.style.background='#E8B4B0'">
              Book your free audit →
            </a>
+           <div style="display:flex;justify-content:center;gap:12px;margin-top:8px;">
+             {['No credit card','30-day guarantee'].map(t => (
+               <span style="font-size:8.5px;color:rgba(255,255,255,0.25);">{t}</span>
+             ))}
+           </div>
          </div>
+
        </div>
      </aside>
 
@@ -579,6 +652,42 @@ const schemaDate = (() => {
  articleSection: category?.name ?? article.category,
  articleBody: article.excerpt,
 })}/>
+
+{faqItems.length > 0 && (
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    '@id': `${pageUrl}#faqpage`,
+    url: pageUrl,
+    mainEntity: faqItems.map(item => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  })}/>
+)}
+
+{isHowTo && howToSteps.length > 0 && (
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    '@id': `${pageUrl}#howto`,
+    name: article.title,
+    description: article.excerpt,
+    url: pageUrl,
+    totalTime: `PT${parseInt(article.readingTime) * 2 || 30}M`,
+    step: howToSteps.map((step, i) => ({
+      '@type': 'HowToStep',
+      position: i + 1,
+      name: step.name,
+      text: step.text,
+      url: `${pageUrl}#step-${i + 1}`,
+    })),
+  })}/>
+)}
 
 <script is:inline>
  // Progress bar
