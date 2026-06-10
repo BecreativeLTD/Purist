@@ -8,191 +8,188 @@ const cases = [
   {
     id: 'dental',
     industry: 'Healthcare',
-    tag: 'DENTAL GROUP · LONDON',
-    headline: '60% less admin. Same staff. Better patient experience.',
-    hours: '14',
-    stat: '60%',
-    statLabel: 'reduction in admin time',
-    detail: 'Automated patient reminders, recall campaigns and insurance billing reconciliation. Front desk team refocused entirely on patient care zero manual follow-up.',
-    before: '3 FTE hours daily on reminders, recalls & billing reconciliation — 90% of it repetitive.',
+    tag: 'Dental Group · London',
+    headline: '60% less admin. Same staff. Better patient outcomes.',
+    stat: '60%', statLabel: 'admin reduction',
+    hours: '14', roi: '£112K', roi_multiple: '12.1×', breakeven: '19 days',
+    timeline: '6 days',
+    before: '3 FTE hours daily on reminders, recalls and billing reconciliation — 90% repetitive.',
+    after: 'Fully automated patient reminders, insurance pre-auth and recall campaigns. Front desk refocused on care.',
     workflows: ['Appointment reminders', 'Insurance pre-auth', 'Recall campaigns', 'Billing reconciliation'],
-    timeline: '6 days to deploy',
-    roi: '£112k annual saving',
-    roi_multiple: '12.1×',
-    breakeven: '19 days',
     tools: ['n8n', 'Dentally', 'SendGrid', 'Stripe'],
-    quote: 'We stopped losing patients to missed recalls. The recall rate went from 34% to 71% in 8 weeks.',
-    quote_by: 'Practice Manager, Dental Group',
+    quote: "We stopped losing patients to missed recalls. Recall rate went from 34% to 71% in 8 weeks.",
+    attribution: 'Practice Manager',
   },
   {
     id: 'agency',
     industry: 'Agency',
-    tag: 'MARKETING AGENCY · EDINBURGH',
-    headline: '45 client accounts. No additional headcount.',
-    hours: '22',
-    stat: '3×',
-    statLabel: 'more clients per operator',
-    detail: 'Client onboarding, weekly performance reporting and invoice generation fully automated. Team eliminated three manual tools and one contractor role.',
-    before: '28h/week on reporting & onboarding admin. One contractor hired purely for report generation.',
-    workflows: ['Client onboarding', 'Weekly reporting', 'Invoice generation', 'Project kickoff flows'],
-    timeline: '8 days to deploy',
-    roi: '£89k contractor savings',
-    roi_multiple: '9.8×',
-    breakeven: '23 days',
+    tag: 'Marketing Agency · Edinburgh',
+    headline: '45 client accounts managed. Zero extra headcount.',
+    stat: '3×', statLabel: 'clients per operator',
+    hours: '22', roi: '£89K', roi_multiple: '9.8×', breakeven: '23 days',
+    timeline: '8 days',
+    before: '28h/week on reporting and onboarding admin. One contractor hired purely for report generation.',
+    after: 'Client onboarding, weekly reporting and invoicing fully automated. Contractor role eliminated.',
+    workflows: ['Client onboarding', 'Weekly reporting', 'Invoice generation', 'Project kickoffs'],
     tools: ['n8n', 'HubSpot', 'Xero', 'Slack'],
-    quote: 'Our ops manager finally does strategy instead of admin. We scaled from 28 to 45 clients without a single hire.',
-    quote_by: 'CEO, Marketing Agency',
+    quote: "Our ops manager finally does strategy instead of admin. We scaled from 28 to 45 clients without a single hire.",
+    attribution: 'CEO',
   },
   {
     id: 'realestate',
     industry: 'Real Estate',
-    tag: 'PROPERTY AGENCY · MANCHESTER',
-    headline: 'Portal leads followed up in 90 seconds automatically.',
-    hours: '9',
-    stat: '40%',
-    statLabel: 'more deals closed',
-    detail: 'Portal leads captured automatically into CRM, qualified by AI, and followed up within 90 seconds. Viewing confirmations sent without any staff input.',
-    before: 'Portal leads responded to in 4+ hours average. 60% of enquiries received no same-day reply.',
+    tag: 'Property Agency · Manchester',
+    headline: 'Portal leads followed up in 90 seconds. Automatically.',
+    stat: '40%', statLabel: 'more deals closed',
+    hours: '9', roi: '£74K', roi_multiple: '8.3×', breakeven: '18 days',
+    timeline: '5 days',
+    before: 'Leads responded to in 4+ hours average. 60% of enquiries received no same-day reply.',
+    after: 'Every portal lead captured, AI-qualified and followed up within 90 seconds. Zero staff input.',
     workflows: ['Lead capture', 'AI qualification', 'Viewing confirmations', 'Follow-up sequences'],
-    timeline: '5 days to deploy',
-    roi: '£74k additional revenue',
-    roi_multiple: '8.3×',
-    breakeven: '18 days',
     tools: ['n8n', 'Rightmove', 'Salesforce', 'Twilio'],
-    quote: "First to call wins. Now we are always first. Our conversion from enquiry to viewing went from 18% to 31%.",
-    quote_by: 'Director, Property Agency',
+    quote: "First to call wins. Now we are always first. Conversion from enquiry to viewing went from 18% to 31%.",
+    attribution: 'Director',
   },
   {
     id: 'ecommerce',
     industry: 'E-commerce',
-    tag: 'DTC BRAND · BRISTOL',
-    headline: '70% fewer support tickets. 24/7 Tier-1 support with zero staff.',
-    hours: '8',
-    stat: '70%',
-    statLabel: 'fewer support tickets',
-    detail: 'Order confirmations, abandoned cart recovery and Tier-1 support handled automatically around the clock. Customer satisfaction score up 18 points.',
-    before: 'Support team fielding 200+ tickets/day. 3-day resolution backlog. Two full-time agents on Tier-1.',
+    tag: 'DTC Brand · Bristol',
+    headline: '70% fewer support tickets. Zero extra staff.',
+    stat: '70%', statLabel: 'fewer tickets',
+    hours: '8', roi: '£48K', roi_multiple: '7.6×', breakeven: '31 days',
+    timeline: '7 days',
+    before: 'Support team fielding 200+ tickets/day. 3-day resolution backlog. Two full-time Tier-1 agents.',
+    after: 'Order confirmations, cart recovery and Tier-1 support automated 24/7. CSAT up 18 points.',
     workflows: ['Order confirmations', 'Abandoned cart', 'AI support triage', 'Return processing'],
-    timeline: '7 days to deploy',
-    roi: '£48k support savings',
-    roi_multiple: '7.6×',
-    breakeven: '31 days',
     tools: ['n8n', 'Shopify', 'Gorgias', 'Claude AI'],
-    quote: 'Our support backlog went from 3 days to 2 hours. CSAT went from 61 to 79. Same headcount.',
-    quote_by: 'Head of Ops, DTC Brand',
+    quote: "Our support backlog went from 3 days to 2 hours. CSAT went from 61 to 79 with the same headcount.",
+    attribution: 'Head of Operations',
   },
   {
     id: 'legal',
     industry: 'Legal',
-    tag: 'LAW FIRM · BIRMINGHAM',
+    tag: 'Law Firm · Birmingham',
     headline: 'Client intake from 14 days to 3 days.',
-    hours: '12',
-    stat: '78%',
-    statLabel: 'faster client onboarding',
-    detail: 'Client intake forms, conflict checks, engagement letter generation and deadline tracking automated end-to-end. Fee earners now touch only billable work.',
-    before: 'Intake taking 14 days average. Fee earners spending 4h/week on non-billable admin. Clients lost to faster firms.',
+    stat: '78%', statLabel: 'faster onboarding',
+    hours: '12', roi: '£95K', roi_multiple: '13.4×', breakeven: '21 days',
+    timeline: '9 days',
+    before: 'Intake taking 14 days. Fee earners spending 4h/week on non-billable admin. Clients lost to faster firms.',
+    after: 'Intake, conflict checks, engagement letters and deadline tracking fully automated end-to-end.',
     workflows: ['Client intake', 'Conflict checks', 'Document generation', 'Deadline tracking'],
-    timeline: '9 days to deploy',
-    roi: '£95k billable hours recovered',
-    roi_multiple: '13.4×',
-    breakeven: '21 days',
     tools: ['n8n', 'Clio', 'DocuSign', 'Claude AI'],
-    quote: 'Fee earners now touch only billable work. We recovered £95K in billable hours in the first year alone.',
-    quote_by: 'Managing Partner, Law Firm',
+    quote: "Fee earners now touch only billable work. We recovered £95K in billable hours in the first year.",
+    attribution: 'Managing Partner',
   },
   {
     id: 'staffing',
     industry: 'Staffing',
-    tag: 'RECRUITMENT FIRM · LEEDS',
+    tag: 'Recruitment Firm · Leeds',
     headline: '3× more placements. Same team. AI handles the pipeline.',
-    hours: '10',
-    stat: '3×',
-    statLabel: 'more placements per consultant',
-    detail: 'CV parsing, candidate follow-ups and interview scheduling handled by AI agents. Consultants only ever touch warm, pre-qualified candidates.',
-    before: 'Consultants spending 60% of time on CV screening, scheduling, and status emails — only 40% on actual placement activity.',
+    stat: '3×', statLabel: 'placements per consultant',
+    hours: '10', roi: '£168K', roi_multiple: '11.2×', breakeven: '25 days',
+    timeline: '7 days',
+    before: 'Consultants spending 60% of time on CV screening, scheduling and status emails.',
+    after: 'CV parsing, candidate scoring and interview scheduling fully automated by AI agents.',
     workflows: ['CV parsing', 'AI candidate scoring', 'Interview scheduling', 'Offer coordination'],
-    timeline: '7 days to deploy',
-    roi: '£168k additional placements',
-    roi_multiple: '11.2×',
-    breakeven: '25 days',
     tools: ['n8n', 'Workable', 'Claude AI', 'Google Calendar'],
-    quote: 'Our consultants finally do what they were hired to do. Placements per head went from 2.1 to 6.4 per month.',
-    quote_by: 'MD, Recruitment Firm',
+    quote: "Our consultants finally do what they were hired to do. Placements per head went from 2.1 to 6.4 per month.",
+    attribution: 'Managing Director',
   },
 ];
 
 const industries = ['All', 'Healthcare', 'Agency', 'Real Estate', 'E-commerce', 'Legal', 'Staffing'];
 
 const aggregate = [
-  { value: '312', suffix: '+', label: 'businesses automated' },
-  { value: '14', suffix: 'h', label: 'average hours saved / week' },
-  { value: '9.2', suffix: '×', label: 'average ROI at 90 days' },
-  { value: '168', suffix: 'k', label: 'avg annual saving (£)' },
-  { value: '99.97', suffix: '%', label: 'uptime across all workflows' },
-  { value: '7', suffix: 'd', label: 'average deployment time' },
+  { value: '312', suffix: '+', label: 'Deployments completed' },
+  { value: '14',  suffix: 'h', label: 'Avg hours saved / week' },
+  { value: '9.2', suffix: '×', label: 'Avg ROI at 90 days' },
+  { value: '168', suffix: 'k', label: 'Avg annual saving (£)' },
+  { value: '99.97', suffix: '%', label: 'Workflow uptime SLA' },
+  { value: '7',   suffix: 'd', label: 'Avg deployment time' },
 ];
 
 const benchmarks = [
-  { industry: 'Healthcare', icon: 'M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v11m3-11v11m3-11v11M3 9h18', hours: '18h', saving: '£112K', roi: '12.1×', payback: '19 days', deploy: '6–8 days', color: '#7B68EE' },
-  { industry: 'Agency',     icon: 'M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z', hours: '22h', saving: '£89K', roi: '9.8×', payback: '23 days', deploy: '7–9 days', color: '#E8B4B0' },
-  { industry: 'Real Estate', icon: 'M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z M9 22V12h6v10', hours: '9h', saving: '£74K', roi: '8.3×', payback: '18 days', deploy: '5–6 days', color: '#C89840' },
-  { industry: 'E-commerce', icon: 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z', hours: '8h', saving: '£48K', roi: '7.6×', payback: '31 days', deploy: '7–8 days', color: '#059669' },
-  { industry: 'Legal',      icon: 'M3 6l9-4 9 4v6c0 5.5-4 10-9 12C7 22 3 17.5 3 12V6z', hours: '12h', saving: '£95K', roi: '13.4×', payback: '21 days', deploy: '8–10 days', color: '#dc2626' },
-  { industry: 'Staffing',   icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75', hours: '10h', saving: '£168K', roi: '11.2×', payback: '25 days', deploy: '7–8 days', color: '#6366f1' },
+  { industry: 'Legal',       hours: '12h', saving: '£95K',  roi: '13.4×', payback: '21 days', deploy: '9 days',  best: true  },
+  { industry: 'Healthcare',  hours: '18h', saving: '£112K', roi: '12.1×', payback: '19 days', deploy: '7 days',  best: false },
+  { industry: 'Staffing',    hours: '10h', saving: '£168K', roi: '11.2×', payback: '25 days', deploy: '7 days',  best: false },
+  { industry: 'Agency',      hours: '22h', saving: '£89K',  roi: '9.8×',  payback: '23 days', deploy: '8 days',  best: false },
+  { industry: 'Real Estate', hours: '9h',  saving: '£74K',  roi: '8.3×',  payback: '18 days', deploy: '6 days',  best: false },
+  { industry: 'E-commerce',  hours: '8h',  saving: '£48K',  roi: '7.6×',  payback: '31 days', deploy: '7 days',  best: false },
+];
+
+const ticker = [
+  { co: 'Dental Group · London',       win: '14h/week automated',    days: '2 days ago' },
+  { co: 'Law Firm · Birmingham',       win: 'Intake 78% faster',     days: '4 days ago' },
+  { co: 'DTC Brand · Bristol',         win: '70% fewer tickets',      days: '5 days ago' },
+  { co: 'Property Agency · Manchester',win: '40% more deals closed',  days: '6 days ago' },
+  { co: 'Marketing Agency · Edinburgh',win: '3× clients per operator',days: '9 days ago' },
+  { co: 'Recruitment Firm · Leeds',    win: '3× placements/consultant',days: '11 days ago'},
+  { co: 'Finance Co · Glasgow',        win: '£52K invoicing saved',   days: '13 days ago'},
+  { co: 'Healthcare Group · Cardiff',  win: '22h admin eliminated',   days: '15 days ago'},
 ];
 ---
 
 <ShopLayout
   title="Wall of Results — Real Client Outcomes | PURIST"
-  description="312+ businesses automated. Real time savings, real ROI, real outcomes. Case studies across dental, real estate, agencies, e-commerce, legal and staffing."
+  description="312+ businesses automated. Verified ROI, real before-and-after data. Case studies across dental, real estate, agency, e-commerce, legal and staffing."
 >
 
-<!-- ═══ HERO ═══════════════════════════════════════════════════════ -->
-<header class="relative overflow-hidden" style="background:#0A0A0A;">
-  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 80% 60% at 30% 50%,rgba(232,180,176,0.07) 0%,transparent 65%);"/>
+<!-- ═══════════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════════ -->
+<header style="background:#0A0A0A;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 20% 60%,rgba(232,180,176,0.06) 0%,transparent 60%);pointer-events:none;"></div>
 
-  <div class="container-x relative z-10 pt-16 lg:pt-24 pb-12 lg:pb-16">
-    <div class="max-w-3xl">
-      <div class="flex items-center gap-3 mb-5 flex-wrap">
-        <p class="text-[9px] uppercase tracking-[0.28em] font-bold" style="color:rgba(232,180,176,0.60);">Wall of Results</p>
-        <span style="width:1px;height:12px;background:rgba(255,255,255,0.10);display:inline-block;"></span>
-        <span style="font-size:9px;color:rgba(255,255,255,0.22);font-family:monospace;" id="last-updated">Updated June 2026</span>
-        <span style="display:inline-flex;align-items:center;gap:4px;background:rgba(74,222,128,0.10);border:1px solid rgba(74,222,128,0.20);border-radius:100px;padding:2px 8px;">
-          <span style="width:5px;height:5px;border-radius:50%;background:#4ADE80;"></span>
-          <span style="font-size:8.5px;font-weight:600;color:#4ADE80;letter-spacing:0.10em;text-transform:uppercase;">Live data</span>
+  <div class="container-x relative z-10" style="padding-top:72px;padding-bottom:60px;">
+    <div style="max-width:680px;">
+
+      <!-- Eyebrow -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
+        <span style="font-size:9px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:rgba(232,180,176,0.55);">Wall of Results</span>
+        <span style="width:1px;height:10px;background:rgba(255,255,255,0.12);"></span>
+        <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.18);border-radius:100px;padding:3px 9px;">
+          <span style="width:4px;height:4px;border-radius:50%;background:#4ADE80;animation:pulse-dot 2s ease-in-out infinite;"></span>
+          <span style="font-size:8.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#4ADE80;">Live data</span>
         </span>
+        <span style="font-size:10px;color:rgba(255,255,255,0.18);font-variant-numeric:tabular-nums;">Updated June 2026</span>
       </div>
-      <h1 class="font-display text-[2.2rem] sm:text-[3rem] lg:text-[3.8rem] leading-[1.06] tracking-[-0.025em] text-white mb-6 text-balance">
+
+      <h1 class="font-display" style="font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.06;letter-spacing:-0.025em;color:#fff;margin-bottom:20px;">
         Every number here<br/>
-        <em class="font-medium" style="color:#E8B4B0;">came from a real deployment.</em>
+        <em style="color:#E8B4B0;font-weight:400;">came from a real deployment.</em>
       </h1>
-      <p class="text-[15px] lg:text-base leading-relaxed max-w-xl mb-6" style="color:rgba(255,255,255,0.40);">
-        Not projections. Not demos. Aggregated data from 312+ clients across dental, real estate, agencies, e-commerce, legal and staffing. Every figure independently verifiable on request.
+
+      <p style="font-size:15px;line-height:1.75;color:rgba(255,255,255,0.38);max-width:520px;margin-bottom:28px;">
+        Not projections. Not benchmarks. Aggregated actuals from 312 verified client deployments across six verticals. Every figure verifiable on request.
       </p>
-      <div class="flex items-center gap-2 flex-wrap">
-        {['No projections — verified actuals only', 'Updated monthly', 'Anonymised with client consent'].map(t => (
-          <span style="display:inline-flex;align-items:center;gap:5px;font-size:10.5px;color:rgba(255,255,255,0.30);">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-            {t}
-          </span>
+
+      <div style="display:flex;flex-wrap:wrap;gap:18px;">
+        {[
+          { icon: 'M5 13l4 4L19 7', label: 'Verified actuals only' },
+          { icon: 'M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 0l8 8 8-8', label: 'Updated monthly' },
+          { icon: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z', label: 'Anonymised with consent' },
+        ].map(t => (
+          <div style="display:flex;align-items:center;gap:6px;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d={t.icon}/></svg>
+            <span style="font-size:11px;color:rgba(255,255,255,0.30);">{t.label}</span>
+          </div>
         ))}
       </div>
+
     </div>
   </div>
 
-  <!-- Animated counter strip -->
-  <div class="relative z-10" style="border-top:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);">
-    <div class="container-x py-8 lg:py-10">
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-0 lg:divide-x lg:divide-white/10">
-        {aggregate.map((s) => (
-          <div class="text-center lg:px-6">
-            <p class="font-display text-2xl lg:text-3xl leading-none text-white mb-1.5"
-               data-counter
-               data-target={s.value}
-               data-suffix={s.suffix}
-               data-decimal={s.value.includes('.') ? 'true' : undefined}
-            >0{s.suffix}</p>
-            <p class="text-[10px] uppercase tracking-[0.14em] font-medium" style="color:rgba(255,255,255,0.28);">{s.label}</p>
+  <!-- Counter strip -->
+  <div style="border-top:1px solid rgba(255,255,255,0.05);background:rgba(255,255,255,0.02);">
+    <div class="container-x" style="padding-top:28px;padding-bottom:28px;">
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0;overflow-x:auto;">
+        {aggregate.map((s, i) => (
+          <div style={`text-align:center;padding:4px 20px;${i < 5 ? 'border-right:1px solid rgba(255,255,255,0.06);' : ''}`}>
+            <p class="font-display" style="font-size:clamp(1.3rem,2.5vw,1.9rem);color:#fff;line-height:1;margin-bottom:6px;"
+               data-counter data-target={s.value} data-suffix={s.suffix} data-decimal={s.value.includes('.') ? 'true' : undefined}>
+              0{s.suffix}
+            </p>
+            <p style="font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.25);">{s.label}</p>
           </div>
         ))}
       </div>
@@ -200,191 +197,206 @@ const benchmarks = [
   </div>
 </header>
 
-<!-- ═══ INDUSTRY BENCHMARKS TABLE ══════════════════════════════════ -->
-<section style="background:#0A0A0A;border-top:1px solid rgba(255,255,255,0.04);padding:56px 0 64px;">
+<!-- ═══════════════════════════════════════════════════
+     LIVE TICKER — recent deployments
+════════════════════════════════════════════════════ -->
+<div style="background:#111111;border-top:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04);padding:12px 0;overflow:hidden;">
+  <div style="display:flex;align-items:center;">
+    <!-- Static label -->
+    <div style="flex-shrink:0;padding:0 20px;display:flex;align-items:center;gap:8px;border-right:1px solid rgba(255,255,255,0.08);margin-right:0;z-index:2;background:#111111;">
+      <span style="width:5px;height:5px;border-radius:50%;background:#4ADE80;animation:pulse-dot 2s ease-in-out infinite;"></span>
+      <span style="font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.30);white-space:nowrap;">Recent wins</span>
+    </div>
+    <!-- Scrolling track -->
+    <div style="flex:1;overflow:hidden;position:relative;">
+      <div style="display:flex;gap:0;animation:marquee 32s linear infinite;width:max-content;" id="ticker-track">
+        {[...ticker, ...ticker].map(t => (
+          <div style="display:inline-flex;align-items:center;gap:10px;padding:0 32px;border-right:1px solid rgba(255,255,255,0.05);">
+            <span style="width:5px;height:5px;border-radius:50%;background:rgba(232,180,176,0.50);flex-shrink:0;"></span>
+            <span style="font-size:11.5px;font-weight:600;color:rgba(255,255,255,0.70);white-space:nowrap;">{t.co}</span>
+            <span style="font-size:11px;color:rgba(255,255,255,0.30);white-space:nowrap;">—</span>
+            <span style="font-size:11px;color:#E8B4B0;white-space:nowrap;">{t.win}</span>
+            <span style="font-size:9.5px;color:rgba(255,255,255,0.20);white-space:nowrap;">{t.days}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     INDUSTRY BENCHMARKS
+════════════════════════════════════════════════════ -->
+<section style="background:#0A0A0A;padding:72px 0 80px;">
   <div class="container-x">
-    <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
+
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:36px;">
       <div>
-        <p style="font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(232,180,176,0.55);margin-bottom:10px;">Industry benchmarks</p>
-        <h2 class="font-display text-2xl lg:text-3xl text-white leading-tight">
-          How your sector<br/><em style="color:#E8B4B0;">typically performs.</em>
+        <p style="font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(232,180,176,0.50);margin-bottom:12px;">Industry benchmarks</p>
+        <h2 class="font-display" style="font-size:clamp(1.6rem,3vw,2.4rem);color:#fff;line-height:1.15;letter-spacing:-0.015em;">
+          How your sector typically performs.
         </h2>
       </div>
-      <p style="font-size:11px;color:rgba(255,255,255,0.25);max-width:320px;line-height:1.6;">Averages across all PURIST deployments in each vertical. Sorted by ROI multiple.</p>
+      <p style="font-size:11.5px;color:rgba(255,255,255,0.28);max-width:300px;line-height:1.65;">Averages across all verified PURIST deployments in each vertical. Sorted by ROI multiple.</p>
     </div>
 
-    <!-- Desktop table -->
-    <div style="display:none;" id="bench-table-desktop">
-      <table style="width:100%;border-collapse:collapse;font-family:'Inter',sans-serif;">
-        <thead>
-          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
-            {['Industry','Hours saved / wk','Annual saving','ROI multiple','Payback','Deploy time'].map(h => (
-              <th style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.28);padding:0 16px 14px;text-align:left;">{h}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {benchmarks.map((b, i) => (
-            <tr style={`border-bottom:1px solid rgba(255,255,255,0.04);transition:background 0.15s;`}
-                onmouseover="this.style.background='rgba(255,255,255,0.02)'"
-                onmouseout="this.style.background=''">
-              <td style="padding:14px 16px;">
-                <div style="display:flex;align-items:center;gap:10px;">
-                  <div style={`width:28px;height:28px;border-radius:8px;background:${b.color}18;border:1px solid ${b.color}30;display:flex;align-items:center;justify-content:center;flex-shrink:0;`}>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={b.color} stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d={b.icon}/></svg>
-                  </div>
-                  <span style="font-size:12.5px;font-weight:600;color:#fff;">{b.industry}</span>
-                </div>
-              </td>
-              <td style="padding:14px 16px;font-family:'Fraunces',Georgia,serif;font-size:16px;font-weight:400;color:#fff;">{b.hours}</td>
-              <td style={`padding:14px 16px;font-family:'Fraunces',Georgia,serif;font-size:16px;font-weight:400;color:${b.color};`}>{b.saving}</td>
-              <td style="padding:14px 16px;">
-                <span style={`font-family:'Fraunces',Georgia,serif;font-size:16px;font-weight:400;color:#E8B4B0;background:rgba(232,180,176,0.08);padding:3px 10px;border-radius:100px;`}>{b.roi}</span>
-              </td>
-              <td style="padding:14px 16px;font-size:12px;color:rgba(255,255,255,0.55);">{b.payback}</td>
-              <td style="padding:14px 16px;font-size:12px;color:rgba(255,255,255,0.55);">{b.deploy}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <!-- Table header -->
+    <div style="display:grid;grid-template-columns:180px 1fr 1fr 1fr 1fr 1fr;gap:0;border-bottom:1px solid rgba(255,255,255,0.07);padding-bottom:12px;margin-bottom:4px;">
+      {['Industry','Hours / wk','Annual saving','ROI multiple','Payback','Deploy'].map((h, i) => (
+        <div style={`padding:0 ${i===0?'0':'16px'};`}>
+          <span style="font-size:8.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.22);">{h}</span>
+        </div>
+      ))}
     </div>
 
-    <!-- Mobile: cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="bench-cards-mobile">
+    <!-- Table rows -->
+    <div style="display:flex;flex-direction:column;gap:0;">
       {benchmarks.map((b) => (
-        <div style={`background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:16px 18px;`}>
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-            <div style={`width:28px;height:28px;border-radius:8px;background:${b.color}18;border:1px solid ${b.color}30;display:flex;align-items:center;justify-content:center;flex-shrink:0;`}>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={b.color} stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d={b.icon}/></svg>
-            </div>
-            <span style="font-size:13px;font-weight:600;color:#fff;">{b.industry}</span>
+        <div style={`display:grid;grid-template-columns:180px 1fr 1fr 1fr 1fr 1fr;gap:0;align-items:center;padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.04);transition:background 0.15s;${b.best ? 'background:rgba(232,180,176,0.04);border-radius:8px;' : ''}`}
+             onmouseover="this.style.background='rgba(255,255,255,0.02)'"
+             onmouseout={`this.style.background='${b.best ? "rgba(232,180,176,0.04)" : "transparent"}'`}>
+          <div style="display:flex;align-items:center;gap:10px;">
+            {b.best && <span style="width:3px;height:20px;background:#E8B4B0;border-radius:2px;flex-shrink:0;"></span>}
+            {!b.best && <span style="width:3px;height:20px;background:transparent;flex-shrink:0;"></span>}
+            <span style={`font-size:13px;font-weight:600;color:${b.best ? '#fff' : 'rgba(255,255,255,0.65)'};`}>{b.industry}</span>
+            {b.best && <span style="font-size:8px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:#E8B4B0;background:rgba(232,180,176,0.12);border:1px solid rgba(232,180,176,0.20);padding:2px 6px;border-radius:4px;">Best ROI</span>}
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-            {[
-              { k: 'Hours saved', v: b.hours },
-              { k: 'Annual saving', v: b.saving, highlight: b.color },
-              { k: 'ROI', v: b.roi, highlight: '#E8B4B0' },
-              { k: 'Payback', v: b.payback },
-            ].map(m => (
-              <div>
-                <p style="font-size:8.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.25);margin-bottom:3px;">{m.k}</p>
-                <p style={`font-family:'Fraunces',Georgia,serif;font-size:15px;color:${m.highlight || '#fff'};`}>{m.v}</p>
-              </div>
-            ))}
+          <div style="padding-left:16px;">
+            <span class="font-display" style={`font-size:17px;color:${b.best ? '#fff' : 'rgba(255,255,255,0.55)'};`}>{b.hours}</span>
+          </div>
+          <div style="padding-left:16px;">
+            <span class="font-display" style={`font-size:17px;color:${b.best ? '#E8B4B0' : 'rgba(232,180,176,0.60)'};`}>{b.saving}</span>
+          </div>
+          <div style="padding-left:16px;">
+            <span style={`display:inline-block;font-family:'Fraunces',Georgia,serif;font-size:17px;color:${b.best ? '#E8B4B0' : 'rgba(255,255,255,0.50)'};${b.best ? 'background:rgba(232,180,176,0.10);padding:2px 10px;border-radius:100px;' : ''}`}>{b.roi}</span>
+          </div>
+          <div style="padding-left:16px;">
+            <span style="font-size:12px;color:rgba(255,255,255,0.38);">{b.payback}</span>
+          </div>
+          <div style="padding-left:16px;">
+            <span style="font-size:12px;color:rgba(255,255,255,0.38);">{b.deploy}</span>
           </div>
         </div>
       ))}
     </div>
 
-    <p style="font-size:10px;color:rgba(255,255,255,0.18);margin-top:16px;line-height:1.5;">All figures are averages across verified client deployments. Individual results vary based on team size, existing stack, and workflow complexity.</p>
+    <p style="font-size:9.5px;color:rgba(255,255,255,0.16);margin-top:20px;line-height:1.5;">All figures are averages across verified client deployments. Individual results vary based on team size, existing stack and workflow complexity. Full methodology available on request.</p>
+
   </div>
 </section>
 
-<!-- ═══ INDUSTRY FILTER + CASES ════════════════════════════════════ -->
-<section class="bg-brand-cream py-16 lg:py-24">
+<!-- ═══════════════════════════════════════════════════
+     CASE STUDIES
+════════════════════════════════════════════════════ -->
+<section style="background:#F8F6F1;padding:72px 0 80px;">
   <div class="container-x">
 
-    <div class="mb-10">
-      <p class="eyebrow mb-3">Case studies</p>
-      <h2 class="font-display text-2xl lg:text-3xl leading-tight text-balance">
-        Real deployments.<br/><em class="font-medium">Real before and after.</em>
+    <div style="margin-bottom:32px;">
+      <p style="font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(10,10,10,0.30);margin-bottom:12px;">Case studies</p>
+      <h2 class="font-display" style="font-size:clamp(1.6rem,3vw,2.4rem);color:#0A0A0A;line-height:1.15;letter-spacing:-0.015em;">
+        Real deployments. Real before and after.
       </h2>
     </div>
 
-    <!-- Filter tabs -->
-    <div class="flex flex-wrap gap-2 mb-12" id="filter-bar">
+    <!-- Filter -->
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:40px;" id="filter-bar">
       {industries.map((ind, i) => (
         <button
           data-filter={ind.toLowerCase()}
           onclick="filterCases(this)"
-          class={`filter-btn text-[11px] font-semibold px-4 py-2 rounded-full transition-all duration-150 ${i === 0 ? 'bg-brand-black text-white' : 'bg-white text-brand-gray-600 border border-brand-gray-200 hover:border-brand-gray-400'}`}
+          style={i === 0
+            ? 'font-size:11px;font-weight:600;padding:7px 16px;border-radius:100px;background:#0A0A0A;color:#fff;border:none;cursor:pointer;transition:all 0.15s;'
+            : 'font-size:11px;font-weight:600;padding:7px 16px;border-radius:100px;background:#fff;color:rgba(10,10,10,0.55);border:1px solid rgba(10,10,10,0.10);cursor:pointer;transition:all 0.15s;'}
+          class="filter-btn"
         >
           {ind}
         </button>
       ))}
     </div>
 
-    <!-- Case cards grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5" id="cases-grid">
+    <!-- Cards grid -->
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px;" id="cases-grid" class="cases-responsive-grid">
       {cases.map((c) => (
         <article
           data-industry={c.industry.toLowerCase()}
-          class="case-card group bg-white rounded-[20px] overflow-hidden scroll-fade"
-          style="border:1px solid rgba(10,10,10,0.07);"
-          onmouseover="this.style.boxShadow='0 12px 40px rgba(10,10,10,0.10)'"
-          onmouseout="this.style.boxShadow=''"
+          class="case-card scroll-fade"
+          style="background:#fff;border:1px solid rgba(10,10,10,0.07);border-radius:18px;overflow:hidden;transition:box-shadow 0.2s,transform 0.2s;"
+          onmouseover="this.style.boxShadow='0 16px 48px rgba(10,10,10,0.10)';this.style.transform='translateY(-2px)'"
+          onmouseout="this.style.boxShadow='';this.style.transform=''"
         >
-          <!-- Card header -->
-          <div class="px-6 pt-6 pb-5" style="border-bottom:1px solid rgba(10,10,10,0.06);">
-            <div class="flex items-start justify-between gap-4">
-              <div>
-                <p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-2" style="color:rgba(10,10,10,0.30);">{c.tag}</p>
-                <h2 class="font-display text-lg lg:text-xl leading-snug tracking-[-0.01em] text-brand-black max-w-xs">{c.headline}</h2>
+
+          <!-- Header -->
+          <div style="padding:22px 22px 18px;border-bottom:1px solid rgba(10,10,10,0.055);">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+              <div style="flex:1;min-width:0;">
+                <p style="font-size:8.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(10,10,10,0.28);margin-bottom:8px;">{c.tag}</p>
+                <h2 class="font-display" style="font-size:clamp(1rem,2vw,1.2rem);line-height:1.25;letter-spacing:-0.01em;color:#0A0A0A;">{c.headline}</h2>
               </div>
-              <!-- Big stat -->
-              <div class="shrink-0 text-right">
-                <p class="font-display text-3xl lg:text-4xl leading-none" style="color:#E8B4B0;">{c.stat}</p>
-                <p class="text-[10px] leading-snug mt-1 max-w-[80px] text-right" style="color:rgba(10,10,10,0.38);">{c.statLabel}</p>
+              <div style="flex-shrink:0;text-align:right;">
+                <p class="font-display" style="font-size:clamp(2rem,4vw,2.6rem);line-height:1;color:#E8B4B0;letter-spacing:-0.02em;">{c.stat}</p>
+                <p style="font-size:9.5px;color:rgba(10,10,10,0.35);margin-top:3px;max-width:72px;text-align:right;line-height:1.3;">{c.statLabel}</p>
               </div>
             </div>
           </div>
 
-          <!-- Before / After strip -->
-          <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid rgba(10,10,10,0.06);">
-            <div style="padding:10px 14px;background:rgba(220,38,38,0.03);border-right:1px solid rgba(10,10,10,0.06);">
-              <p style="font-size:7.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(220,38,38,0.50);margin-bottom:4px;">Before</p>
-              <p style="font-size:10.5px;color:rgba(10,10,10,0.55);line-height:1.45;">{c.before}</p>
+          <!-- Before → After -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid rgba(10,10,10,0.055);">
+            <div style="padding:12px 14px;background:#F8F6F1;border-right:1px solid rgba(10,10,10,0.055);">
+              <p style="font-size:7.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(10,10,10,0.30);margin-bottom:5px;display:flex;align-items:center;gap:4px;">
+                <span style="width:6px;height:6px;border-radius:50%;background:rgba(10,10,10,0.20);display:inline-block;"></span>Before
+              </p>
+              <p style="font-size:10.5px;line-height:1.5;color:rgba(10,10,10,0.50);">{c.before}</p>
             </div>
-            <div style="padding:10px 14px;background:rgba(45,80,22,0.03);">
-              <p style="font-size:7.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(45,80,22,0.55);margin-bottom:4px;">After</p>
-              <p style="font-size:10.5px;color:rgba(10,10,10,0.55);line-height:1.45;">{c.detail}</p>
+            <div style="padding:12px 14px;background:#fff;">
+              <p style="font-size:7.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(45,80,22,0.60);margin-bottom:5px;display:flex;align-items:center;gap:4px;">
+                <span style="width:6px;height:6px;border-radius:50%;background:#4ADE80;display:inline-block;"></span>After
+              </p>
+              <p style="font-size:10.5px;line-height:1.5;color:rgba(10,10,10,0.65);">{c.after}</p>
             </div>
           </div>
 
-          <!-- Card body -->
-          <div class="px-6 py-5">
+          <!-- Body -->
+          <div style="padding:16px 22px 20px;">
 
-            <!-- Client quote -->
-            <blockquote style="background:#F8F6F1;border-left:2px solid #E8B4B0;border-radius:0 10px 10px 0;padding:10px 14px;margin-bottom:16px;">
-              <p style="font-size:11.5px;font-style:italic;color:rgba(10,10,10,0.65);line-height:1.55;">"{c.quote}"</p>
-              <p style="font-size:9.5px;color:rgba(10,10,10,0.35);margin-top:5px;font-weight:500;">— {c.quote_by}</p>
-            </blockquote>
+            <!-- Quote -->
+            <div style="margin-bottom:14px;padding:10px 13px;background:#F8F6F1;border-left:2px solid #E8B4B0;border-radius:0 8px 8px 0;">
+              <p style="font-size:11.5px;font-style:italic;line-height:1.55;color:rgba(10,10,10,0.62);">"{c.quote}"</p>
+              <p style="font-size:9.5px;color:rgba(10,10,10,0.30);margin-top:5px;font-weight:500;">— {c.attribution}</p>
+            </div>
 
-            <!-- Workflows -->
-            <div class="flex flex-wrap gap-1.5 mb-5">
-              {c.workflows.map((w) => (
-                <span class="text-[10.5px] font-medium px-3 py-1 rounded-full" style="background:rgba(10,10,10,0.04);color:rgba(10,10,10,0.55);border:1px solid rgba(10,10,10,0.07);">{w}</span>
+            <!-- Workflow chips -->
+            <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px;">
+              {c.workflows.map(w => (
+                <span style="font-size:10px;font-weight:500;padding:4px 10px;border-radius:100px;background:rgba(10,10,10,0.04);border:1px solid rgba(10,10,10,0.07);color:rgba(10,10,10,0.50);">{w}</span>
               ))}
             </div>
 
-            <!-- KPI row: 4 metrics -->
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:16px;">
+            <!-- 4 KPI boxes -->
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px;">
               {[
-                { k: 'Saved/wk', v: c.hours + 'h' },
-                { k: 'Annual ROI', v: c.roi.split(' ')[0] },
-                { k: 'ROI multiple', v: c.roi_multiple, highlight: true },
-                { k: 'Breakeven', v: c.breakeven },
+                { k: 'Saved/wk', v: c.hours + 'h', accent: false },
+                { k: 'Annual ROI', v: c.roi, accent: false },
+                { k: 'ROI multiple', v: c.roi_multiple, accent: true },
+                { k: 'Breakeven', v: c.breakeven, accent: false },
               ].map(m => (
-                <div style={`text-align:center;padding:8px 4px;border-radius:8px;background:${m.highlight ? 'rgba(232,180,176,0.10)' : 'rgba(10,10,10,0.03)'};border:1px solid ${m.highlight ? 'rgba(232,180,176,0.20)' : 'rgba(10,10,10,0.06)'};`}>
-                  <p style={`font-family:'Fraunces',Georgia,serif;font-size:15px;font-weight:400;line-height:1;margin-bottom:3px;color:${m.highlight ? '#c4847e' : '#0A0A0A'};`}>{m.v}</p>
-                  <p style="font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:0.10em;color:rgba(10,10,10,0.30);">{m.k}</p>
+                <div style={`text-align:center;padding:8px 4px;border-radius:8px;border:1px solid ${m.accent ? 'rgba(232,180,176,0.25)' : 'rgba(10,10,10,0.07)'};background:${m.accent ? 'rgba(232,180,176,0.06)' : 'rgba(10,10,10,0.02)'};`}>
+                  <p class="font-display" style={`font-size:14px;line-height:1;color:${m.accent ? '#c4847e' : '#0A0A0A'};margin-bottom:3px;`}>{m.v}</p>
+                  <p style="font-size:7.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.10em;color:rgba(10,10,10,0.27);">{m.k}</p>
                 </div>
               ))}
             </div>
 
-            <!-- Stack + deploy -->
-            <div class="flex items-center justify-between pt-4" style="border-top:1px solid rgba(10,10,10,0.05);">
-              <div class="flex items-center gap-2">
-                <p class="text-[9px] uppercase tracking-[0.14em] font-semibold shrink-0" style="color:rgba(10,10,10,0.22);">Stack</p>
-                <div class="flex flex-wrap gap-1">
-                  {c.tools.map((t) => (
-                    <span class="text-[10px] px-2 py-0.5 rounded font-mono" style="background:rgba(10,10,10,0.03);color:rgba(10,10,10,0.40);border:1px solid rgba(10,10,10,0.06);">{t}</span>
-                  ))}
-                </div>
+            <!-- Footer: stack + deploy time -->
+            <div style="display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid rgba(10,10,10,0.05);">
+              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                <span style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:rgba(10,10,10,0.20);">Stack</span>
+                {c.tools.map(t => (
+                  <span style="font-size:9.5px;font-family:ui-monospace,monospace;padding:2px 7px;border-radius:4px;background:rgba(10,10,10,0.03);border:1px solid rgba(10,10,10,0.06);color:rgba(10,10,10,0.38);">{t}</span>
+                ))}
               </div>
-              <div class="text-right shrink-0">
-                <p class="text-[9px] uppercase tracking-[0.14em] font-semibold mb-0.5" style="color:rgba(10,10,10,0.28);">Deployed</p>
-                <p class="text-sm font-display font-medium" style="color:#E8B4B0;">{c.timeline}</p>
+              <div style="text-align:right;flex-shrink:0;margin-left:8px;">
+                <p style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:rgba(10,10,10,0.20);margin-bottom:2px;">Deployed in</p>
+                <p class="font-display" style="font-size:13px;color:#E8B4B0;">{c.timeline}</p>
               </div>
             </div>
 
@@ -394,186 +406,239 @@ const benchmarks = [
     </div>
 
     <!-- Empty state -->
-    <div id="no-results" class="hidden text-center py-20">
-      <p class="text-brand-gray-600 text-sm">No results for this filter yet — more case studies coming soon.</p>
+    <div id="no-results" class="hidden" style="text-align:center;padding:80px 0;">
+      <p style="font-size:13px;color:rgba(10,10,10,0.40);">No case studies for this filter yet — more coming soon.</p>
     </div>
 
   </div>
 </section>
 
-<!-- ═══ ROI CALCULATOR ══════════════════════════════════════════════ -->
-<section style="background:#0A0A0A;padding:72px 0 80px;">
+<!-- ═══════════════════════════════════════════════════
+     GUARANTEE STRIP
+════════════════════════════════════════════════════ -->
+<div style="background:#0A0A0A;border-top:1px solid rgba(255,255,255,0.05);padding:40px 0;">
   <div class="container-x">
-    <div class="max-w-4xl mx-auto">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;max-width:860px;margin:0 auto;">
+      {[
+        {
+          icon: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+          title: '30-day money-back guarantee',
+          body: 'If the first workflow does not perform as scoped, we rebuild it at no cost or refund in full.',
+        },
+        {
+          icon: 'M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z',
+          title: 'Fixed price. No surprises.',
+          body: 'Every proposal is a fixed cost with a full scope. If we underestimate, we absorb it. Not you.',
+        },
+        {
+          icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+          title: 'No lock-in contracts',
+          body: 'Month-to-month monitoring. Cancel the retainer anytime. The workflows you own remain yours.',
+        },
+      ].map((g, i) => (
+        <div style={`padding:0 32px;${i > 0 ? 'border-left:1px solid rgba(255,255,255,0.06);' : ''}`}>
+          <div style="width:36px;height:36px;border-radius:10px;background:rgba(232,180,176,0.09);border:1px solid rgba(232,180,176,0.15);display:flex;align-items:center;justify-content:center;margin-bottom:14px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d={g.icon}/>
+            </svg>
+          </div>
+          <p style="font-size:12.5px;font-weight:600;color:#fff;margin-bottom:6px;line-height:1.35;">{g.title}</p>
+          <p style="font-size:11px;color:rgba(255,255,255,0.32);line-height:1.65;">{g.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
 
-      <div class="text-center mb-10">
-        <p style="font-size:9px;font-weight:700;letter-spacing:0.24em;text-transform:uppercase;color:rgba(232,180,176,0.55);margin-bottom:12px;">ROI Calculator</p>
-        <h2 class="font-display text-2xl lg:text-3xl text-white leading-tight text-balance">
-          What would automation<br/><em style="color:#E8B4B0;">save your business?</em>
+<!-- ═══════════════════════════════════════════════════
+     ROI CALCULATOR
+════════════════════════════════════════════════════ -->
+<section style="background:#0A0A0A;border-top:1px solid rgba(255,255,255,0.04);padding:72px 0 80px;">
+  <div class="container-x">
+    <div style="max-width:780px;margin:0 auto;">
+
+      <div style="text-align:center;margin-bottom:36px;">
+        <p style="font-size:9px;font-weight:700;letter-spacing:0.24em;text-transform:uppercase;color:rgba(232,180,176,0.50);margin-bottom:12px;">ROI Calculator</p>
+        <h2 class="font-display" style="font-size:clamp(1.6rem,3vw,2.4rem);color:#fff;line-height:1.15;letter-spacing:-0.015em;margin-bottom:10px;">
+          What would this save your business?
         </h2>
-        <p style="font-size:13px;color:rgba(255,255,255,0.35);margin-top:10px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.6;">Adjust the inputs below to estimate your time and cost savings. Based on aggregated data from 312 deployments.</p>
+        <p style="font-size:13px;color:rgba(255,255,255,0.30);max-width:440px;margin:0 auto;line-height:1.65;">
+          Based on 312 verified deployments. Adjust the inputs to estimate your outcome.
+        </p>
       </div>
 
-      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:20px;overflow:hidden;">
+      <div style="background:rgba(255,255,255,0.035);border:1px solid rgba(255,255,255,0.07);border-radius:18px;overflow:hidden;">
 
-        <!-- Inputs -->
-        <div style="padding:28px 32px;border-bottom:1px solid rgba(255,255,255,0.06);">
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;" id="calc-inputs">
-
+        <!-- Inputs row -->
+        <div style="padding:24px 28px;border-bottom:1px solid rgba(255,255,255,0.05);display:grid;grid-template-columns:repeat(3,1fr);gap:16px;" id="calc-inputs-wrap">
+          {[
+            {
+              id: 'calc-size', label: 'Team size',
+              opts: [
+                { v: '1-5', l: '1–5 people' },
+                { v: '6-15', l: '6–15 people', sel: true },
+                { v: '16-50', l: '16–50 people' },
+                { v: '50+', l: '50+ people' },
+              ]
+            },
+            {
+              id: 'calc-salary', label: 'Avg annual salary',
+              opts: [
+                { v: '30000', l: '£30,000' },
+                { v: '40000', l: '£40,000', sel: true },
+                { v: '50000', l: '£50,000' },
+                { v: '60000', l: '£60,000' },
+                { v: '75000', l: '£75,000' },
+                { v: '90000', l: '£90,000+' },
+              ]
+            },
+            {
+              id: 'calc-pain', label: 'Biggest bottleneck',
+              opts: [
+                { v: 'data-entry', l: 'Manual data entry' },
+                { v: 'client-comms', l: 'Client follow-ups' },
+                { v: 'billing', l: 'Billing & invoicing', sel: true },
+                { v: 'crm', l: 'CRM updates' },
+                { v: 'documents', l: 'Document generation' },
+                { v: 'scheduling', l: 'Scheduling' },
+                { v: 'onboarding', l: 'Onboarding' },
+              ]
+            },
+          ].map(field => (
             <div>
-              <label style="display:block;font-size:9.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.30);margin-bottom:8px;">Team size</label>
-              <select id="calc-size" style="width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.10);border-radius:10px;padding:10px 14px;font-size:13px;color:#fff;font-family:inherit;outline:none;cursor:pointer;appearance:none;"
-                onchange="calcROI()">
-                <option value="1-5">1–5 people</option>
-                <option value="6-15" selected>6–15 people</option>
-                <option value="16-50">16–50 people</option>
-                <option value="50+">50+ people</option>
-              </select>
+              <label style="display:block;font-size:9px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:8px;">{field.label}</label>
+              <div style="position:relative;">
+                <select id={field.id} onchange="calcROI()"
+                  style="width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.10);border-radius:9px;padding:10px 36px 10px 13px;font-size:12.5px;color:#fff;font-family:inherit;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;">
+                  {field.opts.map(o => (
+                    <option value={o.v} selected={o.sel} style="background:#1A1A1A;color:#fff;">{o.l}</option>
+                  ))}
+                </select>
+                <svg style="position:absolute;right:11px;top:50%;transform:translateY(-50%);pointer-events:none;" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
             </div>
-
-            <div>
-              <label style="display:block;font-size:9.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.30);margin-bottom:8px;">Avg annual salary</label>
-              <select id="calc-salary" style="width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.10);border-radius:10px;padding:10px 14px;font-size:13px;color:#fff;font-family:inherit;outline:none;cursor:pointer;appearance:none;"
-                onchange="calcROI()">
-                <option value="30000">£30,000</option>
-                <option value="40000" selected>£40,000</option>
-                <option value="50000">£50,000</option>
-                <option value="60000">£60,000</option>
-                <option value="75000">£75,000</option>
-                <option value="90000">£90,000+</option>
-              </select>
-            </div>
-
-            <div>
-              <label style="display:block;font-size:9.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.30);margin-bottom:8px;">Biggest bottleneck</label>
-              <select id="calc-pain" style="width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.10);border-radius:10px;padding:10px 14px;font-size:13px;color:#fff;font-family:inherit;outline:none;cursor:pointer;appearance:none;"
-                onchange="calcROI()">
-                <option value="data-entry">Manual data entry</option>
-                <option value="client-comms">Client follow-ups</option>
-                <option value="billing" selected>Billing & invoicing</option>
-                <option value="crm">CRM updates</option>
-                <option value="documents">Document generation</option>
-                <option value="scheduling">Scheduling</option>
-                <option value="onboarding">Onboarding</option>
-              </select>
-            </div>
-
-          </div>
+          ))}
         </div>
 
-        <!-- Outputs -->
-        <div style="padding:28px 32px;">
-          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;" id="calc-outputs">
-            <div style="text-align:center;">
-              <p style="font-size:8.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:8px;">Hours saved/wk</p>
-              <p id="out-hours" style="font-family:'Fraunces',Georgia,serif;font-size:32px;font-weight:400;color:#fff;line-height:1;">—</p>
-            </div>
-            <div style="text-align:center;">
-              <p style="font-size:8.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:8px;">Annual time value</p>
-              <p id="out-value" style="font-family:'Fraunces',Georgia,serif;font-size:32px;font-weight:400;color:#E8B4B0;line-height:1;">—</p>
-            </div>
-            <div style="text-align:center;">
-              <p style="font-size:8.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:8px;">Est. ROI multiple</p>
-              <p id="out-roi" style="font-family:'Fraunces',Georgia,serif;font-size:32px;font-weight:400;color:#E8B4B0;line-height:1;">—</p>
-            </div>
-            <div style="text-align:center;">
-              <p style="font-size:8.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:8px;">Payback period</p>
-              <p id="out-payback" style="font-family:'Fraunces',Georgia,serif;font-size:32px;font-weight:400;color:#fff;line-height:1;">—</p>
-            </div>
+        <!-- Outputs row -->
+        <div style="padding:24px 28px;">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
+            {[
+              { id: 'out-hours',   label: 'Hours saved/wk',  accent: false },
+              { id: 'out-value',   label: 'Annual time value', accent: true  },
+              { id: 'out-roi',     label: 'Est. ROI multiple', accent: true  },
+              { id: 'out-payback', label: 'Payback period',   accent: false },
+            ].map(o => (
+              <div style={`text-align:center;padding:16px 8px;border-radius:10px;background:${o.accent ? 'rgba(232,180,176,0.06)' : 'rgba(255,255,255,0.03)'};border:1px solid ${o.accent ? 'rgba(232,180,176,0.14)' : 'rgba(255,255,255,0.06)'};`}>
+                <p style="font-size:8.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:8px;">{o.label}</p>
+                <p id={o.id} class="font-display" style={`font-size:clamp(1.4rem,2.5vw,1.9rem);line-height:1;color:${o.accent ? '#E8B4B0' : '#fff'};`}>—</p>
+              </div>
+            ))}
           </div>
 
-          <div style="margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;flex-wrap:gap;gap:12px;">
-            <p id="calc-insight" style="font-size:11px;color:rgba(255,255,255,0.35);line-height:1.6;max-width:480px;"></p>
-            <a href="/pages/welcome" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:11px 20px;border-radius:10px;background:#E8B4B0;color:#0A0A0A;text-decoration:none;white-space:nowrap;flex-shrink:0;"
+          <!-- Insight + CTA -->
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:16px;border-top:1px solid rgba(255,255,255,0.05);">
+            <div style="flex:1;min-width:200px;">
+              <div style="display:flex;align-items:flex-start;gap:8px;">
+                <svg style="flex-shrink:0;margin-top:1px;" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(232,180,176,0.60)" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                <p id="calc-insight" style="font-size:11px;color:rgba(255,255,255,0.30);line-height:1.65;"></p>
+              </div>
+            </div>
+            <a href="/pages/welcome" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:11px 20px;border-radius:9px;background:#E8B4B0;color:#0A0A0A;text-decoration:none;flex-shrink:0;white-space:nowrap;transition:background 0.15s;"
               onmouseover="this.style.background='#d9a09b'" onmouseout="this.style.background='#E8B4B0'">
-              Get my exact figures →
+              Get my exact figures
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
           </div>
         </div>
 
       </div>
 
-      <p style="text-align:center;font-size:9.5px;color:rgba(255,255,255,0.18);margin-top:12px;line-height:1.5;">Estimates based on aggregated PURIST deployment data. Exact savings confirmed on your free audit call.</p>
+      <p style="text-align:center;font-size:9.5px;color:rgba(255,255,255,0.15);margin-top:12px;line-height:1.55;">
+        Estimates based on aggregated PURIST deployment data. Exact savings confirmed on your free audit call.
+      </p>
+
     </div>
   </div>
 </section>
 
-<!-- ═══ AGGREGATE KPI BANNER ═══════════════════════════════════════ -->
-<section style="background:#0A0A0A;border-top:1px solid rgba(255,255,255,0.04);" class="py-16 lg:py-20">
+<!-- ═══════════════════════════════════════════════════
+     AGGREGATE KPIs
+════════════════════════════════════════════════════ -->
+<section style="background:#0A0A0A;border-top:1px solid rgba(255,255,255,0.04);padding:72px 0 80px;">
   <div class="container-x">
-    <div class="text-center max-w-2xl mx-auto mb-12">
-      <p class="eyebrow text-white/40 mb-4">Across all deployments</p>
-      <h2 class="font-display text-3xl lg:text-4xl text-white leading-tight text-balance">
-        The numbers behind <em class="font-medium" style="color:#E8B4B0;">312 deployments.</em>
+    <div style="text-align:center;max-width:540px;margin:0 auto 48px;">
+      <p style="font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:12px;">Across all deployments</p>
+      <h2 class="font-display" style="font-size:clamp(1.6rem,3vw,2.4rem);color:#fff;line-height:1.15;letter-spacing:-0.015em;">
+        The numbers behind <em style="color:#E8B4B0;">312 deployments.</em>
       </h2>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+    <!-- Primary 3 -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;">
       {[
-        { stat: '95%', body: 'of clients eliminated manual data entry within the first 30 days of deployment.', icon: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z' },
-        { stat: '4 mo', body: 'median payback period from first payment to full ROI recovery on every plan.', icon: 'M12 2v2m0 16v2M7 8h6a3 3 0 010 6H9a3 3 0 000 6h8' },
-        { stat: '20h+', body: 'average hours reclaimed per team per week, across dental, agency and e-commerce verticals.', icon: 'M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z' },
-      ].map((k) => (
-        <div class="rounded-[18px] p-8 scroll-fade" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
-          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:rgba(232,180,176,0.12);border:1px solid rgba(232,180,176,0.18);">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d={k.icon}/>
-            </svg>
+        { stat: '95%',  body: 'of clients eliminated manual data entry within the first 30 days of deployment.', icon: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z' },
+        { stat: '4 mo', body: 'median payback period from first payment to full ROI recovery across all plans.', icon: 'M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm0-10V8m0 4l3 2' },
+        { stat: '20h+', body: 'average hours reclaimed per team per week across dental, agency and e-commerce.', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75' },
+      ].map(k => (
+        <div class="scroll-fade" style="border-radius:16px;padding:28px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">
+          <div style="width:36px;height:36px;border-radius:10px;background:rgba(232,180,176,0.09);border:1px solid rgba(232,180,176,0.15);display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d={k.icon}/></svg>
           </div>
-          <p class="font-display text-4xl lg:text-5xl text-white leading-none mb-3" style="color:#E8B4B0;">{k.stat}</p>
-          <p class="text-sm leading-relaxed" style="color:rgba(255,255,255,0.45);">{k.body}</p>
+          <p class="font-display" style="font-size:clamp(2rem,4vw,3rem);color:#E8B4B0;line-height:1;margin-bottom:10px;">{k.stat}</p>
+          <p style="font-size:12px;line-height:1.65;color:rgba(255,255,255,0.38);">{k.body}</p>
         </div>
       ))}
     </div>
 
-    <!-- Additional stats row -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <!-- Secondary 4 -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
       {[
-        { stat: '£168K', label: 'avg first-year saving', sub: 'across all plans' },
-        { stat: '99.97%', label: 'workflow uptime SLA', sub: 'monitored 24/7' },
-        { stat: '< 10d', label: 'average deployment', sub: 'from audit to live' },
-        { stat: '0', label: 'failed deployments', sub: 'in 18 months' },
+        { stat: '£168K', label: 'Avg first-year saving',    sub: 'across all plans' },
+        { stat: '99.97%',label: 'Workflow uptime SLA',      sub: 'monitored 24/7' },
+        { stat: '< 10d', label: 'Avg deployment time',      sub: 'audit to live' },
+        { stat: '0',     label: 'Failed deployments',       sub: 'in 18 months' },
       ].map(s => (
-        <div class="rounded-[14px] p-5 text-center scroll-fade" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">
-          <p class="font-display text-2xl lg:text-3xl leading-none mb-1.5" style="color:#E8B4B0;">{s.stat}</p>
-          <p class="text-[10px] uppercase tracking-[0.12em] font-semibold mb-1" style="color:rgba(255,255,255,0.45);">{s.label}</p>
-          <p class="text-[9.5px]" style="color:rgba(255,255,255,0.20);">{s.sub}</p>
+        <div class="scroll-fade" style="border-radius:14px;padding:18px;text-align:center;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.05);">
+          <p class="font-display" style="font-size:clamp(1.2rem,2.5vw,1.8rem);color:#E8B4B0;line-height:1;margin-bottom:6px;">{s.stat}</p>
+          <p style="font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.35);margin-bottom:3px;">{s.label}</p>
+          <p style="font-size:9.5px;color:rgba(255,255,255,0.18);">{s.sub}</p>
         </div>
       ))}
     </div>
   </div>
 </section>
 
-<!-- ═══ VERIFIED REVIEWS ════════════════════════════════════════════ -->
-<section class="bg-brand-cream py-16 lg:py-24">
+<!-- ═══════════════════════════════════════════════════
+     VERIFIED REVIEWS
+════════════════════════════════════════════════════ -->
+<section style="background:#F8F6F1;padding:72px 0 80px;">
   <div class="container-x">
-    <div class="max-w-3xl mb-12">
-      <p class="eyebrow mb-4">Verified client reviews</p>
-      <h2 class="font-display text-3xl lg:text-4xl leading-tight text-balance">
-        What it actually feels like <em class="font-medium">six weeks in.</em>
+    <div style="max-width:520px;margin-bottom:40px;">
+      <p style="font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(10,10,10,0.30);margin-bottom:12px;">Verified reviews</p>
+      <h2 class="font-display" style="font-size:clamp(1.6rem,3vw,2.4rem);color:#0A0A0A;line-height:1.15;letter-spacing:-0.015em;">
+        What it actually feels like<br/><em style="font-weight:400;">six weeks in.</em>
       </h2>
     </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-      {reviews.map((r) => (
-        <article class="bg-white rounded-[16px] p-5 flex flex-col scroll-fade" style="border:1px solid rgba(10,10,10,0.07);">
-          <!-- Stars -->
-          <div class="flex gap-0.5 mb-3">
-            {Array.from({length: 5}).map((_, i) => (
-              <svg class="w-3 h-3" viewBox="0 0 12 12" fill={i < r.rating ? '#E8B4B0' : 'none'} stroke={i < r.rating ? '#E8B4B0' : '#d1d5db'} stroke-width="1" aria-hidden="true">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;" class="reviews-responsive-grid">
+      {reviews.map(r => (
+        <article class="scroll-fade" style="background:#fff;border:1px solid rgba(10,10,10,0.07);border-radius:14px;padding:18px;display:flex;flex-direction:column;">
+          <div style="display:flex;gap:2px;margin-bottom:10px;">
+            {Array.from({length:5}).map((_,i) => (
+              <svg width="11" height="11" viewBox="0 0 12 12" fill={i < r.rating ? '#E8B4B0' : 'none'} stroke={i < r.rating ? '#E8B4B0' : '#d1d5db'} stroke-width="1">
                 <path d="M6 1l1.2 3.6H11L8.2 6.8l1.2 3.6L6 8.2l-3.4 2.2 1.2-3.6L1 4.6h3.8z"/>
               </svg>
             ))}
           </div>
-          <h3 class="font-display text-[15px] mb-2 leading-snug">{r.title}</h3>
-          <p class="text-[12.5px] text-brand-gray-600 leading-relaxed flex-1">{r.text}</p>
-          <div class="mt-4 pt-3 flex items-center justify-between" style="border-top:1px solid rgba(10,10,10,0.05);">
+          <h3 class="font-display" style="font-size:14px;margin-bottom:6px;line-height:1.3;color:#0A0A0A;">{r.title}</h3>
+          <p style="font-size:12px;line-height:1.65;color:rgba(10,10,10,0.55);flex:1;">{r.text}</p>
+          <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(10,10,10,0.05);display:flex;align-items:center;justify-content:space-between;">
             <div>
-              <p class="text-[11px] font-semibold text-brand-black">{r.name}</p>
-              <p class="text-[10px] text-brand-gray-400">{r.flavor}</p>
+              <p style="font-size:11px;font-weight:600;color:#0A0A0A;">{r.name}</p>
+              <p style="font-size:9.5px;color:rgba(10,10,10,0.38);margin-top:1px;">{r.flavor}</p>
             </div>
             {r.verified && (
-              <span class="text-[9px] uppercase tracking-wider font-bold" style="color:#2D5016;">✓ Verified</span>
+              <span style="font-size:8.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2D5016;">✓ Verified</span>
             )}
           </div>
         </article>
@@ -582,22 +647,23 @@ const benchmarks = [
   </div>
 </section>
 
-<!-- ═══ MINI TESTIMONIALS STRIP ═════════════════════════════════════ -->
-<section class="bg-white py-16 lg:py-20" style="border-top:1px solid rgba(10,10,10,0.06);">
+<!-- ═══════════════════════════════════════════════════
+     MINI TESTIMONIALS
+════════════════════════════════════════════════════ -->
+<section style="background:#fff;border-top:1px solid rgba(10,10,10,0.06);padding:64px 0 72px;">
   <div class="container-x">
-    <p class="eyebrow mb-10 text-center">Trusted by operators, COOs, and founders</p>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-      {miniTestimonials.slice(0, 8).map((m) => (
-        <figure class="rounded-[16px] p-5 scroll-fade" style="background:#F8F6F1;border:1px solid rgba(10,10,10,0.06);">
-          <blockquote class="text-[13px] text-brand-black leading-relaxed mb-4 italic">"{m.quote}"</blockquote>
-          <figcaption class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0" style="background:rgba(232,180,176,0.15);border:1px solid rgba(232,180,176,0.22);color:#c4847e;">
+    <p style="font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(10,10,10,0.28);text-align:center;margin-bottom:36px;">Trusted by operators, COOs and founders</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;" class="mini-responsive-grid">
+      {miniTestimonials.slice(0, 8).map(m => (
+        <figure class="scroll-fade" style="background:#F8F6F1;border:1px solid rgba(10,10,10,0.06);border-radius:14px;padding:16px;">
+          <blockquote style="font-size:12.5px;font-style:italic;line-height:1.65;color:#0A0A0A;margin-bottom:14px;">"{m.quote}"</blockquote>
+          <figcaption style="display:flex;align-items:center;gap:10px;">
+            <div style="width:28px;height:28px;border-radius:50%;background:rgba(232,180,176,0.14);border:1px solid rgba(232,180,176,0.20);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;color:#c4847e;">
               {m.name.split(' ').map((n: string) => n[0]).join('')}
             </div>
             <div>
-              <p class="text-[11.5px] font-semibold text-brand-black leading-none">{m.name}</p>
-              <p class="text-[10px] text-brand-gray-400 mt-0.5">{m.role}</p>
+              <p style="font-size:11px;font-weight:600;color:#0A0A0A;line-height:1;">{m.name}</p>
+              <p style="font-size:9.5px;color:rgba(10,10,10,0.38);margin-top:2px;">{m.role}</p>
             </div>
           </figcaption>
         </figure>
@@ -606,51 +672,46 @@ const benchmarks = [
   </div>
 </section>
 
-<!-- ═══ TIMELINE how a deployment works ══════════════════════════ -->
-<section class="bg-brand-cream py-16 lg:py-24" style="border-top:1px solid rgba(10,10,10,0.06);">
+<!-- ═══════════════════════════════════════════════════
+     DEPLOYMENT TIMELINE
+════════════════════════════════════════════════════ -->
+<section style="background:#F8F6F1;border-top:1px solid rgba(10,10,10,0.06);padding:72px 0 80px;">
   <div class="container-x">
-    <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;" class="timeline-responsive-grid">
 
       <div>
-        <p class="eyebrow mb-4">How we build this</p>
-        <h2 class="font-display text-3xl lg:text-4xl leading-tight text-balance mb-6">
-          From audit to live<br/><em class="font-medium">in under 10 days.</em>
+        <p style="font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(10,10,10,0.30);margin-bottom:12px;">How we build this</p>
+        <h2 class="font-display" style="font-size:clamp(1.6rem,3vw,2.4rem);color:#0A0A0A;line-height:1.15;letter-spacing:-0.015em;margin-bottom:16px;">
+          Audit to live<br/><em style="font-weight:400;">in under 10 days.</em>
         </h2>
-        <p class="text-sm text-brand-gray-600 leading-relaxed mb-8">
+        <p style="font-size:13px;line-height:1.75;color:rgba(10,10,10,0.50);margin-bottom:28px;max-width:360px;">
           Every case study above followed the same process. Discovery call, workflow mapping, build, test, deploy. No six-month projects. No vague timelines.
         </p>
-        <a
-          href="/pages/welcome"
-          class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl text-[13px] font-semibold transition-all duration-150"
-          style="background:#0A0A0A;color:#fff;"
-          onmouseover="this.style.background='rgba(10,10,10,0.85)'"
-          onmouseout="this.style.background='#0A0A0A'"
-        >
+        <a href="/pages/welcome" style="display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;padding:13px 22px;border-radius:10px;background:#0A0A0A;color:#fff;text-decoration:none;transition:background 0.15s;"
+          onmouseover="this.style.background='#1A1A1A'" onmouseout="this.style.background='#0A0A0A'">
           Book your free audit
-          <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 8h10M9 4l4 4-4 4"/>
-          </svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
-        <p class="text-[11px] text-brand-gray-400 mt-3">No payment required · Response in 1 business day</p>
+        <p style="font-size:10.5px;color:rgba(10,10,10,0.30);margin-top:10px;">No payment required · Response in 1 business day</p>
       </div>
 
-      <div class="space-y-0">
+      <div>
         {[
-          { step: '01', title: 'Free 60-min audit', body: 'We map every manual process, calculate time cost and score each automation by ROI. You leave with a ranked list.', time: 'Day 0' },
-          { step: '02', title: 'Fixed-scope proposal', body: 'We send a written proposal: exact workflows, stack, timeline and cost. Fixed price — no surprises.', time: 'Day 1–2' },
-          { step: '03', title: 'Build & test', body: 'We build, test every edge case and run the full stack against your real data in staging.', time: 'Day 3–8' },
-          { step: '04', title: 'Go live + handoff', body: '24/7 monitoring active from day one. You get full documentation and a dedicated Slack channel.', time: 'Day 9–10' },
+          { n:'01', title:'Free 60-min audit',      body:'We map every manual process, calculate time cost and rank automations by ROI. You leave with a prioritised list.', day:'Day 0' },
+          { n:'02', title:'Fixed-scope proposal',   body:'Exact workflows, stack, timeline and cost. Fixed price — no surprises. We absorb overruns, not you.', day:'Day 1–2' },
+          { n:'03', title:'Build & test',            body:'We build, test every edge case and run the full stack against your real data in a staging environment.', day:'Day 3–8' },
+          { n:'04', title:'Go live + handoff',       body:'24/7 monitoring active from day one. Full documentation and a dedicated Slack channel included.', day:'Day 9–10' },
         ].map((s, i) => (
-          <div class="flex gap-4 py-5" style={i > 0 ? 'border-top:1px solid rgba(10,10,10,0.06)' : ''}>
-            <div class="shrink-0 text-right w-6">
-              <span class="font-display text-[11px] font-semibold tabular-nums" style="color:rgba(10,10,10,0.20);">{s.step}</span>
+          <div style={`display:flex;gap:14px;padding:16px 0;${i > 0 ? 'border-top:1px solid rgba(10,10,10,0.06);' : ''}`}>
+            <div style="flex-shrink:0;width:20px;padding-top:1px;text-align:right;">
+              <span class="font-display" style="font-size:11px;font-weight:600;color:rgba(10,10,10,0.18);font-variant-numeric:tabular-nums;">{s.n}</span>
             </div>
-            <div class="flex-1">
-              <div class="flex items-center justify-between mb-1">
-                <p class="text-sm font-semibold text-brand-black">{s.title}</p>
-                <span class="text-[10px] font-medium" style="color:#E8B4B0;">{s.time}</span>
+            <div style="flex:1;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                <p style="font-size:13px;font-weight:600;color:#0A0A0A;">{s.title}</p>
+                <span style="font-size:10px;font-weight:600;color:#E8B4B0;flex-shrink:0;margin-left:8px;">{s.day}</span>
               </div>
-              <p class="text-sm text-brand-gray-600 leading-relaxed">{s.body}</p>
+              <p style="font-size:12px;line-height:1.65;color:rgba(10,10,10,0.48);">{s.body}</p>
             </div>
           </div>
         ))}
@@ -660,42 +721,67 @@ const benchmarks = [
   </div>
 </section>
 
-<!-- ═══ FINAL CTA ════════════════════════════════════════════════════ -->
-<section class="relative overflow-hidden py-20 lg:py-28" style="background:#0A0A0A;">
-  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 50% 70% at 75% 50%,rgba(232,180,176,0.06) 0%,transparent 70%);"/>
-  <div class="container-x relative z-10 text-center max-w-2xl mx-auto">
-    <p class="text-[9px] uppercase tracking-[0.26em] font-bold mb-5" style="color:rgba(232,180,176,0.5);">Your results next</p>
-    <h2 class="font-display text-3xl lg:text-5xl text-white leading-tight tracking-[-0.02em] mb-6 text-balance">
-      See your ROI before<br/><em class="font-medium" style="color:#E8B4B0;">committing to anything.</em>
+<!-- ═══════════════════════════════════════════════════
+     FINAL CTA
+════════════════════════════════════════════════════ -->
+<section style="background:#0A0A0A;position:relative;overflow:hidden;padding:88px 0 96px;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 55% 75% at 80% 50%,rgba(232,180,176,0.05) 0%,transparent 65%);pointer-events:none;"></div>
+  <div class="container-x relative z-10" style="text-align:center;max-width:580px;margin-left:auto;margin-right:auto;">
+
+    <p style="font-size:9px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:rgba(232,180,176,0.45);margin-bottom:16px;">Your results next</p>
+
+    <h2 class="font-display" style="font-size:clamp(1.8rem,4vw,3.2rem);color:#fff;line-height:1.1;letter-spacing:-0.02em;margin-bottom:16px;">
+      See your ROI before<br/><em style="color:#E8B4B0;font-weight:400;">committing to anything.</em>
     </h2>
-    <p class="text-[14px] leading-relaxed mb-10 max-w-lg mx-auto" style="color:rgba(255,255,255,0.38);">
-      In 60 minutes we map your workflows, quantify the exact time and money on the table, and hand you a prioritised automation roadmap. No pitch. No commitment.
+
+    <p style="font-size:13.5px;line-height:1.75;color:rgba(255,255,255,0.32);max-width:440px;margin:0 auto 32px;">
+      In 60 minutes we map your workflows, quantify the time and money on the table, and hand you a prioritised roadmap. No pitch. No commitment.
     </p>
-    <div class="flex flex-wrap gap-3 justify-center">
-      <a
-        href="/pages/welcome"
-        class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-[13px] font-semibold transition-all duration-150"
-        style="background:#E8B4B0;color:#0A0A0A;"
-        onmouseover="this.style.background='#d9a09b'"
-        onmouseout="this.style.background='#E8B4B0'"
-      >
+
+    <!-- Urgency nudge -->
+    <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(232,180,176,0.07);border:1px solid rgba(232,180,176,0.14);border-radius:100px;padding:5px 14px;margin-bottom:24px;">
+      <span style="width:5px;height:5px;border-radius:50%;background:#E8B4B0;animation:pulse-dot 2s ease-in-out infinite;"></span>
+      <span style="font-size:10px;color:rgba(255,255,255,0.45);">3 audit slots available this week</span>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+      <a href="/pages/welcome" style="display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;padding:14px 28px;border-radius:10px;background:#E8B4B0;color:#0A0A0A;text-decoration:none;transition:background 0.15s;"
+        onmouseover="this.style.background='#d9a09b'" onmouseout="this.style.background='#E8B4B0'">
         Book free audit
-        <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 8h10M9 4l4 4-4 4"/>
-        </svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
-      <a
-        href="/collections/all"
-        class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-[13px] font-semibold transition-all duration-150"
-        style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.12);"
-        onmouseover="this.style.background='rgba(255,255,255,0.10)'"
-        onmouseout="this.style.background='rgba(255,255,255,0.06)'"
-      >
+      <a href="/collections/all" style="display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;padding:14px 28px;border-radius:10px;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.65);border:1px solid rgba(255,255,255,0.10);text-decoration:none;transition:background 0.15s;"
+        onmouseover="this.style.background='rgba(255,255,255,0.09)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
         View plans →
       </a>
     </div>
+
+    <p style="font-size:10px;color:rgba(255,255,255,0.18);margin-top:14px;">No credit card · Reply within 1 business day · 30-day guarantee</p>
+
   </div>
 </section>
+
+<style>
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50%       { opacity: 1;   transform: scale(1.4); }
+  }
+  /* Responsive grids */
+  @media (max-width: 1023px) {
+    .cases-responsive-grid    { grid-template-columns: 1fr !important; }
+    .timeline-responsive-grid { grid-template-columns: 1fr !important; }
+  }
+  @media (max-width: 767px) {
+    .reviews-responsive-grid  { grid-template-columns: 1fr 1fr !important; }
+    .mini-responsive-grid     { grid-template-columns: 1fr 1fr !important; }
+    #calc-inputs-wrap         { grid-template-columns: 1fr !important; }
+    #cases-grid               { grid-template-columns: 1fr !important; }
+  }
+  @media (max-width: 639px) {
+    .reviews-responsive-grid  { grid-template-columns: 1fr !important; }
+    .mini-responsive-grid     { grid-template-columns: 1fr !important; }
+  }
+</style>
 
 <!-- Counter animation -->
 <script is:inline>
@@ -710,13 +796,13 @@ const benchmarks = [
           var target = parseFloat(el.dataset.target);
           var suffix = el.dataset.suffix || '';
           var isDecimal = el.dataset.decimal === 'true';
-          var duration = 1600;
           var start = performance.now();
+          var duration = 1800;
           function tick(now) {
             var t = Math.min((now - start) / duration, 1);
             var eased = 1 - Math.pow(1 - t, 3);
-            var value = target * eased;
-            el.textContent = (isDecimal ? value.toFixed(1) : Math.round(value)) + suffix;
+            var val = target * eased;
+            el.textContent = (isDecimal ? val.toFixed(1) : Math.round(val)) + suffix;
             if (t < 1) requestAnimationFrame(tick);
             else el.dataset.done = 'true';
           }
@@ -731,33 +817,18 @@ const benchmarks = [
   })();
 </script>
 
-<!-- Responsive benchmarks table -->
-<script is:inline>
-  (function() {
-    function toggleBenchLayout() {
-      var table = document.getElementById('bench-table-desktop');
-      var cards = document.getElementById('bench-cards-mobile');
-      if (!table || !cards) return;
-      var isDesktop = window.innerWidth >= 768;
-      table.style.display = isDesktop ? 'block' : 'none';
-      cards.style.display = isDesktop ? 'none' : 'grid';
-    }
-    toggleBenchLayout();
-    window.addEventListener('resize', toggleBenchLayout);
-    document.addEventListener('astro:page-load', toggleBenchLayout);
-  })();
-</script>
-
-<!-- Industry filter -->
+<!-- Filter -->
 <script is:inline>
   function filterCases(btn) {
     var filter = btn.dataset.filter;
     document.querySelectorAll('.filter-btn').forEach(function(b) {
-      b.classList.remove('bg-brand-black', 'text-white');
-      b.classList.add('bg-white', 'text-brand-gray-600', 'border', 'border-brand-gray-200');
+      b.style.background = '#fff';
+      b.style.color = 'rgba(10,10,10,0.55)';
+      b.style.border = '1px solid rgba(10,10,10,0.10)';
     });
-    btn.classList.add('bg-brand-black', 'text-white');
-    btn.classList.remove('bg-white', 'text-brand-gray-600', 'border', 'border-brand-gray-200');
+    btn.style.background = '#0A0A0A';
+    btn.style.color = '#fff';
+    btn.style.border = '1px solid #0A0A0A';
     var cards = document.querySelectorAll('.case-card');
     var visible = 0;
     cards.forEach(function(card) {
@@ -765,57 +836,47 @@ const benchmarks = [
       card.style.display = show ? '' : 'none';
       if (show) visible++;
     });
-    var noResults = document.getElementById('no-results');
-    if (noResults) noResults.classList.toggle('hidden', visible > 0);
+    var noRes = document.getElementById('no-results');
+    if (noRes) noRes.classList.toggle('hidden', visible > 0);
   }
 </script>
 
 <!-- ROI Calculator -->
 <script is:inline>
   var CALC_HOURS = {
-    '1-5':   { 'data-entry': 6,  'client-comms': 5,  'billing': 4,  'crm': 5,  'documents': 5,  'scheduling': 4,  'onboarding': 4  },
-    '6-15':  { 'data-entry': 14, 'client-comms': 10, 'billing': 9,  'crm': 11, 'documents': 12, 'scheduling': 8,  'onboarding': 10 },
-    '16-50': { 'data-entry': 28, 'client-comms': 22, 'billing': 18, 'crm': 24, 'documents': 26, 'scheduling': 16, 'onboarding': 20 },
-    '50+':   { 'data-entry': 60, 'client-comms': 48, 'billing': 40, 'crm': 52, 'documents': 55, 'scheduling': 35, 'onboarding': 42 },
+    '1-5':   { 'data-entry':6,  'client-comms':5,  'billing':4,  'crm':5,  'documents':5,  'scheduling':4,  'onboarding':4  },
+    '6-15':  { 'data-entry':14, 'client-comms':10, 'billing':9,  'crm':11, 'documents':12, 'scheduling':8,  'onboarding':10 },
+    '16-50': { 'data-entry':28, 'client-comms':22, 'billing':18, 'crm':24, 'documents':26, 'scheduling':16, 'onboarding':20 },
+    '50+':   { 'data-entry':60, 'client-comms':48, 'billing':40, 'crm':52, 'documents':55, 'scheduling':35, 'onboarding':42 },
   };
-  var CALC_ROI_MULT = {
-    '1-5': 6.2, '6-15': 9.4, '16-50': 11.8, '50+': 14.5,
-  };
-  var CALC_PAYBACK = {
-    '1-5': '3 wks', '6-15': '4 wks', '16-50': '5 wks', '50+': '6 wks',
-  };
-  var PAIN_INSIGHT = {
-    'data-entry':    'Manual data entry is the #1 automation target — eliminated in an average of 6 business days across 312 deployments.',
-    'client-comms':  'Automated follow-up sequences reduce response lag by 82% and save an average of 6h per team member per week.',
-    'billing':       'Invoice automation cuts billing cycles from 5 days to same-day and reduces late payments by 34%.',
-    'crm':           'Automated CRM updates free sales reps from 40% of their admin time — recoverable as pure selling hours.',
-    'documents':     'Document generation automation eliminates 90%+ of copy-paste errors and reduces contract turnaround from days to minutes.',
-    'scheduling':    'Scheduling automation reduces no-shows by 35% and frees front-desk staff from 6–8h/week of coordination.',
-    'onboarding':    'Automated onboarding reduces time-to-productive by 60% for new clients and staff.',
+  var CALC_ROI  = { '1-5':6.2, '6-15':9.4, '16-50':11.8, '50+':14.5 };
+  var CALC_PAY  = { '1-5':'3 wks', '6-15':'4 wks', '16-50':'5 wks', '50+':'6 wks' };
+  var INSIGHTS  = {
+    'data-entry':   'Manual data entry is the #1 automation target — eliminated in an average of 6 business days across 312 deployments.',
+    'client-comms': 'Automated follow-up sequences reduce response lag by 82% and save 6h per team member per week on average.',
+    'billing':      'Invoice automation cuts billing cycles from 5 days to same-day and reduces late payments by 34%.',
+    'crm':          'Automated CRM logging frees sales reps from 40% of admin time — fully recoverable as selling hours.',
+    'documents':    'Document generation eliminates 90%+ of copy-paste errors and reduces contract turnaround from days to minutes.',
+    'scheduling':   'Scheduling automation reduces no-shows by 35% and frees staff from 6–8h/week of coordination.',
+    'onboarding':   'Automated onboarding reduces time-to-productive by 60% for new clients and staff.',
   };
 
   function calcROI() {
     var size   = document.getElementById('calc-size').value;
     var salary = parseInt(document.getElementById('calc-salary').value, 10);
     var pain   = document.getElementById('calc-pain').value;
-
     var hours  = (CALC_HOURS[size] || {})[pain] || 14;
-    var hourlyRate = salary / 2080;
-    var annualValue = Math.round(hours * hourlyRate * 52 / 1000) * 1000;
-    var roiMult = CALC_ROI_MULT[size] || 9.4;
-    var payback = CALC_PAYBACK[size] || '4 wks';
-
+    var annual = Math.round(hours * (salary / 2080) * 52 / 1000) * 1000;
+    var roi    = CALC_ROI[size] || 9.4;
+    var pay    = CALC_PAY[size] || '4 wks';
     document.getElementById('out-hours').textContent   = hours + 'h';
-    document.getElementById('out-value').textContent   = '£' + (annualValue >= 1000 ? Math.round(annualValue / 1000) + 'K' : annualValue);
-    document.getElementById('out-roi').textContent     = roiMult + '×';
-    document.getElementById('out-payback').textContent = payback;
-
-    var insight = document.getElementById('calc-insight');
-    if (insight) insight.textContent = PAIN_INSIGHT[pain] || '';
+    document.getElementById('out-value').textContent   = '£' + (annual >= 1000 ? Math.round(annual / 1000) + 'K' : annual);
+    document.getElementById('out-roi').textContent     = roi + '×';
+    document.getElementById('out-payback').textContent = pay;
+    var el = document.getElementById('calc-insight');
+    if (el) el.textContent = INSIGHTS[pain] || '';
   }
-
   calcROI();
   document.addEventListener('astro:page-load', calcROI);
 </script>
-
 </ShopLayout>
