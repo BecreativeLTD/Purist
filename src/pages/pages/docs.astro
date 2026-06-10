@@ -1,0 +1,335 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+
+const sections = [
+  {
+    id: 'purist',
+    title: 'PURIST',
+    dot: '#E8B4B0',
+    subtitle: 'Automation-as-a-Service platform',
+    intro: 'PURIST deploys, manages, and monitors n8n + Claude AI automation stacks for businesses. We handle the infrastructure so you focus on growth.',
+    groups: [
+      {
+        heading: 'Getting started',
+        items: [
+          { title: 'What is PURIST?', body: 'PURIST is an automation-as-a-service company. We design, build, deploy, and maintain custom automation workflows for your business using n8n and Claude AI. You get a fully managed stack — no code to write, no servers to maintain, no tools to learn.' },
+          { title: 'How the onboarding works', body: 'It starts with a free 45-minute automation audit where we map your manual processes. Within 5 business days, you receive a deployment plan. After approval, your first workflows go live within 10–15 days. You get a live dashboard from day one.' },
+          { title: 'What industries we serve', body: 'Professional services, e-commerce, finance, healthcare admin, recruitment, marketing agencies, and SaaS companies. Any business with repetitive manual processes is a fit. We have deployed 312+ stacks across 14 industries.' },
+          { title: 'Pricing structure', body: 'PURIST charges a one-time setup fee (based on complexity) plus a monthly retainer for monitoring, maintenance, and iteration. Setup fees typically range from £1,500–£5,000. Monthly retainers start at £300/month. No per-workflow charges, no usage caps.' },
+        ],
+      },
+      {
+        heading: 'Platform & infrastructure',
+        items: [
+          { title: 'Your stack, your servers', body: 'Every client gets a dedicated n8n instance running on isolated infrastructure. We do not commingle client data. Your workflows, credentials, and execution logs live on your own stack — we manage it, you own it.' },
+          { title: 'Uptime & reliability', body: '99.97% uptime across all client deployments, measured over a rolling 12-month window. Each stack includes automated health checks every 60 seconds, dead-man switches on critical workflows, and instant failover.' },
+          { title: 'Security model', body: 'All credentials are encrypted at rest (AES-256) and in transit (TLS 1.3). We use scoped API tokens with rotation every 90 days. HMAC signature validation on all incoming webhooks. SOC 2 Type I compliance in progress.' },
+          { title: 'Monitoring & alerting', body: 'Every workflow execution is logged with full input/output capture. Failures trigger instant Slack/email alerts. You get a real-time dashboard showing execution volume, success rates, latency, and error trends.' },
+        ],
+      },
+      {
+        heading: 'Workflows & integrations',
+        items: [
+          { title: 'What can be automated?', body: 'Lead capture and CRM entry, invoice generation, email sequences, report compilation, data synchronisation between tools, client onboarding flows, social media scheduling, document generation, and any process that follows a repeatable pattern.' },
+          { title: 'Supported integrations', body: 'PURIST supports 500+ integrations via n8n nodes: Slack, HubSpot, Salesforce, Xero, QuickBooks, Google Workspace, Microsoft 365, Notion, Airtable, Stripe, Shopify, and any tool with an API or webhook.' },
+          { title: 'Custom workflows', body: 'Every PURIST deployment is custom-built. We do not use templates. Your workflows are designed around your specific tools, team structure, and business logic. We handle edge cases, error recovery, and conditional branching.' },
+          { title: 'AI-powered workflows', body: 'Claude AI is embedded in workflows for tasks that need judgement: classifying support tickets, drafting email replies, summarising meeting notes, extracting data from unstructured documents, and making routing decisions.' },
+        ],
+      },
+      {
+        heading: 'Support & SLA',
+        items: [
+          { title: 'Response times', body: 'Critical issues (workflow down): 1-hour response, 4-hour resolution target. Standard requests: same-business-day response. Feature requests and optimisations: included in your monthly retainer, delivered in weekly iteration cycles.' },
+          { title: 'Dedicated Slack channel', body: 'Every client gets a shared Slack channel with the PURIST engineering team. No ticket queues, no support tiers. You message us directly and we respond.' },
+          { title: '30-day guarantee', body: 'If your automation stack does not deliver measurable time savings within 30 days of deployment, we refund your setup fee in full. No questions, no process.' },
+          { title: 'Iteration & scaling', body: 'Your stack evolves with your business. Monthly retainer includes ongoing optimisation: new workflows, workflow improvements, integration additions, and scaling adjustments. No change request fees.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'claude-skills',
+    title: 'Claude Skills',
+    dot: '#4ADE80',
+    subtitle: '329 open-source prompt skills for Claude',
+    intro: 'Claude Skills is PURIST\'s open-source library of 329 structured prompt skills that extend Claude\'s capabilities for professional use cases across engineering, marketing, product, operations, and compliance.',
+    groups: [
+      {
+        heading: 'Overview',
+        items: [
+          { title: 'What are Claude Skills?', body: 'Claude Skills are structured prompt templates that give Claude domain-specific expertise. Each skill defines a role, methodology, output format, and quality standard. They transform Claude from a general assistant into a specialist — copywriter, code reviewer, financial modeller, or compliance auditor.' },
+          { title: 'How skills work', body: 'Each skill is a markdown file that you add to your Claude configuration. When activated with the @ prefix (e.g. @CopywriterAgent), Claude adopts the full persona: methods, frameworks, output structure, and quality bar. Skills persist across the conversation until changed.' },
+          { title: 'Skill categories', body: '5 domains, 20 teams, 100 agent-level skills covering: Marketing & Growth (20 skills), Business & Strategy (20), Operations & Productivity (20), Tech & Product (20), and Intelligence & Research (20). Plus 229 utility skills for specific tasks.' },
+          { title: 'Open source licence', body: 'All 329 skills are MIT-licensed and free to use, modify, and distribute. No attribution required for commercial use. The skills library is maintained by PURIST and accepts community contributions.' },
+        ],
+      },
+      {
+        heading: 'Installation & setup',
+        items: [
+          { title: 'Claude Code setup', body: 'Add skills to your Claude Code configuration by placing the skill markdown files in your .claude/skills/ directory or referencing them in your CLAUDE.md file. Skills are loaded automatically at conversation start.' },
+          { title: 'Claude.ai (web) setup', body: 'Copy the skill prompt into a Claude Project\'s custom instructions. Each Project can hold multiple skills. For the full 100-agent library, add the complete prompt to a single Project.' },
+          { title: 'API usage', body: 'Include skill definitions in the system prompt when calling the Claude API. Skills work with all Claude models (Opus, Sonnet, Haiku). For production use, we recommend Sonnet for speed-sensitive workflows and Opus for complex reasoning tasks.' },
+          { title: 'Customising skills', body: 'Skills are plain markdown — edit them to match your brand voice, industry terminology, or specific frameworks. Fork a skill, modify the methodology section, and it becomes your own proprietary variant.' },
+        ],
+      },
+      {
+        heading: 'Skill catalogue highlights',
+        items: [
+          { title: 'Marketing & Growth', body: 'TrendScout (trend detection), CopywriterAgent (direct-response copy), SEOAgent (technical SEO), GrowthHacker (AARRR funnel), EmailMarketer (lifecycle sequences), AdOptimizer (Meta/Google/LinkedIn ads), VideoScriptAgent (YouTube/TikTok scripts), LaunchAgent (go-to-market).' },
+          { title: 'Business & Strategy', body: 'MarketAnalyst (TAM/SAM/SOM), CompetitorIntel (battlecards), FinancialModeler (unit economics), PricingAgent (tier strategy), InvestorDeck (pitch narratives), NegotiationAgent (Harvard + Chris Voss methods), OKRAgent (outcome-driven KRs).' },
+          { title: 'Tech & Product', body: 'ProductManager (PRDs + RICE scoring), CodeReviewer (principal-level reviews), ArchitectAgent (system design + ADRs), SecurityAgent (STRIDE threat modelling), PerformanceAgent (bottleneck analysis), DevOpsAgent (CI/CD pipelines), TestingAgent (test pyramids).' },
+          { title: 'Operations & Intelligence', body: 'ProjectManager (Agile/Waterfall), MeetingSummarizer (transcription → actions), DataAnalyst (cohort analysis), ProcessOptimizer (Lean Six Sigma), ResearchAgent (systematic reviews), PredictiveAgent (forecasting), HypothesisAgent (MECE issue trees).' },
+        ],
+      },
+      {
+        heading: 'Best practices',
+        items: [
+          { title: 'One skill per task', body: 'Activate one skill at a time for best results. Each skill sets a specific persona and methodology. Mixing skills in one message reduces output quality. Switch skills with a new @ prefix.' },
+          { title: 'Provide context', body: 'Skills work best when you give them the context they need: your industry, target audience, constraints, and goals. The more specific your input, the more targeted the output.' },
+          { title: 'Iterate, don\'t restart', body: 'Skills maintain context across the conversation. Ask for revisions, alternatives, or deeper dives on specific sections rather than starting over. The skill builds on everything discussed.' },
+          { title: 'Chain skills for complex projects', body: 'For large projects, use ChiefOrchestrator to plan which skills to deploy in sequence. Example: ResearchAgent → ProductStrategist → UserStoryAgent → SprintAgent for a full product cycle.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'claude-ai',
+    title: 'Claude AI',
+    dot: '#CC9560',
+    subtitle: 'The AI engine behind PURIST workflows',
+    intro: 'Claude is Anthropic\'s frontier AI model, embedded in every PURIST deployment for tasks that require reasoning, language understanding, and decision-making. Here\'s what you need to know.',
+    groups: [
+      {
+        heading: 'Core capabilities',
+        items: [
+          { title: 'Language understanding', body: 'Claude processes and generates text at near-human quality. In PURIST workflows, this means: reading and classifying inbound emails, drafting personalised responses, summarising documents, and extracting structured data from unstructured text.' },
+          { title: 'Tool use (function calling)', body: 'Claude can call external tools and APIs during a conversation or workflow. This powers automated actions: looking up a CRM record, creating a calendar event, updating a spreadsheet, or triggering a downstream workflow — all decided by Claude in real time.' },
+          { title: 'Vision & multimodal', body: 'Claude can read images, screenshots, charts, and documents. In PURIST workflows, this enables: processing scanned invoices, reading receipts, analysing dashboard screenshots, and extracting data from PDFs with mixed text and images.' },
+          { title: 'Extended thinking', body: 'For complex decisions, Claude uses extended thinking — a chain-of-thought process that reasons through multi-step problems before responding. This powers: financial analysis, compliance reviews, and strategic recommendations.' },
+        ],
+      },
+      {
+        heading: 'Models & performance',
+        items: [
+          { title: 'Claude Opus 4', body: 'The most capable model. Used in PURIST workflows for complex reasoning: contract review, financial modelling, strategic analysis, and multi-step decision chains. Higher cost per token, but dramatically better on hard tasks.' },
+          { title: 'Claude Sonnet 4', body: 'The workhorse model. Best balance of speed, cost, and intelligence. Used in 80% of PURIST workflows: email classification, data extraction, response drafting, and standard decision routing. Sub-2-second response times.' },
+          { title: 'Claude Haiku', body: 'The fastest model. Used for high-volume, low-complexity tasks: quick classification, simple extraction, and routing decisions where speed matters more than depth. 10x cheaper than Opus.' },
+          { title: 'Model selection in PURIST', body: 'We choose the right model for each node in your workflow. A single workflow might use Haiku for initial classification, Sonnet for drafting, and Opus for final quality review. You pay for intelligence where it matters.' },
+        ],
+      },
+      {
+        heading: 'Using Claude in automation',
+        items: [
+          { title: 'Prompt engineering', body: 'PURIST writes production-grade prompts for every Claude node. We use structured output schemas, few-shot examples, and system prompts tuned for consistency. Every prompt is version-controlled and A/B tested against real workflow data.' },
+          { title: 'Structured outputs', body: 'Claude returns JSON, XML, or structured text that downstream nodes can parse reliably. We define output schemas per task — no free-form text that breaks your pipeline. Schema validation catches format errors before they propagate.' },
+          { title: 'Error handling & fallbacks', body: 'If Claude returns an unexpected result, the workflow retries with a clarified prompt. After 3 attempts, the task is flagged for human review. No silent failures, no broken data.' },
+          { title: 'Cost management', body: 'We optimise token usage across your workflows: concise prompts, cached system messages, and model-appropriate task assignment. Average Claude cost per client: £40–120/month depending on volume.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'anthropic',
+    title: 'Anthropic',
+    dot: '#60A5FA',
+    subtitle: 'The company behind Claude',
+    intro: 'Anthropic is the AI safety company that builds Claude. Understanding their approach helps you understand why PURIST chose Claude as our AI backbone.',
+    groups: [
+      {
+        heading: 'Company & mission',
+        items: [
+          { title: 'About Anthropic', body: 'Founded in 2021 by former OpenAI researchers, Anthropic is an AI safety company building reliable, interpretable, and steerable AI systems. They are backed by Google, Spark Capital, and others, with over $7B in funding.' },
+          { title: 'Why PURIST uses Anthropic', body: 'Three reasons: (1) Claude is the most reliable model for structured business tasks — lowest hallucination rate in independent benchmarks. (2) Anthropic\'s safety-first approach means predictable, controllable outputs. (3) Enterprise-grade API with 99.9% uptime SLA.' },
+          { title: 'Constitutional AI', body: 'Anthropic\'s training approach, Constitutional AI, teaches Claude to be helpful, harmless, and honest through a set of principles rather than human feedback alone. This makes Claude more consistent and less likely to produce harmful or unreliable outputs.' },
+          { title: 'Research & transparency', body: 'Anthropic publishes peer-reviewed research on model interpretability, scaling laws, and safety techniques. Their published papers inform how PURIST configures and deploys Claude for maximum reliability.' },
+        ],
+      },
+      {
+        heading: 'API & platform',
+        items: [
+          { title: 'API access', body: 'The Claude API is available at api.anthropic.com. PURIST manages all API access on your behalf — you never need to create an Anthropic account or manage API keys. We handle authentication, rate limiting, and billing.' },
+          { title: 'Rate limits & scaling', body: 'Anthropic provides tiered rate limits based on usage. PURIST maintains enterprise-tier access ensuring your workflows never hit rate limits. For high-volume deployments, we implement request queuing and load balancing.' },
+          { title: 'Data privacy', body: 'Anthropic does not train on API inputs. Your business data sent through PURIST workflows is not used to improve Claude models. Anthropic retains API logs for 30 days for abuse monitoring, then deletes them.' },
+          { title: 'Console & monitoring', body: 'The Anthropic Console (console.anthropic.com) provides usage dashboards, API key management, and billing. PURIST clients receive a monthly usage report with cost breakdowns per workflow.' },
+        ],
+      },
+      {
+        heading: 'Resources',
+        items: [
+          { title: 'Official documentation', body: 'Anthropic\'s docs at docs.anthropic.com cover the full API reference, prompt engineering guides, tool use documentation, and model comparison tables. PURIST\'s deployment practices are built on these official guidelines.' },
+          { title: 'System status', body: 'Check status.anthropic.com for real-time API availability. PURIST monitors this feed and proactively reroutes traffic during degradations. We maintain fallback configurations for all critical workflows.' },
+          { title: 'Model updates', body: 'Anthropic releases model updates regularly. PURIST tests all new model versions against your workflows before upgrading. We never auto-upgrade production deployments — every model change is validated and communicated.' },
+          { title: 'Enterprise support', body: 'Anthropic offers enterprise plans with custom rate limits, dedicated support, and SLAs. PURIST manages the enterprise relationship on behalf of high-volume clients, simplifying procurement.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'n8n',
+    title: 'n8n',
+    dot: '#EA5455',
+    subtitle: 'The workflow engine powering PURIST',
+    intro: 'n8n is the open-source workflow automation platform at the core of every PURIST deployment. It connects your tools, executes your logic, and handles the orchestration layer.',
+    groups: [
+      {
+        heading: 'What is n8n?',
+        items: [
+          { title: 'Overview', body: 'n8n is a source-available workflow automation platform with 500+ integrations, a visual workflow editor, and a powerful execution engine. Unlike Zapier or Make, n8n can be self-hosted — meaning your data stays on your infrastructure.' },
+          { title: 'Why PURIST chose n8n', body: 'Self-hosting means client data never leaves their infrastructure. 500+ native integrations cover 95% of use cases without custom code. The visual editor makes workflows auditable by non-technical stakeholders. And it scales to thousands of executions per hour.' },
+          { title: 'n8n vs Zapier', body: 'n8n: self-hosted, no per-task pricing, full data control, complex branching, code nodes. Zapier: cloud-only, per-task billing (adds up fast), simpler but limited. For serious automation, n8n wins on cost, control, and capability.' },
+          { title: 'n8n vs Make', body: 'n8n: open source, self-hosted, native code execution, better error handling. Make: proprietary, cloud-only, visual-first but limited debugging. PURIST uses n8n for its transparency and infrastructure control.' },
+        ],
+      },
+      {
+        heading: 'Core concepts',
+        items: [
+          { title: 'Workflows', body: 'A workflow is a sequence of connected nodes that execute in order. Each node performs one action: fetch data, transform it, send it somewhere, or make a decision. Workflows can branch, loop, and handle errors at every step.' },
+          { title: 'Nodes', body: 'Nodes are the building blocks. There are trigger nodes (start the workflow), action nodes (do something), and function nodes (run custom code). PURIST uses ~40 node types across typical deployments.' },
+          { title: 'Credentials', body: 'n8n stores API keys and OAuth tokens encrypted. PURIST manages credential rotation, scoping, and access control. Each workflow only has access to the credentials it needs — principle of least privilege.' },
+          { title: 'Executions', body: 'Every time a workflow runs, it creates an execution record with full input/output data for every node. PURIST retains execution data for 30 days and provides searchable logs through your monitoring dashboard.' },
+        ],
+      },
+      {
+        heading: 'Integrations',
+        items: [
+          { title: 'CRM & Sales', body: 'HubSpot, Salesforce, Pipedrive, Close, Copper, Zoho CRM. Bi-directional sync, lead routing, deal updates, contact enrichment, and activity logging — all automated through native n8n nodes.' },
+          { title: 'Finance & Accounting', body: 'Xero, QuickBooks, Stripe, PayPal, GoCardless, Wise. Invoice generation, payment reconciliation, expense categorisation, and financial reporting workflows.' },
+          { title: 'Communication', body: 'Slack, Microsoft Teams, Gmail, Outlook, Twilio, SendGrid. Message routing, notification workflows, email sequences, and multi-channel alert systems.' },
+          { title: 'Productivity & Data', body: 'Google Sheets, Airtable, Notion, Monday.com, Asana, Jira, Trello, PostgreSQL, MySQL, MongoDB. Data sync, task creation, project tracking, and database operations.' },
+        ],
+      },
+      {
+        heading: 'Self-hosting & infrastructure',
+        items: [
+          { title: 'Deployment model', body: 'PURIST deploys n8n on dedicated infrastructure per client. Options include AWS, GCP, Azure, or your own servers. Each instance is containerised (Docker), version-controlled, and backed up daily.' },
+          { title: 'Scaling', body: 'n8n supports worker mode for high-volume deployments: separate the web UI from execution workers. PURIST configures auto-scaling based on execution queue depth. Most clients run comfortably on a single instance.' },
+          { title: 'Updates & maintenance', body: 'PURIST handles all n8n version upgrades. We test new releases in a staging environment against your workflows before production deployment. Zero-downtime updates using blue-green deployment strategy.' },
+          { title: 'Backups & disaster recovery', body: 'Daily automated backups of all workflows, credentials (encrypted), and execution data. 30-day retention. Point-in-time recovery available within 4 hours. Backup verification tests run weekly.' },
+        ],
+      },
+    ],
+  },
+];
+---
+
+<ShopLayout
+  title="Documentation – PURIST"
+  description="Complete documentation hub for PURIST automation platform, Claude Skills, Claude AI, Anthropic, and n8n. Everything you need to understand, deploy, and scale."
+>
+  <!-- Hero -->
+  <header class="bg-brand-black relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(232,180,176,0.06) 0%,transparent 60%);"></div>
+    <div class="container-x py-20 lg:py-28 max-w-4xl mx-auto text-center relative z-10">
+      <div class="flex items-center justify-center gap-2 mb-6">
+        <span class="text-[9px] uppercase tracking-[0.28em] font-bold" style="color:rgba(232,180,176,0.6);">Documentation</span>
+        <span class="text-[9px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-full" style="background:rgba(232,180,176,0.1);color:#E8B4B0;border:1px solid rgba(232,180,176,0.2);">Hub</span>
+      </div>
+      <h1 class="font-display text-4xl lg:text-5xl xl:text-6xl leading-tight tracking-tight mb-6 text-white text-balance">
+        Everything you need,<br><em class="font-medium" style="color:#E8B4B0;">in one place.</em>
+      </h1>
+      <p class="text-base lg:text-lg leading-relaxed max-w-2xl mx-auto" style="color:rgba(255,255,255,0.45);">
+        Platform guides, integration references, AI documentation, and deployment best practices. From getting started to scaling production.
+      </p>
+
+      <!-- Quick nav pills -->
+      <nav class="flex flex-wrap justify-center gap-2 mt-10" aria-label="Documentation sections">
+        {sections.map((s) => (
+          <a href={`#${s.id}`}
+             class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[12px] font-medium transition-all duration-150"
+             style={`background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);`}
+             onmouseover="this.style.borderColor='rgba(255,255,255,0.25)';this.style.background='rgba(255,255,255,0.08)'"
+             onmouseout="this.style.borderColor='rgba(255,255,255,0.1)';this.style.background='rgba(255,255,255,0.05)'"
+          >
+            <span class="w-2 h-2 rounded-full" style={`background:${s.dot};`}></span>
+            {s.title}
+          </a>
+        ))}
+      </nav>
+    </div>
+  </header>
+
+  <!-- Sections -->
+  {sections.map((section, si) => (
+    <section id={section.id} class={`relative ${si % 2 === 0 ? 'bg-brand-black' : 'bg-brand-black'}`} style={si % 2 === 0 ? 'background:#0A0A0A;' : 'background:#0D0D0D;'}>
+      <div class="absolute top-0 left-0 right-0 h-px" style="background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent);"></div>
+
+      <div class="container-x py-16 lg:py-24">
+
+        <!-- Section header -->
+        <div class="max-w-3xl mb-12 lg:mb-16">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="w-3 h-3 rounded-full" style={`background:${section.dot};`}></span>
+            <span class="text-[10px] uppercase tracking-[0.2em] font-bold" style={`color:${section.dot};opacity:0.7;`}>{section.title}</span>
+          </div>
+          <h2 class="font-display text-3xl lg:text-4xl leading-tight tracking-tight text-white mb-3">
+            {section.subtitle}
+          </h2>
+          <p class="text-sm lg:text-base leading-relaxed" style="color:rgba(255,255,255,0.4);">
+            {section.intro}
+          </p>
+        </div>
+
+        <!-- Groups -->
+        <div class="space-y-12 lg:space-y-16">
+          {section.groups.map((group) => (
+            <div>
+              <div class="flex items-center gap-3 mb-6">
+                <div class="h-px flex-1 max-w-[40px]" style={`background:${section.dot};opacity:0.3;`}></div>
+                <h3 class="text-[11px] uppercase tracking-[0.18em] font-semibold" style="color:rgba(255,255,255,0.5);">{group.heading}</h3>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-px rounded-[16px] overflow-hidden" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.06);">
+                {group.items.map((item) => (
+                  <div class="doc-card p-6 lg:p-7" style="background:#0A0A0A;">
+                    <h4 class="text-[13px] font-semibold text-white mb-2.5 leading-snug">{item.title}</h4>
+                    <p class="text-[12px] leading-[1.7] text-white/40">{item.body}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  ))}
+
+  <!-- CTA bottom -->
+  <section class="bg-brand-black relative" style="background:#0A0A0A;">
+    <div class="absolute top-0 left-0 right-0 h-px" style="background:linear-gradient(90deg,transparent,rgba(232,180,176,0.2),transparent);"></div>
+    <div class="container-x py-20 lg:py-28 text-center">
+      <h2 class="font-display text-3xl lg:text-4xl leading-tight text-white mb-4 text-balance">
+        Ready to automate?
+      </h2>
+      <p class="text-sm leading-relaxed mb-8 max-w-lg mx-auto" style="color:rgba(255,255,255,0.4);">
+        Book a free 45-minute automation audit. We'll map your manual processes and show you exactly what can be automated — and what it will save you.
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <a href="/pages/welcome"
+           class="inline-flex items-center gap-2 px-6 py-3.5 rounded-[14px] text-[13px] font-semibold transition-all duration-150"
+           style="background:#E8B4B0;color:#0A0A0A;"
+           onmouseover="this.style.background='#d9a09b'"
+           onmouseout="this.style.background='#E8B4B0'">
+          Book free audit
+          <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+        <a href="/pages/contact-us"
+           class="inline-flex items-center gap-2 px-6 py-3.5 rounded-[14px] text-[13px] font-semibold transition-all duration-150"
+           style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.1);"
+           onmouseover="this.style.borderColor='rgba(255,255,255,0.25)'"
+           onmouseout="this.style.borderColor='rgba(255,255,255,0.1)'">
+          Contact us
+        </a>
+      </div>
+    </div>
+  </section>
+</ShopLayout>
+
+<style>
+  .doc-card {
+    transition: background 0.15s ease;
+  }
+  .doc-card:hover {
+    background: rgba(255,255,255,0.025) !important;
+  }
+</style>
