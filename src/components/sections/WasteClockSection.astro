@@ -1,0 +1,385 @@
+---
+---
+
+<section class="scroll-fade waste-clock-section">
+  <div class="waste-clock-container">
+    <div class="waste-clock-grid">
+      <!-- LEFT: Why it matters -->
+      <div class="waste-left">
+        <span class="eyebrow">The cost of waiting</span>
+        <h2 class="waste-headline">Every second you read this,<br/>businesses lose hours they'll never get back.</h2>
+        <p class="waste-body">
+          UK SMBs collectively waste over 5 million hours every single day on tasks that could be fully automated. That's not a statistic — it's a haemorrhage.
+        </p>
+        <a href="#roi-calculator" class="waste-link">
+          Calculate your losses
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+
+      <!-- CENTER: Live Counter -->
+      <div class="waste-center">
+        <span class="counter-label">Hours of automatable admin wasted across UK businesses since you arrived</span>
+        <div class="counter-display" id="waste-counter">0</div>
+        <div class="live-indicator">
+          <span class="pulse-dot"></span>
+          <span class="live-text">Counting live</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: Personal Calculator -->
+      <div class="waste-right">
+        <div class="calc-card">
+          <span class="calc-label">For your business</span>
+          <div class="slider-group">
+            <label class="slider-label">
+              <span>Team size</span>
+              <span class="slider-value" id="team-size-value">5</span>
+            </label>
+            <input type="range" min="1" max="100" value="5" id="team-slider" class="team-slider" />
+          </div>
+          <div class="calc-outputs">
+            <div class="calc-row">
+              <span class="calc-row-label">Wasted/week</span>
+              <span class="calc-row-value" id="calc-wasted">14h</span>
+            </div>
+            <div class="calc-row">
+              <span class="calc-row-label">Annual cost</span>
+              <span class="calc-row-value" id="calc-annual">£25,480</span>
+            </div>
+            <div class="calc-row">
+              <span class="calc-row-label">Payback period</span>
+              <span class="calc-row-value" id="calc-payback">3 weeks</span>
+            </div>
+          </div>
+          <a href="/pages/welcome" class="calc-cta">
+            Stop the bleeding
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .waste-clock-section {
+    background: #0A0A0A;
+    padding: 6rem 2rem;
+  }
+
+  .waste-clock-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .waste-clock-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .eyebrow {
+    font-family: 'Inter Variable', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #E8B4B0;
+    display: block;
+    margin-bottom: 1.25rem;
+  }
+
+  .waste-headline {
+    font-family: 'Fraunces Variable', serif;
+    font-style: italic;
+    font-size: 1.75rem;
+    line-height: 1.3;
+    color: #F8F6F1;
+    margin: 0 0 1.25rem 0;
+    font-weight: 400;
+  }
+
+  .waste-body {
+    font-family: 'Inter Variable', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(248, 246, 241, 0.7);
+    margin: 0 0 1.5rem 0;
+  }
+
+  .waste-link {
+    font-family: 'Inter Variable', sans-serif;
+    font-size: 0.875rem;
+    color: #E8B4B0;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: gap 0.2s ease;
+  }
+
+  .waste-link:hover {
+    gap: 0.75rem;
+  }
+
+  .waste-center {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+  }
+
+  .counter-label {
+    font-family: 'Inter Variable', sans-serif;
+    font-size: 0.8rem;
+    color: rgba(248, 246, 241, 0.5);
+    display: block;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+  }
+
+  .counter-display {
+    font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #E8B4B0;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.25rem;
+    min-height: 4.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .live-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .pulse-dot {
+    width: 8px;
+    height: 8px;
+    background: #4ADE80;
+    border-radius: 50%;
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  .live-text {
+    font-family: 'Inter Variable', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(248, 246, 241, 0.4);
+  }
+
+  .calc-card {
+    background: rgba(248, 246, 241, 0.04);
+    border: 1px solid rgba(248, 246, 241, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+  }
+
+  .calc-label {
+    font-family: 'Inter Variable', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(248, 246, 241, 0.5);
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+
+  .slider-group {
+    margin-bottom: 1.75rem;
+  }
+
+  .slider-label {
+    font-family: 'Inter Variable', sans-serif;
+    font-size: 0.85rem;
+    color: rgba(248, 246, 241, 0.7);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+
+  .slider-value {
+    color: #F8F6F1;
+    font-weight: 600;
+  }
+
+  .team-slider {
+    width: 100%;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgba(248, 246, 241, 0.1);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .team-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #E8B4B0;
+    cursor: pointer;
+    border: 2px solid #0A0A0A;
+  }
+
+  .team-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #E8B4B0;
+    cursor: pointer;
+    border: 2px solid #0A0A0A;
+  }
+
+  .calc-outputs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .calc-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(248, 246, 241, 0.06);
+  }
+
+  .calc-row:last-child {
+    border-bottom: none;
+  }
+
+  .calc-row-label {
+    font-family: 'Inter Variable', sans-serif;
+    font-size: 0.8rem;
+    color: rgba(248, 246, 241, 0.5);
+  }
+
+  .calc-row-value {
+    font-family: 'Inter Variable', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #F8F6F1;
+  }
+
+  .calc-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.85rem 1.5rem;
+    background: #E8B4B0;
+    color: #0A0A0A;
+    border-radius: 8px;
+    font-family: 'Inter Variable', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .calc-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(232, 180, 176, 0.3);
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  @media (max-width: 768px) {
+    .waste-clock-section {
+      padding: 4rem 1.25rem;
+    }
+
+    .waste-clock-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .waste-headline {
+      font-size: 1.5rem;
+    }
+
+    .counter-display {
+      font-size: 2.5rem;
+    }
+
+    .waste-center {
+      padding: 2rem 0;
+      order: -1;
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    const RATE = 159.1;
+    let startTime = Date.now();
+    let counter = 0;
+    const counterEl = document.getElementById('waste-counter');
+
+    function formatNumber(num) {
+      if (num >= 1000) {
+        return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+      }
+      return Math.floor(num).toLocaleString('en-GB');
+    }
+
+    function updateCounter() {
+      const elapsed = (Date.now() - startTime) / 1000;
+      counter = elapsed * RATE;
+      if (counterEl) {
+        counterEl.textContent = formatNumber(counter);
+      }
+    }
+
+    setInterval(updateCounter, 100);
+
+    // Personal calculator
+    const slider = document.getElementById('team-slider');
+    const sizeDisplay = document.getElementById('team-size-value');
+    const wastedEl = document.getElementById('calc-wasted');
+    const annualEl = document.getElementById('calc-annual');
+    const paybackEl = document.getElementById('calc-payback');
+
+    function calculatePersonal(teamSize) {
+      const hoursPerWeek = teamSize * 2.8;
+      const annualCost = hoursPerWeek * 35 * 52;
+      let payback;
+      if (teamSize <= 5) payback = '3 weeks';
+      else if (teamSize <= 15) payback = '4 weeks';
+      else if (teamSize <= 50) payback = '5 weeks';
+      else payback = '6 weeks';
+
+      if (sizeDisplay) sizeDisplay.textContent = teamSize;
+      if (wastedEl) wastedEl.textContent = Math.round(hoursPerWeek) + 'h';
+      if (annualEl) annualEl.textContent = '£' + Math.round(annualCost).toLocaleString('en-GB');
+      if (paybackEl) paybackEl.textContent = payback;
+    }
+
+    if (slider) {
+      slider.addEventListener('input', function() {
+        calculatePersonal(parseInt(this.value));
+      });
+      calculatePersonal(5);
+    }
+  })();
+</script>
