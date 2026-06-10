@@ -52,15 +52,31 @@
             <span class="lo-chart-title">Events / hour (last 24h)</span>
             <span class="lo-chart-peak">Peak: 3,412/hr</span>
           </div>
-          <svg class="lo-chart" viewBox="0 0 480 80" preserveAspectRatio="none" id="lo-sparkline">
+          <svg class="lo-chart" viewBox="0 0 480 100" preserveAspectRatio="none" id="lo-sparkline">
             <defs>
               <linearGradient id="lo-grad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#E8B4B0" stop-opacity="0.3"/>
+                <stop offset="0%" stop-color="#E8B4B0" stop-opacity="0.2"/>
                 <stop offset="100%" stop-color="#E8B4B0" stop-opacity="0"/>
               </linearGradient>
+              <filter id="lo-glow">
+                <feGaussianBlur stdDeviation="3" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
             </defs>
+            <!-- Horizontal grid lines -->
+            <line x1="4" y1="25" x2="476" y2="25" stroke="rgba(248,246,241,0.04)" stroke-width="0.5"/>
+            <line x1="4" y1="50" x2="476" y2="50" stroke="rgba(248,246,241,0.04)" stroke-width="0.5"/>
+            <line x1="4" y1="75" x2="476" y2="75" stroke="rgba(248,246,241,0.04)" stroke-width="0.5"/>
+            <!-- Vertical grid lines -->
+            <line x1="120" y1="8" x2="120" y2="92" stroke="rgba(248,246,241,0.03)" stroke-width="0.5" stroke-dasharray="2,4"/>
+            <line x1="240" y1="8" x2="240" y2="92" stroke="rgba(248,246,241,0.03)" stroke-width="0.5" stroke-dasharray="2,4"/>
+            <line x1="360" y1="8" x2="360" y2="92" stroke="rgba(248,246,241,0.03)" stroke-width="0.5" stroke-dasharray="2,4"/>
+            <!-- Chart elements -->
             <path class="lo-chart-area" fill="url(#lo-grad)"/>
             <path class="lo-chart-line" fill="none" stroke="#E8B4B0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Live dot with glow -->
+            <circle class="lo-chart-dot-glow" r="8" fill="#E8B4B0" opacity="0.2" filter="url(#lo-glow)"/>
+            <circle class="lo-chart-dot-ring" r="5" fill="none" stroke="#E8B4B0" stroke-width="1" opacity="0.3"/>
             <circle class="lo-chart-dot" r="3" fill="#E8B4B0"/>
           </svg>
           <div class="lo-chart-labels">
@@ -258,7 +274,17 @@
     color: #E8B4B0; font-weight: 500;
   }
   .lo-chart {
-    width: 100%; height: 60px; display: block;
+    width: 100%; height: 80px; display: block;
+  }
+  :global(.lo-chart-dot-glow) { animation: lo-dot-pulse 2s ease-in-out infinite; }
+  :global(.lo-chart-dot-ring) { animation: lo-dot-ring 2s ease-in-out infinite; }
+  @keyframes lo-dot-pulse {
+    0%, 100% { opacity: 0.2; r: 8; }
+    50% { opacity: 0.08; r: 12; }
+  }
+  @keyframes lo-dot-ring {
+    0%, 100% { opacity: 0.3; r: 5; }
+    50% { opacity: 0.1; r: 8; }
   }
   .lo-chart-labels {
     display: flex; justify-content: space-between; margin-top: 0.35rem;
@@ -385,34 +411,49 @@
       if (Math.random() < 0.06) { weekCount++; if (weekEl) weekEl.textContent = weekCount.toLocaleString('en-GB'); }
     }, 1000);
 
-    /* ---- Sparkline ---- */
-    var W = 480, H = 80, PAD = 4;
-    // 24 data points (one per hour) — realistic curve with business-hours peak
-    var data = [820,640,510,380,320,420,890,1640,2480,3120,3380,3412,3290,3100,2870,2640,2380,2120,1860,1580,1320,1080,940,860];
+    /* ---- Sparkline with smooth bezier curves ---- */
+    var W = 480, H = 100, PAD = 8;
+    // 48 data points (every 30 min) — realistic with micro-variations
+    var base = [780,820,690,640,580,510,430,380,340,320,360,420,620,890,1240,1640,2080,2480,2840,3120,3280,3380,3410,3412,3390,3290,3180,3100,2960,2870,2750,2640,2510,2380,2260,2120,1990,1860,1720,1580,1440,1320,1200,1080,1000,940,880,860];
+    var data = base.map(function(v) { return v + Math.floor((Math.random() - 0.5) * v * 0.06); });
     var maxV = Math.max.apply(null, data);
     var pts = data.map(function (v, i) {
       return { x: PAD + i * ((W - PAD * 2) / (data.length - 1)), y: H - PAD - (v / maxV) * (H - PAD * 2) };
     });
 
-    var lineD = pts.map(function (p, i) { return (i === 0 ? 'M' : 'L') + p.x.toFixed(1) + ' ' + p.y.toFixed(1); }).join(' ');
-    var areaD = lineD + ' L' + pts[pts.length-1].x.toFixed(1) + ' ' + (H - PAD) + ' L' + pts[0].x.toFixed(1) + ' ' + (H - PAD) + ' Z';
+    // Smooth cubic bezier spline through all points
+    function catmullRom(points, tension) {
+      tension = tension || 0.3;
+      var d = 'M' + points[0].x.toFixed(1) + ' ' + points[0].y.toFixed(1);
+      for (var i = 0; i < points.length - 1; i++) {
+        var p0 = points[Math.max(0, i - 1)];
+        var p1 = points[i];
+        var p2 = points[i + 1];
+        var p3 = points[Math.min(points.length - 1, i + 2)];
+        var cp1x = p1.x + (p2.x - p0.x) * tension;
+        var cp1y = p1.y + (p2.y - p0.y) * tension;
+        var cp2x = p2.x - (p3.x - p1.x) * tension;
+        var cp2y = p2.y - (p3.y - p1.y) * tension;
+        d += ' C' + cp1x.toFixed(1) + ' ' + cp1y.toFixed(1) + ',' + cp2x.toFixed(1) + ' ' + cp2y.toFixed(1) + ',' + p2.x.toFixed(1) + ' ' + p2.y.toFixed(1);
+      }
+      return d;
+    }
+
+    var lineD = catmullRom(pts, 0.25);
+    var lastPt = pts[pts.length - 1], firstPt = pts[0];
+    var areaD = lineD + ' L' + lastPt.x.toFixed(1) + ' ' + (H - PAD) + ' L' + firstPt.x.toFixed(1) + ' ' + (H - PAD) + ' Z';
 
     var svgLine = document.querySelector('.lo-chart-line');
     var svgArea = document.querySelector('.lo-chart-area');
     var svgDot  = document.querySelector('.lo-chart-dot');
+    var svgGlow = document.querySelector('.lo-chart-dot-glow');
+    var svgRing = document.querySelector('.lo-chart-dot-ring');
 
     if (svgLine) svgLine.setAttribute('d', lineD);
     if (svgArea) svgArea.setAttribute('d', areaD);
-    if (svgDot) { svgDot.setAttribute('cx', pts[pts.length-1].x); svgDot.setAttribute('cy', pts[pts.length-1].y); }
-
-    // Animate dot pulse
-    if (svgDot) {
-      setInterval(function () {
-        var last = pts[pts.length - 1];
-        var jitter = (Math.random() - 0.5) * 4;
-        svgDot.setAttribute('cy', Math.max(PAD, Math.min(H - PAD, last.y + jitter)));
-      }, 800);
-    }
+    [svgDot, svgGlow, svgRing].forEach(function(el) {
+      if (el) { el.setAttribute('cx', lastPt.x); el.setAttribute('cy', lastPt.y); }
+    });
 
     /* ---- Event feed ---- */
     var feed = document.getElementById('lo-feed');
