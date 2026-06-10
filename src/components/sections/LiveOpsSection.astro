@@ -1,181 +1,363 @@
 ---
 ---
 
-<section class="scroll-fade live-ops-section">
-  <div class="live-ops-container">
+<section class="scroll-fade lo-section">
+  <div class="lo-wrap">
+
     <!-- Header -->
-    <div class="live-ops-header">
-      <div class="system-live-badge">
-        <span class="pulse-dot-green"></span>
-        <span class="badge-text">SYSTEM LIVE</span>
+    <div class="lo-header">
+      <div class="lo-badge">
+        <span class="lo-badge-dot"></span>
+        <span class="lo-badge-text">System Live</span>
       </div>
-      <h2 class="live-ops-headline">312 workflows running.<br/>Right now, for real businesses.</h2>
-      <p class="live-ops-subtext">Every metric below is real. Every event is happening. This is what automation at scale looks like.</p>
+      <h2 class="lo-headline">312 workflows running.<br/>Right now, for real businesses.</h2>
+      <p class="lo-sub">Every metric below reflects live production data. This is what automation at scale looks like.</p>
     </div>
 
-    <!-- Metric Cards -->
-    <div class="metrics-grid">
-      <div class="metric-card">
-        <div class="metric-value" id="metric-events">47,293</div>
-        <div class="metric-label">Automation events processed</div>
-        <div class="metric-sublabel">Events Today</div>
+    <!-- Metrics -->
+    <div class="lo-metrics">
+      <div class="lo-metric lo-metric--accent">
+        <div class="lo-metric-val" id="lo-events">47,293</div>
+        <div class="lo-metric-name">Events today</div>
+        <div class="lo-metric-desc">Automation events processed</div>
       </div>
-      <div class="metric-card">
-        <div class="metric-value">312</div>
-        <div class="metric-label">Live production deployments</div>
-        <div class="metric-sublabel">Active Workflows</div>
+      <div class="lo-metric">
+        <div class="lo-metric-val">312</div>
+        <div class="lo-metric-name">Active workflows</div>
+        <div class="lo-metric-desc">Live production deployments</div>
       </div>
-      <div class="metric-card">
-        <div class="metric-value metric-with-dot">
-          <span class="dot-green-small"></span>
-          99.97%
+      <div class="lo-metric">
+        <div class="lo-metric-val lo-metric-val--green">
+          <span class="lo-green-dot"></span>99.97%
         </div>
-        <div class="metric-label">30-day infrastructure uptime</div>
-        <div class="metric-sublabel">Uptime</div>
+        <div class="lo-metric-name">Uptime</div>
+        <div class="lo-metric-desc">30-day infrastructure</div>
       </div>
-      <div class="metric-card">
-        <div class="metric-value" id="metric-execution">127ms</div>
-        <div class="metric-label">Workflow execution speed</div>
-        <div class="metric-sublabel">Avg Execution</div>
+      <div class="lo-metric">
+        <div class="lo-metric-val" id="lo-exec">127ms</div>
+        <div class="lo-metric-name">Avg execution</div>
+        <div class="lo-metric-desc">Workflow speed</div>
       </div>
-      <div class="metric-card">
-        <div class="metric-value metric-with-dot">
-          <span class="dot-green-small"></span>
-          Never (30d)
+      <div class="lo-metric">
+        <div class="lo-metric-val lo-metric-val--green">
+          <span class="lo-green-dot"></span>None (30d)
         </div>
-        <div class="metric-label">No failures in 30 days</div>
-        <div class="metric-sublabel">Last Error</div>
+        <div class="lo-metric-name">Last error</div>
+        <div class="lo-metric-desc">Zero failures recorded</div>
       </div>
-      <div class="metric-card">
-        <div class="metric-value" id="metric-week">1,847</div>
-        <div class="metric-label">New automations triggered</div>
-        <div class="metric-sublabel">This Week</div>
+      <div class="lo-metric">
+        <div class="lo-metric-val" id="lo-week">1,847</div>
+        <div class="lo-metric-name">This week</div>
+        <div class="lo-metric-desc">New automations triggered</div>
       </div>
     </div>
 
-    <!-- Live Event Log -->
-    <div class="event-log-panel">
-      <div class="event-log-header">
-        <span class="event-log-title">LIVE EVENT FEED</span>
-        <div class="event-log-live-badge">
-          <span class="pulse-dot-green"></span>
-          <span>LIVE</span>
+    <!-- Event Log -->
+    <div class="lo-log-wrap">
+      <div class="lo-log-header">
+        <span class="lo-log-title">Live Event Feed</span>
+        <div class="lo-log-badge">
+          <span class="lo-badge-dot lo-badge-dot--sm"></span>
+          <span>Live</span>
         </div>
       </div>
-      <div class="event-log-body" id="event-log">
-        <!-- Events populated by JS -->
-      </div>
-    </div>
+
+      <!-- Pre-rendered rows — Astro scopes CSS to these, cloneNode inherits the attribute -->
+      <div id="lo-feed" class="lo-feed">
+
+        <div class="lo-row" data-template="0">
+          <div class="lo-row-icon">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+          </div>
+          <div class="lo-row-body">
+            <div class="lo-row-title">New lead captured</div>
+            <div class="lo-row-detail">CRM entry + welcome email sent</div>
+          </div>
+          <div class="lo-row-meta">
+            <span class="lo-row-ms">87ms</span>
+            <span class="lo-row-time">2 sec ago</span>
+          </div>
+        </div>
+
+        <div class="lo-row" data-template="1">
+          <div class="lo-row-icon">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div class="lo-row-body">
+            <div class="lo-row-title">Invoice auto-generated</div>
+            <div class="lo-row-detail">QuickBooks + client email</div>
+          </div>
+          <div class="lo-row-meta">
+            <span class="lo-row-ms">142ms</span>
+            <span class="lo-row-time">5 sec ago</span>
+          </div>
+        </div>
+
+        <div class="lo-row" data-template="2">
+          <div class="lo-row-icon">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div class="lo-row-body">
+            <div class="lo-row-title">Appointment confirmed</div>
+            <div class="lo-row-detail">SMS reminder scheduled 24h before</div>
+          </div>
+          <div class="lo-row-meta">
+            <span class="lo-row-ms">63ms</span>
+            <span class="lo-row-time">9 sec ago</span>
+          </div>
+        </div>
+
+        <div class="lo-row" data-template="3">
+          <div class="lo-row-icon">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div class="lo-row-body">
+            <div class="lo-row-title">Review request triggered</div>
+            <div class="lo-row-detail">Post-appointment Google review ask</div>
+          </div>
+          <div class="lo-row-meta">
+            <span class="lo-row-ms">94ms</span>
+            <span class="lo-row-time">12 sec ago</span>
+          </div>
+        </div>
+
+        <div class="lo-row" data-template="4">
+          <div class="lo-row-icon">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div class="lo-row-body">
+            <div class="lo-row-title">Cold lead reactivated</div>
+            <div class="lo-row-detail">Re-engagement sequence started</div>
+          </div>
+          <div class="lo-row-meta">
+            <span class="lo-row-ms">118ms</span>
+            <span class="lo-row-time">16 sec ago</span>
+          </div>
+        </div>
+
+        <div class="lo-row" data-template="5">
+          <div class="lo-row-icon">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div class="lo-row-body">
+            <div class="lo-row-title">Contract e-signed</div>
+            <div class="lo-row-detail">Matter file created + stakeholder notified</div>
+          </div>
+          <div class="lo-row-meta">
+            <span class="lo-row-ms">76ms</span>
+            <span class="lo-row-time">21 sec ago</span>
+          </div>
+        </div>
+
+        <div class="lo-row" data-template="6">
+          <div class="lo-row-icon">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <div class="lo-row-body">
+            <div class="lo-row-title">Website form submitted</div>
+            <div class="lo-row-detail">Lead scored + routed to sales rep</div>
+          </div>
+          <div class="lo-row-meta">
+            <span class="lo-row-ms">51ms</span>
+            <span class="lo-row-time">27 sec ago</span>
+          </div>
+        </div>
+
+        <div class="lo-row" data-template="7">
+          <div class="lo-row-icon">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          </div>
+          <div class="lo-row-body">
+            <div class="lo-row-title">Monthly report generated</div>
+            <div class="lo-row-detail">PDF sent to 3 stakeholders</div>
+          </div>
+          <div class="lo-row-meta">
+            <span class="lo-row-ms">223ms</span>
+            <span class="lo-row-time">33 sec ago</span>
+          </div>
+        </div>
+
+        <div class="lo-row" data-template="8">
+          <div class="lo-row-icon">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div class="lo-row-body">
+            <div class="lo-row-title">Missed call logged</div>
+            <div class="lo-row-detail">Auto-callback SMS sent within 90s</div>
+          </div>
+          <div class="lo-row-meta">
+            <span class="lo-row-ms">89ms</span>
+            <span class="lo-row-time">38 sec ago</span>
+          </div>
+        </div>
+
+        <div class="lo-row" data-template="9">
+          <div class="lo-row-icon">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          </div>
+          <div class="lo-row-body">
+            <div class="lo-row-title">Stripe payment received</div>
+            <div class="lo-row-detail">Receipt + onboarding sequence fired</div>
+          </div>
+          <div class="lo-row-meta">
+            <span class="lo-row-ms">134ms</span>
+            <span class="lo-row-time">44 sec ago</span>
+          </div>
+        </div>
+
+        <div class="lo-row" data-template="10">
+          <div class="lo-row-icon">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="lo-row-body">
+            <div class="lo-row-title">Overdue follow-up flagged</div>
+            <div class="lo-row-detail">Task created in CRM for team</div>
+          </div>
+          <div class="lo-row-meta">
+            <span class="lo-row-ms">71ms</span>
+            <span class="lo-row-time">51 sec ago</span>
+          </div>
+        </div>
+
+        <div class="lo-row" data-template="11">
+          <div class="lo-row-icon">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="lo-row-body">
+            <div class="lo-row-title">Error detected and retried</div>
+            <div class="lo-row-detail">Auto-retry successful on attempt 2</div>
+          </div>
+          <div class="lo-row-meta">
+            <span class="lo-row-ms">198ms</span>
+            <span class="lo-row-time">58 sec ago</span>
+          </div>
+        </div>
+
+      </div><!-- /lo-feed -->
+    </div><!-- /lo-log-wrap -->
 
     <!-- Tech Row -->
-    <div class="tech-row">
-      <span class="tech-label">Infrastructure</span>
-      <div class="tech-badges">
-        <span class="tech-badge">n8n Cloud</span>
-        <span class="tech-badge">Claude Opus 4.7</span>
-        <span class="tech-badge">Vercel Edge</span>
-        <span class="tech-badge">PostgreSQL</span>
-        <span class="tech-badge">Twilio</span>
-        <span class="tech-badge">Stripe Webhooks</span>
+    <div class="lo-tech">
+      <span class="lo-tech-label">Infrastructure</span>
+      <div class="lo-tech-pills">
+        <span class="lo-pill">n8n Cloud</span>
+        <span class="lo-pill">Claude Opus 4.5</span>
+        <span class="lo-pill">Vercel Edge</span>
+        <span class="lo-pill">PostgreSQL</span>
+        <span class="lo-pill">Twilio</span>
+        <span class="lo-pill">Stripe Webhooks</span>
       </div>
     </div>
+
   </div>
 </section>
 
 <style>
-  .live-ops-section {
+  .lo-section {
     background: #0A0A0A;
-    background-image: radial-gradient(circle at 50% 0%, rgba(232, 180, 176, 0.04) 0%, transparent 60%);
+    background-image: radial-gradient(ellipse at 50% -10%, rgba(232,180,176,0.06) 0%, transparent 55%);
     padding: 6rem 2rem;
+    border-top: 1px solid rgba(248,246,241,0.06);
   }
 
-  .live-ops-container {
+  .lo-wrap {
     max-width: 1200px;
     margin: 0 auto;
   }
 
-  .live-ops-header {
+  /* Header */
+  .lo-header {
     text-align: center;
     margin-bottom: 3.5rem;
   }
 
-  .system-live-badge {
+  .lo-badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    background: rgba(74, 222, 128, 0.1);
-    border: 1px solid rgba(74, 222, 128, 0.2);
+    gap: 0.45rem;
+    background: rgba(74,222,128,0.08);
+    border: 1px solid rgba(74,222,128,0.18);
     border-radius: 20px;
-    padding: 0.4rem 1rem;
+    padding: 0.35rem 0.9rem;
     margin-bottom: 1.5rem;
   }
 
-  .badge-text {
-    font-family: 'Inter Variable', sans-serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    color: #4ADE80;
-    font-weight: 600;
-  }
-
-  .pulse-dot-green {
-    width: 8px;
-    height: 8px;
+  .lo-badge-dot {
+    width: 7px;
+    height: 7px;
     background: #4ADE80;
     border-radius: 50%;
-    animation: pulse-dot 2s ease-in-out infinite;
+    animation: lo-pulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  .lo-badge-dot--sm {
+    width: 6px;
+    height: 6px;
   }
 
-  .live-ops-headline {
+  .lo-badge-text {
+    font-family: 'Inter Variable', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #4ADE80;
+    text-transform: uppercase;
+  }
+
+  .lo-headline {
     font-family: 'Fraunces Variable', serif;
     font-style: italic;
-    font-size: 2.25rem;
-    line-height: 1.3;
+    font-weight: 300;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    line-height: 1.25;
     color: #F8F6F1;
-    margin: 0 0 1rem 0;
-    font-weight: 400;
+    margin: 0 0 1rem;
   }
 
-  .live-ops-subtext {
+  .lo-sub {
     font-family: 'Inter Variable', sans-serif;
-    font-size: 1rem;
-    color: rgba(248, 246, 241, 0.5);
-    max-width: 550px;
+    font-size: 0.92rem;
+    color: rgba(248,246,241,0.45);
+    max-width: 520px;
     margin: 0 auto;
-    line-height: 1.6;
+    line-height: 1.65;
   }
 
-  .metrics-grid {
+  /* Metrics Grid */
+  .lo-metrics {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
-    margin-bottom: 3rem;
+    gap: 1px;
+    background: rgba(248,246,241,0.07);
+    border: 1px solid rgba(248,246,241,0.07);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
   }
 
-  .metric-card {
-    background: rgba(248, 246, 241, 0.04);
-    border: 1px solid rgba(248, 246, 241, 0.08);
-    border-radius: 12px;
-    padding: 1.5rem;
-    text-align: center;
+  .lo-metric {
+    background: #0A0A0A;
+    padding: 1.5rem 1.75rem;
+    transition: background 0.2s;
   }
+  .lo-metric:hover { background: rgba(248,246,241,0.03); }
+  .lo-metric--accent .lo-metric-val { color: #E8B4B0; }
 
-  .metric-value {
-    font-family: 'JetBrains Mono', 'SF Mono', monospace;
-    font-size: 1.5rem;
+  .lo-metric-val {
+    font-family: 'Inter Variable', sans-serif;
+    font-size: 1.45rem;
     font-weight: 700;
     color: #F8F6F1;
-    margin-bottom: 0.5rem;
-  }
-
-  .metric-with-dot {
+    margin-bottom: 0.3rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
   }
+  .lo-metric-val--green { color: #4ADE80; font-size: 1.1rem; font-weight: 600; }
 
-  .dot-green-small {
+  .lo-green-dot {
     width: 6px;
     height: 6px;
     background: #4ADE80;
@@ -183,77 +365,84 @@
     flex-shrink: 0;
   }
 
-  .metric-label {
+  .lo-metric-name {
     font-family: 'Inter Variable', sans-serif;
-    font-size: 0.75rem;
-    color: rgba(248, 246, 241, 0.5);
-    margin-bottom: 0.35rem;
-    line-height: 1.4;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(248,246,241,0.7);
+    margin-bottom: 0.2rem;
   }
 
-  .metric-sublabel {
+  .lo-metric-desc {
     font-family: 'Inter Variable', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(248, 246, 241, 0.3);
+    font-size: 0.7rem;
+    color: rgba(248,246,241,0.3);
   }
 
-  .event-log-panel {
-    background: rgba(248, 246, 241, 0.03);
-    border: 1px solid rgba(248, 246, 241, 0.08);
-    border-radius: 12px;
+  /* Event Log */
+  .lo-log-wrap {
+    border: 1px solid rgba(248,246,241,0.08);
+    border-radius: 14px;
     overflow: hidden;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
+    background: rgba(248,246,241,0.025);
   }
 
-  .event-log-header {
+  .lo-log-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid rgba(248, 246, 241, 0.06);
+    padding: 0.9rem 1.5rem;
+    border-bottom: 1px solid rgba(248,246,241,0.06);
+    background: rgba(248,246,241,0.03);
   }
 
-  .event-log-title {
+  .lo-log-title {
     font-family: 'Inter Variable', sans-serif;
     font-size: 0.7rem;
     letter-spacing: 0.1em;
-    color: rgba(248, 246, 241, 0.4);
+    text-transform: uppercase;
+    color: rgba(248,246,241,0.5);
     font-weight: 600;
   }
 
-  .event-log-live-badge {
+  .lo-log-badge {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.35rem;
     font-family: 'Inter Variable', sans-serif;
     font-size: 0.65rem;
+    font-weight: 600;
     letter-spacing: 0.08em;
     color: #4ADE80;
-    font-weight: 600;
+    text-transform: uppercase;
   }
 
-  .event-log-body {
-    max-height: 400px;
+  .lo-feed {
     overflow: hidden;
-    padding: 0.5rem 0;
+    max-height: 420px;
   }
 
-  .event-row {
+  /* ===== THESE use :global() so cloneNode copies apply correctly ===== */
+  :global(.lo-row) {
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 0.75rem 1.5rem;
-    border-bottom: 1px solid rgba(248, 246, 241, 0.03);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    padding: 0.85rem 1.5rem;
+    border-bottom: 1px solid rgba(248,246,241,0.04);
+    transition: background 0.15s;
+  }
+  :global(.lo-row:last-child) { border-bottom: none; }
+  :global(.lo-row:hover) { background: rgba(248,246,241,0.03); }
+  :global(.lo-row.lo-new) {
+    animation: lo-slide-in 0.35s ease-out forwards;
   }
 
-  .event-icon {
+  :global(.lo-row-icon) {
     flex-shrink: 0;
     width: 32px;
     height: 32px;
-    background: rgba(232, 180, 176, 0.1);
+    background: rgba(232,180,176,0.1);
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -261,247 +450,198 @@
     color: #E8B4B0;
   }
 
-  .event-content {
+  :global(.lo-row-body) {
     flex: 1;
     min-width: 0;
   }
 
-  .event-text {
+  :global(.lo-row-title) {
     font-family: 'Inter Variable', sans-serif;
-    font-size: 0.85rem;
-    color: #F8F6F1;
+    font-size: 0.84rem;
     font-weight: 500;
+    color: #F8F6F1;
     margin-bottom: 0.15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  .event-detail {
+  :global(.lo-row-detail) {
     font-family: 'Inter Variable', sans-serif;
-    font-size: 0.75rem;
-    color: rgba(248, 246, 241, 0.4);
+    font-size: 0.74rem;
+    color: rgba(248,246,241,0.4);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  .event-meta {
+  :global(.lo-row-meta) {
     display: flex;
     align-items: center;
     gap: 0.75rem;
     flex-shrink: 0;
   }
 
-  .event-ms {
-    font-family: 'JetBrains Mono', 'SF Mono', monospace;
-    font-size: 0.7rem;
+  :global(.lo-row-ms) {
+    font-family: 'Inter Variable', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
     color: #4ADE80;
-    background: rgba(74, 222, 128, 0.1);
+    background: rgba(74,222,128,0.1);
     padding: 0.2rem 0.5rem;
     border-radius: 4px;
-    font-weight: 500;
+    font-variant-numeric: tabular-nums;
   }
 
-  .event-time {
+  :global(.lo-row-time) {
     font-family: 'Inter Variable', sans-serif;
-    font-size: 0.7rem;
-    color: rgba(248, 246, 241, 0.3);
+    font-size: 0.68rem;
+    color: rgba(248,246,241,0.28);
     white-space: nowrap;
   }
 
-  .tech-row {
+  /* Tech Row */
+  .lo-tech {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    padding-top: 1rem;
+    gap: 1.25rem;
+    flex-wrap: wrap;
   }
 
-  .tech-label {
+  .lo-tech-label {
     font-family: 'Inter Variable', sans-serif;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgba(248, 246, 241, 0.3);
+    color: rgba(248,246,241,0.25);
     flex-shrink: 0;
   }
 
-  .tech-badges {
+  .lo-tech-pills {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.4rem;
   }
 
-  .tech-badge {
+  .lo-pill {
     font-family: 'Inter Variable', sans-serif;
-    font-size: 0.72rem;
-    color: rgba(248, 246, 241, 0.4);
-    background: rgba(248, 246, 241, 0.06);
-    padding: 0.35rem 0.75rem;
+    font-size: 0.7rem;
+    color: rgba(248,246,241,0.4);
+    background: rgba(248,246,241,0.05);
+    border: 1px solid rgba(248,246,241,0.07);
+    padding: 0.3rem 0.7rem;
     border-radius: 6px;
-    white-space: nowrap;
   }
 
-  @keyframes pulse-dot {
+  @keyframes lo-pulse {
     0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.7); }
+    50% { opacity: 0.3; transform: scale(0.6); }
+  }
+
+  @keyframes lo-slide-in {
+    from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
   @media (max-width: 768px) {
-    .live-ops-section {
-      padding: 4rem 1.25rem;
-    }
-
-    .live-ops-headline {
-      font-size: 1.6rem;
-    }
-
-    .metrics-grid {
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-    }
-
-    .event-row {
-      padding: 0.75rem 1rem;
-    }
-
-    .event-meta {
-      flex-direction: column;
-      gap: 0.25rem;
-      align-items: flex-end;
-    }
-
-    .tech-row {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.75rem;
-    }
+    .lo-section { padding: 4rem 1.25rem; }
+    .lo-headline { font-size: 1.6rem; }
+    .lo-metrics { grid-template-columns: repeat(2, 1fr); }
+    .lo-tech { flex-direction: column; align-items: flex-start; }
   }
 </style>
 
 <script>
-  (function() {
-    // Metric counters
-    let eventsCount = 47293;
-    let weekCount = 1847;
+  (function () {
+    // Counters
+    var eventsEl = document.getElementById('lo-events');
+    var execEl   = document.getElementById('lo-exec');
+    var weekEl   = document.getElementById('lo-week');
 
-    const eventsEl = document.getElementById('metric-events');
-    const executionEl = document.getElementById('metric-execution');
-    const weekEl = document.getElementById('metric-week');
+    var eventsCount = 47293;
+    var weekCount   = 1847;
 
-    setInterval(function() {
-      eventsCount += Math.floor(Math.random() * 5) + 8;
+    setInterval(function () {
+      eventsCount += Math.floor(Math.random() * 7) + 8;
       if (eventsEl) eventsEl.textContent = eventsCount.toLocaleString('en-GB');
-    }, 1000);
+    }, 900);
 
-    setInterval(function() {
-      const ms = Math.floor(Math.random() * (198 - 63 + 1)) + 63;
-      if (executionEl) executionEl.textContent = ms + 'ms';
-    }, 2000);
+    setInterval(function () {
+      var ms = Math.floor(Math.random() * 135) + 51;
+      if (execEl) execEl.textContent = ms + 'ms';
+    }, 1800);
 
-    setInterval(function() {
-      if (Math.random() < 0.05) {
+    setInterval(function () {
+      if (Math.random() < 0.06) {
         weekCount++;
         if (weekEl) weekEl.textContent = weekCount.toLocaleString('en-GB');
       }
     }, 1000);
 
-    // Event log
-    const events = [
-      { icon: 'user-plus', text: 'New lead captured', detail: 'CRM entry + welcome email sent', ms: 87 },
-      { icon: 'file-text', text: 'Invoice auto-generated', detail: 'QuickBooks + client email', ms: 142 },
-      { icon: 'calendar', text: 'Appointment confirmed', detail: 'SMS reminder scheduled for 24h before', ms: 63 },
-      { icon: 'star', text: 'Review request triggered', detail: 'Post-appointment Google review ask', ms: 94 },
-      { icon: 'mail', text: 'Cold lead reactivated', detail: 'Re-engagement sequence started', ms: 118 },
-      { icon: 'check-circle', text: 'Contract e-signed', detail: 'Matter file created + notified', ms: 76 },
-      { icon: 'zap', text: 'Website form submitted', detail: 'Lead scored + routed to sales rep', ms: 51 },
-      { icon: 'refresh-cw', text: 'Monthly report generated', detail: 'PDF sent to 3 stakeholders', ms: 223 },
-      { icon: 'phone', text: 'Missed call logged', detail: 'Auto-callback SMS sent in 90s', ms: 89 },
-      { icon: 'trending-up', text: 'Stripe payment received', detail: 'Receipt + onboarding sequence fired', ms: 134 },
-      { icon: 'clock', text: 'Overdue follow-up flagged', detail: 'Task created in CRM for team', ms: 71 },
-      { icon: 'shield', text: 'Error detected & retried', detail: 'Auto-retry successful on attempt 2', ms: 198 }
-    ];
+    // Event log — clone pre-rendered templates
+    var feed = document.getElementById('lo-feed');
+    if (!feed) return;
 
-    const iconPaths = {
-      'user-plus': '<path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line>',
-      'file-text': '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline>',
-      'calendar': '<rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>',
-      'star': '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>',
-      'mail': '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>',
-      'check-circle': '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>',
-      'zap': '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>',
-      'refresh-cw': '<polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>',
-      'phone': '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>',
-      'trending-up': '<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline>',
-      'clock': '<circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>',
-      'shield': '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>'
-    };
-
-    const logEl = document.getElementById('event-log');
-    let eventIndex = 0;
-    let baseTime = 2;
-    let displayedEvents = [];
-
-    function createEventRow(event, secAgo) {
-      const row = document.createElement('div');
-      row.className = 'event-row';
-      row.innerHTML = `
-        <div class="event-icon">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            ${iconPaths[event.icon] || ''}
-          </svg>
-        </div>
-        <div class="event-content">
-          <div class="event-text">${event.text}</div>
-          <div class="event-detail">${event.detail}</div>
-        </div>
-        <div class="event-meta">
-          <span class="event-ms">${event.ms}ms</span>
-          <span class="event-time">${secAgo} sec ago</span>
-        </div>
-      `;
-      return row;
-    }
-
-    // Initial population
-    function initLog() {
-      for (let i = 0; i < 8; i++) {
-        const event = events[(eventIndex + i) % events.length];
-        const row = createEventRow(event, baseTime + i * 3);
-        if (logEl) logEl.appendChild(row);
-        displayedEvents.push({ el: row, time: baseTime + i * 3 });
-      }
-      eventIndex = 8;
-    }
-
-    initLog();
-
-    // Add new events
-    setInterval(function() {
-      if (!logEl) return;
-
-      const event = events[eventIndex % events.length];
-      eventIndex++;
-      const row = createEventRow(event, 1);
-      row.style.opacity = '0';
-      row.style.transform = 'translateY(-10px)';
-      logEl.insertBefore(row, logEl.firstChild);
-      displayedEvents.unshift({ el: row, time: 1 });
-
-      requestAnimationFrame(function() {
-        row.style.opacity = '1';
-        row.style.transform = 'translateY(0)';
+    // Gather all 12 template rows (they're pre-rendered in HTML with Astro CSS scope)
+    var templates = Array.from(feed.querySelectorAll('[data-template]'))
+      .sort(function (a, b) {
+        return parseInt(a.getAttribute('data-template')) - parseInt(b.getAttribute('data-template'));
       });
 
-      // Remove last if > 8
-      if (displayedEvents.length > 8) {
-        const last = displayedEvents.pop();
-        if (last && last.el) {
-          last.el.style.opacity = '0';
-          setTimeout(function() { last.el.remove(); }, 300);
-        }
+    // Remove from DOM (we'll re-insert clones)
+    templates.forEach(function (t) { t.remove(); });
+
+    var displayed   = [];
+    var nextIndex   = 0;
+    var MAX_VISIBLE = 7;
+
+    // Insert first batch
+    for (var i = 0; i < Math.min(MAX_VISIBLE, templates.length); i++) {
+      var clone = templates[i % templates.length].cloneNode(true);
+      clone.removeAttribute('data-template');
+      feed.appendChild(clone);
+      displayed.push({ el: clone, sec: 2 + i * 5 });
+    }
+    nextIndex = MAX_VISIBLE;
+
+    // Cycle new events every 2.8s
+    setInterval(function () {
+      if (!feed) return;
+
+      var tmpl  = templates[nextIndex % templates.length];
+      nextIndex++;
+
+      var clone = tmpl.cloneNode(true);
+      clone.removeAttribute('data-template');
+
+      // Reset time label to "just now"
+      var timeEl = clone.querySelector('.lo-row-time');
+      if (timeEl) timeEl.textContent = 'just now';
+
+      // Randomise ms slightly
+      var msEl = clone.querySelector('.lo-row-ms');
+      if (msEl) {
+        var base = parseInt(msEl.textContent) || 100;
+        var jitter = Math.floor((Math.random() - 0.5) * 30);
+        msEl.textContent = Math.max(40, base + jitter) + 'ms';
       }
 
-      // Update times
-      displayedEvents.forEach(function(item) {
-        item.time += Math.floor(Math.random() * 3) + 2;
-        var timeEl = item.el.querySelector('.event-time');
-        if (timeEl) timeEl.textContent = item.time + ' sec ago';
+      clone.classList.add('lo-new');
+      feed.insertBefore(clone, feed.firstChild);
+      displayed.unshift({ el: clone, sec: 1 });
+
+      // Trim excess
+      while (displayed.length > MAX_VISIBLE) {
+        var old = displayed.pop();
+        if (old && old.el && old.el.parentNode) old.el.remove();
+      }
+
+      // Age all timestamps
+      displayed.forEach(function (item) {
+        item.sec += Math.floor(Math.random() * 3) + 2;
+        var t = item.el.querySelector('.lo-row-time');
+        if (t) t.textContent = item.sec + ' sec ago';
       });
-    }, 2500);
+    }, 2800);
   })();
 </script>

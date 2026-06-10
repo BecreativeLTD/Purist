@@ -1,387 +1,445 @@
 ---
 ---
 
-<section class="scroll-fade transformation-section">
-  <div class="transformation-container">
+<section class="scroll-fade tf-section">
+  <div class="tf-wrap">
+
     <!-- Header -->
-    <div class="transformation-header">
-      <span class="eyebrow">Before & After</span>
-      <h2 class="transformation-headline">The same process.<br/>Before and after PURIST.</h2>
-      <p class="transformation-subtext">We don't change what you do. We remove the friction from how you do it.</p>
+    <div class="tf-header">
+      <span class="tf-eyebrow">Before &amp; After</span>
+      <h2 class="tf-headline">The same process.<br/>Before and after PURIST.</h2>
+      <p class="tf-sub">We do not change what you do. We remove the friction from how you do it.</p>
     </div>
 
-    <!-- Tab Strip -->
-    <div class="tab-strip" id="industry-tabs">
-      <button class="tab-btn active" data-tab="legal">Legal</button>
-      <button class="tab-btn" data-tab="dental">Dental</button>
-      <button class="tab-btn" data-tab="agency">Agency</button>
-      <button class="tab-btn" data-tab="ecommerce">E-commerce</button>
-      <button class="tab-btn" data-tab="realestate">Real Estate</button>
+    <!-- Tabs -->
+    <div class="tf-tabs" id="tf-tabs">
+      <button class="tf-tab tf-tab--active" data-tab="legal">Legal</button>
+      <button class="tf-tab" data-tab="dental">Dental</button>
+      <button class="tf-tab" data-tab="agency">Agency</button>
+      <button class="tf-tab" data-tab="ecommerce">E-commerce</button>
+      <button class="tf-tab" data-tab="realestate">Real Estate</button>
     </div>
 
-    <!-- Content Panels -->
-    <div class="tab-panels" id="tab-panels">
+    <!-- Panels -->
+    <div id="tf-panels">
+
       <!-- LEGAL -->
-      <div class="tab-panel active" data-panel="legal">
-        <div class="panel-grid">
-          <div class="before-col">
-            <span class="before-label">BEFORE</span>
-            <div class="steps-list">
-              <div class="step-item"><span class="step-num">1</span><span class="step-text">Enquiry received</span><span class="time-badge before-badge">20min</span></div>
-              <div class="step-item"><span class="step-num">2</span><span class="step-text">Log to CRM</span><span class="time-badge before-badge">15min</span></div>
-              <div class="step-item"><span class="step-num">3</span><span class="step-text">Draft intake form</span><span class="time-badge before-badge">25min</span></div>
-              <div class="step-item"><span class="step-num">4</span><span class="step-text">Chase e-signature</span><span class="time-badge before-badge">2 days</span></div>
-              <div class="step-item"><span class="step-num">5</span><span class="step-text">Create matter file</span><span class="time-badge before-badge">30min</span></div>
-              <div class="step-item"><span class="step-num">6</span><span class="step-text">Send retainer invoice</span><span class="time-badge before-badge">15min</span></div>
+      <div class="tf-panel tf-panel--active" data-panel="legal">
+        <div class="tf-compare">
+          <div class="tf-before">
+            <span class="tf-col-label tf-col-label--before">Before</span>
+            <div class="tf-steps">
+              <div class="tf-step"><span class="tf-num">1</span><span class="tf-step-text">Enquiry received</span><span class="tf-badge tf-badge--before">20min</span></div>
+              <div class="tf-step"><span class="tf-num">2</span><span class="tf-step-text">Log to CRM</span><span class="tf-badge tf-badge--before">15min</span></div>
+              <div class="tf-step"><span class="tf-num">3</span><span class="tf-step-text">Draft intake form</span><span class="tf-badge tf-badge--before">25min</span></div>
+              <div class="tf-step"><span class="tf-num">4</span><span class="tf-step-text">Chase e-signature</span><span class="tf-badge tf-badge--before">2 days</span></div>
+              <div class="tf-step"><span class="tf-num">5</span><span class="tf-step-text">Create matter file</span><span class="tf-badge tf-badge--before">30min</span></div>
+              <div class="tf-step"><span class="tf-num">6</span><span class="tf-step-text">Send retainer invoice</span><span class="tf-badge tf-badge--before">15min</span></div>
             </div>
-            <div class="total-row before-total">Total: 1h 45min + 2 days</div>
+            <div class="tf-total tf-total--before">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Total: 1h 45min + 2 days
+            </div>
           </div>
-          <div class="divider"></div>
-          <div class="after-col">
-            <span class="after-label">AFTER PURIST</span>
-            <div class="steps-list">
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Form auto-captured</span><span class="time-badge after-badge">instant</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">CRM auto-updated</span><span class="time-badge after-badge">auto</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Intake sent instantly</span><span class="time-badge after-badge">instant</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">E-sign auto-triggered</span><span class="time-badge after-badge">auto</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Matter file auto-created</span><span class="time-badge after-badge">auto</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Invoice auto-sent</span><span class="time-badge after-badge">auto</span></div>
+
+          <div class="tf-divider">
+            <div class="tf-divider-line"></div>
+            <div class="tf-divider-arrow">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </div>
-            <div class="total-row after-total">Total: 4 minutes · zero manual steps</div>
+            <div class="tf-divider-line"></div>
+          </div>
+
+          <div class="tf-after">
+            <span class="tf-col-label tf-col-label--after">After PURIST</span>
+            <div class="tf-steps">
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Form auto-captured</span><span class="tf-badge tf-badge--after">instant</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">CRM auto-updated</span><span class="tf-badge tf-badge--after">auto</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Intake sent instantly</span><span class="tf-badge tf-badge--after">instant</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">E-sign auto-triggered</span><span class="tf-badge tf-badge--after">auto</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Matter file auto-created</span><span class="tf-badge tf-badge--after">auto</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Invoice auto-sent</span><span class="tf-badge tf-badge--after">auto</span></div>
+            </div>
+            <div class="tf-total tf-total--after">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Total: 4 minutes, zero manual steps
+            </div>
           </div>
         </div>
-        <div class="kpi-grid">
-          <div class="kpi-card"><span class="kpi-number">18h</span><span class="kpi-label">saved per week</span><span class="kpi-support">Reclaimed from manual admin</span></div>
-          <div class="kpi-card"><span class="kpi-number">£67K</span><span class="kpi-label">annual value</span><span class="kpi-support">Cost of time recovered</span></div>
-          <div class="kpi-card"><span class="kpi-number">5 days</span><span class="kpi-label">deployment</span><span class="kpi-support">Live and running in under a week</span></div>
+        <div class="tf-kpis">
+          <div class="tf-kpi"><span class="tf-kpi-num">18h</span><span class="tf-kpi-label">saved per week</span></div>
+          <div class="tf-kpi"><span class="tf-kpi-num">£67K</span><span class="tf-kpi-label">annual value</span></div>
+          <div class="tf-kpi"><span class="tf-kpi-num">5 days</span><span class="tf-kpi-label">to deploy</span></div>
         </div>
       </div>
 
       <!-- DENTAL -->
-      <div class="tab-panel" data-panel="dental">
-        <div class="panel-grid">
-          <div class="before-col">
-            <span class="before-label">BEFORE</span>
-            <div class="steps-list">
-              <div class="step-item"><span class="step-num">1</span><span class="step-text">Booking call received</span><span class="time-badge before-badge">10min</span></div>
-              <div class="step-item"><span class="step-num">2</span><span class="step-text">Manual diary entry</span><span class="time-badge before-badge">5min</span></div>
-              <div class="step-item"><span class="step-num">3</span><span class="step-text">Confirmation letter typed</span><span class="time-badge before-badge">15min</span></div>
-              <div class="step-item"><span class="step-num">4</span><span class="step-text">Day-before reminder call</span><span class="time-badge before-badge">5min</span></div>
-              <div class="step-item"><span class="step-num">5</span><span class="step-text">Post-visit follow-up</span><span class="time-badge before-badge">10min</span></div>
-              <div class="step-item"><span class="step-num">6</span><span class="step-text">Review not requested</span><span class="time-badge before-badge">—</span></div>
+      <div class="tf-panel" data-panel="dental">
+        <div class="tf-compare">
+          <div class="tf-before">
+            <span class="tf-col-label tf-col-label--before">Before</span>
+            <div class="tf-steps">
+              <div class="tf-step"><span class="tf-num">1</span><span class="tf-step-text">Booking call received</span><span class="tf-badge tf-badge--before">10min</span></div>
+              <div class="tf-step"><span class="tf-num">2</span><span class="tf-step-text">Manual diary entry</span><span class="tf-badge tf-badge--before">5min</span></div>
+              <div class="tf-step"><span class="tf-num">3</span><span class="tf-step-text">Confirmation letter typed</span><span class="tf-badge tf-badge--before">15min</span></div>
+              <div class="tf-step"><span class="tf-num">4</span><span class="tf-step-text">Day-before reminder call</span><span class="tf-badge tf-badge--before">5min</span></div>
+              <div class="tf-step"><span class="tf-num">5</span><span class="tf-step-text">Post-visit follow-up</span><span class="tf-badge tf-badge--before">10min</span></div>
+              <div class="tf-step"><span class="tf-num">6</span><span class="tf-step-text">Review never requested</span><span class="tf-badge tf-badge--before">missed</span></div>
             </div>
-            <div class="total-row before-total">Total: 45min per patient</div>
+            <div class="tf-total tf-total--before">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Total: 45min per patient
+            </div>
           </div>
-          <div class="divider"></div>
-          <div class="after-col">
-            <span class="after-label">AFTER PURIST</span>
-            <div class="steps-list">
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Online form books slot</span><span class="time-badge after-badge">instant</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Diary auto-synced</span><span class="time-badge after-badge">auto</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Confirmation auto-sent</span><span class="time-badge after-badge">auto</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">SMS reminder auto-scheduled</span><span class="time-badge after-badge">auto</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Follow-up auto-triggered</span><span class="time-badge after-badge">auto</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Review request auto-sent</span><span class="time-badge after-badge">auto</span></div>
+          <div class="tf-divider"><div class="tf-divider-line"></div><div class="tf-divider-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div><div class="tf-divider-line"></div></div>
+          <div class="tf-after">
+            <span class="tf-col-label tf-col-label--after">After PURIST</span>
+            <div class="tf-steps">
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Online form books slot</span><span class="tf-badge tf-badge--after">instant</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Diary auto-synced</span><span class="tf-badge tf-badge--after">auto</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Confirmation auto-sent</span><span class="tf-badge tf-badge--after">auto</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">SMS reminder auto-scheduled</span><span class="tf-badge tf-badge--after">auto</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Follow-up auto-triggered</span><span class="tf-badge tf-badge--after">auto</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Review request auto-sent</span><span class="tf-badge tf-badge--after">auto</span></div>
             </div>
-            <div class="total-row after-total">Total: 8 seconds · zero manual steps</div>
+            <div class="tf-total tf-total--after">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Total: 8 seconds, zero manual steps
+            </div>
           </div>
         </div>
-        <div class="kpi-grid">
-          <div class="kpi-card"><span class="kpi-number">14h</span><span class="kpi-label">saved per week</span><span class="kpi-support">Reclaimed from manual admin</span></div>
-          <div class="kpi-card"><span class="kpi-number">£38K</span><span class="kpi-label">annual value</span><span class="kpi-support">Cost of time recovered</span></div>
-          <div class="kpi-card"><span class="kpi-number">5 days</span><span class="kpi-label">deployment</span><span class="kpi-support">Live and running in under a week</span></div>
+        <div class="tf-kpis">
+          <div class="tf-kpi"><span class="tf-kpi-num">14h</span><span class="tf-kpi-label">saved per week</span></div>
+          <div class="tf-kpi"><span class="tf-kpi-num">£38K</span><span class="tf-kpi-label">annual value</span></div>
+          <div class="tf-kpi"><span class="tf-kpi-num">5 days</span><span class="tf-kpi-label">to deploy</span></div>
         </div>
       </div>
 
       <!-- AGENCY -->
-      <div class="tab-panel" data-panel="agency">
-        <div class="panel-grid">
-          <div class="before-col">
-            <span class="before-label">BEFORE</span>
-            <div class="steps-list">
-              <div class="step-item"><span class="step-num">1</span><span class="step-text">Brief arrives via email</span><span class="time-badge before-badge">20min</span></div>
-              <div class="step-item"><span class="step-num">2</span><span class="step-text">Create project folder</span><span class="time-badge before-badge">15min</span></div>
-              <div class="step-item"><span class="step-num">3</span><span class="step-text">Draft proposal</span><span class="time-badge before-badge">2hrs</span></div>
-              <div class="step-item"><span class="step-num">4</span><span class="step-text">Invoice created manually</span><span class="time-badge before-badge">30min</span></div>
-              <div class="step-item"><span class="step-num">5</span><span class="step-text">Status update emailed</span><span class="time-badge before-badge">20min</span></div>
-              <div class="step-item"><span class="step-num">6</span><span class="step-text">Time tracked manually</span><span class="time-badge before-badge">ongoing</span></div>
+      <div class="tf-panel" data-panel="agency">
+        <div class="tf-compare">
+          <div class="tf-before">
+            <span class="tf-col-label tf-col-label--before">Before</span>
+            <div class="tf-steps">
+              <div class="tf-step"><span class="tf-num">1</span><span class="tf-step-text">Brief arrives via email</span><span class="tf-badge tf-badge--before">20min</span></div>
+              <div class="tf-step"><span class="tf-num">2</span><span class="tf-step-text">Create project folder</span><span class="tf-badge tf-badge--before">15min</span></div>
+              <div class="tf-step"><span class="tf-num">3</span><span class="tf-step-text">Draft proposal</span><span class="tf-badge tf-badge--before">2hrs</span></div>
+              <div class="tf-step"><span class="tf-num">4</span><span class="tf-step-text">Invoice created manually</span><span class="tf-badge tf-badge--before">30min</span></div>
+              <div class="tf-step"><span class="tf-num">5</span><span class="tf-step-text">Status update emailed</span><span class="tf-badge tf-badge--before">20min</span></div>
+              <div class="tf-step"><span class="tf-num">6</span><span class="tf-step-text">Time tracked manually</span><span class="tf-badge tf-badge--before">ongoing</span></div>
             </div>
-            <div class="total-row before-total">Total: 3h+ setup per client</div>
+            <div class="tf-total tf-total--before">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Total: 3h+ setup per client
+            </div>
           </div>
-          <div class="divider"></div>
-          <div class="after-col">
-            <span class="after-label">AFTER PURIST</span>
-            <div class="steps-list">
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Brief form auto-routes</span><span class="time-badge after-badge">instant</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Project folder auto-created</span><span class="time-badge after-badge">auto</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Proposal template auto-populated</span><span class="time-badge after-badge">auto</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Invoice auto-generated</span><span class="time-badge after-badge">auto</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Slack status updates auto-sent</span><span class="time-badge after-badge">auto</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Time tracked automatically</span><span class="time-badge after-badge">auto</span></div>
+          <div class="tf-divider"><div class="tf-divider-line"></div><div class="tf-divider-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div><div class="tf-divider-line"></div></div>
+          <div class="tf-after">
+            <span class="tf-col-label tf-col-label--after">After PURIST</span>
+            <div class="tf-steps">
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Brief form auto-routes</span><span class="tf-badge tf-badge--after">instant</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Project folder auto-created</span><span class="tf-badge tf-badge--after">auto</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Proposal template auto-populated</span><span class="tf-badge tf-badge--after">auto</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Invoice auto-generated</span><span class="tf-badge tf-badge--after">auto</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Slack updates auto-sent</span><span class="tf-badge tf-badge--after">auto</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Time tracked automatically</span><span class="tf-badge tf-badge--after">auto</span></div>
             </div>
-            <div class="total-row after-total">Total: 12 minutes · zero manual steps</div>
+            <div class="tf-total tf-total--after">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Total: 12 minutes, zero manual steps
+            </div>
           </div>
         </div>
-        <div class="kpi-grid">
-          <div class="kpi-card"><span class="kpi-number">22h</span><span class="kpi-label">saved per week</span><span class="kpi-support">Reclaimed from manual admin</span></div>
-          <div class="kpi-card"><span class="kpi-number">£82K</span><span class="kpi-label">annual value</span><span class="kpi-support">Cost of time recovered</span></div>
-          <div class="kpi-card"><span class="kpi-number">7 days</span><span class="kpi-label">deployment</span><span class="kpi-support">Live and running in one week</span></div>
+        <div class="tf-kpis">
+          <div class="tf-kpi"><span class="tf-kpi-num">22h</span><span class="tf-kpi-label">saved per week</span></div>
+          <div class="tf-kpi"><span class="tf-kpi-num">£82K</span><span class="tf-kpi-label">annual value</span></div>
+          <div class="tf-kpi"><span class="tf-kpi-num">7 days</span><span class="tf-kpi-label">to deploy</span></div>
         </div>
       </div>
 
       <!-- ECOMMERCE -->
-      <div class="tab-panel" data-panel="ecommerce">
-        <div class="panel-grid">
-          <div class="before-col">
-            <span class="before-label">BEFORE</span>
-            <div class="steps-list">
-              <div class="step-item"><span class="step-num">1</span><span class="step-text">Order placed, manual fulfilment check</span><span class="time-badge before-badge">10min</span></div>
-              <div class="step-item"><span class="step-num">2</span><span class="step-text">Inventory update</span><span class="time-badge before-badge">5min</span></div>
-              <div class="step-item"><span class="step-num">3</span><span class="step-text">Shipping email typed</span><span class="time-badge before-badge">10min</span></div>
-              <div class="step-item"><span class="step-num">4</span><span class="step-text">Review not requested</span><span class="time-badge before-badge">—</span></div>
-              <div class="step-item"><span class="step-num">5</span><span class="step-text">Abandoned cart ignored</span><span class="time-badge before-badge">—</span></div>
-              <div class="step-item"><span class="step-num">6</span><span class="step-text">Cross-sell not sent</span><span class="time-badge before-badge">—</span></div>
+      <div class="tf-panel" data-panel="ecommerce">
+        <div class="tf-compare">
+          <div class="tf-before">
+            <span class="tf-col-label tf-col-label--before">Before</span>
+            <div class="tf-steps">
+              <div class="tf-step"><span class="tf-num">1</span><span class="tf-step-text">Order placed, manual check</span><span class="tf-badge tf-badge--before">10min</span></div>
+              <div class="tf-step"><span class="tf-num">2</span><span class="tf-step-text">Inventory update</span><span class="tf-badge tf-badge--before">5min</span></div>
+              <div class="tf-step"><span class="tf-num">3</span><span class="tf-step-text">Shipping email typed</span><span class="tf-badge tf-badge--before">10min</span></div>
+              <div class="tf-step"><span class="tf-num">4</span><span class="tf-step-text">Review never requested</span><span class="tf-badge tf-badge--before">missed</span></div>
+              <div class="tf-step"><span class="tf-num">5</span><span class="tf-step-text">Abandoned cart ignored</span><span class="tf-badge tf-badge--before">missed</span></div>
+              <div class="tf-step"><span class="tf-num">6</span><span class="tf-step-text">Cross-sell not sent</span><span class="tf-badge tf-badge--before">missed</span></div>
             </div>
-            <div class="total-row before-total">Total: 25min per order + missed revenue</div>
+            <div class="tf-total tf-total--before">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Total: 25min per order + missed revenue
+            </div>
           </div>
-          <div class="divider"></div>
-          <div class="after-col">
-            <span class="after-label">AFTER PURIST</span>
-            <div class="steps-list">
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Order auto-confirmed</span><span class="time-badge after-badge">instant</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Stock auto-updated</span><span class="time-badge after-badge">auto</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Shipping auto-triggered</span><span class="time-badge after-badge">auto</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Review request auto-sent</span><span class="time-badge after-badge">auto</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Abandoned cart sequence fires</span><span class="time-badge after-badge">auto</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Cross-sell email auto-sent</span><span class="time-badge after-badge">auto</span></div>
+          <div class="tf-divider"><div class="tf-divider-line"></div><div class="tf-divider-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div><div class="tf-divider-line"></div></div>
+          <div class="tf-after">
+            <span class="tf-col-label tf-col-label--after">After PURIST</span>
+            <div class="tf-steps">
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Order auto-confirmed</span><span class="tf-badge tf-badge--after">instant</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Stock auto-updated</span><span class="tf-badge tf-badge--after">auto</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Shipping auto-triggered</span><span class="tf-badge tf-badge--after">auto</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Review request auto-sent</span><span class="tf-badge tf-badge--after">auto</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Abandoned cart sequence fires</span><span class="tf-badge tf-badge--after">auto</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Cross-sell email auto-sent</span><span class="tf-badge tf-badge--after">auto</span></div>
             </div>
-            <div class="total-row after-total">Total: instant · zero manual steps</div>
+            <div class="tf-total tf-total--after">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Total: instant, zero manual steps
+            </div>
           </div>
         </div>
-        <div class="kpi-grid">
-          <div class="kpi-card"><span class="kpi-number">31h</span><span class="kpi-label">saved per week</span><span class="kpi-support">Reclaimed from manual admin</span></div>
-          <div class="kpi-card"><span class="kpi-number">£94K</span><span class="kpi-label">annual value</span><span class="kpi-support">Cost of time recovered</span></div>
-          <div class="kpi-card"><span class="kpi-number">5 days</span><span class="kpi-label">deployment</span><span class="kpi-support">Live and running in under a week</span></div>
+        <div class="tf-kpis">
+          <div class="tf-kpi"><span class="tf-kpi-num">31h</span><span class="tf-kpi-label">saved per week</span></div>
+          <div class="tf-kpi"><span class="tf-kpi-num">£94K</span><span class="tf-kpi-label">annual value</span></div>
+          <div class="tf-kpi"><span class="tf-kpi-num">5 days</span><span class="tf-kpi-label">to deploy</span></div>
         </div>
       </div>
 
       <!-- REAL ESTATE -->
-      <div class="tab-panel" data-panel="realestate">
-        <div class="panel-grid">
-          <div class="before-col">
-            <span class="before-label">BEFORE</span>
-            <div class="steps-list">
-              <div class="step-item"><span class="step-num">1</span><span class="step-text">Viewing enquiry</span><span class="time-badge before-badge">10min</span></div>
-              <div class="step-item"><span class="step-num">2</span><span class="step-text">Manual CRM entry</span><span class="time-badge before-badge">15min</span></div>
-              <div class="step-item"><span class="step-num">3</span><span class="step-text">Viewing confirmed by call</span><span class="time-badge before-badge">10min</span></div>
-              <div class="step-item"><span class="step-num">4</span><span class="step-text">Valuation report emailed</span><span class="time-badge before-badge">30min</span></div>
-              <div class="step-item"><span class="step-num">5</span><span class="step-text">Follow-up remembered or not</span><span class="time-badge before-badge">—</span></div>
-              <div class="step-item"><span class="step-num">6</span><span class="step-text">Referral never asked</span><span class="time-badge before-badge">—</span></div>
+      <div class="tf-panel" data-panel="realestate">
+        <div class="tf-compare">
+          <div class="tf-before">
+            <span class="tf-col-label tf-col-label--before">Before</span>
+            <div class="tf-steps">
+              <div class="tf-step"><span class="tf-num">1</span><span class="tf-step-text">Viewing enquiry</span><span class="tf-badge tf-badge--before">10min</span></div>
+              <div class="tf-step"><span class="tf-num">2</span><span class="tf-step-text">Manual CRM entry</span><span class="tf-badge tf-badge--before">15min</span></div>
+              <div class="tf-step"><span class="tf-num">3</span><span class="tf-step-text">Viewing confirmed by call</span><span class="tf-badge tf-badge--before">10min</span></div>
+              <div class="tf-step"><span class="tf-num">4</span><span class="tf-step-text">Valuation report emailed</span><span class="tf-badge tf-badge--before">30min</span></div>
+              <div class="tf-step"><span class="tf-num">5</span><span class="tf-step-text">Follow-up forgotten</span><span class="tf-badge tf-badge--before">missed</span></div>
+              <div class="tf-step"><span class="tf-num">6</span><span class="tf-step-text">Referral never asked</span><span class="tf-badge tf-badge--before">missed</span></div>
             </div>
-            <div class="total-row before-total">Total: 65min + missed follow-ups</div>
+            <div class="tf-total tf-total--before">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Total: 65min + missed follow-ups
+            </div>
           </div>
-          <div class="divider"></div>
-          <div class="after-col">
-            <span class="after-label">AFTER PURIST</span>
-            <div class="steps-list">
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Enquiry auto-captured</span><span class="time-badge after-badge">instant</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">CRM auto-updated</span><span class="time-badge after-badge">auto</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Viewing auto-confirmed + calendar</span><span class="time-badge after-badge">auto</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Report auto-sent</span><span class="time-badge after-badge">auto</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Follow-up sequence auto-fires</span><span class="time-badge after-badge">auto</span></div>
-              <div class="step-item"><span class="check-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span class="step-text">Referral request auto-sent</span><span class="time-badge after-badge">auto</span></div>
+          <div class="tf-divider"><div class="tf-divider-line"></div><div class="tf-divider-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div><div class="tf-divider-line"></div></div>
+          <div class="tf-after">
+            <span class="tf-col-label tf-col-label--after">After PURIST</span>
+            <div class="tf-steps">
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Enquiry auto-captured</span><span class="tf-badge tf-badge--after">instant</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">CRM auto-updated</span><span class="tf-badge tf-badge--after">auto</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Viewing auto-confirmed + calendar</span><span class="tf-badge tf-badge--after">auto</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Report auto-sent</span><span class="tf-badge tf-badge--after">auto</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Follow-up sequence auto-fires</span><span class="tf-badge tf-badge--after">auto</span></div>
+              <div class="tf-step"><span class="tf-check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="tf-step-text">Referral request auto-sent</span><span class="tf-badge tf-badge--after">auto</span></div>
             </div>
-            <div class="total-row after-total">Total: 3 minutes · zero manual steps</div>
+            <div class="tf-total tf-total--after">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Total: 3 minutes, zero manual steps
+            </div>
           </div>
         </div>
-        <div class="kpi-grid">
-          <div class="kpi-card"><span class="kpi-number">16h</span><span class="kpi-label">saved per week</span><span class="kpi-support">Reclaimed from manual admin</span></div>
-          <div class="kpi-card"><span class="kpi-number">£54K</span><span class="kpi-label">annual value</span><span class="kpi-support">Cost of time recovered</span></div>
-          <div class="kpi-card"><span class="kpi-number">5 days</span><span class="kpi-label">deployment</span><span class="kpi-support">Live and running in under a week</span></div>
+        <div class="tf-kpis">
+          <div class="tf-kpi"><span class="tf-kpi-num">16h</span><span class="tf-kpi-label">saved per week</span></div>
+          <div class="tf-kpi"><span class="tf-kpi-num">£54K</span><span class="tf-kpi-label">annual value</span></div>
+          <div class="tf-kpi"><span class="tf-kpi-num">5 days</span><span class="tf-kpi-label">to deploy</span></div>
         </div>
       </div>
-    </div>
+
+    </div><!-- /tf-panels -->
   </div>
 </section>
 
 <style>
-  .transformation-section {
+  .tf-section {
     background: #F8F6F1;
     padding: 6rem 2rem;
   }
 
-  .transformation-container {
+  .tf-wrap {
     max-width: 1200px;
     margin: 0 auto;
   }
 
-  .transformation-header {
+  /* Header */
+  .tf-header {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
   }
 
-  .eyebrow {
+  .tf-eyebrow {
+    display: block;
     font-family: 'Inter Variable', sans-serif;
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: #A0522D;
-    display: block;
     margin-bottom: 1rem;
   }
 
-  .transformation-headline {
+  .tf-headline {
     font-family: 'Fraunces Variable', serif;
     font-style: italic;
-    font-size: 2.25rem;
-    line-height: 1.3;
+    font-weight: 300;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    line-height: 1.2;
     color: #0A0A0A;
-    margin: 0 0 1rem 0;
-    font-weight: 400;
+    margin: 0 0 1rem;
   }
 
-  .transformation-subtext {
+  .tf-sub {
     font-family: 'Inter Variable', sans-serif;
-    font-size: 1rem;
-    color: rgba(10, 10, 10, 0.6);
-    max-width: 500px;
+    font-size: 0.92rem;
+    color: rgba(10,10,10,0.55);
+    max-width: 460px;
     margin: 0 auto;
-    line-height: 1.6;
+    line-height: 1.65;
   }
 
-  .tab-strip {
+  /* Tabs */
+  .tf-tabs {
     display: flex;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0.35rem;
     margin-bottom: 2.5rem;
     flex-wrap: wrap;
   }
 
-  .tab-btn {
+  .tf-tab {
     font-family: 'Inter Variable', sans-serif;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 500;
-    padding: 0.6rem 1.25rem;
-    border-radius: 24px;
-    border: none;
+    padding: 0.55rem 1.15rem;
+    border-radius: 8px;
+    border: 1px solid transparent;
     cursor: pointer;
-    transition: all 0.2s ease;
     background: transparent;
-    color: rgba(10, 10, 10, 0.5);
+    color: rgba(10,10,10,0.45);
+    transition: all 0.25s ease;
   }
+  .tf-tab:hover { color: #0A0A0A; background: rgba(10,10,10,0.04); }
 
-  .tab-btn:hover {
-    color: #0A0A0A;
-    background: rgba(10, 10, 10, 0.05);
-  }
-
-  .tab-btn.active {
+  .tf-tab--active {
     background: #0A0A0A;
     color: #F8F6F1;
-    position: relative;
+    border-color: #0A0A0A;
   }
+  .tf-tab--active:hover { background: #0A0A0A; color: #F8F6F1; }
 
-  .tab-btn.active::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 20px;
-    height: 3px;
-    background: #E8B4B0;
-    border-radius: 2px;
-  }
-
-  .tab-panel {
+  /* Panels */
+  .tf-panel {
     display: none;
   }
 
-  .tab-panel.active {
+  .tf-panel--active {
     display: block;
+    animation: tf-fade-in 0.4s ease-out;
   }
 
-  .panel-grid {
+  /* Compare layout */
+  .tf-compare {
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    gap: 2rem;
-    margin-bottom: 2.5rem;
+    grid-template-columns: 1fr 48px 1fr;
+    gap: 0;
+    margin-bottom: 2rem;
   }
 
-  .before-col {
+  .tf-before {
     background: #0A0A0A;
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 2rem;
   }
 
-  .after-col {
-    background: #FFFFFF;
-    border: 1px solid rgba(10, 10, 10, 0.08);
-    border-radius: 12px;
+  .tf-after {
+    background: #fff;
+    border: 1px solid rgba(10,10,10,0.07);
+    border-radius: 14px;
     padding: 2rem;
+    box-shadow: 0 1px 3px rgba(10,10,10,0.04);
   }
 
-  .divider {
-    width: 1px;
-    background: rgba(10, 10, 10, 0.1);
-    align-self: stretch;
-  }
-
-  .before-label {
-    font-family: 'Inter Variable', sans-serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #A0522D;
-    font-weight: 600;
-    display: block;
-    margin-bottom: 1.5rem;
-  }
-
-  .after-label {
-    font-family: 'Inter Variable', sans-serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #2D5016;
-    font-weight: 600;
-    display: block;
-    margin-bottom: 1.5rem;
-  }
-
-  .steps-list {
+  .tf-divider {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 0 4px;
   }
 
-  .step-item {
+  .tf-divider-line {
+    width: 1px;
+    flex: 1;
+    background: rgba(10,10,10,0.1);
+  }
+
+  .tf-divider-arrow {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #F8F6F1;
+    border: 1px solid rgba(10,10,10,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #E8B4B0;
+    flex-shrink: 0;
+  }
+
+  .tf-col-label {
+    display: block;
+    font-family: 'Inter Variable', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .tf-col-label--before { color: #E8B4B0; }
+  .tf-col-label--after  { color: #2D5016; }
+
+  .tf-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 1.25rem;
+  }
+
+  .tf-step {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(248,246,241,0.06);
+    opacity: 0;
+    animation: tf-step-in 0.3s ease-out forwards;
   }
+  .tf-after .tf-step { border-bottom-color: rgba(10,10,10,0.05); }
+  .tf-step:last-child { border-bottom: none; }
 
-  .step-num {
-    width: 24px;
-    height: 24px;
+  /* Stagger delays */
+  .tf-step:nth-child(1) { animation-delay: 0.05s; }
+  .tf-step:nth-child(2) { animation-delay: 0.1s; }
+  .tf-step:nth-child(3) { animation-delay: 0.15s; }
+  .tf-step:nth-child(4) { animation-delay: 0.2s; }
+  .tf-step:nth-child(5) { animation-delay: 0.25s; }
+  .tf-step:nth-child(6) { animation-delay: 0.3s; }
+
+  .tf-num {
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
-    background: rgba(248, 246, 241, 0.1);
+    background: rgba(248,246,241,0.08);
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: 'Inter Variable', sans-serif;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 600;
-    color: rgba(248, 246, 241, 0.6);
+    color: rgba(248,246,241,0.5);
     flex-shrink: 0;
   }
 
-  .check-icon {
-    width: 24px;
-    height: 24px;
+  .tf-check {
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
-    background: rgba(45, 80, 22, 0.1);
+    background: rgba(45,80,22,0.1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -389,154 +447,142 @@
     flex-shrink: 0;
   }
 
-  .before-col .step-text {
+  .tf-before .tf-step-text {
     font-family: 'Inter Variable', sans-serif;
-    font-size: 0.85rem;
-    color: rgba(248, 246, 241, 0.8);
+    font-size: 0.84rem;
+    color: rgba(248,246,241,0.75);
     flex: 1;
   }
 
-  .after-col .step-text {
+  .tf-after .tf-step-text {
     font-family: 'Inter Variable', sans-serif;
-    font-size: 0.85rem;
+    font-size: 0.84rem;
     color: #0A0A0A;
     flex: 1;
   }
 
-  .time-badge {
+  .tf-badge {
     font-family: 'Inter Variable', sans-serif;
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     font-weight: 600;
     padding: 0.2rem 0.5rem;
     border-radius: 4px;
     white-space: nowrap;
     flex-shrink: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
 
-  .before-badge {
-    background: rgba(160, 82, 45, 0.2);
-    color: #A0522D;
-  }
-
-  .before-col .before-badge {
-    background: rgba(160, 82, 45, 0.3);
+  .tf-badge--before {
+    background: rgba(232,180,176,0.15);
     color: #E8B4B0;
   }
 
-  .after-badge {
-    background: rgba(45, 80, 22, 0.1);
+  .tf-badge--after {
+    background: rgba(45,80,22,0.08);
     color: #2D5016;
   }
 
-  .total-row {
+  .tf-total {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     font-family: 'Inter Variable', sans-serif;
     font-size: 0.8rem;
     font-weight: 600;
     padding-top: 1rem;
-    border-top: 1px solid rgba(248, 246, 241, 0.1);
+    border-top: 1px solid rgba(248,246,241,0.08);
   }
 
-  .before-total {
-    color: #A0522D;
-    border-top-color: rgba(248, 246, 241, 0.1);
-  }
+  .tf-total--before { color: #E8B4B0; border-top-color: rgba(248,246,241,0.08); }
+  .tf-total--after  { color: #2D5016; border-top-color: rgba(10,10,10,0.06); }
 
-  .after-total {
-    color: #2D5016;
-    border-top-color: rgba(10, 10, 10, 0.08);
-  }
-
-  .kpi-grid {
+  /* KPIs */
+  .tf-kpis {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
+    gap: 1rem;
   }
 
-  .kpi-card {
-    background: #FFFFFF;
-    border: 1px solid rgba(10, 10, 10, 0.06);
+  .tf-kpi {
+    background: #fff;
+    border: 1px solid rgba(10,10,10,0.06);
     border-radius: 12px;
-    padding: 1.75rem;
+    padding: 1.5rem;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .tf-kpi:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(10,10,10,0.06);
   }
 
-  .kpi-number {
+  .tf-kpi-num {
+    display: block;
     font-family: 'Fraunces Variable', serif;
-    font-size: 2rem;
+    font-size: 1.85rem;
     font-weight: 600;
     color: #E8B4B0;
+    margin-bottom: 0.25rem;
   }
 
-  .kpi-label {
+  .tf-kpi-label {
     font-family: 'Inter Variable', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #0A0A0A;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: rgba(10,10,10,0.55);
   }
 
-  .kpi-support {
-    font-family: 'Inter Variable', sans-serif;
-    font-size: 0.75rem;
-    color: rgba(10, 10, 10, 0.5);
+  /* Animations */
+  @keyframes tf-fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
+  @keyframes tf-step-in {
+    from { opacity: 0; transform: translateX(-6px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  /* Mobile */
   @media (max-width: 768px) {
-    .transformation-section {
-      padding: 4rem 1.25rem;
-    }
-
-    .transformation-headline {
-      font-size: 1.6rem;
-    }
-
-    .tab-strip {
-      gap: 0.35rem;
-    }
-
-    .tab-btn {
-      font-size: 0.75rem;
-      padding: 0.5rem 0.9rem;
-    }
-
-    .panel-grid {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-
-    .divider {
-      width: 100%;
-      height: 1px;
-    }
-
-    .kpi-grid {
-      grid-template-columns: 1fr;
-      gap: 0.75rem;
-    }
-
-    .kpi-card {
-      padding: 1.25rem;
-    }
+    .tf-section { padding: 4rem 1.25rem; }
+    .tf-headline { font-size: 1.6rem; }
+    .tf-tabs { gap: 0.25rem; }
+    .tf-tab { font-size: 0.72rem; padding: 0.45rem 0.8rem; }
+    .tf-compare { grid-template-columns: 1fr; gap: 1.5rem; }
+    .tf-divider { flex-direction: row; padding: 0.5rem 0; }
+    .tf-divider-line { width: auto; height: 1px; flex: 1; }
+    .tf-kpis { grid-template-columns: 1fr; gap: 0.75rem; }
   }
 </style>
 
 <script>
-  (function() {
-    const tabs = document.querySelectorAll('#industry-tabs .tab-btn');
-    const panels = document.querySelectorAll('#tab-panels .tab-panel');
+  (function () {
+    var tabs   = document.querySelectorAll('#tf-tabs .tf-tab');
+    var panels = document.querySelectorAll('#tf-panels .tf-panel');
 
-    tabs.forEach(function(tab) {
-      tab.addEventListener('click', function() {
-        const target = this.getAttribute('data-tab');
+    function activate(target) {
+      tabs.forEach(function (t) { t.classList.remove('tf-tab--active'); });
+      panels.forEach(function (p) { p.classList.remove('tf-panel--active'); });
 
-        tabs.forEach(function(t) { t.classList.remove('active'); });
-        panels.forEach(function(p) { p.classList.remove('active'); });
+      var btn   = document.querySelector('[data-tab="' + target + '"]');
+      var panel = document.querySelector('[data-panel="' + target + '"]');
+      if (btn)   btn.classList.add('tf-tab--active');
+      if (panel) {
+        panel.classList.add('tf-panel--active');
+        // Re-trigger step stagger animation
+        panel.querySelectorAll('.tf-step').forEach(function (step) {
+          step.style.animation = 'none';
+          step.offsetHeight;
+          step.style.animation = '';
+        });
+      }
+    }
 
-        this.classList.add('active');
-        var targetPanel = document.querySelector('[data-panel="' + target + '"]');
-        if (targetPanel) targetPanel.classList.add('active');
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        activate(this.getAttribute('data-tab'));
       });
     });
   })();
