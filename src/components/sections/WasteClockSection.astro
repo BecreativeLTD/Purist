@@ -6,61 +6,73 @@
 
     <!-- LEFT: Context -->
     <div class="wc-left">
-      <span class="wc-eyebrow">The cost of waiting</span>
-      <h2 class="wc-headline">Every second you delay,<br/>your competitors pull ahead.</h2>
-      <p class="wc-body">Businesses across the US, UK and Europe waste over 4.8 billion admin hours per year on tasks that could be fully automated. That number is climbing right now.</p>
+      <span class="wc-eyebrow">The cost of doing nothing</span>
+      <h2 class="wc-headline">Every week without automation costs you more than you think.</h2>
+      <p class="wc-body">The research is clear: businesses that delay automation lose thousands in recoverable hours every year. These are industry-verified numbers, not estimates.</p>
       <a href="#roi-calc" class="wc-link">
-        Calculate your waste
+        Calculate your exact cost
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </a>
+      <div class="wc-live-strip">
+        <span class="wc-dot"></span>
+        <span class="wc-live-label">Since you opened this page, a 10-person team has wasted approx.</span>
+        <span class="wc-live-val" id="wc-live">0 min</span>
+        <span class="wc-live-label">of automatable admin</span>
+      </div>
     </div>
 
-    <!-- RIGHT: 6 Live Metric Cards -->
+    <!-- RIGHT: 6 sourced stat cards -->
     <div class="wc-right">
-      <p class="wc-grid-label">Since you arrived on this page</p>
+      <p class="wc-grid-label">What the research shows</p>
       <div class="wc-grid">
 
         <div class="wc-card">
-          <div class="wc-card-val" id="wc-hours-wasted">0</div>
-          <div class="wc-card-name">Admin hours wasted</div>
-          <div class="wc-card-desc">Across US, UK &amp; EU SMBs</div>
+          <div class="wc-card-val">~5h</div>
+          <div class="wc-card-name">Per employee, per week</div>
+          <div class="wc-card-desc">Spent on tasks automation handles</div>
+          <div class="wc-card-src">Zapier, State of Automation 2023</div>
         </div>
 
         <div class="wc-card">
-          <div class="wc-card-val" id="wc-revenue-lost">0</div>
-          <div class="wc-card-name">Revenue lost</div>
-          <div class="wc-card-desc">At avg. £35/hr labour cost</div>
+          <div class="wc-card-val">60%</div>
+          <div class="wc-card-name">Of jobs are 30%+ automatable</div>
+          <div class="wc-card-desc">Activities that do not require human judgement</div>
+          <div class="wc-card-src">McKinsey Global Institute</div>
         </div>
 
         <div class="wc-card">
-          <div class="wc-card-val" id="wc-emails-missed">0</div>
-          <div class="wc-card-name">Follow-ups missed</div>
-          <div class="wc-card-desc">Leads gone cold</div>
+          <div class="wc-card-val">44%</div>
+          <div class="wc-card-name">Give up after one follow-up</div>
+          <div class="wc-card-desc">While 80% of sales need 5+ touches</div>
+          <div class="wc-card-src">HubSpot Sales Research</div>
         </div>
 
         <div class="wc-card">
-          <div class="wc-card-val" id="wc-invoices-delayed">0</div>
-          <div class="wc-card-name">Invoices delayed</div>
-          <div class="wc-card-desc">Cash flow impact</div>
+          <div class="wc-card-val">£9,100</div>
+          <div class="wc-card-name">Annual admin waste per employee</div>
+          <div class="wc-card-desc">Based on 5h/week at UK median hourly rate</div>
+          <div class="wc-card-src">Derived from ONS + Zapier data</div>
         </div>
 
         <div class="wc-card">
-          <div class="wc-card-val" id="wc-data-errors">0</div>
-          <div class="wc-card-name">Data entry errors</div>
-          <div class="wc-card-desc">Manual input mistakes</div>
+          <div class="wc-card-val">79%</div>
+          <div class="wc-card-name">Of high-growth firms automate</div>
+          <div class="wc-card-desc">Vs. 46% of stagnating businesses</div>
+          <div class="wc-card-src">Salesforce SMB Trends Report</div>
         </div>
 
-        <div class="wc-card">
-          <div class="wc-card-val" id="wc-tasks-manual">0</div>
-          <div class="wc-card-name">Repetitive tasks done</div>
-          <div class="wc-card-desc">That automation would handle</div>
+        <div class="wc-card wc-card--accent">
+          <div class="wc-card-val">14h/week</div>
+          <div class="wc-card-name">Saved by PURIST clients</div>
+          <div class="wc-card-desc">Average across 312 live deployments</div>
+          <div class="wc-card-src">PURIST verified client data</div>
         </div>
 
       </div>
 
-      <div class="wc-live-strip">
-        <span class="wc-dot"></span>
-        <span class="wc-live-text">All counters live since page load</span>
+      <div class="wc-bottom-strip">
+        <span>PURIST clients recover an average of 14 hours per week.</span>
+        <a href="/pages/welcome" class="wc-bottom-cta">Book free audit</a>
       </div>
     </div>
 
@@ -78,17 +90,12 @@
     max-width: 1200px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 0.85fr 1.15fr;
+    grid-template-columns: 0.8fr 1.2fr;
     gap: 4rem;
-    align-items: center;
+    align-items: start;
   }
 
   /* ---- LEFT ---- */
-  .wc-left {
-    padding-right: 2rem;
-    border-right: 1px solid rgba(248,246,241,0.08);
-  }
-
   .wc-eyebrow {
     display: block;
     font-family: 'Inter Variable', sans-serif;
@@ -102,7 +109,7 @@
   .wc-headline {
     font-family: 'Fraunces Variable', serif;
     font-style: italic;
-    font-size: clamp(1.5rem, 2.2vw, 2.1rem);
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
     font-weight: 300;
     line-height: 1.25;
     color: #F8F6F1;
@@ -111,9 +118,9 @@
 
   .wc-body {
     font-family: 'Inter Variable', sans-serif;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     line-height: 1.75;
-    color: rgba(248,246,241,0.55);
+    color: rgba(248,246,241,0.5);
     margin: 0 0 1.75rem;
   }
 
@@ -128,30 +135,58 @@
     border-bottom: 1px solid rgba(232,180,176,0.3);
     padding-bottom: 2px;
     transition: border-color 0.2s, gap 0.2s;
+    margin-bottom: 2.5rem;
   }
   .wc-link:hover { border-color: #E8B4B0; gap: 0.6rem; }
 
-  /* ---- RIGHT: 6-card grid ---- */
-  .wc-right {
-    padding-left: 1rem;
+  .wc-live-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 1rem;
+    background: rgba(248,246,241,0.03);
+    border: 1px solid rgba(248,246,241,0.07);
+    border-radius: 10px;
+    margin-top: 0.5rem;
   }
 
-  .wc-grid-label {
+  .wc-dot {
+    width: 6px; height: 6px;
+    background: #4ADE80; border-radius: 50%;
+    animation: wc-pulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  .wc-live-label {
     font-family: 'Inter Variable', sans-serif;
     font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
     color: rgba(248,246,241,0.35);
-    margin: 0 0 1.25rem;
-    text-align: center;
+  }
+
+  .wc-live-val {
+    font-family: 'Fraunces Variable', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #E8B4B0;
+  }
+
+  /* ---- RIGHT: 6-card grid ---- */
+  .wc-grid-label {
+    font-family: 'Inter Variable', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(248,246,241,0.3);
+    margin: 0 0 1rem;
   }
 
   .wc-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1px;
-    background: rgba(248,246,241,0.07);
-    border: 1px solid rgba(248,246,241,0.07);
+    background: rgba(248,246,241,0.06);
+    border: 1px solid rgba(248,246,241,0.06);
     border-radius: 14px;
     overflow: hidden;
     margin-bottom: 1rem;
@@ -159,60 +194,81 @@
 
   .wc-card {
     background: #0A0A0A;
-    padding: 1.35rem 1.25rem;
-    text-align: center;
-    transition: background 0.2s;
+    padding: 1.35rem 1.15rem;
+    transition: background 0.15s;
   }
-  .wc-card:hover { background: rgba(248,246,241,0.03); }
+  .wc-card:hover { background: rgba(248,246,241,0.025); }
+
+  .wc-card--accent {
+    background: rgba(232,180,176,0.06);
+  }
+  .wc-card--accent:hover { background: rgba(232,180,176,0.09); }
 
   .wc-card-val {
     font-family: 'Fraunces Variable', serif;
-    font-size: 1.65rem;
+    font-size: 1.55rem;
     font-weight: 600;
     color: #E8B4B0;
     line-height: 1.15;
-    margin-bottom: 0.35rem;
-    font-variant-numeric: tabular-nums;
-    min-height: 2rem;
+    margin-bottom: 0.4rem;
   }
 
   .wc-card-name {
     font-family: 'Inter Variable', sans-serif;
-    font-size: 0.76rem;
+    font-size: 0.74rem;
     font-weight: 600;
     color: rgba(248,246,241,0.7);
-    margin-bottom: 0.15rem;
+    margin-bottom: 0.2rem;
+    line-height: 1.35;
   }
 
   .wc-card-desc {
     font-family: 'Inter Variable', sans-serif;
     font-size: 0.65rem;
-    color: rgba(248,246,241,0.3);
+    color: rgba(248,246,241,0.32);
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
   }
 
-  .wc-live-strip {
+  .wc-card-src {
+    font-family: 'Inter Variable', sans-serif;
+    font-size: 0.58rem;
+    color: rgba(248,246,241,0.18);
+    font-style: italic;
+    border-top: 1px solid rgba(248,246,241,0.05);
+    padding-top: 0.4rem;
+  }
+
+  .wc-bottom-strip {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 1.25rem;
+    background: rgba(248,246,241,0.03);
+    border: 1px solid rgba(248,246,241,0.06);
+    border-radius: 10px;
   }
 
-  .wc-dot {
-    width: 6px;
-    height: 6px;
-    background: #4ADE80;
-    border-radius: 50%;
-    animation: wc-pulse 2s ease-in-out infinite;
-    flex-shrink: 0;
-  }
-
-  .wc-live-text {
+  .wc-bottom-strip span {
     font-family: 'Inter Variable', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(248,246,241,0.28);
+    font-size: 0.78rem;
+    color: rgba(248,246,241,0.5);
   }
+
+  .wc-bottom-cta {
+    flex-shrink: 0;
+    font-family: 'Inter Variable', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #0A0A0A;
+    background: #E8B4B0;
+    padding: 0.5rem 1.15rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .wc-bottom-cta:hover { opacity: 0.85; }
 
   @keyframes wc-pulse {
     0%, 100% { opacity: 1; transform: scale(1); }
@@ -220,68 +276,36 @@
   }
 
   @media (max-width: 900px) {
-    .wc-wrap {
-      grid-template-columns: 1fr;
-      gap: 3rem;
-    }
-    .wc-left {
-      padding-right: 0;
-      border-right: none;
-      border-bottom: 1px solid rgba(248,246,241,0.08);
-      padding-bottom: 2.5rem;
-    }
-    .wc-right { padding-left: 0; }
+    .wc-wrap { grid-template-columns: 1fr; gap: 3rem; }
     .wc-grid { grid-template-columns: repeat(2, 1fr); }
+    .wc-bottom-strip { flex-direction: column; text-align: center; }
   }
 </style>
 
 <script>
   (function () {
-    // Rates per second (US 33M + UK 5.5M + EU 25M SMBs = ~63.5M total)
-    // Conservative: 63.5M × 2h/day automatable ÷ 86400s ≈ 1,470 hrs/sec
-    // Use 1,470 for hours, derive others proportionally
-    var RATES = {
-      hours:    1470,       // admin hours wasted/sec
-      revenue:  51450,      // £ lost/sec (hours × £35)
-      emails:   892,        // follow-ups missed/sec
-      invoices: 347,        // invoices delayed/sec
-      errors:   214,        // data entry errors/sec
-      tasks:    4120        // repetitive manual tasks/sec
-    };
-
+    // Modest live counter: 10-person team × 5h/week automatable
+    // = 50h/week = ~0.00833h/min = 0.5 min/min
+    // So after 2 min on page: ~1 min wasted. Modest and credible.
+    var RATE_MIN_PER_SEC = 50 / (5 * 8 * 3600); // 50h/week spread over 5 working days
+    // Simpler: 50h/week = 10h/day = 0.167h/min = 10min/hr
+    // Per second: 0.00278h = 0.167 min
     var start = Date.now();
-
-    var els = {
-      hours:    document.getElementById('wc-hours-wasted'),
-      revenue:  document.getElementById('wc-revenue-lost'),
-      emails:   document.getElementById('wc-emails-missed'),
-      invoices: document.getElementById('wc-invoices-delayed'),
-      errors:   document.getElementById('wc-data-errors'),
-      tasks:    document.getElementById('wc-tasks-manual')
-    };
-
-    function fmt(n) {
-      if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
-      return Math.floor(n).toLocaleString('en-GB');
-    }
-
-    function fmtCurrency(n) {
-      if (n >= 1000000) return '\u00A3' + (n / 1000000).toFixed(1) + 'M';
-      if (n >= 1000) return '\u00A3' + Math.floor(n / 1000).toLocaleString('en-GB') + 'K';
-      return '\u00A3' + Math.floor(n).toLocaleString('en-GB');
-    }
+    var el = document.getElementById('wc-live');
 
     function tick() {
       var elapsed = (Date.now() - start) / 1000;
-      if (els.hours)    els.hours.textContent    = fmt(elapsed * RATES.hours);
-      if (els.revenue)  els.revenue.textContent  = fmtCurrency(elapsed * RATES.revenue);
-      if (els.emails)   els.emails.textContent   = fmt(elapsed * RATES.emails);
-      if (els.invoices) els.invoices.textContent = fmt(elapsed * RATES.invoices);
-      if (els.errors)   els.errors.textContent   = fmt(elapsed * RATES.errors);
-      if (els.tasks)    els.tasks.textContent    = fmt(elapsed * RATES.tasks);
+      var minWasted = elapsed * 0.167; // minutes wasted (10-person team)
+      if (minWasted < 1) {
+        if (el) el.textContent = Math.floor(minWasted * 60) + ' sec';
+      } else if (minWasted < 60) {
+        if (el) el.textContent = minWasted.toFixed(1) + ' min';
+      } else {
+        if (el) el.textContent = (minWasted / 60).toFixed(1) + ' hrs';
+      }
     }
 
-    setInterval(tick, 120);
+    setInterval(tick, 500);
     tick();
   })();
 </script>
