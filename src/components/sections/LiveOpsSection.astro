@@ -46,33 +46,53 @@
           </div>
         </div>
 
-        <!-- Mini sparkline chart -->
+        <!-- Multi-series monitoring chart -->
         <div class="lo-chart-wrap">
           <div class="lo-chart-header">
-            <span class="lo-chart-title">Events / hour (last 24h)</span>
-            <span class="lo-chart-peak">Peak: 3,412/hr</span>
+            <span class="lo-chart-title">System metrics (last 24h)</span>
+            <div class="lo-chart-legend">
+              <span class="lo-legend-item"><span class="lo-legend-dot" style="background:#E8B4B0;"></span>Events/hr</span>
+              <span class="lo-legend-item"><span class="lo-legend-dot" style="background:#4ADE80;"></span>Success rate</span>
+              <span class="lo-legend-item"><span class="lo-legend-dot" style="background:#60A5FA;"></span>Latency (ms)</span>
+            </div>
           </div>
-          <svg class="lo-chart" viewBox="0 0 480 100" preserveAspectRatio="none" id="lo-sparkline">
-            <defs>
-              <linearGradient id="lo-grad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#E8B4B0" stop-opacity="0.2"/>
-                <stop offset="100%" stop-color="#E8B4B0" stop-opacity="0"/>
-              </linearGradient>
-            </defs>
-            <!-- Horizontal grid lines -->
-            <line x1="4" y1="25" x2="476" y2="25" stroke="rgba(248,246,241,0.04)" stroke-width="0.5"/>
-            <line x1="4" y1="50" x2="476" y2="50" stroke="rgba(248,246,241,0.04)" stroke-width="0.5"/>
-            <line x1="4" y1="75" x2="476" y2="75" stroke="rgba(248,246,241,0.04)" stroke-width="0.5"/>
-            <!-- Vertical grid lines -->
-            <line x1="120" y1="8" x2="120" y2="92" stroke="rgba(248,246,241,0.03)" stroke-width="0.5" stroke-dasharray="2,4"/>
-            <line x1="240" y1="8" x2="240" y2="92" stroke="rgba(248,246,241,0.03)" stroke-width="0.5" stroke-dasharray="2,4"/>
-            <line x1="360" y1="8" x2="360" y2="92" stroke="rgba(248,246,241,0.03)" stroke-width="0.5" stroke-dasharray="2,4"/>
-            <!-- Chart elements -->
-            <path class="lo-chart-area" fill="url(#lo-grad)"/>
-            <path class="lo-chart-line" fill="none" stroke="#E8B4B0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <!-- Live dot — clean, small -->
-            <circle class="lo-chart-dot" r="2.5" fill="#E8B4B0"/>
-          </svg>
+          <div class="lo-chart-body">
+            <div class="lo-chart-y-axis">
+              <span>4k</span><span>3k</span><span>2k</span><span>1k</span><span>0</span>
+            </div>
+            <svg class="lo-chart" viewBox="0 0 520 140" id="lo-sparkline">
+              <defs>
+                <linearGradient id="lo-grad-events" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#E8B4B0" stop-opacity="0.15"/>
+                  <stop offset="100%" stop-color="#E8B4B0" stop-opacity="0"/>
+                </linearGradient>
+                <linearGradient id="lo-grad-success" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#4ADE80" stop-opacity="0.08"/>
+                  <stop offset="100%" stop-color="#4ADE80" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <!-- Horizontal grid -->
+              <line x1="0" y1="28" x2="520" y2="28" stroke="rgba(248,246,241,0.04)" stroke-width="0.5"/>
+              <line x1="0" y1="56" x2="520" y2="56" stroke="rgba(248,246,241,0.04)" stroke-width="0.5"/>
+              <line x1="0" y1="84" x2="520" y2="84" stroke="rgba(248,246,241,0.04)" stroke-width="0.5"/>
+              <line x1="0" y1="112" x2="520" y2="112" stroke="rgba(248,246,241,0.04)" stroke-width="0.5"/>
+              <!-- Vertical grid -->
+              <line x1="130" y1="6" x2="130" y2="134" stroke="rgba(248,246,241,0.03)" stroke-width="0.5" stroke-dasharray="2,4"/>
+              <line x1="260" y1="6" x2="260" y2="134" stroke="rgba(248,246,241,0.03)" stroke-width="0.5" stroke-dasharray="2,4"/>
+              <line x1="390" y1="6" x2="390" y2="134" stroke="rgba(248,246,241,0.03)" stroke-width="0.5" stroke-dasharray="2,4"/>
+              <!-- Areas (filled under curves) -->
+              <path id="lo-area-events" fill="url(#lo-grad-events)"/>
+              <path id="lo-area-success" fill="url(#lo-grad-success)"/>
+              <!-- Lines -->
+              <path id="lo-line-events" fill="none" stroke="#E8B4B0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path id="lo-line-success" fill="none" stroke="#4ADE80" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+              <path id="lo-line-latency" fill="none" stroke="#60A5FA" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+              <!-- End dots -->
+              <circle id="lo-dot-events" r="2.5" fill="#E8B4B0"/>
+              <circle id="lo-dot-success" r="2" fill="#4ADE80"/>
+              <circle id="lo-dot-latency" r="2" fill="#60A5FA"/>
+            </svg>
+          </div>
           <div class="lo-chart-labels">
             <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>Now</span>
           </div>
@@ -251,7 +271,7 @@
     color: rgba(248,246,241,0.4); font-weight: 500;
   }
 
-  /* Sparkline chart */
+  /* Multi-series monitoring chart */
   .lo-chart-wrap {
     background: rgba(248,246,241,0.025); border: 1px solid rgba(248,246,241,0.06);
     border-radius: 12px; padding: 1rem 1.25rem 0.75rem;
@@ -263,17 +283,33 @@
     font-family: 'Inter Variable', sans-serif; font-size: 0.65rem;
     letter-spacing: 0.08em; text-transform: uppercase; color: rgba(248,246,241,0.35); font-weight: 600;
   }
-  .lo-chart-peak {
-    font-family: 'Inter Variable', sans-serif; font-size: 0.62rem;
-    color: #E8B4B0; font-weight: 500;
+  .lo-chart-legend {
+    display: flex; align-items: center; gap: 0.85rem;
+  }
+  .lo-legend-item {
+    display: flex; align-items: center; gap: 0.3rem;
+    font-family: 'Inter Variable', sans-serif; font-size: 0.58rem;
+    color: rgba(248,246,241,0.35);
+  }
+  .lo-legend-dot {
+    width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+  }
+  .lo-chart-body {
+    display: flex; gap: 0.4rem;
+  }
+  .lo-chart-y-axis {
+    display: flex; flex-direction: column; justify-content: space-between;
+    font-family: 'Inter Variable', sans-serif; font-size: 0.5rem;
+    color: rgba(248,246,241,0.18); padding: 2px 0; flex-shrink: 0;
+    font-variant-numeric: tabular-nums; min-width: 1.4rem; text-align: right;
   }
   .lo-chart {
-    width: 100%; height: 80px; display: block;
+    width: 100%; height: 120px; display: block; flex: 1;
   }
   .lo-chart-labels {
     display: flex; justify-content: space-between; margin-top: 0.35rem;
     font-family: 'Inter Variable', sans-serif; font-size: 0.58rem;
-    color: rgba(248,246,241,0.2);
+    color: rgba(248,246,241,0.2); padding-left: 1.8rem;
   }
 
   /* Tech Row */
@@ -395,17 +431,10 @@
       if (Math.random() < 0.06) { weekCount++; if (weekEl) weekEl.textContent = weekCount.toLocaleString('en-GB'); }
     }, 1000);
 
-    /* ---- Sparkline with smooth bezier curves ---- */
-    var W = 480, H = 100, PAD = 8;
-    // 48 data points (every 30 min) — realistic with micro-variations
-    var base = [780,820,690,640,580,510,430,380,340,320,360,420,620,890,1240,1640,2080,2480,2840,3120,3280,3380,3410,3412,3390,3290,3180,3100,2960,2870,2750,2640,2510,2380,2260,2120,1990,1860,1720,1580,1440,1320,1200,1080,1000,940,880,860];
-    var data = base.map(function(v) { return v + Math.floor((Math.random() - 0.5) * v * 0.06); });
-    var maxV = Math.max.apply(null, data);
-    var pts = data.map(function (v, i) {
-      return { x: PAD + i * ((W - PAD * 2) / (data.length - 1)), y: H - PAD - (v / maxV) * (H - PAD * 2) };
-    });
+    /* ---- Multi-series chart with smooth bezier curves ---- */
+    var W = 520, H = 140, PAD = 6;
 
-    // Smooth cubic bezier spline through all points
+    // Catmull-Rom spline for smooth curves
     function catmullRom(points, tension) {
       tension = tension || 0.3;
       var d = 'M' + points[0].x.toFixed(1) + ' ' + points[0].y.toFixed(1);
@@ -423,17 +452,62 @@
       return d;
     }
 
-    var lineD = catmullRom(pts, 0.25);
-    var lastPt = pts[pts.length - 1], firstPt = pts[0];
-    var areaD = lineD + ' L' + lastPt.x.toFixed(1) + ' ' + (H - PAD) + ' L' + firstPt.x.toFixed(1) + ' ' + (H - PAD) + ' Z';
+    function toPoints(data, maxV) {
+      return data.map(function(v, i) {
+        return { x: PAD + i * ((W - PAD * 2) / (data.length - 1)), y: H - PAD - (v / maxV) * (H - PAD * 2) };
+      });
+    }
 
-    var svgLine = document.querySelector('.lo-chart-line');
-    var svgArea = document.querySelector('.lo-chart-area');
-    var svgDot  = document.querySelector('.lo-chart-dot');
+    function addNoise(arr, pct) {
+      return arr.map(function(v) { return v + Math.floor((Math.random() - 0.5) * v * pct); });
+    }
 
-    if (svgLine) svgLine.setAttribute('d', lineD);
-    if (svgArea) svgArea.setAttribute('d', areaD);
-    if (svgDot) { svgDot.setAttribute('cx', lastPt.x); svgDot.setAttribute('cy', lastPt.y); }
+    // Series 1: Events/hr (main, prominent) — business hours peak
+    var eventsBase = [780,820,690,640,580,510,430,380,340,320,360,420,620,890,1240,1640,2080,2480,2840,3120,3280,3380,3410,3412,3390,3290,3180,3100,2960,2870,2750,2640,2510,2380,2260,2120,1990,1860,1720,1580,1440,1320,1200,1080,1000,940,880,860];
+    var eventsData = addNoise(eventsBase, 0.05);
+    var eventsMax = 4000;
+
+    // Series 2: Success rate % (high, stable with micro dips) — normalized to same scale
+    var successBase = [99.2,99.4,99.6,99.8,99.9,99.9,99.8,99.7,99.5,99.3,99.4,99.6,99.8,99.9,99.7,99.5,99.3,99.1,99.0,99.2,99.4,99.6,99.8,99.9,99.9,99.8,99.6,99.4,99.3,99.5,99.7,99.9,99.8,99.7,99.5,99.4,99.6,99.8,99.9,99.9,99.8,99.7,99.6,99.8,99.9,99.9,99.8,99.7];
+    var successNorm = successBase.map(function(v) { return ((v - 98) / 2) * eventsMax; });
+
+    // Series 3: Latency ms (low baseline with spikes during peak load)
+    var latencyBase = [82,78,71,65,60,58,62,74,95,118,142,158,167,172,168,162,155,148,140,132,125,118,112,108,104,100,96,92,88,85,82,80,78,76,74,72,71,70,69,68,67,66,65,64,64,65,68,72];
+    var latencyNorm = latencyBase.map(function(v) { return (v / 200) * eventsMax; });
+
+    var eventsPts = toPoints(eventsData, eventsMax);
+    var successPts = toPoints(successNorm, eventsMax);
+    var latencyPts = toPoints(latencyNorm, eventsMax);
+
+    // Draw events line + area
+    var eventsLine = catmullRom(eventsPts, 0.25);
+    var eventsLast = eventsPts[eventsPts.length - 1], eventsFirst = eventsPts[0];
+    var eventsArea = eventsLine + ' L' + eventsLast.x.toFixed(1) + ' ' + (H - PAD) + ' L' + eventsFirst.x.toFixed(1) + ' ' + (H - PAD) + ' Z';
+
+    // Draw success line + area
+    var successLine = catmullRom(successPts, 0.25);
+    var successLast = successPts[successPts.length - 1], successFirst = successPts[0];
+    var successArea = successLine + ' L' + successLast.x.toFixed(1) + ' ' + (H - PAD) + ' L' + successFirst.x.toFixed(1) + ' ' + (H - PAD) + ' Z';
+
+    // Draw latency line (no fill)
+    var latencyLine = catmullRom(latencyPts, 0.25);
+    var latencyLast = latencyPts[latencyPts.length - 1];
+
+    // Apply to SVG
+    var el = function(id) { return document.getElementById(id); };
+    var $lineEvents = el('lo-line-events'), $areaEvents = el('lo-area-events');
+    var $lineSuccess = el('lo-line-success'), $areaSuccess = el('lo-area-success');
+    var $lineLatency = el('lo-line-latency');
+    var $dotEvents = el('lo-dot-events'), $dotSuccess = el('lo-dot-success'), $dotLatency = el('lo-dot-latency');
+
+    if ($lineEvents) $lineEvents.setAttribute('d', eventsLine);
+    if ($areaEvents) $areaEvents.setAttribute('d', eventsArea);
+    if ($lineSuccess) $lineSuccess.setAttribute('d', successLine);
+    if ($areaSuccess) $areaSuccess.setAttribute('d', successArea);
+    if ($lineLatency) $lineLatency.setAttribute('d', latencyLine);
+    if ($dotEvents) { $dotEvents.setAttribute('cx', eventsLast.x); $dotEvents.setAttribute('cy', eventsLast.y); }
+    if ($dotSuccess) { $dotSuccess.setAttribute('cx', successLast.x); $dotSuccess.setAttribute('cy', successLast.y); }
+    if ($dotLatency) { $dotLatency.setAttribute('cx', latencyLast.x); $dotLatency.setAttribute('cy', latencyLast.y); }
 
     /* ---- Event feed ---- */
     var feed = document.getElementById('lo-feed');
