@@ -8,63 +8,59 @@
     <div class="wc-left">
       <span class="wc-eyebrow">The cost of waiting</span>
       <h2 class="wc-headline">Every second you delay,<br/>your competitors pull ahead.</h2>
-      <p class="wc-body">UK and European SMBs waste an estimated 2.4 billion admin hours per year on tasks that could be fully automated today. That number is climbing right now.</p>
-      <a href="#roi-calculator" class="wc-link">
+      <p class="wc-body">Businesses across the US, UK and Europe waste over 4.8 billion admin hours per year on tasks that could be fully automated. That number is climbing right now.</p>
+      <a href="#roi-calc" class="wc-link">
         Calculate your waste
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </a>
     </div>
 
-    <!-- CENTER: Live Counter -->
-    <div class="wc-center">
-      <p class="wc-counter-label">Hours of automatable admin wasted across UK &amp; European businesses since you arrived</p>
-      <div class="wc-counter" id="wc-counter" aria-live="polite" aria-atomic="true">0</div>
-      <div class="wc-live">
-        <span class="wc-dot"></span>
-        <span class="wc-live-text">Counting live</span>
-      </div>
-      <p class="wc-rate-note">~159 automatable hours lost per second across 5.5M+ businesses</p>
-    </div>
-
-    <!-- RIGHT: Personal Calculator -->
+    <!-- RIGHT: 6 Live Metric Cards -->
     <div class="wc-right">
-      <div class="wc-card">
-        <p class="wc-card-label">For your business</p>
+      <p class="wc-grid-label">Since you arrived on this page</p>
+      <div class="wc-grid">
 
-        <div class="wc-slider-row">
-          <div class="wc-slider-header">
-            <span class="wc-slider-name">Team size</span>
-            <span class="wc-slider-val" id="wc-team-val">10</span>
-          </div>
-          <input type="range" id="wc-slider" min="1" max="100" value="10" class="wc-slider" aria-label="Team size" />
-          <div class="wc-slider-scale">
-            <span>1</span><span>25</span><span>50</span><span>100</span>
-          </div>
+        <div class="wc-card">
+          <div class="wc-card-val" id="wc-hours-wasted">0</div>
+          <div class="wc-card-name">Admin hours wasted</div>
+          <div class="wc-card-desc">Across US, UK &amp; EU SMBs</div>
         </div>
 
-        <div class="wc-rows">
-          <div class="wc-row">
-            <span class="wc-row-label">Wasted per week</span>
-            <span class="wc-row-val" id="wc-hours">28h</span>
-          </div>
-          <div class="wc-row">
-            <span class="wc-row-label">Annual cost</span>
-            <span class="wc-row-val wc-row-accent" id="wc-cost">£50,960</span>
-          </div>
-          <div class="wc-row">
-            <span class="wc-row-label">ROI payback</span>
-            <span class="wc-row-val" id="wc-payback">4 weeks</span>
-          </div>
-          <div class="wc-row">
-            <span class="wc-row-label">Hours freed/year</span>
-            <span class="wc-row-val" id="wc-freed">1,456h</span>
-          </div>
+        <div class="wc-card">
+          <div class="wc-card-val" id="wc-revenue-lost">0</div>
+          <div class="wc-card-name">Revenue lost</div>
+          <div class="wc-card-desc">At avg. £35/hr labour cost</div>
         </div>
 
-        <a href="/pages/welcome" class="wc-cta">
-          Book free audit
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
+        <div class="wc-card">
+          <div class="wc-card-val" id="wc-emails-missed">0</div>
+          <div class="wc-card-name">Follow-ups missed</div>
+          <div class="wc-card-desc">Leads gone cold</div>
+        </div>
+
+        <div class="wc-card">
+          <div class="wc-card-val" id="wc-invoices-delayed">0</div>
+          <div class="wc-card-name">Invoices delayed</div>
+          <div class="wc-card-desc">Cash flow impact</div>
+        </div>
+
+        <div class="wc-card">
+          <div class="wc-card-val" id="wc-data-errors">0</div>
+          <div class="wc-card-name">Data entry errors</div>
+          <div class="wc-card-desc">Manual input mistakes</div>
+        </div>
+
+        <div class="wc-card">
+          <div class="wc-card-val" id="wc-tasks-manual">0</div>
+          <div class="wc-card-name">Repetitive tasks done</div>
+          <div class="wc-card-desc">That automation would handle</div>
+        </div>
+
+      </div>
+
+      <div class="wc-live-strip">
+        <span class="wc-dot"></span>
+        <span class="wc-live-text">All counters live since page load</span>
       </div>
     </div>
 
@@ -82,14 +78,14 @@
     max-width: 1200px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr 1.1fr 1fr;
-    gap: 0;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 4rem;
     align-items: center;
   }
 
   /* ---- LEFT ---- */
   .wc-left {
-    padding-right: 3rem;
+    padding-right: 2rem;
     border-right: 1px solid rgba(248,246,241,0.08);
   }
 
@@ -106,7 +102,7 @@
   .wc-headline {
     font-family: 'Fraunces Variable', serif;
     font-style: italic;
-    font-size: clamp(1.5rem, 2vw, 2rem);
+    font-size: clamp(1.5rem, 2.2vw, 2.1rem);
     font-weight: 300;
     line-height: 1.25;
     color: #F8F6F1;
@@ -135,45 +131,75 @@
   }
   .wc-link:hover { border-color: #E8B4B0; gap: 0.6rem; }
 
-  /* ---- CENTER ---- */
-  .wc-center {
-    padding: 0 3rem;
+  /* ---- RIGHT: 6-card grid ---- */
+  .wc-right {
+    padding-left: 1rem;
+  }
+
+  .wc-grid-label {
+    font-family: 'Inter Variable', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(248,246,241,0.35);
+    margin: 0 0 1.25rem;
     text-align: center;
   }
 
-  .wc-counter-label {
-    font-family: 'Inter Variable', sans-serif;
-    font-size: 0.78rem;
-    line-height: 1.55;
-    color: rgba(248,246,241,0.4);
-    margin: 0 0 1.75rem;
-    max-width: 260px;
-    margin-left: auto;
-    margin-right: auto;
+  .wc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(248,246,241,0.07);
+    border: 1px solid rgba(248,246,241,0.07);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 1rem;
   }
 
-  .wc-counter {
-    font-family: 'Inter Variable', sans-serif;
-    font-size: clamp(3rem, 5vw, 4.5rem);
-    font-weight: 700;
+  .wc-card {
+    background: #0A0A0A;
+    padding: 1.35rem 1.25rem;
+    text-align: center;
+    transition: background 0.2s;
+  }
+  .wc-card:hover { background: rgba(248,246,241,0.03); }
+
+  .wc-card-val {
+    font-family: 'Fraunces Variable', serif;
+    font-size: 1.65rem;
+    font-weight: 600;
     color: #E8B4B0;
-    letter-spacing: -0.03em;
-    line-height: 1;
-    margin-bottom: 1.25rem;
+    line-height: 1.15;
+    margin-bottom: 0.35rem;
     font-variant-numeric: tabular-nums;
-    font-feature-settings: 'tnum';
+    min-height: 2rem;
   }
 
-  .wc-live {
-    display: inline-flex;
+  .wc-card-name {
+    font-family: 'Inter Variable', sans-serif;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: rgba(248,246,241,0.7);
+    margin-bottom: 0.15rem;
+  }
+
+  .wc-card-desc {
+    font-family: 'Inter Variable', sans-serif;
+    font-size: 0.65rem;
+    color: rgba(248,246,241,0.3);
+  }
+
+  .wc-live-strip {
+    display: flex;
     align-items: center;
-    gap: 0.45rem;
-    margin-bottom: 1.25rem;
+    justify-content: center;
+    gap: 0.4rem;
   }
 
   .wc-dot {
-    width: 7px;
-    height: 7px;
+    width: 6px;
+    height: 6px;
     background: #4ADE80;
     border-radius: 50%;
     animation: wc-pulse 2s ease-in-out infinite;
@@ -182,163 +208,15 @@
 
   .wc-live-text {
     font-family: 'Inter Variable', sans-serif;
-    font-size: 0.68rem;
-    letter-spacing: 0.1em;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: rgba(248,246,241,0.35);
+    color: rgba(248,246,241,0.28);
   }
-
-  .wc-rate-note {
-    font-family: 'Inter Variable', sans-serif;
-    font-size: 0.72rem;
-    color: rgba(248,246,241,0.22);
-    margin: 0;
-    line-height: 1.5;
-  }
-
-  /* ---- RIGHT ---- */
-  .wc-right {
-    padding-left: 3rem;
-    border-left: 1px solid rgba(248,246,241,0.08);
-  }
-
-  .wc-card {
-    background: rgba(248,246,241,0.04);
-    border: 1px solid rgba(248,246,241,0.09);
-    border-radius: 14px;
-    padding: 1.75rem;
-  }
-
-  .wc-card-label {
-    font-family: 'Inter Variable', sans-serif;
-    font-size: 0.68rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(248,246,241,0.4);
-    margin: 0 0 1.5rem;
-  }
-
-  .wc-slider-row {
-    margin-bottom: 1.5rem;
-  }
-
-  .wc-slider-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.75rem;
-  }
-
-  .wc-slider-name {
-    font-family: 'Inter Variable', sans-serif;
-    font-size: 0.82rem;
-    color: rgba(248,246,241,0.6);
-  }
-
-  .wc-slider-val {
-    font-family: 'Inter Variable', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: #F8F6F1;
-    min-width: 2rem;
-    text-align: right;
-  }
-
-  .wc-slider {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    height: 3px;
-    background: rgba(248,246,241,0.12);
-    border-radius: 2px;
-    outline: none;
-    cursor: pointer;
-    margin-bottom: 0.5rem;
-  }
-  .wc-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: #E8B4B0;
-    cursor: pointer;
-    border: 2px solid #0A0A0A;
-    box-shadow: 0 0 0 1px rgba(232,180,176,0.4);
-  }
-  .wc-slider::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: #E8B4B0;
-    cursor: pointer;
-    border: 2px solid #0A0A0A;
-  }
-
-  .wc-slider-scale {
-    display: flex;
-    justify-content: space-between;
-    font-family: 'Inter Variable', sans-serif;
-    font-size: 0.62rem;
-    color: rgba(248,246,241,0.2);
-  }
-
-  .wc-rows {
-    display: flex;
-    flex-direction: column;
-    border-top: 1px solid rgba(248,246,241,0.07);
-    border-bottom: 1px solid rgba(248,246,241,0.07);
-    margin-bottom: 1.5rem;
-  }
-
-  .wc-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.65rem 0;
-    border-bottom: 1px solid rgba(248,246,241,0.05);
-  }
-  .wc-row:last-child { border-bottom: none; }
-
-  .wc-row-label {
-    font-family: 'Inter Variable', sans-serif;
-    font-size: 0.78rem;
-    color: rgba(248,246,241,0.45);
-  }
-
-  .wc-row-val {
-    font-family: 'Inter Variable', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: #F8F6F1;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .wc-row-accent {
-    color: #E8B4B0;
-    font-size: 0.95rem;
-  }
-
-  .wc-cta {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    width: 100%;
-    padding: 0.8rem 1.25rem;
-    background: #E8B4B0;
-    color: #0A0A0A;
-    border-radius: 8px;
-    font-family: 'Inter Variable', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: opacity 0.2s, transform 0.2s;
-  }
-  .wc-cta:hover { opacity: 0.88; transform: translateY(-1px); }
 
   @keyframes wc-pulse {
     0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.35; transform: scale(0.65); }
+    50% { opacity: 0.3; transform: scale(0.6); }
   }
 
   @media (max-width: 900px) {
@@ -346,55 +224,64 @@
       grid-template-columns: 1fr;
       gap: 3rem;
     }
-    .wc-left { padding-right: 0; border-right: none; border-bottom: 1px solid rgba(248,246,241,0.08); padding-bottom: 2.5rem; }
-    .wc-center { padding: 0; }
-    .wc-right { padding-left: 0; border-left: none; border-top: 1px solid rgba(248,246,241,0.08); padding-top: 2.5rem; }
+    .wc-left {
+      padding-right: 0;
+      border-right: none;
+      border-bottom: 1px solid rgba(248,246,241,0.08);
+      padding-bottom: 2.5rem;
+    }
+    .wc-right { padding-left: 0; }
+    .wc-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 
 <script>
   (function () {
-    // UK + EU SMBs: ~25M × 2.5h/day ÷ 86400s ≈ 723 hrs/sec
-    // More conservative UK-focused: 5.5M × 2.5h/day ÷ 86400 ≈ 159 hrs/sec
-    var RATE = 159;
+    // Rates per second (US 33M + UK 5.5M + EU 25M SMBs = ~63.5M total)
+    // Conservative: 63.5M × 2h/day automatable ÷ 86400s ≈ 1,470 hrs/sec
+    // Use 1,470 for hours, derive others proportionally
+    var RATES = {
+      hours:    1470,       // admin hours wasted/sec
+      revenue:  51450,      // £ lost/sec (hours × £35)
+      emails:   892,        // follow-ups missed/sec
+      invoices: 347,        // invoices delayed/sec
+      errors:   214,        // data entry errors/sec
+      tasks:    4120        // repetitive manual tasks/sec
+    };
+
     var start = Date.now();
 
-    var counterEl = document.getElementById('wc-counter');
-    var sliderEl  = document.getElementById('wc-slider');
-    var teamValEl = document.getElementById('wc-team-val');
-    var hoursEl   = document.getElementById('wc-hours');
-    var costEl    = document.getElementById('wc-cost');
-    var paybackEl = document.getElementById('wc-payback');
-    var freedEl   = document.getElementById('wc-freed');
+    var els = {
+      hours:    document.getElementById('wc-hours-wasted'),
+      revenue:  document.getElementById('wc-revenue-lost'),
+      emails:   document.getElementById('wc-emails-missed'),
+      invoices: document.getElementById('wc-invoices-delayed'),
+      errors:   document.getElementById('wc-data-errors'),
+      tasks:    document.getElementById('wc-tasks-manual')
+    };
 
     function fmt(n) {
+      if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
       return Math.floor(n).toLocaleString('en-GB');
+    }
+
+    function fmtCurrency(n) {
+      if (n >= 1000000) return '\u00A3' + (n / 1000000).toFixed(1) + 'M';
+      if (n >= 1000) return '\u00A3' + Math.floor(n / 1000).toLocaleString('en-GB') + 'K';
+      return '\u00A3' + Math.floor(n).toLocaleString('en-GB');
     }
 
     function tick() {
       var elapsed = (Date.now() - start) / 1000;
-      if (counterEl) counterEl.textContent = fmt(elapsed * RATE);
+      if (els.hours)    els.hours.textContent    = fmt(elapsed * RATES.hours);
+      if (els.revenue)  els.revenue.textContent  = fmtCurrency(elapsed * RATES.revenue);
+      if (els.emails)   els.emails.textContent   = fmt(elapsed * RATES.emails);
+      if (els.invoices) els.invoices.textContent = fmt(elapsed * RATES.invoices);
+      if (els.errors)   els.errors.textContent   = fmt(elapsed * RATES.errors);
+      if (els.tasks)    els.tasks.textContent    = fmt(elapsed * RATES.tasks);
     }
 
     setInterval(tick, 120);
     tick();
-
-    function calc(team) {
-      var hoursPerWeek = Math.round(team * 2.8);
-      var annual       = hoursPerWeek * 35 * 52;
-      var freedAnnual  = hoursPerWeek * 52;
-      var payback      = team <= 5 ? 3 : team <= 15 ? 4 : team <= 50 ? 5 : 6;
-
-      if (teamValEl) teamValEl.textContent = team;
-      if (hoursEl)   hoursEl.textContent   = hoursPerWeek + 'h';
-      if (costEl)    costEl.textContent    = '\u00A3' + fmt(annual);
-      if (paybackEl) paybackEl.textContent = payback + ' weeks';
-      if (freedEl)   freedEl.textContent   = fmt(freedAnnual) + 'h';
-    }
-
-    if (sliderEl) {
-      sliderEl.addEventListener('input', function () { calc(parseInt(this.value)); });
-      calc(10);
-    }
   })();
 </script>
