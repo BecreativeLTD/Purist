@@ -560,6 +560,20 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
 </style>
 
 <script is:inline>
+ // Preview success state with ?preview=success (for testing without submitting)
+ (function() {
+   if (new URLSearchParams(window.location.search).get('preview') === 'success') {
+     var demoData = {
+       name: 'Sarah Whitfield', company: 'Whitfield & Co', business_type: 'legal',
+       team_size: '6-15', pain_point: 'billing', tools: 'Clio, Google Workspace, Xero',
+       budget: '2k-5k', message: '',
+     };
+     populateSuccess(demoData);
+     document.getElementById('audit-form').style.display = 'none';
+     document.getElementById('form-success').classList.remove('hidden');
+   }
+ })();
+
  // Read ?skill= param and surface it in the form
  (function() {
    var skill = new URLSearchParams(window.location.search).get('skill');
