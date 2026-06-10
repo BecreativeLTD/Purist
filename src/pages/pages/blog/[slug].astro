@@ -177,7 +177,11 @@ const howToSteps: { name: string; text: string }[] = (() => {
    display: grid;
    grid-template-columns: 1fr minmax(0,660px) minmax(0,220px) 1fr;
    gap: 0 3rem;
-   align-items: start;
+   align-items: start; /* keep article + spacers at top */
+ }
+ /* aside must fill grid cell height so sticky works */
+ #article-grid aside {
+   align-self: stretch;
  }
  @media (max-width: 1023px) {
    #article-grid {
