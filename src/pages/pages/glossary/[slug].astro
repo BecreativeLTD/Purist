@@ -50,6 +50,13 @@ const color = catColors[t.cat] ?? '#0A0A0A';
 const colorBg = `${color}12`;
 const colorBorder = `${color}28`;
 
+// On the dark hero, very dark category colors (#0A0A0A, #2D5016) are invisible.
+// Use brand pink as a legible fallback for dark-on-dark situations.
+const DARK_COLORS = ['#0A0A0A', '#2D5016'];
+const heroColor = DARK_COLORS.includes(color) ? '#E8B4B0' : color;
+const heroColorBg = `${heroColor}22`;
+const heroColorBorder = `${heroColor}40`;
+
 // Find related terms that exist in our data
 const relatedTermObjects = t.related
  .map(name => terms.find(x => x.term === name || x.term.startsWith(name)))
@@ -142,12 +149,12 @@ const metaDesc = t.def.slice(0, 155).replace(/\.$/, '') + (t.def.length > 155 ? 
 
      <!-- Top meta -->
      <div class="flex items-center gap-3 flex-wrap mb-6">
-       <span class="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full" style={`background:${colorBg};color:${color};border:1px solid ${colorBorder};`}>
+       <span class="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full" style={`background:${heroColorBg};color:${heroColor};border:1px solid ${heroColorBorder};`}>
          {catLabels[t.cat] ?? t.cat}
        </span>
        <div class="flex items-center gap-1.5">
          {[1,2,3].map(d => (
-           <span class="w-2 h-2 rounded-full" style={d <= t.complexity ? `background:${color};` : 'background:rgba(255,255,255,0.15);'}></span>
+           <span class="w-2 h-2 rounded-full" style={d <= t.complexity ? `background:${heroColor};` : 'background:rgba(255,255,255,0.15);'}></span>
          ))}
          <span class="text-[10px] text-white/40 ml-1">{complexityLabel[t.complexity]}</span>
        </div>
@@ -166,7 +173,7 @@ const metaDesc = t.def.slice(0, 155).replace(/\.$/, '') + (t.def.length > 155 ? 
      <!-- Stat (if exists) -->
      {t.stat && (
        <div class="mt-8 inline-flex items-center gap-4 bg-white/5 border border-white/10 rounded-card px-5 py-4">
-         <p class="font-display text-3xl leading-none" style={`color:${color};`}>{t.stat.value}</p>
+         <p class="font-display text-3xl leading-none" style={`color:${heroColor};`}>{t.stat.value}</p>
          <div>
            <p class="text-sm text-white/70">{t.stat.label}</p>
            <p class="text-[10px] text-white/30 uppercase tracking-wider mt-0.5">{t.stat.source}</p>
