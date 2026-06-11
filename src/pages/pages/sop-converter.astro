@@ -242,10 +242,14 @@ When a new lead fills our contact form on the website, our team manually checks 
             desc: 'Benchmarks the workflow against similar deployments to produce a time-saved and cost-saved estimate based on real data.'
           },
         ].map(({ n, title, desc }) => (
-          <div class="relative flex flex-col gap-2 rounded-[16px] border p-5" style="background:rgba(255,255,255,0.02);border-color:rgba(232,180,176,0.10);">
-            <h3 class="text-[14px] font-semibold tracking-[-0.01em] text-white">{title}</h3>
-            <p class="text-[12px] leading-relaxed flex-1" style="color:rgba(255,255,255,0.40);">{desc}</p>
-            <div class="font-display leading-none mt-3 select-none" style="font-size:3.5rem;color:#E8B4B0;opacity:0.55;">{n}</div>
+          <div class="relative overflow-hidden rounded-[16px] border p-5 min-h-[220px] flex flex-col justify-between" style="background:rgba(255,255,255,0.02);border-color:rgba(232,180,176,0.10);">
+            <!-- text content sits above the number -->
+            <div class="relative z-10">
+              <h3 class="text-[14px] font-semibold tracking-[-0.01em] text-white mb-2">{title}</h3>
+              <p class="text-[12px] leading-relaxed" style="color:rgba(255,255,255,0.40);">{desc}</p>
+            </div>
+            <!-- large number as background layer -->
+            <div class="absolute bottom-[-0.6rem] left-2 select-none pointer-events-none font-display leading-none" style="font-size:7rem;color:#E8B4B0;opacity:0.18;">{n}</div>
           </div>
         ))}
       </div>
