@@ -634,6 +634,22 @@ function showResult() {
       '<p class="text-[10px]" style="color:rgba(255,255,255,0.25);">Automating 60% of this returns <strong style="color:rgba(239,68,68,0.75);">£' + annualSaving.toLocaleString('en-GB') + ' back per year</strong></p>' +
     '</div>';
 
+  // Stat grid (big font-display numbers like SOP results)
+  var statGridHtml =
+    '<div class="grid grid-cols-2 gap-3 mb-4">' +
+    [
+      { val: pct + '/100',                              label: 'Maturity score',         color: levelColor },
+      { val: hrsLost + 'h/wk',                         label: 'Hours lost to manual work', color: 'rgba(255,255,255,0.85)' },
+      { val: '\u00a3' + annualCost.toLocaleString('en-GB'), label: 'Annual manual cost',   color: '#7B68EE' },
+      { val: '\u00a3' + annualSaving.toLocaleString('en-GB') + '/yr', label: 'Potential annual return', color: '#4ade80' },
+    ].map(function(s, i) {
+      return '<div class="rounded-[20px] p-5 flex flex-col justify-between" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);min-height:120px;animation:am-result-in 0.5s ease-out ' + (i*0.08) + 's both;">' +
+        '<p class="font-display text-[1.9rem] leading-none tracking-[-0.025em]" style="color:' + s.color + ';">' + s.val + '</p>' +
+        '<p class="text-[9px] uppercase tracking-[0.18em] font-bold mt-3" style="color:rgba(255,255,255,0.28);">' + s.label + '</p>' +
+      '</div>';
+    }).join('') +
+    '</div>';
+
   // Quick wins from 2 weakest dimensions
   var dimPctsRanked = [];
   for (var d = 0; d < 5; d++) dimPctsRanked.push({ d:d, pct:dimPctsForRadar[d] });
@@ -654,6 +670,9 @@ function showResult() {
   quickWinsHtml += '</div></div>';
 
   res.innerHTML = '<div class="max-w-2xl mx-auto" style="animation:am-result-in 0.5s ease-out;">' +
+
+    // Stat grid — big font-display numbers
+    statGridHtml +
 
     // Score hero + radar chart
     '<div class="rounded-[24px] p-6 border mb-4 relative overflow-hidden" style="background:rgba(255,255,255,0.025);border-color:rgba(255,255,255,0.07);">' +
