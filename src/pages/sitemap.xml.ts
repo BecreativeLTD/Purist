@@ -54,6 +54,8 @@ const pages = [
  { url: '/pages/refer',                         changefreq: 'monthly', priority: '0.5' },
  { url: '/pages/ambassador-program',            changefreq: 'monthly', priority: '0.5' },
  { url: '/pages/ai-readiness',                  changefreq: 'monthly', priority: '0.6' },
+ { url: '/pages/fable-5',                       changefreq: 'monthly', priority: '0.7' },
+ { url: '/pages/docs',                          changefreq: 'monthly', priority: '0.6' },
  { url: '/pages/status',                        changefreq: 'daily', priority: '0.4' },
  { url: '/pages/returns',                       changefreq: 'monthly', priority: '0.4' },
  { url: '/pages/privacy-policy',                changefreq: 'monthly', priority: '0.3' },
