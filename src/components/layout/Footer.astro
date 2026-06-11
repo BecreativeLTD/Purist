@@ -151,7 +151,7 @@ const columns = [
  <div class="relative -mt-4 select-none pointer-events-none">
    <div class="container-x">
      <p
-       class="font-display font-medium leading-[0.85] tracking-[-0.02em] text-brand-pink/70"
+       class="font-display font-medium leading-[0.85] tracking-[-0.02em] footer-wordmark-shimmer"
        style="font-size: clamp(6rem, 22vw, 22rem);"
        aria-hidden="true"
      >
@@ -159,6 +159,29 @@ const columns = [
      </p>
    </div>
  </div>
+
+ <style>
+   .footer-wordmark-shimmer {
+     background: linear-gradient(
+       115deg,
+       rgba(232,180,176,0.55) 0%,
+       rgba(255,255,255,0.75) 25%,
+       rgba(164,139,250,0.55) 50%,
+       rgba(232,180,176,0.55) 75%,
+       rgba(255,255,255,0.7) 100%
+     );
+     background-size: 300% 300%;
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+     background-clip: text;
+     animation: footer-shimmer 8s ease-in-out infinite;
+   }
+   @keyframes footer-shimmer {
+     0%   { background-position: 0% 50%; }
+     50%  { background-position: 100% 50%; }
+     100% { background-position: 0% 50%; }
+   }
+ </style>
 
  <!-- FDA disclaimer in bordered box -->
  <div class="container-x relative z-10 pb-10">
