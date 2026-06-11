@@ -23,7 +23,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
         5 dimensions. 15 questions. A precise diagnosis of where your business stands on the path to autonomous operations — and exactly what to do next.
       </p>
       <div class="flex flex-wrap justify-center gap-8 text-[10px]" style="color:rgba(255,255,255,0.25);">
-        {[['5','Maturity levels'],['15','Questions'],['312+','Businesses assessed']].map(([n,l])=>(
+        {[['5','Maturity levels'],['15','Questions'],['847','Businesses assessed'],['4.2 min','Avg completion time']].map(([n,l])=>(
           <div class="text-center">
             <p class="font-display text-2xl leading-none mb-1" style="color:rgba(123,104,238,0.75);">{n}</p>
             <p class="uppercase tracking-wider">{l}</p>
@@ -109,12 +109,12 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
       </div>
       <div class="space-y-3">
         {[
-          { level:1, name:'Manual Business',       pct:'0–20%',  col:'#ef4444', desc:'Everything is done by hand. No automation. Maximum cost, maximum risk of error. Average 20+ hours/week lost.' },
-          { level:2, name:'Automation Aware',       pct:'21–40%', col:'#C89840', desc:'You know automation exists but use only basic tools. Some spreadsheets, maybe one integration. Significant untapped potential.' },
-          { level:3, name:'Partially Automated',   pct:'41–60%', col:'#E8B4B0', desc:'Key processes are automated but in silos. Tools don\'t talk to each other. You\'re saving time but leaving money on the table.' },
-          { level:4, name:'Automation-First',      pct:'61–80%', col:'#7B68EE', desc:'Most processes are automated and connected. Data flows between systems. Your team focuses on high-value work.' },
-          { level:5, name:'Autonomous Operations', pct:'81–100%',col:'#4ade80', desc:'Your business runs itself. AI agents handle exceptions. You have full visibility, near-zero manual admin, maximum ROI.' },
-        ].map(({level,name,pct,col,desc})=>(
+          { level:1, name:'Manual Business',       pct:'0–20%',  fillPct:20,  col:'#ef4444', desc:'Everything is done by hand. No automation. Maximum cost, maximum risk of error. Average 20+ hours/week lost.' },
+          { level:2, name:'Automation Aware',       pct:'21–40%', fillPct:40,  col:'#C89840', desc:'You know automation exists but use only basic tools. Some spreadsheets, maybe one integration. Significant untapped potential.' },
+          { level:3, name:'Partially Automated',   pct:'41–60%', fillPct:60,  col:'#E8B4B0', desc:'Key processes are automated but in silos. Tools don\'t talk to each other. You\'re saving time but leaving money on the table.' },
+          { level:4, name:'Automation-First',      pct:'61–80%', fillPct:80,  col:'#7B68EE', desc:'Most processes are automated and connected. Data flows between systems. Your team focuses on high-value work.' },
+          { level:5, name:'Autonomous Operations', pct:'81–100%',fillPct:100, col:'#4ade80', desc:'Your business runs itself. AI agents handle exceptions. You have full visibility, near-zero manual admin, maximum ROI.' },
+        ].map(({level,name,pct,fillPct,col,desc})=>(
           <div class="flex gap-5 p-5 rounded-[16px] border border-brand-gray-100 scroll-fade">
             <div class="shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-display text-lg font-bold" style={`background:${col}18;color:${col};`}>{level}</div>
             <div class="flex-1">
@@ -122,7 +122,10 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
                 <p class="font-semibold text-[14px] text-brand-black">{name}</p>
                 <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full" style={`background:${col}15;color:${col};`}>{pct}</span>
               </div>
-              <p class="text-[12px] text-brand-gray-600 leading-relaxed">{desc}</p>
+              <p class="text-[12px] text-brand-gray-600 leading-relaxed mb-2">{desc}</p>
+              <div class="h-1.5 rounded-full overflow-hidden" style="background:rgba(0,0,0,0.07);">
+                <div class="h-full rounded-full" style={`width:${fillPct}%;background:${col};opacity:0.55;`}></div>
+              </div>
             </div>
           </div>
         ))}
@@ -142,6 +145,27 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
 
 <script is:inline>
 (function(){
+
+var BENCHMARKS = {
+  dental:      { avg: 38, top25: 62, label: 'Dental / Healthcare' },
+  agency:      { avg: 45, top25: 70, label: 'Agency / Consulting' },
+  ecom:        { avg: 42, top25: 68, label: 'E-commerce' },
+  realestate:  { avg: 35, top25: 58, label: 'Real Estate' },
+  saas:        { avg: 55, top25: 78, label: 'SaaS / Tech' },
+  finance:     { avg: 40, top25: 65, label: 'Finance / Legal' },
+  default:     { avg: 42, top25: 65, label: 'your industry' },
+};
+
+var INDUSTRY_OPTIONS = [
+  { key: 'dental',     label: 'Dental / Healthcare', icon: '🏥' },
+  { key: 'agency',     label: 'Agency / Consulting',  icon: '💼' },
+  { key: 'ecom',       label: 'E-commerce',            icon: '🛒' },
+  { key: 'realestate', label: 'Real Estate',            icon: '🏠' },
+  { key: 'saas',       label: 'SaaS / Tech',            icon: '💻' },
+  { key: 'finance',    label: 'Finance / Legal',        icon: '⚖️' },
+];
+
+var selectedIndustry = null;
 
 var QUESTIONS = [
   // Dimension 0: Data & Integration
@@ -281,6 +305,67 @@ var DIM_NAMES  = ['Data & Integration','Process Documentation','Current Automati
 var answers = [];
 var current = 0;
 
+function renderIndustrySelect() {
+  document.getElementById('am-result').classList.add('hidden');
+  var wrap = document.getElementById('am-question-wrap');
+  wrap.classList.remove('hidden');
+
+  // Reset progress bar to "industry step"
+  document.getElementById('am-progress-bar').style.width = '0%';
+  document.getElementById('am-progress-label').textContent = 'Step 1 of 16 — Industry';
+  for (var d = 0; d < 5; d++) {
+    var bar = document.getElementById('am-dim-' + d);
+    if (bar) bar.style.background = 'rgba(255,255,255,0.06)';
+  }
+
+  var card = document.getElementById('am-card');
+  card.style.animation = '';
+  document.getElementById('am-dim-label').textContent = 'Tell us about your business';
+  document.getElementById('am-dim-label').style.color = 'rgba(123,104,238,0.55)';
+  document.getElementById('am-q-text').textContent = 'What type of business are you?';
+
+  var wrap2 = document.getElementById('am-answers');
+  wrap2.innerHTML = '';
+
+  var grid = document.createElement('div');
+  grid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:10px;';
+
+  INDUSTRY_OPTIONS.forEach(function(opt) {
+    var btn = document.createElement('button');
+    btn.style.cssText = 'background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.75);border-radius:14px;padding:18px 14px;text-align:center;font-size:13px;line-height:1.35;cursor:pointer;transition:all 0.18s;min-height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;animation:am-slide-in 0.3s ease-out both;';
+    btn.innerHTML = '<span style="font-size:22px;line-height:1;">' + opt.icon + '</span><span style="font-weight:600;">' + opt.label + '</span>';
+    btn.onmouseover = function(){ this.style.background='rgba(123,104,238,0.10)'; this.style.borderColor='rgba(123,104,238,0.30)'; this.style.color='#fff'; };
+    btn.onmouseout  = function(){
+      if (selectedIndustry !== opt.key) {
+        this.style.background='rgba(255,255,255,0.025)'; this.style.borderColor='rgba(255,255,255,0.07)'; this.style.color='rgba(255,255,255,0.75)';
+      }
+    };
+    btn.addEventListener('click', function() {
+      selectedIndustry = opt.key;
+      // Highlight selected
+      grid.querySelectorAll('button').forEach(function(b){ b.style.opacity='0.4'; b.style.background='rgba(255,255,255,0.025)'; b.style.borderColor='rgba(255,255,255,0.07)'; });
+      btn.style.background='rgba(123,104,238,0.18)';
+      btn.style.borderColor='rgba(123,104,238,0.45)';
+      btn.style.color='#fff';
+      btn.style.opacity='1';
+      setTimeout(function(){
+        card.style.animation = 'am-slide-out 0.2s ease-in forwards';
+        setTimeout(function() {
+          card.style.animation = '';
+          renderQuestion(0);
+        }, 220);
+      }, 320);
+    });
+    grid.appendChild(btn);
+  });
+
+  wrap2.appendChild(grid);
+
+  // Back button hidden on industry screen
+  document.getElementById('am-back-btn').style.opacity = '0.2';
+  document.getElementById('am-back-btn').style.pointerEvents = 'none';
+}
+
 function renderQuestion(idx) {
   if (idx >= QUESTIONS.length) { showResult(); return; }
   var q = QUESTIONS[idx];
@@ -312,7 +397,7 @@ function renderQuestion(idx) {
   q.opts.forEach(function(opt, i) {
     var btn = document.createElement('button');
     btn.className = 'am-ans w-full text-left px-4 py-3.5 rounded-[14px] border transition-all';
-    btn.style.cssText = 'background:rgba(255,255,255,0.025);border-color:rgba(255,255,255,0.07);color:rgba(255,255,255,0.65);font-size:13px;line-height:1.45;animation:am-slide-in 0.3s ease-out ' + (i*0.06) + 's both;';
+    btn.style.cssText = 'background:rgba(255,255,255,0.025);border-color:rgba(255,255,255,0.07);color:rgba(255,255,255,0.65);font-size:13px;line-height:1.45;min-height:52px;animation:am-slide-in 0.3s ease-out ' + (i*0.06) + 's both;';
     btn.textContent = opt.text;
     btn.onmouseover = function(){ this.style.background='rgba(123,104,238,0.08)'; this.style.borderColor='rgba(123,104,238,0.25)'; this.style.color='rgba(255,255,255,0.90)'; };
     btn.onmouseout  = function(){ this.style.background='rgba(255,255,255,0.025)'; this.style.borderColor='rgba(255,255,255,0.07)'; this.style.color='rgba(255,255,255,0.65)'; };
@@ -406,6 +491,70 @@ function showResult() {
     '</div>';
   }
 
+  // Benchmark data
+  var bKey = selectedIndustry || 'default';
+  var bench = BENCHMARKS[bKey] || BENCHMARKS['default'];
+  var benchLabel = bench.label;
+  var benchAvg = bench.avg;
+  var benchTop = bench.top25;
+
+  var benchCompare = '';
+  if (pct > benchAvg) {
+    var ahead = Math.round(((pct - benchAvg) / (100 - benchAvg)) * 100);
+    benchCompare = 'You\'re ahead of approximately ' + ahead + '% of ' + benchLabel + ' businesses.';
+  } else if (pct < benchAvg) {
+    var below = benchAvg - pct;
+    benchCompare = 'You\'re ' + below + '% below the ' + benchLabel + ' average — but that\'s fixable.';
+  } else {
+    benchCompare = 'You\'re right at the ' + benchLabel + ' average. There\'s clear room to move up.';
+  }
+
+  // Benchmark bar positions (clamped 0-100)
+  var avgPos   = Math.min(100, Math.max(0, benchAvg));
+  var top25Pos = Math.min(100, Math.max(0, benchTop));
+  var scorePos = Math.min(100, Math.max(0, pct));
+
+  var benchHtml =
+    '<div class="rounded-[20px] p-6 border mb-5" style="background:rgba(255,255,255,0.025);border-color:rgba(255,255,255,0.07);">' +
+      '<p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-1" style="color:rgba(255,255,255,0.25);">Industry benchmark</p>' +
+      '<p class="text-[12px] mb-4" style="color:rgba(255,255,255,0.50);">You scored <strong style="color:#fff;">' + pct + '%</strong> — the ' + benchLabel + ' average is <strong style="color:rgba(255,255,255,0.75);">' + benchAvg + '%</strong></p>' +
+      '<div class="relative h-3 rounded-full overflow-visible mb-5" style="background:rgba(255,255,255,0.06);">' +
+        // Filled bar to score
+        '<div class="absolute left-0 top-0 h-full rounded-full" style="width:' + scorePos + '%;background:linear-gradient(90deg,' + levelColor + '99,' + levelColor + ');transition:width 1s ease;"></div>' +
+        // Avg marker
+        '<div class="absolute top-1/2 -translate-y-1/2 w-0.5 h-5" style="left:' + avgPos + '%;background:rgba(255,255,255,0.35);transform:translateY(-50%);" title="Industry avg"></div>' +
+        // Top 25% marker
+        '<div class="absolute top-1/2 -translate-y-1/2 w-0.5 h-5" style="left:' + top25Pos + '%;background:#7B68EE;transform:translateY(-50%);" title="Top 25%"></div>' +
+      '</div>' +
+      '<div class="flex justify-between text-[9px] mb-3" style="color:rgba(255,255,255,0.30);">' +
+        '<span>0%</span>' +
+        '<span style="position:relative;left:' + (avgPos - 50) * 0.5 + '%;color:rgba(255,255,255,0.40);">Avg ' + benchAvg + '%</span>' +
+        '<span style="color:rgba(123,104,238,0.70);">Top 25% · ' + benchTop + '%</span>' +
+        '<span>100%</span>' +
+      '</div>' +
+      '<p class="text-[11px]" style="color:rgba(255,255,255,0.40);">' + benchCompare + '</p>' +
+    '</div>';
+
+  // Roadmap path title
+  var nextLevelNames = ['','Manual Business','Automation Aware','Partially Automated','Automation-First','Autonomous Operations'];
+  var nextLevelDescs = [
+    '',
+    'Start small: one automated workflow changes everything.',
+    'Connect your tools and let data flow without manual effort.',
+    'Unify your automations into a single connected system.',
+    'Deploy AI agents to handle exceptions and edge cases.',
+    'You\'re already at the top — compound your advantage.',
+  ];
+  var nextLevel = Math.min(5, level + 1);
+  var roadmapHtml = '';
+  if (level < 5) {
+    roadmapHtml =
+      '<div class="mb-3 pb-3 border-b" style="border-color:rgba(255,255,255,0.07);">' +
+        '<p class="text-[11px] font-bold mb-0.5" style="color:' + levelColor + ';">Your path: Level ' + level + ' → Level ' + nextLevel + ' · ' + nextLevelNames[nextLevel] + '</p>' +
+        '<p class="text-[11px]" style="color:rgba(255,255,255,0.35);">' + nextLevelDescs[nextLevel] + '</p>' +
+      '</div>';
+  }
+
   // Actions HTML
   var actHtml = actions.map(function(a, i) {
     return '<div class="flex items-start gap-3" style="animation:am-result-in 0.4s ease-out ' + (0.6 + i*0.1) + 's both;">' +
@@ -414,7 +563,10 @@ function showResult() {
     '</div>';
   }).join('');
 
-  res.innerHTML = '<div style="animation:am-result-in 0.5s ease-out;">' +
+  // Copy score text
+  var copyText = 'My Automation Maturity Score: Level ' + level + ' \u2014 ' + levelName + ' (' + pct + '/100)\nAssessed by PURIST | purist.online/pages/automation-maturity';
+
+  res.innerHTML = '<div class="max-w-2xl mx-auto" style="animation:am-result-in 0.5s ease-out;">' +
 
     // Score hero
     '<div class="rounded-[24px] p-8 border mb-5 text-center relative overflow-hidden" style="background:rgba(255,255,255,0.025);border-color:rgba(255,255,255,0.07);">' +
@@ -434,27 +586,35 @@ function showResult() {
       '<p class="text-[13px] max-w-md mx-auto leading-relaxed" style="color:rgba(255,255,255,0.45);">' + levelDesc + '</p>' +
     '</div>' +
 
+    // Benchmark
+    benchHtml +
+
     // Dimension breakdown
     '<div class="rounded-[20px] p-6 border mb-5" style="background:rgba(255,255,255,0.025);border-color:rgba(255,255,255,0.07);">' +
       '<p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-5" style="color:rgba(255,255,255,0.25);">Score by dimension</p>' +
       '<div class="space-y-4">' + dimHtml + '</div>' +
     '</div>' +
 
-    // Actions
+    // Actions with roadmap path header
     '<div class="rounded-[20px] p-6 border mb-5" style="background:rgba(255,255,255,0.025);border-color:rgba(255,255,255,0.07);">' +
+      roadmapHtml +
       '<p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-5" style="color:rgba(255,255,255,0.25);">Your 3 highest-impact next actions</p>' +
       '<div class="space-y-3">' + actHtml + '</div>' +
     '</div>' +
 
     // CTA
-    '<div class="rounded-[20px] p-6 border text-center" style="background:rgba(232,180,176,0.04);border-color:rgba(232,180,176,0.15);">' +
+    '<div class="rounded-[20px] p-6 border mb-4 text-center" style="background:rgba(232,180,176,0.04);border-color:rgba(232,180,176,0.15);">' +
       '<p class="text-[13px] mb-2 text-white font-medium">Want a personalised roadmap for Level ' + level + ' → Level ' + Math.min(5,level+1) + '?</p>' +
       '<p class="text-[11px] mb-5" style="color:rgba(255,255,255,0.35);">In 45 minutes, we\'ll map your exact workflow gaps and show you the 3 automations that will move your score the most.</p>' +
       '<a href="/pages/welcome" class="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-button text-[13px] font-bold transition mb-2" style="background:#E8B4B0;color:#0A0A0A;">Book my free automation audit →</a>' +
+      '<button onclick="amCopyScore()" id="am-copy-btn" class="text-[11px] w-full py-2.5 rounded-[10px] border mt-2 transition font-medium" style="color:rgba(255,255,255,0.50);border-color:rgba(255,255,255,0.10);background:rgba(255,255,255,0.03);">Copy my score</button>' +
       '<button onclick="amRestart()" class="text-[11px] w-full text-center mt-2 transition" style="color:rgba(255,255,255,0.25);">Retake the assessment</button>' +
     '</div>' +
 
   '</div>';
+
+  // Store copy text on window for the button
+  window._amCopyText = copyText;
 
   // Animate the circle
   setTimeout(function() {
@@ -465,15 +625,47 @@ function showResult() {
   }, 100);
 }
 
+window.amCopyScore = function() {
+  var btn = document.getElementById('am-copy-btn');
+  if (!btn) return;
+  var text = window._amCopyText || '';
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function() {
+      btn.textContent = 'Copied!';
+      btn.style.color = '#7B68EE';
+      btn.style.borderColor = 'rgba(123,104,238,0.40)';
+      setTimeout(function(){ btn.textContent = 'Copy my score'; btn.style.color='rgba(255,255,255,0.50)'; btn.style.borderColor='rgba(255,255,255,0.10)'; }, 2000);
+    });
+  } else {
+    // Fallback
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+    btn.textContent = 'Copied!';
+    btn.style.color = '#7B68EE';
+    setTimeout(function(){ btn.textContent = 'Copy my score'; btn.style.color='rgba(255,255,255,0.50)'; }, 2000);
+  }
+};
+
 window.amRestart = function() {
   answers = [];
   current = 0;
+  selectedIndustry = null;
   document.getElementById('am-result').classList.add('hidden');
   document.getElementById('am-question-wrap').classList.remove('hidden');
-  renderQuestion(0);
+  renderIndustrySelect();
 };
 
-renderQuestion(0);
+document.addEventListener('astro:page-load', function(){
+  answers = [];
+  current = 0;
+  selectedIndustry = null;
+  renderIndustrySelect();
+});
+
+renderIndustrySelect();
 
 })();
 </script>

@@ -19,9 +19,22 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
     <h1 class="font-display text-[2.2rem] lg:text-[3.2rem] leading-[1.06] tracking-[-0.025em] text-white mb-4 max-w-3xl mx-auto">
       Every second you wait,<br/><em class="font-medium text-red-400">your business loses money.</em>
     </h1>
-    <p class="text-[15px] max-w-xl mx-auto leading-relaxed mb-4" style="color:rgba(255,255,255,0.40);">
+    <p class="text-[15px] max-w-xl mx-auto leading-relaxed mb-8" style="color:rgba(255,255,255,0.40);">
       The counter below shows what UK businesses collectively lose to manual work right now. Then pick your industry and see your personal number.
     </p>
+    <!-- Hero stats row -->
+    <div class="grid grid-cols-3 gap-4 max-w-lg mx-auto">
+      {[
+        { value:'£254B', label:'lost annually in UK' },
+        { value:'40 hrs', label:'wasted per business/week' },
+        { value:'£35/hr', label:'average blended rate' },
+      ].map(({value,label})=>(
+        <div class="text-center">
+          <p class="font-display text-[1.4rem] lg:text-[1.8rem] leading-none text-white mb-1">{value}</p>
+          <p class="text-[9px] uppercase tracking-[0.15em]" style="color:rgba(255,255,255,0.28);">{label}</p>
+        </div>
+      ))}
+    </div>
   </div>
 </section>
 
@@ -55,7 +68,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
       <!-- Industry selector -->
       <div class="rounded-[20px] border p-5 mb-6" style="background:rgba(255,255,255,0.025);border-color:rgba(255,255,255,0.07);">
         <p class="text-[9px] uppercase tracking-[0.2em] font-bold mb-4 text-center" style="color:rgba(255,255,255,0.25);">Now calculate YOUR industry's cost</p>
-        <div class="grid grid-cols-3 gap-2">
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {[
             ['dental',     'Dental',      '£4,800/mo'],
             ['agency',     'Agency',      '£5,200/mo'],
@@ -79,7 +92,12 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
         <div class="px-6 pt-6 pb-4 text-center">
           <p class="text-[10px] uppercase tracking-[0.22em] font-bold mb-2" style="color:rgba(232,180,176,0.55);" id="tc-ind-label">Dental practice cost — since you opened this page</p>
           <p class="font-display leading-none mb-1" style="font-size:clamp(2rem,6vw,3.5rem);color:#E8B4B0;" id="tc-personal">£0</p>
-          <div class="flex items-center justify-center gap-4 text-[10px] mt-2" style="color:rgba(255,255,255,0.25);">
+          <!-- Daily progress bar (8h workday = 100%) -->
+          <div class="mx-auto mt-3 mb-2 h-1 rounded-full overflow-hidden" style="max-width:220px;background:rgba(232,180,176,0.10);">
+            <div id="tc-personal-bar" class="h-full rounded-full" style="width:0%;background:#E8B4B0;transition:width 0.3s linear;"></div>
+          </div>
+          <p class="text-[9px] mb-2" style="color:rgba(255,255,255,0.18);">of today's manual work cost tracked</p>
+          <div class="flex items-center justify-center gap-4 text-[10px] mt-1" style="color:rgba(255,255,255,0.25);">
             <span>Yearly: <strong class="text-white" id="tc-personal-yr">£0</strong></span>
             <span>Monthly: <strong class="text-white" id="tc-personal-mo">£0</strong></span>
           </div>
@@ -119,7 +137,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
               <span class="shrink-0 text-[11px] font-bold" style={`color:${col};`}>{pct}%</span>
             </div>
             <div class="h-1 rounded-full overflow-hidden mb-2" style="background:rgba(255,255,255,0.06);">
-              <div class="h-full rounded-full" style={`width:${pct}%;background:${col};`}></div>
+              <div class="tc-bar h-full rounded-full" data-width={`${pct}`} style={`width:0%;background:${col};transition:width 1s ease-out;`}></div>
             </div>
             <p class="text-[10px]" style="color:rgba(255,255,255,0.25);">{hrs} average per 40hr business</p>
           </div>
@@ -159,11 +177,16 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
         ))}
       </div>
 
-      <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6 scroll-fade">
+      <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 scroll-fade">
         <div class="rounded-[16px] border border-red-100 p-6" style="background:rgba(239,68,68,0.03);">
           <p class="text-[10px] uppercase tracking-wider font-bold mb-3" style="color:rgba(239,68,68,0.60);">Without automation — 4 years</p>
           <p class="font-display text-3xl text-brand-black mb-1">£508,000</p>
           <p class="text-[11px] text-brand-gray-500">total manual work cost · still growing</p>
+        </div>
+        <div class="rounded-[16px] border p-6" style="border-color:rgba(202,138,4,0.30);background:rgba(202,138,4,0.04);">
+          <p class="text-[10px] uppercase tracking-wider font-bold mb-3" style="color:rgba(202,138,4,0.70);">Hybrid (partial) — 4 years</p>
+          <p class="font-display text-3xl text-brand-black mb-1">£285,000</p>
+          <p class="text-[11px] text-brand-gray-500">partial tools + manual gaps · plateaus quickly</p>
         </div>
         <div class="rounded-[16px] border p-6" style="border-color:rgba(74,222,128,0.20);background:rgba(74,222,128,0.03);">
           <p class="text-[10px] uppercase tracking-wider font-bold mb-3" style="color:rgba(74,222,128,0.60);">With PURIST — 4 years</p>
@@ -174,6 +197,11 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
     </div>
   </div>
 </section>
+
+<!-- Source footnote -->
+<div class="bg-brand-black container-x pb-6 border-b" style="border-color:rgba(255,255,255,0.05);">
+  <p class="text-[10px] text-center" style="color:rgba(255,255,255,0.15);">Sources: ONS Labour Force Survey 2024 · McKinsey Global Institute · PURIST client deployment data (312 businesses) · UK average blended hourly rate £35/hr</p>
+</div>
 
 <!-- CTA -->
 <section class="bg-brand-black py-16 border-t" style="border-color:rgba(255,255,255,0.06);">
@@ -196,6 +224,8 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
 
 <style is:global>
   @keyframes tc-pulse { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.5)} }
+  @keyframes tc-flash { 0%{text-shadow:0 0 0 transparent} 30%{text-shadow:0 0 18px rgba(239,68,68,0.80),0 0 36px rgba(239,68,68,0.40)} 100%{text-shadow:0 0 0 transparent} }
+  .tc-personal-flash { animation: tc-flash 0.5s ease-out forwards; }
 </style>
 
 <script is:inline>
@@ -223,6 +253,8 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
     finance:    [['1 analyst',       '£38k/yr'],['1,400 client hours', '(£40/hr)'  ],['3 new client wins', '']],
   };
 
+  // Global page-open time (for global counter) vs per-industry start time
+  var pageOpenTime = Date.now();
   var startTime = Date.now();
   var currentInd = 'dental';
 
@@ -237,13 +269,15 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
   }
 
   function tick() {
-    var elapsed = (Date.now() - startTime) / 1000;
-    var globalTotal = GLOBAL_PER_SEC * elapsed;
+    var now = Date.now();
+    var globalElapsed = (now - pageOpenTime) / 1000;
+    var personalElapsed = (now - startTime) / 1000;
+    var globalTotal = GLOBAL_PER_SEC * globalElapsed;
     var ind = IND_DATA[currentInd];
-    var personalTotal = ind.perSec * elapsed;
+    var personalTotal = ind.perSec * personalElapsed;
 
     document.getElementById('tc-global').textContent = fmtInt(globalTotal);
-    document.getElementById('tc-seconds').textContent = Math.floor(elapsed);
+    document.getElementById('tc-seconds').textContent = Math.floor(globalElapsed);
     document.getElementById('tc-per-sec').textContent = '£' + GLOBAL_PER_SEC.toLocaleString('en-GB');
     document.getElementById('tc-per-min').textContent = '£' + (GLOBAL_PER_SEC * 60).toLocaleString('en-GB');
     document.getElementById('tc-per-hour').textContent = '£' + (GLOBAL_PER_SEC * 3600).toLocaleString('en-GB');
@@ -251,7 +285,14 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
     document.getElementById('tc-personal').textContent = '£' + personalTotal.toFixed(2);
     document.getElementById('tc-personal-yr').textContent = '£' + ind.yr.toLocaleString('en-GB');
     document.getElementById('tc-personal-mo').textContent = '£' + ind.mo.toLocaleString('en-GB');
-    document.getElementById('tc-ind-label').textContent = ind.label.replace('s','') + ' cost — since you opened this page';
+    document.getElementById('tc-ind-label').textContent = ind.label.replace(/s$/, '') + ' cost — since you selected this industry';
+
+    // Personal progress bar: 8h workday = 28800s = 100%
+    var barEl = document.getElementById('tc-personal-bar');
+    if (barEl) {
+      var pct = Math.min(100, (personalElapsed / 28800) * 100);
+      barEl.style.width = pct.toFixed(3) + '%';
+    }
   }
 
   function renderAlternatives(id) {
@@ -266,9 +307,21 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
     }).join('');
   }
 
+  function flashPersonalCounter() {
+    var el = document.getElementById('tc-personal');
+    if (!el) return;
+    el.classList.remove('tc-personal-flash');
+    // Force reflow to restart animation
+    void el.offsetWidth;
+    el.classList.add('tc-personal-flash');
+    setTimeout(function() { el.classList.remove('tc-personal-flash'); }, 500);
+  }
+
   document.querySelectorAll('.tc-ind').forEach(function(btn) {
     btn.addEventListener('click', function() {
       currentInd = this.dataset.tcid;
+      // Reset per-industry start time so counter restarts from 0
+      startTime = Date.now();
       document.querySelectorAll('.tc-ind').forEach(function(b) {
         b.style.background = 'rgba(255,255,255,0.03)';
         b.style.borderColor = 'rgba(255,255,255,0.07)';
@@ -280,8 +333,27 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
       if (ps[0]) ps[0].style.color = '#fff';
       if (ps[1]) ps[1].style.color = 'rgba(255,255,255,0.45)';
       renderAlternatives(currentInd);
+      flashPersonalCounter();
     });
   });
+
+  // IntersectionObserver: animate progress bars when section becomes visible
+  var barsAnimated = false;
+  var barObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting && !barsAnimated) {
+        barsAnimated = true;
+        document.querySelectorAll('.tc-bar').forEach(function(bar) {
+          var target = bar.getAttribute('data-width');
+          if (target) bar.style.width = target + '%';
+        });
+        barObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.2 });
+
+  var barsSection = document.querySelector('.tc-bar');
+  if (barsSection) barObserver.observe(barsSection.closest('section') || barsSection.parentElement);
 
   renderAlternatives('dental');
   setInterval(tick, 100);
