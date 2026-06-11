@@ -293,11 +293,30 @@ const complexityText: Record<string, string> = {
        ))}
      </div>
 
-     <!-- View toggle -->
-     <div class="flex items-center gap-1 p-1 rounded-full w-fit" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.10);">
-       <button id="tab-function" class="view-tab px-5 py-2 rounded-full text-[12px] font-semibold transition-all" style="background:#E8B4B0;color:#0A0A0A;">By Function</button>
-       <button id="tab-industry" class="view-tab px-5 py-2 rounded-full text-[12px] font-semibold transition-all" style="background:transparent;color:rgba(255,255,255,0.55);">By Industry</button>
+     <!-- Search + View toggle row -->
+     <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+
+       <!-- Search input -->
+       <div class="relative flex-1 max-w-sm">
+         <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+         <input
+           id="workflow-search"
+           type="search"
+           placeholder="Search workflows…"
+           autocomplete="off"
+           class="w-full pl-9 pr-4 py-2.5 rounded-full text-[12px] outline-none transition-all"
+           style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.80);"
+         />
+       </div>
+       <div id="search-count" class="hidden text-[11px]" style="color:rgba(255,255,255,0.35);"></div>
+
+       <!-- View toggle -->
+       <div class="flex items-center gap-1 p-1 rounded-full w-fit" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.10);">
+         <button id="tab-function" class="view-tab px-5 py-2 rounded-full text-[12px] font-semibold transition-all" style="background:#E8B4B0;color:#0A0A0A;">By Function</button>
+         <button id="tab-industry" class="view-tab px-5 py-2 rounded-full text-[12px] font-semibold transition-all" style="background:transparent;color:rgba(255,255,255,0.55);">By Industry</button>
+       </div>
      </div>
+
    </div>
  </section>
 
@@ -537,7 +556,7 @@ const complexityText: Record<string, string> = {
        We build any of these for you,<br/>
        <em class="font-medium" style="color:#E8B4B0;">customised to your exact stack.</em>
      </h2>
-     <p class="text-[13px] mb-8" style="color:rgba(255,255,255,0.40);">Free 30-minute audit. We map your top 3 quick wins before you spend a penny.</p>
+     <p class="text-[13px] mb-8" style="color:rgba(255,255,255,0.40);">Free 45-minute audit. We map your top 3 quick wins before you spend a penny.</p>
      <a href="/pages/welcome"
        class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-[14px] text-[13px] font-semibold transition-all"
        style="background:#E8B4B0;color:#0A0A0A;"
@@ -549,6 +568,14 @@ const complexityText: Record<string, string> = {
  </section>
 
 </ShopLayout>
+
+<script is:inline define:vars={{ funcWorkflows, industryWorkflows }}>
+// Expose all workflows for search
+window.__puristWorkflows = [
+  ...funcWorkflows.map(function(w) { return Object.assign({}, w, { type: 'function' }); }),
+  ...industryWorkflows.map(function(w) { return Object.assign({}, w, { type: 'industry' }); }),
+];
+</script>
 
 <script is:inline>
 (function () {
@@ -625,5 +652,82 @@ const complexityText: Record<string, string> = {
    });
  });
 
+})();
+
+// ── Search ──────────────────────────────────────────────────
+(function() {
+  var searchInput = document.getElementById('workflow-search');
+  var searchCount = document.getElementById('search-count');
+  if (!searchInput) return;
+
+  // Build searchable index from all workflow cards (both views)
+  function getAllCards() {
+    return document.querySelectorAll('.workflow-card, [data-workflow-card]');
+  }
+
+  // Collect text from a card for matching
+  function cardText(card) {
+    return card.textContent.toLowerCase();
+  }
+
+  var searchView = document.getElementById('search-view');
+  if (!searchView) {
+    searchView = document.createElement('div');
+    searchView.id = 'search-view';
+    searchView.className = 'hidden';
+    var viewFunc = document.getElementById('view-function');
+    if (viewFunc) viewFunc.parentNode.insertBefore(searchView, viewFunc);
+  }
+
+  searchInput.addEventListener('input', function() {
+    var query = this.value.trim().toLowerCase();
+
+    if (!query) {
+      // Restore default view
+      searchView.classList.add('hidden');
+      searchView.innerHTML = '';
+      searchCount.classList.add('hidden');
+      var activeView = document.getElementById('view-function').classList.contains('hidden') ? 'industry' : 'function';
+      showView(activeView);
+      return;
+    }
+
+    // Hide normal views, show search results
+    document.getElementById('view-function').classList.add('hidden');
+    document.getElementById('view-industry').classList.add('hidden');
+    searchView.classList.remove('hidden');
+
+    // Collect all unique workflow cards from DOM data
+    var allWf = window.__puristWorkflows || [];
+    var results = allWf.filter(function(w) {
+      return (w.title + ' ' + w.desc + ' ' + w.benefit + ' ' + (w.tools || []).join(' ') + ' ' + (w.cat || '') + ' ' + (w.industry || '')).toLowerCase().includes(query);
+    });
+
+    searchCount.classList.remove('hidden');
+    searchCount.textContent = results.length + ' workflow' + (results.length !== 1 ? 's' : '') + ' found';
+
+    if (results.length === 0) {
+      searchView.innerHTML = '<div class="container-x py-16 text-center"><p class="text-white/40 text-sm">No workflows match "<strong class=\'text-white/60\'>' + query + '</strong>".</p></div>';
+      return;
+    }
+
+    var html = '<section class="bg-white py-10"><div class="container-x"><div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">';
+    results.forEach(function(w) {
+      var badge = w.badge ? '<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wide mr-1" style="background:rgba(232,180,176,0.15);color:#E8B4B0;">' + w.badge + '</span>' : '';
+      var tools = (w.tools || []).map(function(t) { return '<span class="inline-block bg-brand-cream text-brand-gray-500 text-[10px] px-2 py-0.5 rounded-full mr-1 mb-1">' + t + '</span>'; }).join('');
+      html += '<div class="rounded-[16px] border border-brand-gray-100 p-5 flex flex-col gap-3 hover:border-brand-gray-200 hover:shadow-sm transition">';
+      html += '<div class="flex items-start justify-between gap-2"><p class="text-[13px] font-semibold text-brand-black leading-snug flex-1">' + w.title + '</p>' + badge + '</div>';
+      html += '<p class="text-[11.5px] text-brand-gray-600 leading-relaxed">' + w.benefit + '</p>';
+      html += '<div class="flex flex-wrap mt-auto pt-2" style="border-top:1px solid #f0ece6;">' + tools + '</div>';
+      html += '</div>';
+    });
+    html += '</div></div></section>';
+    searchView.innerHTML = html;
+  });
+
+  // Clear on Escape
+  searchInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') { this.value = ''; this.dispatchEvent(new Event('input')); }
+  });
 })();
 </script>

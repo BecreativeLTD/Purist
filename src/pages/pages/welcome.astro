@@ -313,6 +313,7 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
              <path d="M3 8h10M9 4l4 4-4 4"/>
            </svg>
          </button>
+         <p id="form-error" class="hidden text-center text-[11px] mt-2 text-red-600 font-medium"></p>
          <p class="text-center text-[10.5px] mt-3" style="color:rgba(10,10,10,0.30);">
            No payment required · We respond within 1 business day
          </p>
@@ -711,7 +712,10 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
      headers: { 'Content-Type': 'application/json' },
      body: JSON.stringify(data),
    })
-   .then(function(r) { return r.json(); })
+   .then(function(r) {
+     if (!r.ok) throw new Error('server');
+     return r.json();
+   })
    .then(function() {
      populateSuccess(data);
      document.getElementById('audit-form').style.display = 'none';
@@ -719,10 +723,10 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
      document.getElementById('form-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
    })
    .catch(function() {
-     populateSuccess(data);
-     document.getElementById('audit-form').style.display = 'none';
-     document.getElementById('form-success').classList.remove('hidden');
-     document.getElementById('form-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+     label.textContent = 'Get my free audit';
+     btn.disabled = false;
+     var errEl = document.getElementById('form-error');
+     if (errEl) { errEl.textContent = 'Something went wrong — please try again or email hello@purist.online'; errEl.classList.remove('hidden'); }
    });
  });
 </script>

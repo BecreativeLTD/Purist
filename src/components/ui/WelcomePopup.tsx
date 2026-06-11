@@ -114,7 +114,7 @@ export default function WelcomePopup() {
                <em class="font-medium text-brand-pink">your time is leaking.</em>
              </h2>
              <p class="text-white/60 text-sm leading-relaxed">
-               Get a free 30-minute automation audit we map your workflow and show you what's costing you the most.
+               Get a free 45-minute automation audit — we map your workflow and show you what's costing you the most.
              </p>
            </div>
 

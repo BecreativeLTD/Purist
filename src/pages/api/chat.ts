@@ -3,88 +3,86 @@ import type { APIRoute } from 'astro';
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
- try {
-   const { messages } = await request.json();
+  try {
+    const { messages } = await request.json();
 
-   if (!messages || !Array.isArray(messages)) {
-     return new Response(JSON.stringify({ error: 'Invalid request' }), { status: 400 });
-   }
+    if (!messages || !Array.isArray(messages)) {
+      return new Response(JSON.stringify({ error: 'Invalid request' }), { status: 400 });
+    }
 
-   // Keep last 10 messages to stay within token limits
-   const recent = messages.slice(-10);
+    const openRouterKey = import.meta.env.OpenRouter;
+    if (!openRouterKey) {
+      return new Response(JSON.stringify({ error: 'AI service not configured', fallback: true }), { status: 500 });
+    }
 
-   // Detect language from the last user message
-   const lastUserMsg = [...messages].reverse().find((m: { role: string; content: string }) => m.role === 'user')?.content ?? '';
-   // Normalize: lowercase + strip accents for matching unaccented French words (e.g. "Medecin" → "medecin")
-   const normalized = lastUserMsg.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-   const frenchPattern = /[àâäéèêëîïôöùûüÿçœæ]|(\b(je|j ai|j'ai|tu|il|nous|vous|ils|est|sont|pas|pour|avec|dans|sur|que|qui|une|les|des|mon|ton|son|notre|votre|leur|aussi|mais|donc|car|ou|et|bonjour|salut|merci|oui|non|comment|pourquoi|quand|quel|quelle|secteur|medecin|medecins|dentiste|agence|immobilier|entreprise|automatiser|automatisation|cout|prix|devis|audit|gratuit|fonctionn|besoin|cabinet|clinique|avocat|comptable|logistique|recrutement|pharmacie|architecte|notaire)\b)/i;
-   const detectedLang = frenchPattern.test(lastUserMsg) || frenchPattern.test(normalized) ? 'French' : 'English';
-   const langInstruction = detectedLang === 'French'
-     ? 'LANGUE OBLIGATOIRE: L\'utilisateur écrit en FRANÇAIS. Tu dois IMPÉRATIVEMENT répondre en français uniquement. Ne jamais utiliser l\'anglais, même partiellement.'
-     : 'MANDATORY LANGUAGE: The user is writing in ENGLISH. You MUST respond in English only. Never switch to French or any other language.';
+    const recent = messages.slice(-10);
 
-   const systemPrompt = `${langInstruction}
+    const lastUserMsg = [...messages].reverse().find((m: { role: string; content: string }) => m.role === 'user')?.content ?? '';
+    const normalized = lastUserMsg.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const frenchPattern = /[àâäéèêëîïôöùûüÿçœæ]|(\b(je|tu|il|nous|vous|ils|est|sont|pas|pour|avec|dans|sur|que|qui|une|les|des|mon|ton|son|notre|votre|leur|aussi|mais|donc|ou|et|bonjour|salut|merci|oui|non|comment|pourquoi|quand|quel|secteur|medecin|dentiste|agence|immobilier|entreprise|automatiser|automatisation|cout|prix|devis|audit|gratuit|besoin|cabinet|clinique|avocat|comptable|logistique|recrutement)\b)/i;
+    const isFrench = frenchPattern.test(lastUserMsg) || frenchPattern.test(normalized);
 
-You are the PURIST AI assistant a sharp, knowledgeable expert in workflow automation, n8n, AI agents, and business operations for small-to-medium businesses.
+    const systemPrompt = isFrench
+      ? `LANGUE OBLIGATOIRE: Réponds UNIQUEMENT en français.
+
+Tu es l'assistant IA PURIST — expert en automatisation de workflows, n8n, agents IA et opérations business pour les PME.
+
+PURIST est une agence d'automatisation premium. Faits clés :
+- Plans : Automation Pro (£799/mois, 12 workflows), AI Agent Deploy (£999/mois, 5 agents IA), The Full Stack (£1 499/mois, meilleur rapport qualité-prix)
+- Enterprise : £3 499/mois, instance n8n dédiée, SLA 99,97%
+- Stack : n8n v1.71 self-hosted, Claude AI pour les agents, déployé en moins de 7 jours
+- ROI moyen : 9,2× à 90 jours, £168k d'économies annuelles
+- Audit gratuit 45 minutes — sans engagement, carte ROI livrée en direct sur l'appel
+- Secteurs : Dentaire/Santé, Immobilier, Agences, E-commerce, SaaS, Finance, Cabinets juridiques
+
+Ton rôle : répondre aux questions avec précision, être concis (2-4 phrases max par point), professionnel et chaleureux. Guide naturellement vers la réservation d'un audit gratuit sur /pages/welcome. Format : texte simple, pas de markdown, pas de listes à puces avec tirets. Sauts de ligne entre paragraphes. 120 mots maximum sauf si détails demandés.`
+      : `MANDATORY LANGUAGE: Respond ONLY in English.
+
+You are the PURIST AI assistant — a sharp, knowledgeable expert in workflow automation, n8n, AI agents, and business operations for SMBs.
 
 PURIST is a premium automation agency. Key facts:
-- Plans: Automation Pro (£799/mo, 12 workflows), AI Agent Deploy (£999/mo, 5 AI agents), The Full Stack (£1,499/mo, best value both combined)
+- Plans: Automation Pro (£799/mo, 12 workflows), AI Agent Deploy (£999/mo, 5 AI agents), The Full Stack (£1,499/mo, best value)
 - Enterprise: £3,499/mo with dedicated n8n instance and 99.97% SLA
-- Add-ons: Extra Workflow £299, Quarterly Audit £499, Team Training £799, Migration from Zapier/Make £1,499
-- Tech stack: Self-hosted n8n v1.71, Claude Opus 4 for AI, deployed in under 7 days
+- Tech stack: Self-hosted n8n v1.71, Claude AI for agents, deployed in under 7 days
 - ROI: Average 9.2× at 90 days, £168k average annual saving
 - 30-day money-back guarantee on all plans
-- Free 60-minute audit call no commitment, ROI map delivered live on the call
+- Free 45-minute audit call — no commitment, ROI map delivered live on the call
 - Industries served: Dental/Healthcare, Real Estate, Agencies, E-commerce, SaaS, Finance, Law firms
 
-Your role:
-- Answer questions about automation, PURIST plans, pricing, timelines, and ROI with confidence
-- Be concise (2-4 sentences max per point), professional, and warm
-- Always guide the conversation naturally toward booking a free audit at /pages/welcome
-- Never be salesy or pushy let the value speak
-- If asked about specific technical details (n8n nodes, API integrations, etc.), be accurate and helpful
-- CRITICAL: Always respond in the EXACT same language as the user's message. If they write French, reply French. If they write English, reply English. Never mix languages.
+Your role: answer questions with confidence, be concise (2-4 sentences max per point), professional, and warm. Guide naturally toward booking a free audit at /pages/welcome. Format: plain text only, no markdown, no dash lists. Line breaks between paragraphs. 120 words max unless details are requested.`;
 
-Format: Plain text only. No markdown headers, no asterisks, no bullet lists with dashes. Use line breaks between paragraphs. Keep responses under 120 words unless the user asks for details.`;
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${openRouterKey}`,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': 'https://purist.online',
+        'X-Title': 'PURIST AI',
+      },
+      body: JSON.stringify({
+        model: 'meta-llama/llama-3.3-70b-instruct:free',
+        messages: [{ role: 'system', content: systemPrompt }, ...recent],
+        max_tokens: 250,
+        temperature: 0.65,
+      }),
+    });
 
-   const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-     method: 'POST',
-     headers: {
-       'Authorization': `Bearer ${import.meta.env.OpenRouter}`,
-       'Content-Type': 'application/json',
-       'HTTP-Referer': 'https://purist.online',
-       'X-Title': 'PURIST AI',
-     },
-     body: JSON.stringify({
-       model: 'mistralai/mistral-7b-instruct:free',
-       messages: [
-         { role: 'system', content: systemPrompt },
-         ...recent,
-       ],
-       max_tokens: 250,
-       temperature: 0.65,
-     }),
-   });
+    if (!response.ok) {
+      return new Response(JSON.stringify({ error: 'AI unavailable', fallback: true }), { status: 502 });
+    }
 
-   if (!response.ok) {
-     const err = await response.text();
-     console.error('OpenRouter error:', err);
-     return new Response(JSON.stringify({ error: 'AI unavailable', fallback: true }), { status: 502 });
-   }
+    const data = await response.json();
+    const reply = data.choices?.[0]?.message?.content?.trim() ?? '';
 
-   const data = await response.json();
-   const reply = data.choices?.[0]?.message?.content?.trim() ?? '';
+    if (!reply) {
+      return new Response(JSON.stringify({ error: 'Empty response', fallback: true }), { status: 502 });
+    }
 
-   if (!reply) {
-     return new Response(JSON.stringify({ error: 'Empty response', fallback: true }), { status: 502 });
-   }
+    return new Response(JSON.stringify({ reply }), {
+      headers: { 'Content-Type': 'application/json' },
+    });
 
-   return new Response(JSON.stringify({ reply }), {
-     headers: { 'Content-Type': 'application/json' },
-   });
-
- } catch (err) {
-   console.error('Chat API error:', err);
-   return new Response(JSON.stringify({ error: 'Server error', fallback: true }), { status: 500 });
- }
+  } catch {
+    return new Response(JSON.stringify({ error: 'Server error', fallback: true }), { status: 500 });
+  }
 };
