@@ -1,0 +1,479 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+---
+
+<ShopLayout
+  title="Automation Maturity Score — Where Does Your Business Stand? | PURIST"
+  description="Take the 5-dimension Automation Maturity Assessment. Get your score, see exactly where you are on the path to autonomous operations, and receive a personalised roadmap."
+  canonical="https://purist.online/pages/automation-maturity"
+>
+
+<!-- Hero -->
+<section class="bg-brand-black text-white pt-20 pb-14 lg:pt-28 relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 55% at 50% 0%,rgba(123,104,238,0.09) 0%,transparent 60%);"></div>
+  <div class="container-x relative z-10">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-6" style="border-color:rgba(123,104,238,0.30);background:rgba(123,104,238,0.07);">
+        <span class="text-[10px] uppercase tracking-[0.18em] font-semibold" style="color:rgba(123,104,238,0.85);">Free · 3 minutes · No signup</span>
+      </div>
+      <h1 class="font-display text-[2.2rem] lg:text-[3rem] leading-[1.06] tracking-[-0.025em] text-white mb-4">
+        Your Automation<br/><em class="font-medium" style="color:#7B68EE;">Maturity Score</em>
+      </h1>
+      <p class="text-[15px] leading-relaxed mb-8 max-w-xl mx-auto" style="color:rgba(255,255,255,0.45);">
+        5 dimensions. 15 questions. A precise diagnosis of where your business stands on the path to autonomous operations — and exactly what to do next.
+      </p>
+      <div class="flex flex-wrap justify-center gap-8 text-[10px]" style="color:rgba(255,255,255,0.25);">
+        {[['5','Maturity levels'],['15','Questions'],['312+','Businesses assessed']].map(([n,l])=>(
+          <div class="text-center">
+            <p class="font-display text-2xl leading-none mb-1" style="color:rgba(123,104,238,0.75);">{n}</p>
+            <p class="uppercase tracking-wider">{l}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Assessment -->
+<section class="bg-[#0C0C0A] py-14 lg:py-20">
+  <div class="container-x">
+    <div class="max-w-2xl mx-auto">
+
+      <!-- Progress bar -->
+      <div class="mb-8">
+        <div class="flex items-center justify-between mb-3">
+          <p class="text-[10px] uppercase tracking-[0.16em] font-bold" style="color:rgba(255,255,255,0.25);">Assessment progress</p>
+          <p class="text-[10px] font-semibold" style="color:rgba(123,104,238,0.70);" id="am-progress-label">Question 1 of 15</p>
+        </div>
+        <div class="h-1 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.06);">
+          <div id="am-progress-bar" class="h-full rounded-full transition-all duration-500" style="width:6.66%;background:linear-gradient(90deg,#7B68EE,rgba(123,104,238,0.50));"></div>
+        </div>
+        <!-- Dimension dots -->
+        <div class="flex gap-0 mt-3">
+          {[
+            {label:'Data',color:'#E8B4B0'},
+            {label:'Process',color:'#7B68EE'},
+            {label:'Tools',color:'#C89840'},
+            {label:'Team',color:'#4ade80'},
+            {label:'Results',color:'#ef4444'},
+          ].map((d,i)=>(
+            <div class="flex-1 text-center">
+              <div class="am-dim-bar h-1 mx-0.5 rounded-full transition-all duration-500" id={`am-dim-${i}`} style={`background:rgba(255,255,255,0.06);`}></div>
+              <p class="text-[8px] mt-1 uppercase tracking-wider" style="color:rgba(255,255,255,0.18);">{d.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Question card -->
+      <div id="am-question-wrap">
+        <div id="am-card" class="rounded-[24px] overflow-hidden border" style="background:rgba(255,255,255,0.025);border-color:rgba(255,255,255,0.07);">
+          <!-- Dimension header -->
+          <div id="am-dim-header" class="px-6 pt-5 pb-3 border-b" style="border-color:rgba(255,255,255,0.05);">
+            <p class="text-[9px] uppercase tracking-[0.2em] font-bold" id="am-dim-label" style="color:rgba(123,104,238,0.55);">Dimension 1 · Data & Integration</p>
+          </div>
+          <!-- Question -->
+          <div class="px-6 pt-6 pb-4">
+            <p class="text-[18px] font-display text-white leading-snug mb-6" id="am-q-text">How connected are your business tools right now?</p>
+            <div id="am-answers" class="space-y-2"></div>
+          </div>
+        </div>
+
+        <!-- Nav -->
+        <div class="flex items-center justify-between mt-5">
+          <button id="am-back-btn" onclick="amBack()"
+            class="flex items-center gap-2 text-[11px] font-medium transition"
+            style="color:rgba(255,255,255,0.30);">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 7H2M5 4l-3 3 3 3"/></svg>
+            Back
+          </button>
+          <p class="text-[10px]" style="color:rgba(255,255,255,0.18);">Select an answer to continue</p>
+        </div>
+      </div>
+
+      <!-- Result (hidden until done) -->
+      <div id="am-result" class="hidden"></div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Maturity levels explained -->
+<section class="bg-white py-16 lg:py-20 border-t border-brand-gray-100">
+  <div class="container-x">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-12 scroll-fade">
+        <p class="eyebrow mb-3">The framework</p>
+        <h2 class="font-display text-h2 mb-3">The 5 Maturity Levels</h2>
+        <p class="text-sm text-brand-gray-600 max-w-lg mx-auto">Every business falls somewhere on this spectrum. Knowing your level is the first step to moving up it.</p>
+      </div>
+      <div class="space-y-3">
+        {[
+          { level:1, name:'Manual Business',       pct:'0–20%',  col:'#ef4444', desc:'Everything is done by hand. No automation. Maximum cost, maximum risk of error. Average 20+ hours/week lost.' },
+          { level:2, name:'Automation Aware',       pct:'21–40%', col:'#C89840', desc:'You know automation exists but use only basic tools. Some spreadsheets, maybe one integration. Significant untapped potential.' },
+          { level:3, name:'Partially Automated',   pct:'41–60%', col:'#E8B4B0', desc:'Key processes are automated but in silos. Tools don\'t talk to each other. You\'re saving time but leaving money on the table.' },
+          { level:4, name:'Automation-First',      pct:'61–80%', col:'#7B68EE', desc:'Most processes are automated and connected. Data flows between systems. Your team focuses on high-value work.' },
+          { level:5, name:'Autonomous Operations', pct:'81–100%',col:'#4ade80', desc:'Your business runs itself. AI agents handle exceptions. You have full visibility, near-zero manual admin, maximum ROI.' },
+        ].map(({level,name,pct,col,desc})=>(
+          <div class="flex gap-5 p-5 rounded-[16px] border border-brand-gray-100 scroll-fade">
+            <div class="shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-display text-lg font-bold" style={`background:${col}18;color:${col};`}>{level}</div>
+            <div class="flex-1">
+              <div class="flex items-center justify-between mb-1 flex-wrap gap-2">
+                <p class="font-semibold text-[14px] text-brand-black">{name}</p>
+                <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full" style={`background:${col}15;color:${col};`}>{pct}</span>
+              </div>
+              <p class="text-[12px] text-brand-gray-600 leading-relaxed">{desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+</ShopLayout>
+
+<style is:global>
+  @keyframes am-slide-in { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:translateX(0)} }
+  @keyframes am-slide-out { from{opacity:1;transform:translateX(0)} to{opacity:0;transform:translateX(-20px)} }
+  @keyframes am-result-in { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  #am-card { animation: am-slide-in 0.35s ease-out; }
+</style>
+
+<script is:inline>
+(function(){
+
+var QUESTIONS = [
+  // Dimension 0: Data & Integration
+  { dim:0, dimLabel:'Dimension 1 · Data & Integration', dimColor:'#E8B4B0',
+    text:'How connected are your core business tools right now?',
+    opts:[
+      { text:'Completely siloed — no integrations between tools', score:0 },
+      { text:'2–3 tools connected manually (CSV exports, copy-paste)', score:1 },
+      { text:'Some basic integrations (Zapier/Make with simple zaps)', score:2 },
+      { text:'Most tools are connected with automated data flows', score:3 },
+    ]},
+  { dim:0, dimLabel:'Dimension 1 · Data & Integration', dimColor:'#E8B4B0',
+    text:'When a new lead comes in, what happens to their data?',
+    opts:[
+      { text:'Manually entered into a spreadsheet or CRM', score:0 },
+      { text:'Auto-saved in one place but not synced elsewhere', score:1 },
+      { text:'Goes to CRM + triggers one or two notifications', score:2 },
+      { text:'Triggers a full multi-step automated sequence', score:3 },
+    ]},
+  { dim:0, dimLabel:'Dimension 1 · Data & Integration', dimColor:'#E8B4B0',
+    text:'How many of your key business metrics update automatically?',
+    opts:[
+      { text:'None — we pull reports manually', score:0 },
+      { text:'1–2 dashboards with semi-manual updates', score:1 },
+      { text:'Most metrics update daily via integrations', score:2 },
+      { text:'Live dashboards, everything real-time', score:3 },
+    ]},
+
+  // Dimension 1: Process Documentation
+  { dim:1, dimLabel:'Dimension 2 · Process Documentation', dimColor:'#7B68EE',
+    text:'How well documented are your business processes?',
+    opts:[
+      { text:'Nothing written down — it\'s all in people\'s heads', score:0 },
+      { text:'Some informal notes or email threads', score:1 },
+      { text:'Written SOPs for most processes', score:2 },
+      { text:'Full process maps with decision trees and edge cases', score:3 },
+    ]},
+  { dim:1, dimLabel:'Dimension 2 · Process Documentation', dimColor:'#7B68EE',
+    text:'What happens when a key team member is on holiday?',
+    opts:[
+      { text:'Things fall through the cracks — it\'s a real problem', score:0 },
+      { text:'Someone covers but it\'s stressful and inconsistent', score:1 },
+      { text:'Documented handover process, mostly works', score:2 },
+      { text:'Automation handles most of it, minimal disruption', score:3 },
+    ]},
+  { dim:1, dimLabel:'Dimension 2 · Process Documentation', dimColor:'#7B68EE',
+    text:'How do you handle onboarding a new client or customer?',
+    opts:[
+      { text:'Ad-hoc — different every time', score:0 },
+      { text:'Rough checklist that we sometimes forget', score:1 },
+      { text:'Standard process but still heavily manual', score:2 },
+      { text:'Automated sequence: contracts, access, comms, follow-up', score:3 },
+    ]},
+
+  // Dimension 2: Current Automation
+  { dim:2, dimLabel:'Dimension 3 · Current Automation Level', dimColor:'#C89840',
+    text:'Which of these do you currently have automated?',
+    opts:[
+      { text:'Nothing — everything is done manually', score:0 },
+      { text:'1–2 things (e.g. email autoresponder, basic Zapier)', score:1 },
+      { text:'5–8 workflows running reliably', score:2 },
+      { text:'10+ interconnected workflows, monitored 24/7', score:3 },
+    ]},
+  { dim:2, dimLabel:'Dimension 3 · Current Automation Level', dimColor:'#C89840',
+    text:'How much of your billing/invoicing is automated?',
+    opts:[
+      { text:'100% manual — we create and send each invoice ourselves', score:0 },
+      { text:'Partly — templates exist but sending is manual', score:1 },
+      { text:'Mostly automated, chase sequences are manual', score:2 },
+      { text:'Fully automated: generate, send, chase, reconcile', score:3 },
+    ]},
+  { dim:2, dimLabel:'Dimension 3 · Current Automation Level', dimColor:'#C89840',
+    text:'Do you use any AI-powered automation in your business?',
+    opts:[
+      { text:'No AI automation at all', score:0 },
+      { text:'Experimenting but nothing in production', score:1 },
+      { text:'AI for 1–2 tasks (e.g. support responses, content)', score:2 },
+      { text:'AI agents handling multiple business functions', score:3 },
+    ]},
+
+  // Dimension 3: Team Readiness
+  { dim:3, dimLabel:'Dimension 4 · Team & Culture', dimColor:'#4ade80',
+    text:'How does your team feel about automation?',
+    opts:[
+      { text:'Resistant — worried about job security or change', score:0 },
+      { text:'Mixed — some open, some skeptical', score:1 },
+      { text:'Generally positive, open to trying new things', score:2 },
+      { text:'Actively request automation, identify opportunities themselves', score:3 },
+    ]},
+  { dim:3, dimLabel:'Dimension 4 · Team & Culture', dimColor:'#4ade80',
+    text:'When a process repeatedly breaks or causes errors, what happens?',
+    opts:[
+      { text:'We deal with each instance manually and move on', score:0 },
+      { text:'Someone notes it but we rarely fix the root cause', score:1 },
+      { text:'We review it periodically and sometimes improve it', score:2 },
+      { text:'Immediate root-cause analysis + permanent fix or automation', score:3 },
+    ]},
+  { dim:3, dimLabel:'Dimension 4 · Team & Culture', dimColor:'#4ade80',
+    text:'How many hours per week does your leadership team spend on admin?',
+    opts:[
+      { text:'8+ hours — it\'s a significant time drain', score:0 },
+      { text:'4–7 hours — too much but hard to fix', score:1 },
+      { text:'1–3 hours — it\'s under control', score:2 },
+      { text:'Under 1 hour — almost all admin is automated', score:3 },
+    ]},
+
+  // Dimension 4: ROI Awareness
+  { dim:4, dimLabel:'Dimension 5 · ROI & Measurement', dimColor:'#ef4444',
+    text:'Do you know how much time your team spends on manual tasks weekly?',
+    opts:[
+      { text:'No idea — never measured it', score:0 },
+      { text:'Rough guess but no real data', score:1 },
+      { text:'We\'ve measured it once or twice', score:2 },
+      { text:'We track it continuously and benchmark against targets', score:3 },
+    ]},
+  { dim:4, dimLabel:'Dimension 5 · ROI & Measurement', dimColor:'#ef4444',
+    text:'How do you evaluate whether an automation is worth building?',
+    opts:[
+      { text:'We don\'t — we just try things and see', score:0 },
+      { text:'Gut feeling and team consensus', score:1 },
+      { text:'Rough time-saving estimate before we start', score:2 },
+      { text:'Full ROI model: hours saved × rate × frequency vs build cost', score:3 },
+    ]},
+  { dim:4, dimLabel:'Dimension 5 · ROI & Measurement', dimColor:'#ef4444',
+    text:'What\'s your biggest automation priority right now?',
+    opts:[
+      { text:'We haven\'t thought about it yet', score:0 },
+      { text:'Reduce admin overhead for the team', score:1 },
+      { text:'Specific process: lead follow-up / invoicing / onboarding', score:2 },
+      { text:'Full-stack: connect all tools, deploy AI agents, maximise ROI', score:3 },
+    ]},
+];
+
+var DIM_COLORS = ['#E8B4B0','#7B68EE','#C89840','#4ade80','#ef4444'];
+var DIM_NAMES  = ['Data & Integration','Process Documentation','Current Automation','Team & Culture','ROI & Measurement'];
+
+var answers = [];
+var current = 0;
+
+function renderQuestion(idx) {
+  if (idx >= QUESTIONS.length) { showResult(); return; }
+  var q = QUESTIONS[idx];
+
+  // Progress
+  var pct = Math.round(((idx) / QUESTIONS.length) * 100);
+  document.getElementById('am-progress-bar').style.width = Math.max(6, pct) + '%';
+  document.getElementById('am-progress-label').textContent = 'Question ' + (idx+1) + ' of ' + QUESTIONS.length;
+
+  // Dimension bars (fill completed dims)
+  for (var d = 0; d < 5; d++) {
+    var bar = document.getElementById('am-dim-' + d);
+    if (!bar) continue;
+    if (d < q.dim) bar.style.background = DIM_COLORS[d];
+    else if (d === q.dim) bar.style.background = 'rgba(255,255,255,0.25)';
+    else bar.style.background = 'rgba(255,255,255,0.06)';
+  }
+
+  // Dim header
+  document.getElementById('am-dim-label').textContent = q.dimLabel;
+  document.getElementById('am-dim-label').style.color = q.dimColor + 'AA';
+
+  // Question text
+  document.getElementById('am-q-text').textContent = q.text;
+
+  // Answers
+  var wrap = document.getElementById('am-answers');
+  wrap.innerHTML = '';
+  q.opts.forEach(function(opt, i) {
+    var btn = document.createElement('button');
+    btn.className = 'am-ans w-full text-left px-4 py-3.5 rounded-[14px] border transition-all';
+    btn.style.cssText = 'background:rgba(255,255,255,0.025);border-color:rgba(255,255,255,0.07);color:rgba(255,255,255,0.65);font-size:13px;line-height:1.45;animation:am-slide-in 0.3s ease-out ' + (i*0.06) + 's both;';
+    btn.textContent = opt.text;
+    btn.onmouseover = function(){ this.style.background='rgba(123,104,238,0.08)'; this.style.borderColor='rgba(123,104,238,0.25)'; this.style.color='rgba(255,255,255,0.90)'; };
+    btn.onmouseout  = function(){ this.style.background='rgba(255,255,255,0.025)'; this.style.borderColor='rgba(255,255,255,0.07)'; this.style.color='rgba(255,255,255,0.65)'; };
+    btn.addEventListener('click', function() {
+      answers[idx] = opt.score;
+      // Highlight selected
+      document.querySelectorAll('.am-ans').forEach(function(b){ b.style.opacity='0.4'; });
+      btn.style.background = 'rgba(123,104,238,0.18)';
+      btn.style.borderColor = 'rgba(123,104,238,0.45)';
+      btn.style.color = '#fff';
+      btn.style.opacity = '1';
+      setTimeout(function(){
+        current = idx + 1;
+        var card = document.getElementById('am-card');
+        if (card) { card.style.animation = 'am-slide-out 0.2s ease-in forwards'; }
+        setTimeout(function() {
+          if (card) { card.style.animation = ''; }
+          renderQuestion(current);
+        }, 220);
+      }, 320);
+    });
+    wrap.appendChild(btn);
+  });
+
+  // Back button
+  document.getElementById('am-back-btn').style.opacity = idx === 0 ? '0.2' : '1';
+  document.getElementById('am-back-btn').style.pointerEvents = idx === 0 ? 'none' : 'auto';
+}
+
+window.amBack = function() {
+  if (current > 0) { current--; answers.splice(current, 1); renderQuestion(current); }
+};
+
+function showResult() {
+  document.getElementById('am-question-wrap').classList.add('hidden');
+  var res = document.getElementById('am-result');
+  res.classList.remove('hidden');
+
+  // Score per dimension
+  var dimScores = [0,0,0,0,0];
+  var dimCounts = [0,0,0,0,0];
+  answers.forEach(function(score, i) {
+    var d = QUESTIONS[i].dim;
+    dimScores[d] += score;
+    dimCounts[d]++;
+  });
+
+  var totalScore = 0;
+  var maxScore = 0;
+  for (var d = 0; d < 5; d++) {
+    totalScore += dimScores[d];
+    maxScore += dimCounts[d] * 3;
+  }
+  var pct = Math.round((totalScore / maxScore) * 100);
+
+  // Maturity level
+  var level, levelName, levelColor, levelDesc, actions;
+  if (pct <= 20) {
+    level=1; levelName='Manual Business'; levelColor='#ef4444';
+    levelDesc='Your business is running almost entirely on manual effort. You\'re losing significant time and money every week — but the good news is the opportunity is massive.';
+    actions=['Map your 5 most time-consuming processes','Identify which tools you use daily','Book a free automation audit — we\'ll prioritise the highest-ROI fixes first'];
+  } else if (pct <= 40) {
+    level=2; levelName='Automation Aware'; levelColor='#C89840';
+    levelDesc='You\'ve started thinking about automation but haven\'t connected the dots yet. A few targeted workflows could transform your efficiency in under 2 weeks.';
+    actions=['Connect your CRM to your email tool','Automate your invoice creation and chase','Set up a lead capture → notification workflow'];
+  } else if (pct <= 60) {
+    level=3; levelName='Partially Automated'; levelColor='#E8B4B0';
+    levelDesc='Good foundations. You\'ve automated some things but they\'re not connected. The next step is building a unified automation layer that ties everything together.';
+    actions=['Audit your existing workflows for redundancy','Build an inter-tool data pipeline (one source of truth)','Add AI triage to your support or lead qualification'];
+  } else if (pct <= 80) {
+    level=4; levelName='Automation-First'; levelColor='#7B68EE';
+    levelDesc='Strong automation posture. Most of your standard processes are handled. The focus now is AI agents for exception handling and closing the remaining manual gaps.';
+    actions=['Deploy AI agents for Tier-1 support + lead qualification','Build predictive triggers (e.g. churn risk, inventory alerts)','Implement a real-time KPI dashboard across all systems'];
+  } else {
+    level=5; levelName='Autonomous Operations'; levelColor='#4ade80';
+    levelDesc='You\'re operating at the top of the maturity curve. Your business is largely self-running. The opportunity now is maximising ROI and preparing for AI-native growth.';
+    actions=['Explore agentic AI for complex decision-making','Build proprietary data loops that compound over time','Share your stack — become a case study'];
+  }
+
+  // Dimension breakdown HTML
+  var dimHtml = '';
+  for (var d = 0; d < 5; d++) {
+    var dpct = dimCounts[d] > 0 ? Math.round((dimScores[d] / (dimCounts[d] * 3)) * 100) : 0;
+    dimHtml += '<div>' +
+      '<div class="flex justify-between text-[10px] mb-1.5" style="color:rgba(255,255,255,0.35);">' +
+        '<span>' + DIM_NAMES[d] + '</span><span style="color:' + DIM_COLORS[d] + ';">' + dpct + '%</span>' +
+      '</div>' +
+      '<div class="h-1.5 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.06);">' +
+        '<div class="h-full rounded-full transition-all duration-700" style="width:' + dpct + '%;background:' + DIM_COLORS[d] + ';transition-delay:' + (d*0.1) + 's;"></div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  // Actions HTML
+  var actHtml = actions.map(function(a, i) {
+    return '<div class="flex items-start gap-3" style="animation:am-result-in 0.4s ease-out ' + (0.6 + i*0.1) + 's both;">' +
+      '<span class="mt-0.5 shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:' + levelColor + '18;color:' + levelColor + ';">' + (i+1) + '</span>' +
+      '<p class="text-[12px] leading-relaxed" style="color:rgba(255,255,255,0.65);">' + a + '</p>' +
+    '</div>';
+  }).join('');
+
+  res.innerHTML = '<div style="animation:am-result-in 0.5s ease-out;">' +
+
+    // Score hero
+    '<div class="rounded-[24px] p-8 border mb-5 text-center relative overflow-hidden" style="background:rgba(255,255,255,0.025);border-color:rgba(255,255,255,0.07);">' +
+      '<div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 50% at 50% 0%,' + levelColor + '12 0%,transparent 60%);"></div>' +
+      '<p class="text-[9px] uppercase tracking-[0.22em] font-bold mb-4" style="color:' + levelColor + 'AA;">Your automation maturity score</p>' +
+      '<div class="relative inline-flex items-center justify-center w-28 h-28 mx-auto mb-4">' +
+        '<svg class="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">' +
+          '<circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8"/>' +
+          '<circle cx="50" cy="50" r="44" fill="none" stroke="' + levelColor + '" stroke-width="8" stroke-linecap="round" stroke-dasharray="276.46" stroke-dashoffset="' + (276.46 - (276.46 * pct / 100)) + '" style="transition:stroke-dashoffset 1.5s ease;"/>' +
+        '</svg>' +
+        '<div class="text-center">' +
+          '<p class="font-display text-3xl leading-none" style="color:' + levelColor + ';">' + pct + '</p>' +
+          '<p class="text-[8px] uppercase tracking-wider mt-0.5" style="color:rgba(255,255,255,0.25);">/ 100</p>' +
+        '</div>' +
+      '</div>' +
+      '<p class="font-display text-2xl text-white mb-1">Level ' + level + ' · ' + levelName + '</p>' +
+      '<p class="text-[13px] max-w-md mx-auto leading-relaxed" style="color:rgba(255,255,255,0.45);">' + levelDesc + '</p>' +
+    '</div>' +
+
+    // Dimension breakdown
+    '<div class="rounded-[20px] p-6 border mb-5" style="background:rgba(255,255,255,0.025);border-color:rgba(255,255,255,0.07);">' +
+      '<p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-5" style="color:rgba(255,255,255,0.25);">Score by dimension</p>' +
+      '<div class="space-y-4">' + dimHtml + '</div>' +
+    '</div>' +
+
+    // Actions
+    '<div class="rounded-[20px] p-6 border mb-5" style="background:rgba(255,255,255,0.025);border-color:rgba(255,255,255,0.07);">' +
+      '<p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-5" style="color:rgba(255,255,255,0.25);">Your 3 highest-impact next actions</p>' +
+      '<div class="space-y-3">' + actHtml + '</div>' +
+    '</div>' +
+
+    // CTA
+    '<div class="rounded-[20px] p-6 border text-center" style="background:rgba(232,180,176,0.04);border-color:rgba(232,180,176,0.15);">' +
+      '<p class="text-[13px] mb-2 text-white font-medium">Want a personalised roadmap for Level ' + level + ' → Level ' + Math.min(5,level+1) + '?</p>' +
+      '<p class="text-[11px] mb-5" style="color:rgba(255,255,255,0.35);">In 45 minutes, we\'ll map your exact workflow gaps and show you the 3 automations that will move your score the most.</p>' +
+      '<a href="/pages/welcome" class="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-button text-[13px] font-bold transition mb-2" style="background:#E8B4B0;color:#0A0A0A;">Book my free automation audit →</a>' +
+      '<button onclick="amRestart()" class="text-[11px] w-full text-center mt-2 transition" style="color:rgba(255,255,255,0.25);">Retake the assessment</button>' +
+    '</div>' +
+
+  '</div>';
+
+  // Animate the circle
+  setTimeout(function() {
+    var circle = res.querySelector('circle:last-child');
+    if (circle) {
+      circle.style.strokeDashoffset = (276.46 - (276.46 * pct / 100));
+    }
+  }, 100);
+}
+
+window.amRestart = function() {
+  answers = [];
+  current = 0;
+  document.getElementById('am-result').classList.add('hidden');
+  document.getElementById('am-question-wrap').classList.remove('hidden');
+  renderQuestion(0);
+};
+
+renderQuestion(0);
+
+})();
+</script>

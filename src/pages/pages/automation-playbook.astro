@@ -1,0 +1,432 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+---
+
+<ShopLayout
+  title="Automation Playbooks by Industry — Exact Workflows, Tools & ROI | PURIST"
+  description="Production-ready automation playbooks for Dental, Agency, E-commerce, Real Estate, SaaS and Finance. Exact workflows, tools required, implementation timeline and ROI benchmarks."
+  canonical="https://purist.online/pages/automation-playbook"
+>
+
+<!-- Hero -->
+<section class="bg-brand-black text-white pt-20 pb-14 lg:pt-28 relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(232,180,176,0.07) 0%,transparent 60%);"></div>
+  <div class="container-x relative z-10">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-6" style="border-color:rgba(232,180,176,0.25);background:rgba(232,180,176,0.06);">
+        <span class="text-[10px] uppercase tracking-[0.18em] font-semibold" style="color:rgba(232,180,176,0.80);">Production-ready · Based on 312+ deployments</span>
+      </div>
+      <h1 class="font-display text-[2.2rem] lg:text-[3rem] leading-[1.06] tracking-[-0.025em] text-white mb-4">
+        Automation playbooks<br/><em class="font-medium" style="color:#E8B4B0;">by industry.</em>
+      </h1>
+      <p class="text-[15px] leading-relaxed mb-8 max-w-xl mx-auto" style="color:rgba(255,255,255,0.45);">
+        Not theory. Not case studies. Exact workflows, the tools that connect them, implementation order, and the real ROI numbers — from live deployments.
+      </p>
+      <div class="flex flex-wrap justify-center gap-2">
+        {[
+          ['dental',     'Dental & Healthcare'],
+          ['agency',     'Agency & Consulting'],
+          ['ecom',       'E-commerce'],
+          ['realestate', 'Real Estate'],
+          ['saas',       'SaaS / Tech'],
+          ['finance',    'Finance & Legal'],
+        ].map(([id, label], i) => (
+          <button class="pb-ind px-4 py-2 rounded-full text-[11px] font-semibold border transition-all" data-pbid={id}
+            style={i===0
+              ? 'background:#E8B4B0;color:#0A0A0A;border-color:#E8B4B0;'
+              : 'background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.50);border-color:rgba(255,255,255,0.10);'}>
+            {label}
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Playbook content -->
+<section class="bg-[#0C0C0A] py-14 lg:py-20">
+  <div class="container-x">
+    <div class="max-w-5xl mx-auto" id="pb-content">
+      <!-- injected by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- How PURIST deploys -->
+<section class="bg-white py-16 lg:py-20 border-t border-brand-gray-100">
+  <div class="container-x">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-12 scroll-fade">
+        <p class="eyebrow mb-3">Our deployment method</p>
+        <h2 class="font-display text-h2 mb-3">From playbook to production in 7 days</h2>
+        <p class="text-sm text-brand-gray-600 max-w-lg mx-auto">Every playbook is deployed using the same precision process.</p>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+        {[
+          { day:'Day 0',  title:'Free audit call',      desc:'We map your exact processes, confirm the tools in your stack, and prioritise by ROI.', col:'#E8B4B0' },
+          { day:'Day 1–2',title:'Architecture',          desc:'We design the full workflow graph, define data schemas, and set up your n8n environment.', col:'#7B68EE' },
+          { day:'Day 3–5',title:'Build & test',          desc:'Workflows are built, tested with real data in sandbox, edge cases handled.', col:'#C89840' },
+          { day:'Day 6–7',title:'Go live + handover',   desc:'Deploy to production, team walkthrough, monitoring set up, 30-day support included.', col:'#4ade80' },
+        ].map(({day,title,desc,col})=>(
+          <div class="rounded-[16px] border border-brand-gray-100 p-5 scroll-fade">
+            <div class="text-[9px] uppercase tracking-wider font-bold mb-3" style={`color:${col};`}>{day}</div>
+            <p class="font-semibold text-[14px] text-brand-black mb-2">{title}</p>
+            <p class="text-[12px] text-brand-gray-600 leading-relaxed">{desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="bg-brand-black py-16 border-t" style="border-color:rgba(255,255,255,0.06);">
+  <div class="container-x">
+    <div class="max-w-xl mx-auto text-center scroll-fade">
+      <h2 class="font-display text-[1.8rem] text-white mb-3">Want us to deploy your playbook?</h2>
+      <p class="text-[14px] mb-8" style="color:rgba(255,255,255,0.40);">We'll assess your stack, confirm which playbook fits best, and give you a fixed-price quote. Zero commitment.</p>
+      <a href="/pages/welcome"
+        class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-button text-[14px] font-bold transition"
+        style="background:#E8B4B0;color:#0A0A0A;">
+        Book my free playbook audit →
+        <svg class="w-4 h-4" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+</ShopLayout>
+
+<style is:global>
+  @keyframes pb-in { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+  .pb-workflow-card { animation: pb-in 0.4s ease-out both; }
+  .pb-workflow-card:nth-child(1){animation-delay:0.05s}
+  .pb-workflow-card:nth-child(2){animation-delay:0.12s}
+  .pb-workflow-card:nth-child(3){animation-delay:0.19s}
+  .pb-workflow-card:nth-child(4){animation-delay:0.26s}
+  .pb-workflow-card:nth-child(5){animation-delay:0.33s}
+  .pb-workflow-card:nth-child(6){animation-delay:0.40s}
+</style>
+
+<script is:inline>
+(function(){
+
+var PLAYBOOKS = {
+  dental: {
+    label: 'Dental & Healthcare',
+    accentColor: '#E8B4B0',
+    headline: 'Reclaim 14 hours a week. No extra staff.',
+    intro: 'Dental practices run on relationships and precision — but 60% of a practice manager\'s week disappears into admin. Here\'s the exact automation stack we deploy for every dental client.',
+    stats: [['14h/wk','saved on average'],['62%','no-show reduction'],['£2,800/mo','staff cost recovered'],['6 days','to deploy']],
+    tools: ['n8n','Google Calendar','Twilio / Sinch (SMS)','HubSpot or Carestream','Stripe / GoCardless','Notion','Gmail'],
+    workflows: [
+      { priority:'P1', name:'Appointment reminder sequence', icon:'M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+        desc:'Automated SMS + email sent 48h, 24h and 2h before each appointment. Cancellation link triggers immediate rebooking offer to the next patient on the waitlist.',
+        steps:['PMS triggers n8n on appointment creation','Schedule 3 reminder jobs (T-48h, T-24h, T-2h)','SMS via Twilio, email via Gmail','Patient cancels → webhook → auto-offer to waitlist','Confirmed → update PMS'],
+        time:'45 min/day saved', roi:'£800/mo', complexity:'Low', days:1 },
+      { priority:'P1', name:'Recall campaign automation', icon:'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
+        desc:'Automatically re-engage patients who haven\'t booked in 6–12 months. Personalised by treatment type, last visit date, and risk profile.',
+        steps:['Daily query: patients overdue for recall','Segment by treatment type (hygiene, ortho, checkup)','Personalised email sequence (3 touch, 14-day cadence)','Booking link → auto-schedule','Track conversion in HubSpot'],
+        time:'2 hrs/week saved', roi:'£1,200/mo new revenue', complexity:'Medium', days:2 },
+      { priority:'P2', name:'Insurance pre-auth form collection', icon:'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
+        desc:'Patient books treatment requiring insurance auth → form automatically sent, reminder triggered if not submitted within 48h, completed form forwarded to billing.',
+        steps:['Appointment type triggers pre-auth check','Digital form sent via email/SMS','Reminder if not completed in 48h','Completed form stored + forwarded to billing team','Status updated in PMS'],
+        time:'1 hr/day saved', roi:'£500/mo', complexity:'Medium', days:2 },
+      { priority:'P2', name:'Billing reconciliation workflow', icon:'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+        desc:'PMS exports daily transactions → n8n reconciles against Stripe → flags discrepancies → sends daily summary to practice manager.',
+        steps:['PMS export triggers at 18:00 daily','Parse transaction data','Match against Stripe/GoCardless settlements','Flag unmatched items','Email daily reconciliation report'],
+        time:'30 min/day saved', roi:'£400/mo', complexity:'Low', days:1 },
+      { priority:'P3', name:'Patient feedback & review requests', icon:'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z',
+        desc:'48h after treatment: automated satisfaction email. Score 9-10 → Google review request. Score < 7 → flag for practice manager to call.',
+        steps:['48h post-appointment trigger','Send NPS survey (1 question)','Score 9-10: Google review deep link','Score 1-6: create task for manager','All scores logged in dashboard'],
+        time:'1 hr/week saved', roi:'Reputation + revenue', complexity:'Low', days:1 },
+    ]
+  },
+
+  agency: {
+    label: 'Agency & Consulting',
+    accentColor: '#7B68EE',
+    headline: 'Deliver faster. Bill more. Admin less.',
+    intro: 'Agencies win on speed and creativity — but 15+ hours per week disappear into project admin, reporting, and client communication. This is the full automation stack we deploy for every agency.',
+    stats: [['15h/wk','saved per team'],['60%','faster client delivery'],['3–4 tools','eliminated'],['£3,400/mo','cost recovered']],
+    tools: ['n8n','HubSpot / Pipedrive','Notion / ClickUp','Xero / QuickBooks','Slack','Gmail','Google Sheets','DocuSign / PandaDoc'],
+    workflows: [
+      { priority:'P1', name:'Client onboarding automation', icon:'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z',
+        desc:'Contract signed → client brief form sent → Notion workspace created → Slack channel opened → access credentials shared → kickoff call scheduled. All in 4 minutes, zero manual steps.',
+        steps:['DocuSign webhook: contract signed','Send branded brief questionnaire','Create Notion workspace from template','Open Slack client channel','Send access pack email','Schedule kickoff via Calendly API'],
+        time:'3 hrs/client saved', roi:'£1,200/mo', complexity:'Medium', days:2 },
+      { priority:'P1', name:'Automated weekly status reports', icon:'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+        desc:'Every Friday at 16:00: pull tasks from ClickUp, hours from Harvest, budget spend from Xero → compile into branded PDF → email to client → copy to Slack channel.',
+        steps:['Cron: Friday 16:00','Fetch open/completed tasks from ClickUp','Fetch hours logged from Harvest','Fetch budget from Xero','Compile branded HTML report','Email to client + post in Slack'],
+        time:'4 hrs/week saved', roi:'£1,400/mo', complexity:'Medium', days:2 },
+      { priority:'P1', name:'Milestone invoice generation', icon:'M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z',
+        desc:'Task marked complete in ClickUp → invoice auto-created in Xero → sent to client → 7/14/21 day chase sequence activated if unpaid.',
+        steps:['ClickUp webhook: milestone task completed','Lookup project billing config','Generate invoice in Xero via API','Send to client email on file','Activate chase sequence if unpaid'],
+        time:'2 hrs/week saved', roi:'£800/mo + cashflow', complexity:'Low', days:1 },
+      { priority:'P2', name:'Lead qualification from contact forms', icon:'M13 10V3L4 14h7v7l9-11h-7z',
+        desc:'Form submission → AI classification (budget, intent, industry) → CRM entry → if qualified: slack alert + calendar invite → if not: nurture sequence.',
+        steps:['Form submission webhook','AI classify: budget, fit, urgency','Create deal in HubSpot with score','Score ≥ 7: alert sales Slack + book discovery','Score < 7: 5-email nurture sequence'],
+        time:'5 hrs/week saved', roi:'£1,600/mo', complexity:'Medium', days:2 },
+      { priority:'P3', name:'Internal task routing from client requests', icon:'M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+        desc:'Client emails a request → AI classifies type (design / copy / dev / strategy) → creates ClickUp task in correct project → assigns to right team member → confirms receipt to client.',
+        steps:['Email webhook: client inbox monitored','AI classify request type','Create ClickUp task in correct list','Assign based on workload/skill','Auto-reply to client: received + ETA'],
+        time:'1 hr/day saved', roi:'£400/mo + quality', complexity:'High', days:3 },
+    ]
+  },
+
+  ecom: {
+    label: 'E-commerce',
+    accentColor: '#C89840',
+    headline: 'More revenue. Less support. Runs 24/7.',
+    intro: 'E-commerce operations are 80% repeatable — but most brands still process returns manually, send cart abandonment emails one at a time, and lose hours to inventory management. Here\'s the full automation stack.',
+    stats: [['70%','support tickets eliminated'],['34%','more recovered revenue'],['18h/wk','ops time saved'],['99.7%','fulfilment accuracy']],
+    tools: ['n8n','Shopify','Klaviyo','Zendesk / Gorgias','Recharge','Google Sheets','Slack','Royal Mail / Shipbob'],
+    workflows: [
+      { priority:'P1', name:'Abandoned cart recovery sequence', icon:'M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z',
+        desc:'Cart abandoned → 1h email (social proof + items) → 24h email (urgency) → 48h SMS (final discount). Dynamic content based on cart value and customer LTV.',
+        steps:['Shopify: checkout.created but no order.created','Wait 1h → send email 1 (social proof)','Wait 24h → send email 2 (urgency)','Wait 48h → send SMS if high cart value','Track recovery rate by cohort'],
+        time:'Manual: 3 hrs/week', roi:'+£3,200/mo recovered', complexity:'Low', days:1 },
+      { priority:'P1', name:'AI support triage & auto-resolution', icon:'M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18',
+        desc:'Ticket arrives → AI classifies (order status / return / sizing / complaint) → Tier 1 (order status, tracking) auto-resolved → Tier 2 routed to correct agent with full context.',
+        steps:['Zendesk webhook: new ticket','AI classify intent and urgency','Tier 1: fetch order data + auto-reply','Tier 2: route to correct agent with context summary','Track resolution rate and CSAT'],
+        time:'6 hrs/day saved', roi:'£2,800/mo', complexity:'Medium', days:2 },
+      { priority:'P1', name:'Inventory alert & reorder trigger', icon:'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4',
+        desc:'Stock drops below threshold → Slack alert → if critical: auto-create purchase order to supplier → confirm when stock arrives → update Shopify.',
+        steps:['Shopify: inventory_level.update webhook','Check against min threshold per SKU','Below threshold: Slack alert to ops','Below critical: auto-PO to supplier email','Supplier confirms → log ETA'],
+        time:'1 hr/day saved', roi:'Stockout prevention', complexity:'Medium', days:2 },
+      { priority:'P2', name:'Post-purchase review request sequence', icon:'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z',
+        desc:'Order delivered (tracking confirmed) → 48h later: review request email → if 5★: Google + Trustpilot links → if negative: flag for customer service before it goes public.',
+        steps:['Fulfil webhook: tracking shows delivered','Wait 48h','Send personalised review request','5-star: send Trustpilot + Google links','1-3 star: flag CS before public posting'],
+        time:'2 hrs/week saved', roi:'+Reputation compounding', complexity:'Low', days:1 },
+      { priority:'P3', name:'Return & refund processing', icon:'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15',
+        desc:'Customer submits return request → AI validates against policy → approved: label generated → label emailed → return received: refund issued → Shopify updated.',
+        steps:['Return form submitted','AI policy check (time, condition, reason)','Approved: generate label via carrier API','Email label to customer','Return received scan → auto-refund Stripe → update Shopify'],
+        time:'3 hrs/week saved', roi:'£1,200/mo + CSAT', complexity:'High', days:3 },
+    ]
+  },
+
+  realestate: {
+    label: 'Real Estate',
+    accentColor: '#4ade80',
+    headline: 'Close 40% more deals with the same team.',
+    intro: 'Real estate agents spend 60% of their time on admin — lead follow-up, viewing confirmations, document generation, compliance. This stack automates the entire pipeline from portal lead to signed contract.',
+    stats: [['12h/wk','saved per agent'],['40%','more deals closed'],['85%','faster lead response'],['£2,500/mo','recovered per agent']],
+    tools: ['n8n','Salesforce / Reapit','Rightmove / Zoopla API','DocuSign','Slack','Gmail','Twilio','Google Calendar'],
+    workflows: [
+      { priority:'P1', name:'Portal lead capture & instant follow-up', icon:'M13 10V3L4 14h7v7l9-11h-7z',
+        desc:'Lead from Rightmove/Zoopla arrives → CRM entry + lead score (budget, area, timeline) → within 90 seconds: personalised email + SMS → if no response in 4h: phone task assigned to agent.',
+        steps:['Rightmove/Zoopla email parsed by n8n','AI extract: name, budget, property type, area','Create deal in CRM with lead score','Send personalised email within 90 sec','SMS follow-up → no response 4h → phone task'],
+        time:'2 hrs/agent/day saved', roi:'£1,000/mo', complexity:'Medium', days:2 },
+      { priority:'P1', name:'Viewing confirmation & reminder flow', icon:'M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+        desc:'Viewing booked → immediate confirmation (SMS + email with map link) → 24h reminder → 2h reminder → post-viewing feedback form 30 min after.',
+        steps:['CRM: viewing scheduled','Send confirmation SMS + email (map link, key info)','T-24h: reminder with viewing notes','T-2h: reminder','T+30min: automated feedback form'],
+        time:'45 min/agent/day saved', roi:'£600/mo', complexity:'Low', days:1 },
+      { priority:'P2', name:'Offer document generation', icon:'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
+        desc:'Deal stage moves to "Offer" in CRM → offer memo auto-populated from deal data → sent for e-signature → accepted: memorandum of sale generated automatically.',
+        steps:['CRM stage change: Offer','Fetch deal data (buyer, seller, property, price)','Generate offer memo from template','Send via DocuSign','Accepted: generate memorandum of sale'],
+        time:'45 min/deal saved', roi:'£800/mo', complexity:'Medium', days:2 },
+      { priority:'P2', name:'Landlord & tenant onboarding pack', icon:'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z',
+        desc:'Tenancy agreed → full onboarding pack auto-sent (AST, standing order setup, utility transfer guide, key collection details) → follow-up on unsigned docs.',
+        steps:['CRM: tenancy agreed','Generate branded onboarding pack','Send to tenant and landlord via DocuSign','Utility transfer notification sent','Chase unsigned docs after 48h'],
+        time:'1 hr/tenancy saved', roi:'£500/mo', complexity:'Medium', days:2 },
+      { priority:'P3', name:'Commission invoice automation', icon:'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+        desc:'Deal status moves to "Completed" → invoice auto-generated (commission calculated from deal value) → sent to solicitor/developer → 7/14/30 day chase if unpaid.',
+        steps:['CRM: deal status = Completed','Calculate commission from deal config','Generate invoice in Xero','Send to billing contact','Automated 3-touch chase sequence'],
+        time:'30 min/deal saved', roi:'£600/mo + cashflow', complexity:'Low', days:1 },
+    ]
+  },
+
+  saas: {
+    label: 'SaaS / Tech',
+    accentColor: '#E8B4B0',
+    headline: 'Scale revenue operations without scaling headcount.',
+    intro: 'SaaS companies face a unique challenge: product-led growth creates volume, but revenue operations can\'t keep up. This stack automates the full customer lifecycle — trial to enterprise.',
+    stats: [['11h/wk','ops time saved'],['3×','faster trial-to-paid'],['£3,800/mo','recovered'],['42%','churn reduction']],
+    tools: ['n8n','HubSpot / Salesforce','Stripe','Intercom','Slack','Mixpanel / Amplitude','Notion','DocuSign'],
+    workflows: [
+      { priority:'P1', name:'Trial activation & onboarding sequence', icon:'M13 10V3L4 14h7v7l9-11h-7z',
+        desc:'User signs up → product usage tracked via Mixpanel → behaviour-triggered email sequence (not time-based) → low engagement at day 3: CS alert → reached activation event: upgrade prompt.',
+        steps:['Signup event → create in HubSpot','Mixpanel: track activation events','Day 3 no activation → CS Slack alert','Activation hit → trigger upgrade email','Day 7 still inactive → personal email from founder'],
+        time:'4 hrs/week saved', roi:'£2,200/mo new revenue', complexity:'High', days:3 },
+      { priority:'P1', name:'Churn risk early warning', icon:'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z',
+        desc:'Daily health score calc (login freq, feature usage, support tickets, payment health) → score drops below threshold → CS team alerted → automated personalised check-in email sent.',
+        steps:['Cron: daily health score calculation','Score < 60: create Intercom conversation','Score < 40: Slack alert to CS + create task','Automated personal email from CS rep','Track interventions vs churn rate'],
+        time:'3 hrs/week saved', roi:'£1,600/mo prevented churn', complexity:'High', days:3 },
+      { priority:'P2', name:'Expansion revenue triggers', icon:'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6',
+        desc:'Account reaches usage limit → automated upgrade sequence (personalised ROI calculation) → jumps to next tier: auto-contract + Stripe update → CS notified of expansion.',
+        steps:['Usage threshold hit in Mixpanel','Calculate ROI of upgrading for that account','Send personalised upgrade email','Accept: generate contract + Stripe payment link','CS notified: log expansion revenue'],
+        time:'2 hrs/week saved', roi:'£2,000/mo expansion', complexity:'Medium', days:2 },
+      { priority:'P2', name:'NPS closed-loop feedback system', icon:'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z',
+        desc:'Every 90 days: NPS survey sent. Score 9-10: case study request + G2 review. Score 7-8: feature request offer. Score 1-6: immediate CS intervention + executive follow-up.',
+        steps:['Cron: 90-day NPS trigger','Send 1-question NPS','9-10: case study request + G2 link','7-8: offer feature input call','1-6: CS alert + exec personal email within 24h'],
+        time:'2 hrs/week saved', roi:'Retention compounding', complexity:'Medium', days:2 },
+      { priority:'P3', name:'Revenue reporting automation', icon:'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+        desc:'Monday 08:00: pull MRR, churn, expansion, new logos from Stripe + HubSpot → compile KPI digest → post in #revenue Slack → email to board.',
+        steps:['Cron: Monday 08:00','Fetch MRR, new MRR, churn from Stripe','Fetch pipeline from HubSpot','Calculate WoW and MoM deltas','Post formatted digest to Slack + email board'],
+        time:'3 hrs/week saved', roi:'£800/mo', complexity:'Low', days:1 },
+    ]
+  },
+
+  finance: {
+    label: 'Finance & Legal',
+    accentColor: '#C89840',
+    headline: 'Compliance handled. Clients retained. Revenue protected.',
+    intro: 'Finance and legal firms face a specific challenge: high compliance burden + high client expectations + billable time pressure. Automation solves all three without touching the core advisory work.',
+    stats: [['13h/wk','admin time saved'],['95%','compliance task accuracy'],['£3,600/mo','recovered'],['28%','more billable hours']],
+    tools: ['n8n','Salesforce Financial Services','DocuSign','Companies House API','HMRC API','Xero','Slack','PandaDoc'],
+    workflows: [
+      { priority:'P1', name:'Client onboarding & KYC automation', icon:'M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2',
+        desc:'Engagement letter signed → KYC pack sent → docs received → Companies House verification → risk-score assigned → CRM updated → welcome email + portal access granted.',
+        steps:['DocuSign: engagement letter signed','Send branded KYC document request','AI extract and validate documents','Companies House API verify entity','Risk score calculated + logged in CRM','Portal access granted + welcome pack sent'],
+        time:'3 hrs/client saved', roi:'£1,400/mo', complexity:'High', days:3 },
+      { priority:'P1', name:'Deadline tracking & compliance alerts', icon:'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z',
+        desc:'HMRC, Companies House, VAT deadlines imported → 60/30/7/1 day automated reminders to client → if action needed: task created → completion logged.',
+        steps:['Import deadlines from HMRC/CH API','Schedule reminders at 60/30/7/1 day','Email + SMS to client + partner','If action required: create internal task','Completion logged + client notified'],
+        time:'2 hrs/day saved', roi:'£1,200/mo + liability avoidance', complexity:'Medium', days:2 },
+      { priority:'P2', name:'Time billing & invoice automation', icon:'M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 11h.01M12 11h.01M15 11h.01M12 7h.01M9 3H5a2 2 0 00-2 2v16a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2h-4m-5 0V1m0 2h4m0 0V1',
+        desc:'Time entries posted in billing system → end of month: invoice auto-generated, reviewed (30 min window), approved → sent → 7/14/30 day chase if unpaid.',
+        steps:['Month-end cron trigger','Fetch time entries per client per matter','Generate invoice from template','30-min review window (Slack button to edit)','Send invoice + activate chase sequence'],
+        time:'4 hrs/month saved', roi:'£800/mo + cashflow', complexity:'Medium', days:2 },
+      { priority:'P2', name:'Document generation & e-signature', icon:'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
+        desc:'Standard documents (NDAs, engagement letters, board minutes) auto-generated from CRM data → merged into template → sent for e-signature → signed version filed in DMS.',
+        steps:['Request via CRM or form','Fetch client/matter data','Merge into PandaDoc template','Send for e-signature','Signed: file in DMS + notify partner'],
+        time:'1 hr/doc saved', roi:'£1,000/mo', complexity:'Low', days:1 },
+      { priority:'P3', name:'Referral tracking & partner payments', icon:'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z',
+        desc:'Referral logged in CRM → new client signs → automatic commission calculated → approval to partner → payment triggered via BACS → confirmation sent.',
+        steps:['Referral logged with source in CRM','New client engagement letter signed','Commission calculated from deal config','Approval email to partner','BACS payment triggered + confirmation'],
+        time:'2 hrs/week saved', roi:'Partner retention', complexity:'Medium', days:2 },
+    ]
+  },
+};
+
+var currentPb = 'dental';
+
+function complexityColor(c) {
+  if (c === 'Low')    return '#4ade80';
+  if (c === 'Medium') return '#C89840';
+  return '#ef4444';
+}
+function priorityStyle(p) {
+  if (p === 'P1') return 'background:rgba(232,180,176,0.12);color:#E8B4B0;';
+  if (p === 'P2') return 'background:rgba(123,104,238,0.10);color:#7B68EE;';
+  return 'background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.35);';
+}
+
+function renderPlaybook(id) {
+  currentPb = id;
+  var pb = PLAYBOOKS[id];
+  if (!pb) return;
+  var col = pb.accentColor;
+
+  var statsHtml = pb.stats.map(function(s) {
+    return '<div class="text-center">' +
+      '<p class="font-display text-[1.8rem] leading-none mb-0.5" style="color:' + col + ';">' + s[0] + '</p>' +
+      '<p class="text-[9px] uppercase tracking-wider" style="color:rgba(255,255,255,0.25);">' + s[1] + '</p>' +
+    '</div>';
+  }).join('');
+
+  var toolsHtml = pb.tools.map(function(t) {
+    return '<span class="px-2.5 py-1 rounded-full text-[10px] font-medium" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.45);border:1px solid rgba(255,255,255,0.07);">' + t + '</span>';
+  }).join('');
+
+  var wfHtml = pb.workflows.map(function(wf, i) {
+    var stepsHtml = wf.steps.map(function(step, si) {
+      return '<div class="flex items-start gap-2">' +
+        '<span class="w-5 h-5 rounded-full shrink-0 flex items-center justify-center text-[9px] font-bold mt-0.5" style="background:' + col + '15;color:' + col + ';">' + (si+1) + '</span>' +
+        '<p class="text-[11px] leading-relaxed" style="color:rgba(255,255,255,0.45);">' + step + '</p>' +
+      '</div>';
+    }).join('');
+
+    return '<div class="pb-workflow-card rounded-[20px] border overflow-hidden" style="background:rgba(255,255,255,0.02);border-color:rgba(255,255,255,0.07);">' +
+      '<div class="h-0.5" style="background:linear-gradient(90deg,' + col + ' 0%,transparent 70%);"></div>' +
+      '<div class="p-5 lg:p-6">' +
+        '<div class="flex items-start gap-4 mb-4">' +
+          '<div class="w-10 h-10 rounded-[12px] shrink-0 flex items-center justify-center" style="background:' + col + '12;">' +
+            '<svg class="w-5 h-5" style="color:' + col + ';" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="' + wf.icon + '"/></svg>' +
+          '</div>' +
+          '<div class="flex-1 min-w-0">' +
+            '<div class="flex items-center gap-2 mb-1 flex-wrap">' +
+              '<span class="text-[9px] font-bold px-2 py-0.5 rounded-full" style="' + priorityStyle(wf.priority) + '">' + wf.priority + '</span>' +
+              '<span class="text-[9px] font-semibold px-2 py-0.5 rounded-full" style="background:' + complexityColor(wf.complexity) + '15;color:' + complexityColor(wf.complexity) + ';">' + wf.complexity + ' complexity</span>' +
+              '<span class="text-[9px]" style="color:rgba(255,255,255,0.20);">· Deploy in ' + wf.days + ' day' + (wf.days>1?'s':'') + '</span>' +
+            '</div>' +
+            '<h3 class="text-[15px] font-semibold text-white leading-snug">' + wf.name + '</h3>' +
+          '</div>' +
+        '</div>' +
+        '<p class="text-[12px] leading-relaxed mb-5" style="color:rgba(255,255,255,0.50);">' + wf.desc + '</p>' +
+
+        '<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">' +
+          // Steps
+          '<div class="rounded-[14px] p-4" style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.05);">' +
+            '<p class="text-[9px] uppercase tracking-wider font-bold mb-3" style="color:rgba(255,255,255,0.20);">Workflow steps</p>' +
+            '<div class="space-y-2.5">' + stepsHtml + '</div>' +
+          '</div>' +
+          // Metrics
+          '<div class="space-y-3">' +
+            '<div class="rounded-[14px] p-4" style="background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.10);">' +
+              '<p class="text-[9px] uppercase tracking-wider font-bold mb-1" style="color:rgba(239,68,68,0.50);">Manual time cost</p>' +
+              '<p class="text-[14px] font-semibold" style="color:rgba(255,255,255,0.70);">' + wf.time + '</p>' +
+            '</div>' +
+            '<div class="rounded-[14px] p-4" style="background:rgba(74,222,128,0.05);border:1px solid rgba(74,222,128,0.12);">' +
+              '<p class="text-[9px] uppercase tracking-wider font-bold mb-1" style="color:rgba(74,222,128,0.50);">Projected impact</p>' +
+              '<p class="text-[14px] font-semibold" style="color:rgba(255,255,255,0.70);">' + wf.roi + '</p>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  var html = '<div style="animation:pb-in 0.35s ease-out;">' +
+
+    // Header
+    '<div class="mb-8">' +
+      '<div class="flex items-end justify-between gap-4 flex-wrap mb-6">' +
+        '<div>' +
+          '<p class="text-[9px] uppercase tracking-[0.2em] font-bold mb-2" style="color:' + col + 'AA;">' + pb.label + ' playbook</p>' +
+          '<h2 class="font-display text-[1.8rem] text-white leading-tight">' + pb.headline + '</h2>' +
+        '</div>' +
+      '</div>' +
+      '<p class="text-[13px] leading-relaxed mb-6" style="color:rgba(255,255,255,0.45);">' + pb.intro + '</p>' +
+      '<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">' + statsHtml + '</div>' +
+      '<div>' +
+        '<p class="text-[9px] uppercase tracking-wider font-bold mb-2" style="color:rgba(255,255,255,0.20);">Tools required</p>' +
+        '<div class="flex flex-wrap gap-1.5">' + toolsHtml + '</div>' +
+      '</div>' +
+    '</div>' +
+
+    // Workflows
+    '<div class="space-y-5">' +
+      '<p class="text-[9px] uppercase tracking-[0.2em] font-bold" style="color:rgba(255,255,255,0.25);">Workflows — ordered by ROI priority</p>' +
+      wfHtml +
+    '</div>' +
+
+  '</div>';
+
+  document.getElementById('pb-content').innerHTML = html;
+
+  // Update nav buttons
+  document.querySelectorAll('.pb-ind').forEach(function(btn) {
+    if (btn.dataset.pbid === id) {
+      btn.style.background = col;
+      btn.style.color = '#0A0A0A';
+      btn.style.borderColor = col;
+    } else {
+      btn.style.background = 'rgba(255,255,255,0.05)';
+      btn.style.color = 'rgba(255,255,255,0.50)';
+      btn.style.borderColor = 'rgba(255,255,255,0.10)';
+    }
+  });
+}
+
+document.querySelectorAll('.pb-ind').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    renderPlaybook(this.dataset.pbid);
+    window.scrollTo({ top: document.getElementById('pb-content').getBoundingClientRect().top + window.scrollY - 100, behavior: 'smooth' });
+  });
+});
+
+renderPlaybook('dental');
+
+})();
+</script>

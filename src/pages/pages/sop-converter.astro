@@ -1,0 +1,818 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+---
+
+<ShopLayout
+  title="SOP to Automation Converter — Turn Any Process into an n8n Workflow | PURIST"
+  description="Paste your Standard Operating Procedure and get a complete automation blueprint: triggers, tools, logic map, n8n nodes, and implementation priority score."
+  canonical="https://purist.online/pages/sop-converter"
+>
+
+<!-- Hero -->
+<section class="bg-brand-black text-white pt-20 pb-12 lg:pt-28 relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(232,180,176,0.07) 0%,transparent 60%);"></div>
+  <div class="container-x relative z-10">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-6" style="border-color:rgba(232,180,176,0.25);background:rgba(232,180,176,0.06);">
+        <span class="text-[10px] uppercase tracking-[0.18em] font-semibold" style="color:rgba(232,180,176,0.80);">Free tool · Based on 312+ live automations</span>
+      </div>
+      <h1 class="font-display text-[2.2rem] lg:text-[3rem] leading-[1.06] tracking-[-0.025em] text-white mb-4">
+        Paste your SOP.<br/><em class="font-medium" style="color:#E8B4B0;">Get your automation blueprint.</em>
+      </h1>
+      <p class="text-[15px] leading-relaxed mb-8 max-w-xl mx-auto" style="color:rgba(255,255,255,0.45);">
+        Describe any business process in plain language. The converter identifies triggers, actions, decisions and tools — then maps it to a ready-to-build n8n workflow.
+      </p>
+      <!-- Stats row -->
+      <div class="flex flex-wrap justify-center gap-6">
+        {[
+          ['312+', 'workflows deployed'],
+          ['< 30s', 'to analyse your SOP'],
+          ['91%', 'automatable on average'],
+        ].map(([val, lbl]) => (
+          <div class="text-center">
+            <div class="text-xl font-semibold" style="color:#E8B4B0;">{val}</div>
+            <div class="text-[11px] uppercase tracking-widest mt-0.5" style="color:rgba(255,255,255,0.35);">{lbl}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main converter -->
+<section class="bg-brand-black text-white pb-20">
+  <div class="container-x">
+    <div class="max-w-5xl mx-auto">
+
+      <!-- Step progress bar -->
+      <div class="flex items-center justify-center gap-0 mb-12" id="step-bar">
+        {[
+          ['1', 'Paste SOP'],
+          ['2', 'Classify'],
+          ['3', 'Blueprint'],
+        ].map(([n, lbl], i) => (
+          <>
+            <div class="flex flex-col items-center" id={`step-dot-${n}`}>
+              <div class={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all duration-300 ${i === 0 ? 'step-active' : 'step-inactive'}`}
+                   style={i === 0 ? 'background:#E8B4B0;border-color:#E8B4B0;color:#0a0a0a;' : 'border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.3);'}>
+                {n}
+              </div>
+              <span class="text-[10px] uppercase tracking-widest mt-1.5" style={i === 0 ? 'color:#E8B4B0;' : 'color:rgba(255,255,255,0.25);'}>{lbl}</span>
+            </div>
+            {i < 2 && <div class="w-16 h-px mx-2 mt-[-14px]" style="background:rgba(255,255,255,0.1);" id={`step-line-${i}`}></div>}
+          </>
+        ))}
+      </div>
+
+      <!-- Step 1: Input -->
+      <div id="step1" class="sop-step">
+        <div class="grid lg:grid-cols-5 gap-6">
+          <!-- Input panel -->
+          <div class="lg:col-span-3">
+            <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+              <div class="flex items-center justify-between px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+                <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Your SOP / process description</span>
+                <div class="flex gap-2">
+                  <button id="btn-example" class="text-[11px] px-3 py-1 rounded-full border transition-colors" style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);" onmouseenter="this.style.borderColor='rgba(232,180,176,0.5)';this.style.color='#E8B4B0';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='rgba(255,255,255,0.5)';">Load example</button>
+                  <button id="btn-clear" class="text-[11px] px-3 py-1 rounded-full border transition-colors" style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);" onmouseenter="this.style.borderColor='rgba(232,180,176,0.5)';this.style.color='#E8B4B0';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='rgba(255,255,255,0.5)';">Clear</button>
+                </div>
+              </div>
+              <textarea id="sop-input" rows="14" placeholder="Describe your process in plain language. For example:
+
+When a new lead fills our contact form on the website, our team manually checks if they're already in HubSpot. If yes, we update their record and notify the account manager by email. If no, we create a new contact, assign them to the relevant rep based on industry, send a welcome email, create a deal in the pipeline at 'New' stage, and schedule a follow-up task for 48 hours later. We also add them to a Slack channel notification so the whole team sees it." class="w-full bg-transparent resize-none px-5 py-4 text-[13px] leading-relaxed outline-none" style="color:rgba(255,255,255,0.75);min-height:260px;"></textarea>
+              <div class="px-5 py-3 border-t flex items-center justify-between" style="border-color:rgba(255,255,255,0.06);">
+                <span id="char-count" class="text-[11px]" style="color:rgba(255,255,255,0.25);">0 characters</span>
+                <button id="btn-analyse" disabled class="px-6 py-2.5 rounded-lg text-[13px] font-semibold transition-all duration-200 opacity-40 cursor-not-allowed" style="background:#E8B4B0;color:#0a0a0a;">
+                  Analyse Process →
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tips panel -->
+          <div class="lg:col-span-2 flex flex-col gap-4">
+            <div class="rounded-2xl border p-5" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);">
+              <h3 class="text-[11px] uppercase tracking-widest font-semibold mb-4" style="color:rgba(232,180,176,0.7);">What makes a good SOP</h3>
+              <div class="space-y-3">
+                {[
+                  ['Triggers', 'What starts the process? (new form, email, schedule, manual action)'],
+                  ['Steps', 'Each action in order, including manual checks and decisions'],
+                  ['Tools', 'Name the apps involved (HubSpot, Slack, Gmail, Notion…)'],
+                  ['People', 'Who does each step — names optional, roles preferred'],
+                  ['Branches', 'If/then logic ("if customer is VIP…", "if deal > £5k…")'],
+                ].map(([title, desc]) => (
+                  <div class="flex gap-3">
+                    <div class="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style="background:#E8B4B0;"></div>
+                    <div>
+                      <span class="text-[12px] font-semibold text-white">{title}: </span>
+                      <span class="text-[12px]" style="color:rgba(255,255,255,0.45);">{desc}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div class="rounded-2xl border p-5" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);">
+              <h3 class="text-[11px] uppercase tracking-widest font-semibold mb-3" style="color:rgba(255,255,255,0.35);">Works best for</h3>
+              <div class="flex flex-wrap gap-2">
+                {['Lead management', 'Client onboarding', 'Invoice processing', 'Reporting', 'Support tickets', 'Scheduling', 'Data sync', 'Notifications', 'Approvals', 'Follow-ups'].map(t => (
+                  <span class="text-[11px] px-2.5 py-1 rounded-full border" style="border-color:rgba(255,255,255,0.1);color:rgba(255,255,255,0.4);">{t}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Classifying (loading) -->
+      <div id="step2" class="sop-step hidden">
+        <div class="max-w-xl mx-auto text-center py-16">
+          <div id="analyse-log" class="space-y-2 text-left mb-8 font-mono text-[12px]" style="color:rgba(255,255,255,0.5);"></div>
+          <div class="text-[13px]" style="color:rgba(255,255,255,0.35);">Mapping your workflow…</div>
+        </div>
+      </div>
+
+      <!-- Step 3: Blueprint output -->
+      <div id="step3" class="sop-step hidden">
+        <!-- Top metrics -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8" id="result-metrics"></div>
+
+        <!-- Main blueprint grid -->
+        <div class="grid lg:grid-cols-3 gap-6 mb-8">
+          <!-- Workflow map -->
+          <div class="lg:col-span-2">
+            <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);">
+              <div class="px-5 py-3.5 border-b flex items-center justify-between" style="border-color:rgba(255,255,255,0.06);">
+                <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Workflow map</span>
+                <span class="text-[11px]" style="color:rgba(255,255,255,0.3);">trigger → actions → output</span>
+              </div>
+              <div id="workflow-map" class="p-5 space-y-3"></div>
+            </div>
+          </div>
+
+          <!-- Side panel: tools + complexity -->
+          <div class="space-y-4">
+            <div class="rounded-2xl border p-5" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);">
+              <h3 class="text-[11px] uppercase tracking-widest font-semibold mb-4" style="color:rgba(255,255,255,0.35);">Tools detected</h3>
+              <div id="tools-detected" class="space-y-2"></div>
+            </div>
+            <div class="rounded-2xl border p-5" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);">
+              <h3 class="text-[11px] uppercase tracking-widest font-semibold mb-4" style="color:rgba(255,255,255,0.35);">Automation score</h3>
+              <div id="auto-score-display"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- n8n nodes -->
+        <div class="rounded-2xl border overflow-hidden mb-6" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);">
+          <div class="px-5 py-3.5 border-b flex items-center justify-between" style="border-color:rgba(255,255,255,0.06);">
+            <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">n8n node blueprint</span>
+            <span class="text-[10px] px-2.5 py-1 rounded-full border" style="border-color:rgba(232,180,176,0.25);color:rgba(232,180,176,0.6);">copy to share with your dev</span>
+          </div>
+          <div id="n8n-nodes" class="p-5"></div>
+        </div>
+
+        <!-- Next steps -->
+        <div class="rounded-2xl border overflow-hidden mb-8" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);">
+          <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+            <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(255,255,255,0.35);">Recommended next steps</span>
+          </div>
+          <div id="next-steps" class="p-5 grid sm:grid-cols-3 gap-4"></div>
+        </div>
+
+        <!-- CTA + restart -->
+        <div class="flex flex-col sm:flex-row gap-4 items-center justify-center">
+          <a href="/pages/demo" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-[14px] font-semibold transition-all duration-200 hover:opacity-90" style="background:#E8B4B0;color:#0a0a0a;">
+            See PURIST build this for you
+          </a>
+          <button id="btn-restart" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl text-[13px] font-medium border transition-all duration-200" style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.6);" onmouseenter="this.style.borderColor='rgba(232,180,176,0.4)';this.style.color='#E8B4B0';" onmouseleave="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='rgba(255,255,255,0.6)';">
+            ← Convert another SOP
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="bg-brand-black text-white pb-20 border-t" style="border-color:rgba(255,255,255,0.05);">
+  <div class="container-x">
+    <div class="max-w-4xl mx-auto pt-16">
+      <div class="text-center mb-12">
+        <h2 class="font-display text-[1.7rem] lg:text-[2.2rem] leading-tight tracking-[-0.02em] text-white mb-3">How the analysis works</h2>
+        <p class="text-[14px]" style="color:rgba(255,255,255,0.4);">Pattern recognition built from 312 real automation deployments</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        {[
+          {
+            n: '01',
+            title: 'Trigger detection',
+            desc: 'Identifies what starts the process — form submission, email received, schedule, webhook, manual action or data change.'
+          },
+          {
+            n: '02',
+            title: 'Action mapping',
+            desc: 'Extracts every discrete step, labels it as data-read, data-write, API call, notification, conditional branch or human task.'
+          },
+          {
+            n: '03',
+            title: 'Tool matching',
+            desc: 'Cross-references mentioned apps against 180+ n8n-supported integrations to identify which nodes to use for each action.'
+          },
+          {
+            n: '04',
+            title: 'Complexity scoring',
+            desc: 'Scores each step for automation feasibility: 1-click (native n8n node), medium (some config) or complex (custom code needed).'
+          },
+          {
+            n: '05',
+            title: 'Priority ordering',
+            desc: 'Ranks which steps to automate first based on time saved × frequency × risk level from our deployment database.'
+          },
+          {
+            n: '06',
+            title: 'ROI estimate',
+            desc: 'Benchmarks the workflow against similar deployments to produce a time-saved and cost-saved estimate based on real data.'
+          },
+        ].map(({ n, title, desc }) => (
+          <div class="relative">
+            <div class="text-[3.5rem] font-display leading-none mb-3 select-none" style="color:rgba(255,255,255,0.04);">{n}</div>
+            <h3 class="text-[15px] font-semibold text-white mb-2 -mt-10">{title}</h3>
+            <p class="text-[13px] leading-relaxed" style="color:rgba(255,255,255,0.4);">{desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Example SOPs for inspiration -->
+<section class="bg-brand-black text-white pb-24 border-t" style="border-color:rgba(255,255,255,0.05);">
+  <div class="container-x">
+    <div class="max-w-5xl mx-auto pt-16">
+      <div class="text-center mb-10">
+        <h2 class="font-display text-[1.7rem] lg:text-[2.2rem] leading-tight tracking-[-0.02em] text-white mb-3">Common SOPs we've automated</h2>
+        <p class="text-[14px]" style="color:rgba(255,255,255,0.4);">Click any to load it into the converter</p>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4" id="example-cards"></div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .sop-step { transition: opacity 0.3s ease, transform 0.3s ease; }
+  .sop-step.hidden { display: none; }
+
+  @keyframes sop-fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .sop-anim { animation: sop-fade-in 0.4s ease-out both; }
+
+  @keyframes node-in {
+    from { opacity: 0; transform: translateX(-8px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  .node-row { animation: node-in 0.35s ease-out both; }
+
+  @keyframes log-line {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .log-line { animation: log-line 0.2s ease-out both; }
+
+  #sop-input::placeholder { color: rgba(255,255,255,0.18); }
+  #sop-input { caret-color: #E8B4B0; }
+  #sop-input:focus { outline: none; }
+</style>
+
+<script is:inline>
+(function(){
+
+  /* ─── Example SOPs ─── */
+  var EXAMPLES = [
+    {
+      label: 'Lead intake → CRM',
+      industry: 'Agency',
+      icon: '🎯',
+      text: `When a prospect submits the contact form on our website, we manually check HubSpot to see if they already exist as a contact. If they do, we update their record with the new inquiry details and send an internal Slack message to their assigned rep. If they don't exist, we create a new contact in HubSpot, assign them to a sales rep based on their selected service (SEO, Paid Ads, or Web Design), add them to the correct pipeline at "New Lead" stage, send a personalised welcome email from the rep's address, create a follow-up task for 24 hours later, and post a notification to our #new-leads Slack channel.`
+    },
+    {
+      label: 'Invoice processing',
+      industry: 'Finance',
+      icon: '💳',
+      text: `When an invoice email arrives in our accounts@company.com inbox, we download the PDF attachment and enter the data manually into our spreadsheet: supplier name, invoice number, amount, due date, and category. We then check if the supplier is on our approved list in Notion. If approved and under £2,000, we mark it for auto-payment in Xero. If over £2,000, we send an approval request to the Finance Director via email. Once approved, we schedule payment in Xero, update the spreadsheet, and archive the email with a label "processed".`
+    },
+    {
+      label: 'New client onboarding',
+      industry: 'Consulting',
+      icon: '🤝',
+      text: `When a contract is signed in DocuSign, we manually create a new project folder in Google Drive using our template structure. We then create a project in ClickUp with all standard tasks assigned to the relevant team members. We send the client a welcome email with their portal login details, add them to our client Slack workspace, schedule the kickoff call in Calendly and send the invite, create their profile in our billing system, add them to our monthly reporting spreadsheet, and notify the account manager in our internal #onboarding Slack channel.`
+    },
+    {
+      label: 'E-comm post-purchase',
+      industry: 'E-commerce',
+      icon: '📦',
+      text: `After an order is placed on our Shopify store, we check if it's the customer's first order or a repeat purchase. For first-time buyers, we send a welcome email sequence (3 emails over 7 days), add them to our loyalty programme in Klaviyo, and create a customer card in our CRM. For repeat buyers, we check their total spend. If over £500 lifetime, we tag them as VIP and add them to our VIP segment. All orders trigger a confirmation email. When the order ships, we send tracking info. 14 days after delivery, we send an automated review request.`
+    },
+    {
+      label: 'Support ticket routing',
+      industry: 'SaaS',
+      icon: '🎧',
+      text: `When a support ticket arrives in Freshdesk, a team member reads it and manually assigns it to either Technical, Billing, or General Support. For technical issues, they check the customer's plan in our database and assign to senior support if they're on Enterprise plan. They create a bug report in Linear if it's a platform issue. For billing issues, they check Stripe for the customer's subscription status. They update the ticket priority based on plan type and respond within SLA targets. At end of day, they compile a summary report of all tickets by category in a spreadsheet.`
+    },
+    {
+      label: 'Real estate lead follow-up',
+      industry: 'Real Estate',
+      icon: '🏠',
+      text: `When someone books a valuation through our website form, we manually enter their details into our CRM (Address, contact info, property type, estimated value range). We assign them to the nearest agent based on postcode, send a confirmation email with appointment details, create a calendar event for the agent, prepare a comparables report by pulling 5 recent sales from Rightmove, and add the lead to a weekly pipeline review spreadsheet. If the appointment is not confirmed within 24 hours, we send a reminder. After the valuation, we log the outcome and move them to the relevant pipeline stage.`
+    },
+  ];
+
+  /* ─── Pattern library (keyword → node mapping) ─── */
+  var TRIGGERS = [
+    { kw: ['form', 'submits', 'submitted', 'fills'], label: 'Form submission', node: 'Webhook / Form Trigger', icon: '⚡' },
+    { kw: ['email arrives', 'email received', 'inbox', 'email comes in'], label: 'Email received', node: 'Gmail / IMAP Trigger', icon: '📧' },
+    { kw: ['order placed', 'purchase', 'checkout', 'shopify'], label: 'New order', node: 'Shopify Trigger', icon: '🛒' },
+    { kw: ['contract signed', 'docusign', 'signed'], label: 'Contract signed', node: 'DocuSign Trigger', icon: '✍️' },
+    { kw: ['ticket', 'freshdesk', 'zendesk', 'support request'], label: 'Support ticket created', node: 'Freshdesk / Webhook', icon: '🎟️' },
+    { kw: ['scheduled', 'daily', 'weekly', 'monthly', 'every morning'], label: 'Schedule trigger', node: 'Schedule Trigger', icon: '🕐' },
+    { kw: ['booked', 'booking', 'appointment', 'calendly'], label: 'Booking made', node: 'Calendly / Webhook', icon: '📅' },
+    { kw: ['deal', 'pipeline', 'stage changes', 'moved to'], label: 'CRM stage change', node: 'HubSpot / Pipedrive Trigger', icon: '🔄' },
+  ];
+
+  var TOOL_MAP = {
+    'hubspot': { name: 'HubSpot', node: 'HubSpot', category: 'CRM', color: '#FF7A59' },
+    'salesforce': { name: 'Salesforce', node: 'Salesforce', category: 'CRM', color: '#00A1E0' },
+    'pipedrive': { name: 'Pipedrive', node: 'Pipedrive', category: 'CRM', color: '#2C3E6B' },
+    'slack': { name: 'Slack', node: 'Slack', category: 'Messaging', color: '#4A154B' },
+    'gmail': { name: 'Gmail', node: 'Gmail', category: 'Email', color: '#EA4335' },
+    'sheets': { name: 'Google Sheets', node: 'Google Sheets', category: 'Spreadsheet', color: '#0F9D58' },
+    'spreadsheet': { name: 'Google Sheets', node: 'Google Sheets', category: 'Spreadsheet', color: '#0F9D58' },
+    'notion': { name: 'Notion', node: 'Notion', category: 'Database', color: '#ffffff' },
+    'clickup': { name: 'ClickUp', node: 'ClickUp', category: 'Project Mgmt', color: '#7B68EE' },
+    'xero': { name: 'Xero', node: 'Xero / HTTP Request', category: 'Finance', color: '#13B5EA' },
+    'stripe': { name: 'Stripe', node: 'Stripe', category: 'Payments', color: '#635BFF' },
+    'shopify': { name: 'Shopify', node: 'Shopify', category: 'E-commerce', color: '#96BF48' },
+    'klaviyo': { name: 'Klaviyo', node: 'Klaviyo / HTTP Request', category: 'Email Marketing', color: '#FFD600' },
+    'calendly': { name: 'Calendly', node: 'Calendly / Webhook', category: 'Scheduling', color: '#00A2FF' },
+    'docusign': { name: 'DocuSign', node: 'DocuSign / Webhook', category: 'E-signature', color: '#FFCC00' },
+    'freshdesk': { name: 'Freshdesk', node: 'Freshdesk', category: 'Support', color: '#2CA01C' },
+    'linear': { name: 'Linear', node: 'Linear', category: 'Issue Tracking', color: '#5E6AD2' },
+    'drive': { name: 'Google Drive', node: 'Google Drive', category: 'Storage', color: '#4285F4' },
+    'google drive': { name: 'Google Drive', node: 'Google Drive', category: 'Storage', color: '#4285F4' },
+    'airtable': { name: 'Airtable', node: 'Airtable', category: 'Database', color: '#FCB400' },
+    'typeform': { name: 'Typeform', node: 'Typeform Trigger', category: 'Forms', color: '#262627' },
+    'monday': { name: 'Monday.com', node: 'Monday.com', category: 'Project Mgmt', color: '#FF3D57' },
+    'asana': { name: 'Asana', node: 'Asana', category: 'Project Mgmt', color: '#F06A6A' },
+    'trello': { name: 'Trello', node: 'Trello', category: 'Project Mgmt', color: '#0079BF' },
+    'zendesk': { name: 'Zendesk', node: 'Zendesk', category: 'Support', color: '#03363D' },
+    'intercom': { name: 'Intercom', node: 'Intercom', category: 'Support', color: '#6AFDEF' },
+    'mailchimp': { name: 'Mailchimp', node: 'Mailchimp', category: 'Email Marketing', color: '#FFE01B' },
+    'activecampaign': { name: 'ActiveCampaign', node: 'ActiveCampaign', category: 'Email Marketing', color: '#356AE6' },
+    'jira': { name: 'Jira', node: 'Jira', category: 'Issue Tracking', color: '#0052CC' },
+    'zoom': { name: 'Zoom', node: 'Zoom', category: 'Meetings', color: '#2D8CFF' },
+    'teams': { name: 'Microsoft Teams', node: 'Microsoft Teams', category: 'Messaging', color: '#5059C9' },
+    'rightmove': { name: 'Rightmove', node: 'HTTP Request', category: 'Property', color: '#00DEB6' },
+    'pdf': { name: 'PDF', node: 'PDF Extract / HTTP', category: 'Documents', color: '#E8B4B0' },
+  };
+
+  var ACTION_PATTERNS = [
+    { kw: ['create a new contact', 'add contact', 'create contact'], label: 'Create contact', type: 'write', node: 'CRM → Create Contact' },
+    { kw: ['update', 'update their record', 'update the record'], label: 'Update record', type: 'write', node: 'CRM → Update Record' },
+    { kw: ['assign', 'assigned to'], label: 'Assign to rep/team', type: 'logic', node: 'IF node → route by field' },
+    { kw: ['send a welcome email', 'send an email', 'send email', 'personalised email', 'confirmation email', 'welcome email', 'send a confirmation'], label: 'Send email', type: 'notify', node: 'Gmail / SMTP → Send Email' },
+    { kw: ['slack message', 'slack notification', 'post to slack', 'notify.*slack', '#'], label: 'Send Slack notification', type: 'notify', node: 'Slack → Send Message' },
+    { kw: ['create a deal', 'add to pipeline', 'pipeline'], label: 'Create CRM deal', type: 'write', node: 'CRM → Create Deal' },
+    { kw: ['create a task', 'follow-up task', 'create task', 'schedule.*task'], label: 'Create follow-up task', type: 'write', node: 'CRM / ClickUp → Create Task' },
+    { kw: ['google drive', 'create.*folder', 'folder'], label: 'Create Drive folder', type: 'write', node: 'Google Drive → Create Folder' },
+    { kw: ['create.*project', 'project in clickup', 'clickup'], label: 'Create project', type: 'write', node: 'ClickUp / Asana → Create Project' },
+    { kw: ['schedule.*call', 'kickoff call', 'calendar event', 'calendly'], label: 'Schedule meeting', type: 'write', node: 'Calendly / Google Calendar → Create Event' },
+    { kw: ['spreadsheet', 'google sheets', 'sheets', 'enter.*data', 'log'], label: 'Update spreadsheet', type: 'write', node: 'Google Sheets → Append Row' },
+    { kw: ['download.*pdf', 'pdf attachment', 'extract.*invoice', 'invoice data'], label: 'Extract from PDF', type: 'read', node: 'HTTP Request + PDF Extract' },
+    { kw: ['check.*approved', 'approved list', 'verify'], label: 'Check against database', type: 'read', node: 'Notion / Sheets → Get Row' },
+    { kw: ['xero', 'schedule payment', 'mark.*payment', 'auto-payment'], label: 'Process in accounting', type: 'write', node: 'Xero → Create Bill / Schedule Payment' },
+    { kw: ['approval request', 'send.*approval', 'finance director'], label: 'Request approval', type: 'notify', node: 'Gmail → Send Approval Email + Wait' },
+    { kw: ['tag.*vip', 'vip segment', 'tag'], label: 'Tag / segment contact', type: 'write', node: 'CRM / Klaviyo → Tag Contact' },
+    { kw: ['review request', 'review email', 'review sequence'], label: 'Send review request', type: 'notify', node: 'Klaviyo / Gmail → Schedule Email' },
+    { kw: ['bug report', 'linear', 'jira', 'issue'], label: 'Create bug/issue', type: 'write', node: 'Linear / Jira → Create Issue' },
+    { kw: ['loyalty programme', 'loyalty program', 'rewards'], label: 'Add to loyalty programme', type: 'write', node: 'HTTP Request → Loyalty API' },
+    { kw: ['archive', 'label', 'move.*email'], label: 'Archive / label email', type: 'write', node: 'Gmail → Modify Labels' },
+    { kw: ['reminder', 'if not confirmed', '24 hours'], label: 'Conditional reminder', type: 'logic', node: 'Wait node → IF → Send reminder' },
+    { kw: ['report', 'summary report', 'compile', 'comparables'], label: 'Generate report', type: 'output', node: 'Sheets / HTTP → Compile Report' },
+    { kw: ['stripe', 'subscription', 'billing'], label: 'Check subscription', type: 'read', node: 'Stripe → Get Customer' },
+    { kw: ['if.*first order', 'first.*buyer', 'new customer', 'repeat'], label: 'Branch: new vs repeat', type: 'branch', node: 'IF node → customer type' },
+    { kw: ['welcome email sequence', 'email sequence', '3 emails', '7 days'], label: 'Email nurture sequence', type: 'notify', node: 'Klaviyo / n8n Wait → Sequence' },
+    { kw: ['add to.*workspace', 'slack workspace', 'invite to slack'], label: 'Add to Slack workspace', type: 'write', node: 'Slack → Invite User' },
+    { kw: ['portal login', 'billing system', 'create.*profile'], label: 'Create account / profile', type: 'write', node: 'HTTP Request → Internal API' },
+    { kw: ['postcode', 'nearest agent', 'based on.*location'], label: 'Geographic routing', type: 'logic', node: 'Function node → postcode lookup' },
+    { kw: ['crm', 'enter.*details', 'manually enter'], label: 'Create CRM record', type: 'write', node: 'CRM → Create Record' },
+  ];
+
+  var TYPE_STYLE = {
+    trigger: { bg: 'rgba(232,180,176,0.12)', border: 'rgba(232,180,176,0.4)', color: '#E8B4B0', badge: 'TRIGGER' },
+    read:    { bg: 'rgba(99,155,250,0.08)',  border: 'rgba(99,155,250,0.3)',  color: '#639BFA', badge: 'READ' },
+    write:   { bg: 'rgba(123,104,238,0.08)', border: 'rgba(123,104,238,0.3)', color: '#7B68EE', badge: 'WRITE' },
+    logic:   { bg: 'rgba(250,204,21,0.07)',  border: 'rgba(250,204,21,0.3)',  color: '#FACC15', badge: 'LOGIC' },
+    branch:  { bg: 'rgba(250,204,21,0.07)',  border: 'rgba(250,204,21,0.3)',  color: '#FACC15', badge: 'BRANCH' },
+    notify:  { bg: 'rgba(74,222,128,0.07)',  border: 'rgba(74,222,128,0.3)',  color: '#4ADE80', badge: 'NOTIFY' },
+    output:  { bg: 'rgba(245,158,11,0.07)',  border: 'rgba(245,158,11,0.3)',  color: '#F59E0B', badge: 'OUTPUT' },
+  };
+
+  /* ─── Analyse SOP ─── */
+  function analyseSOP(text) {
+    var lower = text.toLowerCase();
+
+    // Detect trigger
+    var trigger = { label: 'Manual trigger', node: 'Manual Trigger', icon: '👆' };
+    for (var t = 0; t < TRIGGERS.length; t++) {
+      for (var k = 0; k < TRIGGERS[t].kw.length; k++) {
+        if (lower.indexOf(TRIGGERS[t].kw[k]) !== -1) {
+          trigger = TRIGGERS[t];
+          break;
+        }
+      }
+      if (trigger.label !== 'Manual trigger') break;
+    }
+
+    // Detect tools
+    var toolsFound = {};
+    Object.keys(TOOL_MAP).forEach(function(key) {
+      if (lower.indexOf(key) !== -1) {
+        toolsFound[TOOL_MAP[key].name] = TOOL_MAP[key];
+      }
+    });
+
+    // Detect actions
+    var actions = [];
+    var seen = {};
+    ACTION_PATTERNS.forEach(function(ap) {
+      for (var i = 0; i < ap.kw.length; i++) {
+        var kw = ap.kw[i];
+        var match = kw.indexOf('.*') !== -1
+          ? new RegExp(kw).test(lower)
+          : lower.indexOf(kw) !== -1;
+        if (match && !seen[ap.label]) {
+          seen[ap.label] = true;
+          actions.push({ label: ap.label, type: ap.type, node: ap.node });
+          break;
+        }
+      }
+    });
+
+    // If no actions detected, add generic ones
+    if (actions.length === 0) {
+      actions = [
+        { label: 'Read input data', type: 'read', node: 'HTTP Request / Webhook' },
+        { label: 'Process & transform', type: 'logic', node: 'Function node' },
+        { label: 'Write to destination', type: 'write', node: 'HTTP Request → API' },
+        { label: 'Send confirmation', type: 'notify', node: 'Gmail → Send Email' },
+      ];
+    }
+
+    // Automation score
+    var totalSteps = actions.length + 1;
+    var automatable = actions.filter(function(a) {
+      return ['read', 'write', 'notify', 'output'].indexOf(a.type) !== -1;
+    }).length + 1;
+    var score = Math.round((automatable / totalSteps) * 100);
+    score = Math.min(96, Math.max(62, score));
+
+    // Time saved estimate
+    var timeSaved = Math.min(32, Math.max(3, Math.round(actions.length * 1.8)));
+    var hoursPerMonth = timeSaved * 20;
+
+    // Complexity
+    var complexity = actions.length <= 4 ? 'Low' : actions.length <= 8 ? 'Medium' : 'High';
+    var buildDays = actions.length <= 4 ? '1–2 days' : actions.length <= 8 ? '3–5 days' : '5–7 days';
+
+    return { trigger, actions, toolsFound, score, timeSaved, hoursPerMonth, complexity, buildDays };
+  }
+
+  /* ─── Render functions ─── */
+  function renderMetrics(data) {
+    var el = document.getElementById('result-metrics');
+    if (!el) return;
+    var items = [
+      { val: data.score + '%', label: 'Automatable', color: '#4ADE80' },
+      { val: data.timeSaved + ' hrs', label: 'Saved per week', color: '#E8B4B0' },
+      { val: data.hoursPerMonth + ' hrs/mo', label: 'Monthly saving', color: '#7B68EE' },
+      { val: data.buildDays, label: 'Build time est.', color: 'rgba(255,255,255,0.6)' },
+    ];
+    el.innerHTML = items.map(function(item) {
+      return '<div class="rounded-2xl border p-4 text-center sop-anim" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);">' +
+        '<div class="text-2xl font-bold mb-1" style="color:' + item.color + ';">' + item.val + '</div>' +
+        '<div class="text-[11px] uppercase tracking-widest" style="color:rgba(255,255,255,0.35);">' + item.label + '</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  function renderWorkflowMap(data) {
+    var el = document.getElementById('workflow-map');
+    if (!el) return;
+    var ts = TYPE_STYLE;
+    var rows = [];
+
+    // Trigger row
+    rows.push(
+      '<div class="flex items-start gap-3 node-row" style="animation-delay:0.05s;">' +
+        '<div class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:' + ts.trigger.bg + ';border:1px solid ' + ts.trigger.border + ';">' +
+          '<span style="font-size:10px;">' + data.trigger.icon + '</span>' +
+        '</div>' +
+        '<div class="flex-1 min-w-0">' +
+          '<div class="flex items-center gap-2 mb-0.5">' +
+            '<span class="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded" style="background:' + ts.trigger.bg + ';color:' + ts.trigger.color + ';">' + ts.trigger.badge + '</span>' +
+            '<span class="text-[13px] font-medium text-white">' + data.trigger.label + '</span>' +
+          '</div>' +
+          '<div class="text-[11px]" style="color:rgba(255,255,255,0.35);">n8n node: ' + data.trigger.node + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="ml-[18px] w-px h-3" style="background:rgba(255,255,255,0.08);"></div>'
+    );
+
+    data.actions.forEach(function(action, i) {
+      var s = ts[action.type] || ts.write;
+      var delay = 0.05 + (i + 1) * 0.07;
+      rows.push(
+        '<div class="flex items-start gap-3 node-row" style="animation-delay:' + delay + 's;">' +
+          '<div class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:' + s.bg + ';border:1px solid ' + s.border + ';">' +
+            '<div class="w-2 h-2 rounded-full" style="background:' + s.color + ';"></div>' +
+          '</div>' +
+          '<div class="flex-1 min-w-0">' +
+            '<div class="flex items-center gap-2 mb-0.5">' +
+              '<span class="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded" style="background:' + s.bg + ';color:' + s.color + ';">' + s.badge + '</span>' +
+              '<span class="text-[13px] font-medium text-white">' + action.label + '</span>' +
+            '</div>' +
+            '<div class="text-[11px]" style="color:rgba(255,255,255,0.35);">n8n node: ' + action.node + '</div>' +
+          '</div>' +
+        '</div>'
+      );
+      if (i < data.actions.length - 1) {
+        rows.push('<div class="ml-[18px] w-px h-2" style="background:rgba(255,255,255,0.08);"></div>');
+      }
+    });
+
+    el.innerHTML = rows.join('');
+  }
+
+  function renderTools(data) {
+    var el = document.getElementById('tools-detected');
+    if (!el) return;
+    var tools = Object.values(data.toolsFound);
+    if (tools.length === 0) {
+      el.innerHTML = '<p class="text-[12px]" style="color:rgba(255,255,255,0.3);">No specific tools detected — generic HTTP nodes used.</p>';
+      return;
+    }
+    el.innerHTML = tools.map(function(tool, i) {
+      return '<div class="flex items-center gap-2.5 node-row" style="animation-delay:' + (i * 0.06) + 's;">' +
+        '<div class="w-2 h-2 rounded-full shrink-0" style="background:' + tool.color + ';"></div>' +
+        '<div>' +
+          '<div class="text-[13px] font-medium text-white">' + tool.name + '</div>' +
+          '<div class="text-[11px]" style="color:rgba(255,255,255,0.35);">' + tool.category + ' · ' + tool.node + '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  function renderScore(data) {
+    var el = document.getElementById('auto-score-display');
+    if (!el) return;
+    var r = 36, c = 2 * Math.PI * r;
+    var filled = c * (data.score / 100);
+    var scoreColor = data.score >= 80 ? '#4ADE80' : data.score >= 60 ? '#E8B4B0' : '#FACC15';
+    var complexColor = data.complexity === 'Low' ? '#4ADE80' : data.complexity === 'Medium' ? '#E8B4B0' : '#ef4444';
+    el.innerHTML =
+      '<div class="flex items-center gap-4">' +
+        '<svg width="88" height="88" viewBox="0 0 88 88">' +
+          '<circle cx="44" cy="44" r="' + r + '" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="7"/>' +
+          '<circle cx="44" cy="44" r="' + r + '" fill="none" stroke="' + scoreColor + '" stroke-width="7" stroke-dasharray="' + c.toFixed(1) + '" stroke-dashoffset="' + (c - filled).toFixed(1) + '" stroke-linecap="round" transform="rotate(-90 44 44)" style="transition:stroke-dashoffset 1s ease;"/>' +
+          '<text x="44" y="48" text-anchor="middle" fill="' + scoreColor + '" font-size="16" font-weight="700">' + data.score + '%</text>' +
+        '</svg>' +
+        '<div>' +
+          '<div class="text-[12px] font-semibold text-white mb-2">Automatable</div>' +
+          '<div class="text-[11px] mb-1" style="color:rgba(255,255,255,0.4);">Complexity: <span style="color:' + complexColor + ';">' + data.complexity + '</span></div>' +
+          '<div class="text-[11px]" style="color:rgba(255,255,255,0.4);">Build: ' + data.buildDays + '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function renderNodes(data) {
+    var el = document.getElementById('n8n-nodes');
+    if (!el) return;
+    var allNodes = [
+      { n: 1, name: data.trigger.node, desc: data.trigger.label, type: 'trigger' },
+    ].concat(data.actions.map(function(a, i) {
+      return { n: i + 2, name: a.node, desc: a.label, type: a.type };
+    }));
+
+    el.innerHTML =
+      '<div class="grid md:grid-cols-2 gap-3">' +
+      allNodes.map(function(node, i) {
+        var s = TYPE_STYLE[node.type] || TYPE_STYLE.write;
+        return '<div class="flex items-center gap-3 px-4 py-3 rounded-xl node-row" style="background:' + s.bg + ';border:1px solid ' + s.border + ';animation-delay:' + (i * 0.05) + 's;">' +
+          '<div class="text-[11px] font-bold w-5 text-center" style="color:' + s.color + ';">' + node.n + '</div>' +
+          '<div class="min-w-0">' +
+            '<div class="text-[12px] font-semibold text-white truncate">' + node.name + '</div>' +
+            '<div class="text-[11px] truncate" style="color:rgba(255,255,255,0.4);">' + node.desc + '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('') +
+      '</div>';
+  }
+
+  function renderNextSteps(data) {
+    var el = document.getElementById('next-steps');
+    if (!el) return;
+    var steps = [
+      {
+        icon: '🔌',
+        title: 'Connect your tools',
+        desc: 'Set up credentials in n8n for: ' + (Object.keys(data.toolsFound).length > 0 ? Object.values(data.toolsFound).slice(0,3).map(function(t){return t.name;}).join(', ') : 'your core apps') + '.',
+        color: '#E8B4B0'
+      },
+      {
+        icon: '🗺️',
+        title: 'Build the flow',
+        desc: 'Start with the trigger node, then add each action in order. Use IF nodes for every conditional branch in your SOP.',
+        color: '#7B68EE'
+      },
+      {
+        icon: '🧪',
+        title: 'Test with real data',
+        desc: 'Run the workflow 3x with live test data before deploying. Check edge cases: missing fields, duplicate contacts, failed sends.',
+        color: '#4ADE80'
+      },
+    ];
+    el.innerHTML = steps.map(function(s) {
+      return '<div class="sop-anim">' +
+        '<div class="text-2xl mb-3">' + s.icon + '</div>' +
+        '<h4 class="text-[13px] font-semibold text-white mb-2">' + s.title + '</h4>' +
+        '<p class="text-[12px] leading-relaxed" style="color:rgba(255,255,255,0.4);">' + s.desc + '</p>' +
+      '</div>';
+    }).join('');
+  }
+
+  function renderExampleCards() {
+    var el = document.getElementById('example-cards');
+    if (!el) return;
+    el.innerHTML = EXAMPLES.map(function(ex, i) {
+      return '<button class="example-card text-left rounded-2xl border p-4 transition-all duration-200" data-idx="' + i + '" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);" onmouseenter="this.style.borderColor=\'rgba(232,180,176,0.3)\';this.style.background=\'rgba(232,180,176,0.04)\';" onmouseleave="this.style.borderColor=\'rgba(255,255,255,0.08)\';this.style.background=\'rgba(255,255,255,0.02)\';">' +
+        '<div class="flex items-center gap-2 mb-2">' +
+          '<span class="text-lg">' + ex.icon + '</span>' +
+          '<span class="text-[11px] uppercase tracking-wider font-semibold" style="color:rgba(232,180,176,0.6);">' + ex.industry + '</span>' +
+        '</div>' +
+        '<div class="text-[13px] font-semibold text-white mb-1">' + ex.label + '</div>' +
+        '<div class="text-[11px] leading-relaxed" style="color:rgba(255,255,255,0.35);">' + ex.text.substring(0, 90) + '…</div>' +
+        '<div class="mt-3 text-[11px] font-medium" style="color:#E8B4B0;">Load & analyse →</div>' +
+      '</button>';
+    }).join('');
+  }
+
+  /* ─── Step transitions ─── */
+  function goToStep(n) {
+    [1,2,3].forEach(function(s) {
+      var el = document.getElementById('step' + s);
+      if (el) { el.classList.toggle('hidden', s !== n); }
+      var dot = document.getElementById('step-dot-' + s);
+      if (dot) {
+        var circle = dot.querySelector('div');
+        var label = dot.querySelector('span');
+        if (s < n) {
+          if (circle) { circle.style.cssText = 'background:#E8B4B0;border-color:#E8B4B0;color:#0a0a0a;border-width:2px;'; }
+          if (label) label.style.color = 'rgba(232,180,176,0.7)';
+        } else if (s === n) {
+          if (circle) { circle.style.cssText = 'background:#E8B4B0;border-color:#E8B4B0;color:#0a0a0a;border-width:2px;'; }
+          if (label) label.style.color = '#E8B4B0';
+        } else {
+          if (circle) { circle.style.cssText = 'border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.3);border-width:2px;'; }
+          if (label) label.style.color = 'rgba(255,255,255,0.25)';
+        }
+      }
+    });
+  }
+
+  /* ─── Loading simulation ─── */
+  var LOG_MESSAGES = [
+    'Parsing process description…',
+    'Detecting trigger type…',
+    'Mapping action sequence…',
+    'Identifying tool integrations…',
+    'Scoring automation feasibility…',
+    'Generating n8n node blueprint…',
+    'Calculating ROI estimates…',
+    'Blueprint ready.',
+  ];
+
+  function runAnalysis(text, cb) {
+    goToStep(2);
+    var logEl = document.getElementById('analyse-log');
+    if (logEl) logEl.innerHTML = '';
+    var i = 0;
+    function nextLog() {
+      if (!logEl) { if (i >= LOG_MESSAGES.length - 1) { cb(); } return; }
+      var line = document.createElement('div');
+      line.className = 'log-line flex items-center gap-2';
+      var isLast = i === LOG_MESSAGES.length - 1;
+      line.innerHTML =
+        '<span style="color:' + (isLast ? '#4ADE80' : 'rgba(232,180,176,0.5)') + ';">' + (isLast ? '✓' : '›') + '</span>' +
+        '<span>' + LOG_MESSAGES[i] + '</span>';
+      logEl.appendChild(line);
+      i++;
+      if (i < LOG_MESSAGES.length) {
+        setTimeout(nextLog, 260 + Math.random() * 180);
+      } else {
+        setTimeout(cb, 400);
+      }
+    }
+    nextLog();
+  }
+
+  /* ─── Init ─── */
+  function init() {
+    var input = document.getElementById('sop-input');
+    var btnAnalyse = document.getElementById('btn-analyse');
+    var btnExample = document.getElementById('btn-example');
+    var btnClear = document.getElementById('btn-clear');
+    var btnRestart = document.getElementById('btn-restart');
+    var charCount = document.getElementById('char-count');
+
+    if (!input) return;
+
+    renderExampleCards();
+
+    // Char counter + enable button
+    input.addEventListener('input', function() {
+      var len = input.value.trim().length;
+      if (charCount) charCount.textContent = len + ' characters';
+      if (btnAnalyse) {
+        var enabled = len >= 30;
+        btnAnalyse.disabled = !enabled;
+        btnAnalyse.style.opacity = enabled ? '1' : '0.4';
+        btnAnalyse.style.cursor = enabled ? 'pointer' : 'not-allowed';
+      }
+    });
+
+    // Example
+    if (btnExample) {
+      btnExample.addEventListener('click', function() {
+        var ex = EXAMPLES[Math.floor(Math.random() * EXAMPLES.length)];
+        input.value = ex.text;
+        input.dispatchEvent(new Event('input'));
+      });
+    }
+
+    // Clear
+    if (btnClear) {
+      btnClear.addEventListener('click', function() {
+        input.value = '';
+        input.dispatchEvent(new Event('input'));
+      });
+    }
+
+    // Analyse
+    if (btnAnalyse) {
+      btnAnalyse.addEventListener('click', function() {
+        var text = input.value.trim();
+        if (text.length < 30) return;
+        var result = analyseSOP(text);
+        runAnalysis(text, function() {
+          goToStep(3);
+          renderMetrics(result);
+          renderWorkflowMap(result);
+          renderTools(result);
+          renderScore(result);
+          renderNodes(result);
+          renderNextSteps(result);
+        });
+      });
+    }
+
+    // Restart
+    if (btnRestart) {
+      btnRestart.addEventListener('click', function() {
+        goToStep(1);
+        input.value = '';
+        if (charCount) charCount.textContent = '0 characters';
+        if (btnAnalyse) { btnAnalyse.disabled = true; btnAnalyse.style.opacity = '0.4'; }
+      });
+    }
+
+    // Example cards
+    document.addEventListener('click', function(e) {
+      var card = e.target.closest('.example-card');
+      if (!card) return;
+      var idx = parseInt(card.getAttribute('data-idx'), 10);
+      if (isNaN(idx) || !EXAMPLES[idx]) return;
+      input.value = EXAMPLES[idx].text;
+      input.dispatchEvent(new Event('input'));
+      input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+
+  init();
+  document.addEventListener('astro:page-load', init);
+})();
+</script>
+
+</ShopLayout>
