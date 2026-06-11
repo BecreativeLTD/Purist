@@ -99,13 +99,13 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
 </section>
 
 <!-- Maturity levels explained -->
-<section class="bg-white py-16 lg:py-20 border-t border-brand-gray-100">
+<section class="bg-[#0C0C0A] py-16 lg:py-20 border-t" style="border-color:rgba(255,255,255,0.06);">
   <div class="container-x">
     <div class="max-w-4xl mx-auto">
       <div class="text-center mb-12 scroll-fade">
-        <p class="eyebrow mb-3">The framework</p>
-        <h2 class="font-display text-h2 mb-3">The 5 Maturity Levels</h2>
-        <p class="text-sm text-brand-gray-600 max-w-lg mx-auto">Every business falls somewhere on this spectrum. Knowing your level is the first step to moving up it.</p>
+        <p class="text-[9px] uppercase tracking-[0.2em] font-bold mb-3" style="color:rgba(123,104,238,0.50);">The framework</p>
+        <h2 class="font-display text-[1.8rem] text-white mb-3">The 5 Maturity Levels</h2>
+        <p class="text-[14px] max-w-lg mx-auto" style="color:rgba(255,255,255,0.40);">Every business falls somewhere on this spectrum. Knowing your level is the first step to moving up it.</p>
       </div>
       <div class="space-y-3">
         {[
@@ -115,15 +115,15 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
           { level:4, name:'Automation-First',      pct:'61–80%', fillPct:80,  col:'#7B68EE', desc:'Most processes are automated and connected. Data flows between systems. Your team focuses on high-value work.' },
           { level:5, name:'Autonomous Operations', pct:'81–100%',fillPct:100, col:'#4ade80', desc:'Your business runs itself. AI agents handle exceptions. You have full visibility, near-zero manual admin, maximum ROI.' },
         ].map(({level,name,pct,fillPct,col,desc})=>(
-          <div class="flex gap-5 p-5 rounded-[16px] border border-brand-gray-100 scroll-fade">
+          <div class="flex gap-5 p-5 rounded-[16px] border scroll-fade" style="background:rgba(255,255,255,0.025);border-color:rgba(255,255,255,0.07);">
             <div class="shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-display text-lg font-bold" style={`background:${col}18;color:${col};`}>{level}</div>
             <div class="flex-1">
               <div class="flex items-center justify-between mb-1 flex-wrap gap-2">
-                <p class="font-semibold text-[14px] text-brand-black">{name}</p>
+                <p class="font-semibold text-[14px] text-white">{name}</p>
                 <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full" style={`background:${col}15;color:${col};`}>{pct}</span>
               </div>
-              <p class="text-[12px] text-brand-gray-600 leading-relaxed mb-2">{desc}</p>
-              <div class="h-1.5 rounded-full overflow-hidden" style="background:rgba(0,0,0,0.07);">
+              <p class="text-[12px] leading-relaxed mb-2" style="color:rgba(255,255,255,0.45);">{desc}</p>
+              <div class="h-1.5 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.06);">
                 <div class="h-full rounded-full" style={`width:${fillPct}%;background:${col};opacity:0.55;`}></div>
               </div>
             </div>
@@ -139,7 +139,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
 <style is:global>
   @keyframes am-slide-in { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:translateX(0)} }
   @keyframes am-slide-out { from{opacity:1;transform:translateX(0)} to{opacity:0;transform:translateX(-20px)} }
-  @keyframes am-result-in { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes am-result-in { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
   #am-card { animation: am-slide-in 0.35s ease-out; }
 </style>
 
@@ -157,12 +157,12 @@ var BENCHMARKS = {
 };
 
 var INDUSTRY_OPTIONS = [
-  { key: 'dental',     label: 'Dental / Healthcare', icon: '🏥' },
-  { key: 'agency',     label: 'Agency / Consulting',  icon: '💼' },
-  { key: 'ecom',       label: 'E-commerce',            icon: '🛒' },
-  { key: 'realestate', label: 'Real Estate',            icon: '🏠' },
-  { key: 'saas',       label: 'SaaS / Tech',            icon: '💻' },
-  { key: 'finance',    label: 'Finance / Legal',        icon: '⚖️' },
+  { key: 'dental',     label: 'Dental / Healthcare', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>' },
+  { key: 'agency',     label: 'Agency / Consulting',  icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="14" width="4" height="7" rx="1"/><rect x="9" y="9" width="4" height="12" rx="1"/><rect x="16" y="4" width="4" height="17" rx="1"/></svg>' },
+  { key: 'ecom',       label: 'E-commerce',            icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>' },
+  { key: 'realestate', label: 'Real Estate',            icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>' },
+  { key: 'saas',       label: 'SaaS / Tech',            icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>' },
+  { key: 'finance',    label: 'Finance / Legal',        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>' },
 ];
 
 var selectedIndustry = null;
@@ -333,7 +333,7 @@ function renderIndustrySelect() {
   INDUSTRY_OPTIONS.forEach(function(opt) {
     var btn = document.createElement('button');
     btn.style.cssText = 'background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.75);border-radius:14px;padding:18px 14px;text-align:center;font-size:13px;line-height:1.35;cursor:pointer;transition:all 0.18s;min-height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;animation:am-slide-in 0.3s ease-out both;';
-    btn.innerHTML = '<span style="font-size:22px;line-height:1;">' + opt.icon + '</span><span style="font-weight:600;">' + opt.label + '</span>';
+    btn.innerHTML = '<span style="display:flex;align-items:center;justify-content:center;opacity:0.70;margin-bottom:4px;">' + opt.icon + '</span><span style="font-weight:600;">' + opt.label + '</span>';
     btn.onmouseover = function(){ this.style.background='rgba(123,104,238,0.10)'; this.style.borderColor='rgba(123,104,238,0.30)'; this.style.color='#fff'; };
     btn.onmouseout  = function(){
       if (selectedIndustry !== opt.key) {
@@ -430,6 +430,51 @@ function renderQuestion(idx) {
 window.amBack = function() {
   if (current > 0) { current--; answers.splice(current, 1); renderQuestion(current); }
 };
+
+var QUICK_WINS_DATA = [
+  ['Connect your CRM, email and calendar into one data pipeline', 'Build a live dashboard pulling real-time metrics from all tools'],
+  ['Document your top 5 processes with decision trees and edge cases', 'Deploy a fully automated client onboarding flow (contract → access → comms)'],
+  ['Automate invoice creation, sending and payment chase sequences', 'Set up appointment reminders + cancellation rebooking automation'],
+  ['Run a 2-hour "automation opportunities" workshop with the team', 'Create a shared automation backlog the team actively contributes to'],
+  ['Set up time tracking this week to baseline your manual work hours', 'Build a live ROI dashboard showing hours and cost saved per workflow'],
+];
+
+function buildRadar(dimPcts) {
+  var cx = 100, cy = 100, maxR = 68, n = 5;
+  var dimCols = ['#E8B4B0','#7B68EE','#C89840','#4ade80','#ef4444'];
+  var dimLbls = ['Data','Process','Tools','Team','ROI'];
+  function ptXY(i, pct) {
+    var a = -Math.PI/2 + (2*Math.PI/n)*i;
+    var r = maxR * Math.max(0.05, pct/100);
+    return { x: cx + r*Math.cos(a), y: cy + r*Math.sin(a) };
+  }
+  var grid = '';
+  [33,66,100].forEach(function(p) {
+    var pts = [];
+    for (var i=0; i<n; i++) { var pt=ptXY(i,p); pts.push(pt.x.toFixed(1)+','+pt.y.toFixed(1)); }
+    grid += '<polygon points="'+pts.join(' ')+'" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="0.8"/>';
+  });
+  var spokes = '';
+  for (var i=0; i<n; i++) {
+    var ep = ptXY(i,100);
+    spokes += '<line x1="'+cx+'" y1="'+cy+'" x2="'+ep.x.toFixed(1)+'" y2="'+ep.y.toFixed(1)+'" stroke="rgba(255,255,255,0.07)" stroke-width="0.8"/>';
+  }
+  var scorePts = [];
+  for (var i=0; i<n; i++) { var sp=ptXY(i,dimPcts[i]); scorePts.push(sp.x.toFixed(1)+','+sp.y.toFixed(1)); }
+  var fill = '<polygon points="'+scorePts.join(' ')+'" fill="rgba(123,104,238,0.18)" stroke="#7B68EE" stroke-width="1.5" stroke-linejoin="round"/>';
+  var dots = '';
+  for (var i=0; i<n; i++) {
+    var dp = ptXY(i,dimPcts[i]);
+    dots += '<circle cx="'+dp.x.toFixed(1)+'" cy="'+dp.y.toFixed(1)+'" r="3" fill="'+dimCols[i]+'"/>';
+  }
+  var lbls = '';
+  for (var i=0; i<n; i++) {
+    var lp = ptXY(i,132);
+    lbls += '<text x="'+lp.x.toFixed(1)+'" y="'+(lp.y+2).toFixed(1)+'" text-anchor="middle" fill="'+dimCols[i]+'" font-size="9" font-weight="600" opacity="0.85">'+dimLbls[i]+'</text>';
+    lbls += '<text x="'+lp.x.toFixed(1)+'" y="'+(lp.y+12).toFixed(1)+'" text-anchor="middle" fill="rgba(255,255,255,0.45)" font-size="7.5">'+dimPcts[i]+'%</text>';
+  }
+  return '<svg viewBox="-32 -32 264 264" width="100%" height="auto" style="max-width:190px;display:block;margin:0 auto;">'+grid+spokes+fill+dots+lbls+'</svg>';
+}
 
 function showResult() {
   document.getElementById('am-question-wrap').classList.add('hidden');
@@ -566,44 +611,105 @@ function showResult() {
   // Copy score text
   var copyText = 'My Automation Maturity Score: Level ' + level + ' \u2014 ' + levelName + ' (' + pct + '/100)\nAssessed by PURIST | purist.online/pages/automation-maturity';
 
+  // Calculate dimension percentages for radar
+  var dimPctsForRadar = [];
+  for (var d = 0; d < 5; d++) {
+    dimPctsForRadar.push(dimCounts[d] > 0 ? Math.round((dimScores[d]/(dimCounts[d]*3))*100) : 0);
+  }
+
+  // Annual cost estimate
+  var hrsLost = Math.round(2 + 18 * (1 - pct/100));
+  var annualCost = Math.round(hrsLost * 35 * 52 / 100) * 100;
+  var annualSaving = Math.round(annualCost * 0.60 / 100) * 100;
+  var annualCostHtml =
+    '<div class="rounded-[20px] p-5 border mb-4" style="background:rgba(239,68,68,0.04);border-color:rgba(239,68,68,0.18);animation:am-result-in 0.5s ease-out 0.15s both;">' +
+      '<p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-3" style="color:rgba(239,68,68,0.55);">Estimated annual manual work cost at your level</p>' +
+      '<div class="flex flex-wrap items-end gap-4 mb-3">' +
+        '<p class="font-display text-[2rem] text-white leading-none">£' + annualCost.toLocaleString('en-GB') + '<span class="text-sm ml-1 opacity-40">/yr</span></p>' +
+        '<p class="text-[11px] pb-1" style="color:rgba(255,255,255,0.35);">~' + hrsLost + 'h/wk lost · £35/hr blended rate</p>' +
+      '</div>' +
+      '<div class="h-1.5 rounded-full overflow-hidden mb-2" style="background:rgba(239,68,68,0.10);">' +
+        '<div class="h-full rounded-full" style="width:' + (100-pct) + '%;background:linear-gradient(90deg,#ef4444,rgba(239,68,68,0.40));transition:width 1.2s ease 0.3s;"></div>' +
+      '</div>' +
+      '<p class="text-[10px]" style="color:rgba(255,255,255,0.25);">Automating 60% of this returns <strong style="color:rgba(239,68,68,0.75);">£' + annualSaving.toLocaleString('en-GB') + ' back per year</strong></p>' +
+    '</div>';
+
+  // Quick wins from 2 weakest dimensions
+  var dimPctsRanked = [];
+  for (var d = 0; d < 5; d++) dimPctsRanked.push({ d:d, pct:dimPctsForRadar[d] });
+  dimPctsRanked.sort(function(a,b){ return a.pct - b.pct; });
+  var quickWinsHtml =
+    '<div class="rounded-[20px] p-5 border mb-4" style="background:rgba(255,255,255,0.025);border-color:rgba(255,255,255,0.07);animation:am-result-in 0.5s ease-out 0.40s both;">' +
+      '<p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-4" style="color:rgba(255,255,255,0.25);">Quick wins — your 2 weakest dimensions</p>' +
+      '<div class="space-y-3">';
+  [dimPctsRanked[0], dimPctsRanked[1]].forEach(function(dim) {
+    var wins = QUICK_WINS_DATA[dim.d];
+    quickWinsHtml +=
+      '<div class="rounded-[12px] border p-4" style="background:rgba(255,255,255,0.02);border-color:' + DIM_COLORS[dim.d] + '28;">' +
+        '<p class="text-[9px] font-bold uppercase tracking-wider mb-2" style="color:' + DIM_COLORS[dim.d] + ';">' + DIM_NAMES[dim.d] + ' · ' + dim.pct + '%</p>' +
+        '<p class="text-[11px] leading-relaxed" style="color:rgba(255,255,255,0.55);">→ ' + wins[0] + '</p>' +
+        '<p class="text-[11px] leading-relaxed mt-1.5" style="color:rgba(255,255,255,0.55);">→ ' + wins[1] + '</p>' +
+      '</div>';
+  });
+  quickWinsHtml += '</div></div>';
+
   res.innerHTML = '<div class="max-w-2xl mx-auto" style="animation:am-result-in 0.5s ease-out;">' +
 
-    // Score hero
-    '<div class="rounded-[24px] p-8 border mb-5 text-center relative overflow-hidden" style="background:rgba(255,255,255,0.025);border-color:rgba(255,255,255,0.07);">' +
-      '<div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 50% at 50% 0%,' + levelColor + '12 0%,transparent 60%);"></div>' +
-      '<p class="text-[9px] uppercase tracking-[0.22em] font-bold mb-4" style="color:' + levelColor + 'AA;">Your automation maturity score</p>' +
-      '<div class="relative inline-flex items-center justify-center w-28 h-28 mx-auto mb-4">' +
-        '<svg class="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">' +
-          '<circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8"/>' +
-          '<circle cx="50" cy="50" r="44" fill="none" stroke="' + levelColor + '" stroke-width="8" stroke-linecap="round" stroke-dasharray="276.46" stroke-dashoffset="' + (276.46 - (276.46 * pct / 100)) + '" style="transition:stroke-dashoffset 1.5s ease;"/>' +
-        '</svg>' +
+    // Score hero + radar chart
+    '<div class="rounded-[24px] p-6 border mb-4 relative overflow-hidden" style="background:rgba(255,255,255,0.025);border-color:rgba(255,255,255,0.07);">' +
+      '<div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 50% at 50% 0%,' + levelColor + '10 0%,transparent 60%);"></div>' +
+      '<p class="text-[9px] uppercase tracking-[0.22em] font-bold mb-5 text-center relative" style="color:' + levelColor + 'AA;">Your automation maturity score</p>' +
+      '<div class="grid md:grid-cols-2 gap-6 items-center relative">' +
+
+        // Left: ring + level
         '<div class="text-center">' +
-          '<p class="font-display text-3xl leading-none" style="color:' + levelColor + ';">' + pct + '</p>' +
-          '<p class="text-[8px] uppercase tracking-wider mt-0.5" style="color:rgba(255,255,255,0.25);">/ 100</p>' +
+          '<div class="relative inline-flex items-center justify-center w-28 h-28 mx-auto mb-4">' +
+            '<svg class="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">' +
+              '<circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8"/>' +
+              '<circle cx="50" cy="50" r="44" fill="none" stroke="' + levelColor + '" stroke-width="8" stroke-linecap="round" stroke-dasharray="276.46" stroke-dashoffset="' + (276.46 - (276.46 * pct / 100)) + '" style="transition:stroke-dashoffset 1.5s ease;"/>' +
+            '</svg>' +
+            '<div class="text-center">' +
+              '<p class="font-display text-3xl leading-none" style="color:' + levelColor + ';">' + pct + '</p>' +
+              '<p class="text-[8px] uppercase tracking-wider mt-0.5" style="color:rgba(255,255,255,0.25);">/ 100</p>' +
+            '</div>' +
+          '</div>' +
+          '<p class="font-display text-xl text-white mb-1">Level ' + level + ' · ' + levelName + '</p>' +
+          '<p class="text-[12px] max-w-[220px] mx-auto leading-relaxed" style="color:rgba(255,255,255,0.40);">' + levelDesc + '</p>' +
         '</div>' +
+
+        // Right: radar chart
+        '<div>' +
+          '<p class="text-[8px] uppercase tracking-[0.16em] font-bold text-center mb-3" style="color:rgba(255,255,255,0.20);">5-dimension breakdown</p>' +
+          buildRadar(dimPctsForRadar) +
+        '</div>' +
+
       '</div>' +
-      '<p class="font-display text-2xl text-white mb-1">Level ' + level + ' · ' + levelName + '</p>' +
-      '<p class="text-[13px] max-w-md mx-auto leading-relaxed" style="color:rgba(255,255,255,0.45);">' + levelDesc + '</p>' +
     '</div>' +
 
-    // Benchmark
-    benchHtml +
+    // Annual cost estimate
+    annualCostHtml +
 
-    // Dimension breakdown
-    '<div class="rounded-[20px] p-6 border mb-5" style="background:rgba(255,255,255,0.025);border-color:rgba(255,255,255,0.07);">' +
+    // Benchmark
+    '<div style="animation:am-result-in 0.5s ease-out 0.25s both;">' + benchHtml + '</div>' +
+
+    // Dimension breakdown bars
+    '<div class="rounded-[20px] p-5 border mb-4" style="background:rgba(255,255,255,0.025);border-color:rgba(255,255,255,0.07);animation:am-result-in 0.5s ease-out 0.35s both;">' +
       '<p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-5" style="color:rgba(255,255,255,0.25);">Score by dimension</p>' +
       '<div class="space-y-4">' + dimHtml + '</div>' +
     '</div>' +
 
+    // Quick wins
+    quickWinsHtml +
+
     // Actions with roadmap path header
-    '<div class="rounded-[20px] p-6 border mb-5" style="background:rgba(255,255,255,0.025);border-color:rgba(255,255,255,0.07);">' +
+    '<div class="rounded-[20px] p-5 border mb-4" style="background:rgba(255,255,255,0.025);border-color:rgba(255,255,255,0.07);animation:am-result-in 0.5s ease-out 0.50s both;">' +
       roadmapHtml +
       '<p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-5" style="color:rgba(255,255,255,0.25);">Your 3 highest-impact next actions</p>' +
       '<div class="space-y-3">' + actHtml + '</div>' +
     '</div>' +
 
     // CTA
-    '<div class="rounded-[20px] p-6 border mb-4 text-center" style="background:rgba(232,180,176,0.04);border-color:rgba(232,180,176,0.15);">' +
+    '<div class="rounded-[20px] p-6 border mb-4 text-center" style="background:rgba(232,180,176,0.04);border-color:rgba(232,180,176,0.15);animation:am-result-in 0.5s ease-out 0.60s both;">' +
       '<p class="text-[13px] mb-2 text-white font-medium">Want a personalised roadmap for Level ' + level + ' → Level ' + Math.min(5,level+1) + '?</p>' +
       '<p class="text-[11px] mb-5" style="color:rgba(255,255,255,0.35);">In 45 minutes, we\'ll map your exact workflow gaps and show you the 3 automations that will move your score the most.</p>' +
       '<a href="/pages/welcome" class="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-button text-[13px] font-bold transition mb-2" style="background:#E8B4B0;color:#0A0A0A;">Book my free automation audit →</a>' +
