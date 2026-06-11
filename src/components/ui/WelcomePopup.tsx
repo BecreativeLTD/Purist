@@ -7,6 +7,8 @@ const SHOW_DELAY_MS = 25000;
 export default function WelcomePopup() {
  const [open, setOpen]         = useState(false);
  const [submitted, setSubmitted] = useState(false);
+ const [loading, setLoading]   = useState(false);
+ const [error, setError]       = useState('');
  const [email, setEmail]       = useState('');
 
  useEffect(() => {
@@ -40,15 +42,24 @@ export default function WelcomePopup() {
    try { localStorage.setItem(STORAGE_KEY, 'dismissed'); } catch {}
  };
 
- const handleSubmit = (e: Event) => {
+ const handleSubmit = async (e: Event) => {
    e.preventDefault();
-   fetch('/api/popup', {
-     method: 'POST',
-     headers: { 'Content-Type': 'application/json' },
-     body: JSON.stringify({ email }),
-   }).catch(() => {});
-   setSubmitted(true);
-   try { localStorage.setItem(STORAGE_KEY, 'submitted'); } catch {}
+   setLoading(true);
+   setError('');
+   try {
+     const res = await fetch('/api/popup', {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ email }),
+     });
+     if (!res.ok) throw new Error('server');
+     setSubmitted(true);
+     try { localStorage.setItem(STORAGE_KEY, 'submitted'); } catch {}
+   } catch {
+     setError('Something went wrong — please try again.');
+   } finally {
+     setLoading(false);
+   }
  };
 
  if (!open) return null;
@@ -133,13 +144,18 @@ export default function WelcomePopup() {
                  onInput={(e) => setEmail((e.currentTarget as HTMLInputElement).value)}
                  placeholder="your@company.com"
                  aria-label="Email address"
-                 class="w-full bg-white border border-brand-gray-200 focus:border-brand-black rounded-button px-4 py-3 text-sm outline-none transition placeholder:text-brand-gray-400"
+                 disabled={loading}
+                 class="w-full bg-white border border-brand-gray-200 focus:border-brand-black rounded-button px-4 py-3 text-sm outline-none transition placeholder:text-brand-gray-400 disabled:opacity-60"
                />
+               {error && (
+                 <p class="text-[12px] text-red-500 text-center">{error}</p>
+               )}
                <button
                  type="submit"
-                 class="w-full bg-brand-black text-white py-3.5 rounded-button text-sm font-medium hover:bg-brand-gray-900 transition"
+                 disabled={loading}
+                 class="w-full bg-brand-black text-white py-3.5 rounded-button text-sm font-medium hover:bg-brand-gray-900 transition disabled:opacity-60 disabled:cursor-not-allowed"
                >
-                 Book my free audit →
+                 {loading ? 'Sending…' : 'Book my free audit →'}
                </button>
              </form>
 
