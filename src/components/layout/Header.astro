@@ -167,55 +167,76 @@ const navLinks = [
 
 <script is:inline define:vars={{ searchIndex }}>
 (function(){
- var btn   = document.getElementById('search-btn');
- var overlay = document.getElementById('search-overlay');
- var input = document.getElementById('search-input');
- var results = document.getElementById('search-results');
- var hint  = document.getElementById('search-hint');
- var closeBtn= document.getElementById('search-close');
  var INDEX = searchIndex;
+ var _sac = null;
 
- function open() {
+ function openSearch() {
+   var overlay = document.getElementById('search-overlay');
+   var input   = document.getElementById('search-input');
+   if (!overlay) return;
    overlay.style.display = 'block';
    document.body.style.overflow = 'hidden';
-   setTimeout(function(){ input.focus(); }, 50);
+   setTimeout(function(){ input && input.focus(); }, 50);
  }
- function close() {
+ function closeSearch() {
+   var overlay = document.getElementById('search-overlay');
+   var input   = document.getElementById('search-input');
+   var results = document.getElementById('search-results');
+   var hint    = document.getElementById('search-hint');
+   if (!overlay) return;
    overlay.style.display = 'none';
    document.body.style.overflow = '';
-   input.value = '';
-   results.innerHTML = '';
-   hint.style.display = 'block';
+   if (input)   input.value = '';
+   if (results) results.innerHTML = '';
+   if (hint)    hint.style.display = 'block';
  }
 
- btn && btn.addEventListener('click', open);
- closeBtn && closeBtn.addEventListener('click', close);
- overlay && overlay.addEventListener('click', function(e){ if(e.target===overlay) close(); });
- document.addEventListener('keydown', function(e){ if(e.key==='Escape') close(); });
+ function initSearch() {
+   if (_sac) _sac.abort();
+   _sac = new AbortController();
+   var sig = { signal: _sac.signal };
 
- input && input.addEventListener('input', function(){
-   var q = this.value.trim().toLowerCase();
-   results.innerHTML = '';
-   if (!q) { hint.style.display = 'block'; return; }
-   hint.style.display = 'none';
-   var matches = INDEX.filter(function(a){
-     return a.title.toLowerCase().includes(q) || a.excerpt.toLowerCase().includes(q) || a.category.toLowerCase().includes(q);
-   }).slice(0, 8);
-   if (!matches.length) {
-     results.innerHTML = '<p style="font-size:13px;color:rgba(255,255,255,0.3);text-align:center;padding:2rem;">No articles found for "' + q + '"</p>';
-     return;
-   }
-   matches.forEach(function(a){
-     var el = document.createElement('a');
-     el.href = '/pages/blog/' + a.slug;
-     el.style.cssText = 'display:block;padding:12px 16px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);text-decoration:none;transition:background 0.15s;';
-     el.innerHTML = '<p style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.85);margin:0 0 3px;">' + a.title + '</p><p style="font-size:11px;color:rgba(255,255,255,0.35);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + a.excerpt + '</p>';
-     el.onmouseover = function(){ this.style.background='rgba(232,180,176,0.06)'; this.style.borderColor='rgba(232,180,176,0.15)'; };
-     el.onmouseout = function(){ this.style.background='rgba(255,255,255,0.04)'; this.style.borderColor='rgba(255,255,255,0.06)'; };
-     el.addEventListener('click', close);
-     results.appendChild(el);
-   });
- });
+   var btn      = document.getElementById('search-btn');
+   var overlay  = document.getElementById('search-overlay');
+   var input    = document.getElementById('search-input');
+   var closeBtn = document.getElementById('search-close');
+   if (!btn) return;
+
+   btn.addEventListener('click', openSearch, sig);
+   closeBtn && closeBtn.addEventListener('click', closeSearch, sig);
+   overlay  && overlay.addEventListener('click', function(e){ if (e.target === overlay) closeSearch(); }, sig);
+   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeSearch(); }, sig);
+
+   input && input.addEventListener('input', function(){
+     var q       = this.value.trim().toLowerCase();
+     var results = document.getElementById('search-results');
+     var hint    = document.getElementById('search-hint');
+     if (!results) return;
+     results.innerHTML = '';
+     if (!q) { if (hint) hint.style.display = 'block'; return; }
+     if (hint) hint.style.display = 'none';
+     var matches = INDEX.filter(function(a){
+       return a.title.toLowerCase().includes(q) || a.excerpt.toLowerCase().includes(q) || a.category.toLowerCase().includes(q);
+     }).slice(0, 8);
+     if (!matches.length) {
+       results.innerHTML = '<p style="font-size:13px;color:rgba(255,255,255,0.3);text-align:center;padding:2rem;">No articles found for "' + q + '"</p>';
+       return;
+     }
+     matches.forEach(function(a){
+       var el = document.createElement('a');
+       el.href = '/pages/blog/' + a.slug;
+       el.style.cssText = 'display:block;padding:12px 16px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);text-decoration:none;transition:background 0.15s;';
+       el.innerHTML = '<p style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.85);margin:0 0 3px;">' + a.title + '</p><p style="font-size:11px;color:rgba(255,255,255,0.35);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + a.excerpt + '</p>';
+       el.onmouseover = function(){ this.style.background='rgba(232,180,176,0.06)'; this.style.borderColor='rgba(232,180,176,0.15)'; };
+       el.onmouseout  = function(){ this.style.background='rgba(255,255,255,0.04)'; this.style.borderColor='rgba(255,255,255,0.06)'; };
+       el.addEventListener('click', closeSearch);
+       results.appendChild(el);
+     });
+   }, sig);
+ }
+
+ initSearch();
+ document.addEventListener('astro:page-load', initSearch);
 })();
 </script>
 
@@ -409,28 +430,23 @@ const navLinks = [
 
 <script is:inline>
 (function () {
- var pill = document.getElementById('chat-pill');
- var panel = document.getElementById('chat-panel');
- var closeBtn = document.getElementById('chat-close');
- var input = document.getElementById('chat-input');
- var send = document.getElementById('chat-send');
- var msgs = document.getElementById('chat-messages');
- var chev = document.getElementById('chat-chevron');
- var quick = document.getElementById('chat-quick');
  var open = false;
- var history = []; // conversation context
-
- var backdrop = document.getElementById('chat-backdrop');
+ var history = []; // conversation context — persists across navigations
+ var _cac = null;
 
  /* ── OPEN / CLOSE ─────────────────────────── */
  function show() {
+   var panel    = document.getElementById('chat-panel');
+   var backdrop = document.getElementById('chat-backdrop');
+   var chev     = document.getElementById('chat-chevron');
+   var input    = document.getElementById('chat-input');
+   if (!panel) return;
    open = true;
    panel.style.opacity = '1';
    panel.style.pointerEvents = 'auto';
    panel.classList.add('chat-open');
-   if (backdrop) { backdrop.classList.add('chat-open'); }
-   chev.style.transform = 'rotate(180deg)';
-   // Lock body scroll on mobile to prevent page floating when keyboard opens
+   if (backdrop) backdrop.classList.add('chat-open');
+   if (chev) chev.style.transform = 'rotate(180deg)';
    if (window.innerWidth < 640) {
      document.body.style.overflow = 'hidden';
      document.body.style.position = 'fixed';
@@ -439,23 +455,20 @@ const navLinks = [
    setTimeout(function(){ input && input.focus(); }, 300);
  }
  function hide() {
+   var panel    = document.getElementById('chat-panel');
+   var backdrop = document.getElementById('chat-backdrop');
+   var chev     = document.getElementById('chat-chevron');
+   if (!panel) return;
    open = false;
    panel.style.opacity = '0';
    panel.style.pointerEvents = 'none';
    panel.classList.remove('chat-open');
-   if (backdrop) { backdrop.classList.remove('chat-open'); }
-   chev.style.transform = '';
-   // Restore body scroll
+   if (backdrop) backdrop.classList.remove('chat-open');
+   if (chev) chev.style.transform = '';
    document.body.style.overflow = '';
    document.body.style.position = '';
    document.body.style.width = '';
  }
- pill   && pill.addEventListener('click', function(){ open ? hide() : show(); });
- closeBtn && closeBtn.addEventListener('click', hide);
- if (backdrop) backdrop.addEventListener('click', hide);
- document.addEventListener('click', function(e){
-   if (open && !panel.contains(e.target) && !pill.contains(e.target) && e.target !== backdrop) hide();
- });
 
  /* ── KNOWLEDGE BASE ───────────────────────── */
  var KB = {
@@ -642,12 +655,13 @@ const navLinks = [
    }
  }
 
- /* ── DOM HELPERS ──────────────────────────── */
+ /* ── DOM HELPERS (getElementById at call time) ─── */
  function addMsg(html, isUser) {
+   var msgs = document.getElementById('chat-messages');
+   if (!msgs) return;
    var row = document.createElement('div');
    row.style.cssText = 'display:flex;' + (isUser ? 'justify-content:flex-end;' : '');
    var bubble = document.createElement('div');
-   // Convert \n to <br>
    var safe = html.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>').replace(/·/g,'<span style="opacity:0.5;">·</span> ');
    bubble.style.cssText = isUser
      ? 'font-size:11.5px;line-height:1.6;color:rgba(255,255,255,0.85);background:rgba(232,180,176,0.14);padding:9px 13px;border-radius:12px 12px 3px 12px;max-width:310px;word-break:break-word;'
@@ -660,6 +674,8 @@ const navLinks = [
 
  function addCards(stats) {
    if (!stats) return;
+   var msgs = document.getElementById('chat-messages');
+   if (!msgs) return;
    var row = document.createElement('div');
    row.style.cssText = 'display:grid;grid-template-columns:repeat(' + stats.length + ',1fr);gap:5px;margin-top:2px;';
    stats.forEach(function(s){
@@ -673,6 +689,8 @@ const navLinks = [
  }
 
  function addCTA() {
+   var msgs = document.getElementById('chat-messages');
+   if (!msgs) return;
    var row = document.createElement('div');
    row.style.cssText = 'display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:2px;';
    row.innerHTML = '<a href="/pages/welcome" style="display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:8px;font-size:11px;font-weight:600;background:#E8B4B0;color:#0A0A0A;text-decoration:none;white-space:nowrap;" onmouseover="this.style.background=\'#d9a09b\'" onmouseout="this.style.background=\'#E8B4B0\'">Book free audit <svg width="10" height="10" viewBox="0 0 14 14" fill="none" stroke="#0A0A0A" stroke-width="2.2" stroke-linecap="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a><a href="/collections/all" style="display:inline-flex;align-items:center;padding:7px 12px;border-radius:8px;font-size:11px;font-weight:500;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.50);border:1px solid rgba(255,255,255,0.09);text-decoration:none;white-space:nowrap;" onmouseover="this.style.color=\'rgba(255,255,255,0.80)\'" onmouseout="this.style.color=\'rgba(255,255,255,0.50)\'">View plans</a>';
@@ -681,6 +699,8 @@ const navLinks = [
  }
 
  function addTyping() {
+   var msgs = document.getElementById('chat-messages');
+   if (!msgs) return;
    var row = document.createElement('div');
    row.id = 'tind';
    row.style.cssText = 'display:flex;';
@@ -690,9 +710,10 @@ const navLinks = [
  }
  function removeTyping() { var t = document.getElementById('tind'); if(t) t.remove(); }
 
- /* ── SEND FLOW (real AI via OpenRouter) ──── */
+ /* ── SEND FLOW ──────────────────────────── */
  function sendMsg(text) {
    if (!text.trim()) return;
+   var quick = document.getElementById('chat-quick');
    addMsg(text, true);
    if (quick) quick.style.display = 'none';
    history.push({ role: 'user', content: text });
@@ -707,7 +728,6 @@ const navLinks = [
    .then(function(data) {
      removeTyping();
      if (data.fallback) {
-       // API unavailable fall back to local KB
        var classified = classify(text);
        var reply = buildReply(classified, text);
        addMsg(reply.text, false);
@@ -723,7 +743,6 @@ const navLinks = [
    })
    .catch(function() {
      removeTyping();
-     // Network error fall back to local KB
      var classified = classify(text);
      var reply = buildReply(classified, text);
      addMsg(reply.text, false);
@@ -733,15 +752,58 @@ const navLinks = [
    });
  }
 
- /* ── EVENT LISTENERS ──────────────────────── */
- document.addEventListener('click', function(e){
-   var qr = e.target.closest('[data-quick]');
-   if (qr) { var q = qr.dataset.quick; setTimeout(function(){ sendMsg(q); }, 0); }
- });
- send && send.addEventListener('click', function(){ var v=input.value; input.value=''; setTimeout(function(){ sendMsg(v); }, 0); });
- input && input.addEventListener('keydown', function(e){
-   if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); var v=input.value; input.value=''; setTimeout(function(){ sendMsg(v); }, 0); }
- });
+ /* ── INIT: bind all listeners, rebind on navigation ── */
+ function initChat() {
+   if (_cac) _cac.abort();
+   _cac = new AbortController();
+   var sig = { signal: _cac.signal };
+
+   open = false;
+   var panel    = document.getElementById('chat-panel');
+   var backdrop = document.getElementById('chat-backdrop');
+   if (panel) { panel.style.opacity = '0'; panel.style.pointerEvents = 'none'; panel.classList.remove('chat-open'); }
+   if (backdrop) backdrop.classList.remove('chat-open');
+
+   var pill     = document.getElementById('chat-pill');
+   var closeBtn = document.getElementById('chat-close');
+   var input    = document.getElementById('chat-input');
+   var send     = document.getElementById('chat-send');
+   if (!pill) return;
+
+   pill.addEventListener('click', function(){ open ? hide() : show(); }, sig);
+   closeBtn && closeBtn.addEventListener('click', hide, sig);
+   backdrop && backdrop.addEventListener('click', hide, sig);
+
+   document.addEventListener('click', function(e){
+     var p  = document.getElementById('chat-panel');
+     var pl = document.getElementById('chat-pill');
+     var bd = document.getElementById('chat-backdrop');
+     if (open && p && pl && !p.contains(e.target) && !pl.contains(e.target) && e.target !== bd) hide();
+   }, sig);
+
+   document.addEventListener('click', function(e){
+     var qr = e.target.closest('[data-quick]');
+     if (qr) { var q = qr.dataset.quick; setTimeout(function(){ sendMsg(q); }, 0); }
+   }, sig);
+
+   send && send.addEventListener('click', function(){
+     var inp = document.getElementById('chat-input');
+     var v = inp ? inp.value : '';
+     if (inp) inp.value = '';
+     setTimeout(function(){ sendMsg(v); }, 0);
+   }, sig);
+
+   input && input.addEventListener('keydown', function(e){
+     if (e.key === 'Enter' && !e.shiftKey) {
+       e.preventDefault();
+       var v = this.value; this.value = '';
+       setTimeout(function(){ sendMsg(v); }, 0);
+     }
+   }, sig);
+ }
+
+ initChat();
+ document.addEventListener('astro:page-load', initChat);
 })();
 </script>
 

@@ -1,0 +1,102 @@
+<svg viewBox="0 0 800 764" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto" aria-hidden="true" role="presentation"> <defs> <clipPath id="hc"><rect width="600" height="600"></rect></clipPath> <!-- Dual radial glow: warm center + wide halo --> <radialGradient id="hfg" cx="50%" cy="50%" r="50%"> <stop offset="0%" stop-color="#E8B4B0" stop-opacity="0.32"></stop> <stop offset="45%" stop-color="#E8B4B0" stop-opacity="0.10"></stop> <stop offset="100%" stop-color="#E8B4B0" stop-opacity="0"></stop> </radialGradient> <radialGradient id="hfg2" cx="50%" cy="50%" r="50%"> <stop offset="0%" stop-color="#E8B4B0" stop-opacity="0.16"></stop> <stop offset="100%" stop-color="#E8B4B0" stop-opacity="0"></stop> </radialGradient> </defs> <style>
+             /* ── Base rotations ───────────────────────────────── */
+             @keyframes hcw { to { transform: rotate( 360deg); } }
+             @keyframes hccw { to { transform: rotate(-360deg); } }
+
+             /* ── Focal pulse ──────────────────────────────────── */
+             @keyframes hfp { 0%,100%{r:6; opacity:0.65} 50%{r:9.8; opacity:1.00} }
+             @keyframes hmp { 0%,100%{r:3.4; opacity:0.44} 50%{r:5.4; opacity:0.90} }
+             @keyframes hmp2{ 0%,100%{r:2.6; opacity:0.40} 50%{r:4.0; opacity:0.80} }
+
+             /* ── Arc fades ────────────────────────────────────── */
+             @keyframes harc { 0%,100%{opacity:0.10} 50%{opacity:0.38} }
+             @keyframes harc2 { 0%,100%{opacity:0.08} 50%{opacity:0.30} }
+
+             /* ── Node blink (6 stagger phases) ───────────────── */
+             @keyframes hnb { 0%,100%{opacity:0.28} 50%{opacity:0.84} }
+
+             /* ── Text groups: subtle breathe only ───────────── */
+             @keyframes htx { 0%,100%{opacity:0.85} 50%{opacity:1.0} }
+
+             /* ── Data stream (dashes marching outward) ─────────── */
+             @keyframes hds { from{stroke-dashoffset:0} to{stroke-dashoffset:-28} }
+
+             /* ── Expanding pulse rings ─────────────────────────── */
+             @keyframes hpr { 0%{transform:scale(0.03);opacity:0.50} 100%{transform:scale(1);opacity:0} }
+
+             /* ── Scanline top→bottom ─────────────────────────── */
+             @keyframes hsl { 0%{transform:translateY(-258px)} 100%{transform:translateY(258px)} }
+
+             /* ── 8 animated concentric rings ─────────────────── */
+             .hr1 { transform-origin:300px 300px; animation:hcw 32s linear infinite; }
+             .hr2 { transform-origin:300px 300px; animation:hccw 24s linear infinite; }
+             .hr3 { transform-origin:300px 300px; animation:hccw 38s linear infinite 2s; }
+             .hr4 { transform-origin:300px 300px; animation:hcw 48s linear infinite; }
+             .hr5 { transform-origin:300px 300px; animation:hcw 20s linear infinite 5s; }
+             .hr6 { transform-origin:300px 300px; animation:hccw 17s linear infinite; }
+             .hr7 { transform-origin:300px 300px; animation:hcw 12s linear infinite; }
+             .hr8 { transform-origin:300px 300px; animation:hccw 8s linear infinite; }
+
+             /* ── Radar sweeps ────────────────────────────────── */
+             .hsw { transform-origin:300px 300px; animation:hcw 7s linear infinite; }
+             .hsw2 { transform-origin:300px 300px; animation:hcw 11s linear infinite 3.5s; }
+
+             /* ── 5 satellites ────────────────────────────────── */
+             .hs1 { transform-origin: 62px 78px; animation:hcw 36s linear infinite; }
+             .hs2 { transform-origin:538px 78px; animation:hccw 30s linear infinite; }
+             .hs3 { transform-origin:300px 548px; animation:hcw 40s linear infinite; }
+             .hs4 { transform-origin: 62px 522px; animation:hccw 34s linear infinite 6s; }
+             .hs5 { transform-origin:538px 522px; animation:hcw 28s linear infinite 11s; }
+
+             /* ── 4 orbiting nodes (rotate trick) ─────────────── */
+             .horb1 { transform-origin:300px 300px; animation:hcw 22s linear infinite; }
+             .horb2 { transform-origin:300px 300px; animation:hcw 35s linear infinite 6s; }
+             .horb3 { transform-origin:300px 300px; animation:hccw 28s linear infinite 12s; }
+             .horb4 { transform-origin:300px 300px; animation:hcw 16s linear infinite 3s; }
+
+             /* ── Focal / mini pulse ───────────────────────────── */
+             .hfp { animation:hfp 3.2s ease-in-out infinite; }
+             .hmp { animation:hmp 4.8s ease-in-out infinite; }
+             .hmp2 { animation:hmp2 3.6s ease-in-out infinite 1.4s; }
+
+             /* ── Arc fades (12 staggered) ────────────────────── */
+             .ha1 { animation:harc 9s ease-in-out infinite; }
+             .ha2 { animation:harc2 13s ease-in-out infinite 3.2s; }
+             .ha3 { animation:harc 8s ease-in-out infinite 6.5s; }
+             .ha4 { animation:harc2 12s ease-in-out infinite 1.8s; }
+             .ha5 { animation:harc 11s ease-in-out infinite 5.0s; }
+             .ha6 { animation:harc2 7s ease-in-out infinite 8.5s; }
+
+             /* ── Node blinks (8 stagger phases) ──────────────── */
+             .hn1 { animation:hnb 4.5s ease-in-out infinite; }
+             .hn2 { animation:hnb 6.2s ease-in-out infinite 1.0s; }
+             .hn3 { animation:hnb 5.5s ease-in-out infinite 2.5s; }
+             .hn4 { animation:hnb 7.8s ease-in-out infinite 3.5s; }
+             .hn5 { animation:hnb 3.8s ease-in-out infinite 0.5s; }
+             .hn6 { animation:hnb 6.9s ease-in-out infinite 5.2s; }
+             .hn7 { animation:hnb 5.1s ease-in-out infinite 7.0s; }
+             .hn8 { animation:hnb 4.2s ease-in-out infinite 9.3s; }
+
+             /* ── 5 text groups (20s cycle, 4s stagger each) ─── */
+             .ht1 { animation:htx 20s ease-in-out infinite; }
+             .ht2 { animation:htx 20s ease-in-out infinite 4.0s; }
+             .ht3 { animation:htx 20s ease-in-out infinite 8.0s; }
+             .ht4 { animation:htx 20s ease-in-out infinite 12.0s; }
+             .ht5 { animation:htx 20s ease-in-out infinite 16.0s; }
+
+             /* ── Data streams (6 spokes) ──────────────────────── */
+             .hds1 { animation:hds 1.5s linear infinite; }
+             .hds2 { animation:hds 1.9s linear infinite 0.5s; }
+             .hds3 { animation:hds 2.4s linear infinite 1.1s; }
+             .hds4 { animation:hds 2.1s linear infinite 0.3s; }
+             .hds5 { animation:hds 1.7s linear infinite 0.8s; }
+             .hds6 { animation:hds 2.7s linear infinite 1.6s; }
+
+             /* ── Pulse rings ──────────────────────────────────── */
+             .hpr { transform-origin:300px 300px; animation:hpr 3.8s ease-out infinite; }
+             .hpr2 { transform-origin:300px 300px; animation:hpr 3.8s ease-out infinite 1.27s; }
+             .hpr3 { transform-origin:300px 300px; animation:hpr 3.8s ease-out infinite 2.53s; }
+
+             /* ── Scanline ─────────────────────────────────────── */
+             .hsl { transform-origin:300px 300px; animation:hsl 10s linear infinite; }
+           </style> <!-- ════════════════════════════════════════════════ --> <!-- CIRCLE DIAGRAM scaled 1.13× to restore size  --> <!-- ════════════════════════════════════════════════ --> <g transform="translate(300,300) scale(1.13) translate(-300,-300)"> <!-- ════════════════════════════════════════════════ --> <!-- BLUEPRINT GRID                                  --> <!-- ════════════════════════════════════════════════ --> <g clip-path="url(#hc)" stroke="#0A0A0A" stroke-width="0.15" opacity="0.03"> <line x1="100" y1="0" x2="100" y2="600"></line> <line x1="200" y1="0" x2="200" y2="600"></line> <line x1="300" y1="0" x2="300" y2="600"></line> <line x1="400" y1="0" x2="400" y2="600"></line> <line x1="500" y1="0" x2="500" y2="600"></line> <line x1="0" y1="100" x2="600" y2="100"></line> <line x1="0" y1="200" x2="600" y2="200"></line> <line x1="0" y1="300" x2="600" y2="300"></line> <line x1="0" y1="400" x2="600" y2="400"></line> <line x1="0" y1="500" x2="600" y2="500"></line> </g> <!-- ════════════════════════════════════════════════ --> <!-- ATMOSPHERIC FOCAL GLOW                         --> <!-- ════════════════════════════════════════════════ --> <circle cx="300" cy="300" r="220" fill="url(#hfg2)" opacity="0.6"></circle> <circle cx="300" cy="300" r="130" fill="url(#hfg)"></circle> <!-- ════════════════════════════════════════════════ --> <!-- STATIC SCAFFOLD RINGS precise radii          --> <!-- ════════════════════════════════════════════════ --> <g fill="none" stroke="#0A0A0A"> <circle cx="300" cy="300" r="282" stroke-width="0.35" opacity="0.05"></circle> <circle cx="300" cy="300" r="258" stroke-width="0.20" opacity="0.04"></circle> <circle cx="300" cy="300" r="240" stroke-width="0.20" opacity="0.04"></circle> <circle cx="300" cy="300" r="215" stroke-width="0.20" opacity="0.04"></circle> <circle cx="300" cy="300" r="196" stroke-width="0.20" opacity="0.04"></circle> <circle cx="300" cy="300" r="178" stroke-width="0.25" opacity="0.06"></circle> <circle cx="300" cy="300" r="164" stroke-width="0.20" opacity="0.04"></circle> <circle cx="300" cy="300" r="146" stroke-width="0.20" opacity="0.04"></circle> <circle cx="300" cy="300" r="130" stroke-width="0.20" opacity="0.04"></circle> <circle cx="300" cy="300" r="118" stroke-width="0.30" opacity="0.08"></circle> <circle cx="300" cy="300" r="100" stroke-width="0.20" opacity="0.04"></circle> <circle cx="300" cy="300" r="84" stroke-width="0.20" opacity="0.04"></circle> <circle cx="300" cy="300" r="62" stroke-width="0.20" opacity="0.05"></circle> <circle cx="300" cy="300" r="44" stroke-width="0.55" opacity="0.14"></circle> <circle cx="300" cy="300" r="26" stroke-width="0.45" opacity="0.12"></circle> <circle cx="300" cy="300" r="14" stroke-width="0.40" opacity="0.10"></circle> </g> <!-- ════════════════════════════════════════════════ --> <!-- 8 ANIMATED RINGS perfect concentric circles  --> <!-- ════════════════════════════════════════════════ --> <!-- r=258 CW rust outermost --> <circle class="hr1" cx="300" cy="300" r="258" f

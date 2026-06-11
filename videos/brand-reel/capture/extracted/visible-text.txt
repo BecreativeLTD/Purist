@@ -1,0 +1,798 @@
+[a] Skip to content
+[span] 312+ businesses automated avg. 14h/week saved
+[span] Manual workflows cost the average team £512/week fix it in 10 days
+[span] Deployed in 5–10 business days · 30-day money-back guarantee
+[span] Dental · Real Estate · Agencies · E-commerce · Covered
+[span] 99.97% uptime SLA · Monitored 24/7 by our ops team
+[span] A full-time ops hire costs £45K+/yr PURIST delivers more in days
+[span] n8n · Make · Claude AI · 500+ workflow templates
+[span] Free automation audit limited to 5 spots this week
+[span] 312+ businesses automated avg. 14h/week saved
+[span] Manual workflows cost the average team £512/week fix it in 10 days
+[span] Deployed in 5–10 business days · 30-day money-back guarantee
+[span] Dental · Real Estate · Agencies · E-commerce · Covered
+[span] 99.97% uptime SLA · Monitored 24/7 by our ops team
+[span] A full-time ops hire costs £45K+/yr PURIST delivers more in days
+[span] n8n · Make · Claude AI · 500+ workflow templates
+[span] Free automation audit limited to 5 spots this week
+[span] 312+ businesses automated avg. 14h/week saved
+[span] Manual workflows cost the average team £512/week fix it in 10 days
+[span] Deployed in 5–10 business days · 30-day money-back guarantee
+[span] Dental · Real Estate · Agencies · E-commerce · Covered
+[span] 99.97% uptime SLA · Monitored 24/7 by our ops team
+[span] A full-time ops hire costs £45K+/yr PURIST delivers more in days
+[span] n8n · Make · Claude AI · 500+ workflow templates
+[span] Free automation audit limited to 5 spots this week
+[span] 312+ businesses automated avg. 14h/week saved
+[span] Manual workflows cost the average team £512/week fix it in 10 days
+[span] Deployed in 5–10 business days · 30-day money-back guarantee
+[span] Dental · Real Estate · Agencies · E-commerce · Covered
+[span] 99.97% uptime SLA · Monitored 24/7 by our ops team
+[span] A full-time ops hire costs £45K+/yr PURIST delivers more in days
+[span] n8n · Make · Claude AI · 500+ workflow templates
+[span] Free automation audit limited to 5 spots this week
+[span] 312+ businesses automated avg. 14h/week saved
+[span] Manual workflows cost the average team £512/week fix it in 10 days
+[span] Deployed in 5–10 business days · 30-day money-back guarantee
+[span] Dental · Real Estate · Agencies · E-commerce · Covered
+[span] 99.97% uptime SLA · Monitored 24/7 by our ops team
+[span] A full-time ops hire costs £45K+/yr PURIST delivers more in days
+[span] n8n · Make · Claude AI · 500+ workflow templates
+[span] Free automation audit limited to 5 spots this week
+[span] 312+ businesses automated avg. 14h/week saved
+[span] Manual workflows cost the average team £512/week fix it in 10 days
+[span] Deployed in 5–10 business days · 30-day money-back guarantee
+[span] Dental · Real Estate · Agencies · E-commerce · Covered
+[span] 99.97% uptime SLA · Monitored 24/7 by our ops team
+[span] A full-time ops hire costs £45K+/yr PURIST delivers more in days
+[span] n8n · Make · Claude AI · 500+ workflow templates
+[span] Free automation audit limited to 5 spots this week
+[a] Get started →
+[span] PURIST
+[a] Services
+[p] Services
+[a] Automation Pro
+[a] AI Agent Deploy
+[a] The Full Stack
+[a] All services
+[a] How it works
+[a] Industries
+[a] Reliability & monitoring
+[a] Client stories
+[a] PURIST vs DIY automation
+[a] PURIST vs hiring in-house
+[a] PURIST vs other agencies
+[h3] The Full Stack
+[p] Complete workflow automation, AI agents, and 24/7 monitoring in one plan.
+[span] Learn more →
+[a] How it works
+[a] The Full Stack
+[a] Get started
+[a] Client stories
+[a] Discover
+[p] Live Demo
+[p] Watch automation run trigger it yourself
+[span] Interactive
+[p] Workflow Library
+[p] Browse production-ready automations
+[span] 60+ templates
+[p] AI Readiness Quiz
+[p] Get your personalised score
+[span] Free · 2 min
+[p] System Status
+[p] Real-time infrastructure health
+[p] Automation Glossary
+[p] Every automation term explained plainly
+[span] 325+ terms
+[p] Stack DNA
+[p] Our full technology stack
+[p] About us
+[p] The Automation Blog
+[span] Workflow Skills
+[span] Ask PURIST AI
+[p] Type to search across all articles
+[div] 312+
+[div] Clients automated
+[div] 14 h/wk
+[div] Avg time saved
+[div] 99.97%
+[div] Uptime SLA
+[div] < 7 days
+[div] Deploy time
+[div] PURIST AI
+[span] Claude Opus 4.7 · n8n v1.71 · <80ms
+[div] What type of business are you running? I'll show you exactly which processes we'd automate first and your estimated ROI.
+[button] Dental & Healthcare
+[button] Real Estate
+[button] Agency
+[button] E-commerce
+[span] Powered by n8n + Claude Opus 4.7
+[a] Book free audit →
+[span] PURIST × Automation Intelligence
+[h1] Your business runs itself.
+[em] You focus on growth.
+[p] Production-grade automations powered by 329 Claude AI skills and n8n workflows,
+         trusted by dental practices, law firms and scaling agencies worldwide.
+[span] 4.9
+[span] 312 reviews
+[a] Book a free automation audit →
+[a] Client dashboard →
+[span] A junior ops hire costs
+[span] £45K+/year
+[span] PURIST delivers more in days.
+[p] 312+
+[p] Businesses automated
+[p] 14h/wk
+[p] Saved on average
+[p] 99.97%
+[p] Uptime SLA
+[p] 9.4×
+[p] Average ROI
+[li] 329 Claude AI skills integrated
+[li] n8n, Make & Zapier certified
+[li] Deployed in 5–10 business days
+[text] ACTIVE
+[text] SYNC
+[text] n8n CLOUD
+[text] 24/7 LIVE
+[text] DEPLOY
+[text] 329 SKILLS
+[text] AI AGENT
+[text] $168K SAVED
+[text] CLAUDE OPUS 4.7
+[text] 99.9% SLA
+[text] 142,847
+[text] EXECUTIONS / MO
+[text] 99.97%
+[text] UPTIME SLA
+[text] 1,247 h
+[text] SAVED / MO
+[text] 9.4× ROI
+[text] PER $ INVESTED
+[text] AUTOMATION NODES
+[text] AI SKILL CLUSTERS
+[text] LIVE DATA STREAMS
+[text] RADAR SWEEP
+[text] Each orbit ring represents a workflow tier Claude AI at the core, live cloud deployment at the outer ring.
+[text] Dashed streams show data flowing in real time across 329 active automations.
+[span] 312+ businesses
+[span] 14h saved / week
+[span] 99.97% uptime
+[p] As featured in & powered by
+[span] Verified on Clutch
+[p] The system
+[h2] Three plans.
+[em] One complete operations stack.
+[div] BEST VALUE · COMPLETE SYSTEM
+[p] AUTOMATION + AI AGENTS
+[a] The Full Stack
+[p] Automation workflows plus AI agents. One complete system designed for today's operations and tomorrow's scale.
+[span] From £1,499/mo
+[span] 30% OFF
+[span] The complete system automation today, AI agents tomorrow
+[span] 30-day money-back guarantee
+[span] n8n, Make & Zapier certified workflows
+[span] Replaces over £4,000 a year of disconnected SaaS tools
+[a] Get started with The Full Stack →
+[a] See full workflow details →
+[div] MOST POPULAR
+[p] WORKFLOW AUTOMATION
+[a] Automation Pro
+[p] 12 production-ready workflows in a single deployment. Built with certified automation engineers.
+[span] From £799/mo
+[span] 30% OFF
+[span] Replaces 12 manual processes and disconnected tools
+[span] Client results: 95% less manual data entry · 85% faster response time · 80% fewer errors
+[span] n8n, Make & Zapier certified
+[span] 30-day money-back guarantee
+[a] Get started with Automation Pro →
+[a] Also included in The Full Stack →
+[div] NEXT-LEVEL AI
+[p] INTELLIGENT AUTOMATION
+[a] AI Agent Deploy
+[p] Custom AI agents. One deployment. Handles every repetitive task your team wastes hours on.
+[span] From £999/mo
+[span] 20% OFF
+[span] Handles every repetitive task your team does manually
+[span] AI-powered lead qualification, support and scheduling
+[span] Integrates with your existing CRM, email and tools
+[span] 30-day money-back guarantee
+[a] Get started with AI Agent Deploy →
+[a] See full workflow details →
+[p] Enterprise
+[h3] Multi-location. Multi-team.
+[em] Custom-built.
+[p] White-glove deployment for groups, franchises, and high-volume operations. Dedicated engineer, SLA above 99.97%, compliance documentation, and priority response.
+[a] Talk to our team →
+[p] Custom pricing · POC in 72h
+[p] Powered by Claude AI
+[h2] 329 production skills.
+[em] Zero dependencies.
+[p] Every deployment is backed by the most comprehensive Claude AI skill library 
+       architecture, compliance, marketing, finance. Production-verified. Open-source.
+[span] 329
+[span] Skills
+[span] Domains
+[span] 402
+[span] CLI Tools
+[span] Engineering Core
+[span] Architecture Design
+[span] Frontend Dev
+[span] Backend Engineering
+[span] Fullstack
+[span] Engineering POWERFUL
+[span] Agent Designer
+[span] RAG Architect
+[span] Database Designer
+[span] CI/CD Pipeline Builder
+[span] Product
+[span] Product Manager
+[span] Agile PO
+[span] UX Researcher
+[span] UI Designer
+[span] Marketing
+[span] Content Pod (8)
+[span] SEO & AEO Pod (6)
+[span] CRO Pod (6)
+[span] Channels Pod (6)
+[span] Research
+[span] Research Orchestrator
+[span] Pulse Specialist
+[span] Literature Review
+[span] Grants Finder
+[span] C-Level Advisory
+[span] CEO Advisor
+[span] CTO Advisor
+[span] CFO Advisor
+[span] CMO Advisor
+[span] Regulatory & QM
+[span] ISO 13485
+[span] MDR 2017/745
+[span] FDA Compliance
+[span] ISO 27001
+[span] Project Management
+[span] Senior PM
+[span] Scrum Master
+[span] Jira Specialist
+[span] Confluence Expert
+[span] Business & Growth
+[span] Customer Success
+[span] Sales Engineer
+[span] Revenue Operations
+[span] Contracts & Proposals
+[span] Productivity
+[span] Brain-Dump Capture
+[span] Inbox Setup
+[span] Inbox Triage
+[span] Reflection Journaling
+[span] Finance
+[span] Financial Analyst
+[span] SaaS Metrics Coach
+[span] Business Investment Advisor
+[span] Playwright Pro
+[span] Test Generation
+[span] Flaky Test Fixing
+[span] Cypress Migration
+[span] Selenium Migration
+[p] Open-source ·
+[a] github.com/BecreativeLTD/claude-skills
+[p] n8n Integration Engine
+[h2] 400+ nodes.
+[em] Your entire stack, connected.
+[p] Every PURIST workflow runs on n8n the open-source automation platform trusted by
+       enterprises worldwide. Connect any tool with production-grade reliability.
+[p] 400+
+[p] Nodes
+[p] Categories
+[p] Combinations
+[h3] CRM & Sales
+[span] HubSpot
+[span] Salesforce
+[span] Pipedrive
+[span] Zoho CRM
+[span] Close
+[span] Copper
+[span] Freshsales
+[span] Monday.com
+[h3] Communication
+[span] Slack
+[span] Microsoft Teams
+[span] Discord
+[span] Telegram
+[span] WhatsApp Business
+[span] Twilio
+[span] SendGrid
+[span] Mailchimp
+[h3] Project Management
+[span] Notion
+[span] Asana
+[span] Trello
+[span] ClickUp
+[span] Jira
+[span] Linear
+[span] Basecamp
+[span] Todoist
+[h3] Payments & Finance
+[span] Stripe
+[span] PayPal
+[span] QuickBooks
+[span] Xero
+[span] Square
+[span] FreshBooks
+[span] Wave
+[span] Chargebee
+[h3] Marketing & Analytics
+[span] Google Analytics
+[span] Google Ads
+[span] Meta Ads
+[span] Mailchimp
+[span] ActiveCampaign
+[span] Segment
+[span] Mixpanel
+[span] Amplitude
+[h3] Documents & Storage
+[span] Google Drive
+[span] Google Sheets
+[span] Dropbox
+[span] OneDrive
+[span] Airtable
+[span] Box
+[span] AWS S3
+[span] Supabase
+[h3] AI & Language Models
+[span] OpenAI / GPT
+[span] Claude / Anthropic
+[span] Google Gemini
+[span] Cohere
+[span] Hugging Face
+[span] Pinecone
+[span] Weaviate
+[span] LangChain
+[h3] E-commerce
+[span] Shopify
+[span] WooCommerce
+[span] Magento
+[span] BigCommerce
+[span] Amazon
+[span] Etsy
+[span] Printful
+[span] Gumroad
+[h3] Healthcare & Scheduling
+[span] Calendly
+[span] Cal.com
+[span] Acuity
+[span] Dentrix
+[span] Eaglesoft
+[span] Practice Fusion
+[span] SimplePractice
+[span] Kareo
+[h3] DevOps & Infrastructure
+[span] GitHub
+[span] GitLab
+[span] Docker
+[span] AWS
+[span] Google Cloud
+[span] Azure
+[span] Vercel
+[span] Cloudflare
+[a] See architecture →
+[a] Explore plans →
+[p] ROI Calculator
+[h2] Your automation ROI,
+[em] calculated to the penny.
+[p] Every figure uses verified benchmarks from 500+ automation deployments task coverage rates, error frequencies, and hourly costs by UK industry.
+[button] Dental / Medical
+[button] Law Firm
+[button] Agency
+[button] E-commerce
+[button] SaaS / Tech
+[button] Real Estate
+[button] Finance / Accounting
+[p] Adjust your numbers
+[label] Team size
+[span] people
+[span] 100
+[label] Avg. hourly cost
+[span] /hr
+[span] £15
+[span] £80
+[span] £150
+[label] Manual hours / week
+[span] per person
+[span] h/wk
+[span] 15h
+[span] 30h
+[span] Advanced inputs
+[label] Monthly SaaS stack
+[span] subscriptions
+[span] 750
+[span] /mo
+[span] £2.5K
+[span] £5K
+[label] Error rate in manual tasks
+[span] 15%
+[span] 30%
+[label] Staff turnover / year
+[span] replacement cost £4–8K each
+[span] people
+[p] Scenario
+[button] Conservative
+[button] Realistic
+[button] Optimistic
+[p] Automatable processes detected
+[span] Patient recall & reactivation campaigns
+[span] Insurance pre-authorisation requests
+[span] Appointment confirmations & reminders
+[span] Billing statements & payment chasing
+[span] Referral letter generation & dispatch
+[span] Clinical stock reordering triggers
+[span] CQC compliance report generation
+[p] Based on
+[span] dental practice
+[p] workflow patterns
+[span] PURIST monthly retainer
+[span] £2,800/mo
+[p] Net annual savings
+[div] £135K
+[p] After PURIST cost ·
+[span] 76%
+[p] coverage ·
+[span] 8 people
+[span] Realistic
+[p] Gross before cost
+[p] £169K
+[p] 421 h
+[p] Hours saved/mo
+[p] £11,255
+[p] Net savings/mo
+[p] Gross ROI
+[p] 3 wks
+[p] Payback period
+[p] 2.6
+[p] FTEs freed
+[p] Tasks/day automated
+[p] Where the savings come from
+[span] Time recovered
+[span] 78%
+[span] £10,952/mo
+[span] Error & rework
+[span] 18%
+[span] £2,523/mo
+[span] Tools consolidated
+[span] £180/mo
+[span] Staff retention
+[span] £400/mo
+[span] vs. hiring a specialist (£68K/yr fully loaded)
+[span] Save £34K/yr vs. hiring
+[p] Cost of waiting
+[span] 0.65
+[p] lost since page opened
+[p] 5-year projection
+[p] £670K
+[p] net cumulative value
+[p] Deploy timeline
+[span] Wk 1–2
+[span] Audit + top 3 flows
+[span] Mo 1
+[span] Full stack live
+[span] Mo 3
+[span] ROI confirmed
+[p] Get your full ROI report by email
+[p] Your personalised breakdown including 5-year projection, process list and recommended plan.
+[label] Email address for ROI report
+[button] Send report
+[p] Report sent check your inbox. We'll follow up within 24h.
+[a] Book my free audit see the full analysis
+[p] 40%
+[p] of SMB time on manual tasks
+[p] McKinsey 2024
+[p] 70–80%
+[p] of repetitive tasks automatable
+[p] Gartner 2024
+[p] £24/hr
+[p] avg. UK admin all-in hourly cost
+[p] ONS Labour 2024
+[p] 2.3h
+[p] daily rework from data errors
+[p] Forrester 2023
+[p] £168K
+[p] avg. first-year savings (PURIST)
+[p] 500+ clients
+[p] 3 wks
+[p] avg. payback period
+[p] PURIST 2024
+[p] 312
+[p] automation audits completed
+[p] PURIST clients
+[p] 99.5%
+[p] workflow uptime SLA
+[p] PURIST infra
+[p] 6.2×
+[p] avg. gross ROI multiplier
+[p] PURIST 2024
+[p] From audit to ROI
+[h2] How PURIST deploys
+[em] from day one to month three.
+[p] No black box. Here is exactly what happens after you book what we build, what you see, and when you start saving time.
+[span] Day 0
+[h3] Free audit
+[span] 60-min call map every manual process
+[span] ROI estimate generated live
+[span] Priority workflow shortlist
+[span] No commitment required
+[span] Week 1–2
+[h3] Deploy
+[span] n8n instance provisioned on dedicated VPS
+[span] Top 3 workflows built + tested
+[span] Claude AI connected to your data
+[span] Error handling + monitoring activated
+[span] Month 1
+[h3] Full stack live
+[span] All workflows in production
+[span] CRM, email, billing, reporting connected
+[span] Live dashboard metrics updated every 15 min
+[span] Monthly PDF report auto-sent to you
+[span] Month 3
+[h3] ROI confirmed
+[span] First performance review included
+[span] Hours saved vs. benchmark verified
+[span] Next workflow priorities identified
+[span] System expands as you grow
+[p] Under the hood
+[h3] What runs in your backend 24/7
+[span] EVENTS
+[span] 354
+[span] / hr
+[span] ALL SYSTEMS OPERATIONAL
+[p] Inputs live triggers
+[span] Form submitted
+[span] New CRM lead
+[span] Payment received
+[span] Email received
+[span] Calendar booking
+[span] API webhook
+[span] Scheduled job
+[span] AI message
+[p] n8n Workflow Engine
+[p] Self-hosted · Dedicated VPS · 329 active skills
+[span] Route
+[span] Validate
+[span] Retry
+[span] Log
+[span] Alert
+[p] Claude AI Opus 4.7
+[p] Intent classification · Structured output · Confidence scoring · Escalation routing
+[p] ~71ms
+[p] inference latency
+[p] Outputs deployed instantly
+[span] CRM updated
+[span] Invoice sent
+[span] Slack alert
+[span] SMS confirmation
+[span] Report generated
+[span] Database written
+[span] Webhook fired
+[span] Email dispatched
+[p] End-to-end latency
+[p] <200ms
+[p] Uptime SLA
+[p] 99.97%
+[p] Error alert within
+[p] 90 sec
+[a] See it in action
+[p] Expand your system
+[h2] Every business is different.
+[em] Build exactly what you need.
+[p] Add specific capabilities to any existing plan, or move to a fully dedicated infrastructure with an SLA guarantee.
+[p] À la carte add-ons
+[p] £299
+[p] one-time
+[p] Extra Workflow
+[p] Add any single automation to your plan scoped, built and deployed in 48 hours.
+[span] Custom build to your spec
+[span] 48h deployment SLA
+[span] Tested + documented
+[button] £299
+[span] Most popular
+[p] £499
+[p] /quarter
+[p] Quarterly Audit
+[p] Full performance review + optimisation report. Every 90 days, your system gets smarter.
+[span] Full workflow performance review
+[span] Optimisation recommendations
+[span] Written report + 60-min call
+[button] £499
+[p] £799
+[p] one-time
+[p] Team Training
+[p] 2-hour live session. Your team learns to use, monitor and expand the system themselves.
+[span] 2-hour live Zoom session
+[span] Recording + reference guide
+[span] Q&A + hands-on walkthrough
+[button] £799
+[p] £1,499
+[p] one-time
+[p] Zapier / Make Migration
+[p] We migrate your existing workflows to n8n faster, cheaper and more reliable.
+[span] Full audit of existing automations
+[span] Rebuilt + optimised in n8n
+[span] 7-day post-migration support
+[button] £1,499
+[p] Enterprise
+[h3] Dedicated infrastructure.
+[h3] SLA guaranteed.
+[em] Team of engineers, not a template.
+[p] For businesses that need dedicated infrastructure, financial uptime guarantees, and a committed automation engineer not a shared platform.
+[span] Dedicated n8n instance no shared infrastructure
+[span] 99.97% uptime SLA with financial guarantee
+[span] Dedicated automation engineer (20h/mo included)
+[span] Unlimited workflows build as you scale
+[span] Priority support: 1h response, 24/7 monitoring
+[span] Multi-location deployment (clinics, agencies, franchises)
+[span] Custom integrations any API, any system
+[p] Starting from
+[p] £3,499
+[p] /month
+[a] Talk to our team
+[p] Bespoke quote within 24h
+[span] Trusted by the best
+[h2] Founders, operators, agency owners, scaling teams
+[h2] and
+[em] 500+ workflows deployed.
+[p] 500+ workflows deployed · 50,000+ hours saved annually
+[p] “Workflow by workflow, the most reliable automation partner we have worked with. Every system we handed off now runs itself.”
+[p] Sarah Chen
+[p] Chief Operating Officer · Consulting
+[p] “What I would have built internally if we had six months. PURIST shipped it in three weeks and monitors it 24/7.”
+[p] Marcus Webb
+[p] CTO · B2B SaaS
+[p] “Daily backbone of our entire fulfilment stack. 500+ orders processed automatically, zero manual entry. Non-negotiable.”
+[p] Julia Ferreira
+[p] Head of DTC Operations
+[p] “Battle-tested across 45 client accounts. Our entire ops team runs on PURIST workflows. It is embedded in how we deliver.”
+[p] Tom Bradley
+[p] Founder · Digital Marketing Agency
+[p] “The first automation partner I have actively recommended to my own clients. Reliability standards higher than most in-house teams.”
+[p] Natasha Okonkwo
+[p] Fractional COO
+[p] “Measurable efficiency gains across every client I referred. The ROI is visible within the first 30 days, every time.”
+[p] David Lascelles
+[p] Business Growth Consultant
+[p] “The documentation shows how much care went into the architecture. The uptime confirms it every month. Built properly, not just fast.”
+[p] Priya Mehta
+[p] Founder & CEO · SaaS
+[p] “I stopped rotating agencies after the second PURIST workflow. It is the operational foundation every business unit now runs on.”
+[p] Alex Drummond
+[p] Operations Director · 6 Locations
+[p] 500+
+[p] Workflows deployed
+[p] 50K+
+[p] Hours saved annually
+[p] 4.8/5
+[p] Average rating
+[p] A note from our founder
+[h2] Built for businesses
+[em] that refuse to waste time.
+[p] When my own business was growing, I realised I was spending more time on admin than on the work that actually moved the needle. The more tools I added, the more things broke silently. I wanted one thing an operations system I could trust without constantly checking on it.
+[p] That is how PURIST started.
+[p] We assembled an engineering team of automation architects and AI specialists we genuinely respect, gave them a single instruction answer to the ROI, not the hype cycle and built the workflows from there. Every automation had to earn its place. Anything we could not prove saved time or money got cut.
+[p] What you get is an operations backbone. Not a silver bullet, not a shortcut. The reliable foundation that lets the rest of your business work better.
+[p] Thank you for trusting us with that.
+[p] H.D.
+[p] Founder, PURIST
+[p] Day guarantee
+[p] All plans
+[p] Our promise
+[h2] Risk-free. See the results,
+[em] or get every dollar back.
+[p] One full month to experience the automations. If you do not see measurable
+         time savings or operational improvement, we refund the setup fee no
+         questions asked.
+[li] 30-day money-back guarantee on all plans
+[li] Full documentation included
+[li] Free onboarding call with every plan
+[li] Cancel or pause anytime
+[li] n8n, Make & Zapier certified
+[p] Refunds last 6 months
+[p] 4.9
+[p] Average client rating
+[p] 312+
+[p] Active deployments
+[p] Partner Programme
+[h2] Refer a client. Earn 15% of the setup fee
+[em] forever.
+[p] A straightforward programme for professionals who work with businesses that need operational leverage. No quotas, no complexity. Refer once, earn on signing.
+[p] Accountants & Bookkeepers
+[p] You see exactly which clients are drowning in manual work. Refer them to PURIST.
+[p] n8n / Make Consultants
+[p] Have more project requests than capacity? Send overflow work our way.
+[p] Business Coaches & Advisors
+[p] Your clients need operational leverage. We deliver it.
+[p] How it works
+[p] Share your referral link
+[p] We send you a unique link. Share it by email, message, or mention however you naturally communicate.
+[p] Your contact books an audit call
+[p] No pressure on them. It's a free 45-minute automation audit genuinely useful, no obligation.
+[p] Earn 15% of setup fee on signing
+[p] Typically
+[span] £200–750 per referral
+[p] , paid within 48h of the client's setup fee clearing.
+[p] Programme at a glance
+[p] Clients referred by partners
+[p] 312
+[p] Average referral earning
+[p] £340
+[p] Payment timeline
+[p] 48h
+[p] No minimum referrals. No expiry on your link. Paid per signed client, not per lead.
+[a] Become a partner
+[p] Takes 2 minutes to set up. We handle the rest.
+[p] FAQs
+[h2] Questions, answered
+[em] straight.
+[p] Cannot find what you are looking for? Our team replies to every email within
+       one business day.
+[a] Contact support →
+[span] How does the money-back guarantee work?
+[p] All plans include a 30-day guarantee. If your automations do not deliver measurable time or cost savings within 30 days, contact us and we will refund the setup fee, no questions asked. We can only honour one guarantee redemption per company.
+[span] How does the monthly retainer work?
+[p] Pick a plan (Automation Pro, AI Agent Deploy, or The Full Stack), pick your industry vertical, and we deploy within 5–10 business days. You can pause, upgrade, downgrade or cancel from your dashboard at any time. There are no lock-in periods and no cancellation fees.
+[span] Why pay when n8n and Make are free?
+[p] The tools are free. The expertise is not. YouTube has unlimited plumbing tutorials, yet plumbers still charge $150/hour. 56% of businesses lack anyone capable of building reliable automations. We handle strategy, custom builds, error handling, monitoring and ongoing maintenance, so you get results in days, not months of trial and error.
+[span] What is Automation Pro?
+[p] A done-for-you automation deployment covering 12 core business workflows, lead capture, CRM sync, email sequences, invoicing, onboarding, support routing and reporting, built on n8n, Make or Zapier depending on your stack. Designed to consolidate scattered manual processes into one reliable system.
+[span] Are your automations production-tested?
+[p] Yes. Every workflow is tested in staging before deployment, monitored for errors in real-time, and comes with full documentation. We run automated health checks and alert you before something breaks. All integrations include error handling, retry logic and dead-letter queues.
+[span] What industries do you specialise in?
+[p] We have pre-built workflow templates for dental practices, real estate and property management, agencies and consulting firms, and e-commerce. Each vertical package includes industry-specific automations, integrations and compliance considerations. Custom verticals available on request.
+[span] How quickly will I see real results?
+[p] Most clients see their first automations live within 5–10 business days. Time savings are typically measurable in week one, our average client reports 14 hours per week reclaimed within the first month. We track every workflow's execution count and error rate in your client dashboard so you always have evidence of impact.
+[span] Do you work with my existing tools?
+[p] Yes. We integrate with 500+ apps including HubSpot, Salesforce, Pipedrive, Google Workspace, Microsoft 365, Xero, QuickBooks, Calendly, Stripe, Shopify, and most industry-specific platforms. During your free audit we map your existing stack and build automations that connect the tools you already use, no forced migrations.
+[span] Is my business data safe?
+[p] All automations are deployed on your own infrastructure or your dedicated cloud instance. We do not store your business data beyond what is required for workflow execution and monitoring. Every deployment includes GDPR-compliant data handling, and enterprise plans include full compliance documentation. Our uptime is monitored at 99.97% SLA.
+[p] Saved/wk
+[h2] Automation insights,
+[em] delivered weekly.
+[p] Real workflow templates, automation teardowns, and ROI case studies from 312+ deployments. No fluff. Unsubscribe anytime.
+[button] Join 2,400+
+[p] Joined by ops leads, founders, and automation engineers. Weekly, no spam.
+[p] Services
+[a] Automation Pro
+[a] The Full Stack
+[a] AI Agent Deploy
+[a] All services
+[a] About us
+[a] Our approach
+[a] How it works
+[a] Client stories
+[a] Integrations
+[a] Reliability & uptime
+[a] Partner program
+[a] PURIST vs Zapier
+[a] PURIST vs hiring in-house
+[a] PURIST vs other agencies
+[a] Project status
+[a] Refund policy
+[a] Contact us
+[p] Community
+[a] LinkedIn
+[a] Twitter / X
+[a] Refer a client
+[span] © 2026 PURIST®
+[a] Privacy policy
+[a] Terms of service
+[a] Accessibility
+[span] Verified on Clutch
+[strong] *Results vary based on business size, industry and existing systems.
+[p] Reported metrics are based on aggregated client data and may not reflect your specific outcomes.
+       All automations are deployed on your own infrastructure. PURIST does not store your business data
+       beyond what is required for workflow execution and monitoring.
+[p] **Free automation audit available for new clients only.
+[p] Our commitment to accessibility
+[p] PURIST is committed to making this site usable for people of all abilities. We design and
+       build against WCAG 2.1 Level AA as our minimum standard. If you encounter a barrier on
+       this site, email
+[a] hello@purist.online
+[p] with a description of the issue and the page where you saw it. Read our full
+[a] accessibility statement

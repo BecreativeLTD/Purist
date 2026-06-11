@@ -535,6 +535,63 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
  </section>
 
  <!-- ══════════════════════════════════════════════════════════════════════
+      SECTION 2.5 BEFORE / AFTER REAL DATA
+ ══════════════════════════════════════════════════════════════════════ -->
+ <section class="bg-white py-16 lg:py-24 border-t border-brand-gray-100">
+   <div class="container-x">
+     <div class="max-w-4xl mx-auto">
+
+       <div class="text-center mb-12 scroll-fade">
+         <p class="eyebrow mb-3">Real client outcomes</p>
+         <h2 class="font-display text-h2 mb-3">The numbers<em class="not-italic"> don't lie.</em></h2>
+         <p class="text-sm text-brand-gray-600 max-w-xl mx-auto">Every figure below is drawn from live deployments. Select your industry — see exactly what changes.</p>
+       </div>
+
+       <!-- Industry selector -->
+       <div class="flex gap-1.5 flex-wrap justify-center mb-10 scroll-fade">
+         <button class="ba-ind-btn px-4 py-2 rounded-full text-[11px] font-semibold border transition-all" data-baid="dental"   style="background:#0A0A0A;color:#fff;border-color:#0A0A0A;">Dental & Healthcare</button>
+         <button class="ba-ind-btn px-4 py-2 rounded-full text-[11px] font-semibold border transition-all" data-baid="agency"   style="background:transparent;color:#6B7280;border-color:#E5E7EB;">Agency & Consulting</button>
+         <button class="ba-ind-btn px-4 py-2 rounded-full text-[11px] font-semibold border transition-all" data-baid="ecom"     style="background:transparent;color:#6B7280;border-color:#E5E7EB;">E-commerce</button>
+         <button class="ba-ind-btn px-4 py-2 rounded-full text-[11px] font-semibold border transition-all" data-baid="realestate" style="background:transparent;color:#6B7280;border-color:#E5E7EB;">Real Estate</button>
+       </div>
+
+       <!-- Split comparison panel -->
+       <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-[20px] overflow-hidden border border-brand-gray-100 shadow-sm scroll-fade" id="ba-card">
+
+         <!-- Before -->
+         <div class="p-6 lg:p-8 border-b lg:border-b-0 lg:border-r border-brand-gray-100" style="background:#FAFAF8;">
+           <div class="flex items-center gap-2 mb-6">
+             <span class="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style="background:rgba(239,68,68,0.10);">
+               <svg class="w-2.5 h-2.5" style="color:#ef4444;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><line x1="12" y1="5" x2="12" y2="19"/></svg>
+             </span>
+             <p class="text-[10px] uppercase tracking-[0.18em] font-bold text-brand-gray-400">Before — manual process</p>
+           </div>
+           <div id="ba-before-list" class="space-y-3 ba-list-anim"></div>
+           <div id="ba-before-total" class="mt-5 pt-4 border-t border-brand-gray-200"></div>
+         </div>
+
+         <!-- After -->
+         <div class="p-6 lg:p-8 bg-white">
+           <div class="flex items-center gap-2 mb-6">
+             <span class="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style="background:rgba(74,222,128,0.12);">
+               <svg class="w-2.5 h-2.5" style="color:#4ade80;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+             </span>
+             <p class="text-[10px] uppercase tracking-[0.18em] font-bold" style="color:rgba(45,80,22,0.55);">After PURIST — automated</p>
+           </div>
+           <div id="ba-after-list" class="space-y-3 ba-list-anim"></div>
+           <div id="ba-after-total" class="mt-5 pt-4 border-t border-brand-gray-200"></div>
+         </div>
+
+       </div>
+
+       <!-- Impact metrics -->
+       <div id="ba-impact" class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
+
+     </div>
+   </div>
+ </section>
+
+ <!-- ══════════════════════════════════════════════════════════════════════
       SECTION 3 BOOK A CALL
  ══════════════════════════════════════════════════════════════════════ -->
  <section id="booking" class="bg-white py-16 lg:py-24 border-t border-brand-gray-100" style="scroll-margin-top:80px;">
@@ -785,6 +842,24 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
  @keyframes slideUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
  @keyframes fadeLog { from{opacity:0;transform:translateX(-4px)} to{opacity:1;transform:translateX(0)} }
  @keyframes packet { 0%{left:0%;opacity:0} 10%{opacity:1} 90%{opacity:1} 100%{left:100%;opacity:0} }
+ @keyframes ba-row-in { from{opacity:0;transform:translateX(-10px)} to{opacity:1;transform:translateX(0)} }
+ @keyframes ba-row-right-in { from{opacity:0;transform:translateX(10px)} to{opacity:1;transform:translateX(0)} }
+ @keyframes count-up { from{transform:translateY(6px);opacity:0} to{transform:translateY(0);opacity:1} }
+
+ /* Before/After list rows */
+ #ba-before-list .ba-row { animation: ba-row-in 0.35s ease-out both; }
+ #ba-after-list  .ba-row { animation: ba-row-right-in 0.35s ease-out both; }
+ .ba-list-anim .ba-row:nth-child(1){animation-delay:0.05s}
+ .ba-list-anim .ba-row:nth-child(2){animation-delay:0.12s}
+ .ba-list-anim .ba-row:nth-child(3){animation-delay:0.19s}
+ .ba-list-anim .ba-row:nth-child(4){animation-delay:0.26s}
+ .ba-list-anim .ba-row:nth-child(5){animation-delay:0.33s}
+
+ /* Impact cards */
+ .ba-impact-card { animation: slideUp 0.4s ease-out both; }
+ .ba-impact-card:nth-child(1){animation-delay:0.1s}
+ .ba-impact-card:nth-child(2){animation-delay:0.2s}
+ .ba-impact-card:nth-child(3){animation-delay:0.3s}
 
  .bk-opt.selected { background:#0A0A0A !important; color:#fff !important; border-color:#0A0A0A !important; }
  .bk-opt.selected p { color:rgba(255,255,255,0.70) !important; }
@@ -1401,6 +1476,190 @@ function updateROI() {
  document.getElementById('roi-bar-saving').style.width = Math.min(100, Math.round(saving/maxSave*100)) + '%';
  document.getElementById('roi-bar-hours').style.width = Math.min(100, Math.round(weekHrs/maxHrs*100)) + '%';
 }
+
+// ══════════════════════════════════════════════════════════════════════════
+// BEFORE / AFTER
+// ══════════════════════════════════════════════════════════════════════════
+
+var BA_DATA = {
+ dental: {
+   before: [
+     { task:'Call patients for appointment reminders', time:'45 min/day',  cost:true },
+     { task:'Send recall emails individually',          time:'2 hrs/week',  cost:true },
+     { task:'Match & collect insurance forms manually', time:'1 hr/day',    cost:true },
+     { task:'Update practice management system',        time:'30 min/day',  cost:true },
+     { task:'Chase missed payments by phone',           time:'1 hr/week',   cost:true },
+   ],
+   after: [
+     { task:'Automated SMS + email reminder sequences', time:'0 min',       saved:true },
+     { task:'Recall campaigns triggered from PMS data', time:'0 min',       saved:true },
+     { task:'Insurance pre-auth collected via smart form','time':'0 min',    saved:true },
+     { task:'CRM & PMS auto-synced in real time',       time:'0 min',       saved:true },
+     { task:'Payment chase sequence auto-triggered',    time:'2 min setup', saved:true },
+   ],
+   beforeTotal:'~14 hrs / week wasted',
+   afterTotal: '< 2 hrs / week (admin only)',
+   metrics:[
+     { label:'Hours saved / week', val:'14h',    color:'#4ade80' },
+     { label:'Staff cost saved',   val:'£2,800/mo', color:'#E8B4B0' },
+     { label:'No-show reduction',  val:'62%',    color:'#7B68EE' },
+   ],
+ },
+ agency: {
+   before: [
+     { task:'Client onboarding: contracts, brief, access', time:'3 hrs/client', cost:true },
+     { task:'Build weekly status reports manually',         time:'4 hrs/week',  cost:true },
+     { task:'Generate & send invoices at milestones',       time:'2 hrs/week',  cost:true },
+     { task:'Route client requests to the right team',      time:'1 hr/day',    cost:true },
+     { task:'Pull data from 5 tools for monthly recap',     time:'3 hrs/month', cost:true },
+   ],
+   after: [
+     { task:'Full onboarding flow triggers on contract sign','time':'8 min setup', saved:true },
+     { task:'KPI digest auto-built from Notion + Sheets',    time:'0 min',        saved:true },
+     { task:'Invoice auto-generated on milestone completion', time:'0 min',       saved:true },
+     { task:'AI routes requests by topic to correct Slack', time:'0 min',         saved:true },
+     { task:'Monthly recap auto-assembled & emailed',       time:'0 min',         saved:true },
+   ],
+   beforeTotal:'~15+ hrs / week in admin',
+   afterTotal: '< 1 hr / week',
+   metrics:[
+     { label:'Hours saved / week', val:'14h',    color:'#4ade80' },
+     { label:'Tools eliminated',   val:'3–4',    color:'#E8B4B0' },
+     { label:'Delivery speed',     val:'+60%',   color:'#7B68EE' },
+   ],
+ },
+ ecom: {
+   before: [
+     { task:'Answer repetitive order & shipping queries', time:'3 hrs/day',  cost:true },
+     { task:'Send abandoned cart emails manually',        time:'2 hrs/week', cost:true },
+     { task:'Update inventory across channels',           time:'1 hr/day',   cost:true },
+     { task:'Collect & respond to post-purchase reviews', time:'1 hr/day',   cost:true },
+     { task:'Process refunds & returns individually',     time:'2 hrs/week', cost:true },
+   ],
+   after: [
+     { task:'AI resolves 70% of Tier-1 support tickets', time:'0 min',       saved:true },
+     { task:'Cart recovery sequences fire automatically', time:'0 min',       saved:true },
+     { task:'Inventory synced across all channels live',  time:'0 min',       saved:true },
+     { task:'Review requests triggered after delivery',   time:'0 min',       saved:true },
+     { task:'Returns processed by workflow + notification','time':'0 min',    saved:true },
+   ],
+   beforeTotal:'~20+ hrs / week on support & ops',
+   afterTotal: '< 2 hrs / week (exceptions only)',
+   metrics:[
+     { label:'Support tickets cut', val:'70%',   color:'#4ade80' },
+     { label:'Revenue recovered',   val:'+34%',  color:'#E8B4B0' },
+     { label:'Hours saved / week',  val:'18h',   color:'#7B68EE' },
+   ],
+ },
+ realestate: {
+   before: [
+     { task:'Follow up portal leads one by one',          time:'2 hrs/day',  cost:true },
+     { task:'Sync portal listings to CRM manually',       time:'1 hr/day',   cost:true },
+     { task:'Draft offer & viewing confirmation docs',    time:'45 min/deal',cost:true },
+     { task:'Send landlord & tenant onboarding packs',    time:'1 hr/tenancy',cost:true },
+     { task:'Build commission invoices per transaction',  time:'30 min each',cost:true },
+   ],
+   after: [
+     { task:'Leads auto-qualified, scored & followed up', time:'0 min',      saved:true },
+     { task:'Portal → CRM sync in real time (Rightmove+)', time:'0 min',     saved:true },
+     { task:'Offer docs generated from template in 30s',  time:'30 sec',     saved:true },
+     { task:'Onboarding packs sent on tenancy sign',      time:'0 min',      saved:true },
+     { task:'Commission invoice auto-generated on close', time:'0 min',      saved:true },
+   ],
+   beforeTotal:'~15 hrs / agent / week',
+   afterTotal: '< 3 hrs / agent / week',
+   metrics:[
+     { label:'Hours/agent saved',  val:'12h/wk', color:'#4ade80' },
+     { label:'More deals closed',  val:'+40%',   color:'#E8B4B0' },
+     { label:'Lead response speed',val:'85% faster', color:'#7B68EE' },
+   ],
+ },
+};
+
+var currentBaId = 'dental';
+
+function renderBeforeAfter(id) {
+ currentBaId = id;
+ var d = BA_DATA[id];
+ if (!d) return;
+
+ // Before list
+ var bl = document.getElementById('ba-before-list');
+ if (bl) {
+   bl.innerHTML = d.before.map(function(item) {
+     return '<div class="ba-row flex items-start gap-3">' +
+       '<span class="mt-0.5 shrink-0 w-4 h-4 rounded-full flex items-center justify-center" style="background:rgba(239,68,68,0.10);">' +
+         '<svg class="w-2 h-2" style="color:#ef4444;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+       '</span>' +
+       '<div class="flex-1">' +
+         '<p class="text-[12px] font-medium text-brand-black leading-snug">' + item.task + '</p>' +
+         '<p class="text-[10px] mt-0.5 font-semibold" style="color:#ef4444;">' + item.time + '</p>' +
+       '</div>' +
+     '</div>';
+   }).join('');
+ }
+ var bt = document.getElementById('ba-before-total');
+ if (bt) {
+   bt.innerHTML = '<p class="text-[11px] font-bold text-brand-gray-700">Total: <span style="color:#ef4444;">' + d.beforeTotal + '</span></p>';
+ }
+
+ // After list
+ var al = document.getElementById('ba-after-list');
+ if (al) {
+   al.innerHTML = d.after.map(function(item) {
+     return '<div class="ba-row flex items-start gap-3">' +
+       '<span class="mt-0.5 shrink-0 w-4 h-4 rounded-full flex items-center justify-center" style="background:rgba(74,222,128,0.12);">' +
+         '<svg class="w-2 h-2" style="color:#4ade80;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' +
+       '</span>' +
+       '<div class="flex-1">' +
+         '<p class="text-[12px] font-medium text-brand-black leading-snug">' + item.task + '</p>' +
+         '<p class="text-[10px] mt-0.5 font-bold" style="color:#2D5016;">' + item.time + '</p>' +
+       '</div>' +
+     '</div>';
+   }).join('');
+ }
+ var at = document.getElementById('ba-after-total');
+ if (at) {
+   at.innerHTML = '<p class="text-[11px] font-bold text-brand-gray-700">Total: <span style="color:#2D5016;">' + d.afterTotal + '</span></p>';
+ }
+
+ // Impact metrics
+ var imp = document.getElementById('ba-impact');
+ if (imp) {
+   imp.innerHTML = d.metrics.map(function(m) {
+     return '<div class="ba-impact-card rounded-[16px] border border-brand-gray-100 p-5 text-center shadow-sm bg-white">' +
+       '<p class="font-display text-[1.8rem] leading-none mb-1" style="color:' + m.color + ';">' + m.val + '</p>' +
+       '<p class="text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400">' + m.label + '</p>' +
+     '</div>';
+   }).join('');
+ }
+
+ // Update tab styles
+ document.querySelectorAll('.ba-ind-btn').forEach(function(b) {
+   if (b.dataset.baid === id) {
+     b.style.background = '#0A0A0A';
+     b.style.color = '#fff';
+     b.style.borderColor = '#0A0A0A';
+   } else {
+     b.style.background = 'transparent';
+     b.style.color = '#6B7280';
+     b.style.borderColor = '#E5E7EB';
+   }
+ });
+}
+
+document.querySelectorAll('.ba-ind-btn').forEach(function(btn) {
+ btn.addEventListener('click', function() {
+   renderBeforeAfter(this.dataset.baid);
+ });
+});
+
+// Initial render
+renderBeforeAfter('dental');
+
+// ══════════════════════════════════════════════════════════════════════════
+// BOOKING ROI + multi-step
+// ══════════════════════════════════════════════════════════════════════════
 
 document.querySelectorAll('.bk-opt').forEach(function(btn) {
  btn.addEventListener('click', function() {

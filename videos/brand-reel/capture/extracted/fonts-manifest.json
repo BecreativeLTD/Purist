@@ -1,0 +1,211 @@
+{
+  "files": [
+    {
+      "file": "fraunces-latin-ext-opsz-italic.CGbN9UgK.woff2",
+      "family": "Fraunces",
+      "rawFamily": "Fraunces",
+      "subfamily": "Italic",
+      "postscript": "Fraunces-Italic",
+      "weight": 900,
+      "style": "italic",
+      "variationAxes": [
+        "opsz",
+        "wght"
+      ],
+      "identified": true
+    },
+    {
+      "file": "fraunces-latin-ext-opsz-normal.CJcjJNj7.woff2",
+      "family": "Fraunces",
+      "rawFamily": "Fraunces",
+      "subfamily": "Regular",
+      "postscript": "Fraunces-Regular",
+      "weight": 900,
+      "style": "normal",
+      "variationAxes": [
+        "opsz",
+        "wght"
+      ],
+      "identified": true
+    },
+    {
+      "file": "fraunces-latin-opsz-italic.lSdLDfvT.woff2",
+      "family": "Fraunces",
+      "rawFamily": "Fraunces",
+      "subfamily": "Italic",
+      "postscript": "Fraunces-Italic",
+      "weight": 900,
+      "style": "italic",
+      "variationAxes": [
+        "opsz",
+        "wght"
+      ],
+      "identified": true
+    },
+    {
+      "file": "fraunces-latin-opsz-normal.DihXLNYH.woff2",
+      "family": "Fraunces",
+      "rawFamily": "Fraunces",
+      "subfamily": "Regular",
+      "postscript": "Fraunces-Regular",
+      "weight": 900,
+      "style": "normal",
+      "variationAxes": [
+        "opsz",
+        "wght"
+      ],
+      "identified": true
+    },
+    {
+      "file": "fraunces-vietnamese-opsz-italic.DxWqP7Ku.woff2",
+      "family": "Fraunces",
+      "rawFamily": "Fraunces",
+      "subfamily": "Italic",
+      "postscript": "Fraunces-Italic",
+      "weight": 900,
+      "style": "italic",
+      "variationAxes": [
+        "opsz",
+        "wght"
+      ],
+      "identified": true
+    },
+    {
+      "file": "fraunces-vietnamese-opsz-normal.Czevyj-6.woff2",
+      "family": "Fraunces",
+      "rawFamily": "Fraunces",
+      "subfamily": "Regular",
+      "postscript": "Fraunces-Regular",
+      "weight": 900,
+      "style": "normal",
+      "variationAxes": [
+        "opsz",
+        "wght"
+      ],
+      "identified": true
+    },
+    {
+      "file": "inter-cyrillic-ext-standard-normal.CfYZpDVp.woff2",
+      "family": "Inter",
+      "rawFamily": "Inter",
+      "subfamily": "Regular",
+      "postscript": "Inter-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "opsz",
+        "wght"
+      ],
+      "identified": true
+    },
+    {
+      "file": "inter-cyrillic-standard-normal.BFQXbQ-f.woff2",
+      "family": "Inter",
+      "rawFamily": "Inter",
+      "subfamily": "Regular",
+      "postscript": "Inter-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "opsz",
+        "wght"
+      ],
+      "identified": true
+    },
+    {
+      "file": "inter-greek-ext-standard-normal.BmPQvyvo.woff2",
+      "family": "Inter",
+      "rawFamily": "Inter",
+      "subfamily": "Regular",
+      "postscript": "Inter-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "opsz",
+        "wght"
+      ],
+      "identified": true
+    },
+    {
+      "file": "inter-greek-standard-normal.BM0NlUE_.woff2",
+      "family": "Inter",
+      "rawFamily": "Inter",
+      "subfamily": "Regular",
+      "postscript": "Inter-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "opsz",
+        "wght"
+      ],
+      "identified": true
+    },
+    {
+      "file": "inter-latin-ext-standard-normal.DpK-iCPk.woff2",
+      "family": "Inter",
+      "rawFamily": "Inter",
+      "subfamily": "Regular",
+      "postscript": "Inter-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "opsz",
+        "wght"
+      ],
+      "identified": true
+    },
+    {
+      "file": "inter-latin-standard-normal.BwkfbSeq.woff2",
+      "family": "Inter",
+      "rawFamily": "Inter",
+      "subfamily": "Regular",
+      "postscript": "Inter-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "opsz",
+        "wght"
+      ],
+      "identified": true
+    }
+  ],
+  "families": [
+    {
+      "family": "Fraunces",
+      "weights": [
+        900
+      ],
+      "variable": true,
+      "fileCount": 6,
+      "files": [
+        "fraunces-latin-ext-opsz-italic.CGbN9UgK.woff2",
+        "fraunces-latin-ext-opsz-normal.CJcjJNj7.woff2",
+        "fraunces-latin-opsz-italic.lSdLDfvT.woff2",
+        "fraunces-latin-opsz-normal.DihXLNYH.woff2",
+        "fraunces-vietnamese-opsz-italic.DxWqP7Ku.woff2",
+        "fraunces-vietnamese-opsz-normal.Czevyj-6.woff2"
+      ]
+    },
+    {
+      "family": "Inter",
+      "weights": [
+        400
+      ],
+      "variable": true,
+      "fileCount": 6,
+      "files": [
+        "inter-cyrillic-ext-standard-normal.CfYZpDVp.woff2",
+        "inter-cyrillic-standard-normal.BFQXbQ-f.woff2",
+        "inter-greek-ext-standard-normal.BmPQvyvo.woff2",
+        "inter-greek-standard-normal.BM0NlUE_.woff2",
+        "inter-latin-ext-standard-normal.DpK-iCPk.woff2",
+        "inter-latin-standard-normal.BwkfbSeq.woff2"
+      ]
+    }
+  ],
+  "unidentified": [],
+  "meta": {
+    "generatedAt": "2026-06-08T23:41:13.631Z",
+    "tool": "fontkit"
+  }
+}

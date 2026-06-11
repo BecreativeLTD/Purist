@@ -1,0 +1,73 @@
+# Asset Descriptions
+
+One line per file. Read this instead of opening every image individually.
+
+- ai-agent-deploy-packaging.svg — 6KB, ai agent deploy packaging
+- airtable.svg — 5KB, "Airtable", in: bg-white py-10 lg:py-12, above fold
+- alex-drummond.svg — 4KB, alex drummond
+- anthropic.svg — 3KB, anthropic
+- clickup.svg — 3KB, "ClickUp", in: bg-white py-10 lg:py-12, above fold
+- david-lascelles.svg — 3KB, david lascelles
+- favicon.svg — 0KB, favicon
+- hubspot.svg — 3KB, "HubSpot", in: bg-white py-10 lg:py-12, above fold
+- julia-ferreira.svg — 3KB, julia ferreira
+- make.svg — 3KB, "Make", in: bg-white py-10 lg:py-12, above fold
+- marcus-webb.svg — 2KB, marcus webb
+- n8n-hd.svg — 2KB, "n8n", in: bg-white py-10 lg:py-12, above fold
+- natasha-okonkwo.svg — 3KB, natasha okonkwo
+- notion.svg — 2KB, "Notion", in: bg-white py-10 lg:py-12, above fold
+- og-image.png — 68KB, og image
+- priya-mehta.svg — 3KB, priya mehta
+- purist-founder.svg — 6KB, purist founder
+- sarah-chen.svg — 2KB, sarah chen
+- shopify.svg — 3KB, "Shopify", in: bg-white py-10 lg:py-12, above fold
+- slack.svg — 5KB, "Slack", in: bg-white py-10 lg:py-12, above fold
+- stripe.svg — 2KB, stripe
+- the-full-stack-automation-service.svg — 4KB, the full stack automation service
+- the-full-stack-packaging.svg — 6KB, the full stack packaging
+- tom-bradley.svg — 2KB, tom bradley
+- wordpress.svg — 1KB, "WordPress", in: bg-white py-10 lg:py-12, above fold
+- your-business-runs-itself-you-focus-on-g.svg — 11KB, your business runs itself you focus on g
+- zapier.svg — 3KB, "Zapier", in: bg-white py-10 lg:py-12, above fold
+- svgs/active.svg — logo: ACTIVE
+- svgs/adv-arrow.svg — icon: adv-arrow
+- svgs/chat-chevron.svg — logo: chat-chevron
+- svgs/fill-current-2.svg — logo: fill-current
+- svgs/fill-current-3.svg — logo: fill-current
+- svgs/fill-current-4.svg — logo: fill-current
+- svgs/fill-current-5.svg — logo: fill-current
+- svgs/fill-current.svg — logo: fill-current
+- svgs/icon-8.svg — icon: icon 8
+- svgs/logo-0.svg — logo: logo 0
+- svgs/logo-1.svg — logo: logo 1
+- svgs/logo-15.svg — logo: logo 15
+- svgs/logo-16.svg — logo: logo 16
+- svgs/logo-2.svg — logo: logo 2
+- svgs/logo-3.svg — logo: logo 3
+- svgs/logo-4.svg — logo: logo 4
+- svgs/logo-5.svg — logo: logo 5
+- svgs/logo-6.svg — logo: logo 6
+- svgs/shrink-0-10.svg — icon: shrink-0
+- svgs/shrink-0-11.svg — icon: shrink-0
+- svgs/shrink-0-12.svg — icon: shrink-0
+- svgs/shrink-0-2.svg — icon: shrink-0
+- svgs/shrink-0-3.svg — icon: shrink-0
+- svgs/shrink-0-4.svg — icon: shrink-0
+- svgs/shrink-0-5.svg — icon: shrink-0
+- svgs/shrink-0-6.svg — icon: shrink-0
+- svgs/shrink-0-7.svg — icon: shrink-0
+- svgs/shrink-0-8.svg — icon: shrink-0
+- svgs/shrink-0-9.svg — icon: shrink-0
+- svgs/shrink-0.svg — icon: shrink-0
+- fonts/fraunces-latin-ext-opsz-italic.CGbN9UgK.woff2 — font file
+- fonts/fraunces-latin-ext-opsz-normal.CJcjJNj7.woff2 — font file
+- fonts/fraunces-latin-opsz-italic.lSdLDfvT.woff2 — font file
+- fonts/fraunces-latin-opsz-normal.DihXLNYH.woff2 — font file
+- fonts/fraunces-vietnamese-opsz-italic.DxWqP7Ku.woff2 — font file
+- fonts/fraunces-vietnamese-opsz-normal.Czevyj-6.woff2 — font file
+- fonts/inter-cyrillic-ext-standard-normal.CfYZpDVp.woff2 — font file
+- fonts/inter-cyrillic-standard-normal.BFQXbQ-f.woff2 — font file
+- fonts/inter-greek-ext-standard-normal.BmPQvyvo.woff2 — font file
+- fonts/inter-greek-standard-normal.BM0NlUE_.woff2 — font file
+- fonts/inter-latin-ext-standard-normal.DpK-iCPk.woff2 — font file
+- fonts/inter-latin-standard-normal.BwkfbSeq.woff2 — font file

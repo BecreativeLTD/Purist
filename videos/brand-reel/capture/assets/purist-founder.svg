@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="600" height="800">
+  <defs>
+    <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="42"/>
+      <feColorMatrix values="0 0 0 0 0.6 0 0 0 0 0.55 0 0 0 0 0.48 0 0 0 0.06 0"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+    <radialGradient id="bg" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#F8F6F1"/>
+      <stop offset="100%" stop-color="#EDE5D5"/>
+    </radialGradient>
+    <radialGradient id="warmth" cx="50%" cy="40%" r="35%">
+      <stop offset="0%" stop-color="#A0522D" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#A0522D" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="800" fill="url(#bg)"/>
+  <rect width="600" height="800" fill="url(#warmth)"/>
+
+  <!-- Outermost orbital rings -->
+  <circle cx="300" cy="340" r="230" fill="none" stroke="#0A0A0A" stroke-width="0.4" opacity="0.05"/>
+  <circle cx="300" cy="340" r="245" fill="none" stroke="#A0522D" stroke-width="0.3" opacity="0.04" stroke-dasharray="4 10"/>
+
+  <!-- Ring 1: outer (r=180) -->
+  <circle cx="300" cy="340" r="180" fill="none" stroke="#A0522D" stroke-width="0.6" opacity="0.08"/>
+  <!-- Ring 2: mid (r=120) -->
+  <circle cx="300" cy="340" r="120" fill="none" stroke="#0A0A0A" stroke-width="0.5" opacity="0.1"/>
+  <!-- Ring 3: inner (r=60) -->
+  <circle cx="300" cy="340" r="60" fill="none" stroke="#A0522D" stroke-width="0.8" opacity="0.15"/>
+
+  <!-- Outer ring nodes (8 points) -->
+  <circle cx="300" cy="160" r="4" fill="#A0522D" opacity="0.6"/>
+  <circle cx="427" cy="213" r="3.5" fill="#0A0A0A" opacity="0.45"/>
+  <circle cx="480" cy="340" r="4" fill="#A0522D" opacity="0.5"/>
+  <circle cx="427" cy="467" r="3.5" fill="#2D5016" opacity="0.45"/>
+  <circle cx="300" cy="520" r="4" fill="#0A0A0A" opacity="0.5"/>
+  <circle cx="173" cy="467" r="3.5" fill="#A0522D" opacity="0.45"/>
+  <circle cx="120" cy="340" r="4" fill="#2D5016" opacity="0.5"/>
+  <circle cx="173" cy="213" r="3.5" fill="#0A0A0A" opacity="0.45"/>
+
+  <!-- Mid ring nodes (8 points) -->
+  <circle cx="300" cy="220" r="3" fill="#A0522D" opacity="0.55"/>
+  <circle cx="385" cy="255" r="2.8" fill="#0A0A0A" opacity="0.4"/>
+  <circle cx="420" cy="340" r="3" fill="#A0522D" opacity="0.45"/>
+  <circle cx="385" cy="425" r="2.8" fill="#0A0A0A" opacity="0.4"/>
+  <circle cx="300" cy="460" r="3" fill="#2D5016" opacity="0.45"/>
+  <circle cx="215" cy="425" r="2.8" fill="#A0522D" opacity="0.4"/>
+  <circle cx="180" cy="340" r="3" fill="#0A0A0A" opacity="0.45"/>
+  <circle cx="215" cy="255" r="2.8" fill="#2D5016" opacity="0.4"/>
+
+  <!-- Inner ring nodes (4 cardinal) -->
+  <circle cx="300" cy="280" r="3.5" fill="#A0522D" opacity="0.65"/>
+  <circle cx="360" cy="340" r="3.5" fill="#A0522D" opacity="0.55"/>
+  <circle cx="300" cy="400" r="3.5" fill="#A0522D" opacity="0.55"/>
+  <circle cx="240" cy="340" r="3.5" fill="#A0522D" opacity="0.65"/>
+
+  <!-- Radial connections: outer → mid -->
+  <line x1="300" y1="160" x2="300" y2="220" stroke="#A0522D" stroke-width="0.6" opacity="0.12"/>
+  <line x1="427" y1="213" x2="385" y2="255" stroke="#0A0A0A" stroke-width="0.5" opacity="0.08"/>
+  <line x1="480" y1="340" x2="420" y2="340" stroke="#A0522D" stroke-width="0.6" opacity="0.1"/>
+  <line x1="427" y1="467" x2="385" y2="425" stroke="#0A0A0A" stroke-width="0.5" opacity="0.08"/>
+  <line x1="300" y1="520" x2="300" y2="460" stroke="#0A0A0A" stroke-width="0.6" opacity="0.1"/>
+  <line x1="173" y1="467" x2="215" y2="425" stroke="#A0522D" stroke-width="0.5" opacity="0.08"/>
+  <line x1="120" y1="340" x2="180" y2="340" stroke="#2D5016" stroke-width="0.6" opacity="0.1"/>
+  <line x1="173" y1="213" x2="215" y2="255" stroke="#0A0A0A" stroke-width="0.5" opacity="0.08"/>
+
+  <!-- Radial connections: mid → inner -->
+  <line x1="300" y1="220" x2="300" y2="280" stroke="#A0522D" stroke-width="0.7" opacity="0.15"/>
+  <line x1="420" y1="340" x2="360" y2="340" stroke="#A0522D" stroke-width="0.6" opacity="0.12"/>
+  <line x1="300" y1="460" x2="300" y2="400" stroke="#0A0A0A" stroke-width="0.6" opacity="0.12"/>
+  <line x1="180" y1="340" x2="240" y2="340" stroke="#0A0A0A" stroke-width="0.6" opacity="0.12"/>
+
+  <!-- Cross connections (inner ring) -->
+  <line x1="300" y1="280" x2="360" y2="340" stroke="#A0522D" stroke-width="0.5" opacity="0.1"/>
+  <line x1="360" y1="340" x2="300" y2="400" stroke="#A0522D" stroke-width="0.5" opacity="0.1"/>
+  <line x1="300" y1="400" x2="240" y2="340" stroke="#A0522D" stroke-width="0.5" opacity="0.1"/>
+  <line x1="240" y1="340" x2="300" y2="280" stroke="#A0522D" stroke-width="0.5" opacity="0.1"/>
+
+  <!-- Center focal point -->
+  <circle cx="300" cy="340" r="16" fill="none" stroke="#A0522D" stroke-width="1.2" opacity="0.2"/>
+  <circle cx="300" cy="340" r="6" fill="#A0522D" opacity="0.75"/>
+
+  <!-- Subtle diagonal cross connections -->
+  <line x1="300" y1="160" x2="480" y2="340" stroke="#0A0A0A" stroke-width="0.3" opacity="0.04" stroke-dasharray="4 8"/>
+  <line x1="120" y1="340" x2="300" y2="520" stroke="#0A0A0A" stroke-width="0.3" opacity="0.04" stroke-dasharray="4 8"/>
+
+  <!-- Role label -->
+  <line x1="240" y1="680" x2="360" y2="680" stroke="#A0522D" stroke-width="0.6" opacity="0.25"/>
+  <text x="300" y="710" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="#0A0A0A" letter-spacing="3" font-weight="500" opacity="0.7">PURIST FOUNDER</text>
+  <text x="300" y="732" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#A0522D" letter-spacing="2" opacity="0.6">AUTOMATION ARCHITECT</text>
+
+  <!-- Grain -->
+  <rect width="600" height="800" filter="url(#grain)" opacity="0.5"/>
+</svg>

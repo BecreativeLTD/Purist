@@ -1,0 +1,557 @@
+[
+  {
+    "text": "Your",
+    "start": 0.0,
+    "end": 0.388
+  },
+  {
+    "text": "team",
+    "start": 0.388,
+    "end": 0.776
+  },
+  {
+    "text": "is",
+    "start": 0.776,
+    "end": 1.165
+  },
+  {
+    "text": "spending",
+    "start": 1.165,
+    "end": 1.553
+  },
+  {
+    "text": "hours",
+    "start": 1.553,
+    "end": 1.941
+  },
+  {
+    "text": "every",
+    "start": 1.941,
+    "end": 2.329
+  },
+  {
+    "text": "week",
+    "start": 2.329,
+    "end": 2.717
+  },
+  {
+    "text": "on",
+    "start": 2.717,
+    "end": 3.105
+  },
+  {
+    "text": "work",
+    "start": 3.105,
+    "end": 3.494
+  },
+  {
+    "text": "that",
+    "start": 3.494,
+    "end": 3.882
+  },
+  {
+    "text": "should",
+    "start": 3.882,
+    "end": 4.27
+  },
+  {
+    "text": "never",
+    "start": 4.27,
+    "end": 4.658
+  },
+  {
+    "text": "touch",
+    "start": 4.658,
+    "end": 5.046
+  },
+  {
+    "text": "a",
+    "start": 5.046,
+    "end": 5.434
+  },
+  {
+    "text": "human",
+    "start": 5.434,
+    "end": 5.823
+  },
+  {
+    "text": "Scheduling",
+    "start": 5.823,
+    "end": 6.211
+  },
+  {
+    "text": "Invoicing",
+    "start": 6.211,
+    "end": 6.599
+  },
+  {
+    "text": "Lead",
+    "start": 6.599,
+    "end": 6.987
+  },
+  {
+    "text": "capture",
+    "start": 6.987,
+    "end": 7.375
+  },
+  {
+    "text": "Reporting",
+    "start": 7.375,
+    "end": 7.763
+  },
+  {
+    "text": "Chasing",
+    "start": 7.763,
+    "end": 8.152
+  },
+  {
+    "text": "PURIST",
+    "start": 8.152,
+    "end": 8.54
+  },
+  {
+    "text": "deploys",
+    "start": 8.54,
+    "end": 8.928
+  },
+  {
+    "text": "n8n",
+    "start": 8.928,
+    "end": 9.316
+  },
+  {
+    "text": "workflows",
+    "start": 9.316,
+    "end": 9.704
+  },
+  {
+    "text": "and",
+    "start": 9.704,
+    "end": 10.092
+  },
+  {
+    "text": "Claude",
+    "start": 10.092,
+    "end": 10.481
+  },
+  {
+    "text": "A",
+    "start": 10.481,
+    "end": 10.869
+  },
+  {
+    "text": "I",
+    "start": 10.869,
+    "end": 11.257
+  },
+  {
+    "text": "agents",
+    "start": 11.257,
+    "end": 11.645
+  },
+  {
+    "text": "that",
+    "start": 11.645,
+    "end": 12.033
+  },
+  {
+    "text": "handle",
+    "start": 12.033,
+    "end": 12.421
+  },
+  {
+    "text": "all",
+    "start": 12.421,
+    "end": 12.81
+  },
+  {
+    "text": "of",
+    "start": 12.81,
+    "end": 13.198
+  },
+  {
+    "text": "it",
+    "start": 13.198,
+    "end": 13.586
+  },
+  {
+    "text": "automatically",
+    "start": 13.586,
+    "end": 13.974
+  },
+  {
+    "text": "in",
+    "start": 13.974,
+    "end": 14.362
+  },
+  {
+    "text": "days",
+    "start": 14.362,
+    "end": 14.751
+  },
+  {
+    "text": "Over",
+    "start": 14.751,
+    "end": 15.139
+  },
+  {
+    "text": "five",
+    "start": 15.139,
+    "end": 15.527
+  },
+  {
+    "text": "hundred",
+    "start": 15.527,
+    "end": 15.915
+  },
+  {
+    "text": "businesses",
+    "start": 15.915,
+    "end": 16.303
+  },
+  {
+    "text": "automated",
+    "start": 16.303,
+    "end": 16.691
+  },
+  {
+    "text": "Fourteen",
+    "start": 16.691,
+    "end": 17.08
+  },
+  {
+    "text": "hours",
+    "start": 17.08,
+    "end": 17.468
+  },
+  {
+    "text": "saved",
+    "start": 17.468,
+    "end": 17.856
+  },
+  {
+    "text": "per",
+    "start": 17.856,
+    "end": 18.244
+  },
+  {
+    "text": "week",
+    "start": 18.244,
+    "end": 18.632
+  },
+  {
+    "text": "on",
+    "start": 18.632,
+    "end": 19.02
+  },
+  {
+    "text": "average",
+    "start": 19.02,
+    "end": 19.409
+  },
+  {
+    "text": "Ninety",
+    "start": 19.409,
+    "end": 19.797
+  },
+  {
+    "text": "nine",
+    "start": 19.797,
+    "end": 20.185
+  },
+  {
+    "text": "point",
+    "start": 20.185,
+    "end": 20.573
+  },
+  {
+    "text": "nine",
+    "start": 20.573,
+    "end": 20.961
+  },
+  {
+    "text": "seven",
+    "start": 20.961,
+    "end": 21.349
+  },
+  {
+    "text": "percent",
+    "start": 21.349,
+    "end": 21.738
+  },
+  {
+    "text": "uptime",
+    "start": 21.738,
+    "end": 22.126
+  },
+  {
+    "text": "We",
+    "start": 22.126,
+    "end": 22.514
+  },
+  {
+    "text": "connect",
+    "start": 22.514,
+    "end": 22.902
+  },
+  {
+    "text": "your",
+    "start": 22.902,
+    "end": 23.29
+  },
+  {
+    "text": "entire",
+    "start": 23.29,
+    "end": 23.678
+  },
+  {
+    "text": "stack",
+    "start": 23.678,
+    "end": 24.067
+  },
+  {
+    "text": "C",
+    "start": 24.067,
+    "end": 24.455
+  },
+  {
+    "text": "R",
+    "start": 24.455,
+    "end": 24.843
+  },
+  {
+    "text": "M",
+    "start": 24.843,
+    "end": 25.231
+  },
+  {
+    "text": "payments",
+    "start": 25.231,
+    "end": 25.619
+  },
+  {
+    "text": "email",
+    "start": 25.619,
+    "end": 26.007
+  },
+  {
+    "text": "documents",
+    "start": 26.007,
+    "end": 26.396
+  },
+  {
+    "text": "A",
+    "start": 26.396,
+    "end": 26.784
+  },
+  {
+    "text": "I",
+    "start": 26.784,
+    "end": 27.172
+  },
+  {
+    "text": "Four",
+    "start": 27.172,
+    "end": 27.56
+  },
+  {
+    "text": "hundred",
+    "start": 27.56,
+    "end": 27.948
+  },
+  {
+    "text": "integrations",
+    "start": 27.948,
+    "end": 28.336
+  },
+  {
+    "text": "all",
+    "start": 28.336,
+    "end": 28.725
+  },
+  {
+    "text": "running",
+    "start": 28.725,
+    "end": 29.113
+  },
+  {
+    "text": "together",
+    "start": 29.113,
+    "end": 29.501
+  },
+  {
+    "text": "The",
+    "start": 29.501,
+    "end": 29.889
+  },
+  {
+    "text": "average",
+    "start": 29.889,
+    "end": 30.277
+  },
+  {
+    "text": "client",
+    "start": 30.277,
+    "end": 30.666
+  },
+  {
+    "text": "sees",
+    "start": 30.666,
+    "end": 31.054
+  },
+  {
+    "text": "a",
+    "start": 31.054,
+    "end": 31.442
+  },
+  {
+    "text": "nine",
+    "start": 31.442,
+    "end": 31.83
+  },
+  {
+    "text": "point",
+    "start": 31.83,
+    "end": 32.218
+  },
+  {
+    "text": "four",
+    "start": 32.218,
+    "end": 32.606
+  },
+  {
+    "text": "times",
+    "start": 32.606,
+    "end": 32.995
+  },
+  {
+    "text": "return",
+    "start": 32.995,
+    "end": 33.383
+  },
+  {
+    "text": "on",
+    "start": 33.383,
+    "end": 33.771
+  },
+  {
+    "text": "investment",
+    "start": 33.771,
+    "end": 34.159
+  },
+  {
+    "text": "in",
+    "start": 34.159,
+    "end": 34.547
+  },
+  {
+    "text": "under",
+    "start": 34.547,
+    "end": 34.935
+  },
+  {
+    "text": "two",
+    "start": 34.935,
+    "end": 35.324
+  },
+  {
+    "text": "months",
+    "start": 35.324,
+    "end": 35.712
+  },
+  {
+    "text": "Deployed",
+    "start": 35.712,
+    "end": 36.1
+  },
+  {
+    "text": "in",
+    "start": 36.1,
+    "end": 36.488
+  },
+  {
+    "text": "five",
+    "start": 36.488,
+    "end": 36.876
+  },
+  {
+    "text": "to",
+    "start": 36.876,
+    "end": 37.264
+  },
+  {
+    "text": "ten",
+    "start": 37.264,
+    "end": 37.653
+  },
+  {
+    "text": "business",
+    "start": 37.653,
+    "end": 38.041
+  },
+  {
+    "text": "days",
+    "start": 38.041,
+    "end": 38.429
+  },
+  {
+    "text": "guaranteed",
+    "start": 38.429,
+    "end": 38.817
+  },
+  {
+    "text": "Your",
+    "start": 38.817,
+    "end": 39.205
+  },
+  {
+    "text": "business",
+    "start": 39.205,
+    "end": 39.593
+  },
+  {
+    "text": "runs",
+    "start": 39.593,
+    "end": 39.982
+  },
+  {
+    "text": "itself",
+    "start": 39.982,
+    "end": 40.37
+  },
+  {
+    "text": "You",
+    "start": 40.37,
+    "end": 40.758
+  },
+  {
+    "text": "focus",
+    "start": 40.758,
+    "end": 41.146
+  },
+  {
+    "text": "on",
+    "start": 41.146,
+    "end": 41.534
+  },
+  {
+    "text": "growth",
+    "start": 41.534,
+    "end": 41.922
+  },
+  {
+    "text": "Purist",
+    "start": 41.922,
+    "end": 42.311
+  },
+  {
+    "text": "dot",
+    "start": 42.311,
+    "end": 42.699
+  },
+  {
+    "text": "online",
+    "start": 42.699,
+    "end": 43.087
+  }
+]
