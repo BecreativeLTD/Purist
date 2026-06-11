@@ -1,0 +1,767 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+
+const benchmarks = [
+  { name: 'SWE-Bench Pro', fable: 80.3, opus: 69.2, gpt: 58.6, gemini: 54.2 },
+  { name: 'Core Analytics', fable: 91.2, opus: 81.0, gpt: 74.5, gemini: 70.8 },
+  { name: 'Finance Reasoning', fable: 88.7, opus: 76.3, gpt: 71.2, gemini: 68.4 },
+  { name: 'Vision & Documents', fable: 93.1, opus: 84.6, gpt: 79.8, gemini: 82.1 },
+  { name: 'Scientific Research', fable: 89.4, opus: 78.9, gpt: 72.1, gemini: 75.3 },
+  { name: 'Knowledge Work', fable: 94.6, opus: 86.2, gpt: 80.4, gemini: 77.9 },
+];
+
+const specs = [
+  { label: 'Context window', value: '1M tokens', icon: 'M4 6h16M4 12h16M4 18h7' },
+  { label: 'Max output', value: '128K tokens', icon: 'M12 19V5M5 12l7-7 7 7' },
+  { label: 'Adaptive thinking', value: 'Always on', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z' },
+  { label: 'Knowledge cutoff', value: 'Jan 2026', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' },
+  { label: 'API model ID', value: 'claude-fable-5', icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4' },
+  { label: 'Vision', value: 'Full multimodal', icon: 'M15 12a3 3 0 11-6 0 3 3 0 016 0zM2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z' },
+];
+
+const capabilities = [
+  {
+    title: 'Software Engineering',
+    score: '80.3%',
+    bench: 'SWE-Bench Pro',
+    desc: 'First model to break 80% on SWE-Bench Pro — 11 points ahead of the next frontier model. Handles complex multi-file refactors, debugging, and full-stack development autonomously.',
+    icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+    color: '#4ADE80',
+  },
+  {
+    title: 'Vision & Documents',
+    score: '93.1%',
+    bench: 'DocQA Pro',
+    desc: 'Reads diagrams, charts, tables nested in PDFs, scanned documents, and screenshots. Opens up research and document-heavy work in finance, legal, analytics, and architecture.',
+    icon: 'M15 12a3 3 0 11-6 0 3 3 0 016 0zM2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z',
+    color: '#60A5FA',
+  },
+  {
+    title: 'Analytics & Finance',
+    score: '91.2%',
+    bench: 'Core Analytics',
+    desc: 'First model to break 90% on complex, long-running analytical tasks — a 10-point jump over Opus. The strongest finance-first model ever tested on general finance and reasoning.',
+    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+    color: '#CC9560',
+  },
+  {
+    title: 'Scientific Research',
+    score: '89.4%',
+    bench: 'SciQA',
+    desc: 'Deep understanding of scientific papers, experimental design, and cross-domain synthesis. Handles literature review, hypothesis generation, and methodology critique at expert level.',
+    icon: 'M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z',
+    color: '#F472B6',
+  },
+  {
+    title: 'Knowledge Work',
+    score: '94.6%',
+    bench: 'KnowledgeBench',
+    desc: 'The longer and more complex the task, the larger Fable 5\'s lead. Strategic memos, policy drafts, competitive analysis, and comprehensive reporting — all at a level exceeding Opus.',
+    icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253',
+    color: '#E8B4B0',
+  },
+  {
+    title: 'Tool Use & Agents',
+    score: '96.1%',
+    bench: 'ToolBench',
+    desc: 'Near-perfect tool orchestration with multi-step planning, parallel execution, and adaptive error recovery. Powers the most sophisticated AI agent workflows on any platform.',
+    icon: 'M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z',
+    color: '#A78BFA',
+  },
+];
+
+const pricing = [
+  {
+    model: 'Claude Fable 5',
+    badge: 'Mythos-class',
+    badgeColor: '#E8B4B0',
+    input: '$10',
+    output: '$50',
+    batchInput: '$5',
+    batchOutput: '$25',
+    context: '1M tokens',
+    maxOutput: '128K tokens',
+    highlight: true,
+  },
+  {
+    model: 'Claude Opus 4.6',
+    badge: 'Opus-class',
+    badgeColor: '#CC9560',
+    input: '$15',
+    output: '$75',
+    batchInput: '$7.50',
+    batchOutput: '$37.50',
+    context: '200K tokens',
+    maxOutput: '32K tokens',
+    highlight: false,
+  },
+  {
+    model: 'Claude Sonnet 4.6',
+    badge: 'Sonnet-class',
+    badgeColor: '#60A5FA',
+    input: '$3',
+    output: '$15',
+    batchInput: '$1.50',
+    batchOutput: '$7.50',
+    context: '200K tokens',
+    maxOutput: '16K tokens',
+    highlight: false,
+  },
+  {
+    model: 'Claude Haiku 4.5',
+    badge: 'Haiku-class',
+    badgeColor: '#4ADE80',
+    input: '$0.80',
+    output: '$4',
+    batchInput: '$0.40',
+    batchOutput: '$2',
+    context: '200K tokens',
+    maxOutput: '8K tokens',
+    highlight: false,
+  },
+];
+
+const useCases = [
+  { title: 'Autonomous coding agents', desc: 'Fable 5 writes, debugs, and deploys production code across entire repositories. Multi-file refactors that took hours now complete in minutes with 80.3% accuracy on SWE-Bench Pro.', icon: '💻' },
+  { title: 'Financial analysis & modelling', desc: 'Process earnings reports, build DCF models, and generate investment memos with 91.2% accuracy on complex analytical tasks. The strongest finance model ever benchmarked.', icon: '📊' },
+  { title: 'Legal document review', desc: 'Analyse contracts, identify risk clauses, and compare regulatory frameworks across jurisdictions. 93.1% accuracy on document understanding with full vision capabilities.', icon: '⚖️' },
+  { title: 'Scientific research synthesis', desc: 'Review literature, critique methodologies, and generate hypotheses across domains. Cross-references papers and datasets at a level previously requiring specialist researchers.', icon: '🔬' },
+  { title: 'Enterprise knowledge work', desc: 'Draft strategy decks, competitive analyses, and policy documents. The longer the task, the larger Fable 5\'s advantage — designed for complex, multi-hour knowledge work.', icon: '🏢' },
+  { title: 'Production AI agents', desc: 'Orchestrate multi-step workflows with near-perfect tool use (96.1%). PURIST deploys Fable 5-powered agents for lead qualification, customer onboarding, and operations automation.', icon: '🤖' },
+];
+
+const timeline = [
+  { date: 'Jun 9, 2026', event: 'Fable 5 & Mythos 5 released', detail: 'Available on Pro, Max, Team, and Enterprise plans at no extra cost' },
+  { date: 'Jun 22, 2026', event: 'Free access period ends', detail: 'Fable 5 moves to usage credits. API pricing: $10/$50 per million tokens' },
+  { date: 'Available now', event: 'API access via Anthropic & AWS Bedrock', detail: 'Model ID: claude-fable-5 — available on Amazon Bedrock and direct API' },
+];
+---
+
+<ShopLayout
+  title="Claude Fable 5 & Mythos 5 — The Mythos-Class AI Model | PURIST"
+  description="Claude Fable 5 is Anthropic's most powerful publicly available AI model. 80.3% SWE-Bench Pro, 1M context window, 128K output. Discover capabilities, benchmarks, pricing, and how PURIST deploys Fable 5 for business automation."
+>
+
+<!-- ═══════════════════════════════════════════
+     HERO — Giant cinematic reveal
+════════════════════════════════════════════ -->
+<header class="relative overflow-hidden" style="background:#0A0A0A;min-height:100vh;display:flex;flex-direction:column;justify-content:center;">
+
+  <!-- Animated gradient background -->
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 80% 60% at 50% 30%,rgba(232,180,176,0.08) 0%,transparent 50%);"></div>
+  <div class="absolute inset-0 pointer-events-none fable-glow" style="background:radial-gradient(ellipse 40% 50% at 70% 60%,rgba(164,139,250,0.05) 0%,transparent 50%);"></div>
+
+  <!-- Floating grid -->
+  <div class="absolute inset-0 pointer-events-none" style="background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black,transparent);"></div>
+
+  <div class="container-x relative z-10 py-20 lg:py-0">
+    <div class="max-w-5xl mx-auto text-center">
+
+      <!-- Status pill -->
+      <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full mb-8" style="background:rgba(232,180,176,0.08);border:1px solid rgba(232,180,176,0.15);">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style="background:#4ADE80;"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2" style="background:#4ADE80;"></span>
+        </span>
+        <span class="text-[10px] font-semibold tracking-widest uppercase" style="color:rgba(255,255,255,0.6);">Released June 9, 2026</span>
+        <span class="w-px h-3" style="background:rgba(255,255,255,0.12);"></span>
+        <span class="text-[10px] font-bold tracking-wider uppercase" style="color:#E8B4B0;">Mythos-class</span>
+      </div>
+
+      <!-- Giant title -->
+      <h1 class="fable-title font-display leading-[0.9] tracking-[-0.04em] text-white mb-8" style="font-size:clamp(3rem,10vw,8rem);">
+        <span style="color:#E8B4B0;">Fable</span> 5
+      </h1>
+
+      <p class="text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto mb-6" style="color:rgba(255,255,255,0.5);">
+        The most powerful AI model ever made publicly available.<br class="hidden sm:block"/>
+        Built on Anthropic's <span style="color:#A78BFA;font-weight:600;">Mythos</span> architecture.
+      </p>
+
+      <p class="text-sm leading-relaxed max-w-xl mx-auto mb-10" style="color:rgba(255,255,255,0.3);">
+        80.3% SWE-Bench Pro &middot; 1M context window &middot; 128K output tokens &middot; Adaptive thinking always on
+      </p>
+
+      <!-- CTA row -->
+      <div class="flex flex-wrap items-center justify-center gap-4 mb-16">
+        <a href="/pages/welcome"
+           class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold transition-all duration-200"
+           style="background:#E8B4B0;color:#0A0A0A;"
+           onmouseover="this.style.background='#d9a09b';this.style.transform='translateY(-1px)'"
+           onmouseout="this.style.background='#E8B4B0';this.style.transform=''">
+          Deploy Fable 5 for your business
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+        <a href="#benchmarks"
+           class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl text-sm font-semibold transition-all duration-200"
+           style="border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.6);"
+           onmouseover="this.style.borderColor='rgba(255,255,255,0.3)';this.style.color='#fff'"
+           onmouseout="this.style.borderColor='rgba(255,255,255,0.12)';this.style.color='rgba(255,255,255,0.6)'">
+          See benchmarks
+        </a>
+      </div>
+
+      <!-- Spec pills row -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 max-w-4xl mx-auto">
+        {specs.map((s) => (
+          <div class="flex flex-col items-center gap-2 p-4 rounded-xl" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.6;"><path d={s.icon}/></svg>
+            <span class="text-[10px] uppercase tracking-wider font-semibold" style="color:rgba(255,255,255,0.3);">{s.label}</span>
+            <span class="text-[13px] font-bold text-white">{s.value}</span>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+    <span class="text-[9px] uppercase tracking-[0.2em] text-white/40 font-semibold">Scroll</span>
+    <div class="w-px h-8 scroll-line"></div>
+  </div>
+</header>
+
+
+<!-- ═══════════════════════════════════════════
+     FABLE vs MYTHOS — Twin models explained
+════════════════════════════════════════════ -->
+<section class="relative" style="background:#0D0D0D;">
+  <div class="absolute top-0 left-0 right-0 h-px" style="background:linear-gradient(90deg,transparent,rgba(232,180,176,0.15),transparent);"></div>
+  <div class="container-x py-20 lg:py-28">
+
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="text-[10px] uppercase tracking-[0.26em] font-bold mb-4 block" style="color:rgba(164,139,250,0.6);">Two models, one architecture</span>
+      <h2 class="font-display text-3xl lg:text-5xl leading-tight tracking-tight text-white mb-5">
+        Fable 5 <span style="color:rgba(255,255,255,0.2);">&</span> <span style="color:#A78BFA;">Mythos</span> 5
+      </h2>
+      <p class="text-sm lg:text-base leading-relaxed" style="color:rgba(255,255,255,0.4);">
+        Same underlying weights. Same Mythos-class intelligence. Different safety profiles for different use cases. Fable 5 is the public twin — Mythos 5 is restricted to vetted cyber defence partners.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+      <!-- Fable 5 card -->
+      <div class="rounded-2xl p-8 lg:p-10 relative overflow-hidden" style="background:rgba(232,180,176,0.04);border:1px solid rgba(232,180,176,0.12);">
+        <div class="absolute top-0 right-0 w-40 h-40 pointer-events-none" style="background:radial-gradient(circle,rgba(232,180,176,0.06) 0%,transparent 70%);"></div>
+        <div class="relative z-10">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(232,180,176,0.12);border:1px solid rgba(232,180,176,0.2);">
+              <span class="text-lg">F</span>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-white">Claude Fable 5</h3>
+              <span class="text-[10px] uppercase tracking-wider font-semibold" style="color:#E8B4B0;">Public release</span>
+            </div>
+          </div>
+          <ul class="space-y-3 mb-6">
+            {[
+              'Available to all Pro, Max, Team & Enterprise users',
+              'Safety classifiers route <5% of queries to Opus 4.8',
+              'High-risk topics (cyber, bio, chem) fall back to Opus',
+              'Full API access: claude-fable-5',
+              'Amazon Bedrock & direct API',
+              'GitHub Copilot integration',
+            ].map(item => (
+              <li class="flex items-start gap-2.5 text-[13px] leading-relaxed" style="color:rgba(255,255,255,0.6);">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 mt-0.5"><path d="M20 6L9 17l-5-5"/></svg>
+                {item}
+              </li>
+            ))}
+          </ul>
+          <div class="flex items-baseline gap-1">
+            <span class="text-2xl font-bold text-white">$10</span>
+            <span class="text-[11px]" style="color:rgba(255,255,255,0.3);">/ 1M input tokens</span>
+            <span class="mx-2 text-[11px]" style="color:rgba(255,255,255,0.15);">|</span>
+            <span class="text-2xl font-bold text-white">$50</span>
+            <span class="text-[11px]" style="color:rgba(255,255,255,0.3);">/ 1M output</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mythos 5 card -->
+      <div class="rounded-2xl p-8 lg:p-10 relative overflow-hidden" style="background:rgba(164,139,250,0.03);border:1px solid rgba(164,139,250,0.1);">
+        <div class="absolute top-0 right-0 w-40 h-40 pointer-events-none" style="background:radial-gradient(circle,rgba(164,139,250,0.05) 0%,transparent 70%);"></div>
+        <div class="relative z-10">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(164,139,250,0.12);border:1px solid rgba(164,139,250,0.2);">
+              <span class="text-lg">M</span>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-white">Claude Mythos 5</h3>
+              <span class="text-[10px] uppercase tracking-wider font-semibold" style="color:#A78BFA;">Restricted access</span>
+            </div>
+          </div>
+          <ul class="space-y-3 mb-6">
+            {[
+              'Restricted to vetted cyber defenders & infrastructure operators',
+              'No safety classifiers — full unrestricted Mythos capabilities',
+              'Deployed via Project Glasswing (US gov collaboration)',
+              'Same model ID: claude-mythos-5',
+              'Same pricing as Fable 5',
+              'Application-only access through Anthropic',
+            ].map(item => (
+              <li class="flex items-start gap-2.5 text-[13px] leading-relaxed" style="color:rgba(255,255,255,0.6);">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 mt-0.5"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                {item}
+              </li>
+            ))}
+          </ul>
+          <div class="flex items-center gap-2">
+            <span class="text-[12px] font-semibold px-3 py-1.5 rounded-lg" style="background:rgba(164,139,250,0.1);color:#A78BFA;border:1px solid rgba(164,139,250,0.2);">
+              Requires government vetting
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     CAPABILITIES — 6 domains
+════════════════════════════════════════════ -->
+<section class="relative" style="background:#0A0A0A;">
+  <div class="absolute top-0 left-0 right-0 h-px" style="background:linear-gradient(90deg,transparent,rgba(255,255,255,0.06),transparent);"></div>
+  <div class="container-x py-20 lg:py-28">
+
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="text-[10px] uppercase tracking-[0.26em] font-bold mb-4 block" style="color:rgba(232,180,176,0.6);">Capabilities</span>
+      <h2 class="font-display text-3xl lg:text-5xl leading-tight tracking-tight text-white mb-5">
+        State-of-the-art on<br/><em class="font-medium" style="color:#E8B4B0;">nearly every benchmark.</em>
+      </h2>
+      <p class="text-sm lg:text-base leading-relaxed" style="color:rgba(255,255,255,0.4);">
+        The longer and more complex the task, the larger Fable 5's lead. Exceptional performance in software engineering, knowledge work, vision, scientific research, and finance.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
+      {capabilities.map((cap) => (
+        <div class="group rounded-2xl p-7 transition-all duration-300"
+             style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);"
+             onmouseover="this.style.borderColor='rgba(255,255,255,0.12)';this.style.background='rgba(255,255,255,0.04)'"
+             onmouseout="this.style.borderColor='rgba(255,255,255,0.06)';this.style.background='rgba(255,255,255,0.02)'">
+          <div class="flex items-center justify-between mb-5">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center" style={`background:${cap.color}12;border:1px solid ${cap.color}25;`}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={cap.color} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d={cap.icon}/></svg>
+            </div>
+            <div class="text-right">
+              <div class="text-xl font-bold" style={`color:${cap.color};`}>{cap.score}</div>
+              <div class="text-[9px] uppercase tracking-wider font-semibold" style="color:rgba(255,255,255,0.25);">{cap.bench}</div>
+            </div>
+          </div>
+          <h3 class="text-[15px] font-bold text-white mb-2">{cap.title}</h3>
+          <p class="text-[12px] leading-relaxed" style="color:rgba(255,255,255,0.4);">{cap.desc}</p>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     BENCHMARKS — Visual comparison
+════════════════════════════════════════════ -->
+<section id="benchmarks" class="relative" style="background:#0D0D0D;">
+  <div class="absolute top-0 left-0 right-0 h-px" style="background:linear-gradient(90deg,transparent,rgba(232,180,176,0.12),transparent);"></div>
+  <div class="container-x py-20 lg:py-28">
+
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="text-[10px] uppercase tracking-[0.26em] font-bold mb-4 block" style="color:rgba(74,222,128,0.6);">Benchmarks</span>
+      <h2 class="font-display text-3xl lg:text-5xl leading-tight tracking-tight text-white mb-5">
+        Numbers don't lie.
+      </h2>
+      <p class="text-sm lg:text-base leading-relaxed" style="color:rgba(255,255,255,0.4);">
+        Fable 5 compared against Claude Opus 4.8, GPT-5.5, and Gemini 3.1 Pro across key benchmarks.
+      </p>
+    </div>
+
+    <!-- Benchmark bars -->
+    <div class="max-w-4xl mx-auto space-y-8">
+      {benchmarks.map((b) => (
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[13px] font-semibold text-white">{b.name}</span>
+            <span class="text-[12px] font-bold" style="color:#E8B4B0;">{b.fable}%</span>
+          </div>
+          <div class="space-y-1.5">
+            {/* Fable 5 */}
+            <div class="flex items-center gap-3">
+              <span class="text-[10px] font-semibold w-20 text-right shrink-0" style="color:rgba(255,255,255,0.5);">Fable 5</span>
+              <div class="flex-1 h-7 rounded-lg overflow-hidden" style="background:rgba(255,255,255,0.04);">
+                <div class="h-full rounded-lg bench-bar flex items-center justify-end pr-3" style={`width:${b.fable}%;background:linear-gradient(90deg,rgba(232,180,176,0.3),#E8B4B0);`}>
+                  <span class="text-[10px] font-bold text-black/70">{b.fable}%</span>
+                </div>
+              </div>
+            </div>
+            {/* Opus 4.8 */}
+            <div class="flex items-center gap-3">
+              <span class="text-[10px] font-semibold w-20 text-right shrink-0" style="color:rgba(255,255,255,0.3);">Opus 4.8</span>
+              <div class="flex-1 h-5 rounded-md overflow-hidden" style="background:rgba(255,255,255,0.04);">
+                <div class="h-full rounded-md" style={`width:${b.opus}%;background:rgba(204,149,96,0.5);`}></div>
+              </div>
+              <span class="text-[10px] w-10 shrink-0" style="color:rgba(255,255,255,0.3);">{b.opus}%</span>
+            </div>
+            {/* GPT-5.5 */}
+            <div class="flex items-center gap-3">
+              <span class="text-[10px] font-semibold w-20 text-right shrink-0" style="color:rgba(255,255,255,0.3);">GPT-5.5</span>
+              <div class="flex-1 h-5 rounded-md overflow-hidden" style="background:rgba(255,255,255,0.04);">
+                <div class="h-full rounded-md" style={`width:${b.gpt}%;background:rgba(96,165,250,0.4);`}></div>
+              </div>
+              <span class="text-[10px] w-10 shrink-0" style="color:rgba(255,255,255,0.3);">{b.gpt}%</span>
+            </div>
+            {/* Gemini 3.1 Pro */}
+            <div class="flex items-center gap-3">
+              <span class="text-[10px] font-semibold w-20 text-right shrink-0" style="color:rgba(255,255,255,0.3);">Gemini 3.1</span>
+              <div class="flex-1 h-5 rounded-md overflow-hidden" style="background:rgba(255,255,255,0.04);">
+                <div class="h-full rounded-md" style={`width:${b.gemini}%;background:rgba(74,222,128,0.3);`}></div>
+              </div>
+              <span class="text-[10px] w-10 shrink-0" style="color:rgba(255,255,255,0.3);">{b.gemini}%</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Source attribution -->
+    <p class="text-center mt-10 text-[10px]" style="color:rgba(255,255,255,0.2);">
+      Benchmark data from Anthropic's official release. Scores represent verified external evaluations.
+    </p>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     USE CASES — What Fable 5 enables
+════════════════════════════════════════════ -->
+<section class="relative" style="background:#0A0A0A;">
+  <div class="absolute top-0 left-0 right-0 h-px" style="background:linear-gradient(90deg,transparent,rgba(255,255,255,0.06),transparent);"></div>
+  <div class="container-x py-20 lg:py-28">
+
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="text-[10px] uppercase tracking-[0.26em] font-bold mb-4 block" style="color:rgba(232,180,176,0.6);">Use cases</span>
+      <h2 class="font-display text-3xl lg:text-5xl leading-tight tracking-tight text-white mb-5">
+        What you can build<br/><em class="font-medium" style="color:#E8B4B0;">with Mythos-class AI.</em>
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
+      {useCases.map((uc) => (
+        <div class="rounded-2xl p-7" style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);">
+          <span class="text-2xl mb-4 block">{uc.icon}</span>
+          <h3 class="text-[14px] font-bold text-white mb-2">{uc.title}</h3>
+          <p class="text-[12px] leading-relaxed" style="color:rgba(255,255,255,0.4);">{uc.desc}</p>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     SAFETY — The Glasswing architecture
+════════════════════════════════════════════ -->
+<section class="relative" style="background:#0D0D0D;">
+  <div class="absolute top-0 left-0 right-0 h-px" style="background:linear-gradient(90deg,transparent,rgba(164,139,250,0.12),transparent);"></div>
+  <div class="container-x py-20 lg:py-28">
+
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-5xl mx-auto">
+
+      <div>
+        <span class="text-[10px] uppercase tracking-[0.26em] font-bold mb-4 block" style="color:rgba(164,139,250,0.6);">Safety architecture</span>
+        <h2 class="font-display text-3xl lg:text-4xl leading-tight tracking-tight text-white mb-5">
+          Mythos power,<br/><em class="font-medium" style="color:#A78BFA;">responsible deployment.</em>
+        </h2>
+        <p class="text-sm leading-relaxed mb-8" style="color:rgba(255,255,255,0.4);">
+          Fable 5 is built from the same weights as Mythos 5 but includes safety classifiers that trigger in less than 5% of sessions. High-risk queries are automatically routed to Claude Opus 4.8 — the model stays powerful while remaining safe for general use.
+        </p>
+
+        <div class="space-y-4">
+          {[
+            { label: 'Cyber, bio, chem queries', action: 'Routed to Opus 4.8', color: '#F87171' },
+            { label: 'Model distillation attempts', action: 'Blocked and logged', color: '#F87171' },
+            { label: 'Standard business queries', action: 'Full Fable 5 intelligence', color: '#4ADE80' },
+            { label: 'Software engineering', action: 'Full Fable 5 intelligence', color: '#4ADE80' },
+            { label: 'Knowledge & research', action: 'Full Fable 5 intelligence', color: '#4ADE80' },
+          ].map(item => (
+            <div class="flex items-center justify-between p-3.5 rounded-xl" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">
+              <span class="text-[12px] font-medium text-white/60">{item.label}</span>
+              <span class="text-[11px] font-bold" style={`color:${item.color};`}>{item.action}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Safeguard visual -->
+      <div class="relative">
+        <div class="rounded-2xl p-10 text-center" style="background:rgba(164,139,250,0.03);border:1px solid rgba(164,139,250,0.1);">
+          <div class="mb-8">
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-6" style="background:rgba(164,139,250,0.08);border:1px solid rgba(164,139,250,0.15);">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <h3 class="font-display text-xl text-white mb-2">Project Glasswing</h3>
+            <p class="text-[12px] leading-relaxed" style="color:rgba(255,255,255,0.35);">
+              The collaboration between Anthropic and the U.S. government that governs how Mythos-class models are deployed. Fable 5 is the public-safe output of this programme.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-3 gap-3">
+            {[
+              { val: '<5%', label: 'Classifier triggers' },
+              { val: '0', label: 'False negatives' },
+              { val: '99.97%', label: 'Uptime' },
+            ].map(s => (
+              <div class="p-3 rounded-xl" style="background:rgba(255,255,255,0.03);">
+                <div class="text-lg font-bold" style="color:#A78BFA;">{s.val}</div>
+                <div class="text-[9px] uppercase tracking-wider mt-1" style="color:rgba(255,255,255,0.25);">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     PRICING COMPARISON
+════════════════════════════════════════════ -->
+<section id="pricing" class="relative" style="background:#0A0A0A;">
+  <div class="absolute top-0 left-0 right-0 h-px" style="background:linear-gradient(90deg,transparent,rgba(255,255,255,0.06),transparent);"></div>
+  <div class="container-x py-20 lg:py-28">
+
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="text-[10px] uppercase tracking-[0.26em] font-bold mb-4 block" style="color:rgba(232,180,176,0.6);">Pricing</span>
+      <h2 class="font-display text-3xl lg:text-5xl leading-tight tracking-tight text-white mb-5">
+        How Fable 5 compares.
+      </h2>
+      <p class="text-sm leading-relaxed" style="color:rgba(255,255,255,0.4);">
+        API pricing per million tokens. Fable 5 offers Mythos-class performance at a lower cost per token than Opus.
+      </p>
+    </div>
+
+    <!-- Pricing table -->
+    <div class="max-w-4xl mx-auto overflow-x-auto">
+      <table class="w-full text-left" style="border-collapse:separate;border-spacing:0;">
+        <thead>
+          <tr>
+            <th class="text-[10px] uppercase tracking-wider font-semibold p-4" style="color:rgba(255,255,255,0.3);border-bottom:1px solid rgba(255,255,255,0.06);">Model</th>
+            <th class="text-[10px] uppercase tracking-wider font-semibold p-4 text-center" style="color:rgba(255,255,255,0.3);border-bottom:1px solid rgba(255,255,255,0.06);">Input</th>
+            <th class="text-[10px] uppercase tracking-wider font-semibold p-4 text-center" style="color:rgba(255,255,255,0.3);border-bottom:1px solid rgba(255,255,255,0.06);">Output</th>
+            <th class="text-[10px] uppercase tracking-wider font-semibold p-4 text-center hidden sm:table-cell" style="color:rgba(255,255,255,0.3);border-bottom:1px solid rgba(255,255,255,0.06);">Batch input</th>
+            <th class="text-[10px] uppercase tracking-wider font-semibold p-4 text-center hidden sm:table-cell" style="color:rgba(255,255,255,0.3);border-bottom:1px solid rgba(255,255,255,0.06);">Batch output</th>
+            <th class="text-[10px] uppercase tracking-wider font-semibold p-4 text-center" style="color:rgba(255,255,255,0.3);border-bottom:1px solid rgba(255,255,255,0.06);">Context</th>
+          </tr>
+        </thead>
+        <tbody>
+          {pricing.map((p) => (
+            <tr style={p.highlight ? 'background:rgba(232,180,176,0.04);' : ''}>
+              <td class="p-4" style="border-bottom:1px solid rgba(255,255,255,0.04);">
+                <div class="flex items-center gap-3">
+                  <span class="text-[13px] font-bold text-white">{p.model}</span>
+                  <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full" style={`color:${p.badgeColor};background:${p.badgeColor}15;border:1px solid ${p.badgeColor}25;`}>{p.badge}</span>
+                </div>
+              </td>
+              <td class="p-4 text-center text-[13px] font-semibold text-white" style="border-bottom:1px solid rgba(255,255,255,0.04);">{p.input}</td>
+              <td class="p-4 text-center text-[13px] font-semibold text-white" style="border-bottom:1px solid rgba(255,255,255,0.04);">{p.output}</td>
+              <td class="p-4 text-center text-[12px] hidden sm:table-cell" style="color:rgba(255,255,255,0.4);border-bottom:1px solid rgba(255,255,255,0.04);">{p.batchInput}</td>
+              <td class="p-4 text-center text-[12px] hidden sm:table-cell" style="color:rgba(255,255,255,0.4);border-bottom:1px solid rgba(255,255,255,0.04);">{p.batchOutput}</td>
+              <td class="p-4 text-center text-[12px]" style="color:rgba(255,255,255,0.4);border-bottom:1px solid rgba(255,255,255,0.04);">{p.context}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     TIMELINE
+════════════════════════════════════════════ -->
+<section class="relative" style="background:#0D0D0D;">
+  <div class="absolute top-0 left-0 right-0 h-px" style="background:linear-gradient(90deg,transparent,rgba(255,255,255,0.06),transparent);"></div>
+  <div class="container-x py-20 lg:py-28">
+
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="text-[10px] uppercase tracking-[0.26em] font-bold mb-4 block" style="color:rgba(232,180,176,0.6);">Timeline</span>
+      <h2 class="font-display text-3xl lg:text-4xl leading-tight tracking-tight text-white">Availability</h2>
+    </div>
+
+    <div class="max-w-2xl mx-auto space-y-0">
+      {timeline.map((t, i) => (
+        <div class="flex gap-6">
+          <div class="flex flex-col items-center">
+            <div class="w-3 h-3 rounded-full shrink-0" style={`background:${i === 0 ? '#E8B4B0' : i === 2 ? '#4ADE80' : 'rgba(255,255,255,0.2)'};`}></div>
+            {i < timeline.length - 1 && <div class="w-px flex-1 my-1" style="background:rgba(255,255,255,0.08);"></div>}
+          </div>
+          <div class="pb-10">
+            <span class="text-[10px] uppercase tracking-wider font-bold block mb-1" style="color:#E8B4B0;">{t.date}</span>
+            <h3 class="text-[15px] font-bold text-white mb-1">{t.event}</h3>
+            <p class="text-[12px]" style="color:rgba(255,255,255,0.4);">{t.detail}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     PURIST + FABLE 5 — How we deploy it
+════════════════════════════════════════════ -->
+<section class="relative" style="background:#0A0A0A;">
+  <div class="absolute top-0 left-0 right-0 h-px" style="background:linear-gradient(90deg,transparent,rgba(232,180,176,0.15),transparent);"></div>
+  <div class="container-x py-20 lg:py-28">
+
+    <div class="max-w-5xl mx-auto">
+      <div class="rounded-3xl overflow-hidden" style="background:linear-gradient(135deg,rgba(232,180,176,0.06) 0%,rgba(164,139,250,0.04) 100%);border:1px solid rgba(232,180,176,0.1);">
+        <div class="p-10 lg:p-16 text-center">
+
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6" style="background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.2);">
+            <span class="w-1.5 h-1.5 rounded-full" style="background:#4ADE80;"></span>
+            <span class="text-[10px] font-bold uppercase tracking-wider" style="color:#4ADE80;">Available now through PURIST</span>
+          </div>
+
+          <h2 class="font-display text-3xl lg:text-5xl leading-tight tracking-tight text-white mb-5">
+            Fable 5, deployed<br/><em class="font-medium" style="color:#E8B4B0;">for your business.</em>
+          </h2>
+
+          <p class="text-sm lg:text-base leading-relaxed max-w-2xl mx-auto mb-10" style="color:rgba(255,255,255,0.45);">
+            PURIST integrates Fable 5 into production n8n workflows for lead qualification, document processing, financial analysis, and autonomous operations. Mythos-class intelligence, deployed in days — not months.
+          </p>
+
+          <div class="grid sm:grid-cols-3 gap-4 max-w-xl mx-auto mb-10">
+            {[
+              { val: '5-10 days', label: 'Deployment time' },
+              { val: '14h/week', label: 'Time saved per client' },
+              { val: '9.4x', label: 'Average ROI in 60 days' },
+            ].map(s => (
+              <div class="p-4 rounded-xl" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);">
+                <div class="font-display text-xl font-bold text-white">{s.val}</div>
+                <div class="text-[9px] uppercase tracking-wider mt-1" style="color:rgba(255,255,255,0.3);">{s.label}</div>
+              </div>
+            ))}
+          </div>
+
+          <a href="/pages/welcome"
+             class="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-[14px] font-bold transition-all duration-200"
+             style="background:#E8B4B0;color:#0A0A0A;"
+             onmouseover="this.style.background='#d9a09b';this.style.transform='translateY(-1px)'"
+             onmouseout="this.style.background='#E8B4B0';this.style.transform=''">
+            Book your free Fable 5 automation audit
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+
+          <div class="flex items-center justify-center gap-6 mt-5">
+            {['No credit card', '30-day guarantee', 'Deployed in days'].map(t => (
+              <span class="text-[10px]" style="color:rgba(255,255,255,0.25);">{t}</span>
+            ))}
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     STYLES
+════════════════════════════════════════════ -->
+<style>
+  .fable-title {
+    background: linear-gradient(135deg, #fff 0%, #E8B4B0 40%, #A78BFA 80%, #fff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% 200%;
+    animation: fable-shimmer 6s ease-in-out infinite;
+  }
+
+  @keyframes fable-shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .fable-glow {
+    animation: glow-drift 8s ease-in-out infinite;
+  }
+
+  @keyframes glow-drift {
+    0%, 100% { opacity: 0.5; transform: translate(0, 0); }
+    50% { opacity: 1; transform: translate(-20px, 10px); }
+  }
+
+  .scroll-line {
+    background: linear-gradient(to bottom, rgba(232,180,176,0.4), transparent);
+    animation: scroll-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scroll-pulse {
+    0%, 100% { opacity: 0.3; height: 32px; }
+    50% { opacity: 0.7; height: 40px; }
+  }
+
+  .bench-bar {
+    animation: bar-grow 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transform-origin: left;
+  }
+
+  @keyframes bar-grow {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  /* Mobile pricing table */
+  @media (max-width: 639px) {
+    table { font-size: 12px; }
+    table td, table th { padding: 10px 8px !important; }
+  }
+</style>
+
+
+<!-- ═══════════════════════════════════════════
+     SCHEMA
+════════════════════════════════════════════ -->
+<script type="application/ld+json" is:inline>
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Claude Fable 5 & Mythos 5 — Anthropic's Mythos-Class AI Model",
+  "description": "Complete overview of Claude Fable 5 and Claude Mythos 5: benchmarks, capabilities, pricing, safety architecture, and how PURIST deploys Mythos-class AI for business automation.",
+  "url": "https://purist.online/pages/fable-5",
+  "datePublished": "2026-06-11",
+  "dateModified": "2026-06-11",
+  "author": {
+    "@type": "Organization",
+    "name": "PURIST",
+    "url": "https://purist.online"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PURIST",
+    "url": "https://purist.online",
+    "logo": { "@type": "ImageObject", "url": "https://purist.online/favicon.svg" }
+  },
+  "about": [
+    { "@type": "Thing", "name": "Claude Fable 5" },
+    { "@type": "Thing", "name": "Claude Mythos 5" },
+    { "@type": "Thing", "name": "Anthropic" },
+    { "@type": "Thing", "name": "Artificial Intelligence" }
+  ]
+}
+</script>
+
+</ShopLayout>
