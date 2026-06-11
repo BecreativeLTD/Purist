@@ -644,7 +644,7 @@ function showResult() {
       { val: '\u00a3' + annualSaving.toLocaleString('en-GB') + '/yr', label: 'Potential annual return', color: '#4ade80' },
     ].map(function(s, i) {
       return '<div class="rounded-[20px] p-5 flex flex-col justify-between" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);min-height:120px;animation:am-result-in 0.5s ease-out ' + (i*0.08) + 's both;">' +
-        '<p class="font-display text-[1.9rem] leading-none tracking-[-0.025em]" style="color:' + s.color + ';">' + s.val + '</p>' +
+        '<p class="text-[1.9rem] leading-none" style="font-family:\'Fraunces Variable\',Fraunces,Georgia,serif;letter-spacing:-0.025em;color:' + s.color + ';">' + s.val + '</p>' +
         '<p class="text-[9px] uppercase tracking-[0.18em] font-bold mt-3" style="color:rgba(255,255,255,0.28);">' + s.label + '</p>' +
       '</div>';
     }).join('') +
