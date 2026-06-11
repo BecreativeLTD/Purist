@@ -30,8 +30,8 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
           ['91%', 'automatable on average'],
         ].map(([val, lbl]) => (
           <div class="text-center">
-            <div class="text-xl font-semibold" style="color:#E8B4B0;">{val}</div>
-            <div class="text-[11px] uppercase tracking-widest mt-0.5" style="color:rgba(255,255,255,0.35);">{lbl}</div>
+            <div class="font-display text-[1.6rem] leading-none" style="color:#E8B4B0;">{val}</div>
+            <div class="text-[11px] uppercase tracking-widest mt-1" style="color:rgba(255,255,255,0.35);">{lbl}</div>
           </div>
         ))}
       </div>
@@ -242,16 +242,10 @@ When a new lead fills our contact form on the website, our team manually checks 
             desc: 'Benchmarks the workflow against similar deployments to produce a time-saved and cost-saved estimate based on real data.'
           },
         ].map(({ n, title, desc }) => (
-          <div class="relative">
-            <div class="flex items-center gap-3 mb-4">
-              <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="18" cy="18" r="17" stroke="rgba(232,180,176,0.3)" stroke-width="1.5"/>
-                <circle cx="18" cy="18" r="12" fill="rgba(232,180,176,0.08)"/>
-                <text x="18" y="22" text-anchor="middle" fill="#E8B4B0" font-size="11" font-weight="700" font-family="monospace">{n}</text>
-              </svg>
-              <h3 class="text-[15px] font-semibold text-white">{title}</h3>
-            </div>
-            <p class="text-[13px] leading-relaxed" style="color:rgba(255,255,255,0.4);">{desc}</p>
+          <div class="relative flex flex-col gap-2 rounded-[16px] border p-5" style="background:rgba(255,255,255,0.02);border-color:rgba(232,180,176,0.10);">
+            <h3 class="text-[14px] font-semibold tracking-[-0.01em] text-white">{title}</h3>
+            <p class="text-[12px] leading-relaxed flex-1" style="color:rgba(255,255,255,0.40);">{desc}</p>
+            <div class="font-display leading-none mt-3 select-none" style="font-size:3.5rem;color:#E8B4B0;opacity:0.55;">{n}</div>
           </div>
         ))}
       </div>

@@ -43,25 +43,27 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
   <div class="container-x">
     <div class="max-w-3xl mx-auto">
 
-      <!-- Global counter -->
+      <!-- UK scale stats — static, no counter -->
       <div class="rounded-[24px] border overflow-hidden mb-6" style="background:rgba(239,68,68,0.04);border-color:rgba(239,68,68,0.15);">
         <div class="h-0.5" style="background:linear-gradient(90deg,#ef4444,rgba(239,68,68,0.20),transparent);"></div>
-        <div class="px-6 pt-6 pb-4 text-center">
-          <p class="text-[10px] uppercase tracking-[0.22em] font-bold mb-2 text-red-400 opacity-70">UK businesses losing to manual work — right now</p>
-          <p class="font-display leading-none mb-1" style="font-size:clamp(2.4rem,8vw,4.5rem);color:#ef4444;" id="tc-global">£0</p>
-          <p class="text-[11px]" style="color:rgba(255,255,255,0.20);">since you opened this page · <span id="tc-seconds">0</span>s ago</p>
+        <div class="px-6 pt-6 pb-2 text-center">
+          <p class="text-[10px] uppercase tracking-[0.22em] font-bold mb-5 text-red-400 opacity-70">UK businesses lose to manual work</p>
         </div>
-        <div class="grid grid-cols-3 border-t" style="border-color:rgba(239,68,68,0.10);">
+        <div class="grid grid-cols-2 sm:grid-cols-4 border-t" style="border-color:rgba(239,68,68,0.10);">
           {[
-            {id:'tc-per-sec',  label:'per second'},
-            {id:'tc-per-min',  label:'per minute'},
-            {id:'tc-per-hour', label:'per hour'},
-          ].map(({id,label},i)=>(
-            <div class={`px-4 py-3 text-center${i<2?' border-r':''}`} style="border-color:rgba(239,68,68,0.10);">
-              <p class="font-display text-lg leading-none text-white mb-0.5" id={id}>£0</p>
-              <p class="text-[9px] uppercase tracking-wider" style="color:rgba(255,255,255,0.20);">{label}</p>
+            { value:'£33,900',  label:'per second' },
+            { value:'£2.03M',   label:'per minute' },
+            { value:'£122M',    label:'per hour'   },
+            { value:'£254B',    label:'per year'   },
+          ].map(({value,label},i)=>(
+            <div class={`px-4 py-5 text-center${i%2===0&&i<3?' border-r sm:border-r':i===1?' border-r sm:border-r':''}`} style="border-color:rgba(239,68,68,0.10);">
+              <p class="font-display text-[1.5rem] leading-none text-white mb-1">{value}</p>
+              <p class="text-[9px] uppercase tracking-wider" style="color:rgba(255,255,255,0.25);">{label}</p>
             </div>
           ))}
+        </div>
+        <div class="px-6 pb-5 pt-3 text-center">
+          <p class="text-[11px]" style="color:rgba(255,255,255,0.18);">ONS Labour Force Survey 2024 · McKinsey Global Institute · 3.5M UK businesses · 40h/wk avg · £35/hr blended rate</p>
         </div>
       </div>
 
@@ -152,46 +154,46 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
 </section>
 
 <!-- The compound effect -->
-<section class="bg-white py-16 lg:py-20 border-t border-brand-gray-100">
+<section class="bg-[#0C0C0A] py-16 lg:py-20 border-t" style="border-color:rgba(255,255,255,0.06);">
   <div class="container-x">
     <div class="max-w-4xl mx-auto">
       <div class="text-center mb-12 scroll-fade">
-        <p class="eyebrow mb-3">The compound effect</p>
-        <h2 class="font-display text-h2 mb-3">Every year you wait, it gets worse</h2>
-        <p class="text-sm text-brand-gray-600 max-w-lg mx-auto">Manual work doesn't stay flat. As your business grows, admin grows faster — unless you automate.</p>
+        <p class="text-[9px] uppercase tracking-[0.2em] font-bold mb-3" style="color:rgba(232,180,176,0.50);">The compound effect</p>
+        <h2 class="font-display text-[1.8rem] text-white mb-3">Every year you wait, it gets worse</h2>
+        <p class="text-[14px] max-w-lg mx-auto" style="color:rgba(255,255,255,0.40);">Manual work doesn't stay flat. As your business grows, admin grows faster — unless you automate.</p>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 scroll-fade">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 scroll-fade">
         {[
           { yr:'Year 1', team:5,  hrs:20, cost:'£36k',  col:'rgba(239,68,68,0.30)' },
           { yr:'Year 2', team:10, hrs:40, cost:'£73k',  col:'rgba(239,68,68,0.50)' },
           { yr:'Year 3', team:20, hrs:80, cost:'£145k', col:'rgba(239,68,68,0.75)' },
           { yr:'Year 4', team:35, hrs:140,cost:'£254k', col:'#ef4444' },
         ].map(({yr,team,hrs,cost,col})=>(
-          <div class="rounded-[16px] border border-brand-gray-100 p-5 text-center">
-            <p class="text-[10px] uppercase tracking-wider font-bold text-brand-gray-400 mb-3">{yr}</p>
-            <div class="mx-auto mb-3 rounded-lg flex items-end justify-center" style={`height:80px;background:${col};width:100%;border-radius:8px;`}></div>
-            <p class="font-display text-xl text-brand-black leading-none mb-1">{cost}</p>
-            <p class="text-[10px] text-brand-gray-500">{team} people · {hrs}h/wk</p>
+          <div class="rounded-[16px] border p-5 text-center" style="border-color:rgba(255,255,255,0.07);background:rgba(255,255,255,0.02);">
+            <p class="text-[10px] uppercase tracking-wider font-bold mb-3" style="color:rgba(255,255,255,0.30);">{yr}</p>
+            <div class="mx-auto mb-3 rounded-lg" style={`height:80px;background:${col};width:100%;border-radius:8px;`}></div>
+            <p class="font-display text-xl text-white leading-none mb-1">{cost}</p>
+            <p class="text-[10px]" style="color:rgba(255,255,255,0.35);">{team} people · {hrs}h/wk</p>
           </div>
         ))}
       </div>
 
       <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 scroll-fade">
-        <div class="rounded-[16px] border border-red-100 p-6" style="background:rgba(239,68,68,0.03);">
+        <div class="rounded-[16px] border p-6" style="border-color:rgba(239,68,68,0.20);background:rgba(239,68,68,0.04);">
           <p class="text-[10px] uppercase tracking-wider font-bold mb-3" style="color:rgba(239,68,68,0.60);">Without automation — 4 years</p>
-          <p class="font-display text-3xl text-brand-black mb-1">£508,000</p>
-          <p class="text-[11px] text-brand-gray-500">total manual work cost · still growing</p>
+          <p class="font-display text-3xl text-white mb-1">£508,000</p>
+          <p class="text-[11px]" style="color:rgba(255,255,255,0.35);">total manual work cost · still growing</p>
         </div>
         <div class="rounded-[16px] border p-6" style="border-color:rgba(202,138,4,0.30);background:rgba(202,138,4,0.04);">
           <p class="text-[10px] uppercase tracking-wider font-bold mb-3" style="color:rgba(202,138,4,0.70);">Hybrid (partial) — 4 years</p>
-          <p class="font-display text-3xl text-brand-black mb-1">£285,000</p>
-          <p class="text-[11px] text-brand-gray-500">partial tools + manual gaps · plateaus quickly</p>
+          <p class="font-display text-3xl text-white mb-1">£285,000</p>
+          <p class="text-[11px]" style="color:rgba(255,255,255,0.35);">partial tools + manual gaps · plateaus quickly</p>
         </div>
         <div class="rounded-[16px] border p-6" style="border-color:rgba(74,222,128,0.20);background:rgba(74,222,128,0.03);">
           <p class="text-[10px] uppercase tracking-wider font-bold mb-3" style="color:rgba(74,222,128,0.60);">With PURIST — 4 years</p>
-          <p class="font-display text-3xl text-brand-black mb-1">£57,600</p>
-          <p class="text-[11px] text-brand-gray-500">total plan cost · saving compounds annually</p>
+          <p class="font-display text-3xl text-white mb-1">£57,600</p>
+          <p class="text-[11px]" style="color:rgba(255,255,255,0.35);">total plan cost · saving compounds annually</p>
         </div>
       </div>
     </div>
@@ -230,11 +232,6 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
 
 <script is:inline>
 (function(){
-  // UK estimate: ~3.5M businesses, avg 40h/wk manual work, £35/hr
-  // Total annual = 3.5M * 40 * 35 * 52 ≈ £254B/yr
-  // Per second = £254B / (52 * 5 * 8 * 3600) ≈ £33,900/sec
-  var GLOBAL_PER_SEC = 33900;
-
   var IND_DATA = {
     dental:     { label:'Dental practices',     perSec:0.0058, mo:4800,  yr:57600 },
     agency:     { label:'Agencies',             perSec:0.0069, mo:5200,  yr:62400 },
@@ -253,39 +250,19 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
     finance:    [['1 analyst',       '£38k/yr'],['1,400 client hours', '(£40/hr)'  ],['3 new client wins', '']],
   };
 
-  // Global page-open time (for global counter) vs per-industry start time
-  var pageOpenTime = Date.now();
   var startTime = Date.now();
   var currentInd = 'dental';
 
-  function fmt(n) {
-    if (n >= 1000000) return '£' + (n/1000000).toFixed(2) + 'M';
-    if (n >= 1000)    return '£' + (n/1000).toFixed(1) + 'k';
-    return '£' + n.toFixed(2);
-  }
-  function fmtInt(n) {
-    if (n >= 1000000) return '£' + Math.round(n/1000) + 'k';
-    return '£' + Math.round(n).toLocaleString('en-GB');
-  }
-
   function tick() {
     var now = Date.now();
-    var globalElapsed = (now - pageOpenTime) / 1000;
     var personalElapsed = (now - startTime) / 1000;
-    var globalTotal = GLOBAL_PER_SEC * globalElapsed;
     var ind = IND_DATA[currentInd];
     var personalTotal = ind.perSec * personalElapsed;
-
-    document.getElementById('tc-global').textContent = fmtInt(globalTotal);
-    document.getElementById('tc-seconds').textContent = Math.floor(globalElapsed);
-    document.getElementById('tc-per-sec').textContent = '£' + GLOBAL_PER_SEC.toLocaleString('en-GB');
-    document.getElementById('tc-per-min').textContent = '£' + (GLOBAL_PER_SEC * 60).toLocaleString('en-GB');
-    document.getElementById('tc-per-hour').textContent = '£' + (GLOBAL_PER_SEC * 3600).toLocaleString('en-GB');
 
     document.getElementById('tc-personal').textContent = '£' + personalTotal.toFixed(2);
     document.getElementById('tc-personal-yr').textContent = '£' + ind.yr.toLocaleString('en-GB');
     document.getElementById('tc-personal-mo').textContent = '£' + ind.mo.toLocaleString('en-GB');
-    document.getElementById('tc-ind-label').textContent = ind.label.replace(/s$/, '') + ' cost — since you selected this industry';
+    document.getElementById('tc-ind-label').textContent = ind.label + ' cost — since you selected this industry';
 
     // Personal progress bar: 8h workday = 28800s = 100%
     var barEl = document.getElementById('tc-personal-bar');

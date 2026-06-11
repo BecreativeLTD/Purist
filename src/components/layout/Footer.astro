@@ -330,9 +330,10 @@ const columns = [
 </footer>
 
 <script is:inline>
-  (function() {
+  function initNewsletterForm() {
     var form = document.getElementById('newsletter-form');
-    if (!form) return;
+    if (!form || form._nlBound) return;
+    form._nlBound = true;
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       e.stopPropagation();
@@ -361,5 +362,7 @@ const columns = [
         window.scrollTo(0, scrollY);
       });
     });
-  })();
+  }
+  initNewsletterForm();
+  document.addEventListener('astro:page-load', initNewsletterForm);
 </script>
