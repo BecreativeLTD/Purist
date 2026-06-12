@@ -5,6 +5,7 @@ import icon from 'astro-icon';
 import vercel from '@astrojs/vercel/serverless';
 export default defineConfig({
   site: 'https://purist.online',
+  trailingSlash: 'never',
   output: 'hybrid',
   adapter: vercel(),
   integrations: [

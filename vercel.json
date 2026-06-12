@@ -8,6 +8,11 @@
       "has": [{ "type": "host", "value": "www.purist.online" }],
       "destination": "https://purist.online/:path*",
       "permanent": true
+    },
+    {
+      "source": "/:path+/",
+      "destination": "https://purist.online/:path*",
+      "permanent": true
     }
   ]
 }

@@ -11,7 +11,7 @@ const skillPages = [
  ...skillsData.skills.map(s => ({
    url: `/skills/${s.slug}`,
    changefreq: 'monthly' as const,
-   priority: '0.7',
+   priority: '0.8',
  })),
 ];
 
