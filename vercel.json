@@ -7,12 +7,12 @@
       "source": "/:path*",
       "has": [{ "type": "host", "value": "www.purist.online" }],
       "destination": "https://purist.online/:path*",
-      "permanent": true
+      "statusCode": 301
     },
     {
       "source": "/:path+/",
       "destination": "https://purist.online/:path*",
-      "permanent": true
+      "statusCode": 301
     }
   ]
 }
