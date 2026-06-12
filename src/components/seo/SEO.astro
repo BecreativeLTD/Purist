@@ -19,7 +19,8 @@ const {
 
 const fullTitle = title.includes('PURIST') ? title : `${title} · PURIST`;
 // canonicalURL uses the actual request origin (works on any deployment)
-const canonicalURL = canonical || `${Astro.url.origin}${Astro.url.pathname}`;
+const CANONICAL_BASE = 'https://purist.online';
+const canonicalURL = canonical || `${CANONICAL_BASE}${Astro.url.pathname}`;
 // ogImage always uses the canonical site domain so social crawlers get a stable URL
 const ogBase = (Astro.site?.toString() ?? Astro.url.origin).replace(/\/$/, '');
 const ogImage = image
@@ -43,7 +44,7 @@ const ogImage = image
 <meta property="og:site_name" content="PURIST" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="@purist_hq" />
+<meta name="twitter:site" content="@Puristonline" />
 <meta name="twitter:title" content={fullTitle} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImage} />
@@ -168,7 +169,7 @@ const ogImage = image
      },
      sameAs: [
        'https://www.linkedin.com/company/purist-automation',
-       'https://twitter.com/purist_hq',
+       'https://x.com/Puristonline',
        'https://github.com/purist-hq',
      ],
    },
