@@ -37,28 +37,33 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
  <section id="workflow" class="bg-[#0F0F0D] py-16 lg:py-24" style="scroll-margin-top:80px;">
    <div class="container-x">
 
-     <div class="max-w-4xl mx-auto mb-10 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5">
-       <div>
-         <p class="text-[9px] uppercase tracking-[0.24em] font-bold mb-3" style="color:rgba(232,180,176,0.50);">① Workflow canvas</p>
-         <h2 class="font-display text-[2.4rem] lg:text-[3.2rem] text-white leading-[1.06] tracking-[-0.025em] mb-2">Watch an automation<br/><em class="font-medium" style="color:#E8B4B0;">execute node by node</em></h2>
-         <p class="text-[12px]" style="color:rgba(255,255,255,0.55);">Click any node to inspect its payload. Hit Run to watch it step through.</p>
-       </div>
-       <!-- Workflow template tabs -->
-       <div class="flex gap-1.5 overflow-x-auto pb-0.5 shrink-0 max-w-full" style="scrollbar-width:none;">
-         {[
-           {id:'lead',      label:'Lead Nurture',      sub:'47 min → 1.8s'},
-           {id:'invoice',   label:'Invoice Chase',     sub:'2.5h → 2.2s'},
-           {id:'onboarding',label:'Onboarding',        sub:'3.5h → 3.1s'},
-           {id:'support',   label:'Support Triage',    sub:'45 min → 0.9s'},
-           {id:'report',    label:'KPI Report',        sub:'4h → 4.2s'},
-           {id:'appt',      label:'Appt Reminders',    sub:'25 min → 1.4s'},
-         ].map((t,i)=>(
-           <button class="wf-tab shrink-0 px-3.5 py-2 rounded-[10px] text-left transition-all" data-wf={t.id}
-             style={i===0 ? 'background:rgba(232,180,176,0.14);border:1px solid rgba(232,180,176,0.30);' : 'background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);'}>
-             <p class="text-[11px] font-semibold leading-none mb-0.5" style={i===0 ? 'color:#E8B4B0;' : 'color:rgba(255,255,255,0.55);'}>{t.label}</p>
-             <p class="text-[9px] font-mono" style="color:rgba(255,255,255,0.22);">{t.sub}</p>
-           </button>
-         ))}
+     <div class="max-w-4xl mx-auto mb-10">
+       <!-- Title — full width, 2 lines -->
+       <p class="text-[9px] uppercase tracking-[0.24em] font-bold mb-4" style="color:rgba(232,180,176,0.50);">① Workflow canvas</p>
+       <h2 class="font-display text-[2.8rem] lg:text-[4rem] leading-[1.04] tracking-[-0.03em] mb-6">
+         <span class="text-white">Watch an automation</span><br/>
+         <em class="font-medium" style="color:#E8B4B0;">execute node by node</em>
+       </h2>
+       <!-- Description + tabs in a row -->
+       <div class="flex flex-col lg:flex-row lg:items-center gap-5">
+         <p class="text-[13px] leading-relaxed shrink-0 max-w-[260px]" style="color:rgba(255,255,255,0.45);">Click any node to inspect its payload. Hit <strong class="text-white font-semibold">Run</strong> to watch it step through in real time.</p>
+         <!-- Workflow template tabs -->
+         <div class="flex gap-1.5 overflow-x-auto pb-0.5 flex-1" style="scrollbar-width:none;">
+           {[
+             {id:'lead',      label:'Lead Nurture',      sub:'47 min → 1.8s'},
+             {id:'invoice',   label:'Invoice Chase',     sub:'2.5h → 2.2s'},
+             {id:'onboarding',label:'Onboarding',        sub:'3.5h → 3.1s'},
+             {id:'support',   label:'Support Triage',    sub:'45 min → 0.9s'},
+             {id:'report',    label:'KPI Report',        sub:'4h → 4.2s'},
+             {id:'appt',      label:'Appt Reminders',    sub:'25 min → 1.4s'},
+           ].map((t,i)=>(
+             <button class="wf-tab shrink-0 px-3.5 py-2 rounded-[10px] text-left transition-all" data-wf={t.id}
+               style={i===0 ? 'background:rgba(232,180,176,0.14);border:1px solid rgba(232,180,176,0.30);' : 'background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);'}>
+               <p class="text-[11px] font-semibold leading-none mb-0.5" style={i===0 ? 'color:#E8B4B0;' : 'color:rgba(255,255,255,0.55);'}>{t.label}</p>
+               <p class="text-[9px] font-mono" style="color:rgba(255,255,255,0.22);">{t.sub}</p>
+             </button>
+           ))}
+         </div>
        </div>
      </div>
 
