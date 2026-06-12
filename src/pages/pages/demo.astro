@@ -970,15 +970,18 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
  .bk-opt.selected { background:#0A0A0A !important; color:#fff !important; border-color:#0A0A0A !important; }
  .bk-opt.selected p { color:rgba(255,255,255,0.70) !important; }
 
- /* ── Node cards (all global injected via JS) ───────────────────────── */
+ /* ── Node cards ───────────────────────────────────────────────────── */
+ @keyframes wf-node-in { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+ @keyframes wf-progress { from{width:0%} to{width:100%} }
+
  .wf-node-card {
-   border-radius: 18px;
+   border-radius: 14px;
    border: 1px solid rgba(255,255,255,0.07);
    background: rgba(255,255,255,0.025);
-   padding: 18px 16px 14px;
-   min-width: 118px;
+   padding: 13px 12px 10px;
+   min-width: 90px;
    cursor: pointer;
-   transition: border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+   transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
    position: relative;
    overflow: hidden;
  }
@@ -989,7 +992,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
  /* Top accent bar */
  .wf-node-topbar {
    position: absolute; top: 0; left: 0; right: 0; height: 2px;
-   border-radius: 18px 18px 0 0;
+   border-radius: 14px 14px 0 0;
    transition: opacity 0.3s;
    opacity: 0;
  }
@@ -1004,19 +1007,34 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
  }
  @keyframes topbar-pulse { 0%,100%{opacity:0.55} 50%{opacity:1} }
 
- .wf-node-card.running {
-   border-color: rgba(232,180,176,0.22);
-   box-shadow: 0 0 28px rgba(232,180,176,0.08);
+ /* Progress bar (bottom) while running */
+ .wf-node-progress {
+   position: absolute; bottom: 0; left: 0; height: 2px;
+   background: linear-gradient(90deg, rgba(232,180,176,0.5), #E8B4B0);
+   width: 0%; border-radius: 0 0 14px 14px;
+   transition: none;
  }
- .wf-node-card.done {
-   border-color: rgba(45,80,22,0.28);
-   background: rgba(45,80,22,0.03);
+ .wf-node-card.running .wf-node-progress {
+   animation: wf-progress 0.42s linear forwards;
+ }
+ .wf-node-card.done .wf-node-progress {
+   width: 100%;
+   background: linear-gradient(90deg,rgba(74,222,128,0.35),rgba(74,222,128,0.6));
  }
 
- /* Icon bare SVG, no bg box */
+ .wf-node-card.running {
+   border-color: rgba(232,180,176,0.20);
+   box-shadow: 0 0 20px rgba(232,180,176,0.07);
+ }
+ .wf-node-card.done {
+   border-color: rgba(45,80,22,0.25);
+   background: rgba(45,80,22,0.025);
+ }
+
+ /* Icon */
  .wf-node-icon {
-   width: 20px; height: 20px;
-   margin-bottom: 14px;
+   width: 16px; height: 16px;
+   margin-bottom: 10px;
    transition: transform 0.3s;
  }
  .wf-node-icon svg { width: 100%; height: 100%; display: block; }
@@ -1025,51 +1043,51 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
 
  /* Type label */
  .wf-node-type {
-   font-size: 8.5px;
-   letter-spacing: 0.18em;
+   font-size: 7.5px;
+   letter-spacing: 0.16em;
    text-transform: uppercase;
    font-weight: 700;
-   margin-bottom: 5px;
+   margin-bottom: 3px;
    transition: color 0.3s;
  }
  /* Name */
  .wf-node-label {
-   font-size: 11.5px;
+   font-size: 10.5px;
    font-weight: 600;
    color: rgba(255,255,255,0.82);
-   line-height: 1.35;
-   margin-bottom: 12px;
+   line-height: 1.3;
+   margin-bottom: 9px;
  }
  /* Status row */
  .wf-node-status {
-   display: flex; align-items: center; gap: 5px;
-   padding-top: 10px;
+   display: flex; align-items: center; gap: 4px;
+   padding-top: 8px;
    border-top: 1px solid rgba(255,255,255,0.05);
  }
  .node-dot {
-   width: 5px; height: 5px; border-radius: 50%;
+   width: 4px; height: 4px; border-radius: 50%;
    background: rgba(255,255,255,0.12);
    flex-shrink: 0;
    transition: background 0.3s;
  }
  .node-status-text {
-   font-size: 9px;
-   color: rgba(255,255,255,0.50);
+   font-size: 8.5px;
+   color: rgba(255,255,255,0.45);
    transition: color 0.3s;
    font-weight: 500;
  }
  .wf-node-card.running .node-dot { background:#E8B4B0; animation:dot-pulse 1s ease-in-out infinite; }
  .wf-node-card.running .node-status-text { color:#E8B4B0; }
  .wf-node-card.done .node-dot { background:#4ade80; }
- .wf-node-card.done .node-status-text { color:rgba(74,222,128,0.75); }
+ .wf-node-card.done .node-status-text { color:rgba(74,222,128,0.70); }
  @keyframes dot-pulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
 
  /* Connectors */
  .wf-connector {
-   flex:1; height:5px; border-radius:99px;
-   background:rgba(255,255,255,0.07);
-   position:relative; margin-top:26px;
-   min-width:14px; overflow:hidden;
+   flex:1; height:3px; border-radius:99px;
+   background:rgba(255,255,255,0.06);
+   position:relative; margin-top:22px;
+   min-width:8px; overflow:hidden;
    transition:background 0.4s;
  }
  .wf-connector::after {
@@ -1114,182 +1132,237 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
 // Premium Lucide-style icons: each node has icons[] array of path strings
 var WORKFLOWS = {
  lead: {
-   title: 'lead-nurture.workflow', manual: '47 min / lead', apis: 4, time: '1.8s', saving: '£38,000/yr', ratio: '1,566×', timing: [45, 312, 524, 188, 142, 636],
+   title: 'lead-nurture.workflow', manual: '47 min / lead', apis: 7, time: '1.8s', saving: '£38,000/yr', ratio: '1,566×', timing: [45, 98, 312, 87, 524, 188, 142, 447],
    nodes: [
-     { type:'Trigger', label:'Form submission', color:'#E8B4B0', textColor:'#c4847e',
+     { type:'Trigger', label:'Form submit', color:'#E8B4B0', textColor:'#c4847e',
        icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
-       run:'Receiving…', done:'✓ Fired', data:'{"form_id":"xRk9q","respondent":"alex@co.com","fields":4,"score":null}' },
+       run:'Receiving…', done:'✓ Fired', data:'{"form_id":"xRk9q","respondent":"alex@co.com","fields":4,"ip":"82.11.3.201","ts":1749080400}' },
+     { type:'Enrich', label:'Lookup company', color:'#7B68EE', textColor:'#7B68EE',
+       icons:['M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'],
+       run:'Enriching…', done:'✓ Enriched', data:'{"company":"Acme Corp","size":"51-200","industry":"SaaS","funding":"Series B","clearbit_id":"c_xj82"}' },
+     { type:'Score', label:'Lead score', color:'#C89840', textColor:'#C89840',
+       icons:['M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z'],
+       run:'Scoring…', done:'✓ Scored', data:'{"score":82,"tier":"A","fit":"High","intent_signals":["pricing_page","demo_request"],"route":"fast_track"}' },
      { type:'CRM', label:'Create contact', color:'#7B68EE', textColor:'#7B68EE',
-       icons:['M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2','M12 11a4 4 0 100-8 4 4 0 000 8z','M16 3.13a4 4 0 010 7.75'],
-       run:'Creating…', done:'✓ Created', data:'{"contact_id":78432,"pipeline":"Sales","stage":"New Lead","owner":"jamie@purist.co"}' },
-     { type:'Email', label:'Personalised intro', color:'#E8B4B0', textColor:'#c4847e',
+       icons:['M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2','M12 11a4 4 0 100-8 4 4 0 000 8z'],
+       run:'Creating…', done:'✓ Created', data:'{"contact_id":78432,"pipeline":"Sales","stage":"New Lead","tier":"A","owner":"jamie@purist.co"}' },
+     { type:'Email', label:'Intro email', color:'#E8B4B0', textColor:'#c4847e',
        icons:['M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'],
-       run:'Sending…', done:'✓ Sent', data:'{"to":"alex@co.com","template":"intro_v3","vars":{"name":"Alex","company":"Acme"},"opened":false}' },
-     { type:'Notify', label:'Sales team alert', color:'#C89840', textColor:'#C89840',
+       run:'Sending…', done:'✓ Sent', data:'{"to":"alex@co.com","template":"intro_v3","vars":{"name":"Alex","company":"Acme","score":82},"open_tracked":true}' },
+     { type:'Slack', label:'Sales alert', color:'#C89840', textColor:'#C89840',
        icons:['M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9','M13.73 21a2 2 0 01-3.46 0'],
-       run:'Posting…', done:'✓ Sent', data:'{"channel":"#sales","text":"New lead: Alex Chen Acme Corp","mention":"@lead-owner"}' },
-     { type:'Wait', label:'24 h delay', color:'#6B7280', textColor:'rgba(255,255,255,0.58)',
-       icons:['M12 22a10 10 0 110-20 10 10 0 010 20z','M12 6v6l4 2'],
-       run:'Queuing…', done:'✓ Queued', data:'{"delay":86400,"type":"business_hours","resume_at":"2026-06-01T09:00:00Z"}' },
+       run:'Posting…', done:'✓ Sent', data:'{"channel":"#sales","text":"🔥 A-tier lead: Alex Chen (82) · Acme Corp Series B","mention":"@jamie"}' },
+     { type:'Seq', label:'5-touch sequence', color:'#6B7280', textColor:'rgba(255,255,255,0.55)',
+       icons:['M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'],
+       run:'Queuing…', done:'✓ Queued', data:'{"touches":5,"days":[1,3,7,14,21],"template_set":"nurture_v4","enrolled":true}' },
      { type:'Done', label:'Complete', color:'#2D5016', textColor:'#4ade80',
        icons:['M22 11.08V12a10 10 0 11-5.93-9.14','M22 4L12 14.01l-3-3'],
-       run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":1847,"nodes_executed":5,"errors":0}' },
+       run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":1843,"nodes_executed":7,"api_calls":7,"errors":0,"lead_tier":"A"}' },
    ],
    logs:[
-     {color:'#E8B4B0',text:'→ Trigger fired Typeform submission received (alex@co.com)'},
+     {color:'#E8B4B0',text:'→ Trigger: Typeform xRk9q · alex@co.com · 45ms'},
+     {color:'#7B68EE',text:'→ Clearbit GET /companies 200 OK · Acme Corp Series B · 98ms'},
+     {color:'#C89840',text:'→ Score engine: 82/100 · tier:A · fast_track route · 87ms'},
      {color:'#7B68EE',text:'→ HubSpot POST /contacts 201 Created · id:78432 · 312ms'},
-     {color:'#E8B4B0',text:'→ Gmail POST /send 200 OK · template:intro_v3 · 524ms'},
+     {color:'#E8B4B0',text:'→ Gmail POST /messages/send 200 OK · intro_v3 · 524ms'},
      {color:'#C89840',text:'→ Slack POST /chat.postMessage 200 OK · #sales · 188ms'},
-     {color:'rgba(255,255,255,0.55)',text:'→ Scheduler: follow-up queued T+24h (business hours)'},
-     {color:'#4ade80',text:'✓ Complete · 1847ms · 4 API calls · 0 errors'},
+     {color:'rgba(255,255,255,0.55)',text:'→ Sequence enrolled: 5 touches queued · Day 1,3,7,14,21'},
+     {color:'#4ade80',text:'✓ Complete · 1843ms · 7 API calls · 0 errors · lead tier A'},
    ]
  },
  invoice: {
-   title: 'invoice-chase.workflow', manual: '2.5h / invoice', apis: 5, time: '2.2s', saving: '£52,000/yr', ratio: '4,090×', timing: [38, 445, 612, 287, 394, 435],
+   title: 'invoice-chase.workflow', manual: '2.5h / invoice', apis: 7, time: '2.2s', saving: '£52,000/yr', ratio: '4,090×', timing: [38, 92, 445, 388, 612, 287, 213, 135],
    nodes: [
      { type:'Trigger', label:'Deal closed', color:'#E8B4B0', textColor:'#c4847e',
        icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
-       run:'Receiving…', done:'✓ Fired', data:'{"event":"deal.won","deal_id":"D-8821","value":4800,"client":"Brightwave Ltd"}' },
+       run:'Receiving…', done:'✓ Fired', data:'{"event":"deal.won","deal_id":"D-8821","value":4800,"client":"Brightwave Ltd","owner":"tom@purist.co"}' },
+     { type:'Check', label:'Dedup check', color:'#6B7280', textColor:'rgba(255,255,255,0.55)',
+       icons:['M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438'],
+       run:'Checking…', done:'✓ Unique', data:'{"duplicate":false,"existing_invoice":null,"safe_to_proceed":true,"check_ms":92}' },
      { type:'Finance', label:'Create invoice', color:'#C89840', textColor:'#C89840',
-       icons:['M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z','M14 2v6h6','M16 13H8','M16 17H8','M10 9H8'],
-       run:'Creating…', done:'✓ Created', data:'{"invoice_id":"INV-2291","amount":4800,"due":"2026-06-14","status":"AWAITING_PAYMENT"}' },
+       icons:['M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z','M14 2v6h6','M16 13H8'],
+       run:'Creating…', done:'✓ Created', data:'{"invoice_id":"INV-2291","amount":4800,"vat":960,"total":5760,"due":"2026-06-14","status":"AWAITING_PAYMENT"}' },
+     { type:'PDF', label:'Generate PDF', color:'#7B68EE', textColor:'#7B68EE',
+       icons:['M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z'],
+       run:'Rendering…', done:'✓ Ready', data:'{"file":"INV-2291.pdf","size_kb":42,"pages":1,"template":"purist_v3","signed":false}' },
      { type:'Email', label:'Send to client', color:'#E8B4B0', textColor:'#c4847e',
        icons:['M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'],
-       run:'Sending…', done:'✓ Sent', data:'{"to":"accounts@brightwave.com","attachment":"INV-2291.pdf","tracking":true}' },
-     { type:'Schedule', label:'Chase sequence', color:'#7B68EE', textColor:'#7B68EE',
-       icons:['M8 7V3m8 4V3','M3 11h18','M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'],
-       run:'Queuing…', done:'✓ Queued', data:'{"touches":[{"day":7,"type":"reminder"},{"day":14,"type":"escalation"},{"day":30,"type":"final"}]}' },
-     { type:'CRM', label:'Update stage', color:'#6B7280', textColor:'rgba(255,255,255,0.58)',
+       run:'Sending…', done:'✓ Sent', data:'{"to":"accounts@brightwave.com","attachment":"INV-2291.pdf","open_tracked":true,"click_tracked":true}' },
+     { type:'CRM', label:'Update deal', color:'#6B7280', textColor:'rgba(255,255,255,0.55)',
        icons:['M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2','M12 11a4 4 0 100-8 4 4 0 000 8z'],
-       run:'Updating…', done:'✓ Updated', data:'{"deal_id":"D-8821","stage":"Invoice Sent","follow_up_task":true}' },
+       run:'Updating…', done:'✓ Updated', data:'{"deal_id":"D-8821","stage":"Invoice Sent","next_action":"Day 7 chase","task_created":true}' },
+     { type:'Chase', label:'3-touch sequence', color:'#7B68EE', textColor:'#7B68EE',
+       icons:['M8 7V3m8 4V3','M3 11h18','M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'],
+       run:'Queuing…', done:'✓ Queued', data:'{"touches":[{"day":7,"type":"reminder"},{"day":14,"type":"escalation"},{"day":30,"type":"final_demand"}]}' },
      { type:'Done', label:'Complete', color:'#2D5016', textColor:'#4ade80',
        icons:['M22 11.08V12a10 10 0 11-5.93-9.14','M22 4L12 14.01l-3-3'],
-       run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":2211,"nodes_executed":5,"errors":0}' },
+       run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":2210,"nodes_executed":7,"api_calls":7,"errors":0,"invoice":"INV-2291"}' },
    ],
    logs:[
-     {color:'#E8B4B0',text:'→ Trigger: deal.won · Brightwave Ltd · £4,800'},
-     {color:'#C89840',text:'→ Xero POST /invoices 201 Created · INV-2291 · due 14 Jun'},
-     {color:'#E8B4B0',text:'→ Gmail POST /send 200 OK · PDF attached · tracking on'},
-     {color:'#7B68EE',text:'→ Scheduler: 3 chase emails queued (Day 7, 14, 30)'},
-     {color:'rgba(255,255,255,0.55)',text:'→ HubSpot PATCH /deals/D-8821 stage: Invoice Sent'},
-     {color:'#4ade80',text:'✓ Complete · 2211ms · 5 API calls · 0 errors'},
+     {color:'#E8B4B0',text:'→ Trigger: deal.won D-8821 · Brightwave Ltd · £4,800 · 38ms'},
+     {color:'rgba(255,255,255,0.45)',text:'→ Dedup check: no existing invoice · safe_to_proceed · 92ms'},
+     {color:'#C89840',text:'→ Xero POST /invoices 201 Created · INV-2291 · £5,760 inc VAT · 445ms'},
+     {color:'#7B68EE',text:'→ PDF render: INV-2291.pdf 42KB · template purist_v3 · 388ms'},
+     {color:'#E8B4B0',text:'→ Gmail POST /messages 200 OK · PDF attached · open tracking on · 612ms'},
+     {color:'rgba(255,255,255,0.45)',text:'→ HubSpot PATCH /deals/D-8821 stage:Invoice Sent · 287ms'},
+     {color:'#7B68EE',text:'→ Chase sequence: Day 7/14/30 queued · 3 emails scheduled'},
+     {color:'#4ade80',text:'✓ Complete · 2210ms · 7 API calls · 0 errors'},
    ]
  },
  support: {
-   title: 'support-triage.workflow', manual: '45 min / ticket', apis: 5, time: '0.9s', saving: '£29,000/yr', ratio: '3,000×', timing: [35, 198, 224, 187, 155, 113],
+   title: 'support-triage.workflow', manual: '45 min / ticket', apis: 7, time: '0.9s', saving: '£29,000/yr', ratio: '3,000×', timing: [35, 78, 198, 87, 224, 155, 82, 53],
    nodes: [
-     { type:'Trigger', label:'Ticket received', color:'#E8B4B0', textColor:'#c4847e',
+     { type:'Trigger', label:'Ticket in', color:'#E8B4B0', textColor:'#c4847e',
        icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
-       run:'Receiving…', done:'✓ Fired', data:'{"ticket_id":"T-5521","channel":"email","from":"customer@acme.com","subject":"Cannot access dashboard"}' },
+       run:'Receiving…', done:'✓ Fired', data:'{"ticket_id":"T-5521","channel":"email","from":"customer@acme.com","subject":"Cannot access dashboard","words":42}' },
+     { type:'Parse', label:'Extract data', color:'#6B7280', textColor:'rgba(255,255,255,0.55)',
+       icons:['M4 6h16M4 12h16M4 18h7'],
+       run:'Parsing…', done:'✓ Parsed', data:'{"product":"dashboard","action":"access","urgency_keywords":["cannot","urgent"],"account_id":"ACC-8821"}' },
      { type:'AI', label:'Classify intent', color:'#7B68EE', textColor:'#7B68EE',
-       icons:['M12 2a10 10 0 110 20 10 10 0 010-20z','M12 8v4l3 3'],
-       run:'Classifying…', done:'✓ Classified', data:'{"category":"access","priority":"high","sentiment":"frustrated","confidence":0.94,"route":"technical"}' },
-     { type:'Route', label:'Assign to team', color:'#C89840', textColor:'#C89840',
-       icons:['M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2','M23 21v-2a4 4 0 00-3-3.87','M16 3.13a4 4 0 010 7.75'],
+       icons:['M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h16a2 2 0 012 2v10a2 2 0 01-2 2h-2'],
+       run:'Classifying…', done:'✓ Classified', data:'{"category":"access","priority":"high","sentiment":"frustrated","confidence":0.94,"recommended_kb":"KB-1192"}' },
+     { type:'KB', label:'Search KB', color:'#C89840', textColor:'#C89840',
+       icons:['M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253'],
+       run:'Searching…', done:'✓ Found', data:'{"article":"KB-1192","title":"Reset 2FA & access recovery","match_score":0.91,"self_serve":true}' },
+     { type:'Route', label:'Assign agent', color:'#E8B4B0', textColor:'#c4847e',
+       icons:['M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2','M23 21v-2a4 4 0 00-3-3.87'],
        run:'Routing…', done:'✓ Assigned', data:'{"team":"technical","agent":"sarah@purist.co","sla_hours":4,"escalation_at":"2026-06-12T14:00Z"}' },
-     { type:'CRM', label:'Log to helpdesk', color:'#6B7280', textColor:'rgba(255,255,255,0.58)',
+     { type:'CRM', label:'Log ticket', color:'#6B7280', textColor:'rgba(255,255,255,0.55)',
        icons:['M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z','M14 2v6h6'],
-       run:'Logging…', done:'✓ Logged', data:'{"freshdesk_id":88132,"status":"open","priority":2,"first_response_sent":false}' },
-     { type:'Email', label:'Auto-response', color:'#E8B4B0', textColor:'#c4847e',
+       run:'Logging…', done:'✓ Logged', data:'{"freshdesk_id":88132,"status":"open","priority":2,"kb_article":"KB-1192","agent":"sarah@purist.co"}' },
+     { type:'Email', label:'Auto-response', color:'#7B68EE', textColor:'#7B68EE',
        icons:['M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'],
-       run:'Sending…', done:'✓ Sent', data:'{"to":"customer@acme.com","template":"triage_ack","eta":"4 hours","ticket_url":"help.purist.co/T-5521"}' },
+       run:'Sending…', done:'✓ Sent', data:'{"to":"customer@acme.com","template":"triage_ack","kb_link":"help.purist.co/KB-1192","eta":"4h","ticket":"T-5521"}' },
      { type:'Done', label:'Complete', color:'#2D5016', textColor:'#4ade80',
        icons:['M22 11.08V12a10 10 0 11-5.93-9.14','M22 4L12 14.01l-3-3'],
-       run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":912,"nodes_executed":5,"errors":0,"sla_met":true}' },
+       run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":912,"nodes_executed":7,"api_calls":7,"sla_met":true,"self_serve_offered":true}' },
    ],
    logs:[
-     {color:'#E8B4B0',text:'→ Trigger: email ticket T-5521 · customer@acme.com'},
-     {color:'#7B68EE',text:'→ AI classify: access · priority:high · confidence:94%'},
-     {color:'#C89840',text:'→ Router: assigned sarah@purist.co · SLA 4h'},
-     {color:'rgba(255,255,255,0.55)',text:'→ Freshdesk POST /tickets 201 · id:88132'},
-     {color:'#E8B4B0',text:'→ Gmail POST /send 200 OK · triage_ack template'},
-     {color:'#4ade80',text:'✓ Complete · 912ms · 5 API calls · 0 errors'},
+     {color:'#E8B4B0',text:'→ Trigger: email T-5521 · customer@acme.com · 35ms'},
+     {color:'rgba(255,255,255,0.45)',text:'→ Parser: product:dashboard · action:access · 78ms'},
+     {color:'#7B68EE',text:'→ Claude AI classify: access · priority:high · confidence:94% · 198ms'},
+     {color:'#C89840',text:'→ KB search: KB-1192 match 0.91 · self_serve:true · 87ms'},
+     {color:'#E8B4B0',text:'→ Router: sarah@purist.co · SLA 4h · escalation 14:00 · 224ms'},
+     {color:'rgba(255,255,255,0.45)',text:'→ Freshdesk POST /tickets 201 · id:88132 · 155ms'},
+     {color:'#7B68EE',text:'→ Gmail POST /send 200 OK · triage_ack + KB-1192 link · 82ms'},
+     {color:'#4ade80',text:'✓ Complete · 912ms · 7 API calls · 0 errors · SLA met'},
    ]
  },
  report: {
-   title: 'kpi-report.workflow', manual: '4h / week', apis: 4, time: '4.2s', saving: '£44,000/yr', ratio: '3,428×', timing: [28, 1847, 1820, 388, 134],
+   title: 'kpi-report.workflow', manual: '4h / week', apis: 8, time: '4.2s', saving: '£44,000/yr', ratio: '3,428×', timing: [28, 612, 584, 721, 312, 1820, 388, 134],
    nodes: [
-     { type:'Schedule', label:'Monday 8 am', color:'#C89840', textColor:'#C89840',
-       icons:['M8 7V3m8 4V3','M3 11h18','M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'],
-       run:'Triggering…', done:'✓ Fired', data:'{"cron":"0 8 * * 1","week":"2026-W24","period":"Mon 2 Jun – Sun 8 Jun"}' },
-     { type:'Fetch', label:'Pull metrics', color:'#7B68EE', textColor:'#7B68EE',
-       icons:['M3 3h18v18H3z','M3 9h18','M9 21V9'],
-       run:'Fetching…', done:'✓ Fetched', data:'{"sources":["HubSpot","Stripe","GA4"],"rows":847,"revenue":48200,"leads":134,"conversions":0.078}' },
+     { type:'Cron', label:'Mon 08:00', color:'#C89840', textColor:'#C89840',
+       icons:['M12 22a10 10 0 110-20 10 10 0 010 20z','M12 6v6l4 2'],
+       run:'Triggering…', done:'✓ Fired', data:'{"cron":"0 8 * * 1","tz":"Europe/London","week":"2026-W24","period":"Mon 2–Sun 8 Jun"}' },
+     { type:'Fetch', label:'HubSpot CRM', color:'#E8B4B0', textColor:'#c4847e',
+       icons:['M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z','M4 6a2 2 0 100-4 2 2 0 000 4z'],
+       run:'Fetching…', done:'✓ Fetched', data:'{"leads":134,"deals_won":11,"pipeline_value":94200,"close_rate":0.082}' },
+     { type:'Fetch', label:'Stripe revenue', color:'#7B68EE', textColor:'#7B68EE',
+       icons:['M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6'],
+       run:'Fetching…', done:'✓ Fetched', data:'{"mrr":12400,"new_revenue":5760,"churn_revenue":480,"net_arr":144000,"stripe_ts":"2026-06-09"}' },
+     { type:'Fetch', label:'GA4 traffic', color:'#C89840', textColor:'#C89840',
+       icons:['M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z'],
+       run:'Fetching…', done:'✓ Fetched', data:'{"sessions":8420,"conversions":0.031,"top_page":"/pages/demo","avg_duration_s":187}' },
+     { type:'Merge', label:'Normalise data', color:'#6B7280', textColor:'rgba(255,255,255,0.55)',
+       icons:['M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z'],
+       run:'Merging…', done:'✓ Merged', data:'{"rows_total":847,"schema":"weekly_kpi_v2","delta_vs_prev_week":{"revenue":"+12%","leads":"+8%","churn":"-2%"}}' },
      { type:'AI', label:'Write narrative', color:'#E8B4B0', textColor:'#c4847e',
        icons:['M12 20h9','M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z'],
-       run:'Writing…', done:'✓ Written', data:'{"words":320,"sections":["highlights","concerns","recommendations"],"sentiment":"positive"}' },
-     { type:'Send', label:'Distribute report', color:'#2D5016', textColor:'#4ade80',
-       icons:['M22 2L11 13','M22 2L15 22l-4-9-9-4 20-7z'],
-       run:'Sending…', done:'✓ Sent', data:'{"slack":"#leadership","email":["ceo@co.com","ops@co.com"],"notion_page_updated":true}' },
+       run:'Writing…', done:'✓ Written', data:'{"model":"claude-3-5-sonnet","words":320,"sections":["highlights","risks","actions"],"tone":"executive"}' },
+     { type:'Publish', label:'Update Notion', color:'#7B68EE', textColor:'#7B68EE',
+       icons:['M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'],
+       run:'Publishing…', done:'✓ Published', data:'{"notion_page":"Weekly KPI · W24","blocks_updated":14,"chart_embed":true,"share_link":"notion.so/purist/kpi-w24"}' },
      { type:'Done', label:'Complete', color:'#2D5016', textColor:'#4ade80',
        icons:['M22 11.08V12a10 10 0 11-5.93-9.14','M22 4L12 14.01l-3-3'],
-       run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":4217,"nodes_executed":4,"errors":0}' },
+       run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":4199,"nodes_executed":7,"api_calls":8,"recipients":4,"errors":0}' },
    ],
    logs:[
-     {color:'#C89840',text:'→ Cron: 0 8 * * 1 · Week 2026-W24 triggered'},
-     {color:'#7B68EE',text:'→ HubSpot + Stripe + GA4 · 847 rows fetched · 1.8s'},
-     {color:'#E8B4B0',text:'→ GPT-4o: narrative written · 320 words · 4 sections'},
-     {color:'rgba(255,255,255,0.55)',text:'→ Notion PATCH /pages · report page updated'},
-     {color:'#4ade80',text:'→ Slack + Email distributed to 3 recipients'},
-     {color:'#4ade80',text:'✓ Complete · 4217ms · 4 API calls · 0 errors'},
+     {color:'#C89840',text:'→ Cron 0 8 * * 1 · W24 · Europe/London · 28ms'},
+     {color:'#E8B4B0',text:'→ HubSpot GET /analytics 200 · 134 leads · £94k pipeline · 612ms'},
+     {color:'#7B68EE',text:'→ Stripe GET /balance/history 200 · MRR £12,400 · 584ms'},
+     {color:'#C89840',text:'→ GA4 runReport 200 · 8,420 sessions · CVR 3.1% · 721ms'},
+     {color:'rgba(255,255,255,0.45)',text:'→ Merge: 847 rows · schema weekly_kpi_v2 · deltas calculated'},
+     {color:'#E8B4B0',text:'→ Claude 3.5 Sonnet: 320 words · 3 sections · tone:executive · 1820ms'},
+     {color:'#7B68EE',text:'→ Notion PATCH /pages · 14 blocks · chart embed · 388ms'},
+     {color:'#4ade80',text:'✓ Complete · 4199ms · 8 API calls · 4 recipients · 0 errors'},
    ]
  },
  appt: {
-   title: 'appt-reminders.workflow', manual: '25 min / booking', apis: 3, time: '1.4s', saving: '£31,000/yr', ratio: '1,071×', timing: [41, 387, 492, 345, 124],
+   title: 'appt-reminders.workflow', manual: '25 min / booking', apis: 7, time: '1.4s', saving: '£31,000/yr', ratio: '1,071×', timing: [41, 87, 387, 312, 224, 198, 136, 62],
    nodes: [
      { type:'Trigger', label:'New booking', color:'#E8B4B0', textColor:'#c4847e',
        icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
-       run:'Receiving…', done:'✓ Fired', data:'{"booking_id":"BK-3391","client":"Jordan Mills","date":"2026-06-14","time":"14:00","service":"Strategy call"}' },
+       run:'Receiving…', done:'✓ Fired', data:'{"booking_id":"BK-3391","client":"Jordan Mills","date":"2026-06-14","time":"14:00","service":"Strategy call","duration_min":60}' },
+     { type:'Check', label:'Conflict check', color:'#6B7280', textColor:'rgba(255,255,255,0.55)',
+       icons:['M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'],
+       run:'Checking…', done:'✓ Clear', data:'{"conflicts":0,"calendar_free":true,"buffer_before_min":15,"buffer_after_min":10}' },
      { type:'Email', label:'Confirmation', color:'#7B68EE', textColor:'#7B68EE',
        icons:['M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'],
-       run:'Sending…', done:'✓ Sent', data:'{"to":"jordan@mills.io","template":"booking_confirm","cal_invite":true,"zoom_link":"zoom.us/j/9921"}' },
-     { type:'Schedule', label:'T-24h reminder', color:'#C89840', textColor:'#C89840',
+       run:'Sending…', done:'✓ Sent', data:'{"to":"jordan@mills.io","template":"booking_confirm","cal_ics":true,"zoom_link":"zoom.us/j/9921","prep_doc":true}' },
+     { type:'CRM', label:'Log booking', color:'#C89840', textColor:'#C89840',
+       icons:['M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2','M12 11a4 4 0 100-8 4 4 0 000 8z'],
+       run:'Logging…', done:'✓ Logged', data:'{"hubspot_deal":"D-9122","activity":"Meeting booked","type":"strategy_call","owner":"ops@purist.co"}' },
+     { type:'Email', label:'T-24h reminder', color:'#E8B4B0', textColor:'#c4847e',
        icons:['M12 22a10 10 0 110-20 10 10 0 010 20z','M12 6v6l4 2'],
-       run:'Queuing…', done:'✓ Queued', data:'{"send_at":"2026-06-13T14:00Z","channel":"email","template":"reminder_24h"}' },
-     { type:'SMS', label:'T-1h text', color:'#6B7280', textColor:'rgba(255,255,255,0.58)',
+       run:'Queuing…', done:'✓ Queued', data:'{"send_at":"2026-06-13T14:00Z","template":"reminder_24h","zoom_link":"zoom.us/j/9921","agenda_included":true}' },
+     { type:'SMS', label:'T-1h text', color:'#6B7280', textColor:'rgba(255,255,255,0.55)',
        icons:['M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z'],
-       run:'Queuing…', done:'✓ Queued', data:'{"send_at":"2026-06-14T13:00Z","twilio_to":"+447700900123","body":"Reminder: strategy call at 2pm today. Link: zoom.us/j/9921"}' },
+       run:'Queuing…', done:'✓ Queued', data:'{"send_at":"2026-06-14T13:00Z","twilio_to":"+447700900123","body":"Reminder: strategy call at 2pm. zoom.us/j/9921"}' },
+     { type:'Follow', label:'Post-meeting', color:'#7B68EE', textColor:'#7B68EE',
+       icons:['M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z'],
+       run:'Scheduling…', done:'✓ Queued', data:'{"send_at":"2026-06-14T16:00Z","template":"post_meeting_survey","nps_survey":true,"follow_up_day":3}' },
      { type:'Done', label:'Complete', color:'#2D5016', textColor:'#4ade80',
        icons:['M22 11.08V12a10 10 0 11-5.93-9.14','M22 4L12 14.01l-3-3'],
-       run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":1389,"nodes_executed":4,"errors":0,"reminders_queued":2}' },
+       run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":1447,"nodes_executed":7,"api_calls":7,"reminders_queued":3,"errors":0}' },
    ],
    logs:[
-     {color:'#E8B4B0',text:'→ Trigger: new booking BK-3391 · Jordan Mills · 14 Jun 14:00'},
-     {color:'#7B68EE',text:'→ Gmail POST /send 200 OK · confirmation + Zoom link'},
-     {color:'#C89840',text:'→ Scheduler: email reminder queued T-24h'},
-     {color:'rgba(255,255,255,0.55)',text:'→ Twilio POST /messages: SMS queued T-1h'},
-     {color:'#4ade80',text:'✓ Complete · 1389ms · 3 API calls · 2 reminders queued'},
+     {color:'#E8B4B0',text:'→ Trigger: BK-3391 · Jordan Mills · 14 Jun 14:00 · 41ms'},
+     {color:'rgba(255,255,255,0.45)',text:'→ Conflict check: 0 clashes · buffer 15m/10m · 87ms'},
+     {color:'#7B68EE',text:'→ Gmail POST /send 200 OK · booking_confirm + .ics + prep doc · 387ms'},
+     {color:'#C89840',text:'→ HubSpot POST /activities 201 · deal D-9122 · 312ms'},
+     {color:'#E8B4B0',text:'→ Scheduler: T-24h email queued 13 Jun 14:00 · 224ms'},
+     {color:'rgba(255,255,255,0.45)',text:'→ Twilio POST /messages: T-1h SMS queued 14 Jun 13:00 · 198ms'},
+     {color:'#7B68EE',text:'→ Post-meeting survey queued 14 Jun 16:00 · NPS enabled'},
+     {color:'#4ade80',text:'✓ Complete · 1447ms · 7 API calls · 3 reminders queued · 0 errors'},
    ]
  },
  onboarding: {
-   title: 'client-onboarding.workflow', manual: '3.5h / client', apis: 6, time: '3.1s', saving: '£61,000/yr', ratio: '4,064×', timing: [42, 588, 712, 891, 424, 445],
+   title: 'client-onboarding.workflow', manual: '3.5h / client', apis: 8, time: '3.1s', saving: '£61,000/yr', ratio: '4,064×', timing: [42, 312, 588, 712, 891, 424, 387, 145],
    nodes: [
      { type:'Trigger', label:'Contract signed', color:'#E8B4B0', textColor:'#c4847e',
        icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
-       run:'Receiving…', done:'✓ Fired', data:'{"event":"contract.signed","client":"Nova Studio","signer":"emma@novastudio.io"}' },
-     { type:'Email', label:'Welcome pack', color:'#7B68EE', textColor:'#7B68EE',
+       run:'Receiving…', done:'✓ Fired', data:'{"event":"contract.signed","client":"Nova Studio","signer":"emma@novastudio.io","value":9600}' },
+     { type:'Provision', label:'Create workspace', color:'#7B68EE', textColor:'#7B68EE',
+       icons:['M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'],
+       run:'Provisioning…', done:'✓ Created', data:'{"notion_page":"Nova Studio Onboarding","drive_folder":"clients/nova-studio","permissions":"editor"}' },
+     { type:'Email', label:'Welcome pack', color:'#E8B4B0', textColor:'#c4847e',
        icons:['M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'],
-       run:'Sending…', done:'✓ Sent', data:'{"to":"emma@novastudio.io","template":"welcome_pack_v2","attachments":["brief.pdf","access.pdf"]}' },
-     { type:'Calendar', label:'Kick-off invite', color:'#E8B4B0', textColor:'#c4847e',
+       run:'Sending…', done:'✓ Sent', data:'{"to":"emma@novastudio.io","template":"welcome_pack_v2","attachments":["brief.pdf","access.pdf","schedule.pdf"]}' },
+     { type:'Calendar', label:'Kick-off invite', color:'#C89840', textColor:'#C89840',
        icons:['M8 7V3m8 4V3','M3 11h18','M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'],
-       run:'Inviting…', done:'✓ Sent', data:'{"calendly_url":"cal.purist.co/kick-off","duration":60,"sent_to":"emma@novastudio.io"}' },
-     { type:'Sign', label:'DocuSign NDA', color:'#C89840', textColor:'#C89840',
+       run:'Booking…', done:'✓ Booked', data:'{"calendly_url":"cal.purist.co/kick-off","duration":60,"attendees":["emma@novastudio.io","pm@purist.co"]}' },
+     { type:'Sign', label:'DocuSign NDA', color:'#7B68EE', textColor:'#7B68EE',
        icons:['M12 20h9','M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z'],
-       run:'Sending…', done:'✓ Sent', data:'{"envelope_id":"ENV-9921","template":"onboarding_v3","signers":["emma@novastudio.io"]}' },
-     { type:'Channel', label:'Slack workspace', color:'#6B7280', textColor:'rgba(255,255,255,0.58)',
+       run:'Sending…', done:'✓ Sent', data:'{"envelope_id":"ENV-9921","template":"nda_onboarding_v3","signers":["emma@novastudio.io"],"expiry_days":3}' },
+     { type:'Slack', label:'Client channel', color:'#6B7280', textColor:'rgba(255,255,255,0.55)',
        icons:['M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z'],
-       run:'Creating…', done:'✓ Created', data:'{"channel":"client-nova-studio","invited":["pm@purist.co","dev@purist.co","emma@novastudio.io"]}' },
+       run:'Creating…', done:'✓ Created', data:'{"channel":"client-nova-studio","invited":["pm@purist.co","dev@purist.co","emma@novastudio.io"],"canvas":true}' },
+     { type:'Tasks', label:'Onboarding tasks', color:'#C89840', textColor:'#C89840',
+       icons:['M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4'],
+       run:'Creating…', done:'✓ Created', data:'{"tasks":8,"project":"Nova Studio Q3","assignee":"pm@purist.co","due_sprint":"2026-W26","linear_project_id":"PRJ-441"}' },
      { type:'Done', label:'Complete', color:'#2D5016', textColor:'#4ade80',
        icons:['M22 11.08V12a10 10 0 11-5.93-9.14','M22 4L12 14.01l-3-3'],
-       run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":3102,"nodes_executed":5,"errors":0}' },
+       run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":3101,"nodes_executed":7,"api_calls":8,"errors":0,"client":"Nova Studio"}' },
    ],
    logs:[
-     {color:'#E8B4B0',text:'→ Trigger: contract.signed · Nova Studio · emma@novastudio.io'},
-     {color:'#7B68EE',text:'→ Gmail POST /send 200 OK · welcome pack + access doc'},
-     {color:'#E8B4B0',text:'→ Calendly POST /scheduling-links kick-off invite · 60 min'},
-     {color:'#C89840',text:'→ DocuSign POST /envelopes ENV-9921 created · awaiting sign'},
-     {color:'rgba(255,255,255,0.55)',text:'→ Slack POST /conversations.create #client-nova-studio · 3 members'},
-     {color:'#4ade80',text:'✓ Complete · 3102ms · 6 API calls · 0 errors'},
+     {color:'#E8B4B0',text:'→ Trigger: contract.signed · Nova Studio · £9,600 · 42ms'},
+     {color:'#7B68EE',text:'→ Notion + Drive provisioned · permissions set · 312ms'},
+     {color:'#E8B4B0',text:'→ Gmail POST /send 200 OK · welcome_pack_v2 · 3 attachments · 588ms'},
+     {color:'#C89840',text:'→ Calendly POST /scheduling-links 201 · kick-off 60min · 712ms'},
+     {color:'#7B68EE',text:'→ DocuSign POST /envelopes ENV-9921 created · expiry 3d · 891ms'},
+     {color:'rgba(255,255,255,0.45)',text:'→ Slack POST /conversations.create #client-nova-studio · 3 members'},
+     {color:'#C89840',text:'→ Linear POST /issues · 8 onboarding tasks · PRJ-441 · 387ms'},
+     {color:'#4ade80',text:'✓ Complete · 3101ms · 8 API calls · 0 errors'},
    ]
  }
 };
@@ -1318,7 +1391,8 @@ function renderNodes(wfId) {
      return '<path d="' + d + '"/>';
    }).join('');
 
-   var html = '<div style="display:flex;align-items:center;flex:1;">';
+   var entranceDelay = (i * 0.06).toFixed(2);
+   var html = '<div style="display:flex;align-items:center;flex:1;animation:wf-node-in 0.4s ease-out ' + entranceDelay + 's both;">';
    // Node card
    html += '<div class="wf-node-card" onclick="inspectNode(' + i + ')" data-idx="' + i + '">';
    // Top accent bar
@@ -1333,6 +1407,7 @@ function renderNodes(wfId) {
    html += '<p class="wf-node-label">' + node.label + '</p>';
    // Status
    html += '<div class="wf-node-status"><div class="node-dot"></div><span class="node-status-text">Idle</span></div>';
+   html += '<div class="wf-node-progress"></div>';
    html += '</div>';
    // Connector
    if (!isLast) {
