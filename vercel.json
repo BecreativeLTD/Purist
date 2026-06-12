@@ -8,11 +8,6 @@
       "has": [{ "type": "host", "value": "www.purist.online" }],
       "destination": "https://purist.online/:path*",
       "statusCode": 301
-    },
-    {
-      "source": "/:path+/",
-      "destination": "https://purist.online/:path*",
-      "statusCode": 301
     }
   ]
 }
