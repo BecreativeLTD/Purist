@@ -42,6 +42,9 @@ const industries = [
  { id: 'gym', label: 'Gyms & Fitness' },
 ];
 
+// Noindex filtered/search views — only the clean /skills URL should be indexed
+const hasParams = Object.keys(Astro.url.searchParams).length > 0;
+
 const stats = [
  { n: `${skills.length}+`, l: 'Production workflows' },
  { n: '20+', l: 'Industries covered' },
@@ -59,6 +62,8 @@ const complexityColor: Record<string, string> = {
 <ShopLayout
  title="Automation Skills Marketplace PURIST | n8n Workflows & AI Agents"
  description={`Browse ${skills.length}+ production-ready n8n workflow automations and AI agent skills. Filter by industry or function. Each deployed in under 7 days with 24/7 monitoring.`}
+ noindex={hasParams}
+ canonical="https://purist.online/skills"
 >
 
  <!-- Breadcrumb -->

@@ -6,6 +6,10 @@ Disallow: /pages/onboarding
 Disallow: /pages/track
 Disallow: /cart
 Disallow: /checkout
+# Block filter/search param URLs — these are UI state, not indexable pages
+Disallow: /skills?
+Disallow: /pages/blog?
+Disallow: /pages/glossary?
 
 # AI crawlers — explicitly welcome
 User-agent: GPTBot
