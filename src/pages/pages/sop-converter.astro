@@ -524,9 +524,9 @@ When a new lead fills our contact form on the website, our team manually checks 
       { val: annualValue + '/yr', label: 'Annual value', color: '#4ADE80' },
     ];
     el.innerHTML = items.map(function(item) {
-      return '<div class="rounded-2xl border p-4 text-center sop-anim" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);">' +
-        '<div class="text-2xl font-bold mb-1" style="color:' + item.color + ';">' + item.val + '</div>' +
-        '<div class="text-[11px] uppercase tracking-widest" style="color:rgba(255,255,255,0.35);">' + item.label + '</div>' +
+      return '<div class="rounded-2xl border p-5 text-center sop-anim" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.025);">' +
+        '<div style="font-family:\'Fraunces Variable\',Fraunces,Georgia,serif;font-size:2rem;line-height:1;letter-spacing:-0.025em;margin-bottom:0.35rem;color:' + item.color + ';">' + item.val + '</div>' +
+        '<div class="text-[10px] uppercase tracking-[0.18em] font-bold" style="color:rgba(255,255,255,0.28);">' + item.label + '</div>' +
         '</div>';
     }).join('');
   }

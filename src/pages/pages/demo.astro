@@ -44,11 +44,19 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
          <p class="text-[12px]" style="color:rgba(255,255,255,0.55);">Click any node to inspect its payload. Hit Run to watch it step through.</p>
        </div>
        <!-- Workflow template tabs -->
-       <div class="flex gap-1 p-1 rounded-[12px] shrink-0" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);">
-         {[{id:'lead',label:'Lead Nurture'},{id:'invoice',label:'Invoice Chase'},{id:'onboarding',label:'Onboarding'}].map((t,i)=>(
-           <button class="wf-tab px-3.5 py-1.5 rounded-[9px] text-[11px] font-semibold transition-all" data-wf={t.id}
-             style={i===0 ? 'background:#E8B4B0;color:#0A0A0A;' : 'color:rgba(255,255,255,0.60);'}>
-             {t.label}
+       <div class="flex gap-1.5 overflow-x-auto pb-0.5 shrink-0 max-w-full" style="scrollbar-width:none;">
+         {[
+           {id:'lead',      label:'Lead Nurture',      sub:'47 min → 1.8s'},
+           {id:'invoice',   label:'Invoice Chase',     sub:'2.5h → 2.2s'},
+           {id:'onboarding',label:'Onboarding',        sub:'3.5h → 3.1s'},
+           {id:'support',   label:'Support Triage',    sub:'45 min → 0.9s'},
+           {id:'report',    label:'KPI Report',        sub:'4h → 4.2s'},
+           {id:'appt',      label:'Appt Reminders',    sub:'25 min → 1.4s'},
+         ].map((t,i)=>(
+           <button class="wf-tab shrink-0 px-3.5 py-2 rounded-[10px] text-left transition-all" data-wf={t.id}
+             style={i===0 ? 'background:rgba(232,180,176,0.14);border:1px solid rgba(232,180,176,0.30);' : 'background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);'}>
+             <p class="text-[11px] font-semibold leading-none mb-0.5" style={i===0 ? 'color:#E8B4B0;' : 'color:rgba(255,255,255,0.55);'}>{t.label}</p>
+             <p class="text-[9px] font-mono" style="color:rgba(255,255,255,0.22);">{t.sub}</p>
            </button>
          ))}
        </div>
@@ -1069,6 +1077,92 @@ var WORKFLOWS = {
      {color:'#4ade80',text:'✓ Complete · 2211ms · 5 API calls · 0 errors'},
    ]
  },
+ support: {
+   title: 'support-triage.workflow', manual: '45 min / ticket', apis: 5, time: '0.9s', saving: '£29,000/yr',
+   nodes: [
+     { type:'Trigger', label:'Ticket received', color:'#E8B4B0', textColor:'#c4847e',
+       icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
+       run:'Receiving…', done:'✓ Fired', data:'{"ticket_id":"T-5521","channel":"email","from":"customer@acme.com","subject":"Cannot access dashboard"}' },
+     { type:'AI', label:'Classify intent', color:'#7B68EE', textColor:'#7B68EE',
+       icons:['M12 2a10 10 0 110 20 10 10 0 010-20z','M12 8v4l3 3'],
+       run:'Classifying…', done:'✓ Classified', data:'{"category":"access","priority":"high","sentiment":"frustrated","confidence":0.94,"route":"technical"}' },
+     { type:'Route', label:'Assign to team', color:'#C89840', textColor:'#C89840',
+       icons:['M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2','M23 21v-2a4 4 0 00-3-3.87','M16 3.13a4 4 0 010 7.75'],
+       run:'Routing…', done:'✓ Assigned', data:'{"team":"technical","agent":"sarah@purist.co","sla_hours":4,"escalation_at":"2026-06-12T14:00Z"}' },
+     { type:'CRM', label:'Log to helpdesk', color:'#6B7280', textColor:'rgba(255,255,255,0.58)',
+       icons:['M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z','M14 2v6h6'],
+       run:'Logging…', done:'✓ Logged', data:'{"freshdesk_id":88132,"status":"open","priority":2,"first_response_sent":false}' },
+     { type:'Email', label:'Auto-response', color:'#E8B4B0', textColor:'#c4847e',
+       icons:['M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'],
+       run:'Sending…', done:'✓ Sent', data:'{"to":"customer@acme.com","template":"triage_ack","eta":"4 hours","ticket_url":"help.purist.co/T-5521"}' },
+     { type:'Done', label:'Complete', color:'#2D5016', textColor:'#4ade80',
+       icons:['M22 11.08V12a10 10 0 11-5.93-9.14','M22 4L12 14.01l-3-3'],
+       run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":912,"nodes_executed":5,"errors":0,"sla_met":true}' },
+   ],
+   logs:[
+     {color:'#E8B4B0',text:'→ Trigger: email ticket T-5521 · customer@acme.com'},
+     {color:'#7B68EE',text:'→ AI classify: access · priority:high · confidence:94%'},
+     {color:'#C89840',text:'→ Router: assigned sarah@purist.co · SLA 4h'},
+     {color:'rgba(255,255,255,0.55)',text:'→ Freshdesk POST /tickets 201 · id:88132'},
+     {color:'#E8B4B0',text:'→ Gmail POST /send 200 OK · triage_ack template'},
+     {color:'#4ade80',text:'✓ Complete · 912ms · 5 API calls · 0 errors'},
+   ]
+ },
+ report: {
+   title: 'kpi-report.workflow', manual: '4h / week', apis: 4, time: '4.2s', saving: '£44,000/yr',
+   nodes: [
+     { type:'Schedule', label:'Monday 8 am', color:'#C89840', textColor:'#C89840',
+       icons:['M8 7V3m8 4V3','M3 11h18','M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'],
+       run:'Triggering…', done:'✓ Fired', data:'{"cron":"0 8 * * 1","week":"2026-W24","period":"Mon 2 Jun – Sun 8 Jun"}' },
+     { type:'Fetch', label:'Pull metrics', color:'#7B68EE', textColor:'#7B68EE',
+       icons:['M3 3h18v18H3z','M3 9h18','M9 21V9'],
+       run:'Fetching…', done:'✓ Fetched', data:'{"sources":["HubSpot","Stripe","GA4"],"rows":847,"revenue":48200,"leads":134,"conversions":0.078}' },
+     { type:'AI', label:'Write narrative', color:'#E8B4B0', textColor:'#c4847e',
+       icons:['M12 20h9','M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z'],
+       run:'Writing…', done:'✓ Written', data:'{"words":320,"sections":["highlights","concerns","recommendations"],"sentiment":"positive"}' },
+     { type:'Send', label:'Distribute report', color:'#2D5016', textColor:'#4ade80',
+       icons:['M22 2L11 13','M22 2L15 22l-4-9-9-4 20-7z'],
+       run:'Sending…', done:'✓ Sent', data:'{"slack":"#leadership","email":["ceo@co.com","ops@co.com"],"notion_page_updated":true}' },
+     { type:'Done', label:'Complete', color:'#2D5016', textColor:'#4ade80',
+       icons:['M22 11.08V12a10 10 0 11-5.93-9.14','M22 4L12 14.01l-3-3'],
+       run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":4217,"nodes_executed":4,"errors":0}' },
+   ],
+   logs:[
+     {color:'#C89840',text:'→ Cron: 0 8 * * 1 · Week 2026-W24 triggered'},
+     {color:'#7B68EE',text:'→ HubSpot + Stripe + GA4 · 847 rows fetched · 1.8s'},
+     {color:'#E8B4B0',text:'→ GPT-4o: narrative written · 320 words · 4 sections'},
+     {color:'rgba(255,255,255,0.55)',text:'→ Notion PATCH /pages · report page updated'},
+     {color:'#4ade80',text:'→ Slack + Email distributed to 3 recipients'},
+     {color:'#4ade80',text:'✓ Complete · 4217ms · 4 API calls · 0 errors'},
+   ]
+ },
+ appt: {
+   title: 'appt-reminders.workflow', manual: '25 min / booking', apis: 3, time: '1.4s', saving: '£31,000/yr',
+   nodes: [
+     { type:'Trigger', label:'New booking', color:'#E8B4B0', textColor:'#c4847e',
+       icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
+       run:'Receiving…', done:'✓ Fired', data:'{"booking_id":"BK-3391","client":"Jordan Mills","date":"2026-06-14","time":"14:00","service":"Strategy call"}' },
+     { type:'Email', label:'Confirmation', color:'#7B68EE', textColor:'#7B68EE',
+       icons:['M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'],
+       run:'Sending…', done:'✓ Sent', data:'{"to":"jordan@mills.io","template":"booking_confirm","cal_invite":true,"zoom_link":"zoom.us/j/9921"}' },
+     { type:'Schedule', label:'T-24h reminder', color:'#C89840', textColor:'#C89840',
+       icons:['M12 22a10 10 0 110-20 10 10 0 010 20z','M12 6v6l4 2'],
+       run:'Queuing…', done:'✓ Queued', data:'{"send_at":"2026-06-13T14:00Z","channel":"email","template":"reminder_24h"}' },
+     { type:'SMS', label:'T-1h text', color:'#6B7280', textColor:'rgba(255,255,255,0.58)',
+       icons:['M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z'],
+       run:'Queuing…', done:'✓ Queued', data:'{"send_at":"2026-06-14T13:00Z","twilio_to":"+447700900123","body":"Reminder: strategy call at 2pm today. Link: zoom.us/j/9921"}' },
+     { type:'Done', label:'Complete', color:'#2D5016', textColor:'#4ade80',
+       icons:['M22 11.08V12a10 10 0 11-5.93-9.14','M22 4L12 14.01l-3-3'],
+       run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":1389,"nodes_executed":4,"errors":0,"reminders_queued":2}' },
+   ],
+   logs:[
+     {color:'#E8B4B0',text:'→ Trigger: new booking BK-3391 · Jordan Mills · 14 Jun 14:00'},
+     {color:'#7B68EE',text:'→ Gmail POST /send 200 OK · confirmation + Zoom link'},
+     {color:'#C89840',text:'→ Scheduler: email reminder queued T-24h'},
+     {color:'rgba(255,255,255,0.55)',text:'→ Twilio POST /messages: SMS queued T-1h'},
+     {color:'#4ade80',text:'✓ Complete · 1389ms · 3 API calls · 2 reminders queued'},
+   ]
+ },
  onboarding: {
    title: 'client-onboarding.workflow', manual: '3.5h / client', apis: 6, time: '3.1s', saving: '£61,000/yr',
    nodes: [
@@ -1279,11 +1373,15 @@ document.querySelectorAll('.wf-tab').forEach(function(btn) {
  btn.addEventListener('click', function() {
    currentWf = this.dataset.wf;
    document.querySelectorAll('.wf-tab').forEach(function(b) {
-     b.style.background = 'transparent';
-     b.style.color = 'rgba(255,255,255,0.60)';
+     b.style.background = 'rgba(255,255,255,0.03)';
+     b.style.borderColor = 'rgba(255,255,255,0.07)';
+     var p = b.querySelector('p');
+     if (p) p.style.color = 'rgba(255,255,255,0.55)';
    });
-   this.style.background = '#E8B4B0';
-   this.style.color = '#0A0A0A';
+   this.style.background = 'rgba(232,180,176,0.14)';
+   this.style.borderColor = 'rgba(232,180,176,0.30)';
+   var p = this.querySelector('p');
+   if (p) p.style.color = '#E8B4B0';
    renderNodes(currentWf);
    document.getElementById('wf-log').innerHTML = '<p style="color:rgba(255,255,255,0.18);">› Waiting for trigger…</p>';
    document.getElementById('wf-payload').innerHTML = '<p style="color:rgba(255,255,255,0.18);">// Click a node to inspect its payload</p>';
