@@ -191,13 +191,41 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
        ))}
      </div>
    </div>
-   <!-- Integration marquee -->
-   <div class="border-t overflow-hidden py-3 relative" style="border-color:rgba(255,255,255,0.05);">
-     <div class="absolute inset-y-0 left-0 w-16 z-10 pointer-events-none" style="background:linear-gradient(90deg,#0A0A09,transparent);"></div>
-     <div class="absolute inset-y-0 right-0 w-16 z-10 pointer-events-none" style="background:linear-gradient(-90deg,#0A0A09,transparent);"></div>
-     <div class="flex gap-8 items-center" style="animation:marquee-scroll 28s linear infinite;white-space:nowrap;width:max-content;">
-       {['HubSpot','Xero','Stripe','Gmail','Slack','DocuSign','Calendly','Notion','Freshdesk','Twilio','Linear','GA4','Airtable','Typeform','Shopify','Pipedrive','HubSpot','Xero','Stripe','Gmail','Slack','DocuSign','Calendly','Notion','Freshdesk','Twilio','Linear','GA4'].map(t=>(
-         <span class="text-[10px] font-semibold uppercase tracking-[0.12em]" style="color:rgba(255,255,255,0.18);">{t}</span>
+   <!-- Integration marquee — real logos, white-inverted on dark -->
+   <div class="border-t overflow-hidden py-4 relative" style="border-color:rgba(255,255,255,0.05);">
+     <div class="absolute inset-y-0 left-0 w-24 z-10 pointer-events-none" style="background:linear-gradient(90deg,#0A0A09,transparent);"></div>
+     <div class="absolute inset-y-0 right-0 w-24 z-10 pointer-events-none" style="background:linear-gradient(-90deg,#0A0A09,transparent);"></div>
+     <div class="demo-marquee-track">
+       {[
+         {name:'HubSpot',   src:'/images/press/hubspot.svg'},
+         {name:'Stripe',    src:'/images/press/stripe-hd.svg'},
+         {name:'Slack',     src:'/images/press/slack.svg'},
+         {name:'n8n',       src:'/images/press/n8n-hd.svg'},
+         {name:'Notion',    src:'/images/press/notion.svg'},
+         {name:'Airtable',  src:'/images/press/airtable.svg'},
+         {name:'Shopify',   src:'/images/press/shopify.svg'},
+         {name:'Zapier',    src:'/images/press/zapier.svg'},
+         {name:'Make',      src:'/images/press/make.svg'},
+         {name:'ClickUp',   src:'/images/press/clickup.svg'},
+         {name:'WordPress', src:'/images/press/wordpress.svg'},
+         {name:'Claude',    src:'/images/press/claude-3.svg'},
+         // duplicate for seamless loop
+         {name:'HubSpot',   src:'/images/press/hubspot.svg'},
+         {name:'Stripe',    src:'/images/press/stripe-hd.svg'},
+         {name:'Slack',     src:'/images/press/slack.svg'},
+         {name:'n8n',       src:'/images/press/n8n-hd.svg'},
+         {name:'Notion',    src:'/images/press/notion.svg'},
+         {name:'Airtable',  src:'/images/press/airtable.svg'},
+         {name:'Shopify',   src:'/images/press/shopify.svg'},
+         {name:'Zapier',    src:'/images/press/zapier.svg'},
+         {name:'Make',      src:'/images/press/make.svg'},
+         {name:'ClickUp',   src:'/images/press/clickup.svg'},
+         {name:'WordPress', src:'/images/press/wordpress.svg'},
+         {name:'Claude',    src:'/images/press/claude-3.svg'},
+       ].map(l => (
+         <img src={l.src} alt={l.name} width="90" height="18"
+              class="demo-logo-item h-[14px] w-auto object-contain shrink-0"
+              loading="lazy" />
        ))}
      </div>
    </div>
@@ -895,6 +923,23 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
 <style is:global>
  @keyframes dm-pulse { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.4)} }
  @keyframes marquee-scroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+ .demo-marquee-track {
+   display: flex;
+   gap: 48px;
+   align-items: center;
+   width: max-content;
+   animation: marquee-scroll 36s linear infinite;
+ }
+ .demo-marquee-track:hover { animation-play-state: paused; }
+ .demo-logo-item {
+   filter: brightness(0) invert(1);
+   opacity: 0.30;
+   transition: opacity 0.3s ease, transform 0.3s ease;
+ }
+ .demo-logo-item:hover {
+   opacity: 0.75;
+   transform: scale(1.08);
+ }
  @keyframes slideUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
  @keyframes fadeLog { from{opacity:0;transform:translateX(-4px)} to{opacity:1;transform:translateX(0)} }
  @keyframes packet { 0%{left:0%;opacity:0} 10%{opacity:1} 90%{opacity:1} 100%{left:100%;opacity:0} }
