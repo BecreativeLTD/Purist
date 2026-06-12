@@ -137,21 +137,68 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
        </div>
 
        <!-- Result bar -->
-       <div id="wf-result-bar" class="hidden px-5 py-4 border-t flex flex-wrap items-center gap-6" style="border-color:rgba(255,255,255,0.07);background:rgba(45,80,22,0.12);">
-         <div class="flex items-center gap-2">
-           <span class="w-5 h-5 rounded-full flex items-center justify-center" style="background:rgba(74,222,128,0.20);">
-             <svg class="w-3 h-3" style="color:#4ade80;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-           </span>
-           <span class="text-[12px] font-bold text-white" id="rb-title">Completed</span>
-         </div>
-         <div class="flex flex-wrap gap-5 text-[11px]" style="color:rgba(255,255,255,0.45);">
-           <span><strong class="text-white" id="rb-time"> </strong> execution time</span>
-           <span><strong class="text-white" id="rb-apis"> </strong> API calls</span>
-           <span>Manual equivalent: <strong style="color:#E8B4B0;" id="rb-manual"> </strong></span>
-           <span>Annual saving: <strong style="color:#4ade80;" id="rb-saving"> </strong></span>
+       <div id="wf-result-bar" class="hidden border-t" style="border-color:rgba(255,255,255,0.07);background:rgba(74,222,128,0.03);">
+         <div class="flex flex-wrap items-stretch divide-x" style="border-color:rgba(255,255,255,0.07);">
+           <!-- Completed + time -->
+           <div class="px-5 py-4 flex items-center gap-3">
+             <span class="w-6 h-6 rounded-full flex items-center justify-center shrink-0" style="background:rgba(74,222,128,0.18);">
+               <svg class="w-3 h-3" style="color:#4ade80;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+             </span>
+             <div>
+               <p id="rb-time" style="font-family:'Fraunces Variable',Fraunces,Georgia,serif;font-size:1.35rem;line-height:1;color:#4ade80;letter-spacing:-0.02em;"> </p>
+               <p class="text-[9px] mt-0.5" style="color:rgba(255,255,255,0.28);">execution time</p>
+             </div>
+           </div>
+           <!-- Speed ratio -->
+           <div class="px-5 py-4">
+             <p id="rb-ratio" style="font-family:'Fraunces Variable',Fraunces,Georgia,serif;font-size:1.35rem;line-height:1;color:#7B68EE;letter-spacing:-0.02em;"> </p>
+             <p class="text-[9px] mt-0.5" style="color:rgba(255,255,255,0.28);">faster than manual</p>
+           </div>
+           <!-- Annual saving -->
+           <div class="px-5 py-4">
+             <p id="rb-saving" style="font-family:'Fraunces Variable',Fraunces,Georgia,serif;font-size:1.35rem;line-height:1;color:#E8B4B0;letter-spacing:-0.02em;"> </p>
+             <p class="text-[9px] mt-0.5" style="color:rgba(255,255,255,0.28);">annual saving</p>
+           </div>
+           <!-- Manual + APIs -->
+           <div class="px-5 py-4 flex flex-col justify-center">
+             <p class="text-[10px]" style="color:rgba(255,255,255,0.35);">Manual: <strong id="rb-manual" style="color:rgba(255,255,255,0.65);"> </strong></p>
+             <p class="text-[10px] mt-1" style="color:rgba(255,255,255,0.35);"><strong id="rb-apis" style="color:rgba(255,255,255,0.65);"> </strong> API calls</p>
+           </div>
          </div>
        </div>
 
+     </div>
+   </div>
+ </section>
+
+ <!-- ══════════════════════════════════════════════════════════════════════
+      STATS STRIP
+ ══════════════════════════════════════════════════════════════════════ -->
+ <section class="bg-[#0A0A09] border-t border-b" style="border-color:rgba(255,255,255,0.06);">
+   <!-- 4-stat grid -->
+   <div class="container-x">
+     <div class="max-w-4xl mx-auto grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0" style="border-color:rgba(255,255,255,0.06);">
+       {[
+         {val:'6',          sub:'Workflow templates',  color:'#E8B4B0'},
+         {val:'3,200×',     sub:'Average speed gain',  color:'#7B68EE'},
+         {val:'£46k/yr',    sub:'Average annual saving',color:'#4ade80'},
+         {val:'312',        sub:'Live deployments',    color:'#C89840'},
+       ].map(s=>(
+         <div class="px-6 py-7">
+           <p style={`font-family:'Fraunces Variable',Fraunces,Georgia,serif;font-size:1.8rem;line-height:1;letter-spacing:-0.025em;color:${s.color};`}>{s.val}</p>
+           <p class="text-[9px] uppercase tracking-[0.18em] font-bold mt-2" style="color:rgba(255,255,255,0.25);">{s.sub}</p>
+         </div>
+       ))}
+     </div>
+   </div>
+   <!-- Integration marquee -->
+   <div class="border-t overflow-hidden py-3 relative" style="border-color:rgba(255,255,255,0.05);">
+     <div class="absolute inset-y-0 left-0 w-16 z-10 pointer-events-none" style="background:linear-gradient(90deg,#0A0A09,transparent);"></div>
+     <div class="absolute inset-y-0 right-0 w-16 z-10 pointer-events-none" style="background:linear-gradient(-90deg,#0A0A09,transparent);"></div>
+     <div class="flex gap-8 items-center" style="animation:marquee-scroll 28s linear infinite;white-space:nowrap;width:max-content;">
+       {['HubSpot','Xero','Stripe','Gmail','Slack','DocuSign','Calendly','Notion','Freshdesk','Twilio','Linear','GA4','Airtable','Typeform','Shopify','Pipedrive','HubSpot','Xero','Stripe','Gmail','Slack','DocuSign','Calendly','Notion','Freshdesk','Twilio','Linear','GA4'].map(t=>(
+         <span class="text-[10px] font-semibold uppercase tracking-[0.12em]" style="color:rgba(255,255,255,0.18);">{t}</span>
+       ))}
      </div>
    </div>
  </section>
@@ -847,6 +894,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
 
 <style is:global>
  @keyframes dm-pulse { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.4)} }
+ @keyframes marquee-scroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
  @keyframes slideUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
  @keyframes fadeLog { from{opacity:0;transform:translateX(-4px)} to{opacity:1;transform:translateX(0)} }
  @keyframes packet { 0%{left:0%;opacity:0} 10%{opacity:1} 90%{opacity:1} 100%{left:100%;opacity:0} }
@@ -1016,7 +1064,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
 // Premium Lucide-style icons: each node has icons[] array of path strings
 var WORKFLOWS = {
  lead: {
-   title: 'lead-nurture.workflow', manual: '47 min / lead', apis: 4, time: '1.8s', saving: '£38,000/yr',
+   title: 'lead-nurture.workflow', manual: '47 min / lead', apis: 4, time: '1.8s', saving: '£38,000/yr', ratio: '1,566×', timing: [45, 312, 524, 188, 142, 636],
    nodes: [
      { type:'Trigger', label:'Form submission', color:'#E8B4B0', textColor:'#c4847e',
        icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
@@ -1047,7 +1095,7 @@ var WORKFLOWS = {
    ]
  },
  invoice: {
-   title: 'invoice-chase.workflow', manual: '2.5h / invoice', apis: 5, time: '2.2s', saving: '£52,000/yr',
+   title: 'invoice-chase.workflow', manual: '2.5h / invoice', apis: 5, time: '2.2s', saving: '£52,000/yr', ratio: '4,090×', timing: [38, 445, 612, 287, 394, 435],
    nodes: [
      { type:'Trigger', label:'Deal closed', color:'#E8B4B0', textColor:'#c4847e',
        icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
@@ -1078,7 +1126,7 @@ var WORKFLOWS = {
    ]
  },
  support: {
-   title: 'support-triage.workflow', manual: '45 min / ticket', apis: 5, time: '0.9s', saving: '£29,000/yr',
+   title: 'support-triage.workflow', manual: '45 min / ticket', apis: 5, time: '0.9s', saving: '£29,000/yr', ratio: '3,000×', timing: [35, 198, 224, 187, 155, 113],
    nodes: [
      { type:'Trigger', label:'Ticket received', color:'#E8B4B0', textColor:'#c4847e',
        icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
@@ -1109,7 +1157,7 @@ var WORKFLOWS = {
    ]
  },
  report: {
-   title: 'kpi-report.workflow', manual: '4h / week', apis: 4, time: '4.2s', saving: '£44,000/yr',
+   title: 'kpi-report.workflow', manual: '4h / week', apis: 4, time: '4.2s', saving: '£44,000/yr', ratio: '3,428×', timing: [28, 1847, 1820, 388, 134],
    nodes: [
      { type:'Schedule', label:'Monday 8 am', color:'#C89840', textColor:'#C89840',
        icons:['M8 7V3m8 4V3','M3 11h18','M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'],
@@ -1137,7 +1185,7 @@ var WORKFLOWS = {
    ]
  },
  appt: {
-   title: 'appt-reminders.workflow', manual: '25 min / booking', apis: 3, time: '1.4s', saving: '£31,000/yr',
+   title: 'appt-reminders.workflow', manual: '25 min / booking', apis: 3, time: '1.4s', saving: '£31,000/yr', ratio: '1,071×', timing: [41, 387, 492, 345, 124],
    nodes: [
      { type:'Trigger', label:'New booking', color:'#E8B4B0', textColor:'#c4847e',
        icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
@@ -1164,7 +1212,7 @@ var WORKFLOWS = {
    ]
  },
  onboarding: {
-   title: 'client-onboarding.workflow', manual: '3.5h / client', apis: 6, time: '3.1s', saving: '£61,000/yr',
+   title: 'client-onboarding.workflow', manual: '3.5h / client', apis: 6, time: '3.1s', saving: '£61,000/yr', ratio: '4,064×', timing: [42, 588, 712, 891, 424, 445],
    nodes: [
      { type:'Trigger', label:'Contract signed', color:'#E8B4B0', textColor:'#c4847e',
        icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
@@ -1285,6 +1333,8 @@ function runWorkflow() {
    var lbl = c.querySelector('.node-status span');
    if (dot) dot.style.background = 'rgba(255,255,255,0.15)';
    if (lbl) { lbl.textContent = 'Idle'; lbl.style.color = 'rgba(255,255,255,0.55)'; }
+   // Remove timing badges
+   c.querySelectorAll('div[style*="74,222,128,0.12"]').forEach(function(b){ b.remove(); });
  });
  document.querySelectorAll('.wf-connector').forEach(function(c) { c.classList.remove('done','running'); c.innerHTML = ''; });
 
@@ -1317,6 +1367,13 @@ function runWorkflow() {
      card.classList.add('done');
      var lbl = card.querySelector('.node-status-text');
      if (lbl) lbl.textContent = node.done;
+     // Timing badge
+     if (wf.timing && wf.timing[i]) {
+       var badge = document.createElement('div');
+       badge.style.cssText = 'position:absolute;top:7px;right:7px;font-size:8px;font-weight:700;font-family:monospace;padding:2px 5px;border-radius:5px;background:rgba(74,222,128,0.12);color:rgba(74,222,128,0.65);animation:fadeLog 0.3s ease-out;';
+       badge.textContent = wf.timing[i] + 'ms';
+       card.appendChild(badge);
+     }
 
      if (i > 0) {
        var conn = document.getElementById('conn-' + (i-1));
@@ -1352,9 +1409,9 @@ function runWorkflow() {
    document.getElementById('wf-status-label').textContent = 'Complete';
    var rb = document.getElementById('wf-result-bar');
    rb.classList.remove('hidden');
-   rb.style.display = 'flex';
    document.getElementById('rb-time').textContent = wf.time;
-   document.getElementById('rb-apis').textContent = apis + ' calls';
+   document.getElementById('rb-ratio').textContent = wf.ratio || '';
+   document.getElementById('rb-apis').textContent = apis;
    document.getElementById('rb-manual').textContent = wf.manual;
    document.getElementById('rb-saving').textContent = wf.saving;
 
