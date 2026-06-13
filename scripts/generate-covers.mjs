@@ -100,8 +100,9 @@ function generateSVG(article) {
 
   // ── Build title text elements ───────────────────────────────
   let titleSVG = '';
+  const TX = 120; // title left margin (matches X below)
   mainLines.forEach((ln, i) => {
-    titleSVG += `\n  <text x="64" y="${blockTop + i * lineH}" font-family="Georgia,'Times New Roman',serif" font-size="${fontSize}" font-weight="400" fill="#F8F6F1" letter-spacing="-1.5" xml:space="preserve">${escXml(ln)}</text>`;
+    titleSVG += `\n  <text x="${TX}" y="${blockTop + i * lineH}" font-family="Georgia,'Times New Roman',serif" font-size="${fontSize}" font-weight="400" fill="#F8F6F1" opacity="0.12" letter-spacing="-1.5" xml:space="preserve">${escXml(ln)}</text>`;
   });
 
   if (subLines.length > 0) {
@@ -109,7 +110,7 @@ function generateSVG(article) {
     const subLineH = Math.round(subFontSize * 1.4);
     const subTop = blockTop + mainLines.length * lineH + 24;
     subLines.forEach((ln, i) => {
-      titleSVG += `\n  <text x="64" y="${subTop + i * subLineH}" font-family="Georgia,'Times New Roman',serif" font-size="${subFontSize}" font-weight="400" fill="#F8F6F1" opacity="0.42" letter-spacing="0" xml:space="preserve">${escXml(ln)}</text>`;
+      titleSVG += `\n  <text x="${TX}" y="${subTop + i * subLineH}" font-family="Georgia,'Times New Roman',serif" font-size="${subFontSize}" font-weight="400" fill="#F8F6F1" opacity="0.08" letter-spacing="0" xml:space="preserve">${escXml(ln)}</text>`;
     });
   }
 
@@ -121,6 +122,8 @@ function generateSVG(article) {
     return `<circle cx="${cx}" cy="${cy}" r="${r}" stroke="#E8B4B0" stroke-width="0.6" fill="none" opacity="${op}"/>`;
   }).join('\n  ');
 
+  const X = 120; // left margin
+
   // ── Assemble SVG ───────────────────────────────────────────
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">
   <!-- Background -->
@@ -130,25 +133,25 @@ function generateSVG(article) {
   ${circles}
 
   <!-- Top rule -->
-  <line x1="64" y1="88" x2="1136" y2="88" stroke="#F8F6F1" stroke-width="0.5" opacity="0.08"/>
+  <line x1="${X}" y1="88" x2="1136" y2="88" stroke="#F8F6F1" stroke-width="0.5" opacity="0.08"/>
 
   <!-- PURIST wordmark -->
-  <text x="64" y="68" font-family="Georgia,'Times New Roman',serif" font-size="12" font-weight="400" fill="#F8F6F1" letter-spacing="8" opacity="0.9">PURIST</text>
+  <text x="${X}" y="68" font-family="Georgia,'Times New Roman',serif" font-size="12" font-weight="400" fill="#F8F6F1" letter-spacing="8" opacity="0.9">PURIST</text>
 
   <!-- Category label -->
-  <text x="64" y="138" font-family="Georgia,'Times New Roman',serif" font-size="9.5" font-weight="400" fill="#E8B4B0" letter-spacing="5">${escXml(catLabel)}</text>
+  <text x="${X}" y="138" font-family="Georgia,'Times New Roman',serif" font-size="9.5" font-weight="400" fill="#E8B4B0" letter-spacing="5">${escXml(catLabel)}</text>
 
   <!-- Category dash -->
-  <rect x="64" y="152" width="36" height="1.5" fill="#E8B4B0" opacity="0.45"/>
+  <rect x="${X}" y="152" width="36" height="1.5" fill="#E8B4B0" opacity="0.45"/>
 
   <!-- Article title -->
   ${titleSVG}
 
   <!-- Bottom rule -->
-  <line x1="64" y1="548" x2="1136" y2="548" stroke="#F8F6F1" stroke-width="0.5" opacity="0.08"/>
+  <line x1="${X}" y1="548" x2="1136" y2="548" stroke="#F8F6F1" stroke-width="0.5" opacity="0.08"/>
 
   <!-- Bottom labels -->
-  <text x="64" y="576" font-family="Georgia,'Times New Roman',serif" font-size="9.5" fill="#F8F6F1" letter-spacing="3" opacity="0.18">purist.online</text>
+  <text x="${X}" y="576" font-family="Georgia,'Times New Roman',serif" font-size="9.5" fill="#F8F6F1" letter-spacing="3" opacity="0.18">purist.online</text>
   <text x="1136" y="576" font-family="Georgia,'Times New Roman',serif" font-size="9.5" fill="#E8B4B0" letter-spacing="2" opacity="0.38" text-anchor="end">${escXml(article.readingTime?.toUpperCase() ?? '')}</text>
 </svg>`;
 }
