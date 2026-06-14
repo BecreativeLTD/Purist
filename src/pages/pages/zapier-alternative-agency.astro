@@ -1,0 +1,167 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+---
+
+<ShopLayout
+  title="Switch From Zapier to n8n — Free Migration Audit | PURIST"
+  description="n8n costs 70% less than Zapier with no task limits. PURIST migrates your entire Zapier stack to n8n in under 14 days. Free migration audit."
+  canonical="https://www.purist.online/pages/zapier-alternative-agency"
+>
+
+<!-- JSON-LD Schema -->
+<script type="application/ld+json" is:inline>{JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Zapier to n8n Migration Agency — PURIST",
+  "description": "Migrate your entire Zapier stack to n8n in under 14 days. 70% cost reduction, no task limits, full ownership of your automation infrastructure.",
+  "url": "https://www.purist.online/pages/zapier-alternative-agency",
+  "provider": {
+    "@type": "Organization",
+    "name": "PURIST",
+    "url": "https://www.purist.online"
+  },
+  "areaServed": ["GB", "US", "AU", "IE"],
+  "serviceType": "Zapier Alternative Migration",
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "GBP",
+    "price": "1499",
+    "description": "Full Zapier to n8n migration service"
+  }
+})}</script>
+
+<!-- Hero -->
+<section style="background:#0A0A0A;color:#F8F6F1;padding:5rem 0 4rem;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 55% 50% at 50% 0%,rgba(232,180,176,0.07) 0%,transparent 65%);"></div>
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1;">
+    <div style="max-width:780px;margin:0 auto;text-align:center;">
+      <div style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.375rem 0.875rem;border-radius:999px;border:1px solid rgba(232,180,176,0.28);background:rgba(232,180,176,0.06);margin-bottom:1.5rem;">
+        <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.16em;font-weight:600;color:rgba(232,180,176,0.8);">70% Lower Cost · No Task Limits · 14-Day Migration · Free Audit</span>
+      </div>
+      <h1 style="font-family:Georgia,serif;font-size:clamp(2.1rem,5vw,3.3rem);line-height:1.08;letter-spacing:-0.025em;color:#F8F6F1;margin-bottom:1.25rem;">
+        The Best Zapier Alternative<br/><em style="font-style:italic;color:#E8B4B0;">Is n8n — and We'll Migrate You in 14 Days</em>
+      </h1>
+      <p style="font-size:1.0625rem;line-height:1.7;color:rgba(248,246,241,0.52);max-width:630px;margin:0 auto 2.5rem;">
+        Zapier charges you per task, limits your workflows and holds your data in their cloud. n8n runs on your own server with unlimited executions and no per-task fees. PURIST migrates your entire Zapier stack to n8n — zero downtime, full documentation, ongoing monitoring included.
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:3rem;">
+        <a href="/pages/welcome" style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:1rem 2rem;border-radius:10px;font-size:0.875rem;font-weight:600;text-decoration:none;">Get a free migration audit →</a>
+        <a href="/collections/all" style="display:inline-block;background:rgba(255,255,255,0.06);color:rgba(248,246,241,0.7);border:1px solid rgba(255,255,255,0.12);padding:1rem 2rem;border-radius:10px;font-size:0.875rem;font-weight:500;text-decoration:none;">View migration plans</a>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:2.5rem;">
+        {[['70%','Cost saving vs Zapier'],['14 days','Full migration time'],['0','Task limits on n8n'],['99.97%','Post-migration uptime']].map(([n,l]) => (
+          <div style="text-align:center;">
+            <p style="font-family:Georgia,serif;font-size:1.75rem;line-height:1;margin-bottom:0.25rem;color:#E8B4B0;">{n}</p>
+            <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(248,246,241,0.3);">{l}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Zapier vs n8n cost comparison -->
+<section style="background:#F8F6F1;padding:5rem 0;">
+  <div style="max-width:900px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 3rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#0A0A0A;margin-bottom:1rem;">Why Businesses Are Leaving Zapier</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.55);">Zapier was built for simplicity at small scale. When your business grows, the per-task pricing model punishes you for success. Here is what that looks like in numbers.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:3rem;">
+      <div style="background:white;border:1px solid rgba(10,10,10,0.1);border-radius:16px;padding:2rem;">
+        <p style="font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(10,10,10,0.4);font-weight:600;margin-bottom:1rem;">Zapier — at scale</p>
+        {[
+          ['Professional plan (2,000 tasks/mo)', '£73/mo'],
+          ['Team plan (50,000 tasks/mo)', '£399/mo'],
+          ['Enterprise (unlimited)', '£799+/mo'],
+          ['Per-task overage charges', 'Unpredictable'],
+          ['Data sovereignty', '✗ Stored on Zapier servers'],
+          ['Self-hosted option', '✗ Not available'],
+          ['Custom code nodes', '✗ Restricted'],
+        ].map(([item, value]) => (
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.625rem 0;border-bottom:1px solid rgba(10,10,10,0.05);">
+            <p style="font-size:0.8125rem;color:rgba(10,10,10,0.65);">{item}</p>
+            <p style="font-size:0.8125rem;font-weight:600;color:rgba(10,10,10,0.5);">{value}</p>
+          </div>
+        ))}
+      </div>
+      <div style="background:#0A0A0A;border-radius:16px;padding:2rem;border:2px solid rgba(232,180,176,0.3);">
+        <p style="font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:#E8B4B0;font-weight:600;margin-bottom:1rem;">n8n via PURIST</p>
+        {[
+          ['Automation Pro (unlimited workflows)', '£799/mo'],
+          ['Enterprise (dedicated server)', '£3,499/mo'],
+          ['Task limits', '✓ None — unlimited executions'],
+          ['Overage charges', '✓ Never'],
+          ['Data sovereignty', '✓ Your server, your data'],
+          ['Self-hosted', '✓ Full control'],
+          ['Custom code nodes', '✓ Full JavaScript access'],
+        ].map(([item, value]) => (
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.625rem 0;border-bottom:1px solid rgba(255,255,255,0.06);">
+            <p style="font-size:0.8125rem;color:rgba(248,246,241,0.55);">{item}</p>
+            <p style="font-size:0.8125rem;font-weight:600;color:#E8B4B0;">{value}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div style="background:rgba(232,180,176,0.12);border:1px solid rgba(232,180,176,0.3);border-radius:14px;padding:1.5rem;text-align:center;">
+      <p style="font-size:1rem;font-weight:600;color:#0A0A0A;">The average business running 50,000 tasks/month on Zapier saves <span style="color:#c4766f;">£2,400–£4,200 per year</span> after migrating to n8n via PURIST — including the migration cost.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Migration process -->
+<section style="background:#0A0A0A;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 3rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#F8F6F1;margin-bottom:1rem;">How the Migration Works — Day by Day</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(248,246,241,0.45);">Zero downtime. We run n8n in parallel with your Zapier zaps before you cut over. Nothing goes live until it passes testing on your real data.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem;">
+      {[
+        { days: 'Day 1–2', phase: 'Audit & Inventory', detail: 'We export and document every active Zap — inputs, outputs, frequency, business criticality and dependencies. You get a full map of your automation stack.' },
+        { days: 'Day 3–5', phase: 'n8n Environment Setup', detail: 'We provision your dedicated n8n server, configure security, set up monitoring and establish the integration credentials — all on your infrastructure.' },
+        { days: 'Day 5–10', phase: 'Parallel Build & Test', detail: 'We rebuild every Zap as an n8n workflow. Each is tested with live data in parallel with your existing Zapier zaps so you have full confidence before cutover.' },
+        { days: 'Day 10–12', phase: 'Cutover & Validation', detail: 'We cut over workflow by workflow, validating output at each step. Your Zapier account stays active for two weeks as a safety net before cancellation.' },
+        { days: 'Day 12–14', phase: 'Documentation & Handoff', detail: 'Full workflow documentation, runbooks for every edge case and a training session for your team. You own everything — no lock-in.' },
+        { days: 'Ongoing', phase: '24/7 Monitoring', detail: 'Every workflow monitored with Slack alerts and 1-hour SLA response. Monthly optimisation reviews included in all PURIST plans.' },
+      ].map(({ days, phase, detail }) => (
+        <div style="border:1px solid rgba(232,180,176,0.12);border-radius:14px;padding:1.5rem;">
+          <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:#E8B4B0;font-weight:600;margin-bottom:0.5rem;">{days}</p>
+          <h3 style="font-family:Georgia,serif;font-size:1.0625rem;color:#F8F6F1;margin-bottom:0.625rem;">{phase}</h3>
+          <p style="font-size:0.8125rem;line-height:1.7;color:rgba(248,246,241,0.45);">{detail}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- What we migrate -->
+<section style="background:#F8F6F1;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 3rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#0A0A0A;margin-bottom:1rem;">Every Integration We've Migrated</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.55);">n8n supports 400+ native integrations and any custom API. Below are the most common Zapier integrations we migrate — all with battle-tested n8n equivalents.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0.75rem;">
+      {[
+        'HubSpot CRM','Salesforce','Google Sheets','Slack','Gmail','Outlook','Stripe','Xero','QuickBooks','Typeform','Calendly','Notion','Airtable','Shopify','WooCommerce','ActiveCampaign','Mailchimp','Intercom','Zendesk','Twilio','Pipedrive','Monday.com','Asana','ClickUp','Webflow'
+      ].map(app => (
+        <div style="background:white;border:1px solid rgba(10,10,10,0.08);border-radius:10px;padding:0.75rem 1rem;text-align:center;">
+          <p style="font-size:0.8125rem;color:rgba(10,10,10,0.65);font-weight:500;">{app}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:#E8B4B0;padding:4rem 0;">
+  <div style="max-width:680px;margin:0 auto;padding:0 1.5rem;text-align:center;">
+    <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.3rem);color:#0A0A0A;margin-bottom:1rem;">Free Migration Audit — See Your Savings Before You Commit</h2>
+    <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.65);margin-bottom:2rem;">We audit your current Zapier account, calculate your exact annual saving after migrating to n8n and give you a written migration plan — all free, no commitment required. Most clients recover the migration cost within 3 months.</p>
+    <a href="/pages/welcome" style="display:inline-block;background:#0A0A0A;color:#F8F6F1;padding:1.125rem 2.5rem;border-radius:10px;font-size:0.9375rem;font-weight:600;text-decoration:none;">Book free migration audit →</a>
+    <p style="font-size:0.75rem;color:rgba(10,10,10,0.45);margin-top:1rem;">No commitment · Zero downtime migration · 30-day money-back guarantee</p>
+  </div>
+</section>
+
+</ShopLayout>

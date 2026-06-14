@@ -1,5 +1,32 @@
 {
   "framework": "astro",
   "buildCommand": "npm run build",
-  "installCommand": "npm ci --legacy-peer-deps"
+  "installCommand": "npm ci --legacy-peer-deps",
+  "redirects": [
+    {
+      "source": "/pages/purist-vs-zapier",
+      "destination": "/pages/purist-vs-green-powders",
+      "permanent": true
+    },
+    {
+      "source": "/pages/purist-vs-make",
+      "destination": "/pages/purist-vs-multivitamins",
+      "permanent": true
+    },
+    {
+      "source": "/pages/purist-vs-integromat",
+      "destination": "/pages/purist-vs-multivitamins",
+      "permanent": true
+    },
+    {
+      "source": "/pages/purist-vs-hiring",
+      "destination": "/pages/purist-vs-meal-replacements",
+      "permanent": true
+    },
+    {
+      "source": "/pages/purist-vs-hiring-in-house",
+      "destination": "/pages/purist-vs-meal-replacements",
+      "permanent": true
+    }
+  ]
 }

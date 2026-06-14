@@ -1,0 +1,168 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+---
+
+<ShopLayout
+  title="AI Agent Development UK — Custom Claude AI Agents | PURIST"
+  description="Custom Claude AI agents for scheduling, lead qualification, support and document processing. Integrated with your CRM and tools. Free proof-of-concept."
+  canonical="https://www.purist.online/pages/ai-agent-development"
+>
+
+<!-- JSON-LD Schema -->
+<script type="application/ld+json" is:inline>{JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "AI Agent Development UK — PURIST",
+  "description": "Custom Claude AI agents for UK businesses. Lead qualification, scheduling, support automation and document processing. Integrated with your existing CRM and tools.",
+  "url": "https://www.purist.online/pages/ai-agent-development",
+  "provider": {
+    "@type": "Organization",
+    "name": "PURIST",
+    "url": "https://www.purist.online"
+  },
+  "areaServed": "GB",
+  "serviceType": "AI Agent Development",
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "GBP",
+    "price": "999",
+    "availability": "https://schema.org/InStock"
+  }
+})}</script>
+
+<!-- Hero -->
+<section style="background:#0A0A0A;color:#F8F6F1;padding:5rem 0 4rem;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 55% at 50% 0%,rgba(232,180,176,0.07) 0%,transparent 65%);"></div>
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1;">
+    <div style="max-width:780px;margin:0 auto;text-align:center;">
+      <div style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.375rem 0.875rem;border-radius:999px;border:1px solid rgba(232,180,176,0.28);background:rgba(232,180,176,0.06);margin-bottom:1.5rem;">
+        <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.16em;font-weight:600;color:rgba(232,180,176,0.8);">Custom AI Agents · Claude API · n8n Integration · UK-Based</span>
+      </div>
+      <h1 style="font-family:Georgia,serif;font-size:clamp(2.1rem,5vw,3.3rem);line-height:1.08;letter-spacing:-0.025em;color:#F8F6F1;margin-bottom:1.25rem;">
+        AI Agent Development<br/><em style="font-style:italic;color:#E8B4B0;">That Runs Your Business, Not Just Demos</em>
+      </h1>
+      <p style="font-size:1.0625rem;line-height:1.7;color:rgba(248,246,241,0.52);max-width:620px;margin:0 auto 2.5rem;">
+        We build custom Claude AI agents that handle your most time-consuming intelligent tasks — lead qualification, appointment scheduling, document processing and support triage — and integrate them directly into your existing CRM and tools.
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:3rem;">
+        <a href="/pages/welcome" style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:1rem 2rem;border-radius:10px;font-size:0.875rem;font-weight:600;text-decoration:none;">Get a free proof-of-concept →</a>
+        <a href="/products/longevity-protocol" style="display:inline-block;background:rgba(255,255,255,0.06);color:rgba(248,246,241,0.7);border:1px solid rgba(255,255,255,0.12);padding:1rem 2rem;border-radius:10px;font-size:0.875rem;font-weight:500;text-decoration:none;">See AI Agent Deploy plan</a>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:2.5rem;">
+        {[['200+','AI agents in production'],['8 min','Avg lead response time'],['95%','Less manual data entry'],['4.9★','Client satisfaction']].map(([n,l]) => (
+          <div style="text-align:center;">
+            <p style="font-family:Georgia,serif;font-size:1.75rem;line-height:1;margin-bottom:0.25rem;color:#E8B4B0;">{n}</p>
+            <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(248,246,241,0.3);">{l}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- What are AI agents -->
+<section style="background:#F8F6F1;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;">
+      <div>
+        <h2 style="font-family:Georgia,serif;font-size:clamp(1.5rem,3vw,2.2rem);color:#0A0A0A;margin-bottom:1.25rem;">What Is a Custom AI Agent?</h2>
+        <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.6);margin-bottom:1rem;">An AI agent is software that perceives input (emails, form submissions, documents, messages), reasons about what action to take, and then acts — without a human in the loop for routine decisions.</p>
+        <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.6);margin-bottom:1rem;">Unlike a chatbot (which only responds), or a workflow (which only routes), an AI agent uses a large language model — specifically Claude by Anthropic — to understand context, handle edge cases and make judgements at scale.</p>
+        <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.6);">We build agents that integrate directly with your CRM, calendar, inbox and existing tools. They work inside your infrastructure — not as a separate product your team has to switch to.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.875rem;">
+        <p style="font-size:0.8125rem;text-transform:uppercase;letter-spacing:0.1em;color:rgba(10,10,10,0.4);font-weight:600;margin-bottom:0.25rem;">What AI agents replace</p>
+        {[
+          ['Manual lead scoring', 'AI qualifies every inbound lead against your ICP criteria within seconds of submission'],
+          ['Human triage of support tickets', 'AI reads, categorises and routes tickets — escalating only what needs a human'],
+          ['Data extraction from documents', 'AI reads contracts, invoices and forms and populates your CRM fields automatically'],
+          ['Appointment coordination', 'AI handles scheduling back-and-forth, confirmations and reminders without human input'],
+          ['First-line customer replies', 'AI drafts or sends personalised responses to common queries with the right context'],
+        ].map(([task, desc]) => (
+          <div style="background:white;border:1px solid rgba(10,10,10,0.08);border-radius:12px;padding:1.125rem 1.25rem;">
+            <p style="font-size:0.8125rem;font-weight:600;color:#0A0A0A;margin-bottom:0.25rem;">{task}</p>
+            <p style="font-size:0.8125rem;line-height:1.6;color:rgba(10,10,10,0.5);">{desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Four core agent types -->
+<section style="background:#0A0A0A;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 3rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#F8F6F1;margin-bottom:1rem;">Four AI Agent Types We Deploy in Production</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(248,246,241,0.45);">Each agent type is built on Claude, orchestrated by n8n and deployed into your existing infrastructure. No new products to learn. No new dashboards to check.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem;">
+      {[
+        {
+          type: 'Lead Qualification Agent',
+          description: 'Reads inbound leads from your CRM, website forms or LinkedIn. Scores against your ICP, enriches with company data, writes a qualification summary and updates your pipeline — all within 30 seconds of submission.',
+          results: 'Avg 8-min response vs 4-hour industry average. 73% higher connect rate.',
+        },
+        {
+          type: 'Support Triage Agent',
+          description: 'Reads incoming support emails and tickets, classifies by urgency and topic, drafts personalised responses for tier-1 queries, and escalates complex issues with full context to the right team member.',
+          results: '85% faster first response. Tier-1 tickets handled without human review.',
+        },
+        {
+          type: 'Document Processing Agent',
+          description: 'Extracts structured data from invoices, contracts, applications and reports. Populates your CRM, triggers follow-up workflows and flags anomalies — processing hundreds of documents per hour.',
+          results: '95% reduction in manual data entry. Errors near zero.',
+        },
+        {
+          type: 'Scheduling & Coordination Agent',
+          description: 'Manages the back-and-forth of appointment booking, sends personalised reminders, handles reschedule requests and syncs across Google Calendar, Outlook and booking platforms.',
+          results: '40% fewer no-shows. Zero double-bookings. Fully autonomous.',
+        },
+      ].map(({ type, description, results }) => (
+        <div style="border:1px solid rgba(232,180,176,0.15);border-radius:16px;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;">
+          <h3 style="font-family:Georgia,serif;font-size:1.125rem;color:#E8B4B0;">{type}</h3>
+          <p style="font-size:0.875rem;line-height:1.7;color:rgba(248,246,241,0.5);">{description}</p>
+          <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:0.875rem;">
+            <p style="font-size:0.75rem;color:rgba(248,246,241,0.35);font-style:italic;">{results}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Tech stack -->
+<section style="background:#F8F6F1;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 3rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#0A0A0A;margin-bottom:1rem;">The Technology Behind Every Agent</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.55);">We use the most capable models for each task, orchestrated by infrastructure that has been running in production — not prototype — environments since 2023.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;">
+      {[
+        { tech: 'Claude by Anthropic', role: 'Core reasoning model', detail: 'Claude 3.5 Sonnet and Claude 3 Opus power our agents. Best-in-class at following complex instructions, nuanced reasoning and producing reliable structured output.' },
+        { tech: 'n8n Orchestration', role: 'Workflow backbone', detail: 'Every agent action is orchestrated by n8n workflows — giving you full visibility, audit trails, error handling and the ability to inspect every decision the agent makes.' },
+        { tech: 'Vector Memory', role: 'Business context', detail: 'Agents are trained on your SOPs, product catalogue, pricing rules and customer history. They answer in the context of your business, not generic knowledge.' },
+        { tech: 'Human-in-the-Loop', role: 'Safety by design', detail: 'For high-stakes decisions, agents route to a human for review before acting. You control the confidence threshold. Nothing irreversible happens without your approval rules.' },
+      ].map(({ tech, role, detail }) => (
+        <div style="background:white;border:1px solid rgba(10,10,10,0.08);border-radius:16px;padding:1.75rem;">
+          <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:#E8B4B0;font-weight:600;margin-bottom:0.375rem;">{role}</p>
+          <h3 style="font-family:Georgia,serif;font-size:1.125rem;color:#0A0A0A;margin-bottom:0.625rem;">{tech}</h3>
+          <p style="font-size:0.875rem;line-height:1.7;color:rgba(10,10,10,0.55);">{detail}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:#E8B4B0;padding:4rem 0;">
+  <div style="max-width:680px;margin:0 auto;padding:0 1.5rem;text-align:center;">
+    <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.3rem);color:#0A0A0A;margin-bottom:1rem;">Start With a Free AI Agent Proof-of-Concept</h2>
+    <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.65);margin-bottom:2rem;">We build a working proof-of-concept for your highest-impact use case before you commit. See real output on your real data. Then decide. No payment required until you approve the POC.</p>
+    <a href="/pages/welcome" style="display:inline-block;background:#0A0A0A;color:#F8F6F1;padding:1.125rem 2.5rem;border-radius:10px;font-size:0.9375rem;font-weight:600;text-decoration:none;">Get your free proof-of-concept →</a>
+    <p style="font-size:0.75rem;color:rgba(10,10,10,0.45);margin-top:1rem;">No payment required · UK-based team · Response within 1 business day</p>
+  </div>
+</section>
+
+</ShopLayout>

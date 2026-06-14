@@ -1,0 +1,158 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+---
+
+<ShopLayout
+  title="Workflow Automation Services — 99.97% Uptime | PURIST"
+  description="End-to-end workflow automation services. From audit to deployment in 5-10 days. n8n, Make, Zapier and Claude AI. 500+ businesses automated."
+  canonical="https://www.purist.online/pages/workflow-automation-services"
+>
+
+<!-- JSON-LD Schema -->
+<script type="application/ld+json" is:inline>{JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Workflow Automation Services — PURIST",
+  "description": "End-to-end workflow automation services. Audit to deployment in 5-10 days. n8n, Make, Zapier and Claude AI. 99.97% uptime SLA.",
+  "url": "https://www.purist.online/pages/workflow-automation-services",
+  "provider": {
+    "@type": "Organization",
+    "name": "PURIST",
+    "url": "https://www.purist.online"
+  },
+  "areaServed": ["GB", "US", "AU", "IE"],
+  "serviceType": "Workflow Automation Services",
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "GBP",
+    "price": "799",
+    "availability": "https://schema.org/InStock"
+  }
+})}</script>
+
+<!-- Hero -->
+<section style="background:#0A0A0A;color:#F8F6F1;padding:5rem 0 4rem;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 55% 50% at 50% 0%,rgba(232,180,176,0.07) 0%,transparent 65%);"></div>
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1;">
+    <div style="max-width:780px;margin:0 auto;text-align:center;">
+      <div style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.375rem 0.875rem;border-radius:999px;border:1px solid rgba(232,180,176,0.28);background:rgba(232,180,176,0.06);margin-bottom:1.5rem;">
+        <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.16em;font-weight:600;color:rgba(232,180,176,0.8);">99.97% Uptime SLA · 500+ Workflows · 5–10 Day Deployment</span>
+      </div>
+      <h1 style="font-family:Georgia,serif;font-size:clamp(2.1rem,5vw,3.3rem);line-height:1.08;letter-spacing:-0.025em;color:#F8F6F1;margin-bottom:1.25rem;">
+        Workflow Automation Services<br/><em style="font-style:italic;color:#E8B4B0;">Built for Production, Not Demo Days</em>
+      </h1>
+      <p style="font-size:1.0625rem;line-height:1.7;color:rgba(248,246,241,0.52);max-width:620px;margin:0 auto 2.5rem;">
+        We design, deploy and maintain workflow automation at production scale. From your first audit to live workflows in 5–10 business days. Every deployment comes with 24/7 monitoring and a 99.97% uptime SLA.
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:3rem;">
+        <a href="/pages/welcome" style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:1rem 2rem;border-radius:10px;font-size:0.875rem;font-weight:600;text-decoration:none;">Get a free workflow audit →</a>
+        <a href="/collections/all" style="display:inline-block;background:rgba(255,255,255,0.06);color:rgba(248,246,241,0.7);border:1px solid rgba(255,255,255,0.12);padding:1rem 2rem;border-radius:10px;font-size:0.875rem;font-weight:500;text-decoration:none;">View pricing plans</a>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:2.5rem;">
+        {[['500+','Businesses automated'],['5–10','Days to deployment'],['99.97%','Uptime SLA'],['14h','Saved per week avg']].map(([n,l]) => (
+          <div style="text-align:center;">
+            <p style="font-family:Georgia,serif;font-size:1.75rem;line-height:1;margin-bottom:0.25rem;color:#E8B4B0;">{n}</p>
+            <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(248,246,241,0.3);">{l}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Core services -->
+<section style="background:#F8F6F1;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:680px;margin:0 auto 3rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#0A0A0A;margin-bottom:1rem;">End-to-End Workflow Automation Services</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.55);">From discovery to deployment to maintenance — we handle every step. You get working automations, not a Notion doc with suggestions.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;">
+      {[
+        { title: 'Workflow Discovery & Audit', time: 'Day 1–2', body: 'We map every manual process costing your team time. We calculate ROI for each automation opportunity and prioritise by impact, complexity and speed to value.' },
+        { title: 'Architecture Design', time: 'Day 2–3', body: 'Before writing a single node, we design the full workflow architecture — data flows, triggers, error handling, retry logic and integration points across all your tools.' },
+        { title: 'Build & Test', time: 'Day 3–8', body: 'Certified engineers build your workflows in n8n, Make or the platform that fits your stack. Every workflow is tested with real data in a staging environment before going live.' },
+        { title: 'Production Deployment', time: 'Day 8–10', body: 'We deploy to your production environment with full monitoring enabled. Slack alerts for every error. Automated retries. Dead-letter queues. Nothing fails silently.' },
+        { title: '24/7 Monitoring & Support', time: 'Ongoing', body: 'Every workflow is monitored around the clock. We receive failure alerts before your team notices anything is wrong and fix issues with our 1-hour SLA response time.' },
+        { title: 'Monthly Optimisation', time: 'Ongoing', body: 'We review workflow performance monthly — identifying bottlenecks, optimising run times and adding capabilities as your operations scale.' },
+      ].map(({ title, time, body }) => (
+        <div style="background:white;border:1px solid rgba(10,10,10,0.08);border-radius:16px;padding:1.75rem;">
+          <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:#E8B4B0;font-weight:600;margin-bottom:0.5rem;">{time}</p>
+          <h3 style="font-family:Georgia,serif;font-size:1.125rem;color:#0A0A0A;margin-bottom:0.625rem;">{title}</h3>
+          <p style="font-size:0.875rem;line-height:1.7;color:rgba(10,10,10,0.55);">{body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Workflow types -->
+<section style="background:#0A0A0A;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 3rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#F8F6F1;margin-bottom:1rem;">12 Core Workflow Categories We Automate</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(248,246,241,0.45);">Every business has the same core workflows wasting time. We have production-tested solutions for all of them.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.875rem;">
+      {[
+        'Lead Capture & CRM Sync','Email Sequence Automation','Invoice & Payment Processing','Client Onboarding Flows','Support Ticket Routing','Appointment Scheduling','Inventory & Order Sync','Social Media Scheduling','Report Generation','Contract Workflow','Referral Tracking','Data Backup & Monitoring'
+      ].map(item => (
+        <div style="border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:1rem 1.125rem;display:flex;align-items:center;gap:0.625rem;">
+          <span style="color:#E8B4B0;font-size:0.875rem;font-weight:700;">✓</span>
+          <p style="font-size:0.8125rem;color:rgba(248,246,241,0.65);">{item}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Comparison table -->
+<section style="background:#F8F6F1;padding:5rem 0;">
+  <div style="max-width:900px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 3rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#0A0A0A;margin-bottom:1rem;">PURIST vs. DIY Automation vs. Hiring In-House</h2>
+    </div>
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.875rem;">
+        <thead>
+          <tr style="border-bottom:2px solid rgba(10,10,10,0.1);">
+            <th style="text-align:left;padding:0.875rem 1rem;color:rgba(10,10,10,0.5);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:600;"></th>
+            <th style="text-align:center;padding:0.875rem 1rem;background:#0A0A0A;color:#E8B4B0;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:600;border-radius:8px 8px 0 0;">PURIST</th>
+            <th style="text-align:center;padding:0.875rem 1rem;color:rgba(10,10,10,0.5);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:600;">DIY</th>
+            <th style="text-align:center;padding:0.875rem 1rem;color:rgba(10,10,10,0.5);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:600;">In-House Hire</th>
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            ['Time to first workflow live', '5–10 days', '4–8 weeks', '3–6 months'],
+            ['Monthly cost', 'From £799/mo', 'Unpredictable', '£3,500–5,000/mo'],
+            ['24/7 monitoring', '✓ Included', '✗', '✗ (not after hours)'],
+            ['Uptime SLA', '99.97%', 'None', 'None'],
+            ['Documentation', '✓ Full handoff', 'Inconsistent', 'Depends on hire'],
+            ['Error handling & retries', '✓ Built-in', 'Manual', 'Manual'],
+            ['Platform expertise', 'n8n, Make, Zapier, AI', 'Single platform', 'Varies'],
+          ].map(([feature, purist, diy, hire], i) => (
+            <tr style={`border-bottom:1px solid rgba(10,10,10,0.06);${i%2===0?'background:rgba(10,10,10,0.02)':''}`}>
+              <td style="padding:0.875rem 1rem;color:rgba(10,10,10,0.7);font-weight:500;">{feature}</td>
+              <td style="padding:0.875rem 1rem;text-align:center;background:rgba(232,180,176,0.08);color:#0A0A0A;font-weight:600;">{purist}</td>
+              <td style="padding:0.875rem 1rem;text-align:center;color:rgba(10,10,10,0.45);">{diy}</td>
+              <td style="padding:0.875rem 1rem;text-align:center;color:rgba(10,10,10,0.45);">{hire}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:#E8B4B0;padding:4rem 0;">
+  <div style="max-width:680px;margin:0 auto;padding:0 1.5rem;text-align:center;">
+    <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.3rem);color:#0A0A0A;margin-bottom:1rem;">Get Your Workflows Live in Under 10 Days</h2>
+    <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.65);margin-bottom:2rem;">Start with a free workflow audit. We identify your highest-impact automation opportunities and give you a written deployment plan — before you spend a penny.</p>
+    <a href="/pages/welcome" style="display:inline-block;background:#0A0A0A;color:#F8F6F1;padding:1.125rem 2.5rem;border-radius:10px;font-size:0.9375rem;font-weight:600;text-decoration:none;">Book free audit →</a>
+    <p style="font-size:0.75rem;color:rgba(10,10,10,0.45);margin-top:1rem;">No commitment · 30-day money-back guarantee · Cancel anytime</p>
+  </div>
+</section>
+
+</ShopLayout>

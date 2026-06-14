@@ -1,0 +1,143 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+---
+
+<ShopLayout
+  title="Automation Consultant UK — Free Workflow Audit | PURIST"
+  description="Book a free 30-min automation audit with a certified n8n and Claude AI consultant. We map your workflows, identify waste, and deploy fixes in under 10 days."
+  canonical="https://www.purist.online/pages/automation-consultant"
+>
+
+<!-- JSON-LD Schema -->
+<script type="application/ld+json" is:inline>{JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Business Automation Consultant UK — PURIST",
+  "description": "Certified n8n and Claude AI automation consultants. Free 30-minute workflow audit, ROI mapping and production deployment in under 10 days.",
+  "url": "https://www.purist.online/pages/automation-consultant",
+  "provider": {
+    "@type": "Organization",
+    "name": "PURIST",
+    "url": "https://www.purist.online"
+  },
+  "areaServed": "GB",
+  "serviceType": "Business Automation Consulting",
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "GBP",
+    "price": "0",
+    "description": "Free 30-minute automation audit"
+  }
+})}</script>
+
+<!-- Hero -->
+<section style="background:#0A0A0A;color:#F8F6F1;padding:5rem 0 4rem;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 55% at 50% 0%,rgba(232,180,176,0.07) 0%,transparent 65%);"></div>
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1;">
+    <div style="max-width:760px;margin:0 auto;text-align:center;">
+      <div style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.375rem 0.875rem;border-radius:999px;border:1px solid rgba(232,180,176,0.28);background:rgba(232,180,176,0.06);margin-bottom:1.5rem;">
+        <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.16em;font-weight:600;color:rgba(232,180,176,0.8);">Free 30-Min Audit · No Obligation · UK Consultants</span>
+      </div>
+      <h1 style="font-family:Georgia,serif;font-size:clamp(2.1rem,5vw,3.3rem);line-height:1.08;letter-spacing:-0.025em;color:#F8F6F1;margin-bottom:1.25rem;">
+        Business Automation Consultant<br/><em style="font-style:italic;color:#E8B4B0;">That Deploys, Not Just Advises</em>
+      </h1>
+      <p style="font-size:1.0625rem;line-height:1.7;color:rgba(248,246,241,0.52);max-width:600px;margin:0 auto 2.5rem;">
+        Most consultants hand you a report and walk away. We map your workflows, calculate the ROI and deploy the fixes — all within 10 business days. Starting with a free 30-minute audit call.
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:3rem;">
+        <a href="/pages/welcome" style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:1rem 2rem;border-radius:10px;font-size:0.875rem;font-weight:600;text-decoration:none;">Book free 30-min audit →</a>
+        <a href="/products/foundation-pro" style="display:inline-block;background:rgba(255,255,255,0.06);color:rgba(248,246,241,0.7);border:1px solid rgba(255,255,255,0.12);padding:1rem 2rem;border-radius:10px;font-size:0.875rem;font-weight:500;text-decoration:none;">See our packages</a>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:2.5rem;">
+        {[['500+','Businesses audited'],['10 days','Avg. deployment time'],['14h','Saved per week'],['4.9★','Client rating']].map(([n,l]) => (
+          <div style="text-align:center;">
+            <p style="font-family:Georgia,serif;font-size:1.75rem;line-height:1;margin-bottom:0.25rem;color:#E8B4B0;">{n}</p>
+            <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(248,246,241,0.3);">{l}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- The audit process -->
+<section style="background:#F8F6F1;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 3rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#0A0A0A;margin-bottom:1rem;">What Happens in Your Free Audit</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.55);">No sales pitch. A structured 30-minute session where we extract the information needed to calculate your automation ROI with precision.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;">
+      {[
+        { step: '01', title: 'Workflow Mapping', body: 'We walk through every manual process your team does more than twice a week. We document the inputs, outputs, tools involved and time cost of each.' },
+        { step: '02', title: 'Waste Identification', body: 'We apply the TIMWOODS framework to your mapped workflows — identifying transport, inventory, motion, waiting, overproduction, overprocessing and defect waste.' },
+        { step: '03', title: 'ROI Calculation', body: 'Based on your team size, hourly cost and workflow volumes, we calculate a precise monthly ROI figure. Most clients see payback within 4 months.' },
+        { step: '04', title: 'Automation Blueprint', body: 'You receive a written blueprint of which workflows to automate first, which tools to use and what the deployment timeline looks like. Yours to keep, no strings attached.' },
+      ].map(({ step, title, body }) => (
+        <div style="background:white;border:1px solid rgba(10,10,10,0.08);border-radius:16px;padding:1.75rem;position:relative;">
+          <p style="font-family:Georgia,serif;font-size:2.5rem;color:rgba(232,180,176,0.25);line-height:1;margin-bottom:0.75rem;">{step}</p>
+          <h3 style="font-family:Georgia,serif;font-size:1.125rem;color:#0A0A0A;margin-bottom:0.5rem;">{title}</h3>
+          <p style="font-size:0.875rem;line-height:1.7;color:rgba(10,10,10,0.55);">{body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Consultant credentials -->
+<section style="background:#0A0A0A;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 3rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#F8F6F1;margin-bottom:1rem;">Certified Across Every Major Platform</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(248,246,241,0.45);">Our consultants hold active certifications in the tools we recommend — not as generalists, but as specialists who have deployed each platform in production environments.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
+      {[
+        { platform: 'n8n', detail: 'Our primary build platform. Self-hosted, unlimited executions, no vendor lock-in. Certified across all node types including custom JavaScript nodes.' },
+        { platform: 'Claude AI', detail: 'Anthropic API integrations for document processing, lead qualification, support automation and intelligent scheduling workflows.' },
+        { platform: 'Make (Integromat)', detail: 'Complex multi-step scenarios with conditional routing and data stores. Used for integrations requiring visual clarity on complex branching logic.' },
+        { platform: 'Zapier', detail: 'Legacy migration experts. We migrate existing Zapier stacks to n8n when volume and cost make the switch the right commercial decision.' },
+      ].map(({ platform, detail }) => (
+        <div style="border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1.5rem;">
+          <h3 style="font-family:Georgia,serif;font-size:1.25rem;color:#E8B4B0;margin-bottom:0.75rem;">{platform}</h3>
+          <p style="font-size:0.8125rem;line-height:1.7;color:rgba(248,246,241,0.45);">{detail}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Social proof -->
+<section style="background:#F8F6F1;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 3rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#0A0A0A;margin-bottom:1rem;">What Clients Say After Their Audit</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;">
+      {[
+        { name: 'Sarah M.', role: 'Practice Manager · Dental', quote: 'I was sceptical about automation agencies. The honest report after six weeks is that my team stopped doing data entry entirely and our lead response time dropped from 4 hours to 8 minutes. The setup was genuinely painless.' },
+        { name: 'Marcus T.', role: 'Founder · Real Estate', quote: 'I used to juggle eight separate tools. One deployment replaced all of it. The error monitoring is the reason I stayed — nothing breaks silently.' },
+        { name: 'Elena R.', role: 'Director · Consulting Agency', quote: 'Within two weeks we saved 20 hours per week on admin. Knock-on effect on team morale, client satisfaction and revenue.' },
+      ].map(({ name, role, quote }) => (
+        <div style="background:white;border:1px solid rgba(10,10,10,0.08);border-radius:16px;padding:1.75rem;">
+          <div style="display:flex;gap:0.25rem;margin-bottom:1rem;">{'★★★★★'.split('').map(s => <span style="color:#E8B4B0;font-size:0.875rem;">{s}</span>)}</div>
+          <p style="font-size:0.875rem;line-height:1.75;color:rgba(10,10,10,0.65);font-style:italic;margin-bottom:1rem;">"{quote}"</p>
+          <p style="font-size:0.8125rem;font-weight:600;color:#0A0A0A;">{name}</p>
+          <p style="font-size:0.75rem;color:rgba(10,10,10,0.4);">{role}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:#E8B4B0;padding:4rem 0;">
+  <div style="max-width:680px;margin:0 auto;padding:0 1.5rem;text-align:center;">
+    <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.3rem);color:#0A0A0A;margin-bottom:1rem;">Ready to See Your Automation ROI?</h2>
+    <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.65);margin-bottom:2rem;">Book your free 30-minute audit. We map your workflows, calculate your ROI and give you a written blueprint. No commitment required. Most audits are booked within 48 hours.</p>
+    <a href="/pages/welcome" style="display:inline-block;background:#0A0A0A;color:#F8F6F1;padding:1.125rem 2.5rem;border-radius:10px;font-size:0.9375rem;font-weight:600;text-decoration:none;">Book free audit now →</a>
+    <p style="font-size:0.75rem;color:rgba(10,10,10,0.45);margin-top:1rem;">No payment required · UK-based team · Response within 1 business day</p>
+  </div>
+</section>
+
+</ShopLayout>
