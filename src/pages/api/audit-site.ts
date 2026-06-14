@@ -240,31 +240,21 @@ RULES:
 - Score objectively: missing canonical = -10, no HTTPS = -25, no meta desc = -8, etc
 - Do NOT wrap in markdown code fences. Return raw JSON only.`;
 
-    const aiRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${openRouterKey}`,
-        'Content-Type': 'application/json',
-        'HTTP-Referer': 'https://www.purist.online',
-        'X-Title': 'PURIST Site Audit',
-      },
-      body: JSON.stringify({
-        model: 'meta-llama/llama-3.3-70b-instruct:free',
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: context },
-        ],
-        max_tokens: 4000,
-        temperature: 0.2,
-      }),
-    });
+    // Try models in order until one works
+    const models = [
+      'nvidia/nemotron-3-super-120b-a12b:free',
+      'meta-llama/llama-3.3-70b-instruct:free',
+      'qwen/qwen3-next-80b-a3b-instruct:free',
+      'nousresearch/hermes-3-llama-3.1-405b:free',
+      'google/gemma-4-31b-it:free',
+    ];
 
-    if (!aiRes.ok) {
-      const errText = await aiRes.text();
-      // If the free model fails, try a fallback
-      let fallbackData: any = null;
+    let aiData: any = null;
+    let lastErr = '';
+
+    for (const model of models) {
       try {
-        const fallbackRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        const aiRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${openRouterKey}`,
@@ -273,7 +263,7 @@ RULES:
             'X-Title': 'PURIST Site Audit',
           },
           body: JSON.stringify({
-            model: 'meta-llama/llama-3.1-8b-instruct:free',
+            model,
             messages: [
               { role: 'system', content: systemPrompt },
               { role: 'user', content: context },
@@ -282,27 +272,22 @@ RULES:
             temperature: 0.2,
           }),
         });
-        if (fallbackRes.ok) {
-          fallbackData = await fallbackRes.json();
-        }
-      } catch {}
 
-      if (!fallbackData) {
-        return new Response(JSON.stringify({ error: 'AI analysis failed — the AI model is temporarily unavailable. Please try again in a moment.', detail: errText }), { status: 502 });
-      }
-      // Use fallback data
-      let rawFallback = fallbackData.choices?.[0]?.message?.content?.trim() ?? '';
-      rawFallback = rawFallback.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
-      try {
-        const fallbackReport = JSON.parse(rawFallback);
-        fallbackReport.meta = { url: targetUrl, fetchedAt: new Date().toISOString(), responseTime, statusCode, htmlSize, techStack, tracking };
-        return new Response(JSON.stringify(fallbackReport), { headers: { 'Content-Type': 'application/json' } });
-      } catch {
-        return new Response(JSON.stringify({ error: 'AI analysis failed — please try again.', detail: errText }), { status: 502 });
+        if (aiRes.ok) {
+          aiData = await aiRes.json();
+          break;
+        } else {
+          lastErr = await aiRes.text();
+        }
+      } catch (e: any) {
+        lastErr = e?.message ?? 'fetch error';
       }
     }
 
-    const aiData = await aiRes.json();
+    if (!aiData) {
+      return new Response(JSON.stringify({ error: 'All AI models are temporarily unavailable. Please try again in a minute.', detail: lastErr }), { status: 502 });
+    }
+
     let rawReply = aiData.choices?.[0]?.message?.content?.trim() ?? '';
 
     // Clean markdown fences if present
