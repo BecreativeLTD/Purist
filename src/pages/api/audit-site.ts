@@ -3,9 +3,6 @@ import type { APIRoute } from 'astro';
 export const prerender = false;
 
 // ── Helpers ──────────────────────────────────────────────────────────
-function escHtml(s: string) {
-  return s.replace(/</g, '&lt;').replace(/>/g, '&gt;').slice(0, 500);
-}
 function extract(html: string, re: RegExp): string {
   const m = html.match(re);
   return m ? m[1]?.trim() ?? '' : '';
@@ -18,6 +15,67 @@ function extractAll(html: string, re: RegExp): string[] {
   return out;
 }
 
+/** Extract first valid JSON object from a string (handles reasoning text around it) */
+function extractJson(raw: string): any | null {
+  // 1. Try direct parse
+  try { return JSON.parse(raw); } catch {}
+
+  // 2. Strip markdown fences
+  let cleaned = raw.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
+  try { return JSON.parse(cleaned); } catch {}
+
+  // 3. Find the outermost { ... } with "score" inside
+  const start = cleaned.indexOf('{"score"');
+  if (start === -1) {
+    // Try finding just the first {
+    const altStart = cleaned.indexOf('{');
+    if (altStart === -1) return null;
+    cleaned = cleaned.slice(altStart);
+  } else {
+    cleaned = cleaned.slice(start);
+  }
+
+  // Find matching closing brace by counting depth
+  let depth = 0;
+  let end = -1;
+  for (let i = 0; i < cleaned.length; i++) {
+    if (cleaned[i] === '{') depth++;
+    if (cleaned[i] === '}') { depth--; if (depth === 0) { end = i; break; } }
+  }
+  if (end > 0) {
+    try { return JSON.parse(cleaned.slice(0, end + 1)); } catch {}
+  }
+
+  return null;
+}
+
+/** Call a single model with timeout */
+async function callModel(
+  model: string, messages: any[], key: string, timeoutMs: number
+): Promise<{ data: any; error?: string }> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${key}`,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': 'https://www.purist.online',
+        'X-Title': 'PURIST Site Audit',
+      },
+      body: JSON.stringify({ model, messages, max_tokens: 4000, temperature: 0.2 }),
+      signal: controller.signal,
+    });
+    clearTimeout(timer);
+    if (!res.ok) return { data: null, error: await res.text() };
+    return { data: await res.json() };
+  } catch (e: any) {
+    clearTimeout(timer);
+    return { data: null, error: e?.message ?? 'timeout' };
+  }
+}
+
 export const POST: APIRoute = async ({ request }) => {
   try {
     const { url } = await request.json();
@@ -25,7 +83,6 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response(JSON.stringify({ error: 'URL is required' }), { status: 400 });
     }
 
-    // Normalise
     let targetUrl = url.trim();
     if (!targetUrl.startsWith('http')) targetUrl = 'https://' + targetUrl;
 
@@ -39,7 +96,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 12000);
+      const timeout = setTimeout(() => controller.abort(), 10000);
       const res = await fetch(targetUrl, {
         headers: {
           'User-Agent': 'Mozilla/5.0 (compatible; PuristAuditBot/1.0)',
@@ -53,8 +110,7 @@ export const POST: APIRoute = async ({ request }) => {
       statusCode = res.status;
       res.headers.forEach((v, k) => { headers[k.toLowerCase()] = v; });
       html = await res.text();
-      // Limit to 150KB to avoid massive payloads
-      if (html.length > 150000) html = html.slice(0, 150000);
+      if (html.length > 100000) html = html.slice(0, 100000);
     } catch (e: any) {
       fetchError = e?.message ?? 'Failed to fetch';
     }
@@ -89,7 +145,6 @@ export const POST: APIRoute = async ({ request }) => {
     const hasSchema = html.includes('application/ld+json');
     const schemaTypes = extractAll(html, /"@type"\s*:\s*"([^"]+)"/i);
 
-    // Tech detection
     const scripts = extractAll(html, /<script[^>]*src=["']([^"']*?)["']/i);
     const links = extractAll(html, /<link[^>]*href=["']([^"']*?)["']/i);
     const allRefs = [...scripts, ...links].join(' ');
@@ -110,7 +165,6 @@ export const POST: APIRoute = async ({ request }) => {
     if (allRefs.includes('bootstrap')) techStack.push('Bootstrap');
     if (allRefs.includes('jquery')) techStack.push('jQuery');
 
-    // Tracking
     const tracking: string[] = [];
     if (html.includes('googletagmanager') || html.includes('gtag')) tracking.push('Google Analytics / GTM');
     if (html.includes('fbevents') || html.includes('fbq(') || html.includes('facebook.net/en_US/fbevents')) tracking.push('Meta Pixel');
@@ -124,185 +178,86 @@ export const POST: APIRoute = async ({ request }) => {
     if (html.includes('plausible')) tracking.push('Plausible');
     if (html.includes('segment')) tracking.push('Segment');
 
-    // Security
     const hasHttps = targetUrl.startsWith('https');
     const hsts = headers['strict-transport-security'] ?? '';
     const csp = headers['content-security-policy'] ?? '';
     const xFrame = headers['x-frame-options'] ?? '';
     const xContent = headers['x-content-type-options'] ?? '';
 
-    // Performance hints
     const inlineStyleCount = (html.match(/style="/g) || []).length;
     const scriptCount = scripts.length;
     const cssLinks = links.filter(l => l.endsWith('.css') || l.includes('.css?')).length;
     const htmlSize = Math.round(html.length / 1024);
 
     // ── 3. Build analysis context ──────────────────────────────────
-    const context = `
-SITE AUDIT DATA FOR: ${targetUrl}
+    const context = `SITE AUDIT DATA FOR: ${targetUrl}
 Status: ${statusCode} | Response time: ${responseTime}ms | HTML size: ${htmlSize}KB
 
-=== SEO ===
-Title: "${title}" (${title.length} chars)
-Meta description: "${metaDesc}" (${metaDesc.length} chars)
-Canonical: ${canonical || 'MISSING'}
-Robots: ${robots || 'not set'}
-Lang: ${lang || 'MISSING'}
-H1 count: ${h1s.length} → ${h1s.slice(0, 3).map(h => '"' + h.slice(0, 80) + '"').join(', ')}
-H2 count: ${h2s.length} → ${h2s.slice(0, 5).map(h => '"' + h.slice(0, 60) + '"').join(', ')}
-OG Title: ${ogTitle || 'MISSING'} | OG Desc: ${ogDesc || 'MISSING'} | OG Image: ${ogImage || 'MISSING'}
-Schema.org: ${hasSchema ? schemaTypes.join(', ') : 'NONE'}
-Images total: ${imgTags.length} | Missing alt: ${imgsWithoutAlt}
-Viewport: ${viewport || 'MISSING'}
-Charset: ${charset}
+SEO: Title="${title}" (${title.length}ch) | Meta desc="${metaDesc.slice(0,80)}" (${metaDesc.length}ch) | Canonical=${canonical || 'MISSING'} | Robots=${robots || 'not set'} | Lang=${lang || 'MISSING'}
+H1s(${h1s.length}): ${h1s.slice(0,2).map(h => h.slice(0,60)).join('; ')} | H2s(${h2s.length}): ${h2s.slice(0,3).map(h => h.slice(0,40)).join('; ')}
+OG: title=${ogTitle ? 'yes' : 'MISSING'} desc=${ogDesc ? 'yes' : 'MISSING'} image=${ogImage ? 'yes' : 'MISSING'} | Schema=${hasSchema ? schemaTypes.join(',') : 'NONE'}
+Images: ${imgTags.length} total, ${imgsWithoutAlt} missing alt | Viewport=${viewport ? 'yes' : 'MISSING'} | Charset=${charset}
 
-=== TECH STACK ===
-Detected: ${techStack.length ? techStack.join(', ') : 'Unknown / custom'}
-JS files: ${scriptCount} | CSS files: ${cssLinks} | Inline styles: ${inlineStyleCount}
-Server: ${headers['server'] ?? 'not disclosed'}
-X-Powered-By: ${headers['x-powered-by'] ?? 'not disclosed'}
+TECH: ${techStack.join(', ') || 'Unknown'} | JS:${scriptCount} CSS:${cssLinks} Inline:${inlineStyleCount} | Server=${headers['server'] ?? '?'}
 
-=== TRACKING ===
-${tracking.length ? tracking.join(', ') : 'NO TRACKING DETECTED'}
+TRACKING: ${tracking.join(', ') || 'NONE DETECTED'}
 
-=== SECURITY ===
-HTTPS: ${hasHttps ? 'Yes' : 'NO — CRITICAL'}
-HSTS: ${hsts || 'MISSING'}
-CSP: ${csp ? 'Present' : 'MISSING'}
-X-Frame-Options: ${xFrame || 'MISSING'}
-X-Content-Type-Options: ${xContent || 'MISSING'}
+SECURITY: HTTPS=${hasHttps} | HSTS=${hsts ? 'yes' : 'MISSING'} | CSP=${csp ? 'yes' : 'MISSING'} | X-Frame=${xFrame || 'MISSING'} | X-Content-Type=${xContent || 'MISSING'}`;
 
-=== HEADERS ===
-${Object.entries(headers).map(([k, v]) => `${k}: ${v.slice(0, 120)}`).join('\n')}
-`;
-
-    // ── 4. AI analysis ─────────────────────────────────────────────
+    // ── 4. AI analysis (parallel race) ─────────────────────────────
     const openRouterKey = import.meta.env.OpenRouter || import.meta.env.OPENROUTER_API_KEY;
     if (!openRouterKey) {
       return new Response(JSON.stringify({
         error: 'AI service not configured',
-        raw: { title, metaDesc, canonical, statusCode, responseTime, techStack, tracking, h1s, h2s, htmlSize },
       }), { status: 500 });
     }
 
-    const systemPrompt = `You are "Purist Audit AI" — a world-class digital ecosystem auditor. You produce cold, precise, premium audit reports.
+    const systemPrompt = `You are an expert website auditor. Analyze the data and return ONLY a JSON object (no explanation, no markdown fences).
 
-OUTPUT FORMAT: Return a JSON object with this exact structure (no markdown, no code fences, raw JSON only):
-{
-  "score": <number 0-100>,
-  "grade": "<A+ to F>",
-  "summary": "<3 sentences executive summary>",
-  "urgencies": ["<urgent issue 1>","<urgent issue 2>","<urgent issue 3>"],
-  "sections": [
-    {
-      "id": "seo",
-      "title": "SEO & Indexability",
-      "score": <0-100>,
-      "findings": [
-        { "severity": "critical|warning|good", "title": "<finding title>", "detail": "<2-3 sentence explanation>", "fix": "<specific fix instruction>" }
-      ]
-    },
-    {
-      "id": "technical",
-      "title": "Technical & Performance",
-      "score": <0-100>,
-      "findings": [...]
-    },
-    {
-      "id": "tracking",
-      "title": "Tracking & Analytics",
-      "score": <0-100>,
-      "findings": [...]
-    },
-    {
-      "id": "security",
-      "title": "Security & Headers",
-      "score": <0-100>,
-      "findings": [...]
-    },
-    {
-      "id": "ux",
-      "title": "UX & Conversion Signals",
-      "score": <0-100>,
-      "findings": [...]
-    }
-  ],
-  "topActions": [
-    { "priority": 1, "action": "<action>", "impact": "high|medium|low", "effort": "quick|medium|hard" }
-  ]
-}
+JSON structure:
+{"score":<0-100>,"grade":"<A+ to F>","summary":"<3 sentences>","urgencies":["<issue1>","<issue2>","<issue3>"],"sections":[{"id":"seo","title":"SEO & Indexability","score":<0-100>,"findings":[{"severity":"critical|warning|good","title":"<title>","detail":"<explanation>","fix":"<how to fix>"}]},{"id":"technical","title":"Technical & Performance","score":<0-100>,"findings":[...]},{"id":"tracking","title":"Tracking & Analytics","score":<0-100>,"findings":[...]},{"id":"security","title":"Security & Headers","score":<0-100>,"findings":[...]},{"id":"ux","title":"UX & Conversion","score":<0-100>,"findings":[...]}],"topActions":[{"priority":1,"action":"<action>","impact":"high|medium|low","effort":"quick|medium|hard"}]}
 
-RULES:
-- Every section must have 4-8 findings
-- Be brutally honest. If something is wrong, say it clearly
-- "fix" must be specific and technical (code snippets, config changes)
-- topActions should have 5-8 items sorted by priority
-- Score objectively: missing canonical = -10, no HTTPS = -25, no meta desc = -8, etc
-- Do NOT wrap in markdown code fences. Return raw JSON only.`;
+Rules: 3-5 findings per section. Be specific. topActions: 5 items. Score objectively. Return ONLY the JSON object.`;
 
-    // Try models in order until one works
+    const messages = [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: context },
+    ];
+
+    // Fire 3 models in parallel, take the first successful response
     const models = [
       'nvidia/nemotron-3-super-120b-a12b:free',
       'meta-llama/llama-3.3-70b-instruct:free',
-      'qwen/qwen3-next-80b-a3b-instruct:free',
-      'nousresearch/hermes-3-llama-3.1-405b:free',
       'google/gemma-4-31b-it:free',
     ];
 
-    let aiData: any = null;
-    let lastErr = '';
+    const results = await Promise.allSettled(
+      models.map(m => callModel(m, messages, openRouterKey, 55000))
+    );
 
-    for (const model of models) {
-      try {
-        const aiRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${openRouterKey}`,
-            'Content-Type': 'application/json',
-            'HTTP-Referer': 'https://www.purist.online',
-            'X-Title': 'PURIST Site Audit',
-          },
-          body: JSON.stringify({
-            model,
-            messages: [
-              { role: 'system', content: systemPrompt },
-              { role: 'user', content: context },
-            ],
-            max_tokens: 4000,
-            temperature: 0.2,
-          }),
-        });
+    let report: any = null;
+    let parseErrors: string[] = [];
 
-        if (aiRes.ok) {
-          aiData = await aiRes.json();
-          break;
-        } else {
-          lastErr = await aiRes.text();
-        }
-      } catch (e: any) {
-        lastErr = e?.message ?? 'fetch error';
+    for (const result of results) {
+      if (result.status !== 'fulfilled' || !result.value.data) continue;
+
+      const raw = result.value.data.choices?.[0]?.message?.content?.trim() ?? '';
+      if (!raw) continue;
+
+      const parsed = extractJson(raw);
+      if (parsed && parsed.score !== undefined && parsed.sections) {
+        report = parsed;
+        break;
+      } else {
+        parseErrors.push(raw.slice(0, 200));
       }
     }
 
-    if (!aiData) {
-      return new Response(JSON.stringify({ error: 'All AI models are temporarily unavailable. Please try again in a minute.', detail: lastErr }), { status: 502 });
-    }
-
-    let rawReply = aiData.choices?.[0]?.message?.content?.trim() ?? '';
-
-    // Clean markdown fences if present
-    rawReply = rawReply.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
-
-    let report: any;
-    try {
-      report = JSON.parse(rawReply);
-    } catch {
-      // If JSON parse fails, return raw + extracted data
+    if (!report) {
       return new Response(JSON.stringify({
-        error: 'Failed to parse AI response',
-        rawReply,
-        extracted: { title, metaDesc, canonical, statusCode, responseTime, techStack, tracking, h1s, h2s, htmlSize },
-      }), { status: 500 });
+        error: 'Could not generate report. Please try again.',
+        debug: parseErrors.slice(0, 1),
+      }), { status: 502 });
     }
 
     // Attach raw extracted data
