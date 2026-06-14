@@ -69,6 +69,7 @@ const pages = [
   { url: '/pages/workflow-automation-services',  changefreq: 'monthly', priority: '0.8' },
   { url: '/pages/ai-agent-development',          changefreq: 'monthly', priority: '0.8' },
   { url: '/pages/zapier-alternative-agency',     changefreq: 'monthly', priority: '0.8' },
+  { url: '/pages/site-audit',                     changefreq: 'monthly', priority: '0.9' },
   { url: '/pages/status',                        changefreq: 'daily',   priority: '0.4' },
   { url: '/pages/returns',                       changefreq: 'monthly', priority: '0.4' },
   { url: '/pages/privacy-policy',                changefreq: 'monthly', priority: '0.3' },
