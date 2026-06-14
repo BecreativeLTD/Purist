@@ -1,13 +1,5 @@
 {
   "framework": "astro",
   "buildCommand": "npm run build",
-  "installCommand": "npm ci --legacy-peer-deps",
-  "redirects": [
-    {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "www.purist.online" }],
-      "destination": "https://purist.online/:path*",
-      "statusCode": 301
-    }
-  ]
+  "installCommand": "npm ci --legacy-peer-deps"
 }
