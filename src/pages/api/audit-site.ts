@@ -177,7 +177,7 @@ ${Object.entries(headers).map(([k, v]) => `${k}: ${v.slice(0, 120)}`).join('\n')
 `;
 
     // ── 4. AI analysis ─────────────────────────────────────────────
-    const openRouterKey = import.meta.env.OpenRouter;
+    const openRouterKey = import.meta.env.OpenRouter || import.meta.env.OPENROUTER_API_KEY;
     if (!openRouterKey) {
       return new Response(JSON.stringify({
         error: 'AI service not configured',
@@ -261,7 +261,45 @@ RULES:
 
     if (!aiRes.ok) {
       const errText = await aiRes.text();
-      return new Response(JSON.stringify({ error: 'AI analysis failed', detail: errText }), { status: 502 });
+      // If the free model fails, try a fallback
+      let fallbackData: any = null;
+      try {
+        const fallbackRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${openRouterKey}`,
+            'Content-Type': 'application/json',
+            'HTTP-Referer': 'https://www.purist.online',
+            'X-Title': 'PURIST Site Audit',
+          },
+          body: JSON.stringify({
+            model: 'meta-llama/llama-3.1-8b-instruct:free',
+            messages: [
+              { role: 'system', content: systemPrompt },
+              { role: 'user', content: context },
+            ],
+            max_tokens: 4000,
+            temperature: 0.2,
+          }),
+        });
+        if (fallbackRes.ok) {
+          fallbackData = await fallbackRes.json();
+        }
+      } catch {}
+
+      if (!fallbackData) {
+        return new Response(JSON.stringify({ error: 'AI analysis failed — the AI model is temporarily unavailable. Please try again in a moment.', detail: errText }), { status: 502 });
+      }
+      // Use fallback data
+      let rawFallback = fallbackData.choices?.[0]?.message?.content?.trim() ?? '';
+      rawFallback = rawFallback.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
+      try {
+        const fallbackReport = JSON.parse(rawFallback);
+        fallbackReport.meta = { url: targetUrl, fetchedAt: new Date().toISOString(), responseTime, statusCode, htmlSize, techStack, tracking };
+        return new Response(JSON.stringify(fallbackReport), { headers: { 'Content-Type': 'application/json' } });
+      } catch {
+        return new Response(JSON.stringify({ error: 'AI analysis failed — please try again.', detail: errText }), { status: 502 });
+      }
     }
 
     const aiData = await aiRes.json();
