@@ -64,7 +64,7 @@ async function callModel(
         'HTTP-Referer': 'https://www.purist.online',
         'X-Title': 'PURIST Site Audit',
       },
-      body: JSON.stringify({ model, messages, max_tokens: 4000, temperature: 0.2 }),
+      body: JSON.stringify({ model, messages, max_tokens: 6000, temperature: 0.2 }),
       signal: controller.signal,
     });
     clearTimeout(timer);
@@ -189,20 +189,93 @@ export const POST: APIRoute = async ({ request }) => {
     const cssLinks = links.filter(l => l.endsWith('.css') || l.includes('.css?')).length;
     const htmlSize = Math.round(html.length / 1024);
 
+    // ── Business & Content signals ────────────────────────────────
+    const allAnchors = extractAll(html, /<a[^>]*href=["']([^"'#]*?)["']/i);
+    const internalLinks = allAnchors.filter(h => h.startsWith('/') || h.includes(new URL(targetUrl).hostname)).length;
+    const externalLinks = allAnchors.filter(h => h.startsWith('http') && !h.includes(new URL(targetUrl).hostname)).length;
+    const forms = (html.match(/<form[\s>]/gi) || []).length;
+    const buttons = (html.match(/<button[\s>]/gi) || []).length;
+    const inputs = (html.match(/<input[\s>]/gi) || []).length;
+    const hasFavicon = html.includes('favicon') || html.includes('icon"') || html.includes("icon'");
+    const h3s = extractAll(html, /<h3[^>]*>([\s\S]*?)<\/h3>/i).map(h => h.replace(/<[^>]+>/g, '')).slice(0, 5);
+
+    // Social links
+    const socialPlatforms: string[] = [];
+    if (html.includes('twitter.com') || html.includes('x.com')) socialPlatforms.push('Twitter/X');
+    if (html.includes('facebook.com') || html.includes('fb.com')) socialPlatforms.push('Facebook');
+    if (html.includes('instagram.com')) socialPlatforms.push('Instagram');
+    if (html.includes('linkedin.com')) socialPlatforms.push('LinkedIn');
+    if (html.includes('youtube.com')) socialPlatforms.push('YouTube');
+    if (html.includes('tiktok.com')) socialPlatforms.push('TikTok');
+    if (html.includes('github.com')) socialPlatforms.push('GitHub');
+
+    // Content signals
+    const textContent = html.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    const wordCount = textContent.split(/\s+/).filter(w => w.length > 2).length;
+    const hasVideo = html.includes('<video') || html.includes('youtube.com/embed') || html.includes('vimeo.com');
+    const hasContactInfo = html.includes('mailto:') || html.includes('tel:') || /\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/.test(html);
+    const hasPricing = /\$\d|£\d|€\d|pricing|price/i.test(html);
+    const hasTestimonials = /testimonial|review|rating|★|⭐|star/i.test(html);
+    const hasCTA = /sign.?up|get.?started|book.?a|free.?trial|contact.?us|schedule|demo|subscribe/i.test(html);
+    const hasChat = html.includes('crisp') || html.includes('intercom') || html.includes('tawk') || html.includes('drift') || html.includes('livechat') || html.includes('zendesk');
+    const hasCookieConsent = /cookie.?consent|cookie.?banner|gdpr|cookie.?policy/i.test(html);
+    const hasPrivacyLink = /privacy.?policy|privacy/i.test(html);
+    const hasTermsLink = /terms.?of.?service|terms.?and.?conditions|terms/i.test(html);
+
+    // Accessibility
+    const ariaLabels = (html.match(/aria-label/gi) || []).length;
+    const ariaRoles = (html.match(/role="/gi) || []).length;
+    const hasSkipLink = /skip.?to.?content|skip.?nav/i.test(html);
+    const hasFocusStyles = html.includes(':focus') || html.includes('focus-visible');
+
+    // Performance hints
+    const lazyImages = (html.match(/loading=["']lazy["']/gi) || []).length;
+    const preloads = (html.match(/<link[^>]*rel=["']preload["']/gi) || []).length;
+    const hasServiceWorker = html.includes('serviceWorker') || html.includes('service-worker');
+
     // ── 3. Build analysis context ──────────────────────────────────
-    const context = `SITE AUDIT DATA FOR: ${targetUrl}
-Status: ${statusCode} | Response time: ${responseTime}ms | HTML size: ${htmlSize}KB
+    const context = `FULL SITE AUDIT FOR: ${targetUrl}
+Status: ${statusCode} | Response: ${responseTime}ms | HTML: ${htmlSize}KB | Words: ${wordCount}
 
-SEO: Title="${title}" (${title.length}ch) | Meta desc="${metaDesc.slice(0,80)}" (${metaDesc.length}ch) | Canonical=${canonical || 'MISSING'} | Robots=${robots || 'not set'} | Lang=${lang || 'MISSING'}
-H1s(${h1s.length}): ${h1s.slice(0,2).map(h => h.slice(0,60)).join('; ')} | H2s(${h2s.length}): ${h2s.slice(0,3).map(h => h.slice(0,40)).join('; ')}
-OG: title=${ogTitle ? 'yes' : 'MISSING'} desc=${ogDesc ? 'yes' : 'MISSING'} image=${ogImage ? 'yes' : 'MISSING'} | Schema=${hasSchema ? schemaTypes.join(',') : 'NONE'}
-Images: ${imgTags.length} total, ${imgsWithoutAlt} missing alt | Viewport=${viewport ? 'yes' : 'MISSING'} | Charset=${charset}
+=== SEO ===
+Title: "${title}" (${title.length}ch) | Meta desc: "${metaDesc.slice(0,100)}" (${metaDesc.length}ch)
+Canonical: ${canonical || 'MISSING'} | Robots: ${robots || 'not set'} | Lang: ${lang || 'MISSING'}
+H1(${h1s.length}): ${h1s.slice(0,2).map(h => h.slice(0,60)).join('; ')}
+H2(${h2s.length}): ${h2s.slice(0,4).map(h => h.slice(0,50)).join('; ')}
+H3(${h3s.length}): ${h3s.slice(0,3).map(h => h.slice(0,40)).join('; ')}
+OG: title=${ogTitle ? 'yes' : 'MISSING'} desc=${ogDesc ? 'yes' : 'MISSING'} image=${ogImage ? 'yes' : 'MISSING'}
+Schema.org: ${hasSchema ? schemaTypes.join(', ') : 'NONE'}
+Images: ${imgTags.length} total, ${imgsWithoutAlt} missing alt, ${lazyImages} lazy-loaded
+Links: ${internalLinks} internal, ${externalLinks} external
 
-TECH: ${techStack.join(', ') || 'Unknown'} | JS:${scriptCount} CSS:${cssLinks} Inline:${inlineStyleCount} | Server=${headers['server'] ?? '?'}
+=== TECHNICAL ===
+Stack: ${techStack.join(', ') || 'Unknown/custom'} | JS files: ${scriptCount} | CSS files: ${cssLinks} | Inline styles: ${inlineStyleCount}
+Server: ${headers['server'] ?? 'hidden'} | X-Powered-By: ${headers['x-powered-by'] ?? 'hidden'}
+Viewport: ${viewport || 'MISSING'} | Charset: ${charset}
+Preloads: ${preloads} | Service Worker: ${hasServiceWorker ? 'yes' : 'no'} | Favicon: ${hasFavicon ? 'yes' : 'MISSING'}
 
-TRACKING: ${tracking.join(', ') || 'NONE DETECTED'}
+=== TRACKING ===
+${tracking.length ? tracking.join(', ') : 'NO TRACKING/ANALYTICS DETECTED'}
 
-SECURITY: HTTPS=${hasHttps} | HSTS=${hsts ? 'yes' : 'MISSING'} | CSP=${csp ? 'yes' : 'MISSING'} | X-Frame=${xFrame || 'MISSING'} | X-Content-Type=${xContent || 'MISSING'}`;
+=== SECURITY ===
+HTTPS: ${hasHttps ? 'yes' : 'NO'} | HSTS: ${hsts ? 'yes' : 'MISSING'} | CSP: ${csp ? 'yes' : 'MISSING'}
+X-Frame-Options: ${xFrame || 'MISSING'} | X-Content-Type-Options: ${xContent || 'MISSING'}
+Cookie consent: ${hasCookieConsent ? 'detected' : 'MISSING'} | Privacy policy: ${hasPrivacyLink ? 'yes' : 'MISSING'} | Terms: ${hasTermsLink ? 'yes' : 'MISSING'}
+
+=== BUSINESS & CONVERSION ===
+Forms: ${forms} | Buttons: ${buttons} | Input fields: ${inputs}
+CTA detected: ${hasCTA ? 'yes' : 'NO'} | Pricing shown: ${hasPricing ? 'yes' : 'no'}
+Testimonials/reviews: ${hasTestimonials ? 'detected' : 'none'} | Live chat: ${hasChat ? 'yes' : 'no'}
+Contact info (email/phone): ${hasContactInfo ? 'yes' : 'MISSING'}
+Social profiles: ${socialPlatforms.length ? socialPlatforms.join(', ') : 'NONE'}
+
+=== CONTENT ===
+Word count: ${wordCount} | Video content: ${hasVideo ? 'yes' : 'no'}
+Content structure: H1(${h1s.length}) H2(${h2s.length}) H3(${h3s.length})
+
+=== ACCESSIBILITY ===
+Aria labels: ${ariaLabels} | Aria roles: ${ariaRoles} | Skip-to-content: ${hasSkipLink ? 'yes' : 'no'}
+Images without alt: ${imgsWithoutAlt}/${imgTags.length}`;
 
     // ── 4. AI analysis (parallel race) ─────────────────────────────
     const openRouterKey = import.meta.env.OpenRouter || import.meta.env.OPENROUTER_API_KEY;
@@ -212,12 +285,20 @@ SECURITY: HTTPS=${hasHttps} | HSTS=${hsts ? 'yes' : 'MISSING'} | CSP=${csp ? 'ye
       }), { status: 500 });
     }
 
-    const systemPrompt = `You are an expert website auditor. Analyze the data and return ONLY a JSON object (no explanation, no markdown fences).
+    const systemPrompt = `You are "Purist Audit AI", a world-class website and business auditor for an automation agency. Analyze ALL data and return ONLY a JSON object. No explanation, no markdown fences, no thinking.
 
-JSON structure:
-{"score":<0-100>,"grade":"<A+ to F>","summary":"<3 sentences>","urgencies":["<issue1>","<issue2>","<issue3>"],"sections":[{"id":"seo","title":"SEO & Indexability","score":<0-100>,"findings":[{"severity":"critical|warning|good","title":"<title>","detail":"<explanation>","fix":"<how to fix>"}]},{"id":"technical","title":"Technical & Performance","score":<0-100>,"findings":[...]},{"id":"tracking","title":"Tracking & Analytics","score":<0-100>,"findings":[...]},{"id":"security","title":"Security & Headers","score":<0-100>,"findings":[...]},{"id":"ux","title":"UX & Conversion","score":<0-100>,"findings":[...]}],"topActions":[{"priority":1,"action":"<action>","impact":"high|medium|low","effort":"quick|medium|hard"}]}
+{"score":<0-100>,"grade":"<A+ to F>","summary":"<5 sentence executive summary: what the site does well, critical gaps, estimated revenue impact, and the #1 priority>","urgencies":["<issue1>","<issue2>","<issue3>","<issue4>","<issue5>"],"sections":[{"id":"seo","title":"SEO & Indexability","score":<0-100>,"findings":[{"severity":"critical|warning|good","title":"<title>","detail":"<2-3 sentences with specific data from the audit>","fix":"<specific technical fix or null if good>"}]},{"id":"technical","title":"Technical & Performance","score":<0-100>,"findings":[...]},{"id":"content","title":"Content Quality & Strategy","score":<0-100>,"findings":[...]},{"id":"tracking","title":"Tracking & Analytics","score":<0-100>,"findings":[...]},{"id":"security","title":"Security & Compliance","score":<0-100>,"findings":[...]},{"id":"business","title":"Business & Conversion","score":<0-100>,"findings":[...]},{"id":"accessibility","title":"Accessibility","score":<0-100>,"findings":[...]},{"id":"brand","title":"Brand & Trust Signals","score":<0-100>,"findings":[...]},{"id":"automation","title":"Automation Opportunities","score":<0-100>,"findings":[...]},{"id":"ecosystem","title":"Ecosystem & Growth Roadmap","score":<0-100>,"findings":[...]}],"topActions":[{"priority":1,"action":"<action>","impact":"high|medium|low","effort":"quick|medium|hard"}],"workflows":[{"name":"<workflow name>","trigger":"<what triggers it>","tools":"<tools involved based on detected stack>","impact":"<business impact>"},{"name":"...","trigger":"...","tools":"...","impact":"..."}]}
 
-Rules: 3-5 findings per section. Be specific. topActions: 5 items. Score objectively. Return ONLY the JSON object.`;
+CRITICAL RULES:
+- 10 sections required. 3-5 findings each. Reference REAL data from the audit.
+- For "good" severity, fix must be null
+- topActions: 8 items sorted by ROI
+- workflows: 4-6 automation workflow ideas based on the DETECTED tech stack and tracking tools. Be specific to what you see on the site. Example: if they use Shopify+GTM, suggest abandoned cart recovery via n8n. If WordPress, suggest content republishing automation. If no CRM detected, suggest lead capture→CRM pipeline automation.
+- automation section: analyze what manual processes the site likely has based on its stack, and what could be automated (lead routing, follow-ups, reporting, content distribution, review collection, etc.)
+- ecosystem section: recommend tools and integrations that would complete their digital ecosystem based on what's missing (CRM, email marketing, helpdesk, etc.)
+- business section: evaluate conversion funnel completeness, pricing strategy signals, social proof, competitive positioning
+- Be brutally honest. This audit must feel like a $2000 consulting report.
+- Return ONLY the JSON object.`;
 
     const messages = [
       { role: 'system', content: systemPrompt },

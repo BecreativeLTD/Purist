@@ -353,11 +353,11 @@ export default function AuditEngine() {
 
       {/* Section scores mini-bar */}
       {r.sections?.length > 0 && (
-        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(r.sections.length, 5)}, 1fr)`, gap: 8, marginBottom: 24 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 8, marginBottom: 24 }}>
           {r.sections.map((s: Section) => (
-            <div key={s.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: '16px', textAlign: 'center' as const }}>
-              <ScoreRing score={s.score} size={56} />
-              <p style={{ fontSize: 10, color: 'rgba(248,246,241,0.4)', marginTop: 8, letterSpacing: '0.06em' }}>{s.title}</p>
+            <div key={s.id} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: '14px 10px', textAlign: 'center' as const }}>
+              <ScoreRing score={s.score} size={48} />
+              <p style={{ fontSize: 9, color: 'rgba(248,246,241,0.4)', marginTop: 6, letterSpacing: '0.04em', lineHeight: 1.3 }}>{s.title}</p>
             </div>
           ))}
         </div>
@@ -383,7 +383,7 @@ export default function AuditEngine() {
                     <div style={{ flex: 1 }}>
                       <p style={{ fontSize: 14, fontWeight: 600, color: '#F8F6F1', marginBottom: 4 }}>{f.title}</p>
                       <p style={{ fontSize: 13, lineHeight: 1.65, color: 'rgba(248,246,241,0.45)', marginBottom: 8 }}>{f.detail}</p>
-                      {f.fix && (
+                      {f.fix && f.fix !== 'None' && f.fix !== 'none' && f.fix !== 'N/A' && (
                         <div style={{ fontSize: 12, lineHeight: 1.6, color: 'rgba(232,180,176,0.7)', background: 'rgba(232,180,176,0.04)', border: '1px solid rgba(232,180,176,0.1)', borderRadius: 8, padding: '8px 12px' }}>
                           <span style={{ fontWeight: 600 }}>Fix:</span> {f.fix}
                         </div>
@@ -412,6 +412,39 @@ export default function AuditEngine() {
                 <span style={{ fontSize: 10, color: 'rgba(248,246,241,0.3)', flexShrink: 0 }}>{effortLabel(a.effort)}</span>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* Workflow recommendations */}
+      {(r as any).workflows?.length > 0 && (
+        <div style={{ background: 'rgba(232,180,176,0.04)', border: '1px solid rgba(232,180,176,0.12)', borderRadius: 18, padding: '24px', marginBottom: 24 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(232,180,176,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="2" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <div>
+              <h3 style={{ fontFamily: 'Georgia,serif', fontSize: 20, color: '#F8F6F1', margin: 0 }}>Automation Workflows for Your Stack</h3>
+              <p style={{ fontSize: 11, color: 'rgba(248,246,241,0.3)', marginTop: 2 }}>Based on the tools we detected on your site</p>
+            </div>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 12 }}>
+            {(r as any).workflows.map((w: any, i: number) => (
+              <div key={i} style={{ padding: '16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14 }}>
+                <p style={{ fontSize: 14, fontWeight: 600, color: '#F8F6F1', marginBottom: 6 }}>{w.name}</p>
+                <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 4 }}>
+                  <p style={{ fontSize: 11, color: 'rgba(248,246,241,0.35)' }}><span style={{ color: 'rgba(232,180,176,0.6)', fontWeight: 600 }}>Trigger:</span> {w.trigger}</p>
+                  <p style={{ fontSize: 11, color: 'rgba(248,246,241,0.35)' }}><span style={{ color: 'rgba(232,180,176,0.6)', fontWeight: 600 }}>Tools:</span> {w.tools}</p>
+                  <p style={{ fontSize: 11, color: 'rgba(232,180,176,0.5)', fontWeight: 500, marginTop: 4 }}>{w.impact}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div style={{ marginTop: 16, padding: '12px 16px', background: 'rgba(232,180,176,0.06)', borderRadius: 10, textAlign: 'center' as const }}>
+            <p style={{ fontSize: 12, color: 'rgba(248,246,241,0.5)' }}>
+              These workflows can be built and deployed by PURIST in days, not months.{' '}
+              <a href="/pages/welcome" style={{ color: '#E8B4B0', textDecoration: 'underline', textUnderlineOffset: '3px' }}>Get a free deployment plan →</a>
+            </p>
           </div>
         </div>
       )}
