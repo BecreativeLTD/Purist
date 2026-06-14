@@ -1,12 +1,23 @@
 ---
 const columns = [
  {
-   title: 'Services',
+   title: 'Plans',
    links: [
      { name: 'Automation Pro', href: '/products/foundation-pro' },
      { name: 'AI Agent Deploy', href: '/products/longevity-protocol' },
      { name: 'The Full Stack', href: '/products/founder-stack' },
-     { name: 'All services', href: '/collections/all' },
+     { name: 'All plans →', href: '/collections/all' },
+   ],
+ },
+ {
+   title: 'Expertise',
+   links: [
+     { name: 'n8n Agency UK', href: '/pages/n8n-agency' },
+     { name: 'Automation Consultant', href: '/pages/automation-consultant' },
+     { name: 'Workflow Automation', href: '/pages/workflow-automation-services' },
+     { name: 'AI Agent Development', href: '/pages/ai-agent-development' },
+     { name: 'Switch from Zapier → n8n', href: '/pages/zapier-alternative-agency' },
+     { name: 'All services →', href: '/pages/services' },
    ],
  },
  {
@@ -39,7 +50,7 @@ const columns = [
 >
  <div class="container-x grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 py-10 lg:py-12">
    {columns.map((col) => (
-     <div class="lg:col-span-3">
+     <div class="lg:col-span-2">
        <p class="eyebrow mb-5">{col.title}</p>
        <ul class="space-y-3">
          {col.links.map((l) => (

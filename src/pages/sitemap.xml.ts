@@ -63,6 +63,7 @@ const pages = [
   { url: '/pages/ai-readiness',                  changefreq: 'monthly', priority: '0.6' },
   { url: '/pages/fable-5',                       changefreq: 'monthly', priority: '0.7' },
   { url: '/pages/docs',                          changefreq: 'monthly', priority: '0.6' },
+  { url: '/pages/services',                       changefreq: 'monthly', priority: '0.9' },
   { url: '/pages/n8n-agency',                    changefreq: 'monthly', priority: '0.8' },
   { url: '/pages/automation-consultant',         changefreq: 'monthly', priority: '0.8' },
   { url: '/pages/workflow-automation-services',  changefreq: 'monthly', priority: '0.8' },
