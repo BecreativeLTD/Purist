@@ -4,7 +4,7 @@ import skillsData from '~/data/skills.json';
 import { terms, slugifyTerm } from '~/data/glossary';
 import blogData from '~/data/blog.json';
 
-const site = 'https://purist.online';
+const site = 'https://www.purist.online';
 
 const skillPages = [
   { url: '/skills', changefreq: 'weekly', priority: '0.9' },

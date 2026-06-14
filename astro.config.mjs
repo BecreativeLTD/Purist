@@ -4,7 +4,7 @@ import preact from '@astrojs/preact';
 import icon from 'astro-icon';
 import vercel from '@astrojs/vercel/serverless';
 export default defineConfig({
-  site: 'https://purist.online',
+  site: 'https://www.purist.online',
   output: 'hybrid',
   adapter: vercel(),
   integrations: [

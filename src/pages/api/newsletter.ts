@@ -146,7 +146,7 @@ ${automations.map(([title, desc, tools, time], i) => `<tr><td style="padding:20p
 <div style="border-top:1px solid rgba(248,246,241,0.06);padding-top:36px;">
 <p style="font-family:Georgia,serif;font-size:20px;color:#F8F6F1;margin:0 0 8px;font-weight:400;">Want us to build these for you?</p>
 <p style="font-size:13px;color:rgba(248,246,241,0.38);margin:0 0 28px;line-height:1.75;">Book a free 45-minute automation audit. We map your workflows and show you exactly what to automate first.</p>
-<a href="https://purist.online/pages/welcome" style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:16px 44px;border-radius:12px;font-size:14px;font-weight:700;text-decoration:none;">Book your free audit →</a>
+<a href="https://www.purist.online/pages/welcome" style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:16px 44px;border-radius:12px;font-size:14px;font-weight:700;text-decoration:none;">Book your free audit →</a>
 </div>
 </td></tr>
 
@@ -158,11 +158,11 @@ ${automations.map(([title, desc, tools, time], i) => `<tr><td style="padding:20p
 <div style="font-family:Georgia,serif;font-size:32px;font-weight:700;letter-spacing:-0.03em;color:rgba(232,180,176,0.2);margin-bottom:18px;">PURIST<span style="font-size:9px;vertical-align:super;">&reg;</span></div>
 <div style="font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(248,246,241,0.14);margin-bottom:16px;font-weight:500;">Becreative LTD &middot; Registered in England &amp; Wales</div>
 <div style="margin-bottom:18px;">
-<a href="https://purist.online" style="font-size:11px;color:rgba(248,246,241,0.3);text-decoration:none;margin:0 12px;">Website</a>
+<a href="https://www.purist.online" style="font-size:11px;color:rgba(248,246,241,0.3);text-decoration:none;margin:0 12px;">Website</a>
 <a href="https://www.linkedin.com/company/purist-automation" style="font-size:11px;color:rgba(248,246,241,0.3);text-decoration:none;margin:0 12px;">LinkedIn</a>
 <a href="https://twitter.com/purist_hq" style="font-size:11px;color:rgba(248,246,241,0.3);text-decoration:none;margin:0 12px;">Twitter / X</a>
 </div>
-<p style="font-size:10px;color:rgba(248,246,241,0.12);line-height:1.7;margin:0;">You received this because you subscribed at purist.online.<br/><a href="https://purist.online/pages/privacy-policy" style="color:rgba(248,246,241,0.2);text-decoration:underline;">Privacy policy</a></p>
+<p style="font-size:10px;color:rgba(248,246,241,0.12);line-height:1.7;margin:0;">You received this because you subscribed at purist.online.<br/><a href="https://www.purist.online/pages/privacy-policy" style="color:rgba(248,246,241,0.2);text-decoration:underline;">Privacy policy</a></p>
 </td></tr>
 </table>
 </td></tr>

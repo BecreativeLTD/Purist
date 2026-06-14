@@ -92,7 +92,7 @@ ${[
 <tr><td style="background:#0A0A0A;padding:0 40px 36px;text-align:center;">
 <p style="font-family:Georgia,serif;font-size:18px;color:#F8F6F1;margin:0 0 8px;font-weight:400;">Want to speed things up?</p>
 <p style="font-size:13px;color:rgba(248,246,241,0.42);margin:0 0 24px;line-height:1.7;">Tell us more about your business so we can prepare a more targeted audit.</p>
-<a href="https://purist.online/pages/welcome" style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:16px 40px;border-radius:12px;font-size:14px;font-weight:700;text-decoration:none;">Complete your audit request →</a>
+<a href="https://www.purist.online/pages/welcome" style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:16px 40px;border-radius:12px;font-size:14px;font-weight:700;text-decoration:none;">Complete your audit request →</a>
 </td></tr>
 
 <tr><td style="background:#0A0A0A;border-radius:0 0 20px 20px;padding:0 40px 36px;">
@@ -101,7 +101,7 @@ ${[
 <div style="font-family:Georgia,serif;font-size:28px;font-weight:700;letter-spacing:-0.02em;color:rgba(232,180,176,0.25);margin-bottom:16px;">PURIST<span style="font-size:8px;vertical-align:super;">&reg;</span></div>
 <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(248,246,241,0.18);margin-bottom:14px;">Becreative LTD &middot; Registered in England &amp; Wales</div>
 <div style="margin-bottom:14px;">
-<a href="https://purist.online" style="font-size:11px;color:rgba(248,246,241,0.35);text-decoration:none;margin:0 10px;">Website</a>
+<a href="https://www.purist.online" style="font-size:11px;color:rgba(248,246,241,0.35);text-decoration:none;margin:0 10px;">Website</a>
 <a href="https://www.linkedin.com/company/purist-automation" style="font-size:11px;color:rgba(248,246,241,0.35);text-decoration:none;margin:0 10px;">LinkedIn</a>
 <a href="https://twitter.com/purist_hq" style="font-size:11px;color:rgba(248,246,241,0.35);text-decoration:none;margin:0 10px;">Twitter</a>
 </div>

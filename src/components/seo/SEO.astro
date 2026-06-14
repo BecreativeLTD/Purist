@@ -19,7 +19,7 @@ const {
 
 const fullTitle = title.includes('PURIST') ? title : `${title} · PURIST`;
 // canonicalURL uses the actual request origin (works on any deployment)
-const CANONICAL_BASE = 'https://purist.online';
+const CANONICAL_BASE = 'https://www.purist.online';
 const canonicalURL = canonical || `${CANONICAL_BASE}${Astro.url.pathname}`;
 // ogImage always uses the canonical site domain so social crawlers get a stable URL
 const ogBase = (Astro.site?.toString() ?? Astro.url.origin).replace(/\/$/, '');
@@ -55,12 +55,12 @@ const ogImage = image
  '@graph': [
    {
      '@type': 'Organization',
-     '@id': 'https://purist.online/#organization',
+     '@id': 'https://www.purist.online/#organization',
      name: 'PURIST',
-     url: 'https://purist.online',
+     url: 'https://www.purist.online',
      logo: {
        '@type': 'ImageObject',
-       url: 'https://purist.online/favicon.svg',
+       url: 'https://www.purist.online/favicon.svg',
        width: 512,
        height: 512,
      },
@@ -137,10 +137,10 @@ const ogImage = image
            itemOffered: {
              '@type': 'Service',
              name: 'Automation Pro',
-             url: 'https://purist.online/products/foundation-pro',
+             url: 'https://www.purist.online/products/foundation-pro',
              description: 'Production-grade workflow automation deployed in days. Includes 9 core workflows, 24/7 monitoring, error handling, and full documentation.',
              serviceType: 'Workflow Automation',
-             provider: { '@id': 'https://purist.online/#organization' },
+             provider: { '@id': 'https://www.purist.online/#organization' },
            },
          },
          {
@@ -148,10 +148,10 @@ const ogImage = image
            itemOffered: {
              '@type': 'Service',
              name: 'The Full Stack',
-             url: 'https://purist.online/products/founder-stack',
+             url: 'https://www.purist.online/products/founder-stack',
              description: 'End-to-end operations automation for scaling teams. Automation Pro plus AI Agent Deploy in one engagement.',
              serviceType: 'Business Process Automation',
-             provider: { '@id': 'https://purist.online/#organization' },
+             provider: { '@id': 'https://www.purist.online/#organization' },
            },
          },
          {
@@ -159,10 +159,10 @@ const ogImage = image
            itemOffered: {
              '@type': 'Service',
              name: 'AI Agent Deploy',
-             url: 'https://purist.online/products/longevity-protocol',
+             url: 'https://www.purist.online/products/longevity-protocol',
              description: 'Conversational AI agents handling scheduling, intake, lead qualification, and support routing. Built on Claude with structured output and human-in-the-loop safeguards.',
              serviceType: 'AI Agent Development',
-             provider: { '@id': 'https://purist.online/#organization' },
+             provider: { '@id': 'https://www.purist.online/#organization' },
            },
          },
        ],
@@ -175,14 +175,14 @@ const ogImage = image
    },
    {
      '@type': 'WebSite',
-     '@id': 'https://purist.online/#website',
-     url: 'https://purist.online',
+     '@id': 'https://www.purist.online/#website',
+     url: 'https://www.purist.online',
      name: 'PURIST',
      description: 'Production-grade business automation and AI agents.',
-     publisher: { '@id': 'https://purist.online/#organization' },
+     publisher: { '@id': 'https://www.purist.online/#organization' },
      potentialAction: {
        '@type': 'SearchAction',
-       target: 'https://purist.online/pages/blog?q={search_term_string}',
+       target: 'https://www.purist.online/pages/blog?q={search_term_string}',
        'query-input': 'required name=search_term_string',
      },
    },
@@ -193,8 +193,8 @@ const ogImage = image
      name: fullTitle,
      description: description,
      inLanguage: 'en-GB',
-     isPartOf: { '@id': 'https://purist.online/#website' },
-     about: { '@id': 'https://purist.online/#organization' },
+     isPartOf: { '@id': 'https://www.purist.online/#website' },
+     about: { '@id': 'https://www.purist.online/#organization' },
      speakable: {
        '@type': 'SpeakableSpecification',
        cssSelector: ['h1', 'h2', '.article-excerpt', 'p:first-of-type'],
@@ -208,15 +208,15 @@ const ogImage = image
      '@type': 'ItemList',
      name: 'PURIST Navigation',
      itemListElement: [
-       { '@type': 'SiteLinksSearchBox', url: 'https://purist.online' },
-       { '@type': 'ListItem', position: 1, name: 'Services', url: 'https://purist.online/collections/all' },
-       { '@type': 'ListItem', position: 2, name: 'Automation Pro', url: 'https://purist.online/products/foundation-pro' },
-       { '@type': 'ListItem', position: 3, name: 'AI Agent Deploy', url: 'https://purist.online/products/longevity-protocol' },
-       { '@type': 'ListItem', position: 4, name: 'Blog', url: 'https://purist.online/pages/blog' },
-       { '@type': 'ListItem', position: 5, name: 'Case Studies', url: 'https://purist.online/pages/wall-of-health' },
-       { '@type': 'ListItem', position: 6, name: 'FAQs', url: 'https://purist.online/pages/faq' },
-       { '@type': 'ListItem', position: 7, name: 'Free Audit', url: 'https://purist.online/pages/welcome' },
-       { '@type': 'ListItem', position: 8, name: 'Contact', url: 'https://purist.online/pages/contact-us' },
+       { '@type': 'SiteLinksSearchBox', url: 'https://www.purist.online' },
+       { '@type': 'ListItem', position: 1, name: 'Services', url: 'https://www.purist.online/collections/all' },
+       { '@type': 'ListItem', position: 2, name: 'Automation Pro', url: 'https://www.purist.online/products/foundation-pro' },
+       { '@type': 'ListItem', position: 3, name: 'AI Agent Deploy', url: 'https://www.purist.online/products/longevity-protocol' },
+       { '@type': 'ListItem', position: 4, name: 'Blog', url: 'https://www.purist.online/pages/blog' },
+       { '@type': 'ListItem', position: 5, name: 'Case Studies', url: 'https://www.purist.online/pages/wall-of-health' },
+       { '@type': 'ListItem', position: 6, name: 'FAQs', url: 'https://www.purist.online/pages/faq' },
+       { '@type': 'ListItem', position: 7, name: 'Free Audit', url: 'https://www.purist.online/pages/welcome' },
+       { '@type': 'ListItem', position: 8, name: 'Contact', url: 'https://www.purist.online/pages/contact-us' },
      ],
    },
  ],

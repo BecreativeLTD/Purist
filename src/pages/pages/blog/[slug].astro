@@ -81,7 +81,7 @@ const toc = blocks.filter((b): b is Extract<Block, { type: 'h2' }> => b.type ===
 
 // ── Word count & reading time ──────────────────────────────────
 const wordCount = article.body.split(/\s+/).length;
-const pageUrl = `${(Astro.site?.toString() ?? 'https://purist.online').replace(/\/$/, '')}/pages/blog/${article.slug}`;
+const pageUrl = `${(Astro.site?.toString() ?? 'https://www.purist.online').replace(/\/$/, '')}/pages/blog/${article.slug}`;
 
 // ── Markdown link parser ───────────────────────────────────────
 function parseMdLinks(text: string): string {
@@ -603,25 +603,25 @@ const howToSteps: { name: string; text: string }[] = (() => {
  inLanguage: 'en-GB',
  image: {
    '@type': 'ImageObject',
-   url: `https://purist.online${article.image}`,
+   url: `https://www.purist.online${article.image}`,
    width: 1200,
    height: 630,
  },
- thumbnailUrl: `https://purist.online${article.image}`,
+ thumbnailUrl: `https://www.purist.online${article.image}`,
  author: {
    '@type': 'Organization',
-   '@id': 'https://purist.online/#organization',
+   '@id': 'https://www.purist.online/#organization',
    name: 'PURIST',
-   url: 'https://purist.online',
+   url: 'https://www.purist.online',
  },
  publisher: {
    '@type': 'Organization',
-   '@id': 'https://purist.online/#organization',
+   '@id': 'https://www.purist.online/#organization',
    name: 'PURIST',
-   url: 'https://purist.online',
+   url: 'https://www.purist.online',
    logo: {
      '@type': 'ImageObject',
-     url: 'https://purist.online/favicon.svg',
+     url: 'https://www.purist.online/favicon.svg',
      width: 512,
      height: 512,
    },
@@ -632,15 +632,15 @@ const howToSteps: { name: string; text: string }[] = (() => {
  },
  isPartOf: {
    '@type': 'WebSite',
-   '@id': 'https://purist.online/#website',
+   '@id': 'https://www.purist.online/#website',
    name: 'PURIST',
-   url: 'https://purist.online',
+   url: 'https://www.purist.online',
  },
  breadcrumb: {
    '@type': 'BreadcrumbList',
    itemListElement: [
-     { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://purist.online' },
-     { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://purist.online/pages/blog' },
+     { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.purist.online' },
+     { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.purist.online/pages/blog' },
      { '@type': 'ListItem', position: 3, name: article.title, item: pageUrl },
    ],
  },

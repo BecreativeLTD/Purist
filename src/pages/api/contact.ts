@@ -81,7 +81,7 @@ export const POST: APIRoute = async ({ request }) => {
   <p>Your message has been received. We'll get back to you within <span class="highlight">1 business day</span>.</p>
   <div class="divider"></div>
   <p>In the meantime, explore our automation guides or book a free audit call if you're ready to get started.</p>
-  <a href="https://purist.online/pages/welcome" class="cta">Book a free audit →</a>
+  <a href="https://www.purist.online/pages/welcome" class="cta">Book a free audit →</a>
 </div>
 </body>
 </html>`,

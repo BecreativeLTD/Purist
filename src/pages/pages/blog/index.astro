@@ -299,17 +299,17 @@ const rest = articles; // show ALL articles in the grid
 <script type="application/ld+json" is:inline set:html={JSON.stringify({
  '@context': 'https://schema.org',
  '@type': 'CollectionPage',
- '@id': 'https://purist.online/pages/blog#webpage',
+ '@id': 'https://www.purist.online/pages/blog#webpage',
  name: 'The Automation Blog PURIST',
  description: 'Workflow automation guides, AI agent insights, case studies, and operations strategy from the PURIST engineering team.',
- url: 'https://purist.online/pages/blog',
+ url: 'https://www.purist.online/pages/blog',
  inLanguage: 'en-GB',
- isPartOf: { '@type': 'WebSite', '@id': 'https://purist.online/#website' },
+ isPartOf: { '@type': 'WebSite', '@id': 'https://www.purist.online/#website' },
  breadcrumb: {
    '@type': 'BreadcrumbList',
    itemListElement: [
-     { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://purist.online' },
-     { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://purist.online/pages/blog' },
+     { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.purist.online' },
+     { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://www.purist.online/pages/blog' },
    ],
  },
  mainEntity: {
@@ -319,7 +319,7 @@ const rest = articles; // show ALL articles in the grid
    itemListElement: articles.map((a, i) => ({
      '@type': 'ListItem',
      position: i + 1,
-     url: `https://purist.online/pages/blog/${a.slug}`,
+     url: `https://www.purist.online/pages/blog/${a.slug}`,
      name: a.title,
      description: a.excerpt,
    })),

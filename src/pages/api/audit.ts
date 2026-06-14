@@ -38,7 +38,7 @@ export const POST: APIRoute = async ({ request }) => {
           headers: {
             'Authorization': `Bearer ${openRouterKey}`,
             'Content-Type': 'application/json',
-            'HTTP-Referer': 'https://purist.online',
+            'HTTP-Referer': 'https://www.purist.online',
             'X-Title': 'PURIST Lead Qualification',
           },
           body: JSON.stringify({
@@ -153,7 +153,7 @@ p{font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;margin:0 0 16px;}
 <div class="step"><div class="num">3</div><div class="st"><strong style="color:rgba(255,255,255,0.80);">Deployment plan delivered</strong><br/>You leave with a prioritised automation roadmap. Zero commitment required.</div></div>
 <div class="div"></div>
 <p>Questions before then? Just reply to this email.</p>
-<a href="https://purist.online/pages/blog" class="cta">Read our automation guides →</a>
+<a href="https://www.purist.online/pages/blog" class="cta">Read our automation guides →</a>
 </div></body></html>`,
     });
 

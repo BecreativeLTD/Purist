@@ -56,7 +56,7 @@ Your role: answer questions with confidence, be concise (2-4 sentences max per p
       headers: {
         'Authorization': `Bearer ${openRouterKey}`,
         'Content-Type': 'application/json',
-        'HTTP-Referer': 'https://purist.online',
+        'HTTP-Referer': 'https://www.purist.online',
         'X-Title': 'PURIST AI',
       },
       body: JSON.stringify({
