@@ -64,7 +64,7 @@ async function callModel(
         'HTTP-Referer': 'https://www.purist.online',
         'X-Title': 'PURIST Site Audit',
       },
-      body: JSON.stringify({ model, messages, max_tokens: 8000, temperature: 0.2 }),
+      body: JSON.stringify({ model, messages, max_tokens: 4000, temperature: 0.1 }),
       signal: controller.signal,
     });
     clearTimeout(timer);
@@ -250,43 +250,31 @@ A11Y: AriaLabels:${ariaLabels} Roles:${ariaRoles} SkipLink=${hasSkipLink?'y':'n'
       }), { status: 500 });
     }
 
-    const systemPrompt = `Website and business auditor for an automation agency. Return ONLY a JSON object. No thinking text, no markdown fences, no explanation before or after.
-{"score":N,"grade":"X","summary":"5 sentences","urgencies":["..."],"sections":[10 sections],"topActions":[6 items],"workflows":[4 items]}
-Section IDs in order: seo, technical, content, tracking, security, business, accessibility, brand, automation, ecosystem
-Section titles: SEO & Indexability, Technical & Performance, Content Quality, Tracking & Analytics, Security & Compliance, Business & Conversion, Accessibility, Brand & Trust, Automation Opportunities, Ecosystem & Growth Roadmap
-Each finding: {"severity":"critical|warning|good","title":"...","detail":"2 sentences with real data","fix":"specific fix or null if good"}
-Each topAction: {"priority":N,"action":"...","impact":"high|medium|low","effort":"quick|medium|hard"}
-Each workflow: {"name":"workflow name","trigger":"what starts it","tools":"specific tools based on detected stack","impact":"business result"}
-Rules: 2 findings per section. Be concise. fix=null for good findings. workflows must reference detected tech stack and suggest n8n automations. ONLY JSON, no other text.`;
+    const systemPrompt = `Site auditor. ONLY JSON, no text. Compact.
+{"score":N,"grade":"A-F","summary":"3 sentences","urgencies":["top 3"],"sections":[{"id":"seo","title":"SEO","score":N,"findings":[{"severity":"critical|warning|good","title":"..","detail":"1 sentence","fix":"..or null"}]},...],"topActions":[{"priority":1,"action":"..","impact":"high|medium|low","effort":"quick|medium|hard"}],"workflows":[{"name":"..","trigger":"..","tools":"..","impact":".."}]}
+IDs:seo,technical,content,tracking,security,business,accessibility,brand,automation,ecosystem. 2 findings/section. 5 actions. 3 workflows using detected stack+n8n. ONLY JSON.`;
 
     const messages = [
       { role: 'system', content: systemPrompt },
       { role: 'user', content: context },
     ];
 
-    // Fire 3 fast models in parallel, take the FIRST successful response
-    const models = [
-      'google/gemma-4-12b-it:free',
-      'google/gemma-4-31b-it:free',
-      'meta-llama/llama-3.3-70b-instruct:free',
-    ];
-
+    // Single fast model with short timeout, fallback to second
     let report: any = null;
 
-    try {
-      report = await Promise.any(
-        models.map(async (m) => {
-          const result = await callModel(m, messages, openRouterKey, 40000);
-          if (!result.data) throw new Error('no data');
-          const raw = result.data.choices?.[0]?.message?.content?.trim() ?? '';
-          if (!raw) throw new Error('empty');
+    // Try Gemma 12B first (fastest), then 31B as fallback
+    for (const model of ['google/gemma-4-12b-it:free', 'google/gemma-4-31b-it:free']) {
+      const result = await callModel(model, messages, openRouterKey, 30000);
+      if (result.data) {
+        const raw = result.data.choices?.[0]?.message?.content?.trim() ?? '';
+        if (raw) {
           const parsed = extractJson(raw);
-          if (!parsed || parsed.score === undefined || !parsed.sections) throw new Error('parse fail');
-          return parsed;
-        })
-      );
-    } catch {
-      // All models failed
+          if (parsed?.score !== undefined && parsed?.sections) {
+            report = parsed;
+            break;
+          }
+        }
+      }
     }
 
     if (!report) {
