@@ -52,7 +52,7 @@ function extractJson(raw: string): any | null {
 /** Call Anthropic Claude API */
 async function callClaude(
   system: string, userMsg: string, key: string
-): Promise<string | null> {
+): Promise<{ text: string | null; error: string }> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 45000);
   try {
@@ -75,15 +75,14 @@ async function callClaude(
     clearTimeout(timer);
     if (!res.ok) {
       const errText = await res.text().catch(() => '');
-      console.error('Claude API error:', res.status, errText);
-      return null;
+      return { text: null, error: `API ${res.status}: ${errText.slice(0, 200)}` };
     }
     const data = await res.json();
-    return data.content?.[0]?.text?.trim() ?? null;
+    const text = data.content?.[0]?.text?.trim() ?? null;
+    return { text, error: text ? '' : 'Empty response from Claude' };
   } catch (e: any) {
     clearTimeout(timer);
-    console.error('Claude call failed:', e?.message);
-    return null;
+    return { text: null, error: `Fetch error: ${e?.message ?? 'unknown'}` };
   }
 }
 
@@ -387,15 +386,15 @@ SECTIONS (10 total, 3-4 findings each):
 TOP ACTIONS: 8 prioritized items with ROI justification.
 WORKFLOWS: 5 automation workflows tailored to the detected tech stack. Each must include specific tools and step-by-step process.`;
 
-    const raw = await callClaude(systemPrompt, context, anthropicKey);
+    const claudeResult = await callClaude(systemPrompt, context, anthropicKey);
 
     let report: any = null;
     let parseError = '';
-    if (raw) {
-      report = extractJson(raw);
-      if (!report) parseError = 'JSON parse failed. Raw start: ' + raw.slice(0, 300);
+    if (claudeResult.text) {
+      report = extractJson(claudeResult.text);
+      if (!report) parseError = 'JSON parse failed. Raw start: ' + claudeResult.text.slice(0, 300);
     } else {
-      parseError = 'No response from AI. Check ANTHROPIC_API_KEY env var.';
+      parseError = 'Claude error: ' + claudeResult.error + ' | Key starts with: ' + anthropicKey.slice(0, 12) + '...';
     }
 
     if (!report || report.score === undefined || !report.sections) {
