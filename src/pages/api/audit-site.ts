@@ -306,10 +306,18 @@ Focus styles: ${hasFocusStyles ? 'YES' : 'NO'}
 Images missing alt: ${imgsWithoutAlt}/${imgTags.length}`;
 
     // ── 4. AI analysis via Claude Sonnet ──────────────────────────
-    const anthropicKey = import.meta.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY;
+    const anthropicKey = import.meta.env.ANTHROPIC_API_KEY
+      || import.meta.env.Anthropic
+      || import.meta.env.anthropic
+      || import.meta.env.ANTHROPIC
+      || (typeof process !== 'undefined' ? process.env.ANTHROPIC_API_KEY : '')
+      || (typeof process !== 'undefined' ? process.env.Anthropic : '');
     if (!anthropicKey) {
+      // Debug: list available env var keys to find the right name
+      const availableKeys = Object.keys(import.meta.env).filter(k => !k.startsWith('PUBLIC_') && k.length < 40).join(', ');
       return new Response(JSON.stringify({
         error: 'AI service not configured',
+        debug: `No Anthropic key found. Available env keys: ${availableKeys}`,
       }), { status: 500 });
     }
 
