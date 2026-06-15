@@ -9,7 +9,7 @@ export const POST: APIRoute = async ({ request }) => {
     const urls: string[] = body.urls || [];
 
     if (!urls.length) {
-      return new Response(JSON.stringify({ error: 'No URLs provided' }), { status: 400 });
+      return new Response(JSON.stringify({ error: 'No URLs provided' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
     }
 
     // Ensure all URLs are absolute
@@ -32,9 +32,9 @@ export const POST: APIRoute = async ({ request }) => {
       success: resp.ok || resp.status === 202,
       status: resp.status,
       submitted: absoluteUrls.length,
-    }), { status: 200 });
+    }), { status: 200, headers: { 'Content-Type': 'application/json' } });
   } catch (e: any) {
-    return new Response(JSON.stringify({ error: e.message }), { status: 500 });
+    return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 };
 
@@ -79,6 +79,6 @@ export const GET: APIRoute = async () => {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (e: any) {
-    return new Response(JSON.stringify({ error: e.message }), { status: 500 });
+    return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 };
