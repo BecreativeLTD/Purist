@@ -30,6 +30,7 @@
     "astro": "^4.16.10",
     "astro-icon": "^1.1.1",
     "embla-carousel-preact": "^6.2.1",
+    "jspdf": "^4.2.1",
     "nanostores": "^0.11.3",
     "preact": "^10.24.3",
     "resend": "^6.12.4",

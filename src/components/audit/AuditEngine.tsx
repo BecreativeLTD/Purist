@@ -1,5 +1,5 @@
 import { useSignal } from '@preact/signals';
-import { useRef } from 'preact/hooks';
+import { useRef, useCallback } from 'preact/hooks';
 
 // ── Types ──────────────────────────────────────────────────────────
 type Phase = 'idle' | 'scanning' | 'done' | 'error';
@@ -140,9 +140,7 @@ export default function AuditEngine() {
 
       if (!res.ok || data.error) {
         phase.value = 'error';
-        errorMsg.value = data.debug
-          ? `${data.error} — ${data.debug}`
-          : (data.error || 'Failed to audit this URL. Please check the URL and try again.');
+        errorMsg.value = data.error || 'Failed to audit this URL. Please check the URL and try again.';
         return;
       }
 
@@ -161,6 +159,313 @@ export default function AuditEngine() {
     report.value = null;
     errorMsg.value = '';
     scanStep.value = 0;
+  }
+
+  async function downloadPDF(r: AuditReport) {
+    const { jsPDF } = await import('jspdf');
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const W = 210;
+    const margin = 18;
+    const cw = W - margin * 2;
+    let y = 0;
+
+    const addPage = () => { doc.addPage(); y = margin; };
+    const checkPage = (need: number) => { if (y + need > 280) addPage(); };
+
+    // ── Colors ──
+    const bg = '#0A0A0A';
+    const cream = '#F8F6F1';
+    const rose = '#E8B4B0';
+    const red = '#DC2626';
+    const orange = '#D97706';
+    const green = '#16A34A';
+
+    // ── Cover page ──
+    doc.setFillColor(10, 10, 10);
+    doc.rect(0, 0, W, 297, 'F');
+
+    // PURIST text logo
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(36);
+    doc.setTextColor(248, 246, 241);
+    doc.text('PURIST', W / 2, 50, { align: 'center' });
+    doc.setFontSize(10);
+    doc.setTextColor(232, 180, 176);
+    doc.text('DIGITAL AUDIT REPORT', W / 2, 60, { align: 'center' });
+
+    // Score circle
+    const scoreCol = (r.score ?? 0) >= 80 ? green : (r.score ?? 0) >= 60 ? orange : red;
+    const hex = scoreCol;
+    const sr = parseInt(hex.slice(1, 3), 16);
+    const sg = parseInt(hex.slice(3, 5), 16);
+    const sb = parseInt(hex.slice(5, 7), 16);
+    doc.setDrawColor(sr, sg, sb);
+    doc.setLineWidth(1.5);
+    doc.circle(W / 2, 100, 22);
+    doc.setFontSize(32);
+    doc.setTextColor(248, 246, 241);
+    doc.setFont('helvetica', 'bold');
+    doc.text(String(Number(r.score) || 0), W / 2, 105, { align: 'center' });
+    doc.setFontSize(12);
+    doc.text(r.grade || '?', W / 2, 115, { align: 'center' });
+
+    // URL & date
+    doc.setFontSize(14);
+    doc.setTextColor(248, 246, 241);
+    doc.text(r.meta?.url?.replace(/^https?:\/\//, '').replace(/\/$/, '') || '', W / 2, 145, { align: 'center' });
+    doc.setFontSize(9);
+    doc.setTextColor(150, 150, 150);
+    doc.text(`Generated ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`, W / 2, 153, { align: 'center' });
+
+    // Summary
+    doc.setFontSize(10);
+    doc.setTextColor(200, 200, 200);
+    const summaryLines = doc.splitTextToSize(r.summary || '', cw - 20);
+    doc.text(summaryLines, W / 2, 170, { align: 'center', maxWidth: cw - 20 });
+
+    // Meta bar
+    y = 200;
+    doc.setFontSize(8);
+    doc.setTextColor(150, 150, 150);
+    const metaItems = [
+      `Response: ${r.meta?.responseTime || '?'}ms`,
+      `HTML: ${r.meta?.htmlSize || '?'}KB`,
+      `Status: ${r.meta?.statusCode || '?'}`,
+      `Stack: ${r.meta?.techStack?.join(', ') || 'Unknown'}`,
+    ];
+    doc.text(metaItems.join('  |  '), W / 2, y, { align: 'center' });
+
+    // Urgencies
+    if (r.urgencies?.length) {
+      y += 15;
+      doc.setFontSize(8);
+      doc.setTextColor(220, 38, 38);
+      doc.text('URGENT ISSUES', margin, y);
+      y += 6;
+      doc.setTextColor(200, 200, 200);
+      doc.setFontSize(9);
+      r.urgencies.forEach((u: string) => {
+        const lines = doc.splitTextToSize(`• ${u}`, cw);
+        doc.text(lines, margin, y);
+        y += lines.length * 4.5;
+      });
+    }
+
+    // Footer on cover
+    doc.setFontSize(7);
+    doc.setTextColor(100, 100, 100);
+    doc.text('purist.online', W / 2, 288, { align: 'center' });
+
+    // ── Section pages ──
+    r.sections?.forEach((section: Section) => {
+      addPage();
+      doc.setFillColor(10, 10, 10);
+      doc.rect(0, 0, W, 297, 'F');
+
+      // Section header
+      doc.setFontSize(16);
+      doc.setTextColor(248, 246, 241);
+      doc.setFont('helvetica', 'bold');
+      doc.text(section.title, margin, y);
+
+      // Score
+      const sCol = section.score >= 80 ? green : section.score >= 60 ? orange : red;
+      const sR = parseInt(sCol.slice(1, 3), 16);
+      const sG = parseInt(sCol.slice(3, 5), 16);
+      const sB = parseInt(sCol.slice(5, 7), 16);
+      doc.setTextColor(sR, sG, sB);
+      doc.setFontSize(14);
+      doc.text(`${section.score}/100`, W - margin, y, { align: 'right' });
+
+      // Verdict
+      if ((section as any).verdict) {
+        y += 7;
+        doc.setFontSize(9);
+        doc.setTextColor(150, 150, 150);
+        doc.setFont('helvetica', 'normal');
+        doc.text((section as any).verdict, margin, y);
+      }
+
+      y += 10;
+      doc.setDrawColor(40, 40, 40);
+      doc.line(margin, y, W - margin, y);
+      y += 8;
+
+      // Findings
+      section.findings?.forEach((f: Finding) => {
+        checkPage(30);
+
+        // Severity badge
+        doc.setFontSize(7);
+        doc.setFont('helvetica', 'bold');
+        if (f.severity === 'critical') { doc.setTextColor(220, 38, 38); doc.text('CRITICAL', margin, y); }
+        else if (f.severity === 'warning') { doc.setTextColor(217, 119, 6); doc.text('WARNING', margin, y); }
+        else { doc.setTextColor(22, 163, 74); doc.text('PASSED', margin, y); }
+
+        // Title
+        doc.setFontSize(11);
+        doc.setTextColor(248, 246, 241);
+        doc.setFont('helvetica', 'bold');
+        y += 6;
+        doc.text(f.title, margin, y);
+
+        // Detail
+        y += 5;
+        doc.setFontSize(9);
+        doc.setTextColor(170, 170, 170);
+        doc.setFont('helvetica', 'normal');
+        const detailLines = doc.splitTextToSize(f.detail || '', cw);
+        doc.text(detailLines, margin, y);
+        y += detailLines.length * 4.2;
+
+        // Fix
+        if (f.fix && f.fix !== 'None' && f.fix !== 'none' && f.fix !== 'N/A' && f.fix !== 'null') {
+          y += 2;
+          doc.setFontSize(8);
+          doc.setTextColor(232, 180, 176);
+          const fixLines = doc.splitTextToSize(`Fix: ${f.fix}`, cw - 4);
+          doc.text(fixLines, margin + 2, y);
+          y += fixLines.length * 3.8;
+        }
+
+        y += 8;
+      });
+    });
+
+    // ── Action Plan page ──
+    if (r.topActions?.length) {
+      addPage();
+      doc.setFillColor(10, 10, 10);
+      doc.rect(0, 0, W, 297, 'F');
+
+      doc.setFontSize(16);
+      doc.setTextColor(248, 246, 241);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Priority Action Plan', margin, y);
+      y += 12;
+
+      r.topActions.forEach((a: TopAction, i: number) => {
+        checkPage(20);
+        // Priority number
+        doc.setFontSize(16);
+        doc.setTextColor(60, 60, 60);
+        doc.text(String(a.priority || i + 1).padStart(2, '0'), margin, y);
+
+        // Action text
+        doc.setFontSize(10);
+        doc.setTextColor(220, 220, 220);
+        doc.setFont('helvetica', 'normal');
+        const actionLines = doc.splitTextToSize(a.action, cw - 60);
+        doc.text(actionLines, margin + 15, y - 2);
+
+        // Impact & effort
+        const impCol = a.impact === 'high' ? red : a.impact === 'medium' ? orange : green;
+        const iR = parseInt(impCol.slice(1, 3), 16);
+        const iG = parseInt(impCol.slice(3, 5), 16);
+        const iB = parseInt(impCol.slice(5, 7), 16);
+        doc.setFontSize(7);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(iR, iG, iB);
+        doc.text(a.impact?.toUpperCase() || '', W - margin - 25, y - 2);
+        doc.setTextColor(120, 120, 120);
+        doc.setFont('helvetica', 'normal');
+        doc.text(effortLabel(a.effort), W - margin - 25, y + 2);
+
+        // ROI
+        if ((a as any).roi) {
+          doc.setFontSize(8);
+          doc.setTextColor(232, 180, 176);
+          doc.text((a as any).roi, margin + 15, y + actionLines.length * 4);
+          y += 4;
+        }
+
+        y += actionLines.length * 4 + 8;
+      });
+    }
+
+    // ── Workflows page ──
+    if ((r as any).workflows?.length) {
+      addPage();
+      doc.setFillColor(10, 10, 10);
+      doc.rect(0, 0, W, 297, 'F');
+
+      doc.setFontSize(16);
+      doc.setTextColor(248, 246, 241);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Automation Workflows', margin, y);
+      doc.setFontSize(9);
+      doc.setTextColor(150, 150, 150);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Based on the tools detected on your site', margin, y + 6);
+      y += 16;
+
+      (r as any).workflows.forEach((w: any) => {
+        checkPage(35);
+        doc.setFontSize(11);
+        doc.setTextColor(248, 246, 241);
+        doc.setFont('helvetica', 'bold');
+        doc.text(w.name, margin, y);
+        y += 6;
+
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'normal');
+
+        doc.setTextColor(232, 180, 176);
+        doc.text('Trigger: ', margin, y);
+        doc.setTextColor(170, 170, 170);
+        doc.text(w.trigger, margin + 15, y);
+        y += 4.5;
+
+        doc.setTextColor(232, 180, 176);
+        doc.text('Tools: ', margin, y);
+        doc.setTextColor(170, 170, 170);
+        doc.text(w.tools, margin + 13, y);
+        y += 4.5;
+
+        if (w.steps) {
+          doc.setTextColor(232, 180, 176);
+          doc.text('Process: ', margin, y);
+          doc.setTextColor(170, 170, 170);
+          const stepLines = doc.splitTextToSize(w.steps, cw - 20);
+          doc.text(stepLines, margin + 17, y);
+          y += stepLines.length * 4;
+        }
+
+        doc.setTextColor(232, 180, 176);
+        doc.setFontSize(8);
+        const impactLines = doc.splitTextToSize(w.impact, cw);
+        doc.text(impactLines, margin, y + 2);
+        y += impactLines.length * 4 + 10;
+      });
+    }
+
+    // ── Back cover ──
+    addPage();
+    doc.setFillColor(10, 10, 10);
+    doc.rect(0, 0, W, 297, 'F');
+
+    doc.setFontSize(28);
+    doc.setTextColor(248, 246, 241);
+    doc.setFont('helvetica', 'bold');
+    doc.text('PURIST', W / 2, 120, { align: 'center' });
+
+    doc.setFontSize(12);
+    doc.setTextColor(232, 180, 176);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Ready to fix everything?', W / 2, 140, { align: 'center' });
+
+    doc.setFontSize(10);
+    doc.setTextColor(200, 200, 200);
+    doc.text('Book a free 30-minute strategy call', W / 2, 155, { align: 'center' });
+    doc.text('purist.online', W / 2, 165, { align: 'center' });
+
+    doc.setFontSize(7);
+    doc.setTextColor(100, 100, 100);
+    doc.text(`Report generated by PURIST Audit AI on ${new Date().toISOString().slice(0, 10)}`, W / 2, 288, { align: 'center' });
+
+    // Save
+    const domain = r.meta?.url?.replace(/^https?:\/\//, '').replace(/[\/\?#:]/g, '-').replace(/-+$/, '') || 'audit';
+    doc.save(`PURIST-Audit-${domain}.pdf`);
   }
 
   // ── IDLE ──
@@ -482,6 +787,13 @@ export default function AuditEngine() {
           <a href="/pages/welcome" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', background: '#F8F6F1', color: '#0A0A0A', borderRadius: 10, fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>
             Book free consultation →
           </a>
+          <button
+            onClick={() => downloadPDF(r)}
+            style={{ padding: '14px 24px', background: 'rgba(232,180,176,0.1)', border: '1px solid rgba(232,180,176,0.25)', borderRadius: 10, color: '#E8B4B0', fontSize: 14, fontWeight: 600, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8 }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            Download PDF Report
+          </button>
           <button
             onClick={reset}
             style={{ padding: '14px 24px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'rgba(248,246,241,0.6)', fontSize: 14, cursor: 'pointer' }}

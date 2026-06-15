@@ -66,7 +66,7 @@ async function callClaude(
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 5000,
+        max_tokens: 6000,
         temperature: 0,
         system,
         messages: [{ role: 'user', content: userMsg }],
@@ -313,38 +313,38 @@ Images missing alt: ${imgsWithoutAlt}/${imgTags.length}`;
       || (typeof process !== 'undefined' ? process.env.ANTHROPIC_API_KEY : '')
       || (typeof process !== 'undefined' ? process.env.Anthropic : '');
     if (!anthropicKey) {
-      // Debug: list available env var keys to find the right name
-      const availableKeys = Object.keys(import.meta.env).filter(k => !k.startsWith('PUBLIC_') && k.length < 40).join(', ');
       return new Response(JSON.stringify({
-        error: 'AI service not configured',
-        debug: `No Anthropic key found. Available env keys: ${availableKeys}`,
+        error: 'Audit service is temporarily unavailable. Please try again later.',
       }), { status: 500 });
     }
 
-    const systemPrompt = `Premium site auditor for PURIST automation agency. Return ONLY valid JSON — no markdown, no text outside JSON.
-Reference real data from signals. Be brutally honest. Scores must reflect reality.
+    const systemPrompt = `You are PURIST Audit AI — an elite 360° website auditor for a premium automation agency. Return ONLY valid JSON. No markdown, no text outside JSON.
+
+RULES:
+- Reference REAL data from the signals (exact numbers, actual values found or missing)
+- Be brutally honest and specific. No generic advice.
+- Each finding detail must cite actual data points from the audit
+- Fixes must be actionable with specific technical steps
 
 JSON structure:
-{"score":0-100,"grade":"A-F","summary":"4 sentence executive summary with real metrics","urgencies":["3 critical issues"],"sections":[{"id":"ID","title":"TITLE","score":0-100,"verdict":"1 sentence","findings":[{"severity":"critical|warning|good","title":"short","detail":"2 sentences with real data","fix":"specific fix or null if good"}]}],"topActions":[{"priority":1,"action":"specific","impact":"high|medium|low","effort":"quick|medium|hard","roi":"outcome"}],"workflows":[{"name":"name","trigger":"event","tools":"stack-specific tools + n8n","steps":"3 steps","impact":"result"}]}
+{"score":0-100,"grade":"A+/A/B/C/D/F","summary":"5-6 sentence executive summary citing specific metrics (response time, word count, missing elements, detected stack). End with the #1 opportunity.","urgencies":["4 urgent issues with specific data"],"sections":[{"id":"ID","title":"TITLE","score":0-100,"verdict":"1 sentence with key metric","findings":[{"severity":"critical|warning|good","title":"concise","detail":"2-3 sentences citing real data from the audit signals","fix":"specific technical fix with tools/code/config. null if good"}]}],"topActions":[{"priority":1,"action":"specific technical action","impact":"high|medium|low","effort":"quick|medium|hard","roi":"quantified business outcome"}],"workflows":[{"name":"descriptive name","trigger":"specific event","tools":"detected stack tools + n8n/Make","steps":"Step 1 → Step 2 → Step 3 → Step 4","impact":"specific business result with expected outcome"}]}
 
-10 sections (3 findings each): seo/SEO & Search Visibility, technical/Technical Performance, content/Content Quality, tracking/Tracking & Analytics, security/Security & Compliance, business/Business & Conversion, accessibility/Accessibility, brand/Brand & Trust, automation/Automation Opportunities, ecosystem/Growth Ecosystem
-6 topActions. 4 workflows matching detected stack.`;
+10 sections with 4 findings each:
+seo/SEO & Search Visibility, technical/Technical Performance, content/Content Quality & Strategy, tracking/Tracking & Analytics, security/Security & Compliance, business/Business & Conversion, accessibility/Accessibility & UX, brand/Brand & Trust Signals, automation/Automation Opportunities, ecosystem/Growth Ecosystem & Roadmap
+
+8 topActions with ROI. 5 workflows matching detected stack with detailed steps.`;
 
     const claudeResult = await callClaude(systemPrompt, context, anthropicKey);
 
     let report: any = null;
-    let parseError = '';
     if (claudeResult.text) {
       report = extractJson(claudeResult.text);
-      if (!report) parseError = 'JSON parse failed. Raw start: ' + claudeResult.text.slice(0, 300);
-    } else {
-      parseError = 'Claude error: ' + claudeResult.error + ' | Key starts with: ' + anthropicKey.slice(0, 12) + '...';
     }
 
     if (!report || report.score === undefined || !report.sections) {
+      console.error('Audit failed:', claudeResult.error || 'parse error');
       return new Response(JSON.stringify({
-        error: 'Could not generate report. Please try again.',
-        debug: parseError,
+        error: 'Our AI is temporarily overloaded. Please try again in a few seconds.',
       }), { status: 502 });
     }
 
