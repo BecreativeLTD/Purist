@@ -143,35 +143,67 @@ import AuditEngine from '~/components/audit/AuditEngine.tsx';
 </section>
 
 <!-- ── How it works ─────────────────────────────────────────────────── -->
-<section style="background:#0A0A0A;color:#F8F6F1;padding:5rem 0;">
-  <div style="max-width:900px;margin:0 auto;padding:0 1.5rem;">
-    <div style="text-align:center;margin-bottom:3.5rem;">
-      <p style="font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;opacity:0.35;margin-bottom:0.8rem;">How it works</p>
-      <h2 style="font-family:Georgia,serif;font-size:1.6rem;font-weight:400;">Three steps. Zero friction.</h2>
+<section style="background:#0A0A0A;color:#F8F6F1;padding:6rem 0;">
+  <div style="max-width:960px;margin:0 auto;padding:0 1.5rem;">
+    <div style="text-align:center;margin-bottom:4rem;">
+      <p class="hiw-label">How it works</p>
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:400;">Three steps. Zero friction.</h2>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;position:relative;">
-      <!-- connector line -->
-      <div style="position:absolute;top:28px;left:16.66%;right:16.66%;height:1px;background:linear-gradient(to right,transparent,rgba(232,180,176,0.2),rgba(232,180,176,0.2),transparent);"></div>
-      <div style="text-align:center;position:relative;">
-        <div style="width:56px;height:56px;border-radius:50%;background:rgba(232,180,176,0.08);border:1px solid rgba(232,180,176,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:1.2rem;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="1.5" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+    <div class="hiw-grid">
+      <!-- Animated connector -->
+      <div class="hiw-connector"><div class="hiw-connector-fill"></div></div>
+
+      <!-- Step 1 -->
+      <div class="hiw-step hiw-step-1">
+        <div class="hiw-number">01</div>
+        <div class="hiw-icon-wrap">
+          <div class="hiw-icon-ring"></div>
+          <div class="hiw-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5" stroke="#E8B4B0"/>
+              <path d="M15 3h6v6" stroke="#E8B4B0"/>
+              <path d="M10 14L21 3" stroke="#E8B4B0"/>
+            </svg>
+          </div>
         </div>
-        <p style="font-weight:600;font-size:0.95rem;margin-bottom:0.4rem;">Paste your URL</p>
-        <p style="font-size:0.8rem;opacity:0.4;line-height:1.6;max-width:200px;margin:0 auto;">Any live website — yours, a competitor's, a prospect's.</p>
+        <h3 class="hiw-title">Paste your URL</h3>
+        <p class="hiw-desc">Any live website — yours, a competitor's, a prospect's. No sign-up required.</p>
       </div>
-      <div style="text-align:center;position:relative;">
-        <div style="width:56px;height:56px;border-radius:50%;background:rgba(232,180,176,0.08);border:1px solid rgba(232,180,176,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:1.2rem;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="1.5" stroke-linecap="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>
+
+      <!-- Step 2 -->
+      <div class="hiw-step hiw-step-2">
+        <div class="hiw-number">02</div>
+        <div class="hiw-icon-wrap">
+          <div class="hiw-icon-ring"></div>
+          <div class="hiw-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3C7.03 3 3 7.03 3 12s4.03 9 9 9 9-4.03 9-9" stroke="#E8B4B0"/>
+              <path d="M12 3a9 9 0 019 9" stroke="#E8B4B0" stroke-dasharray="4 3"/>
+              <circle cx="12" cy="12" r="3" stroke="#E8B4B0"/>
+              <path d="M12 1v2M12 21v2M1 12h2M21 12h2" stroke="rgba(232,180,176,0.3)"/>
+            </svg>
+          </div>
         </div>
-        <p style="font-weight:600;font-size:0.95rem;margin-bottom:0.4rem;">AI scans & scores</p>
-        <p style="font-size:0.8rem;opacity:0.4;line-height:1.6;max-width:200px;margin:0 auto;">30+ signals extracted. AI analyses across 5 categories in real-time.</p>
+        <h3 class="hiw-title">AI scans & scores</h3>
+        <p class="hiw-desc">30+ signals extracted across 10 categories. Claude AI analyses in real-time.</p>
       </div>
-      <div style="text-align:center;position:relative;">
-        <div style="width:56px;height:56px;border-radius:50%;background:rgba(232,180,176,0.08);border:1px solid rgba(232,180,176,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:1.2rem;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
+
+      <!-- Step 3 -->
+      <div class="hiw-step hiw-step-3">
+        <div class="hiw-number">03</div>
+        <div class="hiw-icon-wrap">
+          <div class="hiw-icon-ring"></div>
+          <div class="hiw-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" stroke="#E8B4B0"/>
+              <rect x="9" y="3" width="6" height="4" rx="1" stroke="#E8B4B0"/>
+              <path d="M9 12l2 2 4-4" stroke="#E8B4B0"/>
+              <path d="M9 17h6" stroke="rgba(232,180,176,0.4)"/>
+            </svg>
+          </div>
         </div>
-        <p style="font-weight:600;font-size:0.95rem;margin-bottom:0.4rem;">Get your action plan</p>
-        <p style="font-size:0.8rem;opacity:0.4;line-height:1.6;max-width:200px;margin:0 auto;">Prioritised findings with specific code-level fixes.</p>
+        <h3 class="hiw-title">Get your action plan</h3>
+        <p class="hiw-desc">Prioritised findings, code-level fixes, and automation workflows. Downloadable as PDF.</p>
       </div>
     </div>
   </div>
@@ -268,6 +300,158 @@ import AuditEngine from '~/components/audit/AuditEngine.tsx';
   @keyframes audit-live-dot {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.3; }
+  }
+
+  /* ── How it works ── */
+  .hiw-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.35;
+    margin-bottom: 0.8rem;
+  }
+
+  .hiw-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    position: relative;
+  }
+
+  /* Animated connector line */
+  .hiw-connector {
+    position: absolute;
+    top: 72px;
+    left: calc(16.66% + 32px);
+    right: calc(16.66% + 32px);
+    height: 1px;
+    background: rgba(232, 180, 176, 0.08);
+    z-index: 0;
+  }
+  .hiw-connector-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #E8B4B0, rgba(232,180,176,0.3));
+    animation: hiw-line-grow 1.8s ease-out 0.6s forwards;
+  }
+
+  /* Step card */
+  .hiw-step {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  .hiw-step-1 { animation: hiw-fade-up 0.7s ease-out 0.2s forwards; }
+  .hiw-step-2 { animation: hiw-fade-up 0.7s ease-out 0.5s forwards; }
+  .hiw-step-3 { animation: hiw-fade-up 0.7s ease-out 0.8s forwards; }
+
+  /* Step number */
+  .hiw-number {
+    font-family: Georgia, serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: rgba(232, 180, 176, 0.25);
+    margin-bottom: 1rem;
+  }
+
+  /* Icon container */
+  .hiw-icon-wrap {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1.4rem;
+  }
+
+  /* Orbiting ring */
+  .hiw-icon-ring {
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    border-top-color: rgba(232, 180, 176, 0.3);
+    border-right-color: rgba(232, 180, 176, 0.1);
+    animation: hiw-ring-spin 4s linear infinite;
+  }
+  .hiw-step-2 .hiw-icon-ring {
+    animation-duration: 3s;
+    animation-direction: reverse;
+  }
+  .hiw-step-3 .hiw-icon-ring {
+    animation-duration: 5s;
+  }
+
+  /* Icon circle */
+  .hiw-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(232, 180, 176, 0.06);
+    border: 1px solid rgba(232, 180, 176, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.4s, border-color 0.4s, transform 0.4s;
+  }
+  .hiw-step:hover .hiw-icon {
+    background: rgba(232, 180, 176, 0.12);
+    border-color: rgba(232, 180, 176, 0.35);
+    transform: scale(1.08);
+  }
+  .hiw-step:hover .hiw-icon-ring {
+    border-top-color: rgba(232, 180, 176, 0.5);
+  }
+
+  /* Pulse glow on step 2 icon */
+  .hiw-step-2 .hiw-icon::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,180,176,0.08) 0%, transparent 70%);
+    animation: hiw-pulse-glow 2.5s ease-in-out infinite;
+  }
+
+  .hiw-title {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .hiw-desc {
+    font-size: 0.82rem;
+    opacity: 0.4;
+    line-height: 1.65;
+    max-width: 220px;
+    margin: 0 auto;
+  }
+
+  /* Animations */
+  @keyframes hiw-fade-up {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes hiw-line-grow {
+    to { width: 100%; }
+  }
+  @keyframes hiw-ring-spin {
+    to { transform: rotate(360deg); }
+  }
+  @keyframes hiw-pulse-glow {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.15); }
+  }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .hiw-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .hiw-connector {
+      display: none;
+    }
   }
 </style>
 
