@@ -15,6 +15,7 @@ interface Section {
   id: string;
   title: string;
   score: number;
+  verdict?: string;
   findings: Finding[];
 }
 
@@ -23,6 +24,7 @@ interface TopAction {
   action: string;
   impact: string;
   effort: string;
+  roi?: string;
 }
 
 interface AuditReport {
@@ -374,12 +376,17 @@ export default function AuditEngine() {
       {/* Section details */}
       {r.sections?.map((section: Section) => (
         <div key={section.id} style={{ marginBottom: 20, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 18, overflow: 'hidden' }}>
-          <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <h3 style={{ fontFamily: 'Georgia,serif', fontSize: 18, color: '#F8F6F1', margin: 0 }}>{section.title}</h3>
-            <span style={{
-              fontSize: 13, fontWeight: 600,
-              color: section.score >= 80 ? '#16A34A' : section.score >= 60 ? '#D97706' : '#DC2626',
-            }}>{section.score}/100</span>
+          <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: section.verdict ? 8 : 0 }}>
+              <h3 style={{ fontFamily: 'Georgia,serif', fontSize: 18, color: '#F8F6F1', margin: 0 }}>{section.title}</h3>
+              <span style={{
+                fontSize: 13, fontWeight: 600,
+                color: section.score >= 80 ? '#16A34A' : section.score >= 60 ? '#D97706' : '#DC2626',
+              }}>{section.score}/100</span>
+            </div>
+            {section.verdict && (
+              <p style={{ fontSize: 12, color: 'rgba(248,246,241,0.4)', lineHeight: 1.5, margin: 0 }}>{section.verdict}</p>
+            )}
           </div>
           <div style={{ padding: '12px 24px 24px' }}>
             {section.findings?.map((f: Finding, fi: number) => {
@@ -415,7 +422,10 @@ export default function AuditEngine() {
                 <span style={{ fontFamily: 'Georgia,serif', fontSize: 20, color: 'rgba(232,180,176,0.25)', width: 32, flexShrink: 0, textAlign: 'center' as const }}>
                   {String(a.priority).padStart(2, '0')}
                 </span>
-                <span style={{ fontSize: 13, color: 'rgba(248,246,241,0.7)', flex: 1, lineHeight: 1.5 }}>{a.action}</span>
+                <div style={{ flex: 1 }}>
+                  <span style={{ fontSize: 13, color: 'rgba(248,246,241,0.7)', lineHeight: 1.5 }}>{a.action}</span>
+                  {a.roi && <p style={{ fontSize: 11, color: 'rgba(232,180,176,0.5)', marginTop: 3, marginBottom: 0, lineHeight: 1.4 }}>{a.roi}</p>}
+                </div>
                 <span style={{ fontSize: 10, color: impactColor(a.impact), fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: '0.1em', flexShrink: 0 }}>{a.impact}</span>
                 <span style={{ fontSize: 10, color: 'rgba(248,246,241,0.3)', flexShrink: 0 }}>{effortLabel(a.effort)}</span>
               </div>
@@ -443,6 +453,7 @@ export default function AuditEngine() {
                 <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 4 }}>
                   <p style={{ fontSize: 11, color: 'rgba(248,246,241,0.35)' }}><span style={{ color: 'rgba(232,180,176,0.6)', fontWeight: 600 }}>Trigger:</span> {w.trigger}</p>
                   <p style={{ fontSize: 11, color: 'rgba(248,246,241,0.35)' }}><span style={{ color: 'rgba(232,180,176,0.6)', fontWeight: 600 }}>Tools:</span> {w.tools}</p>
+                  {w.steps && <p style={{ fontSize: 11, color: 'rgba(248,246,241,0.35)' }}><span style={{ color: 'rgba(232,180,176,0.6)', fontWeight: 600 }}>Process:</span> {w.steps}</p>}
                   <p style={{ fontSize: 11, color: 'rgba(232,180,176,0.5)', fontWeight: 500, marginTop: 4 }}>{w.impact}</p>
                 </div>
               </div>

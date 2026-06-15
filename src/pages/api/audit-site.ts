@@ -54,7 +54,7 @@ async function callClaude(
   system: string, userMsg: string, key: string
 ): Promise<string | null> {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 30000);
+  const timer = setTimeout(() => controller.abort(), 45000);
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -65,7 +65,7 @@ async function callClaude(
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 4096,
+        max_tokens: 8192,
         temperature: 0,
         system,
         messages: [{ role: 'user', content: userMsg }],
@@ -240,13 +240,65 @@ export const POST: APIRoute = async ({ request }) => {
     const hasServiceWorker = html.includes('serviceWorker') || html.includes('service-worker');
 
     // ── 3. Build analysis context ──────────────────────────────────
-    const context = `AUDIT: ${targetUrl} | ${statusCode} | ${responseTime}ms | ${htmlSize}KB | ${wordCount} words
-SEO: Title="${title.slice(0,60)}"(${title.length}ch) MetaDesc="${metaDesc.slice(0,60)}"(${metaDesc.length}ch) Canonical=${canonical||'NO'} Robots=${robots||'none'} Lang=${lang||'NO'} H1:${h1s.length} H2:${h2s.length} H3:${h3s.length} OG:${ogTitle?'y':'N'}/${ogDesc?'y':'N'}/${ogImage?'y':'N'} Schema=${hasSchema?schemaTypes.join(','):'NONE'} Imgs:${imgTags.length}(${imgsWithoutAlt} no alt) Links:${internalLinks}int/${externalLinks}ext Lazy:${lazyImages}
-TECH: Stack=${techStack.join(',')||'unknown'} JS:${scriptCount} CSS:${cssLinks} Inline:${inlineStyleCount} Server=${headers['server']??'?'} Viewport=${viewport?'y':'NO'} Favicon=${hasFavicon?'y':'NO'} Preloads:${preloads} SW=${hasServiceWorker?'y':'n'}
-TRACKING: ${tracking.join(', ')||'NONE'}
-SECURITY: HTTPS=${hasHttps?'y':'N'} HSTS=${hsts?'y':'NO'} CSP=${csp?'y':'NO'} XFrame=${xFrame||'NO'} XContent=${xContent||'NO'} CookieConsent=${hasCookieConsent?'y':'NO'} Privacy=${hasPrivacyLink?'y':'NO'} Terms=${hasTermsLink?'y':'NO'}
-BUSINESS: Forms:${forms} Buttons:${buttons} Inputs:${inputs} CTA=${hasCTA?'y':'NO'} Pricing=${hasPricing?'y':'n'} Testimonials=${hasTestimonials?'y':'n'} Chat=${hasChat?'y':'n'} Contact=${hasContactInfo?'y':'NO'} Social=${socialPlatforms.join(',')||'NONE'} Video=${hasVideo?'y':'n'}
-A11Y: AriaLabels:${ariaLabels} Roles:${ariaRoles} SkipLink=${hasSkipLink?'y':'n'} AltMissing:${imgsWithoutAlt}/${imgTags.length}`;
+    const context = `FULL SITE AUDIT: ${targetUrl}
+Status: ${statusCode} | Response: ${responseTime}ms | HTML size: ${htmlSize}KB | Word count: ${wordCount}
+
+── SEO SIGNALS ──
+Title: "${title}" (${title.length} chars)
+Meta Description: "${metaDesc}" (${metaDesc.length} chars)
+Canonical: ${canonical || 'MISSING'}
+Robots: ${robots || 'not set'}
+Language: ${lang || 'MISSING'}
+H1 tags (${h1s.length}): ${h1s.slice(0, 3).join(' | ') || 'NONE'}
+H2 tags (${h2s.length}): ${h2s.slice(0, 6).join(' | ') || 'NONE'}
+H3 tags (${h3s.length}): ${h3s.slice(0, 4).join(' | ') || 'NONE'}
+Open Graph: title=${ogTitle ? 'YES' : 'NO'} desc=${ogDesc ? 'YES' : 'NO'} image=${ogImage ? 'YES' : 'NO'}
+Schema.org: ${hasSchema ? schemaTypes.join(', ') : 'NONE'}
+Images: ${imgTags.length} total, ${imgsWithoutAlt} missing alt text
+Links: ${internalLinks} internal, ${externalLinks} external
+Lazy loading images: ${lazyImages}
+
+── TECH STACK ──
+Detected: ${techStack.join(', ') || 'unknown'}
+JavaScript files: ${scriptCount}
+CSS files: ${cssLinks}
+Inline styles: ${inlineStyleCount}
+Server: ${headers['server'] ?? 'unknown'}
+Viewport meta: ${viewport ? 'YES' : 'MISSING'}
+Favicon: ${hasFavicon ? 'YES' : 'MISSING'}
+Preload hints: ${preloads}
+Service Worker: ${hasServiceWorker ? 'YES' : 'NO'}
+Charset: ${charset}
+
+── TRACKING & ANALYTICS ──
+${tracking.length > 0 ? tracking.join('\n') : 'NO TRACKING DETECTED'}
+
+── SECURITY ──
+HTTPS: ${hasHttps ? 'YES' : 'NO'}
+HSTS: ${hsts || 'MISSING'}
+CSP: ${csp ? 'Present' : 'MISSING'}
+X-Frame-Options: ${xFrame || 'MISSING'}
+X-Content-Type-Options: ${xContent || 'MISSING'}
+Cookie Consent: ${hasCookieConsent ? 'YES' : 'NO'}
+Privacy Policy: ${hasPrivacyLink ? 'YES' : 'NO'}
+Terms of Service: ${hasTermsLink ? 'YES' : 'NO'}
+
+── BUSINESS & CONVERSION ──
+Forms: ${forms} | Buttons: ${buttons} | Input fields: ${inputs}
+Clear CTA: ${hasCTA ? 'YES' : 'NO'}
+Pricing visible: ${hasPricing ? 'YES' : 'NO'}
+Testimonials/reviews: ${hasTestimonials ? 'YES' : 'NO'}
+Live chat: ${hasChat ? 'YES' : 'NO'}
+Contact info (email/phone): ${hasContactInfo ? 'YES' : 'NO'}
+Video content: ${hasVideo ? 'YES' : 'NO'}
+Social links: ${socialPlatforms.join(', ') || 'NONE'}
+
+── ACCESSIBILITY ──
+ARIA labels: ${ariaLabels}
+ARIA roles: ${ariaRoles}
+Skip-to-content link: ${hasSkipLink ? 'YES' : 'NO'}
+Focus styles: ${hasFocusStyles ? 'YES' : 'NO'}
+Images missing alt: ${imgsWithoutAlt}/${imgTags.length}`;
 
     // ── 4. AI analysis via Claude Sonnet ──────────────────────────
     const anthropicKey = import.meta.env.ANTHROPIC_API_KEY;
@@ -256,18 +308,71 @@ A11Y: AriaLabels:${ariaLabels} Roles:${ariaRoles} SkipLink=${hasSkipLink?'y':'n'
       }), { status: 500 });
     }
 
-    const systemPrompt = `You are a premium website auditor for PURIST, an automation agency. Analyze the site data and return ONLY valid JSON — no markdown, no explanation.
+    const systemPrompt = `You are "Purist Audit AI", an elite autonomous agent specialized in 360° digital ecosystem audits. You work for PURIST, a premium automation agency. Your analysis must be cold, analytical, data-driven, and worth $2000 in consulting value.
 
-Return this exact structure:
-{"score":0-100,"grade":"A/B/C/D/F","summary":"3-5 sentence executive summary with specific data points","urgencies":["top 3 critical issues"],"sections":[10 sections each with id,title,score,findings],"topActions":[5 prioritized items],"workflows":[4 automation workflows]}
+CRITICAL RULES:
+- Return ONLY valid JSON. No markdown fences, no text before/after.
+- Every finding MUST reference actual data from the signals provided (real numbers, real values, real missing elements).
+- Never invent data. If something cannot be determined, say "Not detectable from homepage scan" in the detail.
+- Be brutally honest. Low scores when deserved. High scores only when earned.
+- Write in English but be internationally aware.
 
-Section IDs & titles (in order): seo/SEO & Indexability, technical/Technical & Performance, content/Content Quality, tracking/Tracking & Analytics, security/Security & Compliance, business/Business & Conversion, accessibility/Accessibility, brand/Brand & Trust, automation/Automation Opportunities, ecosystem/Ecosystem & Growth
+Return this exact JSON structure:
+{
+  "score": 0-100,
+  "grade": "A+/A/B/C/D/F",
+  "summary": "5-7 sentence executive summary. Start with the overall health verdict. Reference specific metrics (response time, word count, missing elements). End with the single biggest opportunity.",
+  "urgencies": ["3-5 urgent issues that need immediate attention, each a specific actionable sentence"],
+  "sections": [
+    {
+      "id": "seo",
+      "title": "SEO & Search Visibility",
+      "score": 0-100,
+      "verdict": "1 sentence section summary",
+      "findings": [
+        {
+          "severity": "critical|warning|good",
+          "title": "Short finding name",
+          "detail": "2-3 sentences with specific data points from the audit. Reference exact values: title length, meta desc length, missing tags, heading structure issues. Be precise.",
+          "fix": "Specific technical fix with example code/config when relevant. null if severity is good."
+        }
+      ]
+    }
+  ],
+  "topActions": [
+    {
+      "priority": 1,
+      "action": "Specific action with technical detail",
+      "impact": "high|medium|low",
+      "effort": "quick|medium|hard",
+      "roi": "Expected business outcome"
+    }
+  ],
+  "workflows": [
+    {
+      "name": "Workflow name",
+      "trigger": "What event or condition starts this",
+      "tools": "Specific tools based on the detected stack + n8n/Make/Zapier",
+      "steps": "3-4 step process description",
+      "impact": "Quantified or specific business result"
+    }
+  ]
+}
 
-Each section has 2-3 findings: {"severity":"critical|warning|good","title":"short","detail":"specific with real data from the audit","fix":"actionable fix or null if good"}
-Each topAction: {"priority":1-5,"action":"specific action","impact":"high|medium|low","effort":"quick|medium|hard"}
-Each workflow: {"name":"workflow name","trigger":"event","tools":"specific tools based on detected stack + n8n/Make","impact":"business result"}
+SECTIONS (10 total, 3-4 findings each):
+1. seo / SEO & Search Visibility — Title, meta, canonicals, OG tags, headings hierarchy, schema markup, internal linking, image SEO
+2. technical / Technical Performance — Response time, page weight, JS/CSS count, render blocking, lazy loading, preloading, service worker, mobile readiness
+3. content / Content Quality & Depth — Word count analysis, heading structure quality, content-to-code ratio, readability, E-E-A-T signals, content gaps
+4. tracking / Tracking & Analytics — Which tools detected, what's missing, event tracking maturity, conversion tracking readiness, attribution setup
+5. security / Security & Compliance — HTTPS, headers (HSTS, CSP, X-Frame), cookie consent, privacy policy, terms, GDPR readiness
+6. business / Business & Conversion — CTAs, forms, pricing visibility, social proof, contact accessibility, lead capture, conversion path analysis
+7. accessibility / Accessibility (WCAG) — ARIA usage, alt texts, skip links, focus management, color contrast indicators, semantic HTML
+8. brand / Brand & Trust Signals — Professional presentation, social presence, testimonials, video content, chat support, credibility markers
+9. automation / Automation Opportunities — What manual processes can be automated based on the detected stack, specific n8n/Make workflows to build
+10. ecosystem / Growth Ecosystem & Roadmap — Missing integrations, recommended tools, campaign readiness, funnel maturity, scaling recommendations
 
-Be specific and reference actual data from the signals. Workflows must match the detected tech stack.`;
+TOP ACTIONS: 8 prioritized items with ROI justification.
+WORKFLOWS: 5 automation workflows tailored to the detected tech stack. Each must include specific tools and step-by-step process.`;
 
     const raw = await callClaude(systemPrompt, context, anthropicKey);
 
