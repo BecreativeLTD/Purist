@@ -49,30 +49,36 @@ function extractJson(raw: string): any | null {
   return null;
 }
 
-/** Call a single model with timeout */
-async function callModel(
-  model: string, messages: any[], key: string, timeoutMs: number
-): Promise<{ data: any; error?: string }> {
+/** Call Anthropic Claude API */
+async function callClaude(
+  system: string, userMsg: string, key: string
+): Promise<string | null> {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  const timer = setTimeout(() => controller.abort(), 30000);
   try {
-    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${key}`,
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
         'Content-Type': 'application/json',
-        'HTTP-Referer': 'https://www.purist.online',
-        'X-Title': 'PURIST Site Audit',
       },
-      body: JSON.stringify({ model, messages, max_tokens: 4000, temperature: 0.1 }),
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 4096,
+        temperature: 0,
+        system,
+        messages: [{ role: 'user', content: userMsg }],
+      }),
       signal: controller.signal,
     });
     clearTimeout(timer);
-    if (!res.ok) return { data: null, error: await res.text() };
-    return { data: await res.json() };
-  } catch (e: any) {
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.content?.[0]?.text?.trim() ?? null;
+  } catch {
     clearTimeout(timer);
-    return { data: null, error: e?.message ?? 'timeout' };
+    return null;
   }
 }
 
@@ -242,42 +248,35 @@ SECURITY: HTTPS=${hasHttps?'y':'N'} HSTS=${hsts?'y':'NO'} CSP=${csp?'y':'NO'} XF
 BUSINESS: Forms:${forms} Buttons:${buttons} Inputs:${inputs} CTA=${hasCTA?'y':'NO'} Pricing=${hasPricing?'y':'n'} Testimonials=${hasTestimonials?'y':'n'} Chat=${hasChat?'y':'n'} Contact=${hasContactInfo?'y':'NO'} Social=${socialPlatforms.join(',')||'NONE'} Video=${hasVideo?'y':'n'}
 A11Y: AriaLabels:${ariaLabels} Roles:${ariaRoles} SkipLink=${hasSkipLink?'y':'n'} AltMissing:${imgsWithoutAlt}/${imgTags.length}`;
 
-    // ── 4. AI analysis (parallel race) ─────────────────────────────
-    const openRouterKey = import.meta.env.OpenRouter || import.meta.env.OPENROUTER_API_KEY;
-    if (!openRouterKey) {
+    // ── 4. AI analysis via Claude Sonnet ──────────────────────────
+    const anthropicKey = import.meta.env.ANTHROPIC_API_KEY;
+    if (!anthropicKey) {
       return new Response(JSON.stringify({
         error: 'AI service not configured',
       }), { status: 500 });
     }
 
-    const systemPrompt = `Site auditor. ONLY JSON, no text. Compact.
-{"score":N,"grade":"A-F","summary":"3 sentences","urgencies":["top 3"],"sections":[{"id":"seo","title":"SEO","score":N,"findings":[{"severity":"critical|warning|good","title":"..","detail":"1 sentence","fix":"..or null"}]},...],"topActions":[{"priority":1,"action":"..","impact":"high|medium|low","effort":"quick|medium|hard"}],"workflows":[{"name":"..","trigger":"..","tools":"..","impact":".."}]}
-IDs:seo,technical,content,tracking,security,business,accessibility,brand,automation,ecosystem. 2 findings/section. 5 actions. 3 workflows using detected stack+n8n. ONLY JSON.`;
+    const systemPrompt = `You are a premium website auditor for PURIST, an automation agency. Analyze the site data and return ONLY valid JSON — no markdown, no explanation.
 
-    const messages = [
-      { role: 'system', content: systemPrompt },
-      { role: 'user', content: context },
-    ];
+Return this exact structure:
+{"score":0-100,"grade":"A/B/C/D/F","summary":"3-5 sentence executive summary with specific data points","urgencies":["top 3 critical issues"],"sections":[10 sections each with id,title,score,findings],"topActions":[5 prioritized items],"workflows":[4 automation workflows]}
 
-    // Single fast model with short timeout, fallback to second
+Section IDs & titles (in order): seo/SEO & Indexability, technical/Technical & Performance, content/Content Quality, tracking/Tracking & Analytics, security/Security & Compliance, business/Business & Conversion, accessibility/Accessibility, brand/Brand & Trust, automation/Automation Opportunities, ecosystem/Ecosystem & Growth
+
+Each section has 2-3 findings: {"severity":"critical|warning|good","title":"short","detail":"specific with real data from the audit","fix":"actionable fix or null if good"}
+Each topAction: {"priority":1-5,"action":"specific action","impact":"high|medium|low","effort":"quick|medium|hard"}
+Each workflow: {"name":"workflow name","trigger":"event","tools":"specific tools based on detected stack + n8n/Make","impact":"business result"}
+
+Be specific and reference actual data from the signals. Workflows must match the detected tech stack.`;
+
+    const raw = await callClaude(systemPrompt, context, anthropicKey);
+
     let report: any = null;
-
-    // Try Gemma 12B first (fastest), then 31B as fallback
-    for (const model of ['google/gemma-4-12b-it:free', 'google/gemma-4-31b-it:free']) {
-      const result = await callModel(model, messages, openRouterKey, 30000);
-      if (result.data) {
-        const raw = result.data.choices?.[0]?.message?.content?.trim() ?? '';
-        if (raw) {
-          const parsed = extractJson(raw);
-          if (parsed?.score !== undefined && parsed?.sections) {
-            report = parsed;
-            break;
-          }
-        }
-      }
+    if (raw) {
+      report = extractJson(raw);
     }
 
-    if (!report) {
+    if (!report || report.score === undefined || !report.sections) {
       return new Response(JSON.stringify({
         error: 'Could not generate report. Please try again.',
       }), { status: 502 });
