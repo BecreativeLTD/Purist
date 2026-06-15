@@ -73,11 +73,16 @@ async function callClaude(
       signal: controller.signal,
     });
     clearTimeout(timer);
-    if (!res.ok) return null;
+    if (!res.ok) {
+      const errText = await res.text().catch(() => '');
+      console.error('Claude API error:', res.status, errText);
+      return null;
+    }
     const data = await res.json();
     return data.content?.[0]?.text?.trim() ?? null;
-  } catch {
+  } catch (e: any) {
     clearTimeout(timer);
+    console.error('Claude call failed:', e?.message);
     return null;
   }
 }
@@ -377,13 +382,18 @@ WORKFLOWS: 5 automation workflows tailored to the detected tech stack. Each must
     const raw = await callClaude(systemPrompt, context, anthropicKey);
 
     let report: any = null;
+    let parseError = '';
     if (raw) {
       report = extractJson(raw);
+      if (!report) parseError = 'JSON parse failed. Raw start: ' + raw.slice(0, 300);
+    } else {
+      parseError = 'No response from AI. Check ANTHROPIC_API_KEY env var.';
     }
 
     if (!report || report.score === undefined || !report.sections) {
       return new Response(JSON.stringify({
         error: 'Could not generate report. Please try again.',
+        debug: parseError,
       }), { status: 502 });
     }
 

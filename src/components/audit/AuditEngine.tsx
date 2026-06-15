@@ -140,7 +140,9 @@ export default function AuditEngine() {
 
       if (!res.ok || data.error) {
         phase.value = 'error';
-        errorMsg.value = data.error || 'Failed to audit this URL. Please check the URL and try again.';
+        errorMsg.value = data.debug
+          ? `${data.error} — ${data.debug}`
+          : (data.error || 'Failed to audit this URL. Please check the URL and try again.');
         return;
       }
 
