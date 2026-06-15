@@ -64,7 +64,7 @@ async function callModel(
         'HTTP-Referer': 'https://www.purist.online',
         'X-Title': 'PURIST Site Audit',
       },
-      body: JSON.stringify({ model, messages, max_tokens: 16000, temperature: 0.2 }),
+      body: JSON.stringify({ model, messages, max_tokens: 8000, temperature: 0.2 }),
       signal: controller.signal,
     });
     clearTimeout(timer);
@@ -257,27 +257,26 @@ Section titles: SEO & Indexability, Technical & Performance, Content Quality, Tr
 Each finding: {"severity":"critical|warning|good","title":"...","detail":"2 sentences with real data","fix":"specific fix or null if good"}
 Each topAction: {"priority":N,"action":"...","impact":"high|medium|low","effort":"quick|medium|hard"}
 Each workflow: {"name":"workflow name","trigger":"what starts it","tools":"specific tools based on detected stack","impact":"business result"}
-Rules: 3 findings per section. Be concise but specific. fix=null for good findings. workflows must reference detected tech stack and suggest n8n automations. automation section=what manual work can be automated. ecosystem section=what tools are missing. ONLY JSON.`;
+Rules: 2 findings per section. Be concise. fix=null for good findings. workflows must reference detected tech stack and suggest n8n automations. ONLY JSON, no other text.`;
 
     const messages = [
       { role: 'system', content: systemPrompt },
       { role: 'user', content: context },
     ];
 
-    // Fire 3 models in parallel, take the FIRST successful response (fastest wins)
+    // Fire 3 fast models in parallel, take the FIRST successful response
     const models = [
-      'nvidia/nemotron-3-super-120b-a12b:free',
-      'meta-llama/llama-3.3-70b-instruct:free',
+      'google/gemma-4-12b-it:free',
       'google/gemma-4-31b-it:free',
+      'meta-llama/llama-3.3-70b-instruct:free',
     ];
 
     let report: any = null;
 
     try {
-      // Promise.any resolves as soon as ANY model returns a valid parsed report
       report = await Promise.any(
         models.map(async (m) => {
-          const result = await callModel(m, messages, openRouterKey, 55000);
+          const result = await callModel(m, messages, openRouterKey, 40000);
           if (!result.data) throw new Error('no data');
           const raw = result.data.choices?.[0]?.message?.content?.trim() ?? '';
           if (!raw) throw new Error('empty');
