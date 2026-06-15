@@ -264,39 +264,35 @@ Rules: 3 findings per section. Be concise but specific. fix=null for good findin
       { role: 'user', content: context },
     ];
 
-    // Fire 3 models in parallel, take the first successful response
+    // Fire 3 models in parallel, take the FIRST successful response (fastest wins)
     const models = [
       'nvidia/nemotron-3-super-120b-a12b:free',
       'meta-llama/llama-3.3-70b-instruct:free',
       'google/gemma-4-31b-it:free',
     ];
 
-    const results = await Promise.allSettled(
-      models.map(m => callModel(m, messages, openRouterKey, 55000))
-    );
-
     let report: any = null;
-    let parseErrors: string[] = [];
 
-    for (const result of results) {
-      if (result.status !== 'fulfilled' || !result.value.data) continue;
-
-      const raw = result.value.data.choices?.[0]?.message?.content?.trim() ?? '';
-      if (!raw) continue;
-
-      const parsed = extractJson(raw);
-      if (parsed && parsed.score !== undefined && parsed.sections) {
-        report = parsed;
-        break;
-      } else {
-        parseErrors.push(raw.slice(0, 200));
-      }
+    try {
+      // Promise.any resolves as soon as ANY model returns a valid parsed report
+      report = await Promise.any(
+        models.map(async (m) => {
+          const result = await callModel(m, messages, openRouterKey, 55000);
+          if (!result.data) throw new Error('no data');
+          const raw = result.data.choices?.[0]?.message?.content?.trim() ?? '';
+          if (!raw) throw new Error('empty');
+          const parsed = extractJson(raw);
+          if (!parsed || parsed.score === undefined || !parsed.sections) throw new Error('parse fail');
+          return parsed;
+        })
+      );
+    } catch {
+      // All models failed
     }
 
     if (!report) {
       return new Response(JSON.stringify({
         error: 'Could not generate report. Please try again.',
-        debug: parseErrors.slice(0, 1),
       }), { status: 502 });
     }
 

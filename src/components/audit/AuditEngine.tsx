@@ -75,7 +75,8 @@ const SCAN_STEPS = [
 ];
 
 // ── Score ring SVG ──────────────────────────────────────────────────
-function ScoreRing({ score, size = 120, label }: { score: number; size?: number; label?: string }) {
+function ScoreRing({ score: rawScore, size = 120, label }: { score: number; size?: number; label?: string }) {
+  const score = Number(rawScore) || 0;
   const r = (size - 12) / 2;
   const circ = 2 * Math.PI * r;
   const offset = circ - (score / 100) * circ;
@@ -303,13 +304,20 @@ export default function AuditEngine() {
   const r = report.value;
   if (!r) return null;
 
+  // Coerce all scores to numbers (AI sometimes returns strings or undefined)
+  const mainScore = Number(r.score) || 0;
+  const mainGrade = r.grade || '?';
+  if (r.sections) {
+    r.sections.forEach((s: Section) => { s.score = Number(s.score) || 0; });
+  }
+
   return (
     <div style={{ animation: 'audit-fadein 0.6s ease' }}>
 
       {/* Top score card */}
       <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 20, padding: '2.5rem', marginBottom: 24 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 32, flexWrap: 'wrap' as const }}>
-          <ScoreRing score={r.score} size={130} label={r.grade} />
+          <ScoreRing score={mainScore} size={130} label={mainGrade} />
           <div style={{ flex: 1, minWidth: 250 }}>
             <p style={{ fontSize: 10, textTransform: 'uppercase' as const, letterSpacing: '0.2em', color: 'rgba(232,180,176,0.5)', marginBottom: 6 }}>Audit Score</p>
             <p style={{ fontFamily: 'Georgia,serif', fontSize: 24, color: '#F8F6F1', marginBottom: 12, lineHeight: 1.3 }}>
