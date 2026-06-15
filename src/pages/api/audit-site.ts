@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 
 export const prerender = false;
+export const config = { maxDuration: 120 };
 
 // ── Helpers ──────────────────────────────────────────────────────────
 function extract(html: string, re: RegExp): string {
@@ -54,7 +55,7 @@ async function callClaude(
   system: string, userMsg: string, key: string
 ): Promise<{ text: string | null; error: string }> {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 45000);
+  const timer = setTimeout(() => controller.abort(), 90000);
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -65,7 +66,7 @@ async function callClaude(
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 8192,
+        max_tokens: 5000,
         temperature: 0,
         system,
         messages: [{ role: 'user', content: userMsg }],
@@ -320,71 +321,14 @@ Images missing alt: ${imgsWithoutAlt}/${imgTags.length}`;
       }), { status: 500 });
     }
 
-    const systemPrompt = `You are "Purist Audit AI", an elite autonomous agent specialized in 360° digital ecosystem audits. You work for PURIST, a premium automation agency. Your analysis must be cold, analytical, data-driven, and worth $2000 in consulting value.
+    const systemPrompt = `Premium site auditor for PURIST automation agency. Return ONLY valid JSON — no markdown, no text outside JSON.
+Reference real data from signals. Be brutally honest. Scores must reflect reality.
 
-CRITICAL RULES:
-- Return ONLY valid JSON. No markdown fences, no text before/after.
-- Every finding MUST reference actual data from the signals provided (real numbers, real values, real missing elements).
-- Never invent data. If something cannot be determined, say "Not detectable from homepage scan" in the detail.
-- Be brutally honest. Low scores when deserved. High scores only when earned.
-- Write in English but be internationally aware.
+JSON structure:
+{"score":0-100,"grade":"A-F","summary":"4 sentence executive summary with real metrics","urgencies":["3 critical issues"],"sections":[{"id":"ID","title":"TITLE","score":0-100,"verdict":"1 sentence","findings":[{"severity":"critical|warning|good","title":"short","detail":"2 sentences with real data","fix":"specific fix or null if good"}]}],"topActions":[{"priority":1,"action":"specific","impact":"high|medium|low","effort":"quick|medium|hard","roi":"outcome"}],"workflows":[{"name":"name","trigger":"event","tools":"stack-specific tools + n8n","steps":"3 steps","impact":"result"}]}
 
-Return this exact JSON structure:
-{
-  "score": 0-100,
-  "grade": "A+/A/B/C/D/F",
-  "summary": "5-7 sentence executive summary. Start with the overall health verdict. Reference specific metrics (response time, word count, missing elements). End with the single biggest opportunity.",
-  "urgencies": ["3-5 urgent issues that need immediate attention, each a specific actionable sentence"],
-  "sections": [
-    {
-      "id": "seo",
-      "title": "SEO & Search Visibility",
-      "score": 0-100,
-      "verdict": "1 sentence section summary",
-      "findings": [
-        {
-          "severity": "critical|warning|good",
-          "title": "Short finding name",
-          "detail": "2-3 sentences with specific data points from the audit. Reference exact values: title length, meta desc length, missing tags, heading structure issues. Be precise.",
-          "fix": "Specific technical fix with example code/config when relevant. null if severity is good."
-        }
-      ]
-    }
-  ],
-  "topActions": [
-    {
-      "priority": 1,
-      "action": "Specific action with technical detail",
-      "impact": "high|medium|low",
-      "effort": "quick|medium|hard",
-      "roi": "Expected business outcome"
-    }
-  ],
-  "workflows": [
-    {
-      "name": "Workflow name",
-      "trigger": "What event or condition starts this",
-      "tools": "Specific tools based on the detected stack + n8n/Make/Zapier",
-      "steps": "3-4 step process description",
-      "impact": "Quantified or specific business result"
-    }
-  ]
-}
-
-SECTIONS (10 total, 3-4 findings each):
-1. seo / SEO & Search Visibility — Title, meta, canonicals, OG tags, headings hierarchy, schema markup, internal linking, image SEO
-2. technical / Technical Performance — Response time, page weight, JS/CSS count, render blocking, lazy loading, preloading, service worker, mobile readiness
-3. content / Content Quality & Depth — Word count analysis, heading structure quality, content-to-code ratio, readability, E-E-A-T signals, content gaps
-4. tracking / Tracking & Analytics — Which tools detected, what's missing, event tracking maturity, conversion tracking readiness, attribution setup
-5. security / Security & Compliance — HTTPS, headers (HSTS, CSP, X-Frame), cookie consent, privacy policy, terms, GDPR readiness
-6. business / Business & Conversion — CTAs, forms, pricing visibility, social proof, contact accessibility, lead capture, conversion path analysis
-7. accessibility / Accessibility (WCAG) — ARIA usage, alt texts, skip links, focus management, color contrast indicators, semantic HTML
-8. brand / Brand & Trust Signals — Professional presentation, social presence, testimonials, video content, chat support, credibility markers
-9. automation / Automation Opportunities — What manual processes can be automated based on the detected stack, specific n8n/Make workflows to build
-10. ecosystem / Growth Ecosystem & Roadmap — Missing integrations, recommended tools, campaign readiness, funnel maturity, scaling recommendations
-
-TOP ACTIONS: 8 prioritized items with ROI justification.
-WORKFLOWS: 5 automation workflows tailored to the detected tech stack. Each must include specific tools and step-by-step process.`;
+10 sections (3 findings each): seo/SEO & Search Visibility, technical/Technical Performance, content/Content Quality, tracking/Tracking & Analytics, security/Security & Compliance, business/Business & Conversion, accessibility/Accessibility, brand/Brand & Trust, automation/Automation Opportunities, ecosystem/Growth Ecosystem
+6 topActions. 4 workflows matching detected stack.`;
 
     const claudeResult = await callClaude(systemPrompt, context, anthropicKey);
 
