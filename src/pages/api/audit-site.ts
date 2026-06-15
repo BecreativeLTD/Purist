@@ -306,7 +306,7 @@ Focus styles: ${hasFocusStyles ? 'YES' : 'NO'}
 Images missing alt: ${imgsWithoutAlt}/${imgTags.length}`;
 
     // ── 4. AI analysis via Claude Sonnet ──────────────────────────
-    const anthropicKey = import.meta.env.ANTHROPIC_API_KEY;
+    const anthropicKey = import.meta.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY;
     if (!anthropicKey) {
       return new Response(JSON.stringify({
         error: 'AI service not configured',
