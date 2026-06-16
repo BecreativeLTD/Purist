@@ -54,67 +54,62 @@ function extractJson(raw: string): any | null {
 async function callClaude(
   system: string, userMsg: string, key: string
 ): Promise<{ text: string | null; error: string }> {
-  // Try sonnet first, then haiku as fallback
-  const models = ['claude-sonnet-4-20250514', 'claude-haiku-4-5-20251001'];
+  // Try sonnet first, then haiku as fallback (haiku only on 529/overload)
+  const models = [
+    { id: 'claude-sonnet-4-20250514', retryOn529: true },
+    { id: 'claude-haiku-4-5-20251001', retryOn529: false },
+  ];
 
-  for (const model of models) {
-    // Up to 2 attempts per model (retry once on 529)
-    for (let attempt = 1; attempt <= 2; attempt++) {
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 90000);
-      try {
-        const res = await fetch('https://api.anthropic.com/v1/messages', {
-          method: 'POST',
-          headers: {
-            'x-api-key': key,
-            'anthropic-version': '2023-06-01',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            model,
-            max_tokens: 6000,
-            temperature: 0,
-            system,
-            messages: [{ role: 'user', content: userMsg }],
-          }),
-          signal: controller.signal,
-        });
-        clearTimeout(timer);
+  let lastError = '';
 
-        if (res.status === 529 || res.status === 503) {
-          // Overloaded — wait and retry
-          if (attempt < 2) {
-            await new Promise(r => setTimeout(r, 3000 * attempt));
-            continue;
-          }
-          // Exhausted retries for this model, try next model
-          break;
+  for (const { id: model, retryOn529 } of models) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 90000);
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'x-api-key': key,
+          'anthropic-version': '2023-06-01',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model,
+          max_tokens: 8000,
+          temperature: 0,
+          system,
+          messages: [{ role: 'user', content: userMsg }],
+        }),
+        signal: controller.signal,
+      });
+      clearTimeout(timer);
+
+      if (res.status === 529 || res.status === 503) {
+        lastError = `Model ${model} overloaded (${res.status})`;
+        if (retryOn529) {
+          // Wait 4s then retry with haiku
+          await new Promise(r => setTimeout(r, 4000));
         }
-
-        if (!res.ok) {
-          const errText = await res.text().catch(() => '');
-          // Non-retryable error — try next model
-          if (attempt === 2) break;
-          await new Promise(r => setTimeout(r, 2000));
-          continue;
-        }
-
-        const data = await res.json();
-        const text = data.content?.[0]?.text?.trim() ?? null;
-        if (text) return { text, error: '' };
-        break; // empty response — try next model
-      } catch (e: any) {
-        clearTimeout(timer);
-        if (attempt < 2) {
-          await new Promise(r => setTimeout(r, 2000));
-          continue;
-        }
-        break;
+        continue; // try next model
       }
+
+      if (!res.ok) {
+        const errText = await res.text().catch(() => '');
+        lastError = `API ${res.status} from ${model}: ${errText.slice(0, 200)}`;
+        continue; // try next model
+      }
+
+      const data = await res.json();
+      const text = data.content?.[0]?.text?.trim() ?? null;
+      if (text) return { text, error: '' };
+      lastError = `Empty response from ${model}`;
+    } catch (e: any) {
+      clearTimeout(timer);
+      lastError = `Fetch error (${model}): ${e?.message ?? 'unknown'}`;
     }
   }
 
-  return { text: null, error: 'AI service unavailable after retries' };
+  return { text: null, error: lastError || 'AI service unavailable' };
 }
 
 export const POST: APIRoute = async ({ request }) => {
@@ -372,9 +367,11 @@ seo/SEO & Search Visibility, technical/Technical Performance, content/Content Qu
     }
 
     if (!report || report.score === undefined || !report.sections) {
-      console.error('Audit failed:', claudeResult.error || 'parse error');
+      const reason = claudeResult.error || 'JSON parse failed';
+      console.error('Audit failed:', reason, '| raw preview:', claudeResult.text?.slice(0, 300));
       return new Response(JSON.stringify({
         error: 'Our AI is temporarily overloaded. Please try again in a few seconds.',
+        _debug: reason, // temporary — remove after debugging
       }), { status: 502 });
     }
 
