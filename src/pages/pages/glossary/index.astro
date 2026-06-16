@@ -1,6 +1,6 @@
 ---
 import ShopLayout from '~/layouts/ShopLayout.astro';
-import { terms, slugifyTerm } from '~/data/glossary';
+import { terms } from '~/data/glossary';
 
 const letters = [...new Set(terms.map((t) => t.letter))].sort();
 
@@ -173,7 +173,7 @@ const totd = terms[dayOfYear % terms.length];
                  data-complexity={t.complexity}
                  data-term={t.term.toLowerCase()}
                >
-                 <a href={`/pages/glossary/${slugifyTerm(t.term)}`} class="absolute inset-0 rounded-[16px] z-0" aria-label={`Read full definition of ${t.term}`}></a>
+                 <a href={`/pages/glossary/${t.slug}`} class="absolute inset-0 rounded-[16px] z-0" aria-label={`Read full definition of ${t.term}`}></a>
                  <!-- Top row -->
                  <div class="flex items-start justify-between gap-3 mb-3">
                    <div class="flex items-start gap-3 flex-1 min-w-0">

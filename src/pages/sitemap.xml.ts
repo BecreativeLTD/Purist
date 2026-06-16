@@ -1,7 +1,7 @@
 export const prerender = true;
 
 import skillsData from '~/data/skills.json';
-import { terms, slugifyTerm } from '~/data/glossary';
+import { terms } from '~/data/glossary';
 import blogData from '~/data/blog.json';
 
 const site = 'https://www.purist.online';
@@ -16,7 +16,7 @@ const skillPages = [
 ];
 
 const glossaryTermPages = terms.map(t => ({
-  url: `/pages/glossary/${slugifyTerm(t.term)}`,
+  url: `/pages/glossary/${t.slug}`,
   changefreq: 'monthly' as const,
   priority: '0.6',
 }));
@@ -35,8 +35,6 @@ const pages = [
   { url: '/products/foundation-pro',             changefreq: 'monthly', priority: '0.9' },
   { url: '/products/longevity-protocol',         changefreq: 'monthly', priority: '0.9' },
   { url: '/products/founder-stack',              changefreq: 'monthly', priority: '0.9' },
-  { url: '/pages/welcome',                       changefreq: 'monthly', priority: '0.8' },
-  { url: '/pages/onboarding',                    changefreq: 'monthly', priority: '0.7' },
   { url: '/pages/workflow-library',              changefreq: 'weekly',  priority: '0.8' },
   { url: '/pages/stack-dna',                     changefreq: 'monthly', priority: '0.7' },
   { url: '/pages/blog',                          changefreq: 'weekly',  priority: '0.8' },

@@ -1,6 +1,6 @@
 ---
 import ShopLayout from '~/layouts/ShopLayout.astro';
-import { terms, slugifyTerm } from '~/data/glossary';
+import { terms } from '~/data/glossary';
 
 export function getStaticPaths() {
  return terms.map((t) => ({
@@ -69,7 +69,7 @@ const moreSameCat = terms
  .slice(0, 3);
 
 // Canonical URL
-const canonicalUrl = `https://www.purist.online/pages/glossary/${slugifyTerm(t.term)}`;
+const canonicalUrl = `https://www.purist.online/pages/glossary/${t.slug}`;
 
 // Schema
 const schemaLd = [
@@ -240,7 +240,7 @@ const metaDesc = t.def.slice(0, 155).replace(/\.$/, '') + (t.def.length > 155 ? 
              <p class="eyebrow mb-3">Related terms</p>
              <div class="grid sm:grid-cols-2 gap-3">
                {relatedTermObjects.map(r => (
-                 <a href={`/pages/glossary/${slugifyTerm(r.term)}`}
+                 <a href={`/pages/glossary/${r.slug}`}
                     class="group flex items-start gap-3 rounded-card border border-brand-gray-100 bg-white p-4 hover:border-brand-gray-300 hover:shadow-sm transition">
                    <div class="flex gap-0.5 mt-1.5 shrink-0">
                      {[1,2,3].map(d => (
@@ -341,7 +341,7 @@ const metaDesc = t.def.slice(0, 155).replace(/\.$/, '') + (t.def.length > 155 ? 
        <p class="font-display text-[1.3rem] text-brand-black mb-6">Keep exploring</p>
        <div class="grid sm:grid-cols-3 gap-4">
          {moreSameCat.map(r => (
-           <a href={`/pages/glossary/${slugifyTerm(r.term)}`}
+           <a href={`/pages/glossary/${r.slug}`}
               class="group bg-white border border-brand-gray-100 rounded-card p-4 hover:border-brand-gray-300 hover:shadow-sm transition">
              <div class="flex gap-0.5 mb-2">
                {[1,2,3].map(d => (

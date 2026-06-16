@@ -45,4 +45,4 @@ Allow: /
 User-agent: YouBot
 Allow: /
 
-Sitemap: https://purist.online/sitemap.xml
+Sitemap: https://www.purist.online/sitemap.xml
