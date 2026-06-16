@@ -2,6 +2,10 @@
   "framework": "astro",
   "buildCommand": "npm run build",
   "installCommand": "npm ci --legacy-peer-deps",
+  "functions": {
+    "src/pages/api/audit-site.ts": { "maxDuration": 120 },
+    "src/pages/api/audit.ts": { "maxDuration": 120 }
+  },
   "redirects": [
     {
       "source": "/pages/purist-vs-zapier",

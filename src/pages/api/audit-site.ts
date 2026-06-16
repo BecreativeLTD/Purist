@@ -54,17 +54,13 @@ function extractJson(raw: string): any | null {
 async function callClaude(
   system: string, userMsg: string, key: string
 ): Promise<{ text: string | null; error: string }> {
-  // Try sonnet first, then haiku as fallback (haiku only on 529/overload)
-  const models = [
-    { id: 'claude-sonnet-4-20250514', retryOn529: true },
-    { id: 'claude-haiku-4-5-20251001', retryOn529: false },
-  ];
-
+  // Haiku first (fast: 10-20s), Sonnet fallback for quality
+  const models = ['claude-haiku-4-5-20251001', 'claude-sonnet-4-20250514'];
   let lastError = '';
 
-  for (const { id: model, retryOn529 } of models) {
+  for (const model of models) {
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 90000);
+    const timer = setTimeout(() => controller.abort(), 55000); // 55s — stays under Vercel 60s default
     try {
       const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
@@ -75,7 +71,7 @@ async function callClaude(
         },
         body: JSON.stringify({
           model,
-          max_tokens: 8000,
+          max_tokens: 6000,
           temperature: 0,
           system,
           messages: [{ role: 'user', content: userMsg }],
@@ -85,18 +81,13 @@ async function callClaude(
       clearTimeout(timer);
 
       if (res.status === 529 || res.status === 503) {
-        lastError = `Model ${model} overloaded (${res.status})`;
-        if (retryOn529) {
-          // Wait 4s then retry with haiku
-          await new Promise(r => setTimeout(r, 4000));
-        }
-        continue; // try next model
+        lastError = `${model} overloaded (${res.status})`;
+        continue;
       }
-
       if (!res.ok) {
         const errText = await res.text().catch(() => '');
-        lastError = `API ${res.status} from ${model}: ${errText.slice(0, 200)}`;
-        continue; // try next model
+        lastError = `API ${res.status} from ${model}: ${errText.slice(0, 300)}`;
+        continue;
       }
 
       const data = await res.json();
@@ -105,7 +96,7 @@ async function callClaude(
       lastError = `Empty response from ${model}`;
     } catch (e: any) {
       clearTimeout(timer);
-      lastError = `Fetch error (${model}): ${e?.message ?? 'unknown'}`;
+      lastError = `Timeout/error (${model}): ${e?.message ?? 'unknown'}`;
     }
   }
 
