@@ -55,7 +55,7 @@ async function callClaude(
   system: string, userMsg: string, key: string
 ): Promise<{ text: string | null; error: string }> {
   // Haiku first (fast: 10-20s), Sonnet fallback for quality
-  const models = ['claude-haiku-4-5-20251001', 'claude-sonnet-4-20250514'];
+  const models = ['claude-haiku-4-5-20251001', 'claude-sonnet-4-6'];
   let lastError = '';
 
   for (const model of models) {
