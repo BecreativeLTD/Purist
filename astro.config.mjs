@@ -6,7 +6,7 @@ import vercel from '@astrojs/vercel/serverless';
 export default defineConfig({
   site: 'https://www.purist.online',
   output: 'hybrid',
-  adapter: vercel(),
+  adapter: vercel({ maxDuration: 120 }),
   integrations: [
     tailwind({ applyBaseStyles: false }),
     preact({ compat: true }),
