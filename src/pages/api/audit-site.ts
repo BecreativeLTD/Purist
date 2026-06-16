@@ -71,7 +71,7 @@ async function callClaude(
         },
         body: JSON.stringify({
           model,
-          max_tokens: 6000,
+          max_tokens: 8192,
           temperature: 0,
           system,
           messages: [{ role: 'user', content: userMsg }],
@@ -345,10 +345,10 @@ RULES:
 JSON structure:
 {"score":0-100,"grade":"A+/A/B/C/D/F","summary":"5-6 sentence executive summary citing specific metrics (response time, word count, missing elements, detected stack). End with the #1 opportunity.","urgencies":["4 urgent issues with specific data"],"sections":[{"id":"ID","title":"TITLE","score":0-100,"verdict":"1 sentence with key metric","findings":[{"severity":"critical|warning|good","title":"concise","detail":"2-3 sentences citing real data from the audit signals","fix":"specific technical fix with tools/code/config. null if good"}]}],"topActions":[{"priority":1,"action":"specific technical action","impact":"high|medium|low","effort":"quick|medium|hard","roi":"quantified business outcome"}],"workflows":[{"name":"descriptive name","trigger":"specific event","tools":"detected stack tools + n8n/Make","steps":"Step 1 → Step 2 → Step 3 → Step 4","impact":"specific business result with expected outcome"}]}
 
-10 sections with 4 findings each:
-seo/SEO & Search Visibility, technical/Technical Performance, content/Content Quality & Strategy, tracking/Tracking & Analytics, security/Security & Compliance, business/Business & Conversion, accessibility/Accessibility & UX, brand/Brand & Trust Signals, automation/Automation Opportunities, ecosystem/Growth Ecosystem & Roadmap
+8 sections with 3 findings each:
+seo/SEO & Search Visibility, technical/Technical Performance, content/Content Quality, tracking/Tracking & Analytics, security/Security & Compliance, business/Business & Conversion, accessibility/Accessibility & UX, automation/Automation Opportunities
 
-8 topActions with ROI. 5 workflows matching detected stack with detailed steps.`;
+5 topActions with ROI. 3 workflows. Keep each finding detail under 2 sentences. Keep fix under 1 sentence.`;
 
     const claudeResult = await callClaude(systemPrompt, context, anthropicKey);
 
