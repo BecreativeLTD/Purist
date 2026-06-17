@@ -1,4 +1,6 @@
 import type { APIRoute } from 'astro';
+import { upsertLead } from '../../lib/supabase-admin';
+import { buildJ0Email } from '../../lib/email-nurture';
 
 export const prerender = false;
 
@@ -14,7 +16,9 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    // Best-effort: notify internal team via Resend if configured
+    // Save lead to Supabase and schedule nurture sequence
+    await upsertLead(email, 'roi_calculator', '/pages/welcome');
+
     const resendKey =
       import.meta.env.Resend ||
       import.meta.env.RESEND_API_KEY;
@@ -74,6 +78,16 @@ export const POST: APIRoute = async ({ request }) => {
 </body>
 </html>`,
         });
+
+        // Send J+0 nurture email to the lead
+        await resend.emails.send({
+          from: 'Hamid at PURIST <hello@purist.online>',
+          to: [email],
+          subject: "Your automation roadmap — here's where I'd start",
+          replyTo: 'hello@purist.online',
+          html: buildJ0Email(email, 'roi_calculator'),
+        });
+
       } catch {
         // best-effort — don't fail the request
       }
