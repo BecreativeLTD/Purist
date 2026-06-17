@@ -16,8 +16,8 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    // Save lead to Supabase and schedule nurture sequence
-    await upsertLead(email, 'roi_calculator', '/pages/welcome');
+    // Save lead to Supabase — isolated, never blocks email sending
+    try { await upsertLead(email, 'roi_calculator', '/pages/welcome'); } catch { /* silent */ }
 
     const resendKey =
       import.meta.env.Resend ||
