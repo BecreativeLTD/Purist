@@ -49,7 +49,7 @@ const catStyle: Record<string, { icon: string }> = {
 const cs = catStyle[skill.cat] ?? catStyle.ops;
 
 // ── Derived content ───────────────────────────────────────────────────
-const basePrice: number = (skill as any).price ?? (skill.complexity === 'Starter' ? 299 : skill.complexity === 'Intermediate' ? 499 : 799);
+const basePrice: number = (skill as any).price ?? (skill.complexity === 'Starter' ? 330 : skill.complexity === 'Intermediate' ? 550 : 890);
 const tags: string[] = (skill as any).tags ?? [skill.cat, skill.complexity.toLowerCase(), ...skill.tools.slice(0, 2)];
 const displayTools = skill.tools.filter(t => t.toLowerCase() !== 'n8n');
 
@@ -124,7 +124,7 @@ const schemaLd = {
 
 <ShopLayout
  title={`${skill.title} PURIST Automation Skill`}
- description={`${skill.benefit} ${skill.desc} Deployed in 7 days with 24/7 monitoring. From £${basePrice}.`}
+ description={`${skill.benefit} ${skill.desc} Deployed in 7 days with 24/7 monitoring. From €${basePrice}.`}
 >
  <script type="application/ld+json" set:html={JSON.stringify(schemaLd)} slot="head" />
 
@@ -252,7 +252,7 @@ const schemaLd = {
            <div class="mb-5">
              <p class="eyebrow text-white/40 mb-2">Starting from</p>
              <div class="flex items-baseline gap-2">
-               <span class="font-display text-4xl text-white">£{basePrice}</span>
+               <span class="font-display text-4xl text-white" data-price={basePrice}>€{basePrice}</span>
                <span class="text-sm text-white/40">one-time</span>
              </div>
            </div>
@@ -602,7 +602,7 @@ const schemaLd = {
                      <path d={rs.icon}/>
                    </svg>
                  </div>
-                 {(r as any).price && <span class="text-xs font-semibold text-brand-gray-400 ml-auto">£{(r as any).price}</span>}
+                 {(r as any).price && <span class="text-xs font-semibold text-brand-gray-400 ml-auto" data-price={(r as any).price}>€{(r as any).price}</span>}
                </div>
                <p class="text-sm font-semibold text-brand-black mb-1 leading-snug group-hover:text-brand-gray-700">{r.title}</p>
                <p class="text-xs text-brand-gray-500 leading-relaxed line-clamp-2">{r.benefit}</p>
@@ -619,7 +619,7 @@ const schemaLd = {
  <div class="fixed bottom-0 inset-x-0 z-30 bg-brand-black border-t border-white/10 px-4 py-3 flex items-center justify-between lg:hidden">
    <div>
      <p class="text-xs text-white/40 font-medium truncate max-w-[180px]">{skill.title}</p>
-     <p class="text-sm font-bold text-white">£{basePrice} · 30-day guarantee</p>
+     <p class="text-sm font-bold text-white"><span data-price={basePrice}>€{basePrice}</span> · 30-day guarantee</p>
    </div>
    <a href={`/pages/welcome?skill=${encodeURIComponent(skill.title)}`}
       class="text-white text-sm font-semibold px-5 py-2.5 rounded-button transition"

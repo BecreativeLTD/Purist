@@ -93,15 +93,15 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
         <div class="h-0.5" style="background:linear-gradient(90deg,#E8B4B0,rgba(232,180,176,0.20),transparent);"></div>
         <div class="px-6 pt-6 pb-4 text-center">
           <p class="text-[10px] uppercase tracking-[0.22em] font-bold mb-2" style="color:rgba(232,180,176,0.55);" id="tc-ind-label">Dental practice cost — since you opened this page</p>
-          <p class="font-display leading-none mb-1" style="font-size:clamp(2rem,6vw,3.5rem);color:#E8B4B0;" id="tc-personal">£0</p>
+          <p class="font-display leading-none mb-1" style="font-size:clamp(2rem,6vw,3.5rem);color:#E8B4B0;" id="tc-personal">€0</p>
           <!-- Daily progress bar (8h workday = 100%) -->
           <div class="mx-auto mt-3 mb-2 h-1 rounded-full overflow-hidden" style="max-width:220px;background:rgba(232,180,176,0.10);">
             <div id="tc-personal-bar" class="h-full rounded-full" style="width:0%;background:#E8B4B0;transition:width 0.3s linear;"></div>
           </div>
           <p class="text-[9px] mb-2" style="color:rgba(255,255,255,0.18);">of today's manual work cost tracked</p>
           <div class="flex items-center justify-center gap-4 text-[10px] mt-1" style="color:rgba(255,255,255,0.25);">
-            <span>Yearly: <strong class="text-white" id="tc-personal-yr">£0</strong></span>
-            <span>Monthly: <strong class="text-white" id="tc-personal-mo">£0</strong></span>
+            <span>Yearly: <strong class="text-white" id="tc-personal-yr">€0</strong></span>
+            <span>Monthly: <strong class="text-white" id="tc-personal-mo">€0</strong></span>
           </div>
         </div>
         <!-- What this could be -->
@@ -234,6 +234,10 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
 
 <script is:inline>
 (function(){
+  var currSym = '€';
+  try { var saved = sessionStorage.getItem('purist_currency'); if (saved) { var syms = {EUR:'€',USD:'$',GBP:'£',CAD:'CA$',AUD:'A$',CHF:'CHF '}; currSym = syms[saved] || '€'; } } catch(_) {}
+  window.addEventListener('puristCurrency', function(e) { currSym = e.detail.symbol; });
+
   var IND_DATA = {
     dental:     { label:'Dental practices',     perSec:0.0058, mo:4800,  yr:57600 },
     agency:     { label:'Agencies',             perSec:0.0069, mo:5200,  yr:62400 },
@@ -261,9 +265,9 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
     var ind = IND_DATA[currentInd];
     var personalTotal = ind.perSec * personalElapsed;
 
-    document.getElementById('tc-personal').textContent = '£' + personalTotal.toFixed(2);
-    document.getElementById('tc-personal-yr').textContent = '£' + ind.yr.toLocaleString('en-GB');
-    document.getElementById('tc-personal-mo').textContent = '£' + ind.mo.toLocaleString('en-GB');
+    document.getElementById('tc-personal').textContent = currSym + personalTotal.toFixed(2);
+    document.getElementById('tc-personal-yr').textContent = currSym + ind.yr.toLocaleString('en');
+    document.getElementById('tc-personal-mo').textContent = currSym + ind.mo.toLocaleString('en');
     document.getElementById('tc-ind-label').textContent = ind.label + ' cost — since you selected this industry';
 
     // Personal progress bar: 8h workday = 28800s = 100%
