@@ -10,7 +10,24 @@ export function initAmplitude() {
   if (_initialized || typeof window === 'undefined') return;
 
   amplitude.initAll(API_KEY, {
-    analytics: { autocapture: true },
+    analytics: {
+      autocapture: {
+        attribution: { trackingMethod: ['userProperty', 'eventProperty'] },
+        fileDownloads: true,
+        formInteractions: true,
+        pageViews: true,
+        sessions: true,
+        elementInteractions: true,
+        networkTracking: true,
+        webVitals: true,
+        frustrationInteractions: {
+          thrashedCursor: true,
+          errorClicks: true,
+          deadClicks: true,
+          rageClicks: true,
+        },
+      },
+    },
     sessionReplay: { sampleRate: 1 },
   });
 
