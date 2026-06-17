@@ -101,7 +101,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
          <span class="text-[9.5px] font-mono" style="color:rgba(255,255,255,0.50);">Manual: <strong id="wf-meta-manual" style="color:rgba(255,255,255,0.65);font-weight:600;">47 min/lead</strong></span>
          <span style="color:rgba(255,255,255,0.10);">·</span>
          <span class="text-[9.5px] font-mono" style="color:rgba(255,255,255,0.50);">Automated: <strong id="wf-meta-time" style="color:rgba(74,222,128,0.70);font-weight:600;">1.8s</strong></span>
-         <span class="ml-auto text-[9.5px] font-mono" style="color:rgba(255,255,255,0.50);">Annual saving: <strong id="wf-meta-saving" style="color:rgba(232,180,176,0.80);font-weight:600;">£38,000/yr</strong></span>
+         <span class="ml-auto text-[9.5px] font-mono" style="color:rgba(255,255,255,0.50);">Annual saving: <strong id="wf-meta-saving" style="color:rgba(232,180,176,0.80);font-weight:600;">€44,200/yr</strong></span>
        </div>
 
        <!-- Dot-grid canvas area -->
@@ -186,7 +186,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
        {[
          {val:'6',          sub:'Workflow templates',  color:'#E8B4B0'},
          {val:'3,200×',     sub:'Average speed gain',  color:'#7B68EE'},
-         {val:'£46k/yr',    sub:'Average annual saving',color:'#4ade80'},
+         {val:'€53k/yr',    sub:'Average annual saving',color:'#4ade80'},
          {val:'312',        sub:'Live deployments',    color:'#C89840'},
        ].map(s=>(
          <div class="px-6 py-7">
@@ -525,7 +525,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
                  <div>
                    <label class="block text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400 mb-1.5">Amount</label>
                    <div class="relative">
-                     <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-brand-gray-400">£</span>
+                     <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-brand-gray-400">€</span>
                      <input id="sb3-amount" type="number" placeholder="2400" class="w-full text-sm border border-brand-gray-200 rounded-[10px] pl-7 pr-3 py-2.5 outline-none focus:border-brand-black transition"/>
                    </div>
                  </div>
@@ -591,12 +591,12 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
                  <div class="px-4 py-3 border-b border-brand-gray-100">
                    <div class="flex items-center justify-between text-[11px]">
                      <span class="text-brand-gray-600" id="inv-desc"> </span>
-                     <span class="font-bold text-brand-black" id="inv-amount">£ </span>
+                     <span class="font-bold text-brand-black" id="inv-amount">€ </span>
                    </div>
                  </div>
                  <div class="px-4 py-3 flex items-center justify-between">
                    <span class="text-[11px] font-bold text-brand-black">Total</span>
-                   <span class="font-display text-lg text-brand-black" id="inv-total">£ </span>
+                   <span class="font-display text-lg text-brand-black" id="inv-total">€ </span>
                  </div>
                </div>
                <!-- Chase sequence -->
@@ -887,7 +887,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
                <div>
                  <div class="flex items-baseline justify-between mb-1">
                    <p class="text-[9px] uppercase tracking-wider text-brand-gray-400">Cost of inaction</p>
-                   <p class="font-display text-[1.1rem] text-brand-black leading-none" id="roi-cost">£ </p>
+                   <p class="font-display text-[1.1rem] text-brand-black leading-none" id="roi-cost">€ </p>
                  </div>
                  <div class="h-1 rounded-full bg-brand-gray-100 overflow-hidden">
                    <div id="roi-bar-cost" class="h-full rounded-full transition-all duration-700" style="width:0%;background:#E5E5DC;"></div>
@@ -896,7 +896,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
                <div>
                  <div class="flex items-baseline justify-between mb-1">
                    <p class="text-[9px] uppercase tracking-wider text-brand-gray-400">Annual saving</p>
-                   <p class="font-display text-[1.1rem] leading-none" style="color:#E8B4B0;" id="roi-saving">£ </p>
+                   <p class="font-display text-[1.1rem] leading-none" style="color:#E8B4B0;" id="roi-saving">€ </p>
                  </div>
                  <div class="h-1 rounded-full bg-brand-gray-100 overflow-hidden">
                    <div id="roi-bar-saving" class="h-full rounded-full transition-all duration-700" style="width:0%;background:#E8B4B0;"></div>
@@ -913,7 +913,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
                </div>
              </div>
              <div class="px-5 pb-4">
-               <p class="text-[9px] text-brand-gray-400 leading-relaxed">Industry averages · £35/h blended rate · PURIST 2025 data</p>
+               <p class="text-[9px] text-brand-gray-400 leading-relaxed">Industry averages · €41/h blended rate · PURIST 2025 data</p>
              </div>
            </div>
          </div>
@@ -1132,7 +1132,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
 // Premium Lucide-style icons: each node has icons[] array of path strings
 var WORKFLOWS = {
  lead: {
-   title: 'lead-nurture.workflow', manual: '47 min / lead', apis: 7, time: '1.8s', saving: '£38,000/yr', ratio: '1,566×', timing: [45, 98, 312, 87, 524, 188, 142, 447],
+   title: 'lead-nurture.workflow', manual: '47 min / lead', apis: 7, time: '1.8s', saving: '€44,200/yr', ratio: '1,566×', timing: [45, 98, 312, 87, 524, 188, 142, 447],
    nodes: [
      { type:'Trigger', label:'Form submit', color:'#E8B4B0', textColor:'#c4847e',
        icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
@@ -1171,7 +1171,7 @@ var WORKFLOWS = {
    ]
  },
  invoice: {
-   title: 'invoice-chase.workflow', manual: '2.5h / invoice', apis: 7, time: '2.2s', saving: '£52,000/yr', ratio: '4,090×', timing: [38, 92, 445, 388, 612, 287, 213, 135],
+   title: 'invoice-chase.workflow', manual: '2.5h / invoice', apis: 7, time: '2.2s', saving: '€60,500/yr', ratio: '4,090×', timing: [38, 92, 445, 388, 612, 287, 213, 135],
    nodes: [
      { type:'Trigger', label:'Deal closed', color:'#E8B4B0', textColor:'#c4847e',
        icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
@@ -1199,9 +1199,9 @@ var WORKFLOWS = {
        run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":2210,"nodes_executed":7,"api_calls":7,"errors":0,"invoice":"INV-2291"}' },
    ],
    logs:[
-     {color:'#E8B4B0',text:'→ Trigger: deal.won D-8821 · Brightwave Ltd · £4,800 · 38ms'},
+     {color:'#E8B4B0',text:'→ Trigger: deal.won D-8821 · Brightwave Ltd · €5,600 · 38ms'},
      {color:'rgba(255,255,255,0.45)',text:'→ Dedup check: no existing invoice · safe_to_proceed · 92ms'},
-     {color:'#C89840',text:'→ Xero POST /invoices 201 Created · INV-2291 · £5,760 inc VAT · 445ms'},
+     {color:'#C89840',text:'→ Xero POST /invoices 201 Created · INV-2291 · €6,700 inc VAT · 445ms'},
      {color:'#7B68EE',text:'→ PDF render: INV-2291.pdf 42KB · template purist_v3 · 388ms'},
      {color:'#E8B4B0',text:'→ Gmail POST /messages 200 OK · PDF attached · open tracking on · 612ms'},
      {color:'rgba(255,255,255,0.45)',text:'→ HubSpot PATCH /deals/D-8821 stage:Invoice Sent · 287ms'},
@@ -1210,7 +1210,7 @@ var WORKFLOWS = {
    ]
  },
  support: {
-   title: 'support-triage.workflow', manual: '45 min / ticket', apis: 7, time: '0.9s', saving: '£29,000/yr', ratio: '3,000×', timing: [35, 78, 198, 87, 224, 155, 82, 53],
+   title: 'support-triage.workflow', manual: '45 min / ticket', apis: 7, time: '0.9s', saving: '€33,700/yr', ratio: '3,000×', timing: [35, 78, 198, 87, 224, 155, 82, 53],
    nodes: [
      { type:'Trigger', label:'Ticket in', color:'#E8B4B0', textColor:'#c4847e',
        icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
@@ -1249,7 +1249,7 @@ var WORKFLOWS = {
    ]
  },
  report: {
-   title: 'kpi-report.workflow', manual: '4h / week', apis: 8, time: '4.2s', saving: '£44,000/yr', ratio: '3,428×', timing: [28, 612, 584, 721, 312, 1820, 388, 134],
+   title: 'kpi-report.workflow', manual: '4h / week', apis: 8, time: '4.2s', saving: '€51,200/yr', ratio: '3,428×', timing: [28, 612, 584, 721, 312, 1820, 388, 134],
    nodes: [
      { type:'Cron', label:'Mon 08:00', color:'#C89840', textColor:'#C89840',
        icons:['M12 22a10 10 0 110-20 10 10 0 010 20z','M12 6v6l4 2'],
@@ -1278,8 +1278,8 @@ var WORKFLOWS = {
    ],
    logs:[
      {color:'#C89840',text:'→ Cron 0 8 * * 1 · W24 · Europe/London · 28ms'},
-     {color:'#E8B4B0',text:'→ HubSpot GET /analytics 200 · 134 leads · £94k pipeline · 612ms'},
-     {color:'#7B68EE',text:'→ Stripe GET /balance/history 200 · MRR £12,400 · 584ms'},
+     {color:'#E8B4B0',text:'→ HubSpot GET /analytics 200 · 134 leads · €109k pipeline · 612ms'},
+     {color:'#7B68EE',text:'→ Stripe GET /balance/history 200 · MRR €14,400 · 584ms'},
      {color:'#C89840',text:'→ GA4 runReport 200 · 8,420 sessions · CVR 3.1% · 721ms'},
      {color:'rgba(255,255,255,0.45)',text:'→ Merge: 847 rows · schema weekly_kpi_v2 · deltas calculated'},
      {color:'#E8B4B0',text:'→ Claude 3.5 Sonnet: 320 words · 3 sections · tone:executive · 1820ms'},
@@ -1288,7 +1288,7 @@ var WORKFLOWS = {
    ]
  },
  appt: {
-   title: 'appt-reminders.workflow', manual: '25 min / booking', apis: 7, time: '1.4s', saving: '£31,000/yr', ratio: '1,071×', timing: [41, 87, 387, 312, 224, 198, 136, 62],
+   title: 'appt-reminders.workflow', manual: '25 min / booking', apis: 7, time: '1.4s', saving: '€36,000/yr', ratio: '1,071×', timing: [41, 87, 387, 312, 224, 198, 136, 62],
    nodes: [
      { type:'Trigger', label:'New booking', color:'#E8B4B0', textColor:'#c4847e',
        icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
@@ -1327,7 +1327,7 @@ var WORKFLOWS = {
    ]
  },
  onboarding: {
-   title: 'client-onboarding.workflow', manual: '3.5h / client', apis: 8, time: '3.1s', saving: '£61,000/yr', ratio: '4,064×', timing: [42, 312, 588, 712, 891, 424, 387, 145],
+   title: 'client-onboarding.workflow', manual: '3.5h / client', apis: 8, time: '3.1s', saving: '€70,900/yr', ratio: '4,064×', timing: [42, 312, 588, 712, 891, 424, 387, 145],
    nodes: [
      { type:'Trigger', label:'Contract signed', color:'#E8B4B0', textColor:'#c4847e',
        icons:['M13 2L3 14h9l-1 8 10-12h-9l1-8z'],
@@ -1355,7 +1355,7 @@ var WORKFLOWS = {
        run:'Closing…', done:'✓ Done', data:'{"status":"success","duration_ms":3101,"nodes_executed":7,"api_calls":8,"errors":0,"client":"Nova Studio"}' },
    ],
    logs:[
-     {color:'#E8B4B0',text:'→ Trigger: contract.signed · Nova Studio · £9,600 · 42ms'},
+     {color:'#E8B4B0',text:'→ Trigger: contract.signed · Nova Studio · €11,200 · 42ms'},
      {color:'#7B68EE',text:'→ Notion + Drive provisioned · permissions set · 312ms'},
      {color:'#E8B4B0',text:'→ Gmail POST /send 200 OK · welcome_pack_v2 · 3 attachments · 588ms'},
      {color:'#C89840',text:'→ Calendly POST /scheduling-links 201 · kick-off 60min · 712ms'},
@@ -1710,8 +1710,8 @@ function runSandbox(id) {
    document.getElementById('inv-client').textContent = client;
    document.getElementById('inv-due').textContent = dueStr;
    document.getElementById('inv-desc').textContent = desc;
-   document.getElementById('inv-amount').textContent = '£' + parseFloat(amount).toLocaleString('en-GB');
-   document.getElementById('inv-total').textContent = '£' + parseFloat(amount).toLocaleString('en-GB');
+   document.getElementById('inv-amount').textContent = '€' + parseFloat(amount).toLocaleString('en-GB');
+   document.getElementById('inv-total').textContent = '€' + parseFloat(amount).toLocaleString('en-GB');
 
    setTimeout(function() { setBtnDone(btn, 'Generate another'); }, 1200);
  }
@@ -1742,12 +1742,12 @@ function updateROI() {
  var sizeMap = { '1–5 people':0.5,'6–15 people':1,'16–30 people':2,'30+ people':3.5 };
  var mult = sizeMap[size] || 1;
  var weekHrs = Math.round(hrs * mult);
- var annualCost = weekHrs * 35 * 52;
+ var annualCost = weekHrs * 41 * 52;
  var saving = Math.round(annualCost * 0.70);
  var roi = (saving / 2400).toFixed(1);
 
- document.getElementById('roi-cost').textContent = '£' + (annualCost/1000).toFixed(0) + 'k/yr';
- document.getElementById('roi-saving').textContent = '£' + (saving/1000).toFixed(0) + 'k/yr';
+ document.getElementById('roi-cost').textContent = '€' + (annualCost/1000).toFixed(0) + 'k/yr';
+ document.getElementById('roi-saving').textContent = '€' + (saving/1000).toFixed(0) + 'k/yr';
  document.getElementById('roi-hours').textContent = weekHrs + 'h/wk';
  document.getElementById('roi-mult').textContent = roi + '×';
  // Progress bars normalise relative to max plausible values
@@ -1781,7 +1781,7 @@ var BA_DATA = {
    afterTotal: '< 2 hrs / week (admin only)',
    metrics:[
      { label:'Hours saved / week', val:'14h',    color:'#4ade80' },
-     { label:'Staff cost saved',   val:'£2,800/mo', color:'#E8B4B0' },
+     { label:'Staff cost saved',   val:'€3,300/mo', color:'#E8B4B0' },
      { label:'No-show reduction',  val:'62%',    color:'#7B68EE' },
    ],
  },

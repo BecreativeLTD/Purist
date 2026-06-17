@@ -105,7 +105,7 @@ export function buildJ0Email(email: string, source?: string): string {
     Based on ${sourceLabel}, here's where I'd start.
   </h1>
   <p style="font-size:15px;color:rgba(248,246,241,0.55);line-height:1.8;margin:0 0 32px;">
-    I'm Hamid, founder of PURIST. Every week I personally review new leads and map
+    I'm Steve, founder of PURIST. Every week I personally review new leads and map
     their biggest automation opportunities. Yours is interesting — and there are
     at least 3 workflows I'd tackle immediately.
   </p>
@@ -196,7 +196,7 @@ export function buildJ0Email(email: string, source?: string): string {
 <tr><td style="padding:0 40px;" class="pad">
   <div style="border-top:1px solid rgba(248,246,241,0.06);padding-top:28px;">
     <p style="font-size:14px;color:rgba(248,246,241,0.45);line-height:1.8;margin:0;">
-      — Hamid<br/>
+      — Steve<br/>
       <span style="font-size:12px;color:rgba(248,246,241,0.25);">
         Founder, PURIST · hello@purist.online
       </span>
@@ -245,7 +245,7 @@ export function buildJ2Email(email: string): string {
 <tr><td style="padding:0 40px;" class="pad">
   <div style="border-top:1px solid rgba(248,246,241,0.06);padding-top:24px;">
     <p style="font-size:14px;color:rgba(248,246,241,0.45);line-height:1.8;margin:0;">
-      — Hamid<br/>
+      — Steve<br/>
       <span style="font-size:12px;color:rgba(248,246,241,0.25);">
         Founder, PURIST · hello@purist.online
       </span>
@@ -375,7 +375,7 @@ export function buildJ5Email(email: string): string {
 <tr><td style="padding:0 40px;" class="pad">
   <div style="border-top:1px solid rgba(248,246,241,0.06);padding-top:24px;">
     <p style="font-size:14px;color:rgba(248,246,241,0.45);line-height:1.8;margin:0 0 12px;">
-      — Hamid<br/>
+      — Steve<br/>
       <span style="font-size:12px;color:rgba(248,246,241,0.25);">
         Founder, PURIST · hello@purist.online
       </span>

@@ -194,7 +194,7 @@ const complexityColor: Record<string, string> = {
              <div class="flex items-center justify-between pt-3 border-t border-brand-gray-100 mt-auto">
                <span class="text-[10px] font-semibold text-brand-green">{s.time} saved</span>
                <span class="text-[10px] font-semibold text-brand-gray-400">
-                 {(s as any).price ? <span class="text-brand-gray-500">From £{(s as any).price}</span> : <span class="flex items-center gap-1 group-hover:text-brand-black transition">Deploy <svg class="w-3 h-3" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg></span>}
+                 {(s as any).price ? <span class="text-brand-gray-500">From €{(s as any).price}</span> : <span class="flex items-center gap-1 group-hover:text-brand-black transition">Deploy <svg class="w-3 h-3" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg></span>}
                </span>
              </div>
            </a>
@@ -280,7 +280,7 @@ const complexityColor: Record<string, string> = {
              { name: 'Sunk Cost Fallacy', desc: 'Past spend should not justify future spend. Kill underperforming campaigns quickly.', tag: 'Psychology' },
              { name: 'Endowment Effect', desc: 'Free trials create ownership feelings. Buyers become reluctant to give up what they \'own\'.', tag: 'Psychology' },
              { name: 'IKEA Effect', desc: 'Effort increases perceived value. Let prospects configure or customise their own solution.', tag: 'Psychology' },
-             { name: 'Zero-Price Effect', desc: '"Free" is psychologically distinct from £0. The gap from £1 to free is disproportionate.', tag: 'Psychology' },
+             { name: 'Zero-Price Effect', desc: '"Free" is psychologically distinct from €0. The gap from €1 to free is disproportionate.', tag: 'Psychology' },
              { name: 'Hyperbolic Discounting', desc: 'Immediate benefits outperform future ones. Lead with "Start saving time today."', tag: 'Psychology' },
              { name: 'Status-Quo Bias', desc: 'Change feels risky. Reduce friction. "Import your data in one click" removes hesitation.', tag: 'Psychology' },
              { name: 'Default Effect', desc: 'Pre-selected options get chosen. Set your preferred plan as the default.', tag: 'Psychology' },
@@ -290,7 +290,7 @@ const complexityColor: Record<string, string> = {
              { name: 'Zeigarnik Effect', desc: 'Unfinished tasks occupy the mind. Open loops in onboarding drive re-engagement.', tag: 'Psychology' },
              { name: 'Pratfall Effect', desc: 'Admitting a flaw increases likeability. "We\'re not the cheapest" signals honesty.', tag: 'Psychology' },
              { name: 'Curse of Knowledge', desc: 'Experts cannot imagine not knowing. Test copy with people outside your industry.', tag: 'Psychology' },
-             { name: 'Mental Accounting', desc: '£16/day feels different than £497/month. Frame costs in favourable mental categories.', tag: 'Psychology' },
+             { name: 'Mental Accounting', desc: '€19/day feels different than €578/month. Frame costs in favourable mental categories.', tag: 'Psychology' },
              { name: 'Regret Aversion', desc: 'Fear of regret blocks action. Money-back guarantees and free trials remove that fear.', tag: 'Psychology' },
              { name: 'Social Proof / Bandwagon', desc: '"500+ businesses automated" signals safety and quality. Numbers create confidence.', tag: 'Psychology' },
            ].map(m => (
@@ -343,9 +343,9 @@ const complexityColor: Record<string, string> = {
            <h3 class="font-display text-xl mb-6" style="color:#0A0A0A;">Pricing Psychology</h3>
            <div class="grid gap-4">
              {[
-               { name: 'Charm Pricing / Left-Digit Effect', desc: '£497 feels materially cheaper than £500. The left digit dominates price perception.' },
-               { name: 'Rounded-Price (Fluency) Effect', desc: 'Round numbers signal premium quality. Use £1,200 for high-end, £997 for value.' },
-               { name: 'Rule of 100', desc: 'Under £100: show percentage off. Over £100: show pounds saved. Whichever feels bigger.' },
+               { name: 'Charm Pricing / Left-Digit Effect', desc: '€578 feels materially cheaper than €580. The left digit dominates price perception.' },
+               { name: 'Rounded-Price (Fluency) Effect', desc: 'Round numbers signal premium quality. Use €1,400 for high-end, €1,160 for value.' },
+               { name: 'Rule of 100', desc: 'Under €116: show percentage off. Over €116: show euros saved. Whichever feels bigger.' },
                { name: 'Good-Better-Best (Price Relativity)', desc: 'Three tiers make the middle feel reasonable. The top anchors; the bottom enables entry.' },
                { name: 'Mental Accounting (Pricing)', desc: '"Less than a part-time VA for a day" reframes the monthly cost into a familiar category.' },
              ].map(m => (

@@ -11,7 +11,7 @@ const cases = [
     tag: 'Dental Group · London',
     headline: '60% less admin. Same staff. Better patient outcomes.',
     stat: '60%', statLabel: 'admin reduction',
-    hours: '14', roi: '£112K', roi_multiple: '12.1×', breakeven: '19 days',
+    hours: '14', roi: '€130K', roi_multiple: '12.1×', breakeven: '19 days',
     timeline: '6 days',
     before: '3 FTE hours daily on reminders, recalls and billing reconciliation — 90% repetitive.',
     after: 'Fully automated patient reminders, insurance pre-auth and recall campaigns. Front desk refocused on care.',
@@ -26,7 +26,7 @@ const cases = [
     tag: 'Marketing Agency · Edinburgh',
     headline: '45 client accounts managed. Zero extra headcount.',
     stat: '3×', statLabel: 'clients per operator',
-    hours: '22', roi: '£89K', roi_multiple: '9.8×', breakeven: '23 days',
+    hours: '22', roi: '€104K', roi_multiple: '9.8×', breakeven: '23 days',
     timeline: '8 days',
     before: '28h/week on reporting and onboarding admin. One contractor hired purely for report generation.',
     after: 'Client onboarding, weekly reporting and invoicing fully automated. Contractor role eliminated.',
@@ -41,7 +41,7 @@ const cases = [
     tag: 'Property Agency · Manchester',
     headline: 'Portal leads followed up in 90 seconds. Automatically.',
     stat: '40%', statLabel: 'more deals closed',
-    hours: '9', roi: '£74K', roi_multiple: '8.3×', breakeven: '18 days',
+    hours: '9', roi: '€86K', roi_multiple: '8.3×', breakeven: '18 days',
     timeline: '5 days',
     before: 'Leads responded to in 4+ hours average. 60% of enquiries received no same-day reply.',
     after: 'Every portal lead captured, AI-qualified and followed up within 90 seconds. Zero staff input.',
@@ -56,7 +56,7 @@ const cases = [
     tag: 'DTC Brand · Bristol',
     headline: '70% fewer support tickets. Zero extra staff.',
     stat: '70%', statLabel: 'fewer tickets',
-    hours: '8', roi: '£48K', roi_multiple: '7.6×', breakeven: '31 days',
+    hours: '8', roi: '€56K', roi_multiple: '7.6×', breakeven: '31 days',
     timeline: '7 days',
     before: 'Support team fielding 200+ tickets/day. 3-day resolution backlog. Two full-time Tier-1 agents.',
     after: 'Order confirmations, cart recovery and Tier-1 support automated 24/7. CSAT up 18 points.',
@@ -71,13 +71,13 @@ const cases = [
     tag: 'Law Firm · Birmingham',
     headline: 'Client intake from 14 days to 3 days.',
     stat: '78%', statLabel: 'faster onboarding',
-    hours: '12', roi: '£95K', roi_multiple: '13.4×', breakeven: '21 days',
+    hours: '12', roi: '€110K', roi_multiple: '13.4×', breakeven: '21 days',
     timeline: '9 days',
     before: 'Intake taking 14 days. Fee earners spending 4h/week on non-billable admin. Clients lost to faster firms.',
     after: 'Intake, conflict checks, engagement letters and deadline tracking fully automated end-to-end.',
     workflows: ['Client intake', 'Conflict checks', 'Document generation', 'Deadline tracking'],
     tools: ['n8n', 'Clio', 'DocuSign', 'Claude AI'],
-    quote: "Fee earners now touch only billable work. We recovered £95K in billable hours in the first year.",
+    quote: "Fee earners now touch only billable work. We recovered €110K in billable hours in the first year.",
     attribution: 'Managing Partner',
   },
   {
@@ -86,7 +86,7 @@ const cases = [
     tag: 'Recruitment Firm · Leeds',
     headline: '3× more placements. Same team. AI handles the pipeline.',
     stat: '3×', statLabel: 'placements per consultant',
-    hours: '10', roi: '£168K', roi_multiple: '11.2×', breakeven: '25 days',
+    hours: '10', roi: '€195K', roi_multiple: '11.2×', breakeven: '25 days',
     timeline: '7 days',
     before: 'Consultants spending 60% of time on CV screening, scheduling and status emails.',
     after: 'CV parsing, candidate scoring and interview scheduling fully automated by AI agents.',
@@ -103,18 +103,18 @@ const aggregate = [
   { value: '312', suffix: '+', label: 'Deployments completed' },
   { value: '14',  suffix: 'h', label: 'Avg hours saved / week' },
   { value: '9.2', suffix: '×', label: 'Avg ROI at 90 days' },
-  { value: '168', suffix: 'k', label: 'Avg annual saving (£)' },
+  { value: '195', suffix: 'k', label: 'Avg annual saving (€)' },
   { value: '99.97', suffix: '%', label: 'Workflow uptime SLA' },
   { value: '7',   suffix: 'd', label: 'Avg deployment time' },
 ];
 
 const benchmarks = [
-  { industry: 'Legal',       hours: '12h', saving: '£95K',  roi: '13.4×', payback: '21 days', deploy: '9 days',  best: true  },
-  { industry: 'Healthcare',  hours: '18h', saving: '£112K', roi: '12.1×', payback: '19 days', deploy: '7 days',  best: false },
-  { industry: 'Staffing',    hours: '10h', saving: '£168K', roi: '11.2×', payback: '25 days', deploy: '7 days',  best: false },
-  { industry: 'Agency',      hours: '22h', saving: '£89K',  roi: '9.8×',  payback: '23 days', deploy: '8 days',  best: false },
-  { industry: 'Real Estate', hours: '9h',  saving: '£74K',  roi: '8.3×',  payback: '18 days', deploy: '6 days',  best: false },
-  { industry: 'E-commerce',  hours: '8h',  saving: '£48K',  roi: '7.6×',  payback: '31 days', deploy: '7 days',  best: false },
+  { industry: 'Legal',       hours: '12h', saving: '€110K', roi: '13.4×', payback: '21 days', deploy: '9 days',  best: true  },
+  { industry: 'Healthcare',  hours: '18h', saving: '€130K', roi: '12.1×', payback: '19 days', deploy: '7 days',  best: false },
+  { industry: 'Staffing',    hours: '10h', saving: '€195K', roi: '11.2×', payback: '25 days', deploy: '7 days',  best: false },
+  { industry: 'Agency',      hours: '22h', saving: '€104K', roi: '9.8×',  payback: '23 days', deploy: '8 days',  best: false },
+  { industry: 'Real Estate', hours: '9h',  saving: '€86K',  roi: '8.3×',  payback: '18 days', deploy: '6 days',  best: false },
+  { industry: 'E-commerce',  hours: '8h',  saving: '€56K',  roi: '7.6×',  payback: '31 days', deploy: '7 days',  best: false },
 ];
 
 const ticker = [
@@ -124,7 +124,7 @@ const ticker = [
   { co: 'Property Agency · Manchester',win: '40% more deals closed',  days: '6 days ago' },
   { co: 'Marketing Agency · Edinburgh',win: '3× clients per operator',days: '9 days ago' },
   { co: 'Recruitment Firm · Leeds',    win: '3× placements/consultant',days: '11 days ago'},
-  { co: 'Finance Co · Glasgow',        win: '£52K invoicing saved',   days: '13 days ago'},
+  { co: 'Finance Co · Glasgow',        win: '€60,500 invoicing saved', days: '13 days ago'},
   { co: 'Healthcare Group · Cardiff',  win: '22h admin eliminated',   days: '15 days ago'},
 ];
 ---
@@ -484,12 +484,12 @@ const ticker = [
             {
               id: 'calc-salary', label: 'Avg annual salary',
               opts: [
-                { v: '30000', l: '£30,000' },
-                { v: '40000', l: '£40,000', sel: true },
-                { v: '50000', l: '£50,000' },
-                { v: '60000', l: '£60,000' },
-                { v: '75000', l: '£75,000' },
-                { v: '90000', l: '£90,000+' },
+                { v: '35000', l: '€35,000' },
+                { v: '47000', l: '€47,000', sel: true },
+                { v: '58000', l: '€58,000' },
+                { v: '70000', l: '€70,000' },
+                { v: '87000', l: '€87,000' },
+                { v: '105000', l: '€105,000+' },
               ]
             },
             {
@@ -594,7 +594,7 @@ const ticker = [
     <!-- Secondary 4 -->
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
       {[
-        { stat: '£168K', label: 'Avg first-year saving',    sub: 'across all plans' },
+        { stat: '€195K', label: 'Avg first-year saving',    sub: 'across all plans' },
         { stat: '99.97%',label: 'Workflow uptime SLA',      sub: 'monitored 24/7' },
         { stat: '< 10d', label: 'Avg deployment time',      sub: 'audit to live' },
         { stat: '0',     label: 'Failed deployments',       sub: 'in 18 months' },
@@ -870,7 +870,7 @@ const ticker = [
     var roi    = CALC_ROI[size] || 9.4;
     var pay    = CALC_PAY[size] || '4 wks';
     document.getElementById('out-hours').textContent   = hours + 'h';
-    document.getElementById('out-value').textContent   = '£' + (annual >= 1000 ? Math.round(annual / 1000) + 'K' : annual);
+    document.getElementById('out-value').textContent   = '€' + (annual >= 1000 ? Math.round(annual / 1000) + 'K' : annual);
     document.getElementById('out-roi').textContent     = roi + '×';
     document.getElementById('out-payback').textContent = pay;
     var el = document.getElementById('calc-insight');

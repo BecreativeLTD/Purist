@@ -241,7 +241,7 @@ export const POST: APIRoute = async ({ request }) => {
     const wordCount = textContent.split(/\s+/).filter(w => w.length > 2).length;
     const hasVideo = html.includes('<video') || html.includes('youtube.com/embed') || html.includes('vimeo.com');
     const hasContactInfo = html.includes('mailto:') || html.includes('tel:') || /\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/.test(html);
-    const hasPricing = /\$\d|£\d|€\d|pricing|price/i.test(html);
+    const hasPricing = /\$\d|€\d|pricing|price/i.test(html);
     const hasTestimonials = /testimonial|review|rating|★|⭐|star/i.test(html);
     const hasCTA = /sign.?up|get.?started|book.?a|free.?trial|contact.?us|schedule|demo|subscribe/i.test(html);
     const hasChat = html.includes('crisp') || html.includes('intercom') || html.includes('tawk') || html.includes('drift') || html.includes('livechat') || html.includes('zendesk');

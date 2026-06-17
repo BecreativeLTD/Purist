@@ -81,7 +81,7 @@ export const POST: APIRoute = async ({ request }) => {
 
         // Send J+0 nurture email to the lead
         await resend.emails.send({
-          from: 'Hamid at PURIST <hello@purist.online>',
+          from: 'Steve at PURIST <hello@purist.online>',
           to: [email],
           subject: "Your automation roadmap — here's where I'd start",
           replyTo: 'hello@purist.online',

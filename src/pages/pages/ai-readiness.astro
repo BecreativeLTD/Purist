@@ -209,18 +209,18 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
          <div class="grid grid-cols-3 gap-4 mb-4">
            <div>
              <p class="text-[10px] uppercase tracking-wider mb-1" style="color:rgba(255,255,255,0.35);">Annual cost of inaction</p>
-             <p class="font-display text-2xl text-white" id="roi-cost">£ </p>
+             <p class="font-display text-2xl text-white" id="roi-cost">€ </p>
            </div>
            <div>
              <p class="text-[10px] uppercase tracking-wider mb-1" style="color:rgba(255,255,255,0.35);">Projected annual saving</p>
-             <p class="font-display text-2xl" style="color:#E8B4B0;" id="roi-saving">£ </p>
+             <p class="font-display text-2xl" style="color:#E8B4B0;" id="roi-saving">€ </p>
            </div>
            <div>
              <p class="text-[10px] uppercase tracking-wider mb-1" style="color:rgba(255,255,255,0.35);">Estimated ROI</p>
              <p class="font-display text-2xl" style="color:#4ade80;" id="roi-multiple"> ×</p>
            </div>
          </div>
-         <p class="text-[10px]" style="color:rgba(255,255,255,0.30);">Based on team size · £35/h blended rate · PURIST 2025 client average · indicative only</p>
+         <p class="text-[10px]" style="color:rgba(255,255,255,0.30);">Based on team size · €41/h blended rate · PURIST 2025 client average · indicative only</p>
        </div>
 
        <!-- Industry benchmark -->
@@ -363,7 +363,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
    2: [55, 72, 'Real Estate', 12, '"Rent statements, viewing reminders, and lease renewals all automated in 3 weeks. Saved my whole Monday."', ' Property manager, London · Score: 61/100'],
    3: [60, 76, 'Agency / Creative', 14, '"Client onboarding went from 2 hours to 8 minutes. Our clients think we\'re magic."', ' Creative agency, Manchester · Score: 67/100'],
    4: [63, 79, 'E-commerce', 16, '"Order processing, reviews, restock alerts all automated. Revenue up 22% on the same headcount."', ' E-commerce brand, Auckland · Score: 71/100'],
-   5: [58, 75, 'SaaS / Tech', 11, '"Churn early warning and trial-to-paid flows. Saved a net churn of £42k in the first quarter."', ' SaaS founder, Dublin · Score: 65/100'],
+   5: [58, 75, 'SaaS / Tech', 11, '"Churn early warning and trial-to-paid flows. Saved a net churn of €49k in the first quarter."', ' SaaS founder, Dublin · Score: 65/100'],
    6: [52, 70, 'Finance', 10, '"Month-end reporting dropped from 2 days to 4 hours. Auditors love the clean data trail too."', ' Finance firm, Singapore · Score: 59/100'],
    7: [57, 73, 'Law Firm', 12, '"Court deadline tracking and client status emails. Freed up 12 hours every week for billable work."', ' Law firm, Melbourne · Score: 63/100'],
    8: [58, 74, 'Business', 14, '"First automation was a simple lead follow-up sequence. Closed 3 extra deals in month one."', ' Consulting firm, Cape Town · Score: 62/100'],
@@ -456,7 +456,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
  }
 
  function fmt(n) {
-   return n >= 1000 ? '£' + Math.round(n/1000) + 'k' : '£' + n;
+   return n >= 1000 ? '€' + Math.round(n/1000) + 'k' : '€' + n;
  }
 
  function showResult() {

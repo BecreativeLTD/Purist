@@ -619,19 +619,19 @@ function showResult() {
 
   // Annual cost estimate
   var hrsLost = Math.round(2 + 18 * (1 - pct/100));
-  var annualCost = Math.round(hrsLost * 35 * 52 / 100) * 100;
+  var annualCost = Math.round(hrsLost * 41 * 52 / 100) * 100;
   var annualSaving = Math.round(annualCost * 0.60 / 100) * 100;
   var annualCostHtml =
     '<div class="rounded-[20px] p-5 border mb-4" style="background:rgba(239,68,68,0.04);border-color:rgba(239,68,68,0.18);animation:am-result-in 0.5s ease-out 0.15s both;">' +
       '<p class="text-[9px] uppercase tracking-[0.18em] font-bold mb-3" style="color:rgba(239,68,68,0.55);">Estimated annual manual work cost at your level</p>' +
       '<div class="flex flex-wrap items-end gap-4 mb-3">' +
-        '<p class="font-display text-[2rem] text-white leading-none">£' + annualCost.toLocaleString('en-GB') + '<span class="text-sm ml-1 opacity-40">/yr</span></p>' +
-        '<p class="text-[11px] pb-1" style="color:rgba(255,255,255,0.35);">~' + hrsLost + 'h/wk lost · £35/hr blended rate</p>' +
+        '<p class="font-display text-[2rem] text-white leading-none">€' + annualCost.toLocaleString('en-GB') + '<span class="text-sm ml-1 opacity-40">/yr</span></p>' +
+        '<p class="text-[11px] pb-1" style="color:rgba(255,255,255,0.35);">~' + hrsLost + 'h/wk lost · €41/hr blended rate</p>' +
       '</div>' +
       '<div class="h-1.5 rounded-full overflow-hidden mb-2" style="background:rgba(239,68,68,0.10);">' +
         '<div class="h-full rounded-full" style="width:' + (100-pct) + '%;background:linear-gradient(90deg,#ef4444,rgba(239,68,68,0.40));transition:width 1.2s ease 0.3s;"></div>' +
       '</div>' +
-      '<p class="text-[10px]" style="color:rgba(255,255,255,0.25);">Automating 60% of this returns <strong style="color:rgba(239,68,68,0.75);">£' + annualSaving.toLocaleString('en-GB') + ' back per year</strong></p>' +
+      '<p class="text-[10px]" style="color:rgba(255,255,255,0.25);">Automating 60% of this returns <strong style="color:rgba(239,68,68,0.75);">€' + annualSaving.toLocaleString('en-GB') + ' back per year</strong></p>' +
     '</div>';
 
   // Stat grid (big font-display numbers like SOP results)
@@ -640,8 +640,8 @@ function showResult() {
     [
       { val: pct + '/100',                              label: 'Maturity score',         color: levelColor },
       { val: hrsLost + 'h/wk',                         label: 'Hours lost to manual work', color: 'rgba(255,255,255,0.85)' },
-      { val: '\u00a3' + annualCost.toLocaleString('en-GB'), label: 'Annual manual cost',   color: '#7B68EE' },
-      { val: '\u00a3' + annualSaving.toLocaleString('en-GB') + '/yr', label: 'Potential annual return', color: '#4ade80' },
+      { val: '\u20ac' + annualCost.toLocaleString('en-GB'), label: 'Annual manual cost',   color: '#7B68EE' },
+      { val: '\u20ac' + annualSaving.toLocaleString('en-GB') + '/yr', label: 'Potential annual return', color: '#4ade80' },
     ].map(function(s, i) {
       return '<div class="rounded-[20px] p-5 flex flex-col justify-between" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);min-height:120px;animation:am-result-in 0.5s ease-out ' + (i*0.08) + 's both;">' +
         '<p class="text-[1.9rem] leading-none" style="font-family:\'Fraunces Variable\',Fraunces,Georgia,serif;letter-spacing:-0.025em;color:' + s.color + ';">' + s.val + '</p>' +

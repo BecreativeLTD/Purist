@@ -64,10 +64,10 @@
        <div class="roi-slider-group mb-4">
          <div class="flex items-center justify-between mb-1.5">
            <label class="roi-lbl" for="sl-hourly">Avg. hourly cost</label>
-           <span class="roi-val">£<span id="val-hourly">26</span>/hr</span>
+           <span class="roi-val">€<span id="val-hourly">26</span>/hr</span>
          </div>
          <input id="sl-hourly" type="range" min="15" max="150" value="26" step="1" class="roi-range"/>
-         <div class="roi-ticks"><span>£15</span><span>£80</span><span>£150</span></div>
+         <div class="roi-ticks"><span>€15</span><span>€80</span><span>€150</span></div>
        </div>
 
        <!-- Manual hours/week -->
@@ -92,10 +92,10 @@
            <div class="roi-slider-group">
              <div class="flex items-center justify-between mb-1.5">
                <label class="roi-lbl" for="sl-tools">Monthly SaaS stack <span class="roi-lbl-sub">subscriptions</span></label>
-               <span class="roi-val">£<span id="val-tools">750</span>/mo</span>
+               <span class="roi-val">€<span id="val-tools">750</span>/mo</span>
              </div>
              <input id="sl-tools" type="range" min="0" max="5000" value="750" step="50" class="roi-range roi-range--purple"/>
-             <div class="roi-ticks"><span>£0</span><span>£2.5K</span><span>£5K</span></div>
+             <div class="roi-ticks"><span>€0</span><span>€2.5K</span><span>€5K</span></div>
            </div>
            <div class="roi-slider-group">
              <div class="flex items-center justify-between mb-1.5">
@@ -107,7 +107,7 @@
            </div>
            <div class="roi-slider-group">
              <div class="flex items-center justify-between mb-1.5">
-               <label class="roi-lbl" for="sl-turnover">Staff turnover / year <span class="roi-lbl-sub">replacement cost £4–8K each</span></label>
+               <label class="roi-lbl" for="sl-turnover">Staff turnover / year <span class="roi-lbl-sub">replacement cost €5–9K each</span></label>
                <span class="roi-val"><span id="val-turnover">2</span> people</span>
              </div>
              <input id="sl-turnover" type="range" min="0" max="20" value="2" step="1" class="roi-range roi-range--amber"/>
@@ -139,7 +139,7 @@
        <!-- PURIST cost indicator -->
        <div class="mt-4 pt-4 flex items-center justify-between" style="border-top:1px solid rgba(255,255,255,0.06);">
          <span class="text-[10px]" style="color:rgba(255,255,255,0.55);">PURIST monthly retainer</span>
-         <span class="text-[11px] font-bold tabular-nums" style="color:rgba(232,180,176,0.70);" id="purist-cost-display">£2,800/mo</span>
+         <span class="text-[11px] font-bold tabular-nums" style="color:rgba(232,180,176,0.70);" id="purist-cost-display">€2,800/mo</span>
        </div>
 
      </div>
@@ -152,7 +152,7 @@
          <div class="flex items-start justify-between flex-wrap gap-3">
            <div>
              <p class="text-[9px] uppercase tracking-[0.22em] font-bold mb-2" style="color:rgba(232,180,176,0.60);">Net annual savings</p>
-             <div class="font-display text-[2.2rem] lg:text-[2.8rem] leading-none font-medium text-white tabular-nums transition-all duration-300" id="res-annual">£47,820</div>
+             <div class="font-display text-[2.2rem] lg:text-[2.8rem] leading-none font-medium text-white tabular-nums transition-all duration-300" id="res-annual">€47,820</div>
              <p class="text-[11px] mt-2" style="color:rgba(255,255,255,0.60);">
                After PURIST cost · <span id="res-rate-text" class="font-semibold" style="color:rgba(255,255,255,0.55);">76%</span> coverage · <span id="res-team-text">8 people</span>
              </p>
@@ -160,7 +160,7 @@
            <div class="text-right">
              <span id="res-tier-badge" class="text-[9px] uppercase tracking-[0.16em] font-bold px-2.5 py-1 rounded-full" style="background:rgba(232,180,176,0.14);color:#E8B4B0;">Realistic</span>
              <p class="text-[9px] mt-2 uppercase tracking-[0.14em]" style="color:rgba(255,255,255,0.22);">Gross before cost</p>
-             <p class="text-[13px] font-bold tabular-nums mt-0.5" style="color:rgba(255,255,255,0.50);" id="res-gross">£56,420</p>
+             <p class="text-[13px] font-bold tabular-nums mt-0.5" style="color:rgba(255,255,255,0.50);" id="res-gross">€56,420</p>
            </div>
          </div>
        </div>
@@ -173,7 +173,7 @@
            <p class="text-[10px]" style="color:rgba(255,255,255,0.32);">Hours saved/mo</p>
          </div>
          <div class="rounded-[14px] p-3.5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
-           <p class="font-display text-[1.35rem] lg:text-[1.55rem] leading-none font-medium tabular-nums mb-1 text-white" id="kpi-monthly">£3,985</p>
+           <p class="font-display text-[1.35rem] lg:text-[1.55rem] leading-none font-medium tabular-nums mb-1 text-white" id="kpi-monthly">€3,985</p>
            <p class="text-[10px]" style="color:rgba(255,255,255,0.32);">Net savings/mo</p>
          </div>
          <div class="rounded-[14px] p-3.5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);">
@@ -206,7 +206,7 @@
                </span>
                <div class="flex items-center gap-2">
                  <span class="text-[9.5px] tabular-nums" style="color:rgba(255,255,255,0.55);" id="bk-time-pct">78%</span>
-                 <span class="text-[11.5px] font-semibold tabular-nums" style="color:#E8B4B0;" id="bk-time-val">£3,120/mo</span>
+                 <span class="text-[11.5px] font-semibold tabular-nums" style="color:#E8B4B0;" id="bk-time-val">€3,120/mo</span>
                </div>
              </div>
              <div class="h-1 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.07);">
@@ -221,7 +221,7 @@
                </span>
                <div class="flex items-center gap-2">
                  <span class="text-[9.5px] tabular-nums" style="color:rgba(255,255,255,0.55);" id="bk-error-pct">14%</span>
-                 <span class="text-[11.5px] font-semibold tabular-nums" style="color:#4a8a2a;" id="bk-error-val">£548/mo</span>
+                 <span class="text-[11.5px] font-semibold tabular-nums" style="color:#4a8a2a;" id="bk-error-val">€548/mo</span>
                </div>
              </div>
              <div class="h-1 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.07);">
@@ -236,7 +236,7 @@
                </span>
                <div class="flex items-center gap-2">
                  <span class="text-[9.5px] tabular-nums" style="color:rgba(255,255,255,0.55);" id="bk-tools-pct">8%</span>
-                 <span class="text-[11.5px] font-semibold tabular-nums" style="color:#7B68EE;" id="bk-tools-val">£316/mo</span>
+                 <span class="text-[11.5px] font-semibold tabular-nums" style="color:#7B68EE;" id="bk-tools-val">€316/mo</span>
                </div>
              </div>
              <div class="h-1 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.07);">
@@ -251,7 +251,7 @@
                </span>
                <div class="flex items-center gap-2">
                  <span class="text-[9.5px] tabular-nums" style="color:rgba(255,255,255,0.55);" id="bk-staff-pct"> </span>
-                 <span class="text-[11.5px] font-semibold tabular-nums" style="color:#C89840;" id="bk-staff-val">£0/mo</span>
+                 <span class="text-[11.5px] font-semibold tabular-nums" style="color:#C89840;" id="bk-staff-val">€0/mo</span>
                </div>
              </div>
              <div class="h-1 rounded-full overflow-hidden" style="background:rgba(255,255,255,0.07);">
@@ -262,8 +262,8 @@
          </div>
 
          <div class="mt-3 pt-3 flex items-center justify-between flex-wrap gap-2" style="border-top:1px solid rgba(255,255,255,0.06);">
-           <span class="text-[10px]" style="color:rgba(255,255,255,0.55);">vs. hiring a specialist (£68K/yr fully loaded)</span>
-           <span class="text-[11px] font-bold" style="color:#E8B4B0;" id="vs-hire-label">Save £46K/yr vs. hiring</span>
+           <span class="text-[10px]" style="color:rgba(255,255,255,0.55);">vs. hiring a specialist (€79K/yr fully loaded)</span>
+           <span class="text-[11px] font-bold" style="color:#E8B4B0;" id="vs-hire-label">Save €53K/yr vs. hiring</span>
          </div>
        </div>
 
@@ -276,14 +276,14 @@
              <p class="text-[8.5px] uppercase tracking-[0.18em] font-bold" style="color:rgba(248,113,113,0.65);">Cost of waiting</p>
            </div>
            <p class="font-display text-[1.25rem] lg:text-[1.4rem] leading-none font-medium tabular-nums mb-1" style="color:#fca5a5;">
-             −£<span id="cost-ticker">0.00</span>
+             −€<span id="cost-ticker">0.00</span>
            </p>
            <p class="text-[9.5px]" style="color:rgba(255,255,255,0.26);">lost since page opened</p>
          </div>
 
          <div class="rounded-[16px] p-4" style="background:rgba(200,152,64,0.07);border:1px solid rgba(200,152,64,0.17);">
            <p class="text-[8.5px] uppercase tracking-[0.18em] font-bold mb-2" style="color:rgba(200,152,64,0.60);">5-year projection</p>
-           <p class="font-display text-[1.25rem] lg:text-[1.4rem] leading-none font-medium tabular-nums mb-1" style="color:#C89840;" id="res-5yr">£239,100</p>
+           <p class="font-display text-[1.25rem] lg:text-[1.4rem] leading-none font-medium tabular-nums mb-1" style="color:#C89840;" id="res-5yr">€239,100</p>
            <p class="text-[9.5px]" style="color:rgba(255,255,255,0.26);">net cumulative value</p>
          </div>
 
@@ -368,9 +368,9 @@
      {[
        { n: '40%',  l: 'of SMB time on manual tasks',           src: 'McKinsey 2024'    },
        { n: '70–80%', l: 'of repetitive tasks automatable',       src: 'Gartner 2024'     },
-       { n: '£24/hr', l: 'avg. UK admin all-in hourly cost',      src: 'ONS Labour 2024'  },
+       { n: '€28/hr', l: 'avg. EU admin all-in hourly cost',      src: 'Eurostat 2024'  },
        { n: '2.3h', l: 'daily rework from data errors',         src: 'Forrester 2023'   },
-       { n: '£168K', l: 'avg. first-year savings (PURIST)',      src: '500+ clients'     },
+       { n: '€185K', l: 'avg. first-year savings (PURIST)',      src: '500+ clients'     },
      ].map(b => (
        <div>
          <p class="font-display text-lg lg:text-xl font-medium mb-1 leading-none" style="color:rgba(255,255,255,0.78);">{b.n}</p>
@@ -552,7 +552,7 @@
  var tickerInterval = null;
  var openedAt = Date.now();
 
- var _currencySymbol = '£';
+ var _currencySymbol = '€';
  var _currencyRate = 1;
  window.addEventListener('puristCurrency', function(e) {
    _currencySymbol = e.detail.symbol;
@@ -565,7 +565,7 @@
    var s = _currencySymbol;
    if (n >= 1000000) return s + (n/1000000).toFixed(1) + 'M';
    if (n >= 100000) return s + Math.round(n/1000) + 'K';
-   return s + n.toLocaleString('en-GB');
+   return s + n.toLocaleString('en');
  }
  function fmtK(n) {
    if (n * _currencyRate >= 10000) return _currencySymbol + Math.round(n * _currencyRate / 1000) + 'K';
@@ -604,7 +604,7 @@
 
    var toolSavings = toolCost * ind.toolRep * Math.min(rate * 0.9, 0.72);
 
-   // Staff retention: avg £6K replacement cost per leaver reduced by 40% (automation reduces burnout)
+   // Staff retention: avg €7K replacement cost per leaver reduced by 40% (automation reduces burnout)
    var staffSavings = (turnover * 6000 * 0.40) / 12;
 
    var grossMonthly = timeSavings + errorSavings + toolSavings + staffSavings;
@@ -683,7 +683,7 @@
 
    setText('vs-hire-label', d.vHire > 0 ? 'Save '+fmtK(d.vHire)+'/yr vs. hiring' : d.roiMult+'× return on investment');
    setText('res-5yr', fmtGBP(d.fiveYear));
-   setText('purist-cost-display', '£'+d.puristMonthly.toLocaleString('en-GB')+'/mo');
+   setText('purist-cost-display', '€'+d.puristMonthly.toLocaleString('en')+'/mo');
 
    restartTicker(d.costPerDay);
  }

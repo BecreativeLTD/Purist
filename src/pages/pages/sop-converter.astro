@@ -102,7 +102,7 @@ When a new lead fills our contact form on the website, our team manually checks 
                   ['Steps', 'Each action in order, including manual checks and decisions'],
                   ['Tools', 'Name the apps involved (HubSpot, Slack, Gmail, Notion…)'],
                   ['People', 'Who does each step — names optional, roles preferred'],
-                  ['Branches', 'If/then logic ("if customer is VIP…", "if deal > £5k…")'],
+                  ['Branches', 'If/then logic ("if customer is VIP…", "if deal > €6k…")'],
                 ].map(([title, desc]) => (
                   <div class="flex gap-3">
                     <div class="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style="background:#E8B4B0;"></div>
@@ -316,7 +316,7 @@ When a new lead fills our contact form on the website, our team manually checks 
       industryColor: '#4ADE80',
       icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>',
       tools: ['Xero', 'Notion', 'Gmail'],
-      text: `When an invoice email arrives in our accounts@company.com inbox, we download the PDF attachment and enter the data manually into our spreadsheet: supplier name, invoice number, amount, due date, and category. We then check if the supplier is on our approved list in Notion. If approved and under £2,000, we mark it for auto-payment in Xero. If over £2,000, we send an approval request to the Finance Director via email. Once approved, we schedule payment in Xero, update the spreadsheet, and archive the email with a label "processed".`
+      text: `When an invoice email arrives in our accounts@company.com inbox, we download the PDF attachment and enter the data manually into our spreadsheet: supplier name, invoice number, amount, due date, and category. We then check if the supplier is on our approved list in Notion. If approved and under €2,300, we mark it for auto-payment in Xero. If over €2,300, we send an approval request to the Finance Director via email. Once approved, we schedule payment in Xero, update the spreadsheet, and archive the email with a label "processed".`
     },
     {
       label: 'New client onboarding',
@@ -332,7 +332,7 @@ When a new lead fills our contact form on the website, our team manually checks 
       industryColor: '#96BF48',
       icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
       tools: ['Shopify', 'Klaviyo', 'Stripe'],
-      text: `After an order is placed on our Shopify store, we check if it's the customer's first order or a repeat purchase. For first-time buyers, we send a welcome email sequence (3 emails over 7 days), add them to our loyalty programme in Klaviyo, and create a customer card in our CRM. For repeat buyers, we check their total spend. If over £500 lifetime, we tag them as VIP and add them to our VIP segment. All orders trigger a confirmation email. When the order ships, we send tracking info. 14 days after delivery, we send an automated review request.`
+      text: `After an order is placed on our Shopify store, we check if it's the customer's first order or a repeat purchase. For first-time buyers, we send a welcome email sequence (3 emails over 7 days), add them to our loyalty programme in Klaviyo, and create a customer card in our CRM. For repeat buyers, we check their total spend. If over €580 lifetime, we tag them as VIP and add them to our VIP segment. All orders trigger a confirmation email. When the order ships, we send tracking info. 14 days after delivery, we send an automated review request.`
     },
     {
       label: 'Support ticket routing',
@@ -516,7 +516,7 @@ When a new lead fills our contact form on the website, our team manually checks 
   function renderMetrics(data) {
     var el = document.getElementById('result-metrics');
     if (!el) return;
-    var annualValue = '£' + (data.hoursPerMonth * 12 * 35).toLocaleString();
+    var annualValue = '€' + (data.hoursPerMonth * 12 * 41).toLocaleString();
     var items = [
       { val: data.score + '%', label: 'Automatable', color: '#4ADE80' },
       { val: data.timeSaved + ' hrs', label: 'Saved per week', color: '#E8B4B0' },
@@ -663,9 +663,9 @@ When a new lead fills our contact form on the website, our team manually checks 
           lines.push(a.type.toUpperCase() + ': ' + a.label + ' → ' + a.node);
         });
         lines.push('');
-        var annualVal = '£' + (data.hoursPerMonth * 12 * 35).toLocaleString();
+        var annualVal = '€' + (data.hoursPerMonth * 12 * 41).toLocaleString();
         lines.push('Build time: ' + data.buildDays + ' | Automation score: ' + data.score + '%');
-        lines.push('Annual value: ' + annualVal + '/yr (at £35/hr blended rate)');
+        lines.push('Annual value: ' + annualVal + '/yr (at €41/hr blended rate)');
         lines.push('Generated at purist.online/pages/sop-converter');
         var blueprintText = lines.join('\n');
         navigator.clipboard.writeText(blueprintText).then(function() {
