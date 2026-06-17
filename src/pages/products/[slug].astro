@@ -91,9 +91,9 @@ const accordionSections = [
      </a>
 
      <div class="flex items-baseline gap-3 mb-4">
-       <span class="font-display text-2xl">From <span data-price={product.price.subscription}>£{product.price.subscription.toLocaleString('en-GB')}</span>/mo</span>
+       <span class="font-display text-2xl">From <span data-price={product.price.subscription}>€{product.price.subscription.toLocaleString('en')}</span>/mo</span>
        <span class="line-through text-sm text-brand-gray-400">
-         <span data-price={product.price.oneTime}>£{product.price.oneTime.toLocaleString('en-GB')}</span>
+         <span data-price={product.price.oneTime}>€{product.price.oneTime.toLocaleString('en')}</span>
        </span>
        {product.price.discount > 0 && (
          <span class="text-[10px] uppercase tracking-wider bg-brand-green/15 text-brand-green px-2 py-0.5 rounded font-medium">
@@ -148,14 +148,14 @@ const accordionSections = [
          <div>
            <p class="text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400 mb-0.5">Starting from</p>
            <p class="font-display text-xl text-brand-black">
-             £{product.price.subscription.toLocaleString('en-GB')}
+             <span data-price={product.price.subscription}>€{product.price.subscription.toLocaleString('en')}</span>
              <span class="text-sm font-sans text-brand-gray-600">/month</span>
            </p>
          </div>
          <div class="text-right">
            <p class="text-[10px] uppercase tracking-wider font-semibold text-brand-gray-400 mb-0.5">Or one-time</p>
            <p class="font-display text-xl text-brand-black">
-             £{product.price.oneTime.toLocaleString('en-GB')}
+             <span data-price={product.price.oneTime}>€{product.price.oneTime.toLocaleString('en')}</span>
            </p>
          </div>
        </div>
@@ -181,7 +181,7 @@ const accordionSections = [
          <path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4zM9 12l2 2 4-4"/>
        </svg>
        <p style="color:rgba(10,10,10,0.62);">
-         A junior ops hire runs <span class="line-through font-medium" style="color:rgba(10,10,10,0.45);">£35–55K/year</span>.
+         A junior ops hire runs <span class="line-through font-medium" style="color:rgba(10,10,10,0.45);">€40–65K/year</span>.
          PURIST delivers the same output deployed in under 10 days.
        </p>
      </div>
@@ -222,10 +222,10 @@ const accordionSections = [
      <div class="container-x py-3 flex items-center gap-4 lg:gap-8">
        <div class="flex-1 min-w-0">
          <p class="font-display text-sm lg:text-base text-white leading-tight truncate">{product.title}</p>
-         <p class="text-[11px] truncate hidden sm:block" style="color:rgba(255,255,255,0.40);">From £{product.price.subscription.toLocaleString('en-GB')}/mo · 30-day money-back guarantee</p>
+         <p class="text-[11px] truncate hidden sm:block" style="color:rgba(255,255,255,0.40);">From <span data-price={product.price.subscription}>€{product.price.subscription.toLocaleString('en')}</span>/mo · 30-day money-back guarantee</p>
        </div>
        <div class="hidden sm:flex items-baseline gap-1 shrink-0">
-         <span class="font-display text-lg text-white">£{product.price.subscription.toLocaleString('en-GB')}</span>
+         <span class="font-display text-lg text-white" data-price={product.price.subscription}>€{product.price.subscription.toLocaleString('en')}</span>
          <span class="text-[11px]" style="color:rgba(255,255,255,0.40);">/mo</span>
        </div>
        <a
@@ -280,12 +280,12 @@ const accordionSections = [
          offers: {
            '@type': 'Offer',
            price: product.price.subscription,
-           priceCurrency: product.price.currency ?? 'GBP',
+           priceCurrency: product.price.currency ?? 'EUR',
            availability: 'https://schema.org/InStock',
            priceSpecification: {
              '@type': 'UnitPriceSpecification',
              price: product.price.subscription,
-             priceCurrency: product.price.currency ?? 'GBP',
+             priceCurrency: product.price.currency ?? 'EUR',
              billingDuration: 1,
              billingIncrement: 1,
              unitCode: 'MON',
