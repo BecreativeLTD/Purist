@@ -1,5 +1,6 @@
 import { useSignal, useComputed } from '@preact/signals';
 import { useEffect } from 'preact/hooks';
+import { track } from '~/lib/amplitude';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 interface BreakdownItem {
@@ -646,8 +647,15 @@ export default function ROICalculator() {
   }
 
   function goNext() {
-    if (step.value < TOTAL_STEPS) step.value++;
-    else startCalculation();
+    if (step.value < TOTAL_STEPS) {
+      track('roi_calculator_step_completed', {
+        step: step.value,
+        industry: industryId.value || undefined,
+      });
+      step.value++;
+    } else {
+      startCalculation();
+    }
   }
 
   function goBack() {
@@ -655,6 +663,14 @@ export default function ROICalculator() {
   }
 
   async function startCalculation() {
+    track('roi_calculator_submitted', {
+      industry: industryId.value,
+      employees: employees.value,
+      hoursPerWeek: hoursPerWeek.value,
+      hourlyRate: hourlyRate.value,
+      toolsCount: tools.value.length,
+      tasksCount: tasks.value.length,
+    });
     step.value = 6; // loading
     loadingStep.value = 0;
 
@@ -689,10 +705,24 @@ export default function ROICalculator() {
       if (!data.automationSavings) throw new Error('invalid response');
 
       result.value = data;
+      track('roi_calculator_completed', {
+        industry: industryId.value,
+        annualSavings: data.automationSavings,
+        roiPercent: data.roiPercent,
+        roiMonths: data.roiMonths,
+        hoursSavedPerWeek: data.hoursSavedPerWeek,
+      });
       step.value = 7;
     } catch {
       clearInterval(stepTimer);
-      result.value = computeFallback();
+      const fallback = computeFallback();
+      result.value = fallback;
+      track('roi_calculator_completed', {
+        industry: industryId.value,
+        annualSavings: fallback.automationSavings,
+        roiPercent: fallback.roiPercent,
+        source: 'fallback',
+      });
       step.value = 7;
     }
   }
@@ -874,7 +904,7 @@ export default function ROICalculator() {
             ))}
           </div>
 
-          <button style={{ ...S.btn, fontSize: 15, padding: '16px 40px' }} onClick={() => step.value = 1}>
+          <button style={{ ...S.btn, fontSize: 15, padding: '16px 40px' }} onClick={() => { track('roi_calculator_started'); step.value = 1; }}>
             Start the calculator
             <svg width={16} height={16} viewBox="0 0 16 16" fill="none">
               <path d="M3 8h10M9 4l4 4-4 4" stroke="#0A0A0A" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"/>
@@ -1104,7 +1134,7 @@ export default function ROICalculator() {
             result={result.value}
             industry={selectedIndustry.value}
             onReset={resetAll}
-            onShowEmailModal={() => { showModal.value = true; emailSent.value = false; }}
+            onShowEmailModal={() => { track('roi_report_requested', { industry: industryId.value }); showModal.value = true; emailSent.value = false; }}
           />
         </div>
       )}

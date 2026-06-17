@@ -66,6 +66,13 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
      import '~/scripts/currency.ts';
    </script>
 
+   <!-- Amplitude Analytics + Session Replay — client-side only, initialized once -->
+   <script>
+     import { initAmplitude } from '~/lib/amplitude';
+     initAmplitude();
+     // autocapture handles page_viewed on ViewTransitions navigation automatically
+   </script>
+
    <!-- Google Analytics deferred to end of body so it never blocks render -->
    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4XMEM7DE1B"></script>
    <script is:inline>
