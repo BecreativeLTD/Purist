@@ -50,7 +50,7 @@ const products = productsData.products.filter((p) =>
            </div>
            <p class="text-sm text-brand-gray-600 mb-5 text-pretty flex-1">{p.shortDescription}</p>
            <div class="flex items-baseline gap-3 mb-5">
-             <span class="font-display text-xl">From {formatPrice(p.price.subscription)}/mo</span>
+             <span class="font-display text-xl">From <span data-price={p.price.subscription}>€{p.price.subscription.toLocaleString('en')}</span>/mo</span>
              {p.price.discount > 0 && (
                <span class="text-[10px] uppercase tracking-wider bg-brand-green/15 text-brand-green px-2 py-0.5 rounded font-medium">
                  {p.price.discount}% off
