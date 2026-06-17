@@ -11,19 +11,29 @@ const searchIndex = blogData.articles.map(a => ({
  category: a.category,
 }));
 
-const discoverLinks = [
- { name: 'Live Demo',              href: '/pages/demo',                  badge: 'Interactive',  desc: 'Watch automation run trigger it yourself' },
- { name: 'SOP Converter',         href: '/pages/sop-converter',         badge: 'Free tool',    desc: 'Paste your SOP, get an n8n blueprint' },
- { name: 'Automation Playbooks',  href: '/pages/automation-playbook',   badge: '6 industries', desc: 'Exact workflows, tools & ROI by industry' },
- { name: 'Automation Maturity',   href: '/pages/automation-maturity',   badge: 'Free · 2 min', desc: 'Score your automation readiness in 15 questions' },
- { name: 'True Cost Calculator',  href: '/pages/true-cost',             badge: 'Live counter', desc: 'See what manual work costs you in real-time' },
- { name: 'Workflow Library',      href: '/pages/workflow-library',      badge: '60+ templates', desc: 'Browse production-ready automations' },
- { name: 'AI Readiness Quiz',     href: '/pages/ai-readiness',          badge: 'Free · 2 min', desc: 'Get your personalised score' },
- { name: 'Free Site Audit',       href: '/pages/site-audit',            badge: 'AI-Powered',   desc: 'Instant SEO, security & performance report' },
- { name: 'ROI Calculator',        href: '/pages/roi-calculator',        badge: 'Free · 2 min', desc: 'See exactly how much automation saves you' },
- { name: 'Automation Glossary',   href: '/pages/glossary',              badge: '325+ terms',   desc: 'Every automation term explained plainly' },
- { name: 'System Status',         href: '/pages/status',                badge: 'Live',         desc: 'Real-time infrastructure health' },
- { name: 'The Automation Blog',   href: '/pages/blog',                  badge: null,           desc: null },
+const discoverGroups = [
+  {
+    heading: 'Tools & Calculators',
+    links: [
+      { name: 'ROI Calculator',       href: '/pages/roi-calculator',      badge: 'Free · 2 min',  desc: 'Calculate your exact automation savings' },
+      { name: 'True Cost Calculator', href: '/pages/true-cost',           badge: 'Live counter',  desc: 'Real-time cost of manual work' },
+      { name: 'Automation Maturity',  href: '/pages/automation-maturity', badge: 'Free · 2 min',  desc: 'Score your readiness in 15 questions' },
+      { name: 'AI Readiness Quiz',    href: '/pages/ai-readiness',        badge: 'Free · 2 min',  desc: 'Get your personalised AI score' },
+      { name: 'SOP Converter',        href: '/pages/sop-converter',       badge: 'Free tool',     desc: 'Paste your SOP, get an n8n blueprint' },
+      { name: 'Free Site Audit',      href: '/pages/site-audit',          badge: 'AI-Powered',    desc: 'Instant SEO, security & perf report' },
+    ],
+  },
+  {
+    heading: 'Resources',
+    links: [
+      { name: 'Live Demo',            href: '/pages/demo',                badge: 'Interactive',   desc: 'Watch automation run live' },
+      { name: 'Automation Playbooks', href: '/pages/automation-playbook', badge: '6 industries',  desc: 'Workflows, tools & ROI by sector' },
+      { name: 'Workflow Library',     href: '/pages/workflow-library',    badge: '60+ templates', desc: 'Production-ready automations' },
+      { name: 'Automation Glossary',  href: '/pages/glossary',            badge: '325+ terms',    desc: 'Every automation term explained' },
+      { name: 'The Automation Blog',  href: '/pages/blog',                badge: 'New',           desc: 'Insights, case studies & how-tos' },
+      { name: 'System Status',        href: '/pages/status',              badge: 'Live',          desc: 'Real-time infrastructure health' },
+    ],
+  },
 ];
 
 const navLinks = [
@@ -70,26 +80,35 @@ const navLinks = [
          </a>
          {l.kind === 'mega' && <MegaMenu />}
          {l.kind === 'discover' && (
-           <div class="absolute top-full right-0 hidden group-hover:block group-focus-within:block bg-white border border-brand-gray-100 rounded-[18px] shadow-xl z-40 w-[320px] py-3 before:content-[''] before:absolute before:-top-2 before:left-0 before:right-0 before:h-2">
-             {discoverLinks.map((d) => (
-               <a
-                 href={d.href}
-                 class="flex items-start justify-between gap-3 px-4 py-2.5 hover:bg-brand-cream transition rounded-[10px] mx-1 group/item"
-               >
-                 <div class="flex-1 min-w-0">
-                   <p class="text-[13px] font-medium text-brand-black leading-snug">{d.name}</p>
-                   {d.desc && <p class="text-[11px] text-brand-gray-500 mt-0.5 leading-snug">{d.desc}</p>}
+           <div class="absolute top-full right-0 hidden group-hover:block group-focus-within:block bg-white border border-brand-gray-100 rounded-[18px] shadow-xl z-40 w-[580px] before:content-[''] before:absolute before:-top-2 before:left-0 before:right-0 before:h-2">
+             <div class="grid grid-cols-2">
+               {discoverGroups.map((group, gi) => (
+                 <div class={`py-3 ${gi === 0 ? 'border-r border-brand-gray-100 pr-0.5' : 'pl-0.5'}`}>
+                   <p class="text-[9px] uppercase tracking-[0.16em] font-semibold px-4 pt-1 pb-2" style="color:rgba(0,0,0,0.28);">{group.heading}</p>
+                   {group.links.map((d) => (
+                     <a
+                       href={d.href}
+                       class="flex items-start justify-between gap-2 px-3 py-2 hover:bg-brand-cream transition rounded-[10px] mx-1 group/item"
+                     >
+                       <div class="flex-1 min-w-0">
+                         <p class="text-[12.5px] font-medium text-brand-black leading-snug">{d.name}</p>
+                         {d.desc && <p class="text-[10.5px] text-brand-gray-500 mt-0.5 leading-snug truncate">{d.desc}</p>}
+                       </div>
+                       {d.badge && (
+                         <span class="shrink-0 text-[9px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded-full mt-0.5 whitespace-nowrap"
+                           style={d.badge === 'Live'
+                             ? 'background:rgba(45,80,22,0.10);color:#2D5016;'
+                             : d.badge === 'New'
+                             ? 'background:rgba(59,130,246,0.10);color:#1d4ed8;'
+                             : 'background:rgba(232,180,176,0.15);color:#c4847e;'}>
+                           {d.badge === 'Live' && <span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:#2D5016;margin-right:3px;vertical-align:middle;animation:hd-pulse 2s ease-in-out infinite;"></span>}{d.badge}
+                         </span>
+                       )}
+                     </a>
+                   ))}
                  </div>
-                 {d.badge && (
-                   <span class="shrink-0 text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full mt-0.5"
-                     style={d.badge === 'Live'
-                       ? 'background:rgba(45,80,22,0.10);color:#2D5016;'
-                       : 'background:rgba(232,180,176,0.15);color:#c4847e;'}>
-                     {d.badge === 'Live' && <span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:#2D5016;margin-right:3px;vertical-align:middle;animation:hd-pulse 2s ease-in-out infinite;"></span>}{d.badge}
-                   </span>
-                 )}
-               </a>
-             ))}
+               ))}
+             </div>
            </div>
          )}
        </div>
