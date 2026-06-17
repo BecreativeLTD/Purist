@@ -17,16 +17,16 @@ const steps = [
  {
    n: '03',
    title: 'You earn 15% of setup fee',
-   body: 'When your referral becomes a client, 15% of their setup fee posts to your account — typically £200–750. Unlimited referrals. No cap. No expiry.',
+   body: 'When your referral becomes a client, 15% of their setup fee posts to your account — typically €220–830. Unlimited referrals. No cap. No expiry.',
    icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
  },
 ];
 
 const earningsRows = [
- { refs: 1, credit: '~£340', equiv: 'Average earning per referral' },
- { refs: 3, credit: '~£1,020', equiv: '3 months of extra delivery' },
- { refs: 5, credit: '~£1,700', equiv: 'A full quarter, on the house' },
- { refs: 10, credit: '~£3,400', equiv: 'Nearly half your annual plan' },
+ { refs: 1, credit: '~€380', equiv: 'Average earning per referral' },
+ { refs: 3, credit: '~€1,140', equiv: '3 months of extra delivery' },
+ { refs: 5, credit: '~€1,900', equiv: 'A full quarter, on the house' },
+ { refs: 10, credit: '~€3,800', equiv: 'Nearly half your annual plan' },
 ];
 
 const whatTheyGet = [
@@ -37,7 +37,7 @@ const whatTheyGet = [
 
 const testimonials = [
  {
-   quote: "I mentioned PURIST in a LinkedIn comment. Two people booked audits, one became a client. I earned £340 in 10 days for a comment I was going to post anyway.",
+   quote: "I mentioned PURIST in a LinkedIn comment. Two people booked audits, one became a client. I earned €380 in 10 days for a comment I was going to post anyway.",
    name: "Marcus H.",
    role: "Fractional CFO, London",
    initials: "MH",
@@ -99,7 +99,7 @@ const faqs = [
  },
  {
    q: 'How much do I earn per referral?',
-   a: 'You earn 15% of the client\'s setup fee. Our setup fees typically range from £1,500–5,000 depending on the project scope, so your referral earnings are usually between £200–750 per signed client. The average across all referrals is currently £340.',
+   a: 'You earn 15% of the client\'s setup fee. Our setup fees typically range from €1,650–5,500 depending on the project scope, so your referral earnings are usually between €220–830 per signed client. The average across all referrals is currently €380.',
  },
  {
    q: 'When does my payment arrive?',
@@ -111,7 +111,7 @@ const faqs = [
  },
  {
    q: 'Does my referral get anything?',
-   a: 'Yes — a completely free 30-minute automation audit (worth £500), delivered by a senior PURIST engineer, with zero obligation to become a client. Most people find the audit genuinely useful regardless of whether they go further.',
+   a: 'Yes — a completely free 30-minute automation audit (worth €550), delivered by a senior PURIST engineer, with zero obligation to become a client. Most people find the audit genuinely useful regardless of whether they go further.',
  },
  {
    q: 'Who qualifies as a referral?',
@@ -138,7 +138,7 @@ const faqs = [
 
 <ShopLayout
  title="Partner Programme — Earn 15% per referral | PURIST"
- description="Share PURIST with businesses you know. They get a free automation audit worth £500. You earn 15% of the setup fee — typically £200–750. No cap."
+ description="Share PURIST with businesses you know. They get a free automation audit worth €550. You earn 15% of the setup fee — typically €220–830. No cap."
 >
 
  <!-- ── HERO ────────────────────────────────────────────── -->
@@ -156,7 +156,7 @@ const faqs = [
            <em class="font-medium" style="color:#E8B4B0;">setup fee. Forever.</em>
          </h1>
          <p class="text-[15px] lg:text-[16px] text-brand-gray-600 leading-relaxed mb-8 max-w-md">
-           Share your unique code with any business you know. They get a full 30-minute automation audit at no cost. You earn 15% of their setup fee — typically £200–750 — every time one of them becomes a client.
+           Share your unique code with any business you know. They get a full 30-minute automation audit at no cost. You earn 15% of their setup fee — typically €220–830 — every time one of them becomes a client.
          </p>
          <div class="flex flex-wrap gap-3">
            <a href="/pages/welcome"
@@ -190,7 +190,7 @@ const faqs = [
                <svg class="w-3 h-3" viewBox="0 0 12 12" fill="none" stroke="#2D5016" stroke-width="1.8" stroke-linecap="round"><path d="M2 6l3 3 5-5"/></svg>
              </div>
              <div>
-               <p class="text-[12.5px] font-semibold text-brand-black">They get a free audit (worth £500)</p>
+               <p class="text-[12.5px] font-semibold text-brand-black">They get a free audit (worth €550)</p>
                <p class="text-[11px] text-brand-gray-500 mt-0.5">Full 30-min session with a PURIST engineer. No card required.</p>
              </div>
            </div>
@@ -200,7 +200,7 @@ const faqs = [
              </div>
              <div>
                <p class="text-[12.5px] font-semibold text-brand-black">You earn 15% of the setup fee</p>
-               <p class="text-[11px] text-brand-gray-500 mt-0.5">Typically £200–750. Paid within 48h of signing.</p>
+               <p class="text-[11px] text-brand-gray-500 mt-0.5">Typically €220–830. Paid within 48h of signing.</p>
              </div>
            </div>
            <div class="flex items-start gap-3">
@@ -231,7 +231,7 @@ const faqs = [
      <div class="flex flex-wrap justify-center gap-10 lg:gap-20">
        {[
          { n: '15%', label: 'of setup fee per referral' },
-         { n: '£500', label: 'audit value you gift them' },
+         { n: '€550', label: 'audit value you gift them' },
          { n: '312+', label: 'clients referred to date' },
          { n: '48h', label: 'payment processing time' },
        ].map(s => (

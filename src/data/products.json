@@ -15,10 +15,10 @@
        "/images/products/founder-stack-4.svg"
      ],
      "price": {
-       "subscription": 1499,
-       "oneTime": 2499,
+       "subscription": 1650,
+       "oneTime": 2750,
        "discount": 30,
-       "currency": "GBP"
+       "currency": "EUR"
      },
      "rating": 4.9,
      "reviewCount": 312,
@@ -26,7 +26,7 @@
        "The complete system automation today, AI agents tomorrow",
        "30-day money-back guarantee",
        "n8n, Make & Zapier certified workflows",
-       "Replaces over £4,000 a year of disconnected SaaS tools"
+       "Replaces over €4,400 a year of disconnected SaaS tools"
      ],
      "flavors": [
        { "id": "dental", "name": "Dental & Healthcare" },
@@ -50,10 +50,10 @@
        "/images/products/foundation-pro-4.svg"
      ],
      "price": {
-       "subscription": 799,
-       "oneTime": 1299,
+       "subscription": 890,
+       "oneTime": 1450,
        "discount": 30,
-       "currency": "GBP"
+       "currency": "EUR"
      },
      "rating": 4.9,
      "reviewCount": 487,
@@ -85,10 +85,10 @@
        "/images/products/longevity-protocol-4.svg"
      ],
      "price": {
-       "subscription": 999,
-       "oneTime": 1799,
+       "subscription": 1090,
+       "oneTime": 1990,
        "discount": 20,
-       "currency": "GBP"
+       "currency": "EUR"
      },
      "rating": 4.9,
      "reviewCount": 198,
@@ -111,9 +111,9 @@
    "badge": "FOR SCALING TEAMS",
    "shortDescription": "Dedicated n8n instance, SLA guarantee, and a dedicated automation engineer. Built for multi-location businesses and agencies scaling past 50 clients.",
    "price": {
-     "subscription": 3499,
-     "setup": 4999,
-     "currency": "GBP"
+     "subscription": 3900,
+     "setup": 5500,
+     "currency": "EUR"
    },
    "sla": "99.97%",
    "responseTime": "1h",
@@ -127,10 +127,10 @@
      "Custom integrations any API, any system"
    ],
    "addons": [
-     { "id": "extra-workflow", "name": "Extra Workflow",      "price": 299, "unit": "one-time", "description": "Any single workflow added to your plan deployed in 48h." },
-     { "id": "quarterly-audit", "name": "Quarterly Audit",     "price": 499, "unit": "quarter", "description": "Full performance review + optimisation report every 90 days.", "popular": true },
-     { "id": "team-training", "name": "Team Training",       "price": 799, "unit": "one-time", "description": "2-hour live session your team learns to monitor and expand the system." },
-     { "id": "migration",     "name": "Zapier / Make Migration","price": 1499, "unit": "one-time", "description": "Full migration of your existing workflows to n8n faster, cheaper, more reliable." }
+     { "id": "extra-workflow",  "name": "Extra Workflow",          "price": 330,  "unit": "one-time", "description": "Any single workflow added to your plan deployed in 48h." },
+     { "id": "quarterly-audit", "name": "Quarterly Audit",         "price": 550,  "unit": "quarter",  "description": "Full performance review + optimisation report every 90 days.", "popular": true },
+     { "id": "team-training",   "name": "Team Training",           "price": 890,  "unit": "one-time", "description": "2-hour live session your team learns to monitor and expand the system." },
+     { "id": "migration",       "name": "Zapier / Make Migration", "price": 1650, "unit": "one-time", "description": "Full migration of your existing workflows to n8n faster, cheaper, more reliable." }
    ]
  }
 }

@@ -26,7 +26,7 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
      <div class="flex flex-wrap gap-10 lg:gap-14">
        {[
          { n: '312',  l: 'Audits completed'     },
-         { n: '£168K', l: 'Avg. first-year savings' },
+         { n: '€185K', l: 'Avg. first-year savings' },
          { n: '5-10d', l: 'To first live workflow' },
        ].map(b => (
          <div>
@@ -53,8 +53,8 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
        </div>
        <p class="text-[12.5px] leading-snug" style="color:rgba(255,255,255,0.55);">
          Based on 312 audits, the average team loses
-         <strong class="text-white">£512/week</strong> to manual workflows
-           that's <strong class="text-white">£26,624/year</strong> of recoverable time.
+         <strong class="text-white">€560/week</strong> to manual workflows
+           that's <strong class="text-white">€29,120/year</strong> of recoverable time.
        </p>
      </div>
      <div class="flex items-center gap-6 ml-auto shrink-0">
@@ -281,10 +281,10 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
            <legend class="f-section-label mb-3">Monthly automation budget</legend>
            <div class="flex flex-wrap gap-2">
              {[
-               { v: 'under-2k', l: 'Under £2K' },
-               { v: '2k-5k',   l: '£2K – £5K' },
-               { v: '5k-10k',  l: '£5K – £10K' },
-               { v: '10k-plus', l: '£10K+'      },
+               { v: 'under-2k', l: 'Under €2K' },
+               { v: '2k-5k',   l: '€2K – €5K' },
+               { v: '5k-10k',  l: '€5K – €10K' },
+               { v: '10k-plus', l: '€10K+'      },
                { v: 'unknown', l: 'Not sure yet' },
              ].map(b => (
                <label class="budget-pill cursor-pointer transition-all duration-100 text-[11.5px] font-medium px-4 py-2 rounded-full">
@@ -605,10 +605,10 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
 
  // ── ROI lookup tables ──────────────────────────────────────────
  var ROI_BY_SIZE = {
-   '1-5':   { hours: '8h',  annual: '£24K',  payback: '3 wks', roi: '6.2×' },
-   '6-15':  { hours: '14h', annual: '£52K',  payback: '4 wks', roi: '9.1×' },
-   '16-50': { hours: '28h', annual: '£118K', payback: '5 wks', roi: '11.4×'},
-   '50+':   { hours: '60h', annual: '£280K', payback: '6 wks', roi: '14.2×'},
+   '1-5':   { hours: '8h',  annual: '€26K',  payback: '3 wks', roi: '6.2×' },
+   '6-15':  { hours: '14h', annual: '€57K',  payback: '4 wks', roi: '9.1×' },
+   '16-50': { hours: '28h', annual: '€129K', payback: '5 wks', roi: '11.4×'},
+   '50+':   { hours: '60h', annual: '€305K', payback: '6 wks', roi: '14.2×'},
  };
 
  var PAIN_INSIGHTS = {
@@ -634,8 +634,8 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
    'onboarding': 'Client / staff onboarding', 'other': 'Something else',
  };
  var BUDGET_LABELS = {
-   'under-2k': 'Under £2K/mo', '2k-5k': '£2K–£5K/mo', '5k-10k': '£5K–£10K/mo',
-   '10k-plus': '£10K+/mo', 'unknown': 'Not decided yet',
+   'under-2k': 'Under €2K/mo', '2k-5k': '€2K–€5K/mo', '5k-10k': '€5K–€10K/mo',
+   '10k-plus': '€10K+/mo', 'unknown': 'Not decided yet',
  };
  var SIZE_LABELS = { '1-5':'1–5 people','6-15':'6–15 people','16-50':'16–50 people','50+':'50+ people' };
 
@@ -650,7 +650,7 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
    if (ref) ref.textContent = 'REF-' + Date.now().toString(36).toUpperCase().slice(-6);
 
    // ROI
-   var roi = ROI_BY_SIZE[d.team_size] || { hours: '10–60h', annual: '£24K–£280K', payback: '3–6 wks', roi: '9.4×' };
+   var roi = ROI_BY_SIZE[d.team_size] || { hours: '10–60h', annual: '€26K–€305K', payback: '3–6 wks', roi: '9.4×' };
    var rh = document.getElementById('roi-hours'); if (rh) rh.textContent = roi.hours;
    var ra = document.getElementById('roi-annual'); if (ra) ra.textContent = roi.annual;
    var rp = document.getElementById('roi-payback'); if (rp) rp.textContent = roi.payback;

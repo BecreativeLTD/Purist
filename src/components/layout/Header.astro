@@ -502,7 +502,7 @@ const navLinks = [
        summary_fr: 'Les cabinets dentaires utilisant PURIST économisent 12 à 18 heures par semaine sur les tâches administratives. Nous automatisons tout le cycle patient : de la prise de rendez-vous à la réconciliation de facturation.',
        workflows: ['Appointment reminder sequences (SMS + email)', 'Recall & re-engagement campaigns', 'Insurance pre-auth form collection', 'Billing reconciliation with your PMS', 'Patient feedback collection', 'Staff rota notifications'],
        workflows_fr: ['Séquences de rappel de rendez-vous (SMS + email)', 'Campagnes de rappel et de réactivation patients', 'Collecte des formulaires d\'autorisation d\'assurance', 'Réconciliation de facturation avec votre logiciel cabinet', 'Collecte des avis patients', 'Notifications de planning du personnel'],
-       stats: [['14 h/sem', 'économisées en moyenne'],['£2 800/mois', 'équivalent coût salarié'],['95%', 'moins de saisie manuelle']],
+       stats: [['14 h/sem', 'économisées en moyenne'],['€3 100/mois', 'équivalent coût salarié'],['95%', 'moins de saisie manuelle']],
      },
      'real estate': {
        label: 'Real Estate',
@@ -518,7 +518,7 @@ const navLinks = [
        summary_fr: 'Les agences suppriment 3 à 4 outils manuels et livrent les missions clients 60% plus vite en automatisant l\'onboarding, le reporting et la facturation.',
        workflows: ['Client onboarding (contracts, briefing, access)', 'Automated weekly/monthly reporting', 'Project status Slack notifications', 'Invoice generation on milestone hit', 'Lead qualification from contact forms', 'Internal task routing from client requests'],
        workflows_fr: ['Onboarding client (contrats, brief, accès)', 'Rapports hebdomadaires/mensuels automatisés', 'Notifications Slack de l\'avancement des projets', 'Génération de facture à l\'atteinte des jalons', 'Qualification des leads depuis les formulaires de contact', 'Routage interne des tâches depuis les demandes clients'],
-       stats: [['60%', 'livraison plus rapide'],['£3 400/mois', 'économie d\'outils'],['3–4 outils', 'remplacés dès J+1']],
+       stats: [['60%', 'livraison plus rapide'],['€3 700/mois', 'économie d\'outils'],['3–4 outils', 'remplacés dès J+1']],
      },
      'ecommerce': {
        label: 'E-commerce & Retail',
@@ -530,20 +530,20 @@ const navLinks = [
      },
    },
    products: {
-     'automation pro': { price: '£799/mo', setup: '£1,299 one-time', workflows: 12, desc: 'Production-ready workflows lead capture, CRM sync, invoicing, onboarding, reporting.' },
-     'ai agent': { price: '£999/mo', setup: '£1,799 one-time', workflows: 0, desc: 'Custom AI agents for support, lead qualification, document processing and smart scheduling.' },
-     'full stack': { price: '£1,499/mo', setup: '£2,499 one-time', workflows: 12, desc: 'Automation Pro + AI Agents combined. The complete system. Best value.' },
-     'enterprise': { price: '£3,499/mo', setup: '£4,999', sla: '99.97%', desc: 'Dedicated n8n instance, SLA guarantee, 20h/mo dedicated engineer, unlimited workflows.' },
+     'automation pro': { price: '€890/mo', setup: '€1,450 one-time', workflows: 12, desc: 'Production-ready workflows lead capture, CRM sync, invoicing, onboarding, reporting.' },
+     'ai agent': { price: '€1,090/mo', setup: '€1,990 one-time', workflows: 0, desc: 'Custom AI agents for support, lead qualification, document processing and smart scheduling.' },
+     'full stack': { price: '€1,650/mo', setup: '€2,750 one-time', workflows: 12, desc: 'Automation Pro + AI Agents combined. The complete system. Best value.' },
+     'enterprise': { price: '€3,900/mo', setup: '€5,500', sla: '99.97%', desc: 'Dedicated n8n instance, SLA guarantee, 20h/mo dedicated engineer, unlimited workflows.' },
    },
    addons: [
-     { name: 'Extra Workflow', price: '£299', unit: 'one-time' },
-     { name: 'Quarterly Audit', price: '£499', unit: '/quarter' },
-     { name: 'Team Training', price: '£799', unit: 'one-time' },
-     { name: 'Zapier/Make Migration', price: '£1,499', unit: 'one-time' },
+     { name: 'Extra Workflow', price: '€330', unit: 'one-time' },
+     { name: 'Quarterly Audit', price: '€550', unit: '/quarter' },
+     { name: 'Team Training', price: '€890', unit: 'one-time' },
+     { name: 'Zapier/Make Migration', price: '€1,650', unit: 'one-time' },
    ],
    tech: 'Self-hosted n8n v1.71 on a dedicated VPS. Claude Opus 4.7 for AI inference (~80ms). Stripe for billing. All data stays in your infrastructure.',
    deploy: 'After your free audit we deploy in under 7 days: Day 0 = audit, Week 1–2 = deploy top 3 workflows, Month 1 = full stack live, Month 3 = ROI confirmed.',
-   roi: 'Clients typically see 9.2× ROI within 90 days. Average annual saving: £168k. Payback period: under 30 days.',
+   roi: 'Clients typically see 9.2× ROI within 90 days. Average annual saving: €185k. Payback period: under 30 days.',
    guarantee: '30-day money-back guarantee on all plans. No lock-in after that month-to-month.',
    audit: 'The free audit is a 60-minute video call. We map every manual process, score each one by ROI potential, and give you a deployment plan live on the call. Zero commitment.',
    referral: 'Refer a client, earn 15% of their setup fee paid within 48h of signing. No quotas, no complexity.',
@@ -570,7 +570,7 @@ const navLinks = [
    if (/ai.?agent|agent|claude|artificial|intelligence artificielle/.test(t)) return { intent:'product', key:'ai agent' };
    if (/enterprise|dedicated|sla|scale|grande entreprise/.test(t)) return { intent:'product', key:'enterprise' };
    // Topics FR + EN
-   if (/price|pric|cost|how.?much|£|gbp|monthly|subscription|prix|coût|combien|tarif|abonnement/.test(t)) return { intent:'pricing' };
+   if (/price|pric|cost|how.?much|£|€|gbp|eur|monthly|subscription|prix|coût|combien|tarif|abonnement/.test(t)) return { intent:'pricing' };
    if (/roi|return|saving|save|payback|invest|économie|économiser|rentabilité|retour/.test(t)) return { intent:'roi' };
    if (/how.?long|deploy|timeline|days|week|setup|délai|combien de temps|livraison|mise en place/.test(t)) return { intent:'deploy' };
    if (/tech|stack|n8n|make|zapier|crm|integrat|outil|technologie/.test(t)) return { intent:'tech' };
@@ -624,16 +624,16 @@ const navLinks = [
      case 'pricing':
        return {
          text: fr
-           ? 'Trois plans :\n· Automation Pro £799/mois (£1 299 one-time)\n· AI Agent Deploy £999/mois (£1 799 one-time)\n· The Full Stack £1 499/mois (£2 499 one-time)\n· Enterprise £3 499/mois (infra dédiée + SLA)\n\nGarantie satisfait ou remboursé 30 jours sur tous les plans.'
-           : 'Three plans:\n· Automation Pro £799/mo (£1,299 one-time setup)\n· AI Agent Deploy £999/mo (£1,799 one-time)\n· The Full Stack £1,499/mo (£2,499 one-time)\n· Enterprise £3,499/mo (dedicated infra + SLA)\n\nAll include a 30-day money-back guarantee.',
-         stats: [['£799/mo', 'Automation Pro'],['£1,499/mo', 'Full Stack'],['£3,499/mo', 'Enterprise']],
+           ? 'Trois plans :\n· Automation Pro €890/mois (€1 450 one-time)\n· AI Agent Deploy €1 090/mois (€1 990 one-time)\n· The Full Stack €1 650/mois (€2 750 one-time)\n· Enterprise €3 900/mois (infra dédiée + SLA)\n\nGarantie satisfait ou remboursé 30 jours sur tous les plans.'
+           : 'Three plans:\n· Automation Pro €890/mo (€1,450 one-time setup)\n· AI Agent Deploy €1,090/mo (€1,990 one-time)\n· The Full Stack €1,650/mo (€2,750 one-time)\n· Enterprise €3,900/mo (dedicated infra + SLA)\n\nAll include a 30-day money-back guarantee.',
+         stats: [['€890/mo', 'Automation Pro'],['€1,650/mo', 'Full Stack'],['€3,900/mo', 'Enterprise']],
        };
      case 'roi':
        return {
          text: fr
-           ? 'Nos clients voient en moyenne 9,2× de ROI en 90 jours. Économie annuelle moyenne : £168 000. Retour sur investissement en moins de 30 jours.\n\nExemple : une clinique dentaire à £799/mois économise ~£2 800/mois en temps de personnel = ROI 3,5× dès le premier mois.'
-           : KB.roi + '\n\nExample: A dental clinic paying £799/mo saves ~£2,800/mo in staff time = 3.5× ROI in month one.',
-         stats: [['9.2×', fr ? 'ROI moyen 90 jours' : 'avg ROI at 90 days'],['£168k', fr ? 'économie annuelle' : 'avg annual saving'],['< 30 days', fr ? 'retour investissement' : 'payback period']],
+           ? 'Nos clients voient en moyenne 9,2× de ROI en 90 jours. Économie annuelle moyenne : €185 000. Retour sur investissement en moins de 30 jours.\n\nExemple : une clinique dentaire à €890/mois économise ~€3 100/mois en temps de personnel = ROI 3,5× dès le premier mois.'
+           : KB.roi + '\n\nExample: A dental clinic paying €890/mo saves ~€3,100/mo in staff time = 3.5× ROI in month one.',
+         stats: [['9.2×', fr ? 'ROI moyen 90 jours' : 'avg ROI at 90 days'],['€185k', fr ? 'économie annuelle' : 'avg annual saving'],['< 30 days', fr ? 'retour investissement' : 'payback period']],
        };
      case 'deploy':
        return { text: fr
@@ -667,8 +667,8 @@ const navLinks = [
          stats: [['99.97%', 'uptime SLA'],['90 sec', fr ? 'alerte erreur' : 'error alert'],['24/7', fr ? 'surveillance' : 'monitoring']] };
      case 'addons':
        return { text: fr
-         ? 'Options disponibles sur tous les plans :\n· Workflow supplémentaire £299 one-time\n· Audit trimestriel £499/trimestre\n· Formation équipe £799 one-time\n· Migration Zapier/Make £1 499 one-time'
-         : 'Add-ons available on any plan:\n· Extra Workflow £299 one-time\n· Quarterly Audit £499/quarter\n· Team Training £799 one-time\n· Zapier/Make Migration £1,499 one-time',
+         ? 'Options disponibles sur tous les plans :\n· Workflow supplémentaire €330 one-time\n· Audit trimestriel €550/trimestre\n· Formation équipe €890 one-time\n· Migration Zapier/Make €1 650 one-time'
+         : 'Add-ons available on any plan:\n· Extra Workflow €330 one-time\n· Quarterly Audit €550/quarter\n· Team Training €890 one-time\n· Zapier/Make Migration €1,650 one-time',
          stats: null };
      default:
        return { text: fr
