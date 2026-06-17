@@ -4,42 +4,44 @@ import ROICalculator from '~/components/roi/ROICalculator';
 ---
 
 <ShopLayout
-  title="Calculateur ROI Automation | Purist"
-  description="Calculez en 2 minutes combien l'automatisation peut vous faire économiser. Rapport personnalisé gratuit basé sur votre équipe, vos outils et vos tâches."
+  title="Automation ROI Calculator — See Your Exact Savings | Purist"
+  description="Calculate in 2 minutes how much automation can save your team. Personalized report with real industry benchmarks — free, no account needed."
   canonical="https://www.purist.online/pages/roi-calculator"
 >
 
 <!-- Hero -->
-<section class="bg-brand-black text-white pt-20 pb-14 lg:pt-28 relative overflow-hidden">
-  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 70% 55% at 50% 0%,rgba(232,180,176,0.08) 0%,transparent 60%);"></div>
+<section class="bg-brand-black text-white pt-20 pb-12 lg:pt-28 relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(232,180,176,0.07) 0%,transparent 60%);"></div>
   <div class="container-x relative z-10">
     <div class="max-w-3xl mx-auto text-center">
 
-      <!-- Eyebrow badge -->
-      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-6" style="border-color:rgba(232,180,176,0.25);background:rgba(232,180,176,0.07);">
-        <span class="text-[10px] uppercase tracking-[0.18em] font-semibold" style="color:rgba(232,180,176,0.80);">Gratuit · 2 minutes · Aucun compte requis</span>
+      <!-- Eyebrow -->
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-6" style="border-color:rgba(232,180,176,0.22);background:rgba(232,180,176,0.06);">
+        <div class="w-1.5 h-1.5 rounded-full" style="background:#E8B4B0;animation:pulse-dot 2s ease-in-out infinite;"></div>
+        <span class="text-[10px] uppercase tracking-[0.18em] font-semibold" style="color:rgba(232,180,176,0.80);">Free · 2 Minutes · No Account Needed</span>
       </div>
 
       <!-- H1 -->
       <h1 class="font-display text-[2.2rem] lg:text-[3.2rem] leading-[1.06] tracking-[-0.025em] text-white mb-5">
-        Combien perdez-vous<br/><em class="font-medium" style="color:#E8B4B0;">sans automatisation ?</em>
+        See exactly how much you're<br/>
+        <em class="font-medium not-italic" style="color:#E8B4B0;">leaving on the table.</em>
       </h1>
 
       <!-- Subtext -->
-      <p class="text-[15px] leading-relaxed mb-10 max-w-xl mx-auto" style="color:rgba(255,255,255,0.45);">
-        Calculez votre ROI exact basé sur votre équipe, vos outils, et vos tâches. Rapport PDF personnalisé inclus — livré directement dans votre boîte mail.
+      <p class="text-[15px] leading-relaxed mb-10 max-w-xl mx-auto" style="color:rgba(255,255,255,0.42);">
+        Answer 5 questions about your team, tools, and workflows. Get a custom ROI report powered by real data from 200+ automation projects across 10 industries.
       </p>
 
-      <!-- Trust indicators -->
-      <div class="flex flex-wrap justify-center gap-8">
+      <!-- Stats row -->
+      <div class="flex flex-wrap justify-center gap-10">
         {[
-          ['200+', 'projets livrés'],
-          ['< 2 min', 'pour votre résultat'],
-          ['100%', 'gratuit'],
-        ].map(([val, lbl]) => (
+          { v: '$127k', l: 'avg. annual savings' },
+          { v: '9.2×',  l: 'average ROI at 90 days' },
+          { v: '7 days', l: 'avg. time to first workflow live' },
+        ].map(({ v, l }) => (
           <div class="text-center">
-            <p class="font-display text-2xl leading-none mb-1" style="color:rgba(232,180,176,0.80);">{val}</p>
-            <p class="text-[10px] uppercase tracking-wider" style="color:rgba(255,255,255,0.22);">{lbl}</p>
+            <p class="font-display text-2xl leading-none mb-1.5" style="color:rgba(232,180,176,0.85);">{v}</p>
+            <p class="text-[10px] uppercase tracking-wider" style="color:rgba(255,255,255,0.20);">{l}</p>
           </div>
         ))}
       </div>
@@ -49,7 +51,7 @@ import ROICalculator from '~/components/roi/ROICalculator';
 </section>
 
 <!-- Calculator -->
-<section class="py-14 lg:py-20" style="background:#0A0A0A;">
+<section class="py-12 lg:py-20" style="background:#080808;">
   <div class="container-x">
     <div class="max-w-2xl mx-auto">
       <ROICalculator client:load />
@@ -57,61 +59,85 @@ import ROICalculator from '~/components/roi/ROICalculator';
   </div>
 </section>
 
-<!-- Social proof / stats -->
-<section class="py-16 lg:py-24 border-t" style="background:#0A0A0A;border-color:rgba(255,255,255,0.06);">
+<!-- Industry benchmarks strip -->
+<section class="py-12 border-y" style="background:#0A0A0A;border-color:rgba(255,255,255,0.05);">
+  <div class="container-x">
+    <p class="text-center text-[10px] uppercase tracking-[0.18em] font-semibold mb-8" style="color:rgba(255,255,255,0.18);">
+      Real data from 10 industries
+    </p>
+    <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 max-w-4xl mx-auto">
+      {[
+        { ind: 'SaaS / Software',       pct: '72%', detail: 'of ops automatable'   },
+        { ind: 'Finance',               pct: '75%', detail: 'of reconciliation'     },
+        { ind: 'HR / Recruiting',       pct: '73%', detail: 'of admin tasks'        },
+        { ind: 'Healthcare',            pct: '70%', detail: 'of staff admin time'   },
+        { ind: 'Agency / Consulting',   pct: '11h', detail: 'saved/week/employee'   },
+        { ind: 'Legal',                 pct: '35%', detail: 'of billable time lost' },
+        { ind: 'E-commerce',            pct: '$18k', detail: 'saved per 5-person team'},
+        { ind: 'Real Estate',           pct: '40%', detail: 'of leads lost to speed'},
+        { ind: 'Logistics',             pct: '30%', detail: 'fewer tracking errors' },
+        { ind: 'Hospitality',           pct: '3.5h', detail: 'saved/day per manager'},
+      ].map(({ ind, pct, detail }) => (
+        <div class="rounded-lg p-4 text-center" style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);">
+          <p class="font-display text-lg leading-none mb-1" style="color:#E8B4B0;">{pct}</p>
+          <p class="text-[10px] mb-2" style="color:rgba(255,255,255,0.22);">{detail}</p>
+          <p class="text-[11px] font-medium" style="color:rgba(255,255,255,0.40);">{ind}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Social proof -->
+<section class="py-16 lg:py-24" style="background:#0A0A0A;">
   <div class="container-x">
     <div class="max-w-3xl mx-auto">
-
-      <p class="text-center text-[10px] uppercase tracking-[0.18em] font-semibold mb-12" style="color:rgba(255,255,255,0.20);">
-        Résultats réels de nos clients
+      <p class="text-center text-[10px] uppercase tracking-[0.18em] font-semibold mb-12" style="color:rgba(255,255,255,0.18);">
+        Results from real clients
       </p>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-        <!-- Testimonial 1 -->
-        <div class="rounded-xl p-6" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);">
-          <p class="font-display text-3xl mb-1" style="color:#E8B4B0;">9.2×</p>
-          <p class="text-[11px] uppercase tracking-wider mb-4" style="color:rgba(255,255,255,0.25);">ROI moyen à 90 jours</p>
-          <p class="text-[13px] leading-relaxed mb-4" style="color:rgba(255,255,255,0.45);">
-            "Nous avons automatisé notre onboarding client et nos rapports hebdomadaires. 14 heures libérées par semaine, dès le premier mois."
+        <div class="rounded-xl p-6" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">
+          <p class="font-display text-3xl mb-1" style="color:#E8B4B0;">$168k</p>
+          <p class="text-[10px] uppercase tracking-wider mb-4" style="color:rgba(255,255,255,0.22);">Annual savings</p>
+          <p class="text-[13px] leading-relaxed mb-4" style="color:rgba(255,255,255,0.42);">
+            "CRM-to-ERP sync alone saves 3 full days per month. Full ROI in 6 weeks — we weren't expecting that."
           </p>
           <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-bold" style="background:rgba(232,180,176,0.15);color:#E8B4B0;">S</div>
+            <div class="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-bold" style="background:rgba(232,180,176,0.12);color:#E8B4B0;">T</div>
             <div>
-              <p class="text-[12px] font-semibold" style="color:rgba(255,255,255,0.70);">Sarah M.</p>
-              <p class="text-[10px]" style="color:rgba(255,255,255,0.25);">Directrice Ops · Agence SaaS</p>
+              <p class="text-[12px] font-semibold" style="color:rgba(255,255,255,0.65);">Thomas L.</p>
+              <p class="text-[10px]" style="color:rgba(255,255,255,0.22);">CEO · E-commerce scale-up</p>
             </div>
           </div>
         </div>
 
-        <!-- Testimonial 2 -->
-        <div class="rounded-xl p-6" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);">
-          <p class="font-display text-3xl mb-1" style="color:#E8B4B0;">168k€</p>
-          <p class="text-[11px] uppercase tracking-wider mb-4" style="color:rgba(255,255,255,0.25);">Économies annuelles moyennes</p>
-          <p class="text-[13px] leading-relaxed mb-4" style="color:rgba(255,255,255,0.45);">
-            "La synchronisation CRM + ERP seule nous économise 3 jours de travail par mois. Le ROI a été atteint en 6 semaines."
+        <div class="rounded-xl p-6" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">
+          <p class="font-display text-3xl mb-1" style="color:#E8B4B0;">14h/wk</p>
+          <p class="text-[10px] uppercase tracking-wider mb-4" style="color:rgba(255,255,255,0.22);">Reclaimed per week</p>
+          <p class="text-[13px] leading-relaxed mb-4" style="color:rgba(255,255,255,0.42);">
+            "We automated client onboarding and weekly reports. 14 hours freed from day one. The team couldn't believe it."
           </p>
           <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-bold" style="background:rgba(232,180,176,0.15);color:#E8B4B0;">T</div>
+            <div class="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-bold" style="background:rgba(232,180,176,0.12);color:#E8B4B0;">S</div>
             <div>
-              <p class="text-[12px] font-semibold" style="color:rgba(255,255,255,0.70);">Thomas L.</p>
-              <p class="text-[10px]" style="color:rgba(255,255,255,0.25);">CEO · Scale-up E-commerce</p>
+              <p class="text-[12px] font-semibold" style="color:rgba(255,255,255,0.65);">Sarah M.</p>
+              <p class="text-[10px]" style="color:rgba(255,255,255,0.22);">Head of Ops · SaaS Agency</p>
             </div>
           </div>
         </div>
 
-        <!-- Testimonial 3 -->
-        <div class="rounded-xl p-6" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);">
-          <p class="font-display text-3xl mb-1" style="color:#E8B4B0;">7 jours</p>
-          <p class="text-[11px] uppercase tracking-wider mb-4" style="color:rgba(255,255,255,0.25);">Délai de déploiement moyen</p>
-          <p class="text-[13px] leading-relaxed mb-4" style="color:rgba(255,255,255,0.45);">
-            "Audit gratuit le lundi, premiers workflows en production le vendredi. L'équipe de Purist a transformé notre façon de travailler."
+        <div class="rounded-xl p-6" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">
+          <p class="font-display text-3xl mb-1" style="color:#E8B4B0;">7 days</p>
+          <p class="text-[10px] uppercase tracking-wider mb-4" style="color:rgba(255,255,255,0.22);">From audit to live</p>
+          <p class="text-[13px] leading-relaxed mb-4" style="color:rgba(255,255,255,0.42);">
+            "Free audit Monday, first workflow live Friday. Purist changed how our entire team operates."
           </p>
           <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-bold" style="background:rgba(232,180,176,0.15);color:#E8B4B0;">M</div>
+            <div class="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-bold" style="background:rgba(232,180,176,0.12);color:#E8B4B0;">M</div>
             <div>
-              <p class="text-[12px] font-semibold" style="color:rgba(255,255,255,0.70);">Marie C.</p>
-              <p class="text-[10px]" style="color:rgba(255,255,255,0.25);">COO · Cabinet de conseil</p>
+              <p class="text-[12px] font-semibold" style="color:rgba(255,255,255,0.65);">Marcus R.</p>
+              <p class="text-[10px]" style="color:rgba(255,255,255,0.22);">COO · Strategy Consulting</p>
             </div>
           </div>
         </div>
@@ -122,30 +148,37 @@ import ROICalculator from '~/components/roi/ROICalculator';
 </section>
 
 <!-- Final CTA -->
-<section class="py-16 lg:py-24" style="background:#0A0A0A;">
+<section class="py-16 lg:py-24 border-t" style="background:#0A0A0A;border-color:rgba(255,255,255,0.05);">
   <div class="container-x">
-    <div class="max-w-2xl mx-auto text-center">
-      <div class="rounded-2xl p-10 lg:p-14" style="background:rgba(232,180,176,0.05);border:1px solid rgba(232,180,176,0.12);">
-        <h2 class="font-display text-[1.8rem] lg:text-[2.4rem] leading-tight tracking-tight text-white mb-4">
-          Prêt à automatiser ?
+    <div class="max-w-xl mx-auto text-center">
+      <div class="rounded-2xl p-10 lg:p-14" style="background:rgba(232,180,176,0.04);border:1px solid rgba(232,180,176,0.10);">
+        <h2 class="font-display text-[1.9rem] lg:text-[2.4rem] leading-tight tracking-tight text-white mb-4">
+          Ready to automate?
         </h2>
-        <p class="text-[14px] leading-relaxed mb-8" style="color:rgba(255,255,255,0.45);max-width:400px;margin-left:auto;margin-right:auto;margin-bottom:32px;">
-          Réservez un audit gratuit de 45 minutes. Nous analysons votre stack en direct et livrons une carte ROI personnalisée — sans engagement.
+        <p class="text-[14px] leading-relaxed mb-8 max-w-sm mx-auto" style="color:rgba(255,255,255,0.40);">
+          Book a free 45-minute strategy audit. We analyze your stack live and deliver a personalized automation roadmap — zero commitment.
         </p>
         <a
-          href="/pages/welcome"
+          href="/pages/site-audit"
           class="inline-flex items-center gap-2 font-semibold text-[15px] px-8 py-4 rounded-lg transition-opacity hover:opacity-90"
-          style="background:#E8B4B0;color:#0A0A0A;border-radius:8px;"
+          style="background:#E8B4B0;color:#0A0A0A;"
         >
-          Réserver mon audit gratuit
+          Book my free audit
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <path d="M3 8h10M9 4l4 4-4 4" stroke="#0A0A0A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </a>
-        <p class="mt-4 text-[11px]" style="color:rgba(255,255,255,0.20);">Sans engagement · Résultat en direct · 45 minutes</p>
+        <p class="mt-4 text-[11px]" style="color:rgba(255,255,255,0.18);">No commitment · Live analysis · 45 minutes</p>
       </div>
     </div>
   </div>
 </section>
 
 </ShopLayout>
+
+<style>
+  @keyframes pulse-dot {
+    0%,100% { opacity:1; }
+    50% { opacity:0.35; }
+  }
+</style>
