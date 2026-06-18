@@ -2,7 +2,7 @@
  "products": [
    {
      "id": "founder-stack",
-     "slug": "founder-stack",
+     "slug": "full-stack",
      "title": "The Full Stack",
      "eyebrow": "AUTOMATION + AI AGENTS",
      "badge": "BEST VALUE · COMPLETE SYSTEM",
@@ -37,7 +37,7 @@
    },
    {
      "id": "foundation-pro",
-     "slug": "foundation-pro",
+     "slug": "automation-pro",
      "title": "Automation Pro",
      "eyebrow": "WORKFLOW AUTOMATION",
      "badge": "MOST POPULAR",
@@ -72,7 +72,7 @@
    },
    {
      "id": "longevity-protocol",
-     "slug": "longevity-protocol",
+     "slug": "ai-agent-deploy",
      "title": "AI Agent Deploy",
      "eyebrow": "INTELLIGENT AUTOMATION",
      "badge": "NEXT-LEVEL AI",

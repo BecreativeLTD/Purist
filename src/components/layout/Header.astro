@@ -37,9 +37,9 @@ const discoverGroups = [
 ];
 
 const navLinks = [
- { name: 'Services', href: '/collections/all', kind: 'mega' },
+ { name: 'Services', href: '/pages/pricing', kind: 'mega' },
  { name: 'How it works', href: '/pages/stack-dna' },
- { name: 'The Full Stack', href: '/products/founder-stack' },
+ { name: 'The Full Stack', href: '/plans/full-stack' },
  { name: 'Get started', href: '/pages/welcome' },
  { name: 'Client stories', href: '/pages/about-us' },
  { name: 'Results', href: '/pages/wall-of-health' },
@@ -716,7 +716,7 @@ const navLinks = [
    if (!msgs) return;
    var row = document.createElement('div');
    row.style.cssText = 'display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:2px;';
-   row.innerHTML = '<a href="/pages/welcome" style="display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:8px;font-size:11px;font-weight:600;background:#E8B4B0;color:#0A0A0A;text-decoration:none;white-space:nowrap;" onmouseover="this.style.background=\'#d9a09b\'" onmouseout="this.style.background=\'#E8B4B0\'">Book free audit <svg width="10" height="10" viewBox="0 0 14 14" fill="none" stroke="#0A0A0A" stroke-width="2.2" stroke-linecap="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a><a href="/collections/all" style="display:inline-flex;align-items:center;padding:7px 12px;border-radius:8px;font-size:11px;font-weight:500;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.50);border:1px solid rgba(255,255,255,0.09);text-decoration:none;white-space:nowrap;" onmouseover="this.style.color=\'rgba(255,255,255,0.80)\'" onmouseout="this.style.color=\'rgba(255,255,255,0.50)\'">View plans</a>';
+   row.innerHTML = '<a href="/pages/welcome" style="display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:8px;font-size:11px;font-weight:600;background:#E8B4B0;color:#0A0A0A;text-decoration:none;white-space:nowrap;" onmouseover="this.style.background=\'#d9a09b\'" onmouseout="this.style.background=\'#E8B4B0\'">Book free audit <svg width="10" height="10" viewBox="0 0 14 14" fill="none" stroke="#0A0A0A" stroke-width="2.2" stroke-linecap="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a><a href="/pages/pricing" style="display:inline-flex;align-items:center;padding:7px 12px;border-radius:8px;font-size:11px;font-weight:500;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.50);border:1px solid rgba(255,255,255,0.09);text-decoration:none;white-space:nowrap;" onmouseover="this.style.color=\'rgba(255,255,255,0.80)\'" onmouseout="this.style.color=\'rgba(255,255,255,0.50)\'">View plans</a>';
    msgs.appendChild(row);
    msgs.scrollTop = msgs.scrollHeight;
  }

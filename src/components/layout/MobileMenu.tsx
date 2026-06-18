@@ -7,11 +7,11 @@ const SECTIONS: Section[] = [
  {
    label: 'Services',
    links: [
-     { name: 'Automation Pro',   href: '/products/foundation-pro' },
-     { name: 'AI Agent Deploy',  href: '/products/longevity-protocol' },
-     { name: 'The Full Stack',   href: '/products/founder-stack' },
-     { name: 'All services',     href: '/collections/all' },
-     { name: 'Add-ons & resources', href: '/collections/merchandise' },
+     { name: 'Automation Pro',   href: '/plans/automation-pro' },
+     { name: 'AI Agent Deploy',  href: '/plans/ai-agent-deploy' },
+     { name: 'The Full Stack',   href: '/plans/full-stack' },
+     { name: 'All services',     href: '/pages/pricing' },
+     { name: 'Add-ons & resources', href: '/pages/add-ons' },
    ],
  },
  {
@@ -151,7 +151,7 @@ export default function MobileMenu() {
 
      <footer class="border-t border-brand-gray-100 px-4 sm:px-6 py-5 shrink-0 bg-brand-cream">
        <a
-         href="/products/founder-stack"
+         href="/plans/full-stack"
          onClick={() => setOpen(false)}
          class="block w-full text-center bg-brand-black text-white py-3.5 rounded-button text-sm font-medium hover:bg-brand-gray-900 transition"
        >

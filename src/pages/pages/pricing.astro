@@ -141,7 +141,7 @@ const faqs = [
            </div>
          )}
 
-         <a href={`/products/${p.slug}`} class="block overflow-hidden bg-brand-cream aspect-[4/3]">
+         <a href={`/plans/${p.slug}`} class="block overflow-hidden bg-brand-cream aspect-[4/3]">
            <img
              src={p.images[0]}
              alt={`${p.title}`}
@@ -155,7 +155,7 @@ const faqs = [
          <div class="p-6 lg:p-7 flex flex-col flex-1">
            <p class="eyebrow mb-2">{p.eyebrow}</p>
            <h2 class="font-display text-2xl mb-2 leading-tight">
-             <a href={`/products/${p.slug}`} class="hover:opacity-70 transition">{p.title}</a>
+             <a href={`/plans/${p.slug}`} class="hover:opacity-70 transition">{p.title}</a>
            </h2>
            <div class="mb-3">
              <StarRating rating={p.rating} size="sm" reviewCount={p.reviewCount} />
@@ -184,7 +184,7 @@ const faqs = [
              ))}
            </ul>
 
-           <Button href={`/products/${p.slug}`} full variant={idx === 0 ? 'primary' : 'secondary'}>
+           <Button href={`/plans/${p.slug}`} full variant={idx === 0 ? 'primary' : 'secondary'}>
              Get started →
            </Button>
            <p class="text-[11px] text-center text-brand-gray-600 mt-3">
@@ -274,13 +274,13 @@ const faqs = [
          ))}
          <!-- Mobile CTA -->
          <div class="p-4">
-           <a id="mobile-cta-auto" href="/products/foundation-pro" class="block w-full text-center text-xs font-medium py-3 rounded-lg border border-brand-gray-200 hover:border-brand-black transition">
+           <a id="mobile-cta-auto" href="/plans/automation-pro" class="block w-full text-center text-xs font-medium py-3 rounded-lg border border-brand-gray-200 hover:border-brand-black transition">
              Get started with Auto Pro →
            </a>
-           <a id="mobile-cta-agent" href="/products/longevity-protocol" class="hidden w-full text-center text-xs font-medium py-3 rounded-lg border border-brand-gray-200 hover:border-brand-black transition">
+           <a id="mobile-cta-agent" href="/plans/ai-agent-deploy" class="hidden w-full text-center text-xs font-medium py-3 rounded-lg border border-brand-gray-200 hover:border-brand-black transition">
              Get started with AI Agent →
            </a>
-           <a id="mobile-cta-full" href="/products/founder-stack" class="hidden w-full text-center text-xs font-medium py-3 rounded-lg bg-brand-black text-white hover:opacity-90 transition">
+           <a id="mobile-cta-full" href="/plans/full-stack" class="hidden w-full text-center text-xs font-medium py-3 rounded-lg bg-brand-black text-white hover:opacity-90 transition">
              Get started with Full Stack →
            </a>
          </div>
@@ -359,13 +359,13 @@ const faqs = [
        <div class="grid grid-cols-[1.6fr_1fr_1fr_1fr]">
          <div class="p-5"></div>
          <div class="p-4 border-l border-brand-gray-100 flex items-center justify-center">
-           <a href="/products/foundation-pro" class="text-xs text-brand-black underline underline-offset-2 hover:opacity-70 transition text-center">Get started →</a>
+           <a href="/plans/automation-pro" class="text-xs text-brand-black underline underline-offset-2 hover:opacity-70 transition text-center">Get started →</a>
          </div>
          <div class="p-4 border-l border-brand-gray-100 flex items-center justify-center">
-           <a href="/products/longevity-protocol" class="text-xs text-brand-black underline underline-offset-2 hover:opacity-70 transition text-center">Get started →</a>
+           <a href="/plans/ai-agent-deploy" class="text-xs text-brand-black underline underline-offset-2 hover:opacity-70 transition text-center">Get started →</a>
          </div>
          <div class="p-4 border-l border-brand-black bg-brand-black flex items-center justify-center">
-           <a href="/products/founder-stack" class="text-xs text-white underline underline-offset-2 hover:opacity-80 transition text-center">Get started →</a>
+           <a href="/plans/full-stack" class="text-xs text-white underline underline-offset-2 hover:opacity-80 transition text-center">Get started →</a>
          </div>
        </div>
      </div><!-- end desktop table -->
@@ -535,7 +535,7 @@ const faqs = [
        we refund your first month in full. We're that confident in what we build.
      </p>
      <div class="flex flex-wrap gap-3 justify-center">
-       <Button href="/products/founder-stack" size="lg">
+       <Button href="/plans/full-stack" size="lg">
          Start with The Full Stack →
        </Button>
        <Button href="/pages/contact-us" variant="secondary" size="lg">

@@ -23,7 +23,7 @@ export default function CartPageContent() {
          The Full Stack.
        </p>
        <a
-         href="/collections/all"
+         href="/pages/pricing"
          class="inline-block bg-brand-black text-white px-8 py-3.5 rounded-button text-sm font-medium hover:bg-brand-gray-900 transition"
        >
          Shop now
@@ -44,7 +44,7 @@ export default function CartPageContent() {
        </div>
 
        <a
-         href="/collections/all"
+         href="/pages/pricing"
          class="inline-flex items-center gap-2 mt-8 text-sm underline underline-offset-4 hover:opacity-70"
        >
          ← Continue shopping

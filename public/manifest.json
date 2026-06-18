@@ -41,7 +41,7 @@
       "name": "View Services",
       "short_name": "Services",
       "description": "Explore PURIST automation services",
-      "url": "/collections/all",
+      "url": "/pages/pricing",
       "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
     },
     {

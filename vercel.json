@@ -50,6 +50,12 @@
       "source": "/pages/purist-vs-hiring-in-house",
       "destination": "/pages/purist-vs-inhouse-hire",
       "permanent": true
-    }
+    },
+    { "source": "/collections/all", "destination": "/pages/pricing", "permanent": true },
+    { "source": "/collections/core-services", "destination": "/pages/packages", "permanent": true },
+    { "source": "/collections/merchandise", "destination": "/pages/add-ons", "permanent": true },
+    { "source": "/products/foundation-pro", "destination": "/plans/automation-pro", "permanent": true },
+    { "source": "/products/longevity-protocol", "destination": "/plans/ai-agent-deploy", "permanent": true },
+    { "source": "/products/founder-stack", "destination": "/plans/full-stack", "permanent": true }
   ]
 }

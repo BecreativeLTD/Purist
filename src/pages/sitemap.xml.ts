@@ -26,12 +26,12 @@ const blogPages = blogData.articles.map(a => ({
 
 const pages = [
   { url: '/',                                    lastmod: '2026-06-18' },
-  { url: '/collections/all',                     lastmod: '2026-06-18' },
-  { url: '/collections/core-services',           lastmod: '2026-06-18' },
-  { url: '/collections/merchandise',             lastmod: '2026-06-18' },
-  { url: '/products/foundation-pro',             lastmod: '2026-06-18' },
-  { url: '/products/longevity-protocol',         lastmod: '2026-06-18' },
-  { url: '/products/founder-stack',              lastmod: '2026-06-18' },
+  { url: '/pages/pricing',                        lastmod: '2026-06-18' },
+  { url: '/pages/packages',                      lastmod: '2026-06-18' },
+  { url: '/pages/add-ons',                       lastmod: '2026-06-18' },
+  { url: '/plans/automation-pro',                lastmod: '2026-06-18' },
+  { url: '/plans/ai-agent-deploy',               lastmod: '2026-06-18' },
+  { url: '/plans/full-stack',                    lastmod: '2026-06-18' },
   { url: '/pages/workflow-library',              lastmod: '2026-06-18' },
   { url: '/pages/stack-dna',                     lastmod: '2026-06-18' },
   { url: '/pages/blog',                          lastmod: '2026-06-18' },

@@ -14,9 +14,9 @@ PURIST serves clients as: automation agency (UK), business automation company (U
 
 ## Services
 
-- [Automation Pro](https://www.purist.online/products/foundation-pro) — 9 core production workflows covering lead capture, CRM sync, email sequences, invoicing, reporting, client onboarding, AI support routing, smart scheduling, and monitoring. From £497/mo.
-- [AI Agent Deploy](https://www.purist.online/products/longevity-protocol) — Conversational AI agents trained on client business data. Handles scheduling, intake, lead qualification, support routing. From £897/mo.
-- [The Full Stack](https://www.purist.online/products/founder-stack) — Automation Pro + AI Agent Deploy. Full operational transformation. From £1,197/mo.
+- [Automation Pro](https://www.purist.online/plans/automation-pro) — 9 core production workflows covering lead capture, CRM sync, email sequences, invoicing, reporting, client onboarding, AI support routing, smart scheduling, and monitoring. From £497/mo.
+- [AI Agent Deploy](https://www.purist.online/plans/ai-agent-deploy) — Conversational AI agents trained on client business data. Handles scheduling, intake, lead qualification, support routing. From £897/mo.
+- [The Full Stack](https://www.purist.online/plans/full-stack) — Automation Pro + AI Agent Deploy. Full operational transformation. From £1,197/mo.
 - [Free AI Readiness Audit](https://www.purist.online/pages/welcome) — Free 48h audit of your current workflows and automation opportunities.
 
 ## Blog — Full Article Index (50 articles)
@@ -100,7 +100,7 @@ PURIST documents every automation skill it deploys for clients. Each skill page 
 ## Key Pages
 
 - [Homepage](https://www.purist.online/) — Main site with service overview, case studies, workflow library.
-- [All Services](https://www.purist.online/collections/all) — Full service catalogue.
+- [All Services](https://www.purist.online/pages/pricing) — Full service catalogue.
 - [Workflow Library](https://www.purist.online/pages/workflow-library) — Pre-built automation templates by vertical.
 - [Stack DNA](https://www.purist.online/pages/stack-dna) — PURIST's proprietary automation architecture framework.
 - [Case Studies](https://www.purist.online/pages/wall-of-health) — Results from client deployments across dental, agency, e-commerce, legal.

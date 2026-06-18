@@ -23,7 +23,7 @@ const { products } = productsData;
            </div>
          )}
 
-         <a href={`/products/${p.slug}`} class="block aspect-square overflow-hidden bg-brand-sand">
+         <a href={`/plans/${p.slug}`} class="block aspect-square overflow-hidden bg-brand-sand">
            <img
              src={p.images[0]}
              alt={`${p.title} packaging`}
@@ -37,7 +37,7 @@ const { products } = productsData;
          <div class="p-6 lg:p-8 flex flex-col flex-1">
            <p class="eyebrow mb-2">{p.eyebrow}</p>
            <h3 class="font-display text-2xl mb-3">
-             <a href={`/products/${p.slug}`} class="hover:opacity-70 transition">{p.title}</a>
+             <a href={`/plans/${p.slug}`} class="hover:opacity-70 transition">{p.title}</a>
            </h3>
            <p class="text-sm text-brand-gray-600 mb-4 text-pretty">{p.shortDescription}</p>
 
@@ -58,11 +58,11 @@ const { products } = productsData;
              ))}
            </ul>
 
-           <Button href={`/products/${p.slug}`} full>
+           <Button href={`/plans/${p.slug}`} full>
              Get started with {p.title} →
            </Button>
            <a
-             href={`/products/${p.slug}`}
+             href={`/plans/${p.slug}`}
              class="text-xs text-center mt-3 underline underline-offset-4 hover:opacity-70"
            >
              {p.id === 'foundation-pro'

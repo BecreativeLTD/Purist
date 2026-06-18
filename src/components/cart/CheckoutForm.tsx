@@ -31,7 +31,7 @@ export default function CheckoutForm() {
        <h2 class="font-display text-2xl mb-3">Nothing to check out</h2>
        <p class="text-sm text-brand-gray-600 mb-8">Your bag is empty.</p>
        <a
-         href="/collections/all"
+         href="/pages/pricing"
          class="inline-block bg-brand-black text-white px-8 py-3.5 rounded-button text-sm font-medium hover:bg-brand-gray-900 transition"
        >
          Shop now

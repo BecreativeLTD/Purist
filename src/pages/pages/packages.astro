@@ -32,7 +32,7 @@ const products = productsData.products.filter((p) =>
    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
      {products.map((p) => (
        <article class="group/card flex flex-col rounded-card overflow-hidden bg-brand-cream hover:bg-brand-beige transition">
-         <a href={`/products/${p.slug}`} class="block aspect-square overflow-hidden bg-white">
+         <a href={`/plans/${p.slug}`} class="block aspect-square overflow-hidden bg-white">
            <img
              src={p.images[0]}
              alt={`${p.title} packaging`}
@@ -43,7 +43,7 @@ const products = productsData.products.filter((p) =>
          <div class="p-6 lg:p-8 flex flex-col flex-1">
            <p class="eyebrow mb-2">{p.eyebrow}</p>
            <h2 class="font-display text-2xl mb-2 leading-tight">
-             <a href={`/products/${p.slug}`} class="hover:opacity-70 transition">{p.title}</a>
+             <a href={`/plans/${p.slug}`} class="hover:opacity-70 transition">{p.title}</a>
            </h2>
            <div class="mb-3">
              <StarRating rating={p.rating} size="sm" reviewCount={p.reviewCount} />
@@ -57,7 +57,7 @@ const products = productsData.products.filter((p) =>
                </span>
              )}
            </div>
-           <Button href={`/products/${p.slug}`} full>View {p.title} →</Button>
+           <Button href={`/plans/${p.slug}`} full>View {p.title} →</Button>
          </div>
        </article>
      ))}
@@ -70,7 +70,7 @@ const products = productsData.products.filter((p) =>
      <h2 class="font-display text-3xl lg:text-4xl mb-6 leading-tight text-balance">
        Get them together as <em class="font-medium">The Full Stack.</em>
      </h2>
-     <Button href="/products/founder-stack" size="lg">View The Full Stack →</Button>
+     <Button href="/plans/full-stack" size="lg">View The Full Stack →</Button>
    </div>
  </section>
 </ShopLayout>

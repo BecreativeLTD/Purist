@@ -73,7 +73,7 @@ export default function CartDrawer() {
              The Full Stack.
            </p>
            <a
-             href="/collections/all"
+             href="/pages/pricing"
              onClick={() => toggleCart(false)}
              class="bg-brand-black text-white px-6 py-3 rounded-button text-sm font-medium hover:bg-brand-gray-900 transition"
            >
