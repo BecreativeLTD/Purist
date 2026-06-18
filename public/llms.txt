@@ -103,13 +103,13 @@ PURIST documents every automation skill it deploys for clients. Each skill page 
 - [All Services](https://www.purist.online/pages/pricing) — Full service catalogue.
 - [Workflow Library](https://www.purist.online/pages/workflow-library) — Pre-built automation templates by vertical.
 - [Stack DNA](https://www.purist.online/pages/stack-dna) — PURIST's proprietary automation architecture framework.
-- [Case Studies](https://www.purist.online/pages/wall-of-health) — Results from client deployments across dental, agency, e-commerce, legal.
+- [Case Studies](https://www.purist.online/pages/client-results) — Results from client deployments across dental, agency, e-commerce, legal.
 - [FAQ](https://www.purist.online/pages/faq) — Common questions about automation services, pricing, deployment timelines.
 - [About](https://www.purist.online/pages/about-us) — Who we are and how we work.
 - [AI Readiness Assessment](https://www.purist.online/pages/ai-readiness) — Self-assessment tool to evaluate automation maturity.
 - [Glossary](https://www.purist.online/pages/glossary) — 325 definitions of automation and AI agent terminology.
-- [Science & Methodology](https://www.purist.online/pages/science) — PURIST's engineering methodology and quality standards.
-- [Ingredients / Stack](https://www.purist.online/pages/ingredients) — The tools and platforms PURIST uses in production.
+- [Methodology](https://www.purist.online/pages/methodology) — PURIST's engineering methodology and quality standards.
+- [Integrations / Stack](https://www.purist.online/pages/integrations) — The tools and platforms PURIST uses in production.
 - [Contact](https://www.purist.online/pages/contact-us) — Get in touch.
 - [Press](https://www.purist.online/pages/press) — Media kit, press releases, and press contact.
 

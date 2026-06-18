@@ -17,10 +17,10 @@ const SECTIONS: Section[] = [
  {
    label: 'Learn',
    links: [
-     { name: 'How it works',        href: '/pages/science' },
-     { name: 'Industries',          href: '/pages/ingredients' },
-     { name: 'Reliability & monitoring', href: '/pages/quality' },
-     { name: 'Client stories',      href: '/pages/wall-of-health' },
+     { name: 'How it works',        href: '/pages/methodology' },
+     { name: 'Industries',          href: '/pages/integrations' },
+     { name: 'Reliability & monitoring', href: '/pages/our-standards' },
+     { name: 'Client stories',      href: '/pages/client-results' },
      { name: 'The Automation Blog', href: '/pages/blog' },
    ],
  },

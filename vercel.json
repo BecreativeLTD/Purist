@@ -51,6 +51,10 @@
       "destination": "/pages/purist-vs-inhouse-hire",
       "permanent": true
     },
+    { "source": "/pages/ingredients", "destination": "/pages/integrations", "permanent": true },
+    { "source": "/pages/quality", "destination": "/pages/our-standards", "permanent": true },
+    { "source": "/pages/science", "destination": "/pages/methodology", "permanent": true },
+    { "source": "/pages/wall-of-health", "destination": "/pages/client-results", "permanent": true },
     { "source": "/collections/all", "destination": "/pages/pricing", "permanent": true },
     { "source": "/collections/core-services", "destination": "/pages/packages", "permanent": true },
     { "source": "/collections/merchandise", "destination": "/pages/add-ons", "permanent": true },
