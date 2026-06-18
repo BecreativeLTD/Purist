@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 
 const INDEXNOW_KEY = '58fcb8402a224307b70f8a235a89fc84';
-const SITE_URL = 'https://purist.online';
+const SITE_URL = 'https://www.purist.online';
 const SITEMAP_URL = 'https://www.purist.online/sitemap.xml';
 const JSON_HEADERS = { 'Content-Type': 'application/json' };
 
@@ -66,7 +66,7 @@ export const GET: APIRoute = async () => {
 
 async function submitToIndexNow(urls: string[]) {
   const payload = {
-    host: 'purist.online',
+    host: 'www.purist.online',
     key: INDEXNOW_KEY,
     keyLocation: `${SITE_URL}/${INDEXNOW_KEY}.txt`,
     urlList: urls,

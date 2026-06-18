@@ -1,5 +1,17 @@
 {
   "framework": "astro",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
+      ]
+    }
+  ],
   "crons": [
     {
       "path": "/api/cron/nurture",
@@ -10,28 +22,33 @@
   "installCommand": "npm ci --legacy-peer-deps",
   "redirects": [
     {
-      "source": "/pages/purist-vs-zapier",
-      "destination": "/pages/purist-vs-green-powders",
+      "source": "/pages/purist-vs-green-powders",
+      "destination": "/pages/purist-vs-zapier",
       "permanent": true
     },
     {
-      "source": "/pages/purist-vs-make",
-      "destination": "/pages/purist-vs-multivitamins",
+      "source": "/pages/purist-vs-multivitamins",
+      "destination": "/pages/purist-vs-make",
+      "permanent": true
+    },
+    {
+      "source": "/pages/purist-vs-meal-replacements",
+      "destination": "/pages/purist-vs-inhouse-hire",
       "permanent": true
     },
     {
       "source": "/pages/purist-vs-integromat",
-      "destination": "/pages/purist-vs-multivitamins",
+      "destination": "/pages/purist-vs-make",
       "permanent": true
     },
     {
       "source": "/pages/purist-vs-hiring",
-      "destination": "/pages/purist-vs-meal-replacements",
+      "destination": "/pages/purist-vs-inhouse-hire",
       "permanent": true
     },
     {
       "source": "/pages/purist-vs-hiring-in-house",
-      "destination": "/pages/purist-vs-meal-replacements",
+      "destination": "/pages/purist-vs-inhouse-hire",
       "permanent": true
     }
   ]
