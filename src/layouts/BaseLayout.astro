@@ -28,11 +28,6 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
    <link rel="manifest" href="/manifest.json" />
    <link rel="alternate" type="text/plain" title="LLMs.txt" href="/llms.txt" />
-   <!-- Preconnect to third-party origins used on every page -->
-   <link rel="preconnect" href="https://cdn.amplitude.com" crossorigin />
-   <link rel="preconnect" href="https://js-client-cfg.amplitude.com" crossorigin />
-   <link rel="preconnect" href="https://ipapi.co" crossorigin />
-   <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
    <SEO {title} {description} {image} {canonical} {noindex} {type} />
    <slot name="head" />
    <ViewTransitions />
@@ -71,47 +66,24 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
      import '~/scripts/currency.ts';
    </script>
 
-   <!-- Amplitude Analytics + Session Replay — deferred until page is idle to avoid blocking LCP -->
+   <!-- Amplitude Analytics + Session Replay — client-side only, initialized once -->
    <script>
-     function _loadAmplitude() {
-       import('~/lib/amplitude').then(({ initAmplitude }) => initAmplitude());
-     }
-     if ('requestIdleCallback' in window) {
-       requestIdleCallback(_loadAmplitude, { timeout: 4000 });
-     } else {
-       setTimeout(_loadAmplitude, 3000);
-     }
-     document.addEventListener('astro:page-load', function() {
-       if ('requestIdleCallback' in window) {
-         requestIdleCallback(_loadAmplitude, { timeout: 4000 });
-       }
-     });
+     import { initAmplitude } from '~/lib/amplitude';
+     initAmplitude();
+     // autocapture handles page_viewed on ViewTransitions navigation automatically
    </script>
 
-   <!-- Google Analytics — loaded after page interactive to avoid forced layout -->
+   <!-- Google Analytics deferred to end of body so it never blocks render -->
+   <script async src="https://www.googletagmanager.com/gtag/js?id=G-4XMEM7DE1B"></script>
    <script is:inline>
      window.dataLayer = window.dataLayer || [];
      function gtag(){dataLayer.push(arguments);}
      gtag('js', new Date());
-     gtag('config', 'G-4XMEM7DE1B', { send_page_view: false });
-     function _loadGTM() {
-       if (window._gtmLoaded) return;
-       window._gtmLoaded = true;
-       var s = document.createElement('script');
-       s.src = 'https://www.googletagmanager.com/gtag/js?id=G-4XMEM7DE1B';
-       s.async = true;
-       document.head.appendChild(s);
-       gtag('event', 'page_view', { page_path: location.pathname });
-     }
-     if (document.readyState === 'complete') {
-       setTimeout(_loadGTM, 1000);
-     } else {
-       window.addEventListener('load', function() { setTimeout(_loadGTM, 1000); });
-     }
+     gtag('config', 'G-4XMEM7DE1B');
    </script>
    <script is:inline>
      document.addEventListener('astro:page-load', function() {
-       if (typeof gtag !== 'undefined' && window._gtmLoaded) {
+       if (typeof gtag !== 'undefined') {
          gtag('event', 'page_view', { page_path: location.pathname });
        }
      });
