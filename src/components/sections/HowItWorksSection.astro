@@ -212,22 +212,24 @@
          </div>
 
          <!-- ── CLAUDE AI ── -->
-         <div id="claude-box" class="flow-box rounded-[14px] p-4 mb-1 flex flex-wrap items-center gap-4 transition-all duration-300"
+         <div id="claude-box" class="flow-box rounded-[14px] p-4 mb-1 transition-all duration-300"
               style="background:rgba(45,80,22,0.07);border:1px solid rgba(45,80,22,0.22);">
-           <div class="flex items-center gap-3">
-             <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(45,80,22,0.20);">
-               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#4a8a2a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                 <path d="M12 2a2 2 0 012 2v1h3a2 2 0 012 2v7a4 4 0 01-4 4H9a4 4 0 01-4-4V7a2 2 0 012-2h3V4a2 2 0 012-2z"/>
-               </svg>
+           <div class="flex items-center justify-between gap-3 flex-wrap">
+             <div class="flex items-center gap-3 min-w-0">
+               <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(45,80,22,0.20);">
+                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#4a8a2a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                   <path d="M12 2a2 2 0 012 2v1h3a2 2 0 012 2v7a4 4 0 01-4 4H9a4 4 0 01-4-4V7a2 2 0 012-2h3V4a2 2 0 012-2z"/>
+                 </svg>
+               </div>
+               <div class="min-w-0">
+                 <p class="text-[12px] font-semibold text-white">Claude AI Opus 4.7</p>
+                 <p class="text-[10px] leading-snug" style="color:rgba(74,138,42,0.70);">Intent classification · Structured output · Confidence scoring · Escalation routing</p>
+               </div>
              </div>
-             <div>
-               <p class="text-[12px] font-semibold text-white">Claude AI Opus 4.7</p>
-               <p class="text-[10px]" style="color:rgba(74,138,42,0.70);">Intent classification · Structured output · Confidence scoring · Escalation routing</p>
+             <div class="shrink-0 text-right">
+               <p class="font-display text-[1.1rem] font-medium tabular-nums" id="latency-display" style="color:rgba(74,138,42,0.85);">~80ms</p>
+               <p class="text-[9px]" style="color:rgba(255,255,255,0.55);">inference latency</p>
              </div>
-           </div>
-           <div class="ml-auto text-right">
-             <p class="font-display text-[1.1rem] font-medium tabular-nums" id="latency-display" style="color:rgba(74,138,42,0.85);">~80ms</p>
-             <p class="text-[9px]" style="color:rgba(255,255,255,0.55);">inference latency</p>
            </div>
          </div>
 
