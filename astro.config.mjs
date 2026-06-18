@@ -12,7 +12,16 @@ export default defineConfig({
     preact({ compat: true }),
     icon({ iconDir: 'src/icons' }),
   ],
+  build: {
+    // Inline small CSS chunks (<= 8 KB) directly in HTML — eliminates their render-blocking
+    // network requests. Larger bundles (Tailwind index.css) stay external and cached.
+    inlineStylesheets: 'auto',
+  },
   vite: {
+    build: {
+      // Doubles the default 4 KB threshold so cart CSS and other small chunks get inlined
+      assetsInlineLimit: 8192,
+    },
     resolve: {
       dedupe: ['preact', 'preact/hooks', 'preact/compat', '@preact/signals'],
     },
