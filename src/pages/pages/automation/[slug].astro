@@ -114,7 +114,7 @@ const svgIcons: Record<string, string> = {
     </div>
     <div style="display:flex;flex-direction:column;gap:1.25rem;">
       {p.workflows.map((wf, i) => (
-        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(232,180,176,0.12);border-radius:16px;padding:2rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;">
+        <div class="wf-card" style="background:rgba(255,255,255,0.03);border:1px solid rgba(232,180,176,0.12);border-radius:16px;padding:2rem;">
           <div>
             <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.875rem;">
               <span style="font-family:Georgia,serif;font-size:0.875rem;color:rgba(232,180,176,0.4);font-style:italic;">0{i + 1}</span>
@@ -122,7 +122,7 @@ const svgIcons: Record<string, string> = {
             </div>
             <p style="font-size:0.9rem;line-height:1.75;color:rgba(248,246,241,0.5);margin:0;">{wf.description}</p>
           </div>
-          <div style="display:flex;flex-direction:column;gap:0.625rem;min-width:160px;">
+          <div class="wf-stats">
             <div style="background:rgba(45,80,22,0.2);border:1px solid rgba(45,80,22,0.3);border-radius:8px;padding:0.625rem 0.875rem;">
               <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:rgba(248,246,241,0.35);margin:0 0 0.25rem;">Time saved</p>
               <p style="font-size:0.875rem;font-weight:600;color:#F8F6F1;margin:0;">{wf.timeSaved}</p>
@@ -141,7 +141,7 @@ const svgIcons: Record<string, string> = {
 <!-- Tools + Why PURIST -->
 <section style="background:#F8F6F1;padding:5rem 0;">
   <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;">
+    <div class="two-col-grid">
       <div>
         <h2 style="font-family:Georgia,serif;font-size:clamp(1.4rem,2.5vw,2rem);color:#0A0A0A;margin-bottom:1.25rem;">The Tech Stack We Use</h2>
         <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.55);margin-bottom:1.5rem;">Every {p.name.toLowerCase()} automation we build runs on proven, self-hosted infrastructure. No vendor lock-in. Your data stays in your systems.</p>
@@ -223,4 +223,43 @@ const svgIcons: Record<string, string> = {
   </div>
 </section>
 
+<style>
+  .wf-card {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: start;
+  }
+  .wf-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    min-width: 160px;
+  }
+  .two-col-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  @media (max-width: 767px) {
+    .wf-card {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    .wf-stats {
+      flex-direction: row;
+      flex-wrap: wrap;
+      min-width: unset;
+    }
+    .wf-stats > div {
+      flex: 1;
+      min-width: 130px;
+    }
+    .two-col-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+</style>
 </ShopLayout>
