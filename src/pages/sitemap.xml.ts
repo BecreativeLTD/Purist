@@ -3,6 +3,7 @@ export const prerender = true;
 import skillsData from '~/data/skills.json';
 import { terms } from '~/data/glossary';
 import blogData from '~/data/blog.json';
+import { professions } from '~/data/automations';
 
 const site = 'https://www.purist.online';
 
@@ -73,7 +74,15 @@ const pages = [
   { url: '/pages/accessibility',                 lastmod: '2026-06-18' },
 ];
 
-const allPages = [...pages, ...blogPages, ...skillPages, ...glossaryTermPages];
+const automationPages = [
+  { url: '/pages/automation', lastmod: '2026-06-27' },
+  ...professions.map(p => ({
+    url: `/pages/automation/${p.slug}`,
+    lastmod: '2026-06-27',
+  })),
+];
+
+const allPages = [...pages, ...blogPages, ...skillPages, ...glossaryTermPages, ...automationPages];
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
