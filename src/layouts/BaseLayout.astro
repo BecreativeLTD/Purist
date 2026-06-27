@@ -6,6 +6,7 @@ import '@fontsource-variable/fraunces/opsz.css';
 import '@fontsource-variable/fraunces/opsz-italic.css';
 import { ViewTransitions } from 'astro:transitions';
 import SEO from '~/components/seo/SEO.astro';
+import CurrencyWidget from '~/components/CurrencyWidget.astro';
 
 export interface Props {
  title?: string;
@@ -45,6 +46,7 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
      Skip to content
    </a>
    <slot />
+   <CurrencyWidget />
 
    <script>
      const observer = new IntersectionObserver(

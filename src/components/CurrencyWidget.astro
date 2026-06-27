@@ -1,0 +1,250 @@
+---
+// CurrencyWidget — auto-detects country, converts all € prices in the DOM
+// Currencies: USD, EUR, GBP, CAD, AUD, CHF, SGD, AED, NZD, MXN
+---
+
+<!-- Floating currency selector -->
+<div id="cw-root" style="position:fixed;bottom:1.5rem;left:1.5rem;z-index:999;font-family:inherit;">
+
+  <!-- Trigger button -->
+  <button id="cw-trigger"
+    aria-label="Change currency"
+    style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0.875rem;border-radius:999px;background:#0A0A0A;border:1px solid rgba(255,255,255,0.12);color:#fff;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.25);transition:opacity 0.15s;letter-spacing:0.04em;">
+    <span id="cw-flag" style="font-size:14px;line-height:1;">🌐</span>
+    <span id="cw-code" style="min-width:28px;">···</span>
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" id="cw-chevron" style="transition:transform 0.2s;"><path d="M2 3.5L5 6.5L8 3.5"/></svg>
+  </button>
+
+  <!-- Dropdown menu -->
+  <div id="cw-menu"
+    style="display:none;position:absolute;bottom:calc(100% + 8px);left:0;background:#0A0A0A;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:0.5rem;min-width:180px;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+    <p style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.16em;color:rgba(255,255,255,0.25);padding:0.375rem 0.625rem 0.5rem;">Select currency</p>
+    <div id="cw-list"></div>
+  </div>
+
+</div>
+
+<script is:inline>
+(function () {
+
+  /* ── Config ──────────────────────────────────────────────── */
+  var CURRENCIES = {
+    USD: { symbol: '$',    flag: '🇺🇸', label: 'US Dollar'        },
+    EUR: { symbol: '€',    flag: '🇪🇺', label: 'Euro'              },
+    GBP: { symbol: '£',    flag: '🇬🇧', label: 'British Pound'     },
+    CAD: { symbol: 'C$',   flag: '🇨🇦', label: 'Canadian Dollar'   },
+    AUD: { symbol: 'A$',   flag: '🇦🇺', label: 'Australian Dollar' },
+    CHF: { symbol: 'CHF',  flag: '🇨🇭', label: 'Swiss Franc'       },
+    SGD: { symbol: 'S$',   flag: '🇸🇬', label: 'Singapore Dollar'  },
+    AED: { symbol: 'AED',  flag: '🇦🇪', label: 'UAE Dirham'        },
+    NZD: { symbol: 'NZ$',  flag: '🇳🇿', label: 'NZ Dollar'         },
+    MXN: { symbol: 'MX$',  flag: '🇲🇽', label: 'Mexican Peso'      },
+  };
+
+  var COUNTRY_MAP = {
+    US:'USD', GB:'GBP', CA:'CAD', AU:'AUD', CH:'CHF',
+    SG:'SGD', AE:'AED', NZ:'NZD', MX:'MXN',
+    /* Eurozone */
+    DE:'EUR',FR:'EUR',IT:'EUR',ES:'EUR',NL:'EUR',
+    BE:'EUR',AT:'EUR',PT:'EUR',FI:'EUR',IE:'EUR',
+    GR:'EUR',LU:'EUR',SK:'EUR',SI:'EUR',EE:'EUR',
+    LV:'EUR',LT:'EUR',CY:'EUR',MT:'EUR',
+  };
+
+  var BASE = 'EUR'; // all prices on site are in EUR
+  var LS_CURRENCY = 'purist_currency';
+  var LS_RATES    = 'purist_rates';
+  var LS_RATES_TS = 'purist_rates_ts';
+  var RATE_TTL    = 6 * 60 * 60 * 1000; // 6 hours
+
+  var rates   = { EUR: 1 };
+  var current = localStorage.getItem(LS_CURRENCY) || null;
+  var menuOpen = false;
+
+  /* ── DOM refs ────────────────────────────────────────────── */
+  var root    = document.getElementById('cw-root');
+  var trigger = document.getElementById('cw-trigger');
+  var menu    = document.getElementById('cw-menu');
+  var list    = document.getElementById('cw-list');
+  var flagEl  = document.getElementById('cw-flag');
+  var codeEl  = document.getElementById('cw-code');
+  var chevron = document.getElementById('cw-chevron');
+
+  /* ── Build menu items ────────────────────────────────────── */
+  Object.keys(CURRENCIES).forEach(function (code) {
+    var c   = CURRENCIES[code];
+    var btn = document.createElement('button');
+    btn.setAttribute('data-cw-code', code);
+    btn.style.cssText = 'display:flex;align-items:center;gap:0.625rem;width:100%;padding:0.5rem 0.625rem;border-radius:10px;border:none;background:transparent;color:rgba(255,255,255,0.75);font-size:12.5px;cursor:pointer;text-align:left;transition:background 0.1s;';
+    btn.innerHTML = '<span style="font-size:15px;">' + c.flag + '</span>'
+      + '<span><strong style="color:#fff;font-weight:600;">' + code + '</strong>'
+      + '<span style="color:rgba(255,255,255,0.35);margin-left:5px;">' + c.label + '</span></span>';
+    btn.addEventListener('mouseenter', function () { btn.style.background = 'rgba(255,255,255,0.07)'; });
+    btn.addEventListener('mouseleave', function () { btn.style.background = 'transparent'; });
+    btn.addEventListener('click', function () { setCurrency(code); closeMenu(); });
+    list.appendChild(btn);
+  });
+
+  /* ── Toggle menu ─────────────────────────────────────────── */
+  trigger.addEventListener('click', function (e) {
+    e.stopPropagation();
+    menuOpen = !menuOpen;
+    menu.style.display = menuOpen ? 'block' : 'none';
+    chevron.style.transform = menuOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+  });
+  document.addEventListener('click', function () { closeMenu(); });
+  menu.addEventListener('click', function (e) { e.stopPropagation(); });
+
+  function closeMenu() {
+    menuOpen = false;
+    menu.style.display = 'none';
+    chevron.style.transform = 'rotate(0deg)';
+  }
+
+  /* ── Update trigger label ────────────────────────────────── */
+  function updateTrigger(code) {
+    var c = CURRENCIES[code] || CURRENCIES.EUR;
+    flagEl.textContent = c.flag;
+    codeEl.textContent = code;
+    // Highlight active item
+    list.querySelectorAll('[data-cw-code]').forEach(function (btn) {
+      btn.style.background = btn.getAttribute('data-cw-code') === code
+        ? 'rgba(232,180,176,0.15)' : 'transparent';
+    });
+  }
+
+  /* ── Price conversion ────────────────────────────────────── */
+  // Walk all text nodes and replace € amounts
+  var PRICE_RE = /€(\d[\d,]*)(\s*[Kk])?/g;
+
+  function convertAmount(num, hasK) {
+    var val = parseFloat(String(num).replace(/,/g, ''));
+    if (hasK) val *= 1000;
+    var rate = rates[current] || 1;
+    var converted = val * rate;
+    return converted;
+  }
+
+  function formatAmount(val, code) {
+    var c = CURRENCIES[code] || CURRENCIES.EUR;
+    var sym = c.symbol;
+    // Pick format based on magnitude
+    if (val >= 1000000) {
+      return sym + (val / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    }
+    if (val >= 10000) {
+      return sym + Math.round(val / 1000) + 'K';
+    }
+    if (val >= 1000) {
+      return sym + (val / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    }
+    if (val >= 100) {
+      return sym + Math.round(val);
+    }
+    return sym + val.toFixed(0);
+  }
+
+  // Store original text content keyed by node
+  var originalTexts = new WeakMap();
+
+  function walkAndConvert(node, code) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      // Save original
+      if (!originalTexts.has(node)) {
+        originalTexts.set(node, node.textContent);
+      }
+      var orig = originalTexts.get(node);
+      if (!PRICE_RE.test(orig)) return;
+      // Reset lastIndex
+      PRICE_RE.lastIndex = 0;
+      var replaced = orig.replace(PRICE_RE, function (match, numStr, kSuffix) {
+        var converted = convertAmount(numStr, !!kSuffix);
+        return formatAmount(converted, code);
+      });
+      if (replaced !== node.textContent) {
+        node.textContent = replaced;
+      }
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      // Skip script, style, input
+      var tag = node.tagName;
+      if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'CODE') return;
+      node.childNodes.forEach(function (child) { walkAndConvert(child, code); });
+    }
+  }
+
+  function applyConversion(code) {
+    if (code === BASE) {
+      // Restore originals
+      originalTexts = new WeakMap();
+      // Re-walk is needed — simpler: just reload original via stored map
+      // Actually just walk with EUR rate = 1
+    }
+    walkAndConvert(document.body, code);
+  }
+
+  /* ── Set currency ────────────────────────────────────────── */
+  function setCurrency(code) {
+    current = code;
+    localStorage.setItem(LS_CURRENCY, code);
+    updateTrigger(code);
+    applyConversion(code);
+  }
+
+  /* ── Fetch rates ─────────────────────────────────────────── */
+  function fetchRates(cb) {
+    // Check cache
+    var cached    = localStorage.getItem(LS_RATES);
+    var cachedTs  = localStorage.getItem(LS_RATES_TS);
+    if (cached && cachedTs && (Date.now() - parseInt(cachedTs)) < RATE_TTL) {
+      try { rates = JSON.parse(cached); cb(); return; } catch(e) {}
+    }
+    // Fetch from frankfurter.app (free, no key, CORS-friendly)
+    fetch('https://api.frankfurter.app/latest?from=EUR&to=USD,GBP,CAD,AUD,CHF,SGD,AED,NZD,MXN')
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data && data.rates) {
+          rates = Object.assign({ EUR: 1 }, data.rates);
+          localStorage.setItem(LS_RATES, JSON.stringify(rates));
+          localStorage.setItem(LS_RATES_TS, String(Date.now()));
+        }
+        cb();
+      })
+      .catch(function () {
+        // Fallback hardcoded rates (approx June 2026)
+        rates = { EUR:1, USD:1.08, GBP:0.85, CAD:1.47, AUD:1.65, CHF:0.97, SGD:1.45, AED:3.97, NZD:1.78, MXN:19.5 };
+        cb();
+      });
+  }
+
+  /* ── Detect country ──────────────────────────────────────── */
+  function detectCountry(cb) {
+    if (current) { cb(null); return; } // already set by user
+    fetch('https://ipapi.co/json/')
+      .then(function (r) { return r.json(); })
+      .then(function (d) { cb(d.country_code || null); })
+      .catch(function () { cb(null); });
+  }
+
+  /* ── Init ────────────────────────────────────────────────── */
+  function init() {
+    fetchRates(function () {
+      detectCountry(function (countryCode) {
+        var code = current
+          || (countryCode && COUNTRY_MAP[countryCode])
+          || 'EUR';
+        setCurrency(code);
+        // Show widget after init
+        root.style.display = 'block';
+      });
+    });
+  }
+
+  // Run after DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+})();
+</script>
