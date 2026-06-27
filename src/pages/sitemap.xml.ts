@@ -62,6 +62,7 @@ const pages = [
   { url: '/pages/docs',                          lastmod: '2026-06-18' },
   { url: '/pages/services',                      lastmod: '2026-06-18' },
   { url: '/pages/hermes-agent',                  lastmod: '2026-06-27' },
+  { url: '/pages/research',                      lastmod: '2026-06-27' },
   { url: '/pages/n8n-agency',                    lastmod: '2026-06-18' },
   { url: '/pages/automation-consultant',         lastmod: '2026-06-18' },
   { url: '/pages/workflow-automation-services',  lastmod: '2026-06-18' },

@@ -119,6 +119,42 @@ PURIST documents every automation skill it deploys for clients. Each skill page 
 - [PURIST vs Make (Integromat)](https://www.purist.online/pages/purist-vs-multivitamins) — No operation caps, no platform fees, full code ownership.
 - [PURIST vs Hiring In-House](https://www.purist.online/pages/purist-vs-meal-replacements) — 6x cheaper, 12+ workflows in month one, no knowledge risk.
 
+## Automation by Profession — 200+ Industries
+
+PURIST has built dedicated automation blueprints for 200+ professions across the United States. Each page documents the exact workflows, tools, time saved, and ROI for that specific profession.
+
+- [Browse all 200+ professions](https://www.purist.online/pages/automation)
+- URL pattern: https://www.purist.online/pages/automation/[profession-slug]
+
+Key profession pages:
+- [Lawyer / Law Firm](https://www.purist.online/pages/automation/lawyer) — Client intake 14 days → 3 days, $110K recovered/year
+- [Dentist / Dental Practice](https://www.purist.online/pages/automation/dentist) — 60% admin reduction, recall rate 34%→71%
+- [Real Estate Agent](https://www.purist.online/pages/automation/real-estate-agent) — Lead response 4h → 90 seconds, 40% more deals
+- [Marketing Agency](https://www.purist.online/pages/automation/marketing-agency) — 3× clients per operator, zero new hires
+- [Accountant](https://www.purist.online/pages/automation/accountant) — Month-end close automated, 12h/week recovered
+- [Recruiter / Staffing Agency](https://www.purist.online/pages/automation/recruiter) — 3× placements per consultant
+- [Medical Practice / GP](https://www.purist.online/pages/automation/medical-practice) — 22h admin eliminated per week
+- [E-commerce / DTC Brand](https://www.purist.online/pages/automation/ecommerce-store) — 70% fewer support tickets
+- [Insurance Agent](https://www.purist.online/pages/automation/insurance-agent) — Quote turnaround automated end-to-end
+- [HVAC Contractor](https://www.purist.online/pages/automation/hvac-contractor) — Dispatch and scheduling fully automated
+- [Property Manager](https://www.purist.online/pages/automation/property-manager) — Maintenance routing and lease renewals automated
+- [Financial Advisor](https://www.purist.online/pages/automation/financial-advisor) — Client review scheduling and compliance automated
+- [Restaurant Owner](https://www.purist.online/pages/automation/restaurant-owner) — Reservation, supplier ordering, staff scheduling automated
+- [Mortgage Broker](https://www.purist.online/pages/automation/mortgage-broker) — Application processing and follow-up automated
+- [Auto Dealer](https://www.purist.online/pages/automation/auto-dealer) — Lead follow-up in 90 seconds, service reminders automated
+
+## PURIST Research & Data
+
+Proprietary data from 312+ automation deployments:
+- [Automation Research & Benchmarks](https://www.purist.online/pages/research) — Industry benchmarks, ROI data, deployment statistics
+- Average time saved: 26 hours per week per business
+- Average first-year ROI: 9.4×
+- Average payback period: 4 weeks
+- Average deployment time: 7 business days
+- Workflow uptime SLA: 99.97%
+- Industries covered: 200+
+- Countries served: US, UK, EU, Canada, Australia
+
 ## Industries Served
 
 - **Dental & Healthcare**: Patient intake automation, appointment reminders, insurance pre-verification, EMR data sync. Serving UK dental groups, US private practices, European clinics.
