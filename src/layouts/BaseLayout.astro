@@ -108,6 +108,18 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
        s.async = true;
        document.head.appendChild(s);
        gtag('event', 'page_view', { page_path: location.pathname });
+       // Track UTM source when visitor arrives from social media
+       var params = new URLSearchParams(location.search);
+       var utmSource = params.get('utm_source');
+       if (utmSource) {
+         gtag('event', 'social_visit', {
+           utm_source:   utmSource,
+           utm_medium:   params.get('utm_medium') || '',
+           utm_campaign: params.get('utm_campaign') || '',
+           utm_content:  params.get('utm_content') || '',
+           page_path:    location.pathname,
+         });
+       }
      }
 
      function _initTracking() {
