@@ -239,12 +239,16 @@
     });
   }
 
-  // Run after DOM ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
+  // Run after load event + short delay → no impact on LCP/TBT
+  function _boot() {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(init, { timeout: 3000 });
+    } else {
+      setTimeout(init, 1000);
+    }
   }
+  if (document.readyState === 'complete') { _boot(); }
+  else { window.addEventListener('load', _boot); }
 
 })();
 </script>

@@ -90,12 +90,16 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
      });
    </script>
 
-   <!-- GTM — injected 1s after load event to avoid 349ms forced layout -->
+   <!-- GTM + Conversion tracking — all deferred until after load to avoid TBT -->
    <script is:inline>
+   (function(){
+     // GTM setup — minimal inline, actual script loads 2s after load
      window.dataLayer = window.dataLayer || [];
      function gtag(){dataLayer.push(arguments);}
+     window.gtag = gtag;
      gtag('js', new Date());
      gtag('config', 'G-4XMEM7DE1B', { send_page_view: false });
+
      function _loadGTM() {
        if (window._gtmLoaded) return;
        window._gtmLoaded = true;
@@ -105,45 +109,41 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
        document.head.appendChild(s);
        gtag('event', 'page_view', { page_path: location.pathname });
      }
-     if (document.readyState === 'complete') { setTimeout(_loadGTM, 1000); }
-     else { window.addEventListener('load', function() { setTimeout(_loadGTM, 1000); }); }
-     document.addEventListener('astro:page-load', function() {
-       if (typeof gtag !== 'undefined') gtag('event', 'page_view', { page_path: location.pathname });
-     });
-   </script>
-   <!-- Conversion event tracking -->
-   <script is:inline>
-     (function(){
+
+     function _initTracking() {
        var _scrollTrack = null;
 
        function track(eventName, params) {
          if (typeof gtag !== 'undefined') gtag('event', eventName, params);
        }
 
-       // Click + submit: bound once at document level (event delegation, no duplication risk)
-       document.addEventListener('click', function(e) {
-         var el = e.target.closest('a, button');
-         if (!el) return;
-         var href = el.getAttribute('href') || '';
-         var text = (el.innerText || el.textContent || '').trim().slice(0, 60);
-         if (href.includes('welcome') || text.toLowerCase().includes('audit') || text.toLowerCase().includes('book')) {
-           track('cta_click', { cta_text: text, destination: href, page: location.pathname });
-         }
-         if (href.includes('demo') || text.toLowerCase().includes('demo')) {
-           track('demo_click', { cta_text: text, page: location.pathname });
-         }
-         if (href.includes('contact') || href.includes('mailto')) {
-           track('contact_click', { cta_text: text, page: location.pathname });
-         }
-       });
-       document.addEventListener('submit', function(e) {
-         var form = e.target;
-         if (form && form.closest('[role="dialog"]')) {
-           track('popup_form_submit', { page: location.pathname });
-         }
-       });
+       // CTA clicks — event delegation, safe to add once
+       if (!window._ctaTrackBound) {
+         window._ctaTrackBound = true;
+         document.addEventListener('click', function(e) {
+           var el = e.target.closest('a, button');
+           if (!el) return;
+           var href = el.getAttribute('href') || '';
+           var text = (el.innerText || el.textContent || '').trim().slice(0, 60);
+           if (href.includes('welcome') || text.toLowerCase().includes('audit') || text.toLowerCase().includes('book')) {
+             track('cta_click', { cta_text: text, destination: href, page: location.pathname });
+           }
+           if (href.includes('demo') || text.toLowerCase().includes('demo')) {
+             track('demo_click', { cta_text: text, page: location.pathname });
+           }
+           if (href.includes('contact') || href.includes('mailto')) {
+             track('contact_click', { cta_text: text, page: location.pathname });
+           }
+         });
+         document.addEventListener('submit', function(e) {
+           var form = e.target;
+           if (form && form.closest('[role="dialog"]')) {
+             track('popup_form_submit', { page: location.pathname });
+           }
+         });
+       }
 
-       // Per-page: scroll depth + time — reset on each navigation
+       // Scroll depth + time on page — reset on each navigation
        function initPageTracking() {
          if (_scrollTrack) window.removeEventListener('scroll', _scrollTrack);
          var milestones = { 25: false, 50: false, 75: false, 90: false };
@@ -167,8 +167,23 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
        }
 
        initPageTracking();
-       document.addEventListener('astro:page-load', initPageTracking);
-     })();
+       document.addEventListener('astro:page-load', function() {
+         gtag('event', 'page_view', { page_path: location.pathname });
+         initPageTracking();
+       });
+     }
+
+     // Load GTM + tracking after load event + 2s delay → zero impact on LCP/TBT
+     function _boot() {
+       setTimeout(function() {
+         _loadGTM();
+         _initTracking();
+       }, 2000);
+     }
+
+     if (document.readyState === 'complete') { _boot(); }
+     else { window.addEventListener('load', _boot); }
+   })();
    </script>
  </body>
 </html>
