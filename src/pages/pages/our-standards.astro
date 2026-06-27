@@ -1,73 +1,81 @@
 ---
-import BaseLayout from '~/layouts/BaseLayout.astro';
-import Header from '~/components/layout/Header.astro';
-import Footer from '~/components/layout/Footer.astro';
-
-const PINK = '#c4847e';
-const PINK_BG = 'rgba(232,180,176,0.10)';
+import ShopLayout from '~/layouts/ShopLayout.astro';
 
 const standards = [
- { n: '01', title: 'Tested on real data before handover', desc: 'Every automation runs against your actual data not dummy records before we sign off. Edge cases are identified and resolved in testing, not discovered in production.' },
- { n: '02', title: '24/7 monitoring from day one', desc: 'The moment a workflow goes live, it enters our monitoring stack. Error alerts fire within 90 seconds. You never find out about a failure from a client or a missed task.' },
- { n: '03', title: 'Full source code handover', desc: 'You receive complete access to every workflow source code, credentials, documentation. No black box, no platform lock-in. Your team or any developer can maintain it.' },
- { n: '04', title: '30-day modification guarantee', desc: 'If the workflow does not behave exactly as specified in the first 30 days, we fix it at no cost. The deployment is not complete until you confirm it works as expected.' },
- { n: '05', title: 'Structured change management', desc: 'Any change to a live workflow goes through a staging environment first. Changes are versioned, tested and rolled back instantly if something regresses.' },
- { n: '06', title: 'Incident response SLA', desc: 'Critical incidents workflow down, data error are resolved within 4 hours. Standard issues within 24 hours. Every client has a dedicated Slack channel for direct access.' },
+  { n: '01', title: 'Tested on real data before handover', desc: 'Every automation runs against your actual data — not dummy records — before we sign off. Edge cases are identified and resolved in testing, not discovered in production.' },
+  { n: '02', title: '24/7 monitoring from day one', desc: 'The moment a workflow goes live, it enters our monitoring stack. Error alerts fire within 90 seconds. You never find out about a failure from a client or a missed task.' },
+  { n: '03', title: 'Full source code handover', desc: 'You receive complete access to every workflow, credentials, and documentation. No black box, no platform lock-in. Your team or any developer can maintain it.' },
+  { n: '04', title: '30-day modification guarantee', desc: 'If the workflow does not behave exactly as specified in the first 30 days, we fix it at no cost. The deployment is not complete until you confirm it works as expected.' },
+  { n: '05', title: 'Structured change management', desc: 'Any change to a live workflow goes through a staging environment first. Changes are versioned, tested, and rolled back instantly if something regresses.' },
+  { n: '06', title: 'Incident response SLA', desc: 'Critical incidents — workflow down, data error — are resolved within 4 hours. Standard issues within 24 hours. Every client has a dedicated Slack channel for direct access.' },
+];
+
+const stats = [
+  { value: '99.97%', label: 'Uptime SLA' },
+  { value: '90 sec', label: 'Error alert' },
+  { value: '4 h', label: 'Critical fix' },
+  { value: '30 days', label: 'Guarantee' },
 ];
 ---
 
-<BaseLayout
- title="Quality Standards How PURIST Deploys | PURIST Automation"
- description="PURIST quality standards: real-data testing, 24/7 monitoring, full source code handover, 30-day guarantee and structured incident response. Every deployment, every time."
+<ShopLayout
+  title="Quality Standards — How PURIST Deploys | PURIST Automation"
+  description="PURIST quality standards: real-data testing, 24/7 monitoring, full source code handover, 30-day guarantee and structured incident response. Every deployment, every time."
+  canonical="https://www.purist.online/pages/our-standards"
 >
- <Header />
- <main id="main-content">
 
-   <div class="py-16 lg:py-20" style="background:#0A0A0A">
-     <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-       <p class="text-xs uppercase tracking-widest font-bold mb-4" style={`color:${PINK}`}>Standards</p>
-       <h1 class="text-3xl lg:text-5xl font-bold text-white mb-5 leading-tight">Quality you can hold us to.</h1>
-       <p class="text-base lg:text-lg text-gray-400 max-w-2xl mx-auto">
-         Six non-negotiable standards on every PURIST deployment. Not aspirations contractual commitments backed by a 30-day money-back guarantee.
-       </p>
-     </div>
-   </div>
+<!-- Hero -->
+<section style="background:#0A0A0A;color:#F8F6F1;padding:5rem 0 4rem;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(232,180,176,0.08) 0%,transparent 65%);"></div>
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1;text-align:center;">
+    <div style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.375rem 0.875rem;border-radius:999px;border:1px solid rgba(232,180,176,0.3);background:rgba(232,180,176,0.07);margin-bottom:1.5rem;">
+      <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.16em;font-weight:600;color:rgba(232,180,176,0.85);">6 non-negotiable standards · every deployment</span>
+    </div>
+    <h1 style="font-family:Georgia,serif;font-size:clamp(2rem,5vw,3.2rem);line-height:1.1;letter-spacing:-0.025em;color:#F8F6F1;margin-bottom:1.25rem;">
+      Quality you can<br/>
+      <em style="font-style:italic;color:#E8B4B0;">hold us to.</em>
+    </h1>
+    <p style="font-size:1.0625rem;line-height:1.75;color:rgba(248,246,241,0.5);max-width:580px;margin:0 auto;">
+      Not aspirations — contractual commitments backed by a 30-day money-back guarantee. Every PURIST deployment ships with all six.
+    </p>
+  </div>
+</section>
 
-   <div class="max-w-4xl mx-auto px-4 sm:px-6 py-14 lg:py-20">
+<!-- Stats bar -->
+<section style="background:#F8F6F1;border-bottom:1px solid rgba(10,10,10,0.07);padding:2.5rem 0;">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem;display:flex;flex-wrap:wrap;justify-content:center;gap:3rem;">
+    {stats.map(s => (
+      <div style="text-align:center;">
+        <p style="font-family:Georgia,serif;font-size:2rem;line-height:1;margin-bottom:0.25rem;color:#E8B4B0;">{s.value}</p>
+        <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(10,10,10,0.35);">{s.label}</p>
+      </div>
+    ))}
+  </div>
+</section>
 
-     <div class="space-y-5 mb-14">
-       {standards.map(s => (
-         <div class="flex gap-6 p-6 rounded-2xl border border-gray-100 bg-gray-50">
-           <span class="text-3xl font-bold text-gray-200 leading-none shrink-0 mt-1">{s.n}</span>
-           <div>
-             <h2 class="text-base font-bold text-gray-900 mb-2">{s.title}</h2>
-             <p class="text-sm text-gray-500 leading-relaxed">{s.desc}</p>
-           </div>
-         </div>
-       ))}
-     </div>
+<!-- Standards list -->
+<section style="background:#F8F6F1;padding:5rem 0;">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem;display:flex;flex-direction:column;gap:1rem;">
+    {standards.map(s => (
+      <div style="display:flex;gap:1.75rem;padding:1.75rem 2rem;border-radius:16px;border:1px solid rgba(10,10,10,0.08);background:white;align-items:flex-start;">
+        <span style="font-family:Georgia,serif;font-size:2rem;line-height:1;color:rgba(10,10,10,0.1);flex-shrink:0;margin-top:0.125rem;">{s.n}</span>
+        <div>
+          <h2 style="font-family:Georgia,serif;font-size:1.125rem;color:#0A0A0A;margin:0 0 0.5rem;line-height:1.3;">{s.title}</h2>
+          <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.5);margin:0;">{s.desc}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
 
-     <div class="grid sm:grid-cols-4 gap-4 mb-14">
-       {[
-         { value: '99.97%', label: 'uptime SLA' },
-         { value: '90 sec', label: 'error alert' },
-         { value: '4 h', label: 'critical fix' },
-         { value: '30 days', label: 'guarantee' },
-       ].map(s => (
-         <div class="rounded-xl border border-gray-200 p-5 text-center">
-           <p class="text-2xl font-bold mb-1" style={`color:${PINK}`}>{s.value}</p>
-           <p class="text-xs text-gray-400">{s.label}</p>
-         </div>
-       ))}
-     </div>
+<!-- CTA -->
+<section style="background:#E8B4B0;padding:4rem 0;">
+  <div style="max-width:700px;margin:0 auto;padding:0 1.5rem;text-align:center;">
+    <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.3rem);color:#0A0A0A;margin-bottom:1rem;">Every deployment backed by a 30-day guarantee.</h2>
+    <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.65);margin-bottom:2rem;">If your automation does not perform as specified, we fix it or refund it. No questions. Book a free audit to get started.</p>
+    <a href="/pages/welcome" style="display:inline-block;background:#0A0A0A;color:#F8F6F1;padding:1.125rem 2.5rem;border-radius:10px;font-size:0.9375rem;font-weight:600;text-decoration:none;">Book your free audit →</a>
+    <p style="font-size:0.75rem;color:rgba(10,10,10,0.45);margin-top:1rem;">No commitment · Reply within 1 business day · 100% money-back guarantee</p>
+  </div>
+</section>
 
-     <div class="rounded-2xl p-8 text-center" style={`background:${PINK_BG};border:1px solid rgba(196,132,126,0.20)`}>
-       <h2 class="text-xl font-bold text-gray-900 mb-3">Every deployment backed by a 30-day guarantee.</h2>
-       <p class="text-sm text-gray-600 mb-6 max-w-lg mx-auto">If your automation does not perform as specified, we fix it or refund it. No questions. Book a free audit to get started.</p>
-       <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style={`background:${PINK}`}>Book free audit →</a>
-     </div>
-   </div>
-
- </main>
- <Footer />
-</BaseLayout>
+</ShopLayout>
