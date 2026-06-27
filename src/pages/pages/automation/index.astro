@@ -1,0 +1,130 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import { professions } from '~/data/automations';
+
+const categories = [...new Set(professions.map(p => p.category))];
+const byCategory = categories.map(cat => ({
+  name: cat,
+  items: professions.filter(p => p.category === cat)
+}));
+---
+
+<ShopLayout
+  title="Business Automation by Industry — 200 Professions | PURIST"
+  description="Production-grade n8n workflow automation for every business type. Plumbers, dentists, agencies, restaurants, e-commerce, real estate — find your industry and see exactly what we automate."
+  canonical="https://www.purist.online/pages/automation"
+>
+
+<!-- JSON-LD Schema -->
+<script type="application/ld+json" is:inline>{JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Business Automation by Industry — PURIST",
+  "description": "n8n workflow automation for 200 professions and industries across the United States.",
+  "url": "https://www.purist.online/pages/automation",
+  "provider": { "@type": "Organization", "name": "PURIST", "url": "https://www.purist.online" }
+})}</script>
+
+<!-- Hero -->
+<section style="background:#0A0A0A;color:#F8F6F1;padding:5rem 0 4rem;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(232,180,176,0.08) 0%,transparent 65%);"></div>
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1;text-align:center;">
+    <div style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.375rem 0.875rem;border-radius:999px;border:1px solid rgba(232,180,176,0.3);background:rgba(232,180,176,0.07);margin-bottom:1.5rem;">
+      <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.16em;font-weight:600;color:rgba(232,180,176,0.85);">200 Industries · n8n + Claude AI · Deployed in 7 Days</span>
+    </div>
+    <h1 style="font-family:Georgia,serif;font-size:clamp(2.2rem,5vw,3.4rem);line-height:1.08;letter-spacing:-0.025em;color:#F8F6F1;margin-bottom:1.25rem;">
+      Workflow Automation<br/>
+      <em style="font-style:italic;color:#E8B4B0;">For Every Business Type</em>
+    </h1>
+    <p style="font-size:1.0625rem;line-height:1.75;color:rgba(248,246,241,0.5);max-width:620px;margin:0 auto 2.5rem;">
+      Find your industry below. Every page shows the exact workflows we build, the time they save, and the revenue they recover — specific to your profession, not generic templates.
+    </p>
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:3.5rem;">
+      <a href="/pages/welcome" style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:1rem 2rem;border-radius:10px;font-size:0.875rem;font-weight:600;text-decoration:none;">Book free audit →</a>
+      <a href="/pages/pricing" style="display:inline-block;background:rgba(255,255,255,0.06);color:rgba(248,246,241,0.7);border:1px solid rgba(255,255,255,0.12);padding:1rem 2rem;border-radius:10px;font-size:0.875rem;font-weight:500;text-decoration:none;">View plans</a>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:2.5rem;">
+      {[['200+','Industries covered'],['500+','Workflows deployed'],['7 days','Average deployment'],['26h','Saved per week']].map(([n,l]) => (
+        <div style="text-align:center;">
+          <p style="font-family:Georgia,serif;font-size:1.75rem;line-height:1;margin-bottom:0.25rem;color:#E8B4B0;">{n}</p>
+          <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(248,246,241,0.3);">{l}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Category jump links -->
+<section style="background:#F8F6F1;padding:2rem 0;border-bottom:1px solid rgba(10,10,10,0.07);position:sticky;top:64px;z-index:30;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;">
+      {byCategory.map(cat => (
+        <a href={`#${cat.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}
+           style="display:inline-block;background:white;border:1px solid rgba(10,10,10,0.1);color:rgba(10,10,10,0.6);padding:0.375rem 0.875rem;border-radius:999px;font-size:0.8125rem;text-decoration:none;white-space:nowrap;">
+          {cat.name} <span style="color:rgba(10,10,10,0.3);">({cat.items.length})</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Professions by category -->
+{byCategory.map(cat => (
+  <section id={cat.name.toLowerCase().replace(/[^a-z0-9]/g, '-')} style="padding:4rem 0;background:#F8F6F1;border-bottom:1px solid rgba(10,10,10,0.06);">
+    <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+      <div style="display:flex;align-items:baseline;gap:1rem;margin-bottom:2rem;">
+        <h2 style="font-family:Georgia,serif;font-size:clamp(1.4rem,2.5vw,1.875rem);color:#0A0A0A;margin:0;">{cat.name}</h2>
+        <span style="font-size:0.8125rem;color:rgba(10,10,10,0.35);">{cat.items.length} professions</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;">
+        {cat.items.map(p => (
+          <a href={`/pages/automation/${p.slug}`}
+             style="display:block;background:white;border:1px solid rgba(10,10,10,0.07);border-radius:14px;padding:1.5rem;text-decoration:none;transition:border-color 0.15s,box-shadow 0.15s;">
+            <h3 style="font-family:Georgia,serif;font-size:1rem;color:#0A0A0A;margin:0 0 0.375rem;">{p.name}</h3>
+            <p style="font-size:0.8125rem;color:rgba(10,10,10,0.4);margin:0 0 0.875rem;line-height:1.5;">{p.stats.timeSaved} saved/week</p>
+            <div style="display:flex;flex-wrap:wrap;gap:0.375rem;">
+              {p.workflows.slice(0,2).map(wf => (
+                <span style="font-size:11px;background:#F8F6F1;color:rgba(10,10,10,0.5);padding:0.2rem 0.5rem;border-radius:4px;border:1px solid rgba(10,10,10,0.07);">{wf.name}</span>
+              ))}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+))}
+
+<!-- Why automate section -->
+<section style="background:#0A0A0A;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 3rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#F8F6F1;margin-bottom:1rem;">Why Every Business in This List Needs Automation Now</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(248,246,241,0.45);">The businesses that automate first compound their advantage every month. Every business that waits falls further behind a benchmark that is moving.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem;">
+      {[
+        { title: 'Speed of response', body: 'Leads contacted within 5 minutes convert at 9x the rate of leads contacted after 30 minutes. Manual follow-up cannot match that.' },
+        { title: 'Consistency at scale', body: 'Manual operations degrade under pressure. Automated workflows run identically whether you have 10 clients or 100.' },
+        { title: 'Cost per output', body: 'Every hire you make before automating the repeatable work is a hire that spends a third of their time on tasks a workflow handles in seconds.' },
+        { title: 'Compounding advantage', body: 'Every month of automated operations builds data, refines processes, and widens the gap between you and competitors still doing it manually.' },
+      ].map(({ title, body }) => (
+        <div style="border:1px solid rgba(232,180,176,0.12);border-radius:16px;padding:1.75rem;">
+          <h3 style="font-family:Georgia,serif;font-size:1.0625rem;color:#F8F6F1;margin-bottom:0.625rem;">{title}</h3>
+          <p style="font-size:0.875rem;line-height:1.75;color:rgba(248,246,241,0.45);margin:0;">{body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:#E8B4B0;padding:4rem 0;">
+  <div style="max-width:700px;margin:0 auto;padding:0 1.5rem;text-align:center;">
+    <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.3rem);color:#0A0A0A;margin-bottom:1rem;">Find Your Industry. Book a Free Audit.</h2>
+    <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.65);margin-bottom:2rem;">Tell us your profession and current tools. We map the exact automations that will save you the most time first — written, specific, and delivered within 48 hours.</p>
+    <a href="/pages/welcome" style="display:inline-block;background:#0A0A0A;color:#F8F6F1;padding:1.125rem 2.5rem;border-radius:10px;font-size:0.9375rem;font-weight:600;text-decoration:none;">Book your free automation audit →</a>
+    <p style="font-size:0.75rem;color:rgba(10,10,10,0.45);margin-top:1rem;">No commitment · Reply within 1 business day · 100% money-back guarantee</p>
+  </div>
+</section>
+
+</ShopLayout>
