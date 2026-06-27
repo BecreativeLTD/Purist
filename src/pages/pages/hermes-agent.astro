@@ -1,0 +1,436 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+---
+
+<ShopLayout
+  title="Hermes AI Agent Setup & Automation — Deployed on Your Own Server | PURIST"
+  description="PURIST deploys Hermes Agent on your Hostinger VPS — private, self-hosted AI that automates your workflows 24/7. No SaaS subscriptions. Your data stays yours."
+  canonical="https://www.purist.online/pages/hermes-agent"
+>
+
+<!-- JSON-LD -->
+<script type="application/ld+json" is:inline>{JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Hermes AI Agent Setup & Automation",
+  "description": "PURIST deploys and configures Hermes Agent on Hostinger VPS for US and European businesses. Private, self-hosted AI automation without SaaS subscriptions.",
+  "provider": { "@type": "Organization", "name": "PURIST", "url": "https://www.purist.online" },
+  "serviceType": "AI Agent Deployment",
+  "areaServed": [{ "@type": "Country", "name": "United States" }, { "@type": "Country", "name": "United Kingdom" }],
+  "url": "https://www.purist.online/pages/hermes-agent"
+})}</script>
+
+<!-- ── HERO ─────────────────────────────────────────────────────── -->
+<section style="background:#0A0A0A;color:#F8F6F1;padding:5rem 0 4rem;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(232,180,176,0.09) 0%,transparent 65%);"></div>
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1;">
+    <div style="display:grid;grid-template-columns:1fr;gap:3rem;align-items:center;">
+      <div style="max-width:780px;">
+        <div style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.375rem 0.875rem;border-radius:999px;border:1px solid rgba(232,180,176,0.3);background:rgba(232,180,176,0.07);margin-bottom:1.5rem;">
+          <span style="width:6px;height:6px;border-radius:50%;background:#E8B4B0;display:inline-block;"></span>
+          <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.16em;font-weight:600;color:rgba(232,180,176,0.85);">New · Hermes Agent · Self-Hosted AI · Powered by Nous Research</span>
+        </div>
+        <h1 style="font-family:Georgia,serif;font-size:clamp(2.2rem,5vw,3.6rem);line-height:1.08;letter-spacing:-0.025em;color:#F8F6F1;margin-bottom:1.25rem;">
+          Your own AI agent.<br/>
+          <em style="font-style:italic;color:#E8B4B0;">Running on your server. 24/7.</em>
+        </h1>
+        <p style="font-size:1.0625rem;line-height:1.8;color:rgba(248,246,241,0.5);max-width:640px;margin-bottom:2.5rem;">
+          We deploy <strong style="color:rgba(248,246,241,0.8);">Hermes Agent by Nous Research</strong> on your own Hostinger VPS — a private, self-hosted AI that automates your workflows, manages your communications, and learns your business. No ChatGPT subscription. No SaaS. Your data never leaves your server.
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:3.5rem;">
+          <a href="/pages/welcome" style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:1rem 2rem;border-radius:10px;font-size:0.875rem;font-weight:600;text-decoration:none;">Get your agent deployed →</a>
+          <a href="#how-it-works" style="display:inline-block;background:rgba(255,255,255,0.06);color:rgba(248,246,241,0.7);border:1px solid rgba(255,255,255,0.12);padding:1rem 2rem;border-radius:10px;font-size:0.875rem;font-weight:500;text-decoration:none;">See how it works</a>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:2.5rem;">
+          {[
+            ['$5/mo','Hosting cost (your VPS)'],
+            ['7 days','To full deployment'],
+            ['24/7','Agent runs unattended'],
+            ['100%','Your data, your server'],
+          ].map(([n,l]) => (
+            <div>
+              <p style="font-family:Georgia,serif;font-size:1.75rem;line-height:1;margin-bottom:0.25rem;color:#E8B4B0;">{n}</p>
+              <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(248,246,241,0.3);">{l}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHAT IS HERMES ─────────────────────────────────────────────── -->
+<section style="background:#F8F6F1;padding:5rem 0;border-bottom:1px solid rgba(10,10,10,0.06);">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;">
+      <div>
+        <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.18em;font-weight:700;color:rgba(10,10,10,0.3);margin-bottom:1rem;">What is Hermes Agent</p>
+        <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3vw,2.4rem);color:#0A0A0A;margin-bottom:1.25rem;line-height:1.15;">Not a chatbot. An agent that acts.</h2>
+        <p style="font-size:0.9375rem;line-height:1.8;color:rgba(10,10,10,0.55);margin-bottom:1.25rem;">
+          Hermes Agent by <strong style="color:#0A0A0A;">Nous Research</strong> is an open-source AI agent — not a chat interface. It connects to your tools, executes tasks autonomously, remembers what it learns, and runs continuously on your own infrastructure.
+        </p>
+        <p style="font-size:0.9375rem;line-height:1.8;color:rgba(10,10,10,0.55);margin-bottom:2rem;">
+          The underlying model <strong style="color:#0A0A0A;">Hermes 3</strong> matches GPT-4 and Claude 3 Sonnet on function-calling benchmarks — at a fraction of the cost, with full privacy. Hosted on your VPS, it belongs to you entirely.
+        </p>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+          {[
+            'Connects to Telegram, Slack, WhatsApp, email, Discord',
+            'Browses the web, writes code, executes tasks',
+            'Persistent memory — learns your business over time',
+            'Runs unattended, 24/7, without you touching it',
+            'Multi-agent orchestration for complex pipelines',
+            '91% score on Berkeley Function-Calling Benchmark',
+          ].map(item => (
+            <div style="display:flex;align-items:flex-start;gap:0.75rem;">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;margin-top:2px;"><circle cx="8" cy="8" r="8" fill="rgba(232,180,176,0.2)"/><polyline points="4.5,8 7,10.5 11.5,5.5" stroke="#c4847e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span style="font-size:0.9rem;color:rgba(10,10,10,0.65);line-height:1.5;">{item}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <div style="background:#0A0A0A;border-radius:16px;padding:1.75rem;">
+          <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.16em;font-weight:700;color:rgba(232,180,176,0.6);margin-bottom:1rem;">Hermes vs ChatGPT Plus</p>
+          <div style="display:flex;flex-direction:column;gap:0.75rem;">
+            {[
+              ['Your data stays on your server','Sent to OpenAI servers'],
+              ['$5/mo VPS — you own it','$20/mo forever, you own nothing'],
+              ['Runs 24/7 unattended','Only when you chat'],
+              ['Connects to all your tools','Limited integrations'],
+              ['Learns your business permanently','Resets between sessions'],
+              ['Open source — full control','Black box'],
+            ].map(([good, bad]) => (
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;padding:0.75rem 0;border-bottom:1px solid rgba(255,255,255,0.06);">
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                  <span style="color:#E8B4B0;font-size:11px;">✓</span>
+                  <span style="font-size:11.5px;color:rgba(248,246,241,0.75);">{good}</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                  <span style="color:rgba(255,255,255,0.2);font-size:11px;">✗</span>
+                  <span style="font-size:11.5px;color:rgba(248,246,241,0.25);">{bad}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHAT WE DO ─────────────────────────────────────────────────── -->
+<section style="background:#0A0A0A;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 3.5rem;text-align:center;">
+      <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.18em;font-weight:700;color:rgba(232,180,176,0.5);margin-bottom:1rem;">What PURIST delivers</p>
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#F8F6F1;margin-bottom:1rem;">We handle everything. You get the agent.</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(248,246,241,0.4);">From VPS provisioning to workflow automation — we set up, configure, and train your Hermes agent on your business, then hand it to you running.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem;">
+      {[
+        {
+          n:'01',
+          title:'Hostinger VPS Setup',
+          body:'We provision your Hostinger VPS, install Docker, deploy Hermes Agent, and configure all security settings. Your agent runs on dedicated infrastructure you own.',
+          tag:'Infrastructure'
+        },
+        {
+          n:'02',
+          title:'Model & Memory Configuration',
+          body:'We configure the Hermes 3 model with your business context — your tone, your processes, your FAQs, your products. The agent starts knowing your business from day one.',
+          tag:'Configuration'
+        },
+        {
+          n:'03',
+          title:'Tool & Channel Integration',
+          body:'We connect your agent to Telegram, Slack, email, WhatsApp, or Discord. It receives messages, takes action, and responds — across every channel you use.',
+          tag:'Integration'
+        },
+        {
+          n:'04',
+          title:'Workflow Automation Build',
+          body:'We build the specific automations your business needs using n8n + Hermes together — lead follow-up, appointment booking, reporting, client onboarding, and more.',
+          tag:'Automation'
+        },
+        {
+          n:'05',
+          title:'24/7 Monitoring & Uptime',
+          body:'We monitor your agent continuously. Error alerts fire within 90 seconds. You get a Slack channel for direct access. Your agent never goes down silently.',
+          tag:'Monitoring'
+        },
+        {
+          n:'06',
+          title:'Training & Handover',
+          body:'We train your team to interact with the agent, add new skills, and expand its capabilities over time. Full documentation and video walkthrough included.',
+          tag:'Training'
+        },
+      ].map(s => (
+        <div style="border:1px solid rgba(232,180,176,0.1);border-radius:16px;padding:1.75rem;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+            <span style="font-family:Georgia,serif;font-size:1.5rem;color:rgba(255,255,255,0.08);">{s.n}</span>
+            <span style="font-size:9px;text-transform:uppercase;letter-spacing:0.14em;font-weight:700;color:rgba(232,180,176,0.6);background:rgba(232,180,176,0.08);border:1px solid rgba(232,180,176,0.15);padding:0.25rem 0.625rem;border-radius:999px;">{s.tag}</span>
+          </div>
+          <h3 style="font-family:Georgia,serif;font-size:1.125rem;color:#F8F6F1;margin-bottom:0.625rem;">{s.title}</h3>
+          <p style="font-size:0.875rem;line-height:1.75;color:rgba(248,246,241,0.4);margin:0;">{s.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ── USE CASES BY INDUSTRY ─────────────────────────────────────── -->
+<section style="background:#F8F6F1;padding:5rem 0;border-bottom:1px solid rgba(10,10,10,0.06);">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:600px;margin:0 auto 3.5rem;text-align:center;">
+      <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.18em;font-weight:700;color:rgba(10,10,10,0.3);margin-bottom:1rem;">By industry</p>
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#0A0A0A;margin-bottom:1rem;">What your agent does for your business</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem;">
+      {[
+        {
+          industry:'Real Estate Agency',
+          tasks:[
+            'Qualifies every inbound lead via WhatsApp in 90 seconds',
+            'Schedules viewings without human input',
+            'Sends automated follow-up sequences over 90 days',
+            'Monitors Zillow/Realtor listings and alerts agents',
+            'Generates weekly market reports automatically',
+          ]
+        },
+        {
+          industry:'Dental / Medical Practice',
+          tasks:[
+            'Confirms appointments via SMS and email automatically',
+            'Sends pre-appointment instructions and intake forms',
+            'Handles recall campaigns for 6-month checkups',
+            'Follows up post-visit for reviews at day 3 and day 7',
+            'Answers FAQs on WhatsApp and Telegram 24/7',
+          ]
+        },
+        {
+          industry:'Law Firm',
+          tasks:[
+            'Qualifies new client inquiries and routes to right attorney',
+            'Sends automated document checklists and reminders',
+            'Tracks missing signatures and follows up every 48h',
+            'Generates billing summaries and sends to clients',
+            'Books consultations without receptionist involvement',
+          ]
+        },
+        {
+          industry:'E-commerce / Shopify',
+          tasks:[
+            'Handles order status questions automatically via email',
+            'Sends abandoned cart recovery sequences',
+            'Monitors competitor pricing and alerts team',
+            'Generates daily sales reports and inventory alerts',
+            'Manages post-purchase review and upsell flows',
+          ]
+        },
+        {
+          industry:'Marketing Agency',
+          tasks:[
+            'Researches briefs and generates first draft content',
+            'Monitors client brand mentions across the web daily',
+            'Sends automated client reporting every Monday',
+            'Manages lead qualification from website and socials',
+            'Tracks competitor campaigns and summarises weekly',
+          ]
+        },
+        {
+          industry:'SaaS / Tech',
+          tasks:[
+            'Qualifies and routes inbound trials to right onboarding flow',
+            'Monitors product usage and triggers churn prevention',
+            'Sends automated onboarding email sequences',
+            'Summarises support tickets and tags by priority',
+            'Generates weekly product usage reports for founders',
+          ]
+        },
+      ].map(uc => (
+        <div style="background:white;border:1px solid rgba(10,10,10,0.07);border-radius:16px;padding:1.75rem;">
+          <h3 style="font-family:Georgia,serif;font-size:1rem;color:#0A0A0A;margin-bottom:1.25rem;">{uc.industry}</h3>
+          <div style="display:flex;flex-direction:column;gap:0.625rem;">
+            {uc.tasks.map(t => (
+              <div style="display:flex;align-items:flex-start;gap:0.625rem;">
+                <span style="color:#E8B4B0;font-size:12px;margin-top:2px;flex-shrink:0;">→</span>
+                <span style="font-size:0.8125rem;color:rgba(10,10,10,0.55);line-height:1.5;">{t}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ───────────────────────────────────────────────── -->
+<section id="how-it-works" style="background:#0A0A0A;padding:5rem 0;">
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem;">
+    <div style="text-align:center;margin-bottom:3.5rem;">
+      <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.18em;font-weight:700;color:rgba(232,180,176,0.5);margin-bottom:1rem;">The process</p>
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#F8F6F1;">From zero to live agent in 7 days.</h2>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0;">
+      {[
+        { day:'Day 1',    title:'Discovery call + infrastructure audit', body:'We review your current tools, workflows, and communication channels. We define the exact automations your agent will run from day one.' },
+        { day:'Day 2',    title:'VPS provisioning + Hermes deployment',  body:'We set up your Hostinger VPS, deploy Docker, install Hermes Agent, and configure security. Your infrastructure is live and private.' },
+        { day:'Day 3–4',  title:'Business configuration + memory seeding', body:'We feed your agent your business context — products, FAQs, tone of voice, processes, team structure. It starts knowing who you are.' },
+        { day:'Day 5',    title:'Channel + tool integrations',           body:'We connect your agent to Telegram, Slack, email, WhatsApp, and your existing tools (CRM, calendar, n8n workflows).' },
+        { day:'Day 6',    title:'Automation workflows built + tested',   body:'We build and test every automation — lead follow-up, appointment booking, reporting, content drafts. Everything runs in staging before going live.' },
+        { day:'Day 7',    title:'Go live + team handover',              body:'Your agent goes live. We walk your team through interacting with it, adding skills, and expanding its capabilities. Full docs included.' },
+      ].map((s, i) => (
+        <div style="display:flex;gap:1.5rem;align-items:flex-start;padding:1.25rem 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+          <div style="flex-shrink:0;text-align:right;width:60px;">
+            <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#E8B4B0;background:rgba(232,180,176,0.1);border:1px solid rgba(232,180,176,0.2);padding:0.2rem 0.5rem;border-radius:999px;white-space:nowrap;">{s.day}</span>
+          </div>
+          <div>
+            <h3 style="font-family:Georgia,serif;font-size:1.0625rem;color:#F8F6F1;margin-bottom:0.375rem;">{s.title}</h3>
+            <p style="font-size:0.875rem;line-height:1.7;color:rgba(248,246,241,0.4);margin:0;">{s.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ── TECH STACK ─────────────────────────────────────────────────── -->
+<section style="background:#F8F6F1;padding:5rem 0;border-bottom:1px solid rgba(10,10,10,0.06);">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:600px;margin:0 auto 3rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.4rem,3vw,2.1rem);color:#0A0A0A;margin-bottom:0.75rem;">The stack we deploy</h2>
+      <p style="font-size:0.9375rem;color:rgba(10,10,10,0.45);line-height:1.7;">Every component is production-grade, open-source, and runs on your infrastructure.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+      {[
+        { name:'Hermes Agent', role:'AI Agent runtime', by:'Nous Research', color:'rgba(232,180,176,0.15)' },
+        { name:'Hermes 3 Model', role:'LLM engine (91% function-call)', by:'Nous Research', color:'rgba(232,180,176,0.1)' },
+        { name:'Hostinger VPS', role:'Private cloud infrastructure', by:'From $5/mo', color:'rgba(232,180,176,0.08)' },
+        { name:'Docker', role:'Containerised deployment', by:'Container runtime', color:'rgba(10,10,10,0.04)' },
+        { name:'n8n', role:'Workflow orchestration', by:'Self-hosted', color:'rgba(10,10,10,0.04)' },
+        { name:'Telegram / Slack / Email', role:'Communication channels', by:'Your existing tools', color:'rgba(10,10,10,0.04)' },
+      ].map(s => (
+        <div style={`background:${s.color};border:1px solid rgba(10,10,10,0.08);border-radius:14px;padding:1.5rem;`}>
+          <p style="font-family:Georgia,serif;font-size:1rem;color:#0A0A0A;margin-bottom:0.25rem;">{s.name}</p>
+          <p style="font-size:0.8125rem;color:rgba(10,10,10,0.5);margin-bottom:0.25rem;">{s.role}</p>
+          <p style="font-size:0.75rem;color:rgba(10,10,10,0.3);">{s.by}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ────────────────────────────────────────────────────── -->
+<section style="background:#0A0A0A;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:600px;margin:0 auto 3.5rem;text-align:center;">
+      <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.18em;font-weight:700;color:rgba(232,180,176,0.5);margin-bottom:1rem;">Pricing</p>
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#F8F6F1;margin-bottom:1rem;">One setup fee. Then it's yours.</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(248,246,241,0.4);">No monthly agency retainer. We build and deploy your agent, then you run it on your $5/mo VPS forever.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem;max-width:900px;margin:0 auto;">
+      {[
+        {
+          name:'Hermes Starter',
+          price:'$1,200',
+          desc:'Perfect for small businesses automating 2–3 core workflows.',
+          features:[
+            'Hostinger VPS setup + Hermes deployment',
+            'Business memory configuration',
+            '1 communication channel (Telegram or email)',
+            '3 core automation workflows with n8n',
+            '24/7 monitoring for 30 days',
+            'Team training + full documentation',
+          ],
+          cta:'Get started',
+          highlight:false,
+        },
+        {
+          name:'Hermes Pro',
+          price:'$2,800',
+          desc:'For growing businesses that need a fully integrated AI operations layer.',
+          features:[
+            'Everything in Starter',
+            'All communication channels connected',
+            '8 automation workflows',
+            'CRM + calendar integrations',
+            'Custom skill training for your industry',
+            '90-day monitoring + support',
+            'Monthly performance review call',
+          ],
+          cta:'Most popular →',
+          highlight:true,
+        },
+        {
+          name:'Hermes Enterprise',
+          price:'Custom',
+          desc:'Multi-agent orchestration for teams with complex operational needs.',
+          features:[
+            'Everything in Pro',
+            'Multi-agent pipeline architecture',
+            'Dedicated subagents per department',
+            'Custom model fine-tuning',
+            'Security audit + compliance setup',
+            'Ongoing management available',
+          ],
+          cta:'Talk to us',
+          highlight:false,
+        },
+      ].map(p => (
+        <div style={`border-radius:20px;padding:2rem;border:1px solid ${p.highlight ? '#E8B4B0' : 'rgba(232,180,176,0.12)'};background:${p.highlight ? 'rgba(232,180,176,0.06)' : 'transparent'};position:relative;`}>
+          {p.highlight && <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#E8B4B0;color:#0A0A0A;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;padding:0.25rem 0.875rem;border-radius:999px;">Most popular</div>}
+          <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.14em;font-weight:700;color:rgba(232,180,176,0.6);margin-bottom:0.5rem;">{p.name}</p>
+          <p style="font-family:Georgia,serif;font-size:2.25rem;color:#F8F6F1;margin-bottom:0.375rem;">{p.price}</p>
+          <p style="font-size:0.8125rem;color:rgba(248,246,241,0.4);margin-bottom:1.5rem;line-height:1.6;">{p.desc}</p>
+          <div style="display:flex;flex-direction:column;gap:0.625rem;margin-bottom:2rem;">
+            {p.features.map(f => (
+              <div style="display:flex;align-items:flex-start;gap:0.625rem;">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;margin-top:2px;"><circle cx="7" cy="7" r="7" fill="rgba(232,180,176,0.15)"/><polyline points="4,7 6,9 10,5" stroke="#E8B4B0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span style="font-size:0.8125rem;color:rgba(248,246,241,0.6);line-height:1.5;">{f}</span>
+              </div>
+            ))}
+          </div>
+          <a href="/pages/welcome" style={`display:block;text-align:center;padding:0.875rem;border-radius:10px;font-size:0.875rem;font-weight:600;text-decoration:none;background:${p.highlight ? '#E8B4B0' : 'rgba(255,255,255,0.08)'};color:${p.highlight ? '#0A0A0A' : 'rgba(248,246,241,0.8)'};border:1px solid ${p.highlight ? 'transparent' : 'rgba(255,255,255,0.12)'};`}>{p.cta}</a>
+        </div>
+      ))}
+    </div>
+    <p style="text-align:center;font-size:0.75rem;color:rgba(248,246,241,0.2);margin-top:1.5rem;">+ Hostinger VPS from $5/month (billed by Hostinger directly to you). One-time setup fee covers full deployment.</p>
+  </div>
+</section>
+
+<!-- ── FAQ ───────────────────────────────────────────────────────── -->
+<section style="background:#F8F6F1;padding:5rem 0;border-bottom:1px solid rgba(10,10,10,0.06);">
+  <div style="max-width:740px;margin:0 auto;padding:0 1.5rem;">
+    <h2 style="font-family:Georgia,serif;font-size:clamp(1.4rem,3vw,2rem);color:#0A0A0A;margin-bottom:2.5rem;text-align:center;">Common questions</h2>
+    <div style="display:flex;flex-direction:column;gap:0;">
+      {[
+        { q:'Do I need technical knowledge to use my agent?', a:'No. We handle the entire setup and hand you a working agent. You interact with it through Telegram, Slack, or email — just like messaging a team member.' },
+        { q:'Is my data safe?', a:'100%. Your agent runs on your Hostinger VPS. No data is sent to OpenAI, Anthropic, or any third party. Your conversations, business context, and customer data stay entirely on your server.' },
+        { q:'What is the difference between Hermes Agent and my current ChatGPT?', a:'ChatGPT is a chat session — it forgets everything, requires you to start every conversation, and cannot act autonomously. Hermes Agent runs 24/7, remembers everything, connects to your tools, and executes tasks without you.' },
+        { q:'Do I need a Hostinger account?', a:'Yes. You create a Hostinger account and choose your VPS plan (from $5/mo). We handle the rest — provisioning, Docker, security, deployment, and configuration.' },
+        { q:'Can I add new automations after the initial setup?', a:'Yes. We train your team to add skills and workflows. You can also book additional automation sprints with us at any time.' },
+        { q:'What happens after the monitoring period?', a:'Your agent runs independently on your VPS. We offer ongoing management plans for businesses that want continued support, monitoring, and workflow expansion.' },
+      ].map((faq, i) => (
+        <details style="border-bottom:1px solid rgba(10,10,10,0.07);padding:1.25rem 0;cursor:pointer;">
+          <summary style="font-family:Georgia,serif;font-size:1rem;color:#0A0A0A;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;">
+            {faq.q}
+            <span style="font-size:1.25rem;color:rgba(10,10,10,0.3);flex-shrink:0;">+</span>
+          </summary>
+          <p style="font-size:0.9rem;line-height:1.75;color:rgba(10,10,10,0.5);margin:0.875rem 0 0;">{faq.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ───────────────────────────────────────────────────────── -->
+<section style="background:#E8B4B0;padding:4rem 0;">
+  <div style="max-width:700px;margin:0 auto;padding:0 1.5rem;text-align:center;">
+    <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.3rem);color:#0A0A0A;margin-bottom:1rem;">Your AI agent could be live in 7 days.</h2>
+    <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.65);margin-bottom:2rem;">Book a free 45-min audit. We map your workflows, show you exactly what your agent will automate, and give you a written proposal — before you pay a cent.</p>
+    <a href="/pages/welcome" style="display:inline-block;background:#0A0A0A;color:#F8F6F1;padding:1.125rem 2.5rem;border-radius:10px;font-size:0.9375rem;font-weight:600;text-decoration:none;">Book your free audit →</a>
+    <p style="font-size:0.75rem;color:rgba(10,10,10,0.45);margin-top:1rem;">No commitment · 7-day deployment · 30-day money-back guarantee</p>
+  </div>
+</section>
+
+</ShopLayout>
