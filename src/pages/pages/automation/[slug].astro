@@ -35,7 +35,7 @@ const svgIcons: Record<string, string> = {
 >
 
 <!-- JSON-LD: Service -->
-<script type="application/ld+json" is:inline>{JSON.stringify({
+<script type="application/ld+json" set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Service",
   "name": `${p.name} Automation — PURIST`,
@@ -45,10 +45,10 @@ const svgIcons: Record<string, string> = {
   "areaServed": "US",
   "serviceType": `${p.name} Workflow Automation`,
   "offers": { "@type": "Offer", "priceCurrency": "USD", "price": "997", "availability": "https://schema.org/InStock" }
-})}</script>
+})}></script>
 
 <!-- JSON-LD: BreadcrumbList -->
-<script type="application/ld+json" is:inline>{JSON.stringify({
+<script type="application/ld+json" set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
@@ -57,10 +57,10 @@ const svgIcons: Record<string, string> = {
     { "@type": "ListItem", "position": 3, "name": p.category, "item": `https://www.purist.online/pages/automation#${categoryAnchor}` },
     { "@type": "ListItem", "position": 4, "name": `${p.name} Automation`, "item": `https://www.purist.online/pages/automation/${p.slug}` }
   ]
-})}</script>
+})}></script>
 
 <!-- JSON-LD: FAQPage -->
-<script type="application/ld+json" is:inline>{JSON.stringify({
+<script type="application/ld+json" set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": p.faq.map(({ q, a }) => ({
@@ -68,7 +68,7 @@ const svgIcons: Record<string, string> = {
     "name": q,
     "acceptedAnswer": { "@type": "Answer", "text": a }
   }))
-})}</script>
+})}></script>
 
 <!-- Breadcrumb -->
 <div style="background:#F8F6F1;padding:0.75rem 0;border-bottom:1px solid rgba(10,10,10,0.06);">
