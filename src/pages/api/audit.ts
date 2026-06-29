@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
+import { generateProposalEmail } from '~/utils/proposal-email';
 
 export const prerender = false;
 
@@ -125,36 +126,66 @@ ${qualification ? `<div class="section"><div class="ai-box"><div class="ai-title
 </div></body></html>`,
     });
 
-    // ── 3. Confirm to lead ───────────────────────────────────────
+    // ── 3. AI — generate unique personalised proposal intro ──────
+    let aiIntro = '';
+    let aiInsights: string[] = [];
+    if (openRouterKey) {
+      try {
+        const introRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${openRouterKey}`,
+            'Content-Type': 'application/json',
+            'HTTP-Referer': 'https://www.purist.online',
+            'X-Title': 'PURIST Proposal Personalisation',
+          },
+          body: JSON.stringify({
+            model: 'meta-llama/llama-3.3-70b-instruct:free',
+            messages: [{
+              role: 'user',
+              content: `You are a senior automation consultant writing the opening of a personalised proposal email.
+
+Client: ${name}, ${company}
+Industry: ${business_type || 'not specified'}
+Team size: ${team_size || 'not specified'}
+Primary pain point: ${pain_point || 'not specified'}
+Tools they currently use: ${tools || 'not specified'}
+What they wrote in their message: "${message || 'nothing'}"
+
+Return a JSON object with two keys:
+1. "intro": A 3-sentence paragraph that sounds handwritten and specific to this client. Reference their tools by name if provided. Address their pain point directly and specifically. Do NOT be generic. No sales language.
+2. "insights": An array of exactly 3 short bullet-point observations (each max 15 words) specific to their tools, team size, and pain point — things that show you actually read their submission carefully.
+
+Return valid JSON only. No markdown, no code blocks, just raw JSON.`,
+            }],
+            max_tokens: 320,
+            temperature: 0.72,
+          }),
+        });
+        if (introRes.ok) {
+          const introData = await introRes.json();
+          const raw = introData.choices?.[0]?.message?.content?.trim() ?? '';
+          try {
+            const parsed = JSON.parse(raw);
+            aiIntro = typeof parsed.intro === 'string' ? parsed.intro : '';
+            aiInsights = Array.isArray(parsed.insights) ? parsed.insights.slice(0, 3) : [];
+          } catch { /* JSON parse failed — continue without AI personalisation */ }
+        }
+      } catch { /* best-effort — proposal still sends with industry template */ }
+    }
+
+    // ── 4. Send personalised automation proposal to lead ────────
+    const proposalHtml = generateProposalEmail({
+      name, company, email,
+      business_type, team_size, pain_point, tools, budget, message,
+      aiIntro, aiInsights,
+    });
+
     await resend.emails.send({
       from: 'PURIST <hello@purist.online>',
       to: [email],
-      subject: `Your free audit request — we'll be in touch`,
-      html: `<!DOCTYPE html>
-<html><head><meta charset="utf-8"><style>
-body{font-family:-apple-system,sans-serif;background:#f5f5f5;margin:0;padding:20px;}
-.card{background:#0a0a0a;border-radius:12px;padding:40px;max-width:540px;margin:0 auto;}
-h1{font-size:24px;color:#fff;margin:0 0 8px;font-weight:400;letter-spacing:-0.02em;}
-p{font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;margin:0 0 16px;}
-.hi{color:#E8B4B0;}
-.step{display:flex;gap:14px;align-items:flex-start;margin-bottom:16px;}
-.num{width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);text-align:center;line-height:26px;font-size:11px;color:rgba(255,255,255,0.4);flex-shrink:0;margin-top:1px;}
-.st{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.5;}
-.div{height:1px;background:rgba(255,255,255,0.07);margin:24px 0;}
-.cta{display:inline-block;background:#E8B4B0;color:#0a0a0a;padding:13px 26px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;}
-</style></head>
-<body><div class="card">
-<h1>Got it, ${name.split(' ')[0]}.</h1>
-<p>Your free audit request is confirmed. A member of the PURIST team will reach out within <span class="hi">1 business day</span> to schedule your 45-minute session.</p>
-<div class="div"></div>
-<p style="font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.25);margin-bottom:16px;">What happens next</p>
-<div class="step"><div class="num">1</div><div class="st"><strong style="color:rgba(255,255,255,0.80);">We review your submission</strong><br/>Our team reads every request before the call to prepare a relevant audit.</div></div>
-<div class="step"><div class="num">2</div><div class="st"><strong style="color:rgba(255,255,255,0.80);">45-minute audit call</strong><br/>We map every manual process and score each one by ROI potential live on the call.</div></div>
-<div class="step"><div class="num">3</div><div class="st"><strong style="color:rgba(255,255,255,0.80);">Deployment plan delivered</strong><br/>You leave with a prioritised automation roadmap. Zero commitment required.</div></div>
-<div class="div"></div>
-<p>Questions before then? Just reply to this email.</p>
-<a href="https://www.purist.online/pages/blog" class="cta">Read our automation guides →</a>
-</div></body></html>`,
+      subject: `Your automation plan · ${company} × PURIST`,
+      html: proposalHtml,
     });
 
     return new Response(JSON.stringify({ success: true }), {

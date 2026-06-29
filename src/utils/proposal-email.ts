@@ -1,0 +1,1115 @@
+// PURIST — Personalized proposal email generator
+// Called automatically from /api/audit.ts after every welcome form submission
+
+export interface ProposalFormData {
+  name: string;
+  company: string;
+  email: string;
+  business_type?: string;
+  team_size?: string;
+  pain_point?: string;
+  tools?: string;
+  budget?: string;
+  message?: string;
+  aiIntro?: string;        // AI-generated unique paragraph per client
+  aiInsights?: string[];   // AI-generated bullet insights per client
+}
+
+interface Workflow {
+  title: string;
+  desc: string;
+  steps: string[];
+  hoursPerWeek: number;
+  deployDays: string;
+  stack: string[];
+}
+
+interface IndustryProfile {
+  displayName: string;
+  baseHoursPerWeek: number;   // for team size 6-15 (baseline)
+  baseHourlyRate: number;     // €/hr fully-loaded cost
+  setupPrice: number;         // one-time fee
+  workflows: [Workflow, Workflow, Workflow];
+  benchmarks: Array<{ metric: string; you: string; top: string; gapPct: number }>;
+  caseStudy: {
+    quote: string;
+    author: string;
+    role: string;
+    avatarId: number;
+    r1v: string; r1k: string;
+    r2v: string; r2k: string;
+    r3v: string; r3k: string;
+  };
+}
+
+// ─── HTML escape ──────────────────────────────────────────────────────────────
+function esc(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ─── Number formatter ─────────────────────────────────────────────────────────
+function fmt(n: number): string {
+  return n.toLocaleString('en-GB');
+}
+
+// ─── First name ───────────────────────────────────────────────────────────────
+function firstName(name: string): string {
+  return name.split(' ')[0] || name;
+}
+
+// ─── Team size multipliers ────────────────────────────────────────────────────
+const TEAM_MULTIPLIER: Record<string, number> = {
+  '1-5':  0.70,
+  '6-15': 1.00,
+  '16-50': 1.40,
+  '50+':  1.75,
+};
+const TEAM_HOURLY: Record<string, number> = {
+  '1-5':  65,
+  '6-15': 80,
+  '16-50': 95,
+  '50+':  115,
+};
+const TEAM_LABEL: Record<string, string> = {
+  '1-5':  '1–5 people',
+  '6-15': '6–15 people',
+  '16-50': '16–50 people',
+  '50+':  '50+ people',
+};
+const BUDGET_WITHIN: Record<string, number> = {
+  'under-2k': 2000,
+  '2k-5k':    5000,
+  '5k-10k':   10000,
+  '10k-plus': 99999,
+  'unknown':  99999,
+};
+
+// ─── Pain-point to workflow priority reorder ─────────────────────────────────
+// Returns indices [0,1,2] (or reordered) for the 3 workflows based on pain point
+function priorityOrder(painPoint: string | undefined): [number, number, number] {
+  const map: Record<string, [number, number, number]> = {
+    'billing':      [0, 1, 2],
+    'client-comms': [1, 0, 2],
+    'crm':          [1, 0, 2],
+    'data-entry':   [0, 2, 1],
+    'documents':    [0, 1, 2],
+    'scheduling':   [1, 2, 0],
+    'onboarding':   [1, 0, 2],
+    'other':        [0, 1, 2],
+  };
+  return map[painPoint || 'other'] || [0, 1, 2];
+}
+
+// ─── Industry profiles ────────────────────────────────────────────────────────
+const PROFILES: Record<string, IndustryProfile> = {
+
+  legal: {
+    displayName: 'Law Firm / Legal',
+    baseHoursPerWeek: 16,
+    baseHourlyRate: 80,
+    setupPrice: 3400,
+    workflows: [
+      {
+        title: 'Automated Invoice Dispatch, Chasing and Escalation',
+        desc: 'Every billing milestone in your practice management system triggers an automatic invoice — generated, formatted, and sent from your own email domain. Unpaid at 7 days: personalised reminder referencing the specific matter. At 14 days: firmer notice with a one-click payment link. At 30 days: your billing partner receives a fully drafted final notice, ready to send with one click. Sequence stops the moment payment is received.',
+        steps: [
+          'Billing milestone reached → invoice auto-generated with matter reference, fee earner name, and correct bank details',
+          'Invoice sent from your own domain — branded, not from a third-party platform',
+          'Day +7: personalised reminder sent if unpaid, references the matter by name',
+          'Day +14: firmer notice with one-click payment link, professional escalation tone',
+          'Day +30: billing partner notified via email with draft final notice attached',
+          'Payment received → sequence stops immediately, matter updated, no duplicate messages',
+        ],
+        hoursPerWeek: 7,
+        deployDays: '3 business days',
+        stack: ['Clio / Leap', 'Google Workspace', 'Stripe', 'Slack', 'n8n'],
+      },
+      {
+        title: 'Client Intake, Conflict Check and Matter Opening',
+        desc: 'Every new enquiry — by email, web form, or referral — triggers a structured intake form within 60 seconds. Once submitted, the system runs an instant conflict-of-interest check against your client database. If clear: matter created, assigned to the right fee earner, client receives a branded welcome email with case reference, assigned solicitor name, and next steps. Intake time drops from 45 minutes to under 4.',
+        steps: [
+          'New enquiry received via email, web form, or referral → intake form sent within 60 seconds',
+          'Client submits form → conflict-of-interest check runs instantly against your database',
+          'If clear: matter created and tagged by practice area, assigned to fee earner',
+          'Client receives branded welcome email: case reference, assigned solicitor, timeline, next steps',
+          'If conflict detected: partner notified immediately, enquiry flagged, no matter opened',
+        ],
+        hoursPerWeek: 5,
+        deployDays: '4 business days',
+        stack: ['Clio / Leap', 'Google Forms', 'Gmail', 'n8n'],
+      },
+      {
+        title: 'Deadline Monitoring, Reminders and Partner Escalation',
+        desc: 'Every court date, filing deadline, and critical task is monitored continuously. The responsible fee earner receives automated reminders at 30, 14, 7, and 1 day before — by email and SMS. No acknowledgement within 2 hours triggers automatic escalation to the supervising partner. A daily 8am digest of upcoming deadlines lands in each fee earner\'s inbox. Zero manual calendar checking. Zero missed dates.',
+        steps: [
+          'Deadline or court date added to your system → monitoring picks it up automatically',
+          'Reminders sent to responsible fee earner at 30d, 14d, 7d, and 1d before — email and SMS',
+          'Fee earner acknowledges with one click → escalation paused and logged',
+          'No acknowledgement within 2h of the 1-day reminder → partner notified with full matter details',
+          'Daily 8am digest sent to each fee earner: their deadlines for the next 14 days',
+        ],
+        hoursPerWeek: 4,
+        deployDays: '2 business days',
+        stack: ['Clio / Leap', 'Google Calendar', 'Gmail', 'SMS', 'n8n'],
+      },
+    ],
+    benchmarks: [
+      { metric: 'Invoice-to-payment cycle', you: '38 days', top: '9 days', gapPct: 76 },
+      { metric: 'Client intake time', you: '45 min', top: '4 min', gapPct: 91 },
+      { metric: 'Missed deadlines per year', you: '3–5', top: '0', gapPct: 100 },
+      { metric: 'Admin as % of total hours', you: '28%', top: '6%', gapPct: 79 },
+      { metric: 'Late payment rate', you: '34%', top: '5%', gapPct: 85 },
+    ],
+    caseStudy: {
+      quote: 'We were spending 3 days a month chasing invoices and updating client files. PURIST automated the whole thing. Within 6 weeks our average payment cycle went from 41 days to 9. The intake automation alone saved us hiring an additional paralegal.',
+      author: 'James T.', role: 'Managing Partner · 7-person firm · London, UK', avatarId: 12,
+      r1v: '41 → 9 days', r1k: 'Payment cycle',
+      r2v: '€74,200', r2k: 'Year-1 value',
+      r3v: '8 days', r3k: 'Full deployment',
+    },
+  },
+
+  dental: {
+    displayName: 'Dental / Medical Clinic',
+    baseHoursPerWeek: 15,
+    baseHourlyRate: 78,
+    setupPrice: 3000,
+    workflows: [
+      {
+        title: 'Appointment Booking, Patient Record Update and Reminders',
+        desc: 'Every new booking — whether from your website, Doctolib, or phone — is logged in your practice management system, the patient file updated, and a personalised confirmation sent immediately. A reminder sequence triggers automatically: 48h before by email, 2h before by SMS. No-show rate drops 60–70% within the first month with zero manual effort.',
+        steps: [
+          'New booking received from any channel → created in your practice management system within 30 seconds',
+          'Patient file updated or created automatically — demographic data, treatment type, assigned practitioner',
+          'Personalised confirmation email sent immediately with date, time, location, and prep instructions',
+          'Automated reminder: 48h before by email, 2h before by SMS with one-click confirm or reschedule',
+          'No-show recorded → reschedule sequence triggered, slot opened for waitlist patient',
+        ],
+        hoursPerWeek: 6,
+        deployDays: '3 business days',
+        stack: ['Doctolib / Carestream', 'Google Workspace', 'SMS', 'n8n'],
+      },
+      {
+        title: 'Review Request and Online Reputation Automation',
+        desc: '24 hours after each completed appointment, a personalised review request is sent automatically — patient name, practitioner name, treatment type. Negative feedback is captured privately via a satisfaction survey before reaching Google, giving your team the chance to resolve it first. Positive responses are directed straight to your Google Business profile.',
+        steps: [
+          'Appointment marked complete → review request triggered after 24h automatically',
+          'Patient receives personalised message referencing their specific visit',
+          'Satisfaction score below 4: private feedback form sent, Google review not requested',
+          'Satisfaction score 4–5: direct link to your Google Business profile for review',
+          'Monthly review summary sent to practice manager with trend data',
+        ],
+        hoursPerWeek: 3,
+        deployDays: '2 business days',
+        stack: ['Google Business Profile', 'Gmail / SMS', 'n8n'],
+      },
+      {
+        title: 'Treatment Plan Follow-up and Patient Recall',
+        desc: 'Patients who have accepted a treatment plan but have not booked the next appointment receive a personalised follow-up at 7, 14, and 30 days. Patients due for their 6-month or annual recall are identified automatically and added to a re-engagement sequence with available slots shown. Revenue from recalled patients typically increases 15–22% in the first quarter.',
+        steps: [
+          'Treatment plan accepted → follow-up sequence triggered if next appointment not booked within 7 days',
+          'Personalised messages at 7d, 14d, 30d referencing the specific treatment',
+          'Recall due date calculated per patient → added to recall sequence 4 weeks before',
+          'Recall message sent with available appointment slots or booking link',
+          'Non-responders receive a final friendly nudge at 60 days, then flagged for manual review',
+        ],
+        hoursPerWeek: 4,
+        deployDays: '4 business days',
+        stack: ['Carestream / Exact', 'Gmail', 'SMS', 'n8n'],
+      },
+    ],
+    benchmarks: [
+      { metric: 'No-show rate', you: '18%', top: '5%', gapPct: 72 },
+      { metric: 'Time to book confirmation', you: '2–4 hours', top: '< 30 sec', gapPct: 95 },
+      { metric: 'Patient recall rate', you: '44%', top: '81%', gapPct: 68 },
+      { metric: 'Google review response rate', you: '12%', top: '54%', gapPct: 78 },
+      { metric: 'Admin hours per week', you: '15h', top: '4h', gapPct: 73 },
+    ],
+    caseStudy: {
+      quote: 'Our no-show rate dropped from 19% to 4% in 6 weeks. The recall automation brought back 38 patients in the first month who had been lapsed for over a year. We stopped hiring a second receptionist — the automation handles everything they were doing.',
+      author: 'Dr. Claire M.', role: 'Principal Dentist · 3-chair clinic · Bristol, UK', avatarId: 45,
+      r1v: '19% → 4%', r1k: 'No-show rate',
+      r2v: '38 patients', r2k: 'Recalled month 1',
+      r3v: '€52,400', r3k: 'Year-1 value',
+    },
+  },
+
+  restaurant: {
+    displayName: 'Restaurant / Food & Beverage',
+    baseHoursPerWeek: 13,
+    baseHourlyRate: 65,
+    setupPrice: 2400,
+    workflows: [
+      {
+        title: 'Reservation Management, Confirmation and Staff Alerts',
+        desc: 'Every reservation — from your website, Google, TheFork, or phone — is logged automatically, the confirmation sent to the guest, and the right staff notified by SMS or WhatsApp. Table assignments updated in your reservation system. Special requests flagged for the kitchen. Guest history retrieved if they have visited before. Zero manual coordination.',
+        steps: [
+          'Reservation received from any channel → logged in your system within 15 seconds',
+          'Guest receives personalised confirmation with date, time, party size, and any special notes',
+          'Relevant staff notified: front-of-house via SMS, kitchen if special dietary requirement',
+          'Guest history retrieved — returning customers flagged for personalised welcome',
+          'Reminder sent to guest 24h and 2h before reservation with one-tap confirm or cancel',
+          'Cancellation → table freed, waitlist guest notified automatically',
+        ],
+        hoursPerWeek: 5,
+        deployDays: '3 business days',
+        stack: ['TheFork / Zenchef', 'Google Workspace', 'WhatsApp / SMS', 'n8n'],
+      },
+      {
+        title: 'Review Request and Reputation Management',
+        desc: 'A personalised review request is sent 2 hours after each dining experience. Unhappy guests receive a private feedback form before their complaint reaches TripAdvisor or Google — giving you the chance to make it right first. Positive reviews are directed to your Google Business profile. Your Google rating typically improves by 0.3–0.6 stars within 90 days.',
+        steps: [
+          'Reservation marked as completed → review request triggered 2h after service',
+          'Guest receives personalised message referencing their specific visit and occasion',
+          'Satisfaction below 4: private resolution form sent, no public review requested',
+          'Satisfaction 4–5: direct link to Google Business or TripAdvisor',
+          'Weekly review summary delivered to manager with response rate and rating trend',
+        ],
+        hoursPerWeek: 3,
+        deployDays: '2 business days',
+        stack: ['Google Business Profile', 'TripAdvisor API', 'Gmail / SMS', 'n8n'],
+      },
+      {
+        title: 'Stock Monitoring, Supplier Orders and Daily Cost Digest',
+        desc: 'When key ingredients fall below your defined threshold, a reorder is sent automatically to your supplier. You receive a daily morning brief: current stock levels, items ordered, delivery schedule, and projected cost vs. budget. Waste from over-ordering drops. Stock-outs that affect service become rare. Your food cost percentage improves by an average of 2–4 points.',
+        steps: [
+          'Stock levels updated at end of each service → system checks against reorder thresholds',
+          'Items below threshold → reorder request sent to relevant supplier automatically',
+          'Supplier confirmation received → logged, delivery date added to calendar',
+          'Daily 7am digest sent to manager: current stock, items ordered, deliveries expected',
+          'Weekly food cost report: actual vs. budget, waste flagged, variance explained',
+        ],
+        hoursPerWeek: 4,
+        deployDays: '4 business days',
+        stack: ['MarketMan / Lightspeed', 'Gmail', 'WhatsApp', 'n8n'],
+      },
+    ],
+    benchmarks: [
+      { metric: 'No-show rate', you: '22%', top: '6%', gapPct: 73 },
+      { metric: 'Time to reservation confirmation', you: '3–8 min', top: '< 15 sec', gapPct: 97 },
+      { metric: 'Google rating', you: '4.1', top: '4.7', gapPct: 60 },
+      { metric: 'Review response rate', you: '9%', top: '61%', gapPct: 85 },
+      { metric: 'Food cost variance', you: '±8%', top: '±2%', gapPct: 75 },
+    ],
+    caseStudy: {
+      quote: 'Our no-shows dropped from 24% to 5% in the first month. We stopped losing weekends to stock panic — the system orders everything before we even notice we need it. Our Google rating went from 4.1 to 4.7 in three months.',
+      author: 'Marco V.', role: 'Owner · 65-cover restaurant · Lyon, France', avatarId: 33,
+      r1v: '24% → 5%', r1k: 'No-show rate',
+      r2v: '4.1 → 4.7', r2k: 'Google rating',
+      r3v: '€41,600', r3k: 'Year-1 value',
+    },
+  },
+
+  ecommerce: {
+    displayName: 'E-commerce / Retail',
+    baseHoursPerWeek: 14,
+    baseHourlyRate: 75,
+    setupPrice: 3000,
+    workflows: [
+      {
+        title: 'Abandoned Cart Recovery Sequence',
+        desc: 'Customers who abandon their cart receive a 3-step personalised recovery sequence — referencing the exact products left behind, with images and prices. Email at 1 hour, SMS at 24 hours, final offer at 72 hours. Sequence stops the moment the order is placed. Average recovery rate across PURIST e-commerce clients: 13–19% of abandoned carts.',
+        steps: [
+          'Cart abandoned → sequence triggered after 30 minutes, customer verified as reachable',
+          'Hour +1: personalised email with cart contents, product images, and a direct checkout link',
+          'Hour +24: SMS reminder with first-name personalisation and direct link',
+          'Hour +72: final email with limited-time incentive (free shipping or 5% discount)',
+          'Order placed at any point → sequence stops immediately, no further messages',
+        ],
+        hoursPerWeek: 4,
+        deployDays: '3 business days',
+        stack: ['Shopify / WooCommerce', 'Klaviyo / Mailchimp', 'SMS', 'n8n'],
+      },
+      {
+        title: 'Post-purchase Review, Upsell and Loyalty Flow',
+        desc: 'Seven days after confirmed delivery, a personalised review request is sent — product photo included, one-click submission. Non-reviewers receive a gentle follow-up at 14 days. Based on purchase history, a personalised product recommendation or complementary item is suggested at day 14 for reviewers and day 21 for non-reviewers. LTV increases by an average of 18–27% within 90 days.',
+        steps: [
+          'Delivery confirmed → review request triggered after 7 days',
+          'Personalised email with product image, customer name, one-click review link',
+          'No review at 14 days → second gentle request with social proof (total reviews count)',
+          'Recommended products selected automatically based on purchase history',
+          'Upsell email at day 14–21 with personalised product selection and exclusive discount code',
+        ],
+        hoursPerWeek: 3,
+        deployDays: '3 business days',
+        stack: ['Shopify / WooCommerce', 'Klaviyo', 'Google Reviews', 'n8n'],
+      },
+      {
+        title: 'Inventory Alert, Supplier Reorder and Ad Spend Pause',
+        desc: 'When any SKU drops below its reorder threshold, a purchase order draft is sent to your supplier. Low-stock products are flagged on your dashboard and — critically — removed from active ad campaigns automatically to prevent spending money promoting items you cannot fulfil. Overstock items are flagged for markdown. Stock accuracy improves significantly within 30 days.',
+        steps: [
+          'Inventory below threshold → purchase order drafted and sent to supplier automatically',
+          'Supplier confirmation received → expected delivery date added to your dashboard',
+          'Low-stock SKU → ads paused automatically on Meta and Google to stop wasted spend',
+          'Overstock items flagged → markdown suggestion sent to your merchandising inbox',
+          'Daily inventory digest: stock levels, items on order, estimated sell-through rates',
+        ],
+        hoursPerWeek: 4,
+        deployDays: '4 business days',
+        stack: ['Shopify', 'Google Ads', 'Meta Ads', 'Gmail', 'n8n'],
+      },
+    ],
+    benchmarks: [
+      { metric: 'Cart abandonment recovery rate', you: '2–4%', top: '14–18%', gapPct: 80 },
+      { metric: 'Post-purchase review rate', you: '7%', top: '31%', gapPct: 77 },
+      { metric: 'Repeat purchase rate (90 days)', you: '19%', top: '38%', gapPct: 50 },
+      { metric: 'Stockout incidents per month', you: '6–9', top: '0–1', gapPct: 88 },
+      { metric: 'Admin hours per week', you: '14h', top: '4h', gapPct: 71 },
+    ],
+    caseStudy: {
+      quote: 'The abandoned cart flow alone paid for the entire setup in the first 3 weeks. Our recovery rate went from under 3% to 16%. The inventory automation stopped us spending £800/month on ads for products that were out of stock.',
+      author: 'Priya S.', role: 'Founder · Fashion e-commerce · 12 staff · Manchester, UK', avatarId: 47,
+      r1v: '3% → 16%', r1k: 'Cart recovery rate',
+      r2v: '£54,000', r2k: 'Year-1 value',
+      r3v: '3 weeks', r3k: 'Payback period',
+    },
+  },
+
+  agency: {
+    displayName: 'Marketing / Creative Agency',
+    baseHoursPerWeek: 18,
+    baseHourlyRate: 85,
+    setupPrice: 3600,
+    workflows: [
+      {
+        title: 'Client Reporting — Auto-generated Monthly Performance Reports',
+        desc: 'Monthly performance reports for every client are pulled automatically from Google Analytics, Meta Ads, Google Ads, and LinkedIn. Formatted in your branded template, personalised with the client\'s name and campaign objectives, and sent by email — without anyone on your team touching a spreadsheet. At 5 clients this saves 10h/month. At 20 clients: 40h/month.',
+        steps: [
+          'Report generation triggered on the 1st of each month per client',
+          'Data pulled automatically from Google Analytics, Meta, Google Ads, LinkedIn APIs',
+          'Formatted in your branded template with client name, campaign objectives, and period comparison',
+          'Key insights section auto-written from performance deltas — highlights and concerns flagged',
+          'Report emailed to client and CC\'d to account manager for review before send (optional approval step)',
+        ],
+        hoursPerWeek: 9,
+        deployDays: '4 business days',
+        stack: ['Google Analytics', 'Meta Ads API', 'Google Ads API', 'LinkedIn API', 'n8n'],
+      },
+      {
+        title: 'Lead Nurture and Proposal Follow-up Sequence',
+        desc: 'Every prospect who requests a proposal or attends a discovery meeting enters a structured 5-touch follow-up sequence if they do not respond within 48 hours. Each message is personalised, professionally timed, and stops automatically the moment they reply, book a call, or convert. Close rate on nurtured leads increases by an average of 34% compared to manual follow-up.',
+        steps: [
+          'Proposal sent or discovery call completed → 48h wait, then follow-up sequence begins if no reply',
+          'Touch 1: value-add email with relevant case study for their industry',
+          'Touch 2 (day 5): brief check-in email, low-pressure, one open question',
+          'Touch 3 (day 10): social proof email with client result and ROI figure',
+          'Touch 4 (day 18): final check-in, politely closing the loop',
+          'Reply or booking received at any point → sequence stops immediately',
+        ],
+        hoursPerWeek: 4,
+        deployDays: '2 business days',
+        stack: ['HubSpot / Pipedrive', 'Gmail', 'n8n'],
+      },
+      {
+        title: 'Client Onboarding — Fully Automated Welcome Workflow',
+        desc: 'The moment a new client signs, the onboarding workflow fires: tasks created in your project management tool, contract sent via DocuSign, kick-off meeting booked via Calendly, client added to Slack, and a branded welcome email sent with their dedicated account manager name, onboarding timeline, and first deliverable date. What used to take 90 minutes takes 4 minutes.',
+        steps: [
+          'Contract signed → onboarding workflow triggers automatically within 60 seconds',
+          'Project created in Asana / ClickUp / Monday with all standard tasks pre-populated',
+          'Onboarding questionnaire sent to client — due date set automatically',
+          'Client added to dedicated Slack channel and introduced to account manager',
+          'Branded welcome email sent: account manager name, timeline, kick-off date, what to expect',
+        ],
+        hoursPerWeek: 4,
+        deployDays: '3 business days',
+        stack: ['HubSpot', 'DocuSign', 'Calendly', 'Asana / ClickUp', 'Slack', 'n8n'],
+      },
+    ],
+    benchmarks: [
+      { metric: 'Time to send monthly client report', you: '2–3h/client', top: '< 5 min', gapPct: 97 },
+      { metric: 'Lead follow-up response rate', you: '23%', top: '54%', gapPct: 57 },
+      { metric: 'Onboarding time per new client', you: '90 min', top: '4 min', gapPct: 96 },
+      { metric: 'Client churn (annual)', you: '31%', top: '12%', gapPct: 61 },
+      { metric: 'Admin hours per week', you: '18h', top: '5h', gapPct: 72 },
+    ],
+    caseStudy: {
+      quote: 'We had 14 clients and were spending 3 full days a month just on reports. PURIST automated the whole thing. Now reports go out automatically on the 1st of every month. We reinvested those days into two new client pitches and won both.',
+      author: 'Sophie K.', role: 'Founder · 8-person digital agency · Amsterdam', avatarId: 25,
+      r1v: '3 days → 1h', r1k: 'Monthly reporting',
+      r2v: '€78,400', r2k: 'Year-1 value',
+      r3v: '2 new clients', r3k: 'Won with saved time',
+    },
+  },
+
+  realestate: {
+    displayName: 'Real Estate Agency',
+    baseHoursPerWeek: 18,
+    baseHourlyRate: 82,
+    setupPrice: 3600,
+    workflows: [
+      {
+        title: 'New Lead Capture, CRM Entry and Agent Assignment',
+        desc: 'Every lead from Rightmove, Zoopla, SeLoger, your website, or portals is captured automatically, entered in your CRM with full profile, scored by property interest and location, and routed to the right agent within 60 seconds. Agents receive an instant notification with lead details and a suggested opening message. No lead sits uncontacted for more than 5 minutes.',
+        steps: [
+          'Lead arrives from any portal or website → CRM entry created within 60 seconds',
+          'Lead scored automatically: property type, budget, location match, urgency signals',
+          'Routed to the right agent based on territory, property type, and current caseload',
+          'Agent notified instantly via SMS and Slack with lead summary and suggested opening line',
+          'Automated follow-up if agent has not contacted within 30 minutes',
+        ],
+        hoursPerWeek: 7,
+        deployDays: '3 business days',
+        stack: ['Rightmove / Zoopla API', 'HubSpot / Salesforce', 'Slack', 'SMS', 'n8n'],
+      },
+      {
+        title: 'Viewing Follow-up and Offer Nurture Sequence',
+        desc: 'After every viewing, a personalised follow-up is sent to the prospect at 24h, 72h, and 7 days. Each message references the specific property, the viewing date, and any notes from the agent. Non-responders enter a long-term nurture sequence with new listings matching their criteria sent automatically. Properties are matched and sent within minutes of listing, not days.',
+        steps: [
+          'Viewing completed → agent marks done in CRM → follow-up sequence triggers automatically',
+          '24h: personalised email referencing specific property, highlights from the viewing',
+          '72h: gentle follow-up with 2 similar properties if available',
+          '7 days: "are you still looking?" with fresh listings matching their original criteria',
+          'Offer submitted → congratulation email, next steps explained, solicitor intro sent',
+        ],
+        hoursPerWeek: 6,
+        deployDays: '3 business days',
+        stack: ['HubSpot / Salesforce', 'Gmail', 'Rightmove data', 'n8n'],
+      },
+      {
+        title: 'Vendor and Landlord Monthly Performance Reports',
+        desc: 'Every vendor and landlord on your books receives a personalised monthly report, generated automatically: number of viewings, enquiries, online views, comparable sales or rents in their area, and a recommended next step. Reports are formatted in your brand, signed by their assigned agent, and sent without a single manual step. Client satisfaction and retention improves significantly.',
+        steps: [
+          'Report generation triggered on the agreed date each month per client',
+          'Data pulled from your property management system and portals automatically',
+          'Formatted in your branded template with client name, property address, and period',
+          'Comparable market data added for context — relevant sold/rented comps in the same area',
+          'Report emailed from the assigned agent\'s address with a personal closing line',
+        ],
+        hoursPerWeek: 5,
+        deployDays: '4 business days',
+        stack: ['Reapit / Jupix', 'Gmail', 'Rightmove / Zoopla', 'n8n'],
+      },
+    ],
+    benchmarks: [
+      { metric: 'Lead response time', you: '3–8 hours', top: '< 5 min', gapPct: 95 },
+      { metric: 'Viewing follow-up rate', you: '52%', top: '100%', gapPct: 48 },
+      { metric: 'Vendor report turnaround', you: '2–3 days', top: 'Automatic', gapPct: 90 },
+      { metric: 'Lead-to-viewing conversion', you: '18%', top: '31%', gapPct: 42 },
+      { metric: 'Admin hours per week', you: '18h', top: '5h', gapPct: 72 },
+    ],
+    caseStudy: {
+      quote: 'We were losing leads to competitors simply because we were too slow to respond. PURIST set up instant routing and the viewing follow-up sequence. Our lead-to-viewing rate went from 19% to 33% in 8 weeks. Our vendors love the automated monthly reports.',
+      author: 'Daniel B.', role: 'Branch Director · 9-person agency · Paris', avatarId: 52,
+      r1v: '19% → 33%', r1k: 'Lead-to-viewing rate',
+      r2v: '€89,600', r2k: 'Year-1 value',
+      r3v: '7 days', r3k: 'Full deployment',
+    },
+  },
+
+  saas: {
+    displayName: 'SaaS / Tech',
+    baseHoursPerWeek: 16,
+    baseHourlyRate: 90,
+    setupPrice: 4200,
+    workflows: [
+      {
+        title: 'Trial Activation and Feature Adoption Onboarding Sequence',
+        desc: 'When a user signs up for a trial, a personalised onboarding sequence triggers based on their role, company size, and use case. Users who have not activated key features within 48 hours receive a targeted nudge — specific to the feature they skipped, not a generic reminder. Activation rate typically increases 35–50% within 60 days. Churned trials drop significantly.',
+        steps: [
+          'New signup → segmented by role, company size, and self-declared use case',
+          'Welcome email sent within 60 seconds with personalised quick-start steps for their role',
+          'Day 2: check if key feature activated — if not, targeted nudge email sent',
+          'Day 5: progress email showing what they have done vs. what top users do',
+          'Day 12: personalised check-in email from a named team member based on their segment',
+          'Trial end approaching: tailored conversion email with relevant case study for their industry',
+        ],
+        hoursPerWeek: 6,
+        deployDays: '3 business days',
+        stack: ['Segment / Mixpanel', 'Customer.io / Intercom', 'Slack', 'n8n'],
+      },
+      {
+        title: 'Churn Risk Detection, Health Score and Intervention',
+        desc: 'Users who have not logged in for 7 days, whose usage has dropped more than 40%, or who have triggered support tickets without resolution are flagged automatically with a health score. Low-score accounts enter a re-engagement sequence. High-value at-risk accounts are escalated to a CSM with a full account summary pre-prepared. Churn caught before it happens.',
+        steps: [
+          'Health score calculated daily for every account: login frequency, feature usage, support tickets',
+          'Score drops below threshold → account flagged, segment determined (at-risk vs. churning)',
+          'At-risk: personalised re-engagement email with relevant tip or feature highlight',
+          'Churning-signal: CSM alerted via Slack with full account history and recommended talking points',
+          'Score recovers → monitoring continues, no further intervention unless score drops again',
+        ],
+        hoursPerWeek: 5,
+        deployDays: '4 business days',
+        stack: ['Segment', 'Intercom', 'Slack', 'HubSpot', 'n8n'],
+      },
+      {
+        title: 'Billing Dunning, Failed Payment Recovery and Upgrade Triggers',
+        desc: 'Failed payments trigger an immediate dunning sequence — in-app notification, email with one-click update link, and SMS on day 3. Sequence stops the moment payment is recovered. Users approaching plan limits receive personalised upgrade prompts with their specific usage data and a tailored recommendation for the right next plan. Involuntary churn drops 60–70%. Expansion MRR increases.',
+        steps: [
+          'Payment fails → in-app notification + email sent within 10 minutes with update link',
+          'Day 3: SMS sent if card still not updated — concise, urgent, one-click action',
+          'Day 7: final warning with account suspension date clearly stated',
+          'Payment recovered → sequence stops, no further messages, thank-you confirmation sent',
+          'Usage at 80% of plan limit → upgrade email with personalised usage data and plan comparison',
+        ],
+        hoursPerWeek: 4,
+        deployDays: '2 business days',
+        stack: ['Stripe', 'Customer.io', 'Intercom', 'SMS', 'n8n'],
+      },
+    ],
+    benchmarks: [
+      { metric: 'Trial-to-paid conversion rate', you: '12%', top: '24%', gapPct: 50 },
+      { metric: 'Involuntary churn rate', you: '1.8%/mo', top: '0.5%/mo', gapPct: 72 },
+      { metric: 'Feature activation rate (day 7)', you: '31%', top: '67%', gapPct: 54 },
+      { metric: 'Failed payment recovery rate', you: '44%', top: '78%', gapPct: 43 },
+      { metric: 'Admin hours per week', you: '16h', top: '4h', gapPct: 75 },
+    ],
+    caseStudy: {
+      quote: 'We were losing 2.1% of MRR every month to involuntary churn alone — cards expiring, failed payments, nothing automated. PURIST fixed it in a week. Involuntary churn dropped to 0.4%. The activation sequence added 11 percentage points to our trial conversion.',
+      author: 'Thomas R.', role: 'CEO · B2B SaaS · 18-person team · Berlin', avatarId: 68,
+      r1v: '2.1% → 0.4%', r1k: 'Involuntary churn',
+      r2v: '€96,000', r2k: 'Year-1 value',
+      r3v: '+11pp', r3k: 'Trial conversion',
+    },
+  },
+
+  finance: {
+    displayName: 'Finance / Accounting',
+    baseHoursPerWeek: 16,
+    baseHourlyRate: 82,
+    setupPrice: 3200,
+    workflows: [
+      {
+        title: 'Document Collection, Checklists and Escalating Client Reminders',
+        desc: 'At the start of each accounting period, every client receives a personalised document request email with a tailored checklist — based on their entity type, previous submissions, and any outstanding items from last period. Reminders escalate automatically at 5, 10, and 15 days. The partner is notified when a client has not responded by the final deadline. Document collection time drops by over 70%.',
+        steps: [
+          'Period start date reached → personalised document request sent to each client within minutes',
+          'Checklist tailored: entity type, VAT registration, payroll, previous year gaps',
+          'Day +5: friendly reminder with list of outstanding items',
+          'Day +10: firmer reminder noting the filing deadline',
+          'Day +15: partner notified, escalation email sent from partner address',
+          'All documents received → client notified, file marked complete, work queued',
+        ],
+        hoursPerWeek: 7,
+        deployDays: '3 business days',
+        stack: ['Xero / QuickBooks', 'Google Workspace', 'Karbon / TaxCalc', 'n8n'],
+      },
+      {
+        title: 'Invoice Generation, Payment Automation and Late Payment Chasing',
+        desc: 'Client invoices are generated automatically at billing milestones and sent from your practice. Payment reminders at 7, 14, and 30 days overdue — each personalised, professional, and referencing the specific engagement. Late payments escalated to the billing partner with a pre-drafted final notice at day 30. Average payment cycle reduces from 42 days to 11 days.',
+        steps: [
+          'Billing milestone reached → invoice generated with correct fee, VAT, and engagement reference',
+          'Invoice sent from your domain to the correct client contact',
+          'Day +7: polite reminder with payment link',
+          'Day +14: firmer notice with escalating urgency tone',
+          'Day +30: partner notified with draft final notice and client payment history',
+        ],
+        hoursPerWeek: 5,
+        deployDays: '3 business days',
+        stack: ['Xero / QuickBooks', 'Stripe / GoCardless', 'Gmail', 'n8n'],
+      },
+      {
+        title: 'Filing Deadline Monitoring, Task Assignment and Daily Digest',
+        desc: 'VAT deadlines, corporation tax filings, payroll runs, and confirmation statements are monitored automatically. Each deadline triggers task creation and assignment to the right team member at 30, 14, and 7 days before. A daily morning digest of upcoming deadlines is sent to each team member. Partners receive a weekly overview of all approaching deadlines across the practice. Zero missed filings.',
+        steps: [
+          'Filing deadlines imported from your practice management system',
+          'Task created and assigned to responsible team member at 30 days before deadline',
+          'Reminders sent at 30d, 14d, 7d — escalating urgency, correct team member',
+          'Partner weekly digest: all deadlines in the next 30 days, status per client',
+          'Daily 8am digest for each team member: their deadlines for the coming week',
+        ],
+        hoursPerWeek: 4,
+        deployDays: '2 business days',
+        stack: ['Karbon / TaxCalc', 'Google Calendar', 'Gmail', 'Slack', 'n8n'],
+      },
+    ],
+    benchmarks: [
+      { metric: 'Document collection time per client', you: '12–18 days', top: '3–4 days', gapPct: 74 },
+      { metric: 'Invoice-to-payment cycle', you: '42 days', top: '11 days', gapPct: 74 },
+      { metric: 'Missed filing incidents per year', you: '2–4', top: '0', gapPct: 100 },
+      { metric: 'Chargeable hours lost to admin', you: '22%', top: '6%', gapPct: 73 },
+      { metric: 'Client late document rate', you: '41%', top: '11%', gapPct: 73 },
+    ],
+    caseStudy: {
+      quote: 'Document collection used to take us 3 weeks and constant chasing. PURIST cut it to 4 days. Our invoice payment cycle dropped from 44 days to 9. We stopped hiring an admin — the automation handles all of it.',
+      author: 'Rachel T.', role: 'Managing Director · 9-person practice · Edinburgh', avatarId: 36,
+      r1v: '3 weeks → 4 days', r1k: 'Doc collection',
+      r2v: '€67,200', r2k: 'Year-1 value',
+      r3v: '0 missed', r3k: 'Filings this year',
+    },
+  },
+
+};
+
+// Fallback profile for unlisted industries
+const FALLBACK_PROFILE: IndustryProfile = {
+  displayName: 'Business',
+  baseHoursPerWeek: 14,
+  baseHourlyRate: 75,
+  setupPrice: 2800,
+  workflows: [
+    {
+      title: 'Lead Capture, CRM Update and Follow-up Sequence',
+      desc: 'Every new lead — from your website, email, or referral — is captured automatically, entered in your CRM with full context, and a personalised follow-up sequence triggered within minutes. No lead goes cold. No manual data entry. Response time drops from hours to seconds.',
+      steps: [
+        'Lead received from any source → CRM entry created with full context within 60 seconds',
+        'Lead scored and assigned to the right team member automatically',
+        'Personalised follow-up email sent within 5 minutes of first contact',
+        'Follow-up sequence: day 1, day 3, day 7 — stops on reply',
+        'Weekly lead summary sent to manager: volume, conversion, response times',
+      ],
+      hoursPerWeek: 6, deployDays: '3 business days',
+      stack: ['HubSpot / Pipedrive', 'Gmail', 'n8n'],
+    },
+    {
+      title: 'Invoice Generation, Sending and Payment Chasing',
+      desc: 'Invoices generated and sent automatically at billing milestones. Payment reminders triggered at 7, 14, and 30 days overdue — personalised, professional, and stopping the moment payment is received. Average payment cycle reduces by 60–70% within the first 90 days.',
+      steps: [
+        'Billing milestone reached → invoice generated and sent automatically',
+        'Day +7: polite payment reminder with direct payment link',
+        'Day +14: firmer reminder referencing the specific invoice',
+        'Day +30: manager notified with draft escalation email ready to send',
+        'Payment received → all reminders stop immediately',
+      ],
+      hoursPerWeek: 5, deployDays: '3 business days',
+      stack: ['Xero / QuickBooks', 'Stripe', 'Gmail', 'n8n'],
+    },
+    {
+      title: 'Client Reporting — Automated Monthly Performance Reports',
+      desc: 'Monthly reports for all clients generated and sent automatically — pulled from your data sources, formatted in your brand, and emailed on a fixed schedule without manual work. Each report is personalised with the client name, period, and key metrics relevant to their account.',
+      steps: [
+        'Report generation triggered on the scheduled date for each client',
+        'Data pulled from relevant sources automatically',
+        'Formatted in your branded template with personalised metrics',
+        'Report emailed from your address, CC\'d to account manager',
+        'Delivery confirmation logged — unresponsive clients flagged for follow-up',
+      ],
+      hoursPerWeek: 3, deployDays: '4 business days',
+      stack: ['Google Analytics', 'Gmail', 'Google Sheets', 'n8n'],
+    },
+  ],
+  benchmarks: [
+    { metric: 'Lead response time', you: '3–6 hours', top: '< 5 min', gapPct: 95 },
+    { metric: 'Invoice payment cycle', you: '38 days', top: '10 days', gapPct: 74 },
+    { metric: 'Report preparation time', you: '2–4h / client', top: '< 5 min', gapPct: 97 },
+    { metric: 'Admin hours per week', you: '14h', top: '3h', gapPct: 79 },
+    { metric: 'Follow-up consistency', you: '41%', top: '100%', gapPct: 59 },
+  ],
+  caseStudy: {
+    quote: 'We were spending 15 hours a week on tasks that had nothing to do with our actual work. PURIST automated lead follow-up, invoicing, and monthly reports. Within 90 days we had recovered over €40,000 in value and taken on 3 new clients with the time we freed up.',
+    author: 'Alex M.', role: 'Founder · 8-person business · London', avatarId: 15,
+    r1v: '15h → 2h', r1k: 'Weekly admin',
+    r2v: '€54,600', r2k: 'Year-1 value',
+    r3v: '3 new clients', r3k: 'Won with freed time',
+  },
+};
+
+// ─── Industry resolution ───────────────────────────────────────────────────────
+const INDUSTRY_MAP: Record<string, string> = {
+  dental: 'dental', legal: 'legal',
+  agency: 'agency', ecommerce: 'ecommerce',
+  realestate: 'realestate', saas: 'saas',
+  finance: 'finance',
+  homeservices: 'fallback', construction: 'fallback',
+  restaurant: 'restaurant', beauty: 'fallback',
+  insurance: 'fallback', education: 'fallback',
+  recruitment: 'fallback', travel: 'fallback',
+  other: 'fallback',
+};
+
+function getProfile(businessType: string | undefined): IndustryProfile {
+  const key = INDUSTRY_MAP[businessType || 'other'] || 'fallback';
+  return key === 'fallback' ? FALLBACK_PROFILE : (PROFILES[key] || FALLBACK_PROFILE);
+}
+
+// ─── ROI calculation ───────────────────────────────────────────────────────────
+function calcROI(profile: IndustryProfile, teamSize: string | undefined) {
+  const multiplier = TEAM_MULTIPLIER[teamSize || '6-15'] || 1.0;
+  const hourly = TEAM_HOURLY[teamSize || '6-15'] || 80;
+  const hoursPerWeek = Math.round(profile.baseHoursPerWeek * multiplier);
+  const annualValue = hoursPerWeek * hourly * 52;
+  const roi = (annualValue / profile.setupPrice).toFixed(1);
+  const paybackWeeks = Math.round((profile.setupPrice / (annualValue / 52)) * 10) / 10;
+  const month1 = Math.round(annualValue / 12);
+  const month3 = Math.round((annualValue / 12) * 3 - profile.setupPrice);
+  const month12 = Math.round(annualValue - profile.setupPrice);
+  return { hoursPerWeek, hourly, annualValue, roi, paybackWeeks, month1, month3, month12 };
+}
+
+// ─── Pricing ──────────────────────────────────────────────────────────────────
+function isWithinBudget(budget: string | undefined, price: number): boolean {
+  const cap = BUDGET_WITHIN[budget || 'unknown'] || 99999;
+  return price <= cap;
+}
+
+// ─── Pain-point label ─────────────────────────────────────────────────────────
+const PAIN_LABELS: Record<string, string> = {
+  'data-entry': 'manual data entry and reporting',
+  'client-comms': 'client communication and follow-ups',
+  'crm': 'lead tracking and CRM updates',
+  'billing': 'invoice and billing workflows',
+  'documents': 'document generation and contracts',
+  'scheduling': 'scheduling and appointment management',
+  'onboarding': 'client or staff onboarding',
+  'other': 'operational inefficiencies',
+};
+
+// ─── Main export ──────────────────────────────────────────────────────────────
+export function generateProposalEmail(data: ProposalFormData): string {
+  const fn = esc(firstName(data.name));
+  const company = esc(data.company);
+  const profile = getProfile(data.business_type);
+  const roi = calcROI(profile, data.team_size);
+  const price = profile.setupPrice;
+  const withinBudget = isWithinBudget(data.budget, price);
+  const teamLabel = TEAM_LABEL[data.team_size || '6-15'] || data.team_size || 'your team';
+  const painLabel = PAIN_LABELS[data.pain_point || 'other'] || 'operational inefficiencies';
+  const toolsRaw = data.tools ? data.tools.split(',').map(t => t.trim()).filter(Boolean) : [];
+  const toolsStr = toolsRaw.length ? esc(toolsRaw.join(', ')) : 'your current tools';
+
+  // Re-order workflows by pain point priority
+  const order = priorityOrder(data.pain_point);
+  const wfs = order.map(i => profile.workflows[i]);
+
+  const W = (w: Workflow, idx: number) => {
+    const annualVal = Math.round(w.hoursPerWeek * (TEAM_HOURLY[data.team_size || '6-15'] || 80) * 52);
+    const deployLabel = idx === 0 ? `Deploy first · Highest ROI` : `Deploy days ${idx === 1 ? '4–6' : '7–8'}`;
+    return `
+    <div style="background:white;border:1px solid rgba(10,10,10,0.08);border-radius:14px;margin-top:12px;overflow:hidden;">
+      <div style="padding:18px 20px 0;">
+        <div style="font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:#bbb;font-weight:700;margin-bottom:6px;">Workflow 0${idx + 1} · ${deployLabel}</div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+          <div style="font-size:15px;font-weight:700;color:#0A0A0A;line-height:1.3;font-family:Georgia,serif;">${esc(w.title)}</div>
+          <div style="background:rgba(10,10,10,0.06);color:#0A0A0A;font-size:11px;font-weight:700;padding:4px 12px;border-radius:99px;border:1px solid rgba(10,10,10,0.1);white-space:nowrap;flex-shrink:0;">${w.hoursPerWeek}h saved / wk</div>
+        </div>
+      </div>
+      <div style="padding:12px 20px;font-size:13.5px;color:#555;line-height:1.72;">${esc(w.desc)}</div>
+      <div style="padding:0 20px 14px;">
+        <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#ccc;font-weight:700;margin-bottom:8px;">Exact sequence</div>
+        ${w.steps.map((s, si) => `
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:4px 0;">
+          <div style="width:18px;height:18px;background:#0A0A0A;color:white;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;text-align:center;line-height:18px;">${si + 1}</div>
+          <div style="font-size:12.5px;color:#555;line-height:1.55;padding-top:1px;">${esc(s)}</div>
+        </div>`).join('')}
+      </div>
+      <div style="background:#F8F6F1;border-top:1px solid rgba(10,10,10,0.06);padding:12px 20px;display:flex;gap:24px;flex-wrap:wrap;">
+        <div><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:#bbb;font-weight:700;margin-bottom:4px;">Time saved</div><div style="font-size:12px;font-weight:700;color:#0A0A0A;">${w.hoursPerWeek}h / week</div></div>
+        <div><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:#bbb;font-weight:700;margin-bottom:4px;">Annual value</div><div style="font-size:12px;font-weight:700;color:#0A0A0A;">€${fmt(annualVal)}</div></div>
+        <div><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:#bbb;font-weight:700;margin-bottom:4px;">Deploy time</div><div style="font-size:12px;font-weight:700;color:#0A0A0A;">${w.deployDays}</div></div>
+        <div><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:#bbb;font-weight:700;margin-bottom:4px;">Stack</div><div style="font-size:12px;font-weight:700;color:#0A0A0A;">${w.stack.slice(0, 3).join(' · ')}</div></div>
+      </div>
+    </div>`;
+  };
+
+  const BenchmarkRow = (b: { metric: string; you: string; top: string; gapPct: number }) => `
+    <tr>
+      <td style="padding:10px 0;border-bottom:1px solid rgba(10,10,10,0.05);font-size:13px;color:#555;">${esc(b.metric)}</td>
+      <td style="padding:10px 8px;border-bottom:1px solid rgba(10,10,10,0.05);font-size:13px;font-weight:700;color:#C97B6A;text-align:center;">${esc(b.you)}</td>
+      <td style="padding:10px 8px;border-bottom:1px solid rgba(10,10,10,0.05);font-size:13px;font-weight:700;color:#0A0A0A;text-align:center;">${esc(b.top)}</td>
+      <td style="padding:10px 0;border-bottom:1px solid rgba(10,10,10,0.05);">
+        <div style="background:#F0EDE8;border-radius:99px;height:6px;overflow:hidden;">
+          <div style="height:100%;background:linear-gradient(90deg,#E8B4B0,rgba(232,180,176,0.4));border-radius:99px;width:${b.gapPct}%;"></div>
+        </div>
+      </td>
+    </tr>`;
+
+  const cs = profile.caseStudy;
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Your automation plan · ${company} × PURIST</title>
+<style>
+  body{margin:0;padding:0;background:#f0ede8;font-family:-apple-system,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+  @media(max-width:600px){.email-wrap{border-radius:0!important;}.col2{display:block!important;width:100%!important;}}
+</style>
+</head>
+<body>
+<div style="background:#f0ede8;padding:32px 16px;">
+<div class="email-wrap" style="max-width:660px;margin:0 auto;background:#F8F6F1;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.12);">
+
+  <!-- HEADER -->
+  <div style="background:#0A0A0A;padding:36px 36px 28px;">
+    <div style="font-family:Georgia,serif;font-size:20px;color:white;letter-spacing:-0.02em;margin-bottom:28px;">PURIST<span style="color:#E8B4B0;">.</span></div>
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(232,180,176,0.1);border:1px solid rgba(232,180,176,0.18);color:#E8B4B0;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;padding:5px 14px;border-radius:99px;margin-bottom:18px;font-weight:600;">
+      <span style="width:5px;height:5px;border-radius:50%;background:#E8B4B0;display:inline-block;"></span>
+      Personalised automation analysis · ${company}
+    </div>
+    <div style="font-family:Georgia,serif;font-size:30px;color:white;line-height:1.2;font-weight:400;margin-bottom:14px;">${fn}, we've mapped<br/><em style="color:#E8B4B0;">your hidden costs.</em></div>
+    <p style="font-size:14px;color:rgba(255,255,255,0.38);line-height:1.7;margin:0 0 20px;max-width:480px;">We reviewed your submission in detail. Below is a full operational analysis of ${company} — the inefficiencies we identified, the exact automations we recommend, and the financial impact of each one.</p>
+    <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:18px;display:flex;gap:8px;flex-wrap:wrap;">
+      <span style="font-size:11px;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);padding:4px 12px;border-radius:99px;border:1px solid rgba(255,255,255,0.08);">${esc(profile.displayName)}</span>
+      <span style="font-size:11px;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);padding:4px 12px;border-radius:99px;border:1px solid rgba(255,255,255,0.08);">${esc(teamLabel)}</span>
+      ${toolsRaw.length ? `<span style="font-size:11px;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);padding:4px 12px;border-radius:99px;border:1px solid rgba(255,255,255,0.08);">Pain point: ${esc(painLabel)}</span>` : ''}
+      <span style="font-size:11px;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);padding:4px 12px;border-radius:99px;border:1px solid rgba(255,255,255,0.08);">Tools: ${toolsStr}</span>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div style="padding:32px 36px;">
+
+    <!-- Intro -->
+    <p style="font-size:15px;line-height:1.8;color:#444;margin:0 0 24px;">
+      ${data.aiIntro
+        ? esc(data.aiIntro)
+        : `We reviewed your profile carefully — your industry, team of ${esc(teamLabel)}, the tools you use daily, and the specific challenge you described: <strong style="color:#0A0A0A;">${esc(painLabel)}</strong>. What follows is not a generic proposal. It is a targeted operational analysis built specifically for ${company}, based on working with similar businesses at your stage.`
+      }
+    </p>
+    ${data.aiInsights && data.aiInsights.length ? `
+    <div style="background:rgba(10,10,10,0.03);border-left:3px solid #E8B4B0;border-radius:0 10px 10px 0;padding:16px 20px;margin:0 0 24px;">
+      <div style="font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:#E8B4B0;font-weight:700;margin-bottom:10px;">Specific observations from your submission</div>
+      ${data.aiInsights.map(i => `<div style="font-size:13px;color:#555;line-height:1.65;margin-bottom:6px;">· ${esc(i)}</div>`).join('')}
+    </div>` : ''}
+
+    <hr style="border:none;border-top:1px solid rgba(10,10,10,0.07);margin:28px 0;"/>
+
+    <!-- SECTION 1: Hidden cost -->
+    <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#E8B4B0;font-weight:700;margin-bottom:14px;">Section 01 · What this is actually costing ${company} each year</div>
+    <div style="background:white;border:1px solid rgba(10,10,10,0.07);border-radius:14px;padding:22px;">
+      <p style="font-size:15px;font-weight:700;color:#0A0A0A;margin:0 0 6px;font-family:Georgia,serif;">The true cost of manual operations at your team size</p>
+      <p style="font-size:13.5px;color:#777;line-height:1.65;margin:0 0 16px;">Based on a ${esc(teamLabel)} business in ${esc(profile.displayName)}, here is a conservative breakdown of what your current manual processes cost — before any automation.</p>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr>
+          <td style="width:50%;padding:0 8px 8px 0;vertical-align:top;">
+            <div style="background:#F8F6F1;border:1px solid rgba(10,10,10,0.07);border-radius:12px;padding:14px 16px;">
+              <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#999;font-weight:700;margin-bottom:7px;">${esc(painLabel.charAt(0).toUpperCase() + painLabel.slice(1))}</div>
+              <div style="font-size:20px;font-weight:700;color:#C97B6A;font-family:Georgia,serif;">${wfs[0].hoursPerWeek}h / week</div>
+              <div style="font-size:11.5px;color:#aaa;margin-top:4px;line-height:1.4;">Primary bottleneck identified from your submission</div>
+            </div>
+          </td>
+          <td style="width:50%;padding:0 0 8px 8px;vertical-align:top;">
+            <div style="background:#F8F6F1;border:1px solid rgba(10,10,10,0.07);border-radius:12px;padding:14px 16px;">
+              <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#999;font-weight:700;margin-bottom:7px;">Additional admin overhead</div>
+              <div style="font-size:20px;font-weight:700;color:#C97B6A;font-family:Georgia,serif;">${roi.hoursPerWeek - wfs[0].hoursPerWeek}h / week</div>
+              <div style="font-size:11.5px;color:#aaa;margin-top:4px;line-height:1.4;">Supporting tasks that feed the same bottleneck</div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="width:50%;padding:0 8px 0 0;vertical-align:top;">
+            <div style="background:#F8F6F1;border:1px solid rgba(10,10,10,0.07);border-radius:12px;padding:14px 16px;">
+              <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#999;font-weight:700;margin-bottom:7px;">Hourly cost (fully loaded)</div>
+              <div style="font-size:20px;font-weight:700;color:#C97B6A;font-family:Georgia,serif;">€${roi.hourly} / hr</div>
+              <div style="font-size:11.5px;color:#aaa;margin-top:4px;line-height:1.4;">Conservative estimate for ${esc(teamLabel)}</div>
+            </div>
+          </td>
+          <td style="width:50%;padding:0 0 0 8px;vertical-align:top;">
+            <div style="background:#F8F6F1;border:1px solid rgba(10,10,10,0.07);border-radius:12px;padding:14px 16px;">
+              <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#999;font-weight:700;margin-bottom:7px;">Revenue impact (annual)</div>
+              <div style="font-size:20px;font-weight:700;color:#C97B6A;font-family:Georgia,serif;">€${fmt(Math.round(roi.annualValue * 0.13))}</div>
+              <div style="font-size:11.5px;color:#aaa;margin-top:4px;line-height:1.4;">Estimated opportunity cost and delays caused</div>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div style="background:#0A0A0A;border-radius:12px;padding:16px 20px;margin-top:12px;display:flex;justify-content:space-between;align-items:center;gap:16px;">
+        <div>
+          <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);font-weight:600;margin-bottom:5px;">Total annual cost of inaction</div>
+          <div style="font-size:26px;font-family:Georgia,serif;color:white;">€${fmt(roi.annualValue)}</div>
+        </div>
+        <div style="font-size:11.5px;color:rgba(255,255,255,0.25);line-height:1.5;max-width:200px;text-align:right;">${roi.hoursPerWeek}h/wk × €${roi.hourly}/hr × 52 weeks. Does not include late payment losses or opportunity cost.</div>
+      </div>
+    </div>
+
+    <hr style="border:none;border-top:1px solid rgba(10,10,10,0.07);margin:28px 0;"/>
+
+    <!-- SECTION 2: Benchmark -->
+    <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#E8B4B0;font-weight:700;margin-bottom:14px;">Section 02 · Where ${company} stands vs. top ${esc(profile.displayName)} businesses</div>
+    <div style="background:white;border:1px solid rgba(10,10,10,0.07);border-radius:14px;padding:22px;">
+      <p style="font-size:13.5px;color:#777;line-height:1.65;margin:0 0 16px;">Benchmarked against comparable businesses in your industry and size range. Here is where you sit today, and where fully automated operations run.</p>
+      <table style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr>
+            <th style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#bbb;font-weight:700;text-align:left;padding-bottom:10px;border-bottom:1px solid rgba(10,10,10,0.07);">Metric</th>
+            <th style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#C97B6A;font-weight:700;text-align:center;padding-bottom:10px;border-bottom:1px solid rgba(10,10,10,0.07);">You today</th>
+            <th style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#0A0A0A;font-weight:700;text-align:center;padding-bottom:10px;border-bottom:1px solid rgba(10,10,10,0.07);">Top businesses</th>
+            <th style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#bbb;font-weight:700;text-align:left;padding-bottom:10px;border-bottom:1px solid rgba(10,10,10,0.07);">Gap</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${profile.benchmarks.map(b => BenchmarkRow(b)).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <hr style="border:none;border-top:1px solid rgba(10,10,10,0.07);margin:28px 0;"/>
+
+    <!-- SECTION 3: Workflows -->
+    <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#E8B4B0;font-weight:700;margin-bottom:8px;">Section 03 · Your 3 automations, ranked by ROI</div>
+    <p style="font-size:13.5px;color:#777;line-height:1.65;margin:0 0 4px;">Each workflow was selected for your specific situation — ${esc(profile.displayName)}, ${esc(teamLabel)}, ${esc(painLabel)} as primary bottleneck, and ${toolsStr} as your current stack. Deployed in order of financial impact.</p>
+    ${wfs.map((w, i) => W(w, i)).join('')}
+
+    <hr style="border:none;border-top:1px solid rgba(10,10,10,0.07);margin:28px 0;"/>
+
+    <!-- SECTION 4: ROI -->
+    <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#E8B4B0;font-weight:700;margin-bottom:14px;">Section 04 · Financial impact · ${company}</div>
+    <div style="background:#0A0A0A;border-radius:14px;padding:26px;">
+      <div style="font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(232,180,176,0.45);font-weight:700;margin-bottom:18px;">Projected return · Year 1</div>
+      <table style="width:100%;border-collapse:collapse;margin-bottom:18px;">
+        <tr>
+          <td style="text-align:center;padding:0 8px;">
+            <div style="font-size:26px;font-family:Georgia,serif;color:white;">${roi.hoursPerWeek}h</div>
+            <div style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-top:4px;">Saved / week</div>
+          </td>
+          <td style="text-align:center;padding:0 8px;">
+            <div style="font-size:26px;font-family:Georgia,serif;color:white;">€${fmt(roi.annualValue)}</div>
+            <div style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-top:4px;">Annual value</div>
+          </td>
+          <td style="text-align:center;padding:0 8px;">
+            <div style="font-size:26px;font-family:Georgia,serif;color:#E8B4B0;">${roi.roi}×</div>
+            <div style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-top:4px;">ROI year 1</div>
+          </td>
+          <td style="text-align:center;padding:0 8px;">
+            <div style="font-size:26px;font-family:Georgia,serif;color:white;">${roi.paybackWeeks} wks</div>
+            <div style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-top:4px;">Payback period</div>
+          </td>
+        </tr>
+      </table>
+      <div style="font-size:11.5px;color:rgba(255,255,255,0.22);line-height:1.65;border-top:1px solid rgba(255,255,255,0.06);padding-top:14px;">Calculated at €${roi.hourly}/hr fully-loaded cost for ${esc(teamLabel)}. ${roi.hoursPerWeek}h/week × 52 weeks = ${fmt(roi.hoursPerWeek * 52)} hours annually = €${fmt(roi.annualValue)} value recovered. Setup investment: €${fmt(price)} one-time. Net year-1 gain: €${fmt(roi.month12)}.</div>
+    </div>
+
+    <!-- Month projection -->
+    <table style="width:100%;border-collapse:collapse;border-radius:14px;overflow:hidden;margin-top:12px;border:1px solid rgba(10,10,10,0.08);">
+      <tr>
+        <td style="background:white;padding:18px;text-align:center;border-right:1px solid rgba(10,10,10,0.06);">
+          <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#bbb;font-weight:700;margin-bottom:6px;">Month 1</div>
+          <div style="font-size:22px;font-family:Georgia,serif;color:#0A0A0A;">+€${fmt(roi.month1)}</div>
+          <div style="font-size:11.5px;color:#aaa;margin-top:4px;">First month all 3 workflows live</div>
+        </td>
+        <td style="background:white;padding:18px;text-align:center;border-right:1px solid rgba(10,10,10,0.06);">
+          <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#bbb;font-weight:700;margin-bottom:6px;">Month 3</div>
+          <div style="font-size:22px;font-family:Georgia,serif;color:#0A0A0A;">+€${fmt(roi.month3)}</div>
+          <div style="font-size:11.5px;color:#aaa;margin-top:4px;">Cumulative, net of setup cost</div>
+        </td>
+        <td style="background:white;padding:18px;text-align:center;">
+          <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#bbb;font-weight:700;margin-bottom:6px;">Month 12</div>
+          <div style="font-size:22px;font-family:Georgia,serif;color:#0A0A0A;">+€${fmt(roi.month12)}</div>
+          <div style="font-size:11.5px;color:#aaa;margin-top:4px;">Net year-1 gain, confirmed at 90 days</div>
+        </td>
+      </tr>
+    </table>
+
+    <hr style="border:none;border-top:1px solid rgba(10,10,10,0.07);margin:28px 0;"/>
+
+    <!-- SECTION 5: Case study -->
+    <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#E8B4B0;font-weight:700;margin-bottom:14px;">Section 05 · A similar business, 12 months later</div>
+    <div style="background:white;border:1px solid rgba(10,10,10,0.07);border-radius:14px;padding:22px;">
+      <div style="font-size:15px;font-family:Georgia,serif;color:#0A0A0A;line-height:1.55;font-style:italic;margin-bottom:18px;padding-left:16px;border-left:2px solid #E8B4B0;">&ldquo;${esc(cs.quote)}&rdquo;</div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <img src="https://i.pravatar.cc/76?img=${cs.avatarId}" alt="${esc(cs.author)}" width="38" height="38" style="border-radius:50%;border:2px solid #F0EDE8;"/>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:#0A0A0A;">${esc(cs.author)}</div>
+          <div style="font-size:11.5px;color:#aaa;">${esc(cs.role)}</div>
+        </div>
+      </div>
+      <table style="width:100%;border-collapse:collapse;background:#F8F6F1;border-radius:12px;overflow:hidden;border:1px solid rgba(10,10,10,0.07);">
+        <tr>
+          <td style="text-align:center;padding:14px;border-right:1px solid rgba(10,10,10,0.07);">
+            <div style="font-size:17px;font-weight:700;color:#0A0A0A;font-family:Georgia,serif;">${esc(cs.r1v)}</div>
+            <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:#bbb;margin-top:3px;font-weight:700;">${esc(cs.r1k)}</div>
+          </td>
+          <td style="text-align:center;padding:14px;border-right:1px solid rgba(10,10,10,0.07);">
+            <div style="font-size:17px;font-weight:700;color:#0A0A0A;font-family:Georgia,serif;">${esc(cs.r2v)}</div>
+            <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:#bbb;margin-top:3px;font-weight:700;">${esc(cs.r2k)}</div>
+          </td>
+          <td style="text-align:center;padding:14px;">
+            <div style="font-size:17px;font-weight:700;color:#0A0A0A;font-family:Georgia,serif;">${esc(cs.r3v)}</div>
+            <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:#bbb;margin-top:3px;font-weight:700;">${esc(cs.r3k)}</div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <hr style="border:none;border-top:1px solid rgba(10,10,10,0.07);margin:28px 0;"/>
+
+    <!-- SECTION 6: Bonuses -->
+    <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#E8B4B0;font-weight:700;margin-bottom:14px;">Section 06 · Included at no extra cost · Total value €1,450</div>
+    <div style="background:#0A0A0A;border-radius:14px;padding:22px;">
+      ${[
+        ['📋', 'SOP documentation for all 3 workflows', 'Worth €350', 'Full written documentation of every automation — how it works, what triggers it, how to modify it. Your team understands every process. Yours to keep forever.'],
+        ['📊', 'Live monitoring dashboard · 90 days included', 'Worth €400', 'Real-time view of every automation run, trigger, and output. Cumulative time and money saved updated daily. You see exactly what is happening at all times.'],
+        ['🔍', 'Day-45 optimisation review', 'Worth €300', 'At day 45, your PURIST engineer reviews all workflow performance data and implements up to 3 refinements at no charge — based on real usage patterns.'],
+        ['⚡', 'Priority deployment queue', 'Worth €200', 'Your project goes to the front of our deployment queue. Workflow 1 build starts on day 1 after credential handover. Reserved for clients who confirm within 72 hours of receiving this proposal.'],
+        ['🎓', 'Team walkthrough session (recorded)', 'Worth €200', 'A recorded Loom walkthrough for your team explaining what each automation does, what they need to do differently (usually nothing), and how to read the dashboard.'],
+      ].map(([icon, title, val, desc]) => `
+      <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.05);">
+        <div style="background:rgba(232,180,176,0.1);border:1px solid rgba(232,180,176,0.2);border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;text-align:center;line-height:36px;">${icon}</div>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:white;margin-bottom:3px;">${esc(title as string)} <span style="font-size:11px;color:#E8B4B0;background:rgba(232,180,176,0.1);padding:2px 8px;border-radius:99px;font-weight:600;">${esc(val as string)}</span></div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.35);line-height:1.55;">${esc(desc as string)}</div>
+        </div>
+      </div>`).join('')}
+      <div style="font-size:11.5px;color:rgba(255,255,255,0.2);text-align:center;margin-top:4px;">Priority queue bonus expires 72 hours after this email was sent.</div>
+    </div>
+
+    <hr style="border:none;border-top:1px solid rgba(10,10,10,0.07);margin:28px 0;"/>
+
+    <!-- SECTION 7: Investment -->
+    <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#E8B4B0;font-weight:700;margin-bottom:14px;">Section 07 · Your investment</div>
+    <div style="background:white;border:1px solid rgba(10,10,10,0.07);border-radius:14px;padding:22px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;gap:12px;flex-wrap:wrap;">
+        <div>
+          <div style="font-size:36px;font-family:Georgia,serif;color:#0A0A0A;line-height:1;">€${fmt(price)}</div>
+          <div style="font-size:12.5px;color:#aaa;margin-top:5px;">One-time setup fee · 90-day monitoring and support included</div>
+        </div>
+        ${withinBudget ? `<div style="background:#F0EDE8;color:#0A0A0A;font-size:11.5px;font-weight:700;padding:7px 16px;border-radius:99px;border:1px solid rgba(10,10,10,0.1);">Within your stated budget</div>` : ''}
+      </div>
+      ${[
+        '3 production automations built, tested and deployed in your exact environment',
+        'Full error handling, retry logic, and real-time alerting — nothing runs silently',
+        'Live monitoring dashboard showing every run and output in real time',
+        'Dedicated Slack channel with direct access to your PURIST engineer, 7 days a week',
+        'All edge cases handled — exceptions, errors, and escalations fully covered',
+        '90-day ROI report with confirmed hours saved and net financial impact',
+        'All 5 bonuses included: SOP docs, day-45 review, team walkthrough, priority queue, dashboard',
+        '30-day fix-or-refund guarantee — if anything underperforms, we fix it in 48h or refund in full',
+      ].map(item => `
+      <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;">
+        <div style="width:16px;height:16px;background:#0A0A0A;color:white;border-radius:50%;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;text-align:center;line-height:16px;">✓</div>
+        <div style="font-size:13.5px;color:#444;line-height:1.5;">${esc(item)}</div>
+      </div>`).join('')}
+    </div>
+
+    <!-- Guarantee -->
+    <div style="background:white;border:1px solid rgba(10,10,10,0.07);border-radius:14px;padding:18px;margin-top:12px;display:flex;gap:14px;align-items:flex-start;">
+      <div style="font-size:22px;flex-shrink:0;">🛡️</div>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:#0A0A0A;margin-bottom:5px;">30-day fix-or-refund guarantee · No questions asked</div>
+        <div style="font-size:13px;color:#666;line-height:1.65;">If any of the 3 workflows does not perform exactly as described in this proposal within the first 30 days, we fix it within 48 hours or issue a full refund. We have never had to use it — but it is there, in writing.</div>
+      </div>
+    </div>
+
+    <!-- Social proof -->
+    <table style="width:100%;border-collapse:collapse;background:#F0EDE8;border-radius:14px;overflow:hidden;margin-top:12px;">
+      <tr>
+        ${[['500+','Workflows deployed'],['99.97%','Uptime SLA'],['6 wks','Avg. payback period'],['4.9/5','Client rating']].map(([v,k]) => `
+        <td style="text-align:center;padding:16px 8px;border-right:1px solid rgba(10,10,10,0.06);">
+          <div style="font-size:18px;font-family:Georgia,serif;color:#0A0A0A;">${v}</div>
+          <div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;margin-top:4px;font-weight:600;">${k}</div>
+        </td>`).join('')}
+      </tr>
+    </table>
+
+    <hr style="border:none;border-top:1px solid rgba(10,10,10,0.07);margin:28px 0;"/>
+
+    <!-- CTA -->
+    <div style="background:#0A0A0A;border-radius:14px;padding:32px;text-align:center;">
+      <div style="display:inline-block;background:rgba(232,180,176,0.1);border:1px solid rgba(232,180,176,0.18);color:rgba(232,180,176,0.7);font-size:11px;padding:4px 14px;border-radius:99px;margin-bottom:18px;letter-spacing:0.1em;">Priority queue · Closes in 72 hours</div>
+      <div style="font-family:Georgia,serif;font-size:26px;color:white;margin-bottom:10px;font-weight:400;line-height:1.25;">Ready to recover<br/><em style="color:#E8B4B0;">${roi.hoursPerWeek} hours every week?</em></div>
+      <p style="font-size:13.5px;color:rgba(255,255,255,0.35);margin:0 0 24px;line-height:1.7;max-width:380px;margin-left:auto;margin-right:auto;">Reply to this email with &ldquo;yes&rdquo; and we send the onboarding form and invoice within 2 hours. Your first workflow goes live in 3 business days. No call required.</p>
+      <a href="https://www.purist.online/pages/welcome" style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:15px 40px;border-radius:12px;font-size:15px;font-weight:700;text-decoration:none;letter-spacing:-0.01em;">Accept this plan and get started</a>
+      <p style="font-size:12px;color:rgba(255,255,255,0.2);margin:14px 0 0;">Or simply reply &ldquo;yes&rdquo; to this email. Hugo reads every reply personally.</p>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div style="background:#0A0A0A;padding:24px 36px;border-top:1px solid rgba(255,255,255,0.04);">
+    <div style="font-family:Georgia,serif;font-size:16px;color:rgba(255,255,255,0.25);margin-bottom:10px;">PURIST<span style="color:rgba(232,180,176,0.35);">.</span></div>
+    <div style="font-size:11.5px;color:rgba(255,255,255,0.15);line-height:1.7;">
+      purist.online · hello@purist.online<br/>
+      This proposal was prepared specifically for ${fn} at ${company} based on your submission. It is confidential and intended solely for the recipient.<br/><br/>
+      <a href="https://www.purist.online/pages/privacy-policy" style="color:rgba(232,180,176,0.35);text-decoration:none;">Privacy policy</a>
+    </div>
+  </div>
+
+</div>
+</div>
+</body>
+</html>`;
+}

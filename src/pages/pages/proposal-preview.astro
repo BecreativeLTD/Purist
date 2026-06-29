@@ -48,7 +48,8 @@
     .prog-label.active{color:rgba(232,180,176,0.7)}
 
     /* Body */
-    .bd{background:#F8F6F1;padding:2.25rem 2.5rem}
+    .bd{background:#F8F6F1;padding:2.25rem 2.5rem;position:relative;overflow:hidden;}
+    .bd::before{content:'PURIST';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-12deg);font-family:'DM Serif Display',Georgia,serif;font-size:13rem;font-weight:400;color:rgba(232,180,176,0.065);white-space:nowrap;letter-spacing:-0.04em;pointer-events:none;user-select:none;}
 
     /* Divider */
     .div{border:none;border-top:1px solid rgba(10,10,10,0.07);margin:2.25rem 0}
@@ -240,9 +241,6 @@
 </div>
 
 <div class="email-wrap">
-  <!-- BG watermark -->
-  <div class="bg-logo">PURIST</div>
-
   <div class="email-content">
 
   <!-- HEADER -->
