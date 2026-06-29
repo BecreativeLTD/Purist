@@ -184,8 +184,9 @@ Return valid JSON only. No markdown, no code blocks, just raw JSON.`,
     await resend.emails.send({
       from: 'PURIST <hello@purist.online>',
       to: [email],
-      subject: `Your automation plan · ${company} × PURIST`,
+      subject: `Your automation plan for ${company} — PURIST`,
       html: proposalHtml,
+      text: `Hi ${name.split(' ')[0]},\n\nWe have prepared a personalised automation analysis for ${company}.\n\nThis email contains your full proposal: 3 recommended workflows, industry benchmarks, ROI projections, and a deployment timeline — all based on your submission.\n\nIf the HTML version is not displaying correctly, reply to this email and we will send the proposal in another format.\n\nTo get started, reply "yes" to this email. Your first workflow goes live in 3 business days. No call required.\n\n-- Hugo\nPURIST\nhello@purist.online\npurist.online`,
     });
 
     return new Response(JSON.stringify({ success: true }), {
