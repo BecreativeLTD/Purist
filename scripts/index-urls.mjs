@@ -20,7 +20,7 @@ const SITEMAP_URL   = 'https://www.purist.online/sitemap.xml';
 const CREDENTIALS   = './scripts/service-account.json'; // your downloaded JSON key
 const BATCH_SIZE    = 200;  // Google daily quota
 const DELAY_MS      = 300;  // delay between requests to avoid rate limit
-const START_INDEX   = 200;  // change each day: Day1=0, Day2=200, Day3=400, Day4=600
+const START_INDEX   = 600;  // change each day: Day1=0, Day2=200, Day3=400, Day4=600
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
 async function getAuth() {

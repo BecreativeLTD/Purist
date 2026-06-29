@@ -348,7 +348,7 @@ const navLinks = [
    <!-- ── FOOTER ── -->
    <div style="padding:8px 16px;border-top:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between;">
      <span style="font-size:9px;color:rgba(255,255,255,0.18);letter-spacing:0.08em;text-transform:uppercase;">Powered by n8n + Claude Opus 4.7</span>
-     <a href="/pages/welcome" style="font-size:9px;color:rgba(232,180,176,0.55);text-decoration:none;font-weight:500;letter-spacing:0.04em;" onmouseover="this.style.color='#E8B4B0'" onmouseout="this.style.color='rgba(232,180,176,0.55)'">Book free audit →</a>
+     <a href="/pages/welcome" style="font-size:9px;color:rgba(232,180,176,0.55);text-decoration:none;font-weight:500;letter-spacing:0.04em;" onmouseover="this.style.color='#E8B4B0'" onmouseout="this.style.color='rgba(232,180,176,0.55)'">Get my free automation plan →</a>
    </div>
 
  </div>
@@ -716,7 +716,7 @@ const navLinks = [
    if (!msgs) return;
    var row = document.createElement('div');
    row.style.cssText = 'display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:2px;';
-   row.innerHTML = '<a href="/pages/welcome" style="display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:8px;font-size:11px;font-weight:600;background:#E8B4B0;color:#0A0A0A;text-decoration:none;white-space:nowrap;" onmouseover="this.style.background=\'#d9a09b\'" onmouseout="this.style.background=\'#E8B4B0\'">Book free audit <svg width="10" height="10" viewBox="0 0 14 14" fill="none" stroke="#0A0A0A" stroke-width="2.2" stroke-linecap="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a><a href="/pages/pricing" style="display:inline-flex;align-items:center;padding:7px 12px;border-radius:8px;font-size:11px;font-weight:500;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.50);border:1px solid rgba(255,255,255,0.09);text-decoration:none;white-space:nowrap;" onmouseover="this.style.color=\'rgba(255,255,255,0.80)\'" onmouseout="this.style.color=\'rgba(255,255,255,0.50)\'">View plans</a>';
+   row.innerHTML = '<a href="/pages/welcome" style="display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:8px;font-size:11px;font-weight:600;background:#E8B4B0;color:#0A0A0A;text-decoration:none;white-space:nowrap;" onmouseover="this.style.background=\'#d9a09b\'" onmouseout="this.style.background=\'#E8B4B0\'">Get my free automation plan <svg width="10" height="10" viewBox="0 0 14 14" fill="none" stroke="#0A0A0A" stroke-width="2.2" stroke-linecap="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a><a href="/pages/pricing" style="display:inline-flex;align-items:center;padding:7px 12px;border-radius:8px;font-size:11px;font-weight:500;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.50);border:1px solid rgba(255,255,255,0.09);text-decoration:none;white-space:nowrap;" onmouseover="this.style.color=\'rgba(255,255,255,0.80)\'" onmouseout="this.style.color=\'rgba(255,255,255,0.50)\'">View plans</a>';
    msgs.appendChild(row);
    msgs.scrollTop = msgs.scrollHeight;
  }
