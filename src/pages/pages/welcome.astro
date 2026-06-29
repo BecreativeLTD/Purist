@@ -4,7 +4,7 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
 ---
 
 <ShopLayout
- title="Book your free audit – PURIST"
+ title="Get your free automation plan – PURIST"
  description="Book your free automation audit. We map your workflows and show you exactly what time and money automation will save, before any commitment."
 >
 
@@ -347,7 +347,7 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
            class="w-full flex items-center justify-center gap-2.5 px-6 py-4 rounded-[14px] text-[13.5px] font-semibold transition-all duration-150"
            style="background:#0A0A0A;color:#fff;"
          >
-           <span id="submit-label">Get my free audit</span>
+           <span id="submit-label">Get my free automation plan →</span>
            <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
              <path d="M3 8h10M9 4l4 4-4 4"/>
            </svg>
@@ -775,7 +775,7 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
      document.getElementById('form-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
    })
    .catch(function() {
-     label.textContent = 'Get my free audit';
+     label.textContent = 'Get my free automation plan →';
      btn.disabled = false;
      var errEl = document.getElementById('form-error');
      if (errEl) { errEl.textContent = 'Something went wrong — please try again or email hello@purist.online'; errEl.classList.remove('hidden'); }
