@@ -106,7 +106,7 @@ export default function WelcomePopup() {
 
              <span class="inline-flex items-center gap-1.5 bg-brand-pink/20 text-brand-pink text-[10px] tracking-[0.14em] uppercase px-2.5 py-1 rounded-full mb-4 font-medium">
                <span class="w-1.5 h-1.5 rounded-full bg-brand-pink inline-block" style="animation:pulse 2s ease-in-out infinite"/>
-               Free audit offer
+               Free automation plan
              </span>
 
              <h2 id="popup-title" class="font-display text-white text-2xl leading-tight mb-2 text-balance">
@@ -114,7 +114,7 @@ export default function WelcomePopup() {
                <em class="font-medium text-brand-pink">your time is leaking.</em>
              </h2>
              <p class="text-white/60 text-sm leading-relaxed">
-               Get a free 45-minute automation audit — we map your workflow and show you what's costing you the most.
+               Get your custom automation plan — we map your workflows and show you exactly where you're losing time and money.
              </p>
            </div>
 
@@ -155,7 +155,7 @@ export default function WelcomePopup() {
                  disabled={loading}
                  class="w-full bg-brand-black text-white py-3.5 rounded-button text-sm font-medium hover:bg-brand-gray-900 transition disabled:opacity-60 disabled:cursor-not-allowed"
                >
-                 {loading ? 'Sending…' : 'Book my free audit →'}
+                 {loading ? 'Sending…' : 'Get my free automation plan →'}
                </button>
              </form>
 
@@ -178,7 +178,7 @@ export default function WelcomePopup() {
            </div>
            <h2 class="font-display text-2xl mb-2">You're booked in.</h2>
            <p class="text-sm text-brand-gray-600 mb-6 leading-relaxed max-w-xs">
-             Check your inbox we'll send you a calendar link to schedule your audit within 24 hours.
+             Check your inbox — we'll send your custom automation plan and calendar link within 24 hours.
            </p>
            <a
              href="/pages/welcome"
