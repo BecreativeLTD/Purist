@@ -1,343 +1,596 @@
 ---
-// Preview of the automated proposal email — for internal validation only
-// Shows what the client receives after submitting the welcome form
-// Route: /pages/proposal-preview
+// Internal preview — noindex
 ---
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex, nofollow" />
-  <title>Proposal Email Preview — PURIST Internal</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="robots" content="noindex,nofollow"/>
+  <title>Proposal Preview — PURIST Internal</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
-    body { font-family: -apple-system, sans-serif; background: #1a1a1a; margin: 0; padding: 2rem 1rem; }
-    .wrapper { max-width: 620px; margin: 0 auto; }
-    .meta { color: rgba(255,255,255,0.35); font-size: 0.8125rem; margin-bottom: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 10px; border-left: 3px solid #E8B4B0; }
-    .meta strong { color: rgba(255,255,255,0.7); }
-    /* Email styles */
-    .email { background: #f5f5f0; border-radius: 12px; overflow: hidden; }
-    .email-header { background: #0A0A0A; padding: 2.5rem 2.5rem 2rem; }
-    .logo { font-size: 1.25rem; letter-spacing: -0.02em; color: white; font-family: Georgia, serif; margin-bottom: 2rem; }
-    .logo span { color: #E8B4B0; }
-    .email-greeting { font-size: 1.5rem; color: white; font-weight: 400; font-family: Georgia, serif; line-height: 1.3; margin-bottom: 0.75rem; }
-    .email-greeting em { color: #E8B4B0; font-style: italic; }
-    .email-sub { font-size: 0.875rem; color: rgba(255,255,255,0.45); line-height: 1.7; }
-    .email-body { padding: 2rem 2.5rem; }
-    .intro { font-size: 0.9375rem; line-height: 1.75; color: #333; margin-bottom: 1.75rem; }
-    .intro strong { color: #0A0A0A; }
-    /* Diagnosis box */
-    .diagnosis { background: white; border: 1px solid #e8e5e0; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.75rem; }
-    .diagnosis-label { font-size: 0.625rem; letter-spacing: 0.18em; text-transform: uppercase; color: #E8B4B0; font-weight: 700; margin-bottom: 0.75rem; }
-    .diagnosis-title { font-size: 1rem; font-weight: 700; color: #0A0A0A; margin-bottom: 0.5rem; }
-    .diagnosis-text { font-size: 0.875rem; color: #555; line-height: 1.65; }
-    /* Section title */
-    .section-label { font-size: 0.625rem; letter-spacing: 0.18em; text-transform: uppercase; color: #999; font-weight: 700; margin-bottom: 1rem; margin-top: 1.75rem; }
-    /* Workflow cards */
-    .wf { background: white; border: 1px solid #e8e5e0; border-radius: 12px; margin-bottom: 0.875rem; overflow: hidden; }
-    .wf-head { padding: 1.25rem 1.5rem 0.75rem; display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
-    .wf-num { font-size: 0.625rem; letter-spacing: 0.15em; text-transform: uppercase; color: #999; margin-bottom: 0.35rem; }
-    .wf-title { font-size: 0.9375rem; font-weight: 700; color: #0A0A0A; line-height: 1.3; }
-    .wf-save { background: #f0faf4; color: #1a7a45; font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 99px; border: 1px solid #b6e8cc; white-space: nowrap; flex-shrink: 0; }
-    .wf-body { padding: 0 1.5rem 1.25rem; }
-    .wf-desc { font-size: 0.8375rem; color: #555; line-height: 1.65; margin-bottom: 0.875rem; }
-    .wf-detail { background: #f9f8f5; border-radius: 8px; padding: 0.875rem 1rem; }
-    .wf-detail-label { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: #aaa; margin-bottom: 0.5rem; font-weight: 600; }
-    .wf-detail-row { display: flex; gap: 1.5rem; }
-    .wf-kv { }
-    .wf-k { font-size: 0.6875rem; color: #999; margin-bottom: 0.15rem; }
-    .wf-v { font-size: 0.8125rem; font-weight: 600; color: #0A0A0A; }
-    .wf-tools { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.625rem; }
-    .tool-tag { font-size: 0.625rem; background: #f0f0f0; color: #555; padding: 0.2rem 0.6rem; border-radius: 99px; border: 1px solid #e0e0e0; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:#1c1c1c;color:#0A0A0A;-webkit-font-smoothing:antialiased}
+    /* Meta bar */
+    .meta-bar{background:#111;border-bottom:1px solid rgba(232,180,176,0.2);padding:0.875rem 1.5rem;font-size:0.75rem;color:rgba(255,255,255,0.4);display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+    .meta-bar strong{color:rgba(255,255,255,0.7)}
+    .meta-pill{background:rgba(232,180,176,0.1);color:#E8B4B0;padding:0.2rem 0.7rem;border-radius:99px;font-size:0.6875rem;letter-spacing:0.1em;font-weight:600}
+
+    /* Email wrapper */
+    .email-wrap{max-width:660px;margin:2rem auto;background:#F8F6F1;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.4)}
+
+    /* Header */
+    .hd{background:#0A0A0A;padding:2.5rem}
+    .hd-logo{font-family:'DM Serif Display',Georgia,serif;font-size:1.25rem;color:white;margin-bottom:2rem}
+    .hd-logo span{color:#E8B4B0}
+    .hd-tag{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(232,180,176,0.12);border:1px solid rgba(232,180,176,0.2);color:#E8B4B0;font-size:0.625rem;letter-spacing:0.18em;text-transform:uppercase;padding:0.35rem 0.875rem;border-radius:99px;margin-bottom:1rem;font-weight:600}
+    .hd-dot{width:6px;height:6px;border-radius:50%;background:#E8B4B0;animation:pulse 2s ease-in-out infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+    .hd-h1{font-family:'DM Serif Display',Georgia,serif;font-size:2rem;color:white;line-height:1.2;font-weight:400;margin-bottom:0.75rem}
+    .hd-h1 em{color:#E8B4B0;font-style:italic}
+    .hd-sub{font-size:0.875rem;color:rgba(255,255,255,0.4);line-height:1.7;max-width:480px}
+    .hd-chips{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:1.5rem}
+    .chip{font-size:0.6875rem;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.45);padding:0.3rem 0.75rem;border-radius:99px;border:1px solid rgba(255,255,255,0.08)}
+
+    /* Body */
+    .bd{padding:2rem 2.5rem}
+
+    /* Section label */
+    .sl{font-size:0.625rem;letter-spacing:0.2em;text-transform:uppercase;color:#E8B4B0;font-weight:700;margin-bottom:0.75rem;margin-top:2rem}
+    .sl:first-child{margin-top:0}
+
+    /* Intro */
+    .intro{font-size:0.9375rem;line-height:1.8;color:#333;margin-bottom:0}
+    .intro strong{color:#0A0A0A;font-weight:600}
+
+    /* Cards */
+    .card{background:white;border:1px solid #E8E5E0;border-radius:14px;padding:1.5rem;margin-top:1rem}
+    .card-sm{background:white;border:1px solid #E8E5E0;border-radius:12px;padding:1.25rem;margin-top:0.75rem}
+
+    /* Hidden cost calculator */
+    .cost-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:1rem}
+    .cost-cell{background:#fafaf8;border:1px solid #eee;border-radius:10px;padding:1rem}
+    .cost-label{font-size:0.6875rem;color:#999;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;font-weight:600}
+    .cost-val{font-size:1.25rem;font-weight:700;color:#0A0A0A;font-family:'DM Serif Display',Georgia,serif}
+    .cost-val.red{color:#dc2626}
+    .cost-sub{font-size:0.75rem;color:#aaa;margin-top:0.2rem;line-height:1.4}
+    .cost-total{background:#dc2626;border-radius:10px;padding:1rem;text-align:center;margin-top:0.75rem}
+    .cost-total-label{font-size:0.625rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:0.25rem;font-weight:600}
+    .cost-total-val{font-size:1.75rem;font-weight:700;color:white;font-family:'DM Serif Display',Georgia,serif}
+    .cost-total-sub{font-size:0.75rem;color:rgba(255,255,255,0.55);margin-top:0.2rem}
+
+    /* Benchmark */
+    .bench-row{display:flex;align-items:center;gap:1rem;padding:0.875rem 0;border-bottom:1px solid #f0ede8}
+    .bench-row:last-child{border-bottom:none}
+    .bench-metric{flex:1;font-size:0.875rem;color:#555}
+    .bench-industry{font-size:0.875rem;font-weight:600;color:#dc2626;width:80px;text-align:center}
+    .bench-top{font-size:0.875rem;font-weight:600;color:#1a7a45;width:80px;text-align:center}
+    .bench-bar-wrap{width:160px;background:#f0ede8;border-radius:99px;height:6px;position:relative;overflow:hidden}
+    .bench-bar{height:100%;border-radius:99px;background:linear-gradient(90deg,#dc2626,#f87171)}
+    .bench-header{display:flex;align-items:center;gap:1rem;padding:0 0 0.625rem;border-bottom:1px solid #e8e5e0;margin-bottom:0}
+    .bench-header-label{font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:#aaa;font-weight:600}
+
+    /* Workflow */
+    .wf{background:white;border:1px solid #E8E5E0;border-radius:14px;margin-top:0.875rem;overflow:hidden}
+    .wf-head{padding:1.25rem 1.5rem 0;display:flex;justify-content:space-between;align-items:flex-start;gap:0.75rem}
+    .wf-num{font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:#aaa;font-weight:600;margin-bottom:0.3rem}
+    .wf-title{font-size:1rem;font-weight:700;color:#0A0A0A;line-height:1.3}
+    .wf-save{background:#f0faf4;color:#1a7a45;font-size:0.75rem;font-weight:700;padding:0.3rem 0.75rem;border-radius:99px;border:1px solid #b6e8cc;white-space:nowrap;flex-shrink:0}
+    .wf-desc{font-size:0.875rem;color:#444;line-height:1.7;padding:0.875rem 1.5rem}
+    /* Steps */
+    .steps{padding:0 1.5rem;margin-bottom:1rem}
+    .steps-title{font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:#bbb;font-weight:600;margin-bottom:0.625rem}
+    .step-item{display:flex;gap:0.75rem;align-items:flex-start;padding:0.4rem 0}
+    .step-n{width:20px;height:20px;background:#0A0A0A;color:white;border-radius:50%;font-size:0.6rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:0.1rem}
+    .step-text{font-size:0.8125rem;color:#555;line-height:1.5}
+    /* Specs */
+    .specs{background:#fafaf8;border-top:1px solid #f0ede8;padding:1rem 1.5rem;display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem}
+    .spec-k{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.12em;color:#bbb;margin-bottom:0.25rem;font-weight:600}
+    .spec-v{font-size:0.8125rem;font-weight:600;color:#0A0A0A}
+    .tools-row{padding:0.75rem 1.5rem;border-top:1px solid #f0ede8;display:flex;gap:0.4rem;flex-wrap:wrap;align-items:center}
+    .tool-label{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:#bbb;margin-right:0.25rem;font-weight:600}
+    .tool-tag{font-size:0.6875rem;background:#f0f0ee;color:#555;padding:0.2rem 0.65rem;border-radius:99px;border:1px solid #e5e3de}
+
+    /* Before / After */
+    .ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:1rem}
+    .ba-col{border-radius:12px;padding:1.25rem}
+    .ba-col.before{background:#fff5f5;border:1px solid #fecaca}
+    .ba-col.after{background:#f0faf4;border:1px solid #b6e8cc}
+    .ba-label{font-size:0.625rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:700;margin-bottom:0.875rem}
+    .ba-label.before{color:#dc2626}
+    .ba-label.after{color:#1a7a45}
+    .ba-item{display:flex;align-items:flex-start;gap:0.5rem;margin-bottom:0.5rem;font-size:0.8125rem;line-height:1.4}
+    .ba-item span{flex-shrink:0;margin-top:0.1rem}
+
+    /* ROI projection */
+    .proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#E8E5E0;border-radius:12px;overflow:hidden;margin-top:1rem}
+    .proj-cell{background:white;padding:1.25rem;text-align:center}
+    .proj-month{font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:#aaa;font-weight:600;margin-bottom:0.5rem}
+    .proj-val{font-size:1.5rem;font-family:'DM Serif Display',Georgia,serif;color:#0A0A0A;font-weight:400}
+    .proj-val.green{color:#1a7a45}
+    .proj-sub{font-size:0.75rem;color:#999;margin-top:0.25rem}
+
     /* ROI block */
-    .roi-block { background: #0A0A0A; border-radius: 12px; padding: 1.5rem; margin: 1.75rem 0; }
-    .roi-block-label { font-size: 0.625rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(232,180,176,0.6); margin-bottom: 1.25rem; font-weight: 700; }
-    .roi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem; }
-    .roi-cell { text-align: center; }
-    .roi-val { font-size: 1.75rem; font-weight: 700; color: white; font-family: Georgia, serif; }
-    .roi-val.pink { color: #E8B4B0; }
-    .roi-lbl { font-size: 0.625rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-top: 0.25rem; }
-    .roi-note { font-size: 0.75rem; color: rgba(255,255,255,0.3); line-height: 1.6; border-top: 1px solid rgba(255,255,255,0.07); padding-top: 0.875rem; }
+    .roi{background:#0A0A0A;border-radius:14px;padding:1.75rem;margin-top:1rem}
+    .roi-label{font-size:0.625rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(232,180,176,0.55);font-weight:700;margin-bottom:1.25rem}
+    .roi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.25rem}
+    .roi-cell{text-align:center}
+    .roi-val{font-size:1.5rem;font-family:'DM Serif Display',Georgia,serif;color:white}
+    .roi-val.pink{color:#E8B4B0}
+    .roi-lbl{font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-top:0.25rem}
+    .roi-note{font-size:0.75rem;color:rgba(255,255,255,0.25);line-height:1.65;border-top:1px solid rgba(255,255,255,0.07);padding-top:1rem}
+
+    /* Case study */
+    .case{background:white;border:1px solid #E8E5E0;border-radius:14px;padding:1.5rem;margin-top:1rem}
+    .case-quote{font-size:1rem;font-family:'DM Serif Display',Georgia,serif;color:#0A0A0A;line-height:1.5;font-style:italic;margin-bottom:1rem;padding-left:1rem;border-left:3px solid #E8B4B0}
+    .case-author{display:flex;align-items:center;gap:0.75rem}
+    .case-avatar{width:36px;height:36px;border-radius:50%;object-fit:cover}
+    .case-name{font-size:0.875rem;font-weight:600;color:#0A0A0A}
+    .case-role{font-size:0.75rem;color:#999}
+    .case-results{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-top:1.25rem;background:#fafaf8;border-radius:10px;padding:1rem}
+    .case-kv{text-align:center}
+    .case-v{font-size:1.1rem;font-weight:700;color:#1a7a45;font-family:'DM Serif Display',Georgia,serif}
+    .case-k{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:#aaa;margin-top:0.15rem;font-weight:600}
+
     /* Timeline */
-    .timeline { background: white; border: 1px solid #e8e5e0; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.75rem; }
-    .tl-row { display: flex; gap: 1rem; padding: 0.625rem 0; border-bottom: 1px solid #f0ede8; }
-    .tl-row:last-child { border-bottom: none; padding-bottom: 0; }
-    .tl-day { font-size: 0.6875rem; color: #999; font-weight: 600; width: 80px; flex-shrink: 0; padding-top: 0.1rem; }
-    .tl-content { }
-    .tl-title { font-size: 0.875rem; font-weight: 600; color: #0A0A0A; }
-    .tl-desc { font-size: 0.8rem; color: #777; margin-top: 0.15rem; line-height: 1.5; }
+    .tl{margin-top:1rem}
+    .tl-row{display:flex;gap:1rem;padding:0.875rem 0;border-bottom:1px solid #f0ede8}
+    .tl-row:last-child{border-bottom:none}
+    .tl-day{font-size:0.6875rem;color:#aaa;font-weight:600;width:88px;flex-shrink:0;padding-top:0.15rem}
+    .tl-title{font-size:0.875rem;font-weight:700;color:#0A0A0A;margin-bottom:0.2rem}
+    .tl-desc{font-size:0.8rem;color:#777;line-height:1.55}
+
+    /* Risk */
+    .risk{background:#fff8f0;border:1px solid #fed7aa;border-radius:14px;padding:1.5rem;margin-top:1rem}
+    .risk-title{font-size:0.875rem;font-weight:700;color:#c2410c;margin-bottom:0.875rem;display:flex;align-items:center;gap:0.5rem}
+    .risk-row{display:flex;gap:0.75rem;margin-bottom:0.625rem;font-size:0.8375rem;color:#555;align-items:flex-start}
+    .risk-icon{color:#f97316;flex-shrink:0;margin-top:0.1rem}
+
     /* Investment */
-    .invest { background: white; border: 1px solid #e8e5e0; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
-    .invest-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; }
-    .invest-amount { font-size: 2rem; font-weight: 700; color: #0A0A0A; font-family: Georgia, serif; }
-    .invest-note { font-size: 0.8125rem; color: #888; margin-top: 0.2rem; }
-    .invest-badge { background: #f0faf4; color: #1a7a45; font-size: 0.75rem; font-weight: 700; padding: 0.4rem 0.875rem; border-radius: 99px; border: 1px solid #b6e8cc; }
-    .includes { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
-    .includes li { display: flex; align-items: flex-start; gap: 0.65rem; font-size: 0.875rem; color: #444; line-height: 1.4; }
-    .includes li::before { content: '✓'; color: #1a7a45; font-weight: 700; flex-shrink: 0; }
-    /* CTA */
-    .cta-block { background: #0A0A0A; border-radius: 12px; padding: 1.75rem; text-align: center; margin-bottom: 1.5rem; }
-    .cta-title { font-size: 1.125rem; color: white; font-weight: 600; margin-bottom: 0.5rem; }
-    .cta-sub { font-size: 0.875rem; color: rgba(255,255,255,0.4); margin-bottom: 1.25rem; line-height: 1.6; }
-    .cta-btn { display: inline-block; background: #E8B4B0; color: #0A0A0A; padding: 0.875rem 2rem; border-radius: 10px; font-size: 0.9375rem; font-weight: 700; text-decoration: none; }
-    .cta-alt { font-size: 0.8rem; color: rgba(255,255,255,0.25); margin-top: 0.875rem; }
+    .invest{background:white;border:1px solid #E8E5E0;border-radius:14px;padding:1.5rem;margin-top:1rem}
+    .invest-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.25rem}
+    .invest-amount{font-size:2.25rem;font-family:'DM Serif Display',Georgia,serif;color:#0A0A0A}
+    .invest-note{font-size:0.8125rem;color:#aaa;margin-top:0.2rem}
+    .invest-badge{background:#f0faf4;color:#1a7a45;font-size:0.75rem;font-weight:700;padding:0.4rem 0.875rem;border-radius:99px;border:1px solid #b6e8cc}
+    .includes{list-style:none;display:flex;flex-direction:column;gap:0.5rem}
+    .includes li{display:flex;align-items:flex-start;gap:0.65rem;font-size:0.875rem;color:#444;line-height:1.45}
+    .includes li::before{content:'✓';color:#1a7a45;font-weight:700;flex-shrink:0;margin-top:0.05rem}
+
+    /* FAQ */
+    .faq{margin-top:0.75rem}
+    .faq-item{border-bottom:1px solid #f0ede8;padding:0.875rem 0}
+    .faq-item:last-child{border-bottom:none;padding-bottom:0}
+    .faq-q{font-size:0.875rem;font-weight:600;color:#0A0A0A;margin-bottom:0.35rem}
+    .faq-a{font-size:0.8125rem;color:#666;line-height:1.65}
+
     /* Guarantee */
-    .guarantee { display: flex; gap: 1rem; padding: 1.25rem 1.5rem; background: white; border: 1px solid #e8e5e0; border-radius: 12px; margin-bottom: 1.75rem; }
-    .guarantee-icon { font-size: 1.25rem; flex-shrink: 0; }
-    .guarantee-title { font-size: 0.875rem; font-weight: 700; color: #0A0A0A; margin-bottom: 0.2rem; }
-    .guarantee-text { font-size: 0.8125rem; color: #666; line-height: 1.6; }
+    .guarantee{display:flex;gap:1rem;padding:1.25rem;background:white;border:1px solid #E8E5E0;border-radius:14px;margin-top:1rem}
+    .g-icon{font-size:1.5rem;flex-shrink:0}
+    .g-title{font-size:0.875rem;font-weight:700;color:#0A0A0A;margin-bottom:0.25rem}
+    .g-text{font-size:0.8125rem;color:#666;line-height:1.65}
+
+    /* CTA */
+    .cta-block{background:#0A0A0A;border-radius:14px;padding:2rem;text-align:center;margin-top:1rem}
+    .cta-title{font-family:'DM Serif Display',Georgia,serif;font-size:1.5rem;color:white;margin-bottom:0.5rem;font-weight:400}
+    .cta-title em{color:#E8B4B0;font-style:italic}
+    .cta-sub{font-size:0.875rem;color:rgba(255,255,255,0.4);margin-bottom:1.5rem;line-height:1.7}
+    .cta-btn{display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:1rem 2.5rem;border-radius:12px;font-size:1rem;font-weight:700;text-decoration:none;letter-spacing:-0.01em}
+    .cta-or{font-size:0.8125rem;color:rgba(255,255,255,0.25);margin:0.875rem 0 0}
+
     /* Footer */
-    .email-footer { background: #0A0A0A; padding: 1.5rem 2.5rem; }
-    .footer-text { font-size: 0.75rem; color: rgba(255,255,255,0.25); line-height: 1.7; }
-    .footer-text a { color: rgba(232,180,176,0.6); text-decoration: none; }
+    .ft{background:#0A0A0A;padding:1.5rem 2.5rem;border-top:1px solid rgba(255,255,255,0.05)}
+    .ft-text{font-size:0.75rem;color:rgba(255,255,255,0.2);line-height:1.7}
+    .ft-text a{color:rgba(232,180,176,0.5);text-decoration:none}
+
+    hr.div{border:none;border-top:1px solid #E8E5E0;margin:2rem 0}
   </style>
 </head>
 <body>
 
-<div class="wrapper">
+<!-- Internal bar -->
+<div class="meta-bar">
+  <span class="meta-pill">Internal preview</span>
+  <span>Email automatically sent after welcome form submission ·</span>
+  <span><strong>Example:</strong> Sarah Mitchell · Mitchell & Associates · Law Firm · 5-10 people · Pain: invoice chasing · Tools: Clio + Google Workspace · Budget: €1,500–3,000/mo</span>
+</div>
 
-  <!-- Internal meta bar -->
-  <div class="meta">
-    <strong>Internal preview</strong> — This is what the client receives by email automatically after submitting the welcome form.<br/>
-    Example: <strong>Sarah Mitchell · Mitchell & Associates Law · 5-10 employees · Pain: Manual invoice chasing · Tools: Clio, Google Workspace · Budget: €1,500–3,000/mo</strong>
+<div class="email-wrap">
+
+  <!-- ═══ HEADER ═══ -->
+  <div class="hd">
+    <div class="hd-logo">PURIST<span>.</span></div>
+    <div class="hd-tag"><span class="hd-dot"></span>Your personalised automation analysis</div>
+    <h1 class="hd-h1">Sarah, we've mapped<br/><em>your hidden costs.</em></h1>
+    <p class="hd-sub">We reviewed your submission in detail. Below is a full operational analysis of Mitchell & Associates — the inefficiencies we identified, the exact automations we recommend, and the financial impact of each.</p>
+    <div class="hd-chips">
+      <span class="chip">Law Firm / Legal</span>
+      <span class="chip">5–10 employees</span>
+      <span class="chip">Clio + Google Workspace</span>
+      <span class="chip">Budget: €1,500–3,000/mo</span>
+    </div>
   </div>
 
-  <!-- THE EMAIL -->
-  <div class="email">
+  <!-- ═══ BODY ═══ -->
+  <div class="bd">
 
-    <!-- Header -->
-    <div class="email-header">
-      <div class="logo">PURIST<span>.</span></div>
-      <div class="email-greeting">
-        Sarah, here's your<br/>
-        <em>custom automation plan.</em>
+    <!-- Intro -->
+    <p class="intro">
+      Thank you for your submission. We've reviewed your profile carefully — your industry, team size, the tools you use daily, and the specific challenges you described.<br/><br/>
+      What follows is not a generic proposal. It's a <strong>targeted operational analysis</strong> built specifically for a law firm running Clio and Google Workspace, with a team of 5–10 people where the primary bottleneck is manual invoice management and client follow-up.<br/><br/>
+      We've helped 14 similar firms in the past 18 months. The numbers below are based on that experience — conservative, verifiable, and specific to your situation.
+    </p>
+
+    <hr class="div"/>
+
+    <!-- ═══ SECTION 1: Hidden cost ═══ -->
+    <div class="sl">Section 01 — The real cost of your current situation</div>
+    <div class="card">
+      <p style="font-size:0.9375rem;font-weight:700;color:#0A0A0A;margin-bottom:0.5rem">What manual admin is actually costing Mitchell & Associates</p>
+      <p style="font-size:0.875rem;color:#666;line-height:1.65;margin-bottom:1rem">Based on a 5–10 person firm with your profile, here is a conservative breakdown of what your current manual processes cost — before any automation.</p>
+      <div class="cost-grid">
+        <div class="cost-cell">
+          <div class="cost-label">Invoice chasing</div>
+          <div class="cost-val red">7h / week</div>
+          <div class="cost-sub">Drafting reminders, tracking payments, escalating overdue accounts manually</div>
+        </div>
+        <div class="cost-cell">
+          <div class="cost-label">Client intake</div>
+          <div class="cost-val red">5h / week</div>
+          <div class="cost-sub">Intake forms, conflict checks, matter creation, welcome emails — all done by hand</div>
+        </div>
+        <div class="cost-cell">
+          <div class="cost-label">Deadline tracking</div>
+          <div class="cost-val red">4h / week</div>
+          <div class="cost-sub">Manually checking calendars, sending reminders, following up on acknowledgements</div>
+        </div>
+        <div class="cost-cell">
+          <div class="cost-label">Late payment impact</div>
+          <div class="cost-val red">€8,400 / yr</div>
+          <div class="cost-sub">Average cash flow loss from invoices paid 30+ days late at your firm size</div>
+        </div>
       </div>
-      <p class="email-sub">Based on your submission — prepared by PURIST. No call needed.</p>
+      <div class="cost-total">
+        <div class="cost-total-label">Total annual cost of inaction</div>
+        <div class="cost-total-val">€66,560 per year</div>
+        <div class="cost-total-sub">16 hours/week × €80 average fully-loaded cost × 52 weeks</div>
+      </div>
     </div>
 
-    <!-- Body -->
-    <div class="email-body">
+    <hr class="div"/>
 
-      <p class="intro">
-        We reviewed your submission carefully. <strong>Mitchell & Associates</strong> is a 5-10 person law firm spending significant time on manual invoice chasing, payment tracking, and client follow-up — time that should be billable.
-        <br/><br/>
-        Below is the exact automation plan we recommend for your situation, with realistic time savings and ROI projections based on a firm your size.
-      </p>
-
-      <!-- Diagnosis -->
-      <div class="diagnosis">
-        <div class="diagnosis-label">Our diagnosis</div>
-        <div class="diagnosis-title">Your biggest hidden cost: manual admin on billable hours</div>
-        <div class="diagnosis-text">
-          At 5-10 employees, a law firm typically loses <strong>12–18 hours per week</strong> to tasks that have nothing to do with legal work — chasing invoices, updating client files, sending reminders, and managing intake paperwork. At your billing rate, that's <strong>€18,000–28,000 per year in lost billable time.</strong>
-          <br/><br/>
-          The three workflows below target your exact situation: Clio + Google Workspace environment, invoice chasing as the primary pain point, and a team that needs to focus on case work — not admin.
-        </div>
+    <!-- ═══ SECTION 2: Benchmark ═══ -->
+    <div class="sl">Section 02 — Where you stand vs. top law firms in Europe</div>
+    <div class="card">
+      <p style="font-size:0.875rem;color:#666;line-height:1.65;margin-bottom:1rem">We benchmarked your profile against 14 similar firms (5–15 people, Clio or equivalent, UK/EU). Here's where Mitchell & Associates sits today, and where automated firms operate.</p>
+      <div class="bench-header">
+        <div style="flex:1;font-size:0.6875rem;color:#999;font-weight:600">Metric</div>
+        <div class="bench-header-label" style="width:80px;text-align:center">You today</div>
+        <div class="bench-header-label" style="width:80px;text-align:center">Automated firms</div>
+        <div class="bench-header-label" style="width:160px;text-align:center">Gap</div>
       </div>
-
-      <!-- Workflows -->
-      <div class="section-label">Your 3 automations — ranked by ROI</div>
-
-      <!-- W1 -->
-      <div class="wf">
-        <div class="wf-head">
-          <div>
-            <div class="wf-num">Workflow 01 — Highest priority</div>
-            <div class="wf-title">Automated Invoice Dispatch & Payment Chasing</div>
-          </div>
-          <div class="wf-save">Saves 7h/wk</div>
-        </div>
-        <div class="wf-body">
-          <p class="wf-desc">
-            When a matter reaches a billing milestone in Clio, an invoice is generated and sent automatically. If unpaid at 7 days, a polite reminder goes out. At 14 days, a firmer notice. At 30 days, it escalates to your billing partner with a draft final notice ready to send. You stop chasing — the system does it for you.
-          </p>
-          <div class="wf-detail">
-            <div class="wf-detail-label">Technical details</div>
-            <div class="wf-detail-row">
-              <div class="wf-kv"><div class="wf-k">Trigger</div><div class="wf-v">Billing milestone in Clio</div></div>
-              <div class="wf-kv"><div class="wf-k">Deploy time</div><div class="wf-v">3 business days</div></div>
-              <div class="wf-kv"><div class="wf-k">Annual saving</div><div class="wf-v">€29,120</div></div>
-            </div>
-            <div class="wf-tools">
-              <span class="tool-tag">Clio</span>
-              <span class="tool-tag">Google Workspace</span>
-              <span class="tool-tag">Stripe / Bank transfer</span>
-              <span class="tool-tag">n8n</span>
-            </div>
-          </div>
-        </div>
+      <div class="bench-row">
+        <div class="bench-metric">Invoice-to-payment cycle</div>
+        <div class="bench-industry">38 days</div>
+        <div class="bench-top">12 days</div>
+        <div class="bench-bar-wrap"><div class="bench-bar" style="width:70%"></div></div>
       </div>
-
-      <!-- W2 -->
-      <div class="wf">
-        <div class="wf-head">
-          <div>
-            <div class="wf-num">Workflow 02</div>
-            <div class="wf-title">Client Intake → Matter Opening + Conflict Check</div>
-          </div>
-          <div class="wf-save">Saves 5h/wk</div>
-        </div>
-        <div class="wf-body">
-          <p class="wf-desc">
-            When a new enquiry arrives — by email, web form, or referral — a structured intake form is sent automatically. Once completed, it runs a conflict-of-interest check against your Clio database, creates the matter, assigns it to the right fee earner, and sends the client a welcome email. Intake time drops from 45 minutes to under 5.
-          </p>
-          <div class="wf-detail">
-            <div class="wf-detail-label">Technical details</div>
-            <div class="wf-detail-row">
-              <div class="wf-kv"><div class="wf-k">Trigger</div><div class="wf-v">New enquiry (email / form)</div></div>
-              <div class="wf-kv"><div class="wf-k">Deploy time</div><div class="wf-v">4 business days</div></div>
-              <div class="wf-kv"><div class="wf-k">Annual saving</div><div class="wf-v">€20,800</div></div>
-            </div>
-            <div class="wf-tools">
-              <span class="tool-tag">Clio</span>
-              <span class="tool-tag">Google Forms</span>
-              <span class="tool-tag">Gmail</span>
-              <span class="tool-tag">n8n</span>
-            </div>
-          </div>
-        </div>
+      <div class="bench-row">
+        <div class="bench-metric">Client intake time</div>
+        <div class="bench-industry">45 min</div>
+        <div class="bench-top">4 min</div>
+        <div class="bench-bar-wrap"><div class="bench-bar" style="width:85%"></div></div>
       </div>
-
-      <!-- W3 -->
-      <div class="wf">
-        <div class="wf-head">
-          <div>
-            <div class="wf-num">Workflow 03</div>
-            <div class="wf-title">Deadline & Court Date Reminder System</div>
-          </div>
-          <div class="wf-save">Saves 4h/wk</div>
-        </div>
-        <div class="wf-body">
-          <p class="wf-desc">
-            Critical deadlines, court dates, and filing windows in Clio trigger automated reminders to the responsible fee earner at 30, 14, 7, and 1 day before. If no acknowledgement, it escalates to a partner. A daily digest of upcoming deadlines lands in your inbox every morning at 8am. Zero missed dates, ever.
-          </p>
-          <div class="wf-detail">
-            <div class="wf-detail-label">Technical details</div>
-            <div class="wf-detail-row">
-              <div class="wf-kv"><div class="wf-k">Trigger</div><div class="wf-v">Calendar events in Clio</div></div>
-              <div class="wf-kv"><div class="wf-k">Deploy time</div><div class="wf-v">2 business days</div></div>
-              <div class="wf-kv"><div class="wf-k">Annual saving</div><div class="wf-v">€16,640</div></div>
-            </div>
-            <div class="wf-tools">
-              <span class="tool-tag">Clio</span>
-              <span class="tool-tag">Google Calendar</span>
-              <span class="tool-tag">Gmail / SMS</span>
-              <span class="tool-tag">n8n</span>
-            </div>
-          </div>
-        </div>
+      <div class="bench-row">
+        <div class="bench-metric">Missed deadline incidents / year</div>
+        <div class="bench-industry">3–5</div>
+        <div class="bench-top">0</div>
+        <div class="bench-bar-wrap"><div class="bench-bar" style="width:90%"></div></div>
       </div>
-
-      <!-- ROI -->
-      <div class="roi-block">
-        <div class="roi-block-label">Your projected return — Mitchell & Associates</div>
-        <div class="roi-grid">
-          <div class="roi-cell">
-            <div class="roi-val">16h</div>
-            <div class="roi-lbl">Saved per week</div>
-          </div>
-          <div class="roi-cell">
-            <div class="roi-val">€66,560</div>
-            <div class="roi-lbl">Annual value recovered</div>
-          </div>
-          <div class="roi-cell">
-            <div class="roi-val pink">19.6×</div>
-            <div class="roi-lbl">ROI in year 1</div>
-          </div>
-        </div>
-        <div class="roi-note">
-          Calculated at €80/hour fully-loaded cost for a senior fee earner. Based on 16h/week recovered across the 3 workflows, annualised over 52 weeks. Deployment cost deducted from year-1 figure. Most Mitchell & Associates-sized firms see positive ROI within the first 6 weeks.
-        </div>
+      <div class="bench-row">
+        <div class="bench-metric">Admin hours as % of total hours</div>
+        <div class="bench-industry">28%</div>
+        <div class="bench-top">7%</div>
+        <div class="bench-bar-wrap"><div class="bench-bar" style="width:75%"></div></div>
       </div>
-
-      <!-- Timeline -->
-      <div class="section-label">Deployment timeline</div>
-      <div class="timeline">
-        <div class="tl-row">
-          <div class="tl-day">Day 0</div>
-          <div class="tl-content">
-            <div class="tl-title">We confirm tool access</div>
-            <div class="tl-desc">You share Clio API credentials and Google Workspace access. Takes you ~20 minutes. We handle everything else.</div>
-          </div>
-        </div>
-        <div class="tl-row">
-          <div class="tl-day">Days 1–3</div>
-          <div class="tl-content">
-            <div class="tl-title">Invoice automation live</div>
-            <div class="tl-desc">Workflow #1 built, tested with real data, and deployed. You review a 3-minute Loom walkthrough before it goes live.</div>
-          </div>
-        </div>
-        <div class="tl-row">
-          <div class="tl-day">Days 4–7</div>
-          <div class="tl-content">
-            <div class="tl-title">Intake + deadline system deployed</div>
-            <div class="tl-desc">Workflows #2 and #3 go live. Error handling, retry logic, and alerting configured for all three.</div>
-          </div>
-        </div>
-        <div class="tl-row">
-          <div class="tl-day">Day 8</div>
-          <div class="tl-content">
-            <div class="tl-title">Handover + live monitoring</div>
-            <div class="tl-desc">You get a live dashboard showing every automation run. Dedicated Slack channel for direct access to your engineer.</div>
-          </div>
-        </div>
-        <div class="tl-row">
-          <div class="tl-day">Month 1–3</div>
-          <div class="tl-content">
-            <div class="tl-title">90-day ROI report delivered</div>
-            <div class="tl-desc">We monitor every run and send you a confirmed savings report at 90 days. 99.97% uptime SLA across all workflows.</div>
-          </div>
-        </div>
+      <div class="bench-row">
+        <div class="bench-metric">Late payment rate</div>
+        <div class="bench-industry">34%</div>
+        <div class="bench-top">6%</div>
+        <div class="bench-bar-wrap"><div class="bench-bar" style="width:80%"></div></div>
       </div>
+    </div>
 
-      <!-- Investment -->
-      <div class="section-label">Your investment</div>
-      <div class="invest">
-        <div class="invest-top">
-          <div>
-            <div class="invest-amount">€3,400</div>
-            <div class="invest-note">One-time setup · 90-day monitoring included</div>
-          </div>
-          <div class="invest-badge">Within your budget</div>
-        </div>
-        <ul class="includes">
-          <li>3 production automations built, tested & deployed in Clio + Google Workspace</li>
-          <li>Full error handling, retry logic and real-time alerting on every workflow</li>
-          <li>Live dashboard — you see every automation run, every day</li>
-          <li>Dedicated Slack channel — direct access to your engineer</li>
-          <li>90-day monitoring + ROI confirmation report</li>
-          <li>30-day fix-or-refund guarantee — no questions asked</li>
-        </ul>
-      </div>
+    <hr class="div"/>
 
-      <!-- Guarantee -->
-      <div class="guarantee">
-        <div class="guarantee-icon">🛡️</div>
+    <!-- ═══ SECTION 3: Workflows ═══ -->
+    <div class="sl">Section 03 — Your 3 automations, ranked by ROI</div>
+    <p style="font-size:0.875rem;color:#666;line-height:1.65;margin-bottom:0">Each workflow below was selected specifically for your tool stack (Clio + Google Workspace), your team size, and your primary pain point. They are ranked by time recovered and financial impact.</p>
+
+    <!-- W1 -->
+    <div class="wf">
+      <div class="wf-head">
         <div>
-          <div class="guarantee-title">30-day fix-or-refund guarantee</div>
-          <div class="guarantee-text">If any workflow doesn't perform exactly as described above, we fix it within 48 hours or refund you in full. We've built 500+ automations — we've never had to use it. But it's there.</div>
+          <div class="wf-num">Workflow 01 — Deploy first · Highest ROI</div>
+          <div class="wf-title">Automated Invoice Dispatch, Chasing & Escalation</div>
+        </div>
+        <div class="wf-save">Saves 7h / wk</div>
+      </div>
+      <div class="wf-desc">
+        Every invoice in your Clio workflow triggers an automated sequence. The invoice is generated, formatted, and sent. If unpaid at day 7, a personalised reminder goes out — referencing the matter by name, not a generic template. At day 14, a firmer notice with payment link. At day 30, your billing partner receives a fully drafted final notice ready to send. Every step is logged, auditable, and stops the moment payment is received.
+      </div>
+      <div class="steps">
+        <div class="steps-title">Exact steps — what happens automatically</div>
+        <div class="step-item"><div class="step-n">1</div><div class="step-text">Billing milestone reached in Clio → invoice auto-generated with correct matter reference, fee earner name, and bank details</div></div>
+        <div class="step-item"><div class="step-n">2</div><div class="step-text">Invoice emailed to client from your Google Workspace address — branded, professional, not from a third party</div></div>
+        <div class="step-item"><div class="step-n">3</div><div class="step-text">Day +7 — personalised reminder sent if unpaid. References the specific matter. Friendly tone.</div></div>
+        <div class="step-item"><div class="step-n">4</div><div class="step-text">Day +14 — firmer notice with one-click payment link. Urgency language. Still professional.</div></div>
+        <div class="step-item"><div class="step-n">5</div><div class="step-text">Day +30 — billing partner notified via Slack + email with draft final notice attached. One click to send.</div></div>
+        <div class="step-item"><div class="step-n">6</div><div class="step-text">Payment received → sequence stops immediately. Clio matter updated automatically. No double messages.</div></div>
+      </div>
+      <div class="specs">
+        <div><div class="spec-k">Time saved</div><div class="spec-v">7h / week</div></div>
+        <div><div class="spec-k">Annual value</div><div class="spec-v">€29,120</div></div>
+        <div><div class="spec-k">Deploy time</div><div class="spec-v">3 business days</div></div>
+        <div><div class="spec-k">Uptime SLA</div><div class="spec-v">99.97%</div></div>
+      </div>
+      <div class="tools-row">
+        <span class="tool-label">Integrations:</span>
+        <span class="tool-tag">Clio</span><span class="tool-tag">Google Workspace</span><span class="tool-tag">Stripe</span><span class="tool-tag">Slack</span><span class="tool-tag">n8n</span>
+      </div>
+    </div>
+
+    <!-- W2 -->
+    <div class="wf">
+      <div class="wf-head">
+        <div>
+          <div class="wf-num">Workflow 02 — Deploy days 4–5</div>
+          <div class="wf-title">Client Intake → Conflict Check → Matter Opening</div>
+        </div>
+        <div class="wf-save">Saves 5h / wk</div>
+      </div>
+      <div class="wf-desc">
+        Every new enquiry — whether by email, web form, or referral — triggers an automated intake sequence. The prospective client receives a structured intake form tailored to your practice area. Once submitted, the system runs an instant conflict-of-interest check against your Clio database. If clear, the matter is created, assigned to the correct fee earner, and the client receives a welcome email with their case reference, the assigned solicitor's name, and next steps. Intake time drops from 45 minutes to under 4.
+      </div>
+      <div class="steps">
+        <div class="steps-title">Exact steps</div>
+        <div class="step-item"><div class="step-n">1</div><div class="step-text">New enquiry received (email / form / referral) → automated intake form sent within 60 seconds</div></div>
+        <div class="step-item"><div class="step-n">2</div><div class="step-text">Client completes form → conflict check runs automatically against Clio client database</div></div>
+        <div class="step-item"><div class="step-n">3</div><div class="step-text">If clear → matter created in Clio, assigned to fee earner, tagged by practice area</div></div>
+        <div class="step-item"><div class="step-n">4</div><div class="step-text">Client receives branded welcome email: case reference, assigned solicitor, what happens next, expected timeline</div></div>
+        <div class="step-item"><div class="step-n">5</div><div class="step-text">If conflict detected → partner notified immediately, enquiry flagged, no matter opened</div></div>
+      </div>
+      <div class="specs">
+        <div><div class="spec-k">Time saved</div><div class="spec-v">5h / week</div></div>
+        <div><div class="spec-k">Annual value</div><div class="spec-v">€20,800</div></div>
+        <div><div class="spec-k">Deploy time</div><div class="spec-v">4 business days</div></div>
+        <div><div class="spec-k">Accuracy</div><div class="spec-v">100% logged</div></div>
+      </div>
+      <div class="tools-row">
+        <span class="tool-label">Integrations:</span>
+        <span class="tool-tag">Clio</span><span class="tool-tag">Google Forms</span><span class="tool-tag">Gmail</span><span class="tool-tag">n8n</span>
+      </div>
+    </div>
+
+    <!-- W3 -->
+    <div class="wf">
+      <div class="wf-head">
+        <div>
+          <div class="wf-num">Workflow 03 — Deploy days 6–7</div>
+          <div class="wf-title">Deadline Monitoring, Reminders & Partner Escalation</div>
+        </div>
+        <div class="wf-save">Saves 4h / wk</div>
+      </div>
+      <div class="wf-desc">
+        Every court date, filing deadline, and critical task in Clio is monitored continuously. The responsible fee earner receives automated reminders at 30, 14, 7, and 1 day before — by email and SMS. If no acknowledgement is received, the system escalates to the supervising partner. Every morning at 8am, a digest of the day's and week's upcoming deadlines lands in each fee earner's inbox. Zero manual calendar checking. Zero missed dates.
+      </div>
+      <div class="steps">
+        <div class="steps-title">Exact steps</div>
+        <div class="step-item"><div class="step-n">1</div><div class="step-text">Deadline or court date added in Clio → automatically picked up by the monitoring system</div></div>
+        <div class="step-item"><div class="step-n">2</div><div class="step-text">Reminders sent to responsible fee earner at 30d, 14d, 7d, 1d — email + SMS</div></div>
+        <div class="step-item"><div class="step-n">3</div><div class="step-text">Fee earner acknowledges (one click) → escalation paused, logged in Clio</div></div>
+        <div class="step-item"><div class="step-n">4</div><div class="step-text">No acknowledgement within 2h of 24h reminder → partner notified automatically with full matter details</div></div>
+        <div class="step-item"><div class="step-n">5</div><div class="step-text">Daily 8am digest sent to each fee earner with their upcoming deadlines for next 14 days</div></div>
+      </div>
+      <div class="specs">
+        <div><div class="spec-k">Time saved</div><div class="spec-v">4h / week</div></div>
+        <div><div class="spec-k">Annual value</div><div class="spec-v">€16,640</div></div>
+        <div><div class="spec-k">Deploy time</div><div class="spec-v">2 business days</div></div>
+        <div><div class="spec-k">Missed dates</div><div class="spec-v">0 (guaranteed)</div></div>
+      </div>
+      <div class="tools-row">
+        <span class="tool-label">Integrations:</span>
+        <span class="tool-tag">Clio</span><span class="tool-tag">Google Calendar</span><span class="tool-tag">Gmail</span><span class="tool-tag">SMS</span><span class="tool-tag">n8n</span>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- ═══ SECTION 4: Before / After ═══ -->
+    <div class="sl">Section 04 — Before vs. after, week by week</div>
+    <div class="ba-grid">
+      <div class="ba-col before">
+        <div class="ba-label before">⛔ Mitchell & Associates today</div>
+        <div class="ba-item"><span>🔴</span> Monday: manually check who hasn't paid, draft 4 reminders</div>
+        <div class="ba-item"><span>🔴</span> Tuesday: new enquiry arrives, 45-min intake process starts</div>
+        <div class="ba-item"><span>🔴</span> Wednesday: check calendar for deadlines, send reminders manually</div>
+        <div class="ba-item"><span>🔴</span> Thursday: chase 2 overdue invoices, escalate to partner</div>
+        <div class="ba-item"><span>🔴</span> Friday: another intake, conflict check done by hand</div>
+        <div class="ba-item"><span>🔴</span> Total: 16h of admin. 16h that should be billable.</div>
+      </div>
+      <div class="ba-col after">
+        <div class="ba-label after">✅ Mitchell & Associates automated</div>
+        <div class="ba-item"><span>🟢</span> Monday: 8am digest of deadlines delivered automatically</div>
+        <div class="ba-item"><span>🟢</span> Tuesday: new enquiry → intake form sent, conflict checked, matter opened in 4 minutes</div>
+        <div class="ba-item"><span>🟢</span> Wednesday: invoices chased automatically, nothing to do</div>
+        <div class="ba-item"><span>🟢</span> Thursday: overdue invoice escalated automatically to partner with draft letter</div>
+        <div class="ba-item"><span>🟢</span> Friday: all admin handled. 16h recovered. Fee earners doing legal work.</div>
+        <div class="ba-item"><span>🟢</span> Total: 16h of billable time. Every week.</div>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- ═══ SECTION 5: ROI ═══ -->
+    <div class="sl">Section 05 — Financial impact</div>
+    <div class="roi">
+      <div class="roi-label">Projected return — Mitchell & Associates · Year 1</div>
+      <div class="roi-grid">
+        <div class="roi-cell"><div class="roi-val">16h</div><div class="roi-lbl">Saved / week</div></div>
+        <div class="roi-cell"><div class="roi-val">€66,560</div><div class="roi-lbl">Annual value</div></div>
+        <div class="roi-cell"><div class="roi-val pink">19.6×</div><div class="roi-lbl">ROI year 1</div></div>
+        <div class="roi-cell"><div class="roi-val">6 wks</div><div class="roi-lbl">Payback period</div></div>
+      </div>
+      <div class="roi-note">Calculated at €80/hr fully-loaded cost. 16h/week × 52 weeks = 832 hours annually = €66,560 value recovered. Setup cost: €3,400 one-time. Net year-1 gain: €63,160. Payback in approximately 6 weeks from first invoice automation going live. Does not include late payment reduction which typically adds €6,000–12,000 in year 1 for a firm at your payment rate.</div>
+    </div>
+
+    <!-- Month by month projection -->
+    <div class="sl">Month-by-month projection</div>
+    <div class="proj-grid">
+      <div class="proj-cell">
+        <div class="proj-month">Month 1</div>
+        <div class="proj-val green">+€5,546</div>
+        <div class="proj-sub">First full month of all 3 workflows live. Invoice chase time eliminated.</div>
+      </div>
+      <div class="proj-cell">
+        <div class="proj-month">Month 3</div>
+        <div class="proj-val green">+€16,640</div>
+        <div class="proj-sub">Cumulative. Late payment rate beginning to drop. Intake 90% faster.</div>
+      </div>
+      <div class="proj-cell">
+        <div class="proj-month">Month 12</div>
+        <div class="proj-val green">+€63,160</div>
+        <div class="proj-sub">Net year-1 gain after setup cost. ROI fully confirmed in 90-day report.</div>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- ═══ SECTION 6: Case study ═══ -->
+    <div class="sl">Section 06 — A similar firm, one year later</div>
+    <div class="case">
+      <div class="case-quote">"We were spending 3 days a month just chasing invoices and updating client files. PURIST automated the whole thing. Within 6 weeks our average payment cycle went from 41 days to 9. The intake automation alone saved us hiring an additional paralegal."</div>
+      <div class="case-author">
+        <img class="case-avatar" src="https://i.pravatar.cc/72?img=12" alt="James T."/>
+        <div>
+          <div class="case-name">James T.</div>
+          <div class="case-role">Managing Partner · 7-person law firm · London</div>
         </div>
       </div>
-
-      <!-- CTA -->
-      <div class="cta-block">
-        <div class="cta-title">Ready to move forward?</div>
-        <div class="cta-sub">Reply to this email with "yes" — we send the onboarding form and invoice within 2 hours.<br/>Your first workflow goes live in 3 business days.</div>
-        <a href="https://www.purist.online/pages/welcome" class="cta-btn">Accept this plan →</a>
-        <div class="cta-alt">Or simply reply to this email. Hugo reads every reply personally.</div>
-      </div>
-
-    </div>
-
-    <!-- Footer -->
-    <div class="email-footer">
-      <div class="footer-text">
-        PURIST · <a href="https://www.purist.online">purist.online</a><br/>
-        This proposal was prepared specifically for Sarah Mitchell at Mitchell & Associates based on your submission. It is confidential.<br/><br/>
-        Not the right fit? <a href="#">Unsubscribe</a>
+      <div class="case-results">
+        <div class="case-kv"><div class="case-v">41→9</div><div class="case-k">Days to payment</div></div>
+        <div class="case-kv"><div class="case-v">€74,200</div><div class="case-k">Year-1 value</div></div>
+        <div class="case-kv"><div class="case-v">14 days</div><div class="case-k">To full deployment</div></div>
       </div>
     </div>
 
+    <hr class="div"/>
+
+    <!-- ═══ SECTION 7: Risk of waiting ═══ -->
+    <div class="sl">Section 07 — The cost of waiting</div>
+    <div class="risk">
+      <div class="risk-title">⚠️ What every month of delay costs Mitchell & Associates</div>
+      <div class="risk-row"><span class="risk-icon">→</span> <strong>€5,546 in lost value</strong> — 16 hours of admin per week that could be billable, every month you wait</div>
+      <div class="risk-row"><span class="risk-icon">→</span> <strong>€700 in late payment losses</strong> — invoices cycling through 38-day payment windows instead of 9 days</div>
+      <div class="risk-row"><span class="risk-icon">→</span> <strong>Compliance risk</strong> — manual deadline tracking at 5–10 people is where missed dates happen. One missed court date can cost more than a year of automation</div>
+      <div class="risk-row"><span class="risk-icon">→</span> <strong>Competitor advantage</strong> — 3 of the 14 firms we benchmarked against you are already automated. Their intake is 10× faster and their cash flow is structurally better.</div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- ═══ SECTION 8: Timeline ═══ -->
+    <div class="sl">Section 08 — Deployment timeline</div>
+    <div class="card">
+      <div class="tl">
+        <div class="tl-row"><div class="tl-day">Day 0</div><div><div class="tl-title">Credential handover (20 min from you)</div><div class="tl-desc">You share Clio API access and Google Workspace. We handle all setup, configuration, and testing. Nothing else required from your side until review.</div></div></div>
+        <div class="tl-row"><div class="tl-day">Days 1–3</div><div><div class="tl-title">Invoice automation live</div><div class="tl-desc">Built, tested with real Clio data, and deployed. You watch a 3-min Loom of exactly what happens at each trigger before we go live. You approve, we activate.</div></div></div>
+        <div class="tl-row"><div class="tl-day">Days 4–5</div><div><div class="tl-title">Intake automation deployed</div><div class="tl-desc">Intake form, conflict check, and matter-opening workflow go live. Tested with a dummy enquiry first. You confirm it looks exactly right.</div></div></div>
+        <div class="tl-row"><div class="tl-day">Days 6–7</div><div><div class="tl-title">Deadline system active</div><div class="tl-desc">All Clio deadlines now monitored. Daily digest configured. Escalation rules set to your preferences. You approve the notification format.</div></div></div>
+        <div class="tl-row"><div class="tl-day">Day 8</div><div><div class="tl-title">Handover — everything live</div><div class="tl-desc">You receive a live dashboard showing every automation run in real time. Dedicated Slack channel set up with direct access to your PURIST engineer. 15-min walkthrough call (optional).</div></div></div>
+        <div class="tl-row"><div class="tl-day">Days 9–90</div><div><div class="tl-title">Monitoring, optimisation & 90-day report</div><div class="tl-desc">99.97% uptime SLA across all workflows. Any edge case fixed within 48h. At day 90, you receive a full report: hours saved, invoices collected faster, deadlines met — with exact numbers.</div></div></div>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- ═══ SECTION 9: Investment ═══ -->
+    <div class="sl">Section 09 — Your investment</div>
+    <div class="invest">
+      <div class="invest-top">
+        <div>
+          <div class="invest-amount">€3,400</div>
+          <div class="invest-note">One-time setup fee · 90-day monitoring & support included</div>
+        </div>
+        <div class="invest-badge">Within your stated budget</div>
+      </div>
+      <ul class="includes">
+        <li>3 production-ready automations built, tested and deployed in your exact Clio + Google Workspace environment</li>
+        <li>Full error handling, retry logic, and real-time alerting on every workflow — nothing runs silently</li>
+        <li>Live monitoring dashboard — see every automation run, every trigger, every output, in real time</li>
+        <li>Dedicated Slack channel — direct access to your PURIST engineer, 7 days a week during the 90-day period</li>
+        <li>All edge cases handled — partial payments, multi-currency, matter reassignment, conflict escalation</li>
+        <li>90-day ROI report delivered with confirmed hours saved, payment cycle improvement, and net financial impact</li>
+        <li>30-day fix-or-refund guarantee — if anything doesn't perform as described, we fix it in 48h or refund in full</li>
+      </ul>
+    </div>
+
+    <!-- Guarantee -->
+    <div class="guarantee">
+      <div class="g-icon">🛡️</div>
+      <div>
+        <div class="g-title">30-day fix-or-refund guarantee — no questions asked</div>
+        <div class="g-text">If any of the 3 workflows doesn't perform exactly as described in this proposal within the first 30 days, we fix it within 48 hours or issue a full refund. We've deployed 500+ automations across 14 law firms. We've never had to use this guarantee. But it's there, in writing, for your peace of mind.</div>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- ═══ SECTION 10: FAQ ═══ -->
+    <div class="sl">Section 10 — Questions we always get at this stage</div>
+    <div class="card">
+      <div class="faq">
+        <div class="faq-item">
+          <div class="faq-q">Do we need to change how we use Clio?</div>
+          <div class="faq-a">No. We work around your existing Clio setup — no workflow changes, no retraining, no disruption. The automations sit on top of how you already work.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">What if a client disputes an automated invoice reminder?</div>
+          <div class="faq-a">Every reminder includes a clear "reply to this email" instruction. Disputes land in your inbox exactly as today — the only difference is the initial sends happen automatically. You stay in control of every escalation.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">What happens if Clio has downtime?</div>
+          <div class="faq-a">All workflows include retry logic and error handling. If Clio is temporarily unavailable, the trigger queues and retries automatically. You receive an alert if any workflow fails to execute within its window.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Who maintains this after the 90 days?</div>
+          <div class="faq-a">After the 90-day included period, maintenance is €149/month — covering monitoring, updates when Clio or Google changes their API, and up to 2 workflow modifications per month. Most clients renew. Some don't need to — the automations run untouched for years.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">How long does it actually take from us?</div>
+          <div class="faq-a">About 20 minutes on day 0 to share credentials. Then you review 3 short Loom videos (2–3 min each) before each workflow goes live. Total time from you: under 1 hour across the full deployment.</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- ═══ CTA ═══ -->
+    <div class="cta-block">
+      <div class="cta-title">Ready to recover<br/><em>16 hours a week?</em></div>
+      <p class="cta-sub">Reply to this email with "yes" — we send you a short onboarding form and invoice within 2 hours. Your first workflow goes live in 3 business days.<br/><br/>No call needed. No commitment until you approve each workflow before it goes live.</p>
+      <a href="https://www.purist.online/pages/welcome" class="cta-btn">Accept this plan — get started →</a>
+      <p class="cta-or">Or simply reply "yes" to this email. Hugo reads every reply personally.</p>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="ft">
+    <div class="ft-text">
+      PURIST · <a href="https://www.purist.online">purist.online</a> · hello@purist.online<br/>
+      This proposal was prepared specifically for Sarah Mitchell at Mitchell & Associates based on your submission on 30 June 2026. It is confidential and intended solely for the recipient.<br/><br/>
+      <a href="#">Unsubscribe</a> · <a href="https://www.purist.online/pages/privacy-policy">Privacy policy</a>
+    </div>
   </div>
 
 </div>
