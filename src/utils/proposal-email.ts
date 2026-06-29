@@ -766,30 +766,56 @@ export function generateProposalEmail(data: ProposalFormData): string {
 
   const W = (w: Workflow, idx: number) => {
     const annualVal = Math.round(w.hoursPerWeek * (TEAM_HOURLY[data.team_size || '6-15'] || 80) * 52);
-    const deployLabel = idx === 0 ? `Deploy first · Highest ROI` : `Deploy days ${idx === 1 ? '4–6' : '7–8'}`;
+    const deployLabel = idx === 0 ? `Deploy first · Highest ROI` : `Deploy days ${idx === 1 ? '4-6' : '7-8'}`;
     return `
     <div style="background:white;border:1px solid rgba(10,10,10,0.08);border-radius:14px;margin-top:12px;overflow:hidden;">
       <div style="padding:18px 20px 0;">
-        <div style="font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:#bbb;font-weight:700;margin-bottom:6px;">Workflow 0${idx + 1} · ${deployLabel}</div>
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
-          <div style="font-size:15px;font-weight:700;color:#0A0A0A;line-height:1.3;font-family:Georgia,serif;">${esc(w.title)}</div>
-          <div style="background:rgba(10,10,10,0.06);color:#0A0A0A;font-size:11px;font-weight:700;padding:4px 12px;border-radius:99px;border:1px solid rgba(10,10,10,0.1);white-space:nowrap;flex-shrink:0;">${w.hoursPerWeek}h saved / wk</div>
-        </div>
+        <div style="font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:#bbb;font-weight:700;margin-bottom:6px;">Workflow 0${idx + 1} &middot; ${deployLabel}</div>
+        <table style="width:100%;border-collapse:collapse;">
+          <tr>
+            <td style="vertical-align:top;padding-right:12px;">
+              <div style="font-size:15px;font-weight:700;color:#0A0A0A;line-height:1.3;font-family:Georgia,serif;">${esc(w.title)}</div>
+            </td>
+            <td style="vertical-align:top;width:110px;text-align:right;">
+              <span style="background:rgba(10,10,10,0.06);color:#0A0A0A;font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px;border:1px solid rgba(10,10,10,0.1);white-space:nowrap;display:inline-block;">${w.hoursPerWeek}h saved / wk</span>
+            </td>
+          </tr>
+        </table>
       </div>
       <div style="padding:12px 20px;font-size:13.5px;color:#555;line-height:1.72;">${esc(w.desc)}</div>
       <div style="padding:0 20px 14px;">
         <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#ccc;font-weight:700;margin-bottom:8px;">Exact sequence</div>
         ${w.steps.map((s, si) => `
-        <div style="display:flex;gap:10px;align-items:flex-start;padding:4px 0;">
-          <div style="width:18px;height:18px;background:#0A0A0A;color:white;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;text-align:center;line-height:18px;">${si + 1}</div>
-          <div style="font-size:12.5px;color:#555;line-height:1.55;padding-top:1px;">${esc(s)}</div>
-        </div>`).join('')}
+        <table style="width:100%;border-collapse:collapse;margin-bottom:6px;">
+          <tr>
+            <td style="width:26px;vertical-align:top;padding-right:8px;padding-top:2px;">
+              <div style="width:18px;height:18px;background:#0A0A0A;color:white;border-radius:50%;font-size:9px;font-weight:700;text-align:center;line-height:18px;">${si + 1}</div>
+            </td>
+            <td style="vertical-align:top;font-size:12.5px;color:#555;line-height:1.55;">${esc(s)}</td>
+          </tr>
+        </table>`).join('')}
       </div>
-      <div style="background:#F8F6F1;border-top:1px solid rgba(10,10,10,0.06);padding:12px 20px;display:flex;gap:24px;flex-wrap:wrap;">
-        <div><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:#bbb;font-weight:700;margin-bottom:4px;">Time saved</div><div style="font-size:12px;font-weight:700;color:#0A0A0A;">${w.hoursPerWeek}h / week</div></div>
-        <div><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:#bbb;font-weight:700;margin-bottom:4px;">Annual value</div><div style="font-size:12px;font-weight:700;color:#0A0A0A;">€${fmt(annualVal)}</div></div>
-        <div><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:#bbb;font-weight:700;margin-bottom:4px;">Deploy time</div><div style="font-size:12px;font-weight:700;color:#0A0A0A;">${w.deployDays}</div></div>
-        <div><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:#bbb;font-weight:700;margin-bottom:4px;">Stack</div><div style="font-size:12px;font-weight:700;color:#0A0A0A;">${w.stack.slice(0, 3).join(' · ')}</div></div>
+      <div style="background:#F8F6F1;border-top:1px solid rgba(10,10,10,0.06);padding:12px 20px;">
+        <table style="width:100%;border-collapse:collapse;">
+          <tr>
+            <td style="vertical-align:top;padding-right:8px;">
+              <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:#bbb;font-weight:700;margin-bottom:4px;">Time saved</div>
+              <div style="font-size:12px;font-weight:700;color:#0A0A0A;">${w.hoursPerWeek}h / week</div>
+            </td>
+            <td style="vertical-align:top;padding-right:8px;">
+              <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:#bbb;font-weight:700;margin-bottom:4px;">Annual value</div>
+              <div style="font-size:12px;font-weight:700;color:#0A0A0A;">&#8364;${fmt(annualVal)}</div>
+            </td>
+            <td style="vertical-align:top;padding-right:8px;">
+              <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:#bbb;font-weight:700;margin-bottom:4px;">Deploy time</div>
+              <div style="font-size:12px;font-weight:700;color:#0A0A0A;">${w.deployDays}</div>
+            </td>
+            <td style="vertical-align:top;">
+              <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:#bbb;font-weight:700;margin-bottom:4px;">Stack</div>
+              <div style="font-size:12px;font-weight:700;color:#0A0A0A;">${w.stack.slice(0, 3).join(' &middot; ')}</div>
+            </td>
+          </tr>
+        </table>
       </div>
     </div>`;
   };
@@ -832,11 +858,11 @@ export function generateProposalEmail(data: ProposalFormData): string {
     </div>
     <div style="font-family:Georgia,serif;font-size:30px;color:white;line-height:1.2;font-weight:400;margin-bottom:14px;">${fn}, we've mapped<br/><em style="color:#E8B4B0;">your hidden costs.</em></div>
     <p style="font-size:14px;color:rgba(255,255,255,0.38);line-height:1.7;margin:0 0 20px;max-width:480px;">We reviewed your submission in detail. Below is a full operational analysis of ${company} — the inefficiencies we identified, the exact automations we recommend, and the financial impact of each one.</p>
-    <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:18px;display:flex;gap:8px;flex-wrap:wrap;">
-      <span style="font-size:11px;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);padding:4px 12px;border-radius:99px;border:1px solid rgba(255,255,255,0.08);">${esc(profile.displayName)}</span>
-      <span style="font-size:11px;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);padding:4px 12px;border-radius:99px;border:1px solid rgba(255,255,255,0.08);">${esc(teamLabel)}</span>
-      ${toolsRaw.length ? `<span style="font-size:11px;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);padding:4px 12px;border-radius:99px;border:1px solid rgba(255,255,255,0.08);">Pain point: ${esc(painLabel)}</span>` : ''}
-      <span style="font-size:11px;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);padding:4px 12px;border-radius:99px;border:1px solid rgba(255,255,255,0.08);">Tools: ${toolsStr}</span>
+    <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:18px;">
+      <span style="display:inline-block;font-size:11px;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);padding:4px 12px;border-radius:99px;border:1px solid rgba(255,255,255,0.08);margin:0 6px 6px 0;">${esc(profile.displayName)}</span>
+      <span style="display:inline-block;font-size:11px;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);padding:4px 12px;border-radius:99px;border:1px solid rgba(255,255,255,0.08);margin:0 6px 6px 0;">${esc(teamLabel)}</span>
+      ${toolsRaw.length ? `<span style="display:inline-block;font-size:11px;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);padding:4px 12px;border-radius:99px;border:1px solid rgba(255,255,255,0.08);margin:0 6px 6px 0;">Pain: ${esc(painLabel)}</span>` : ''}
+      <span style="display:inline-block;font-size:11px;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);padding:4px 12px;border-radius:99px;border:1px solid rgba(255,255,255,0.08);margin:0 6px 6px 0;">Tools: ${toolsStr}</span>
     </div>
   </div>
 
@@ -1021,19 +1047,23 @@ export function generateProposalEmail(data: ProposalFormData): string {
     <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#E8B4B0;font-weight:700;margin-bottom:14px;">Section 06 · Included at no extra cost · Total value €1,450</div>
     <div style="background:#0A0A0A;border-radius:14px;padding:22px;">
       ${[
-        ['📋', 'SOP documentation for all 3 workflows', 'Worth €350', 'Full written documentation of every automation — how it works, what triggers it, how to modify it. Your team understands every process. Yours to keep forever.'],
-        ['📊', 'Live monitoring dashboard · 90 days included', 'Worth €400', 'Real-time view of every automation run, trigger, and output. Cumulative time and money saved updated daily. You see exactly what is happening at all times.'],
-        ['🔍', 'Day-45 optimisation review', 'Worth €300', 'At day 45, your PURIST engineer reviews all workflow performance data and implements up to 3 refinements at no charge — based on real usage patterns.'],
-        ['⚡', 'Priority deployment queue', 'Worth €200', 'Your project goes to the front of our deployment queue. Workflow 1 build starts on day 1 after credential handover. Reserved for clients who confirm within 72 hours of receiving this proposal.'],
-        ['🎓', 'Team walkthrough session (recorded)', 'Worth €200', 'A recorded Loom walkthrough for your team explaining what each automation does, what they need to do differently (usually nothing), and how to read the dashboard.'],
+        ['&#128203;', 'SOP documentation for all 3 workflows', 'Worth &#8364;350', 'Full written documentation of every automation — how it works, what triggers it, how to modify it. Your team understands every process. Yours to keep forever.'],
+        ['&#128202;', 'Live monitoring dashboard &middot; 90 days included', 'Worth &#8364;400', 'Real-time view of every automation run, trigger, and output. Cumulative time and money saved updated daily. You see exactly what is happening at all times.'],
+        ['&#128269;', 'Day-45 optimisation review', 'Worth &#8364;300', 'At day 45, your PURIST engineer reviews all workflow performance data and implements up to 3 refinements at no charge — based on real usage patterns.'],
+        ['&#9889;', 'Priority deployment queue', 'Worth &#8364;200', 'Your project goes to the front of our deployment queue. Workflow 1 build starts on day 1 after credential handover. Reserved for clients who confirm within 72 hours of receiving this proposal.'],
+        ['&#127891;', 'Team walkthrough session (recorded)', 'Worth &#8364;200', 'A recorded Loom walkthrough for your team explaining what each automation does, what they need to do differently (usually nothing), and how to read the dashboard.'],
       ].map(([icon, title, val, desc]) => `
-      <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.05);">
-        <div style="background:rgba(232,180,176,0.1);border:1px solid rgba(232,180,176,0.2);border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;text-align:center;line-height:36px;">${icon}</div>
-        <div>
-          <div style="font-size:14px;font-weight:600;color:white;margin-bottom:3px;">${esc(title as string)} <span style="font-size:11px;color:#E8B4B0;background:rgba(232,180,176,0.1);padding:2px 8px;border-radius:99px;font-weight:600;">${esc(val as string)}</span></div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.35);line-height:1.55;">${esc(desc as string)}</div>
-        </div>
-      </div>`).join('')}
+      <table style="width:100%;border-collapse:collapse;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.05);">
+        <tr>
+          <td style="width:50px;vertical-align:top;padding-right:14px;">
+            <div style="background:rgba(232,180,176,0.1);border:1px solid rgba(232,180,176,0.2);border-radius:8px;width:36px;height:36px;text-align:center;line-height:36px;font-size:16px;">${icon}</div>
+          </td>
+          <td style="vertical-align:top;">
+            <div style="font-size:14px;font-weight:600;color:white;margin-bottom:4px;">${title} <span style="font-size:11px;color:#E8B4B0;background:rgba(232,180,176,0.1);padding:2px 8px;border-radius:99px;font-weight:600;">${val}</span></div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);line-height:1.55;">${desc}</div>
+          </td>
+        </tr>
+      </table>`).join('')}
       <div style="font-size:11.5px;color:rgba(255,255,255,0.2);text-align:center;margin-top:4px;">Priority queue bonus expires 72 hours after this email was sent.</div>
     </div>
 
@@ -1059,19 +1089,27 @@ export function generateProposalEmail(data: ProposalFormData): string {
         'All 5 bonuses included: SOP docs, day-45 review, team walkthrough, priority queue, dashboard',
         '30-day fix-or-refund guarantee — if anything underperforms, we fix it in 48h or refund in full',
       ].map(item => `
-      <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;">
-        <div style="width:16px;height:16px;background:#0A0A0A;color:white;border-radius:50%;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;text-align:center;line-height:16px;">✓</div>
-        <div style="font-size:13.5px;color:#444;line-height:1.5;">${esc(item)}</div>
-      </div>`).join('')}
+      <table style="width:100%;border-collapse:collapse;margin-bottom:8px;">
+        <tr>
+          <td style="width:24px;vertical-align:top;padding-right:8px;padding-top:2px;">
+            <div style="width:16px;height:16px;background:#0A0A0A;color:white;border-radius:50%;font-size:8px;font-weight:700;text-align:center;line-height:16px;">&#10003;</div>
+          </td>
+          <td style="vertical-align:top;font-size:13.5px;color:#444;line-height:1.5;">${esc(item)}</td>
+        </tr>
+      </table>`).join('')}
     </div>
 
     <!-- Guarantee -->
-    <div style="background:white;border:1px solid rgba(10,10,10,0.07);border-radius:14px;padding:18px;margin-top:12px;display:flex;gap:14px;align-items:flex-start;">
-      <div style="font-size:22px;flex-shrink:0;">🛡️</div>
-      <div>
-        <div style="font-size:14px;font-weight:700;color:#0A0A0A;margin-bottom:5px;">30-day fix-or-refund guarantee · No questions asked</div>
-        <div style="font-size:13px;color:#666;line-height:1.65;">If any of the 3 workflows does not perform exactly as described in this proposal within the first 30 days, we fix it within 48 hours or issue a full refund. We have never had to use it — but it is there, in writing.</div>
-      </div>
+    <div style="background:white;border:1px solid rgba(10,10,10,0.07);border-radius:14px;padding:18px;margin-top:12px;">
+      <table style="width:100%;border-collapse:collapse;">
+        <tr>
+          <td style="width:40px;vertical-align:top;padding-right:14px;font-size:22px;line-height:1;">&#128737;</td>
+          <td style="vertical-align:top;">
+            <div style="font-size:14px;font-weight:700;color:#0A0A0A;margin-bottom:5px;">30-day fix-or-refund guarantee &middot; No questions asked</div>
+            <div style="font-size:13px;color:#666;line-height:1.65;">If any of the 3 workflows does not perform exactly as described in this proposal within the first 30 days, we fix it within 48 hours or issue a full refund. We have never had to use it — but it is there, in writing.</div>
+          </td>
+        </tr>
+      </table>
     </div>
 
     <!-- Social proof -->
@@ -1098,8 +1136,13 @@ export function generateProposalEmail(data: ProposalFormData): string {
 
   </div>
 
+  <!-- PURIST SIGNATURE -->
+  <div style="background:#0A0A0A;padding:24px 36px 0;overflow:hidden;">
+    <p style="font-family:Georgia,'Times New Roman',serif;font-size:96px;font-weight:400;color:rgba(232,180,176,0.22);letter-spacing:-0.02em;line-height:0.85;margin:0;padding:0;user-select:none;" aria-hidden="true">PURIST<span style="font-size:24px;vertical-align:super;font-weight:400;">&#174;</span></p>
+  </div>
+
   <!-- FOOTER -->
-  <div style="background:#0A0A0A;padding:24px 36px;border-top:1px solid rgba(255,255,255,0.04);">
+  <div style="background:#0A0A0A;padding:20px 36px 24px;border-top:1px solid rgba(255,255,255,0.04);">
     <div style="font-family:Georgia,serif;font-size:16px;color:rgba(255,255,255,0.25);margin-bottom:10px;">PURIST<span style="color:rgba(232,180,176,0.35);">.</span></div>
     <div style="font-size:11.5px;color:rgba(255,255,255,0.15);line-height:1.7;">
       purist.online · hello@purist.online<br/>
