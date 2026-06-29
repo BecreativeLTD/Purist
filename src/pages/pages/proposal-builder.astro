@@ -1,5 +1,5 @@
 ---
-// Internal tool — not indexed
+// Internal tool — noindex
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -7,134 +7,91 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Proposal Builder — PURIST Internal</title>
+  <title>Proposal Builder — PURIST</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--black:#0A0A0A;--cream:#F8F6F1;--pink:#E8B4B0;--gray:#6B6B6B;--border:#E5E3DE;--green:#1a7a45}
-    body{font-family:'Inter',sans-serif;background:#0A0A0A;color:white;min-height:100vh;padding:2rem;-webkit-font-smoothing:antialiased}
-    h1{font-family:'DM Serif Display',Georgia,serif;font-size:2rem;font-weight:400;margin-bottom:0.25rem}
-    .sub{color:rgba(255,255,255,0.4);font-size:0.875rem;margin-bottom:2.5rem}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:900px}
-    @media(max-width:640px){.grid{grid-template-columns:1fr}}
-    .card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:1.5rem}
-    .card h2{font-size:0.6875rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:1.25rem}
-    label{display:block;font-size:0.8125rem;color:rgba(255,255,255,0.6);margin-bottom:0.35rem;margin-top:1rem}
-    label:first-of-type{margin-top:0}
-    input,select,textarea{width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:0.7rem 0.875rem;font-size:0.875rem;color:white;font-family:'Inter',sans-serif;outline:none;transition:border-color 0.2s}
-    input:focus,select:focus,textarea:focus{border-color:rgba(232,180,176,0.5)}
-    select option{background:#1a1a1a;color:white}
-    textarea{resize:vertical;min-height:80px}
-    .wf-block{border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1rem;margin-top:0.75rem;background:rgba(255,255,255,0.03)}
-    .wf-block-title{font-size:0.75rem;color:rgba(255,255,255,0.35);margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.12em}
-    .row2{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
-    .full{grid-column:1/-1}
-    .btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.875rem 1.75rem;border-radius:12px;font-size:0.9375rem;font-weight:600;cursor:pointer;border:none;transition:opacity 0.2s}
-    .btn-primary{background:#E8B4B0;color:#0A0A0A}
-    .btn-secondary{background:rgba(255,255,255,0.08);color:white;border:1px solid rgba(255,255,255,0.15)}
-    .btn:hover{opacity:0.85}
-    .actions{display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap}
-    .output-card{background:rgba(232,180,176,0.08);border:1px solid rgba(232,180,176,0.2);border-radius:16px;padding:1.5rem;margin-top:1.5rem;display:none}
-    .output-card.show{display:block}
-    .output-url{font-size:0.8125rem;word-break:break-all;color:rgba(255,255,255,0.7);background:rgba(0,0,0,0.3);padding:0.75rem 1rem;border-radius:8px;margin:0.75rem 0;font-family:monospace}
-    .copy-btn{background:#E8B4B0;color:#0A0A0A;border:none;padding:0.5rem 1.25rem;border-radius:8px;font-size:0.8125rem;font-weight:600;cursor:pointer}
-    .email-btn{background:rgba(255,255,255,0.1);color:white;border:1px solid rgba(255,255,255,0.15);padding:0.5rem 1.25rem;border-radius:8px;font-size:0.8125rem;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}
-    .tag{display:inline-block;font-size:0.6875rem;background:rgba(26,122,69,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.2);padding:0.2rem 0.6rem;border-radius:99px;margin-right:0.4rem;margin-top:0.25rem}
+    body{font-family:'Inter',sans-serif;background:#0f0f0f;color:white;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:3rem 1rem;-webkit-font-smoothing:antialiased}
+    .wrap{width:100%;max-width:560px}
+    .logo{font-family:'DM Serif Display',Georgia,serif;font-size:1.25rem;color:rgba(255,255,255,0.4);margin-bottom:2.5rem}
+    .logo span{color:#E8B4B0}
+    h1{font-family:'DM Serif Display',Georgia,serif;font-size:2rem;font-weight:400;margin-bottom:0.4rem}
+    .sub{color:rgba(255,255,255,0.35);font-size:0.875rem;margin-bottom:2.5rem;line-height:1.6}
+    .field{margin-bottom:1.25rem}
+    label{display:block;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:0.5rem;font-weight:500}
+    input,select{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:0.9rem 1rem;font-size:0.9375rem;color:white;font-family:'Inter',sans-serif;outline:none;transition:border-color 0.2s;-webkit-appearance:none}
+    input:focus,select:focus{border-color:rgba(232,180,176,0.5);background:rgba(255,255,255,0.08)}
+    input::placeholder{color:rgba(255,255,255,0.2)}
+    select option{background:#1a1a1a}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .divider{border:none;border-top:1px solid rgba(255,255,255,0.08);margin:2rem 0}
+    .btn{width:100%;background:#E8B4B0;color:#0A0A0A;border:none;padding:1rem;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:-0.01em;transition:opacity 0.2s}
+    .btn:hover{opacity:0.88}
+
+    /* Output */
+    #result{display:none;margin-top:2rem}
+    .result-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:16px;overflow:hidden}
+    .result-top{background:rgba(232,180,176,0.08);border-bottom:1px solid rgba(255,255,255,0.06);padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:gap;gap:0.75rem}
+    .result-top-label{font-size:0.6875rem;letter-spacing:0.15em;text-transform:uppercase;color:#E8B4B0;font-weight:600}
+    .result-top-name{font-size:0.9375rem;font-weight:600;margin-top:0.2rem}
+    .btn-sm{padding:0.5rem 1.1rem;border-radius:8px;font-size:0.8125rem;font-weight:600;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:opacity 0.2s}
+    .btn-sm:hover{opacity:0.8}
+    .btn-copy{background:#E8B4B0;color:#0A0A0A}
+    .btn-open{background:rgba(255,255,255,0.1);color:white}
+    .btn-email{background:rgba(255,255,255,0.08);color:white;border:1px solid rgba(255,255,255,0.12)}
+
+    .email-preview{padding:1.5rem;font-size:0.85rem;line-height:1.75;color:rgba(255,255,255,0.65);white-space:pre-wrap;max-height:400px;overflow-y:auto}
+    .email-preview::-webkit-scrollbar{width:4px}
+    .email-preview::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+    .actions-row{padding:1rem 1.5rem;border-top:1px solid rgba(255,255,255,0.06);display:flex;gap:0.75rem;flex-wrap:wrap}
+
+    .stats-row{display:flex;gap:1rem;padding:1rem 1.5rem;border-top:1px solid rgba(255,255,255,0.06)}
+    .stat{flex:1;text-align:center}
+    .stat-v{font-family:'DM Serif Display',Georgia,serif;font-size:1.4rem;color:white}
+    .stat-l{font-size:0.625rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-top:0.15rem}
   </style>
 </head>
 <body>
+<div class="wrap">
+  <div class="logo">PURIST<span>.</span></div>
 
-<div style="max-width:900px;margin:0 auto;">
-  <div style="margin-bottom:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
-    <div>
-      <h1>Proposal Builder</h1>
-      <p class="sub">Internal tool — fill in client details, generate the proposal link, send by email.</p>
-    </div>
-    <a href="/" style="font-size:0.8125rem;color:rgba(255,255,255,0.3);text-decoration:none;">← Back to site</a>
+  <h1>Proposal Builder</h1>
+  <p class="sub">Fill in 4 fields → get a complete proposal link + email ready to send.</p>
+
+  <!-- Step 1: Client -->
+  <div class="field">
+    <label>Client / Business name</label>
+    <input id="client" type="text" placeholder="e.g. Smith Dental Clinic" />
   </div>
 
-  <div class="grid">
+  <div class="field">
+    <label>Client email</label>
+    <input id="email" type="email" placeholder="john@business.com" />
+  </div>
 
-    <!-- LEFT: Client info -->
-    <div class="card" style="grid-column:1/-1">
-      <h2>Client info</h2>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem">
-        <div>
-          <label>Client / Business name</label>
-          <input id="client" type="text" placeholder="e.g. Smith & Partners" />
-        </div>
-        <div>
-          <label>Client email</label>
-          <input id="clientEmail" type="email" placeholder="john@business.com" />
-        </div>
-        <div>
-          <label>Industry</label>
-          <select id="industry" onchange="autofill()">
-            <option value="">— Select industry —</option>
-            <option value="Restaurant">Restaurant / Food & Beverage</option>
-            <option value="Dental">Dental / Medical Clinic</option>
-            <option value="Real Estate">Real Estate Agency</option>
-            <option value="Law Firm">Law Firm / Legal</option>
-            <option value="E-commerce">E-commerce / Retail</option>
-            <option value="Marketing Agency">Marketing Agency</option>
-            <option value="Accounting">Accounting / Finance</option>
-            <option value="Coaching">Coaching / Consulting</option>
-            <option value="SaaS">SaaS / Tech Startup</option>
-            <option value="Construction">Construction / Trades</option>
-            <option value="Custom">Other (custom)</option>
-          </select>
-        </div>
-      </div>
+  <div class="field">
+    <label>Industry</label>
+    <select id="industry">
+      <option value="">— Select industry —</option>
+      <option value="Restaurant">Restaurant / Food & Beverage</option>
+      <option value="Dental">Dental / Medical Clinic</option>
+      <option value="Real Estate">Real Estate Agency</option>
+      <option value="Law Firm">Law Firm / Legal</option>
+      <option value="E-commerce">E-commerce / Retail</option>
+      <option value="Marketing Agency">Marketing Agency</option>
+      <option value="Accounting">Accounting / Finance</option>
+      <option value="Coaching">Coaching / Consulting</option>
+      <option value="SaaS">SaaS / Tech Startup</option>
+      <option value="Construction">Construction / Trades</option>
+    </select>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label>Your price (€)</label>
+      <input id="price" type="number" placeholder="3200" />
     </div>
-
-    <!-- WORKFLOWS -->
-    <div class="card" style="grid-column:1/-1">
-      <h2>3 workflows to deploy</h2>
-      <p style="font-size:0.8125rem;color:rgba(255,255,255,0.35);margin-bottom:1.25rem;">Select an industry above to auto-fill, or customise manually.</p>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem">
-        <!-- W1 -->
-        <div class="wf-block">
-          <p class="wf-block-title">Workflow #1 — highest ROI</p>
-          <label>Name</label>
-          <input id="w1" placeholder="Lead Capture → CRM" />
-          <label>Description (shown to client)</label>
-          <textarea id="w1desc" rows="2" placeholder="Every new lead is automatically..."></textarea>
-          <label>Time saved / week</label>
-          <input id="w1save" placeholder="5h/wk" style="max-width:120px" />
-        </div>
-        <!-- W2 -->
-        <div class="wf-block">
-          <p class="wf-block-title">Workflow #2</p>
-          <label>Name</label>
-          <input id="w2" placeholder="Follow-up Email Sequence" />
-          <label>Description</label>
-          <textarea id="w2desc" rows="2" placeholder="Personalised follow-ups sent..."></textarea>
-          <label>Time saved / week</label>
-          <input id="w2save" placeholder="4h/wk" style="max-width:120px" />
-        </div>
-        <!-- W3 -->
-        <div class="wf-block">
-          <p class="wf-block-title">Workflow #3</p>
-          <label>Name</label>
-          <input id="w3" placeholder="Invoice & Payment Auto" />
-          <label>Description</label>
-          <textarea id="w3desc" rows="2" placeholder="Invoices generated and sent..."></textarea>
-          <label>Time saved / week</label>
-          <input id="w3save" placeholder="6h/wk" style="max-width:120px" />
-        </div>
-      </div>
-    </div>
-
-    <!-- ROI + Pricing -->
-    <div class="card">
-      <h2>ROI numbers</h2>
-      <label>Total hours saved / week</label>
-      <input id="hours" type="number" placeholder="15" />
-      <label>ROI multiplier (year 1)</label>
-      <input id="roi" placeholder="9.4" />
-      <label>Annual value recovered (number only)</label>
-      <input id="annual" placeholder="62400" />
+    <div class="field">
       <label>Currency</label>
       <select id="currency">
         <option value="EUR">EUR €</option>
@@ -142,280 +99,251 @@
         <option value="GBP">GBP £</option>
       </select>
     </div>
-
-    <div class="card">
-      <h2>Pricing & delivery</h2>
-      <label>Setup fee (number only)</label>
-      <input id="price" placeholder="3200" />
-      <label>Plan name</label>
-      <input id="plan" placeholder="Growth" />
-      <label>Deployment timeline</label>
-      <input id="deploy" placeholder="7–10" />
-      <label>Your name (prepared by)</label>
-      <input id="by" placeholder="Hugo — PURIST" />
-    </div>
-
   </div>
 
-  <!-- GENERATE -->
-  <div class="actions">
-    <button class="btn btn-primary" onclick="generate()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12l5 5L20 7"/></svg>
-      Generate proposal
-    </button>
-  </div>
+  <button class="btn" id="generateBtn">Generate proposal →</button>
 
-  <!-- OUTPUT -->
-  <div class="output-card" id="output">
-    <p style="font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,180,176,0.7);margin-bottom:0.5rem">Proposal ready</p>
-    <p style="font-size:0.9375rem;font-weight:600;margin-bottom:0.25rem" id="output-title"></p>
-    <p style="font-size:0.8125rem;color:rgba(255,255,255,0.4);margin-bottom:0.75rem">Share this link with your client, or use the email button to send directly.</p>
-    <div class="output-url" id="output-url"></div>
-    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:0.75rem">
-      <button class="copy-btn" onclick="copyLink()">📋 Copy link</button>
-      <a class="email-btn" id="mailto-btn" href="#">✉️ Open in email client</a>
-      <a class="email-btn" id="open-btn" href="#" target="_blank">↗ Preview proposal</a>
-    </div>
-    <div style="margin-top:1.5rem;border-top:1px solid rgba(255,255,255,0.08);padding-top:1.25rem">
-      <p style="font-size:0.75rem;color:rgba(255,255,255,0.35);margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.12em">Email template (copy & paste)</p>
-      <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:1.25rem;font-size:0.8125rem;line-height:1.7;color:rgba(255,255,255,0.7);white-space:pre-wrap;font-family:inherit" id="email-body"></div>
-      <button style="margin-top:0.75rem" class="copy-btn" onclick="copyEmail()">📋 Copy email</button>
+  <!-- Output -->
+  <div id="result">
+    <div class="result-card">
+      <div class="result-top">
+        <div>
+          <div class="result-top-label">Proposal ready</div>
+          <div class="result-top-name" id="r-name"></div>
+        </div>
+        <button class="btn-sm btn-open" id="openBtn">↗ Preview</button>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat">
+          <div class="stat-v" id="r-hours"></div>
+          <div class="stat-l">Hours saved / wk</div>
+        </div>
+        <div class="stat">
+          <div class="stat-v" id="r-annual"></div>
+          <div class="stat-l">Annual value</div>
+        </div>
+        <div class="stat">
+          <div class="stat-v" id="r-roi"></div>
+          <div class="stat-l">ROI year 1</div>
+        </div>
+        <div class="stat">
+          <div class="stat-v" id="r-price"></div>
+          <div class="stat-l">Your fee</div>
+        </div>
+      </div>
+
+      <div style="padding:0 1.5rem 0.5rem;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.25);">Email to send</div>
+      <div class="email-preview" id="r-email"></div>
+
+      <div class="actions-row">
+        <button class="btn-sm btn-copy" id="copyEmailBtn">📋 Copy email</button>
+        <a class="btn-sm btn-email" id="mailtoBtn" href="#">✉️ Open in Gmail</a>
+        <button class="btn-sm btn-email" id="copyLinkBtn">🔗 Copy proposal link</button>
+      </div>
     </div>
   </div>
-
 </div>
 
 <script>
-const INDUSTRY_DATA = {
-  "Restaurant": {
-    w1: "Online Reservation → CRM + Staff Alert",
-    w1desc: "Every reservation from your website, Google, or Yelp is logged automatically in your CRM, the right staff are notified by SMS, and a confirmation email is sent to the guest — zero manual steps.",
-    w1save: "6h/wk",
-    w2: "Review Request Automation (Google & Yelp)",
-    w2desc: "24 hours after each visit, a personalised review request is sent automatically by SMS or email. Negative feedback is flagged privately before it reaches Google — protecting your rating.",
-    w2save: "3h/wk",
-    w3: "Supplier Order & Inventory Alert",
-    w3desc: "When stock of key ingredients drops below threshold, a reorder request is sent automatically to your supplier. You get a daily inventory summary every morning before service.",
-    w3save: "5h/wk",
-    hours: "14", roi: "8.7", annual: "58200", price: "2800"
+var DATA = {
+  "Restaurant":{
+    w1:"Online Reservation → CRM + Staff Alert",
+    w1d:"Every reservation from your website, Google, or Yelp is logged automatically, the right staff notified by SMS, and a confirmation sent to the guest — zero manual steps.",
+    w1s:"6h/wk",
+    w2:"Review Request Automation (Google & Yelp)",
+    w2d:"24 hours after each visit, a personalised review request is sent automatically. Negative feedback is flagged privately before reaching Google — protecting your rating.",
+    w2s:"3h/wk",
+    w3:"Supplier Order & Inventory Alert",
+    w3d:"When stock drops below threshold, a reorder is sent to your supplier automatically. You get a daily inventory summary every morning before service.",
+    w3s:"5h/wk",
+    hours:"14", roi:"8.7", annual:"58200", price:"2800"
   },
-  "Dental": {
-    w1: "Appointment Booking → Patient Record Auto-update",
-    w1desc: "Every new booking from your website or Doctolib is created in your practice management system, the patient file updated, and a reminder sequence triggered — without anyone touching a keyboard.",
-    w1save: "7h/wk",
-    w2: "No-show Prevention (SMS + Email Reminder Sequence)",
-    w2desc: "Automated reminders sent at 48h and 2h before each appointment. Patients can confirm or reschedule with one tap. No-show rate typically drops 60–70% within the first month.",
-    w2save: "4h/wk",
-    w3: "Treatment Plan Follow-up & Recall Sequence",
-    w3desc: "Patients who haven't booked their follow-up within 30 days receive a personalised recall message. Patients due for a 6-month check-up are added to a re-engagement sequence automatically.",
-    w3save: "5h/wk",
-    hours: "16", roi: "11.2", annual: "74800", price: "3400"
+  "Dental":{
+    w1:"Appointment Booking → Patient Record Auto-update",
+    w1d:"Every new booking is created in your practice management system, the patient file updated, and a reminder sequence triggered — without anyone touching a keyboard.",
+    w1s:"7h/wk",
+    w2:"No-show Prevention (SMS + Email Reminder Sequence)",
+    w2d:"Automated reminders sent at 48h and 2h before each appointment. Patients confirm or reschedule with one tap. No-show rate drops 60–70% within the first month.",
+    w2s:"4h/wk",
+    w3:"Treatment Plan Follow-up & Recall Sequence",
+    w3d:"Patients who haven't booked a follow-up within 30 days get a personalised recall message. Patients due for a 6-month check-up enter a re-engagement sequence automatically.",
+    w3s:"5h/wk",
+    hours:"16", roi:"11.2", annual:"74800", price:"3400"
   },
-  "Real Estate": {
-    w1: "New Lead → CRM Entry + Agent Assignment",
-    w1desc: "Every lead from Rightmove, Zoopla, your website, or portals is captured, entered in your CRM, scored by property interest, and routed to the right agent — in under 60 seconds.",
-    w1save: "8h/wk",
-    w2: "Viewing Follow-up & Offer Nurture Sequence",
-    w2desc: "After every viewing, a personalised follow-up is sent automatically at 24h, 72h, and 7 days. If the prospect hasn't responded, they enter a long-term nurture sequence until they're ready.",
-    w2save: "5h/wk",
-    w3: "Landlord / Vendor Monthly Report Auto-send",
-    w3desc: "Monthly performance reports for landlords and vendors are generated automatically with real data (views, enquiries, offers) and sent by email — no manual preparation needed.",
-    w3save: "6h/wk",
-    hours: "19", roi: "12.4", annual: "89600", price: "3800"
+  "Real Estate":{
+    w1:"New Lead → CRM Entry + Agent Assignment",
+    w1d:"Every lead from Rightmove, Zoopla, or your website is captured, entered in your CRM, scored, and routed to the right agent — in under 60 seconds.",
+    w1s:"8h/wk",
+    w2:"Viewing Follow-up & Offer Nurture Sequence",
+    w2d:"After every viewing, a personalised follow-up is sent at 24h, 72h, and 7 days. Non-responders enter a long-term nurture sequence until they're ready.",
+    w2s:"5h/wk",
+    w3:"Landlord / Vendor Monthly Report Auto-send",
+    w3d:"Monthly performance reports are generated automatically with real data (views, enquiries, offers) and sent by email — no manual preparation needed.",
+    w3s:"6h/wk",
+    hours:"19", roi:"12.4", annual:"89600", price:"3800"
   },
-  "Law Firm": {
-    w1: "Client Intake Form → Matter Opening + Conflict Check",
-    w1desc: "New client enquiries trigger an automatic intake form, conflict-of-interest check against your database, and matter creation in your practice management system — reducing intake time from 45 min to under 5.",
-    w1save: "9h/wk",
-    w2: "Deadline & Court Date Reminder System",
-    w2desc: "Critical deadlines and court dates are extracted from your case management system and trigger automated reminders to the relevant fee earner at 30, 14, 7, and 1 day before — zero missed dates.",
-    w2save: "4h/wk",
-    w3: "Invoice Generation & Payment Chasing",
-    w3desc: "Invoices are generated automatically at billing milestones. Payment reminders triggered at 7, 14, and 30 days overdue. Late payment alerts escalated to the billing partner automatically.",
-    w3save: "5h/wk",
-    hours: "18", roi: "13.1", annual: "94400", price: "4200"
+  "Law Firm":{
+    w1:"Client Intake Form → Matter Opening + Conflict Check",
+    w1d:"New enquiries trigger an automatic intake form, conflict-of-interest check, and matter creation in your practice management system — reducing intake from 45 min to under 5.",
+    w1s:"9h/wk",
+    w2:"Deadline & Court Date Reminder System",
+    w2d:"Critical deadlines are tracked and trigger automated reminders to the relevant fee earner at 30, 14, 7, and 1 day before — zero missed dates.",
+    w2s:"4h/wk",
+    w3:"Invoice Generation & Payment Chasing",
+    w3d:"Invoices generated automatically at billing milestones. Payment reminders triggered at 7, 14, and 30 days overdue. Late payments escalated to the billing partner.",
+    w3s:"5h/wk",
+    hours:"18", roi:"13.1", annual:"94400", price:"4200"
   },
-  "E-commerce": {
-    w1: "Abandoned Cart Recovery Sequence",
-    w1desc: "Customers who abandon their cart receive a personalised 3-step recovery sequence: email at 1h, SMS at 24h, final offer at 72h. Average recovery rate: 12–18% of abandoned carts.",
-    w1save: "3h/wk",
-    w2: "Post-purchase Review & Upsell Flow",
-    w2desc: "7 days after delivery, an automated review request is sent. Based on purchase history, a personalised upsell or complementary product recommendation follows at day 14.",
-    w2save: "4h/wk",
-    w3: "Inventory Alert & Supplier Reorder",
-    w3desc: "When any SKU drops below its reorder threshold, a purchase order draft is sent to your supplier automatically. Low-stock products are flagged on your dashboard and removed from ads.",
-    w3save: "6h/wk",
-    hours: "13", roi: "9.8", annual: "67200", price: "3000"
+  "E-commerce":{
+    w1:"Abandoned Cart Recovery Sequence",
+    w1d:"Customers who abandon their cart receive a 3-step recovery sequence: email at 1h, SMS at 24h, final offer at 72h. Average recovery rate: 12–18% of abandoned carts.",
+    w1s:"3h/wk",
+    w2:"Post-purchase Review & Upsell Flow",
+    w2d:"7 days after delivery, an automated review request is sent. Based on purchase history, a personalised upsell recommendation follows at day 14.",
+    w2s:"4h/wk",
+    w3:"Inventory Alert & Supplier Reorder",
+    w3d:"When any SKU drops below its reorder threshold, a purchase order draft is sent to your supplier automatically. Low-stock products are flagged and removed from ads.",
+    w3s:"6h/wk",
+    hours:"13", roi:"9.8", annual:"67200", price:"3000"
   },
-  "Marketing Agency": {
-    w1: "Client Reporting — Auto-generated Monthly Reports",
-    w1desc: "Monthly performance reports for all clients are pulled from Google Analytics, Meta Ads, and LinkedIn automatically, formatted in your branded template, and sent by email — saving 2–3 hours per client per month.",
-    w1save: "10h/wk",
-    w2: "Lead Nurture + Proposal Follow-up Sequence",
-    w2desc: "Every prospect who requests a proposal enters a 5-touch follow-up sequence if they don't respond within 48h. Sequence stops automatically when they reply or book a call.",
-    w2save: "4h/wk",
-    w3: "Client Onboarding Workflow Automation",
-    w3desc: "When a new client signs, onboarding tasks are created automatically in your PM tool, contracts sent via DocuSign, kickoff call booked, and the client added to your communication channels — in minutes.",
-    w3save: "5h/wk",
-    hours: "19", roi: "10.3", annual: "78400", price: "3600"
+  "Marketing Agency":{
+    w1:"Client Reporting — Auto-generated Monthly Reports",
+    w1d:"Monthly performance reports for all clients are pulled from Google Analytics, Meta Ads, and LinkedIn automatically, formatted in your branded template, and sent by email.",
+    w1s:"10h/wk",
+    w2:"Lead Nurture + Proposal Follow-up Sequence",
+    w2d:"Every prospect who requests a proposal enters a 5-touch follow-up sequence if they don't respond within 48h. Stops automatically when they reply or book a call.",
+    w2s:"4h/wk",
+    w3:"Client Onboarding Workflow Automation",
+    w3d:"When a new client signs, onboarding tasks are created in your PM tool, contracts sent via DocuSign, kickoff call booked, and the client added to all channels — in minutes.",
+    w3s:"5h/wk",
+    hours:"19", roi:"10.3", annual:"78400", price:"3600"
   },
-  "Accounting": {
-    w1: "Document Collection & Client Reminder Sequence",
-    w1desc: "At the start of each accounting period, document request emails are sent automatically to every client with a personalised checklist. Reminders escalate every 5 days until all documents are received.",
-    w1save: "8h/wk",
-    w2: "Invoice & Payment Automation",
-    w2desc: "Client invoices generated automatically at billing milestones. Payment confirmations and reminders sent without manual intervention. Real-time payment status visible on your dashboard.",
-    w2save: "5h/wk",
-    w3: "Deadline Alert & Task Assignment System",
-    w3desc: "Filing deadlines (VAT, corporation tax, payroll) pulled from your calendar and assigned automatically to the right team member with 30, 7, and 1-day reminders. Zero missed deadlines.",
-    w3save: "4h/wk",
-    hours: "17", roi: "11.8", annual: "82400", price: "3400"
+  "Accounting":{
+    w1:"Document Collection & Client Reminder Sequence",
+    w1d:"At the start of each period, document request emails are sent to every client with a personalised checklist. Reminders escalate every 5 days until all documents are received.",
+    w1s:"8h/wk",
+    w2:"Invoice & Payment Automation",
+    w2d:"Client invoices generated automatically at billing milestones. Payment confirmations and reminders sent without manual intervention. Real-time payment status on your dashboard.",
+    w2s:"5h/wk",
+    w3:"Deadline Alert & Task Assignment System",
+    w3d:"Filing deadlines (VAT, corporation tax, payroll) assigned automatically to the right team member with 30, 7, and 1-day reminders. Zero missed deadlines.",
+    w3s:"4h/wk",
+    hours:"17", roi:"11.8", annual:"82400", price:"3400"
   },
-  "Coaching": {
-    w1: "Discovery Call Booking → CRM + Prep Email",
-    w1desc: "When a prospect books a discovery call, they're automatically added to your CRM, tagged by interest area, and sent a personalised prep questionnaire — so you walk into every call fully briefed.",
-    w1save: "5h/wk",
-    w2: "Client Onboarding & Welcome Sequence",
-    w2desc: "New clients receive a structured 7-day onboarding sequence: welcome video, intake form, resource kit, and first session preparation — all automated, all personalised by programme.",
-    w2save: "4h/wk",
-    w3: "Progress Check-in & Renewal Sequence",
-    w3desc: "Midway through each programme, an automated progress check-in is sent. 3 weeks before end of programme, a renewal or upgrade offer is triggered with personalised messaging.",
-    w3save: "4h/wk",
-    hours: "13", roi: "8.9", annual: "54600", price: "2600"
+  "Coaching":{
+    w1:"Discovery Call Booking → CRM + Prep Email",
+    w1d:"When a prospect books a discovery call, they're added to your CRM, tagged by interest area, and sent a personalised prep questionnaire — so you walk into every call fully briefed.",
+    w1s:"5h/wk",
+    w2:"Client Onboarding & Welcome Sequence",
+    w2d:"New clients receive a structured 7-day onboarding: welcome video, intake form, resource kit, and first session preparation — all automated and personalised by programme.",
+    w2s:"4h/wk",
+    w3:"Progress Check-in & Renewal Sequence",
+    w3d:"Midway through each programme, an automated progress check-in is sent. 3 weeks before end, a renewal or upgrade offer is triggered with personalised messaging.",
+    w3s:"4h/wk",
+    hours:"13", roi:"8.9", annual:"54600", price:"2600"
   },
-  "SaaS": {
-    w1: "Trial Activation & Feature Adoption Sequence",
-    w1desc: "When a user signs up for a trial, a personalised onboarding sequence triggers based on their role and use case. Users who don't activate key features within 48h receive targeted nudges automatically.",
-    w1save: "6h/wk",
-    w2: "Churn Risk Detection & Intervention",
-    w2desc: "Users who haven't logged in for 7 days, or whose usage has dropped 50%+, are flagged automatically and added to a re-engagement sequence. High-value accounts escalated to a CSM.",
-    w2save: "5h/wk",
-    w3: "Billing, Dunning & Expansion Automation",
-    w3desc: "Failed payments trigger an automatic dunning sequence (email + in-app). Users on limits receive upgrade prompts automatically. Churn prevented before it happens.",
-    w3save: "4h/wk",
-    hours: "15", roi: "14.2", annual: "96000", price: "4500"
+  "SaaS":{
+    w1:"Trial Activation & Feature Adoption Sequence",
+    w1d:"When a user signs up, a personalised onboarding sequence triggers based on their role. Users who don't activate key features within 48h receive targeted nudges automatically.",
+    w1s:"6h/wk",
+    w2:"Churn Risk Detection & Intervention",
+    w2d:"Users who haven't logged in for 7 days, or whose usage dropped 50%+, are flagged and added to a re-engagement sequence. High-value accounts escalated to a CSM.",
+    w2s:"5h/wk",
+    w3:"Billing, Dunning & Expansion Automation",
+    w3d:"Failed payments trigger an automatic dunning sequence (email + in-app). Users on limits receive upgrade prompts automatically. Churn prevented before it happens.",
+    w3s:"4h/wk",
+    hours:"15", roi:"14.2", annual:"96000", price:"4500"
   },
-  "Construction": {
-    w1: "Quote Request → Estimate + Follow-up Sequence",
-    w1desc: "Every quote request from your website or calls is logged, a templated estimate sent within 2 hours, and a follow-up triggered at day 3 and day 7 if no response — no lead goes cold.",
-    w1save: "7h/wk",
-    w2: "Subcontractor Scheduling & Confirmation",
-    w2desc: "When a job is confirmed, subcontractors are notified automatically with date, site address, and job specs. Confirmation requests sent and logged. No-shows trigger an immediate alert.",
-    w2save: "5h/wk",
-    w3: "Invoice & Payment Collection",
-    w3desc: "Invoices generated and sent at project milestones automatically. Payment reminders triggered at 7, 14, and 30 days. Overdue invoices escalated with a firm final notice template.",
-    w3save: "6h/wk",
-    hours: "18", roi: "9.6", annual: "72000", price: "3200"
+  "Construction":{
+    w1:"Quote Request → Estimate + Follow-up Sequence",
+    w1d:"Every quote request is logged, a templated estimate sent within 2 hours, and a follow-up triggered at day 3 and day 7 if no response — no lead goes cold.",
+    w1s:"7h/wk",
+    w2:"Subcontractor Scheduling & Confirmation",
+    w2d:"When a job is confirmed, subcontractors are notified automatically with date, site address, and job specs. Confirmations logged. No-shows trigger an immediate alert.",
+    w2s:"5h/wk",
+    w3:"Invoice & Payment Collection",
+    w3d:"Invoices generated and sent at project milestones automatically. Payment reminders triggered at 7, 14, and 30 days overdue.",
+    w3s:"6h/wk",
+    hours:"18", roi:"9.6", annual:"72000", price:"3200"
   }
 };
 
-function autofill() {
-  const ind = document.getElementById('industry').value;
-  const d = INDUSTRY_DATA[ind];
-  if (!d) return;
-  document.getElementById('w1').value = d.w1;
-  document.getElementById('w1desc').value = d.w1desc;
-  document.getElementById('w1save').value = d.w1save;
-  document.getElementById('w2').value = d.w2;
-  document.getElementById('w2desc').value = d.w2desc;
-  document.getElementById('w2save').value = d.w2save;
-  document.getElementById('w3').value = d.w3;
-  document.getElementById('w3desc').value = d.w3desc;
-  document.getElementById('w3save').value = d.w3save;
-  document.getElementById('hours').value = d.hours;
-  document.getElementById('roi').value = d.roi;
-  document.getElementById('annual').value = d.annual;
-  document.getElementById('price').value = d.price;
-}
+var proposalUrl = '';
+var emailText = '';
 
-function v(id) { return document.getElementById(id).value.trim(); }
+document.getElementById('generateBtn').addEventListener('click', function() {
+  var client   = document.getElementById('client').value.trim();
+  var email    = document.getElementById('email').value.trim();
+  var industry = document.getElementById('industry').value;
+  var priceVal = document.getElementById('price').value.trim();
+  var currency = document.getElementById('currency').value;
 
-function generate() {
-  const client = v('client') || 'Your Business';
-  const industry = v('industry') || 'Business';
-  const currency = v('currency') || 'EUR';
-  const currSymbol = currency === 'USD' ? '$' : currency === 'GBP' ? '£' : '€';
-  const price = v('price');
-  const hours = v('hours');
-  const roi = v('roi');
-  const annual = v('annual');
+  if (!client || !industry) {
+    alert('Please enter a client name and select an industry.');
+    return;
+  }
 
-  const params = new URLSearchParams({
-    client: client,
-    industry: industry,
-    by: v('by') || 'Hugo — PURIST',
-    w1: v('w1'), w1desc: v('w1desc'), w1save: v('w1save'),
-    w2: v('w2'), w2desc: v('w2desc'), w2save: v('w2save'),
-    w3: v('w3'), w3desc: v('w3desc'), w3save: v('w3save'),
-    hours: hours,
-    roi: roi,
-    annual: annual,
-    price: price,
-    currency: currency,
-    plan: v('plan') || 'Growth',
-    deploy: v('deploy') || '7–10',
+  var d = DATA[industry];
+  var sym = currency === 'USD' ? '$' : currency === 'GBP' ? '£' : '€';
+  var price = priceVal || d.price;
+  var annualFmt = parseInt(d.annual).toLocaleString('en-GB');
+
+  // Build URL
+  var params = new URLSearchParams({
+    client: client, industry: industry, by: 'Hugo — PURIST',
+    w1: d.w1, w1desc: d.w1d, w1save: d.w1s,
+    w2: d.w2, w2desc: d.w2d, w2save: d.w2s,
+    w3: d.w3, w3desc: d.w3d, w3save: d.w3s,
+    hours: d.hours, roi: d.roi, annual: d.annual,
+    price: price, currency: currency, plan: 'Growth', deploy: '7–10'
   });
 
-  const url = `https://www.purist.online/pages/proposal?${params.toString()}`;
-  document.getElementById('output-url').textContent = url;
-  document.getElementById('output-title').textContent = `Proposal for ${client} — ${industry}`;
+  proposalUrl = 'https://www.purist.online/pages/proposal?' + params.toString();
 
-  // Open button
-  document.getElementById('open-btn').href = `/pages/proposal?${params.toString()}`;
+  // Email
+  emailText = 'Hi,\n\nThank you for our call — I\'ve put together your personalised automation plan for ' + client + '.\n\nHere\'s what we\'re going to build:\n\n'
+    + '1. ' + d.w1 + ' → saves ' + d.w1s + '\n'
+    + '2. ' + d.w2 + ' → saves ' + d.w2s + '\n'
+    + '3. ' + d.w3 + ' → saves ' + d.w3s + '\n\n'
+    + 'Total: ' + d.hours + ' hours saved per week — ' + sym + annualFmt + ' recovered annually, ' + d.roi + '× ROI in year 1.\n\n'
+    + 'Your investment: ' + sym + price + ' (one-time setup — includes 90 days of monitoring and support, 30-day guarantee).\n\n'
+    + '→ View your full proposal here:\n' + proposalUrl + '\n\n'
+    + 'If this looks good, just reply "let\'s go" and I\'ll send the invoice and onboarding form within 2 hours. Your first automation goes live in 7–10 business days.\n\n'
+    + 'Any questions — I\'m here.\n\nHugo\nPURIST — Workflow Automation & AI Agents\npurist.online';
 
-  // Email body
-  const clientEmail = v('clientEmail');
-  const emailSubject = `Your Automation Plan — ${client} × PURIST`;
-  const annualFormatted = parseInt(annual).toLocaleString('en-GB');
-  const emailBody = `Hi,
+  // Update UI
+  document.getElementById('r-name').textContent = client + ' — ' + industry;
+  document.getElementById('r-hours').textContent = d.hours + 'h';
+  document.getElementById('r-annual').textContent = sym + annualFmt;
+  document.getElementById('r-roi').textContent = d.roi + '×';
+  document.getElementById('r-price').textContent = sym + parseInt(price).toLocaleString();
+  document.getElementById('r-email').textContent = emailText;
 
-Thank you for our call earlier — I've put together your personalised automation plan.
+  document.getElementById('openBtn').onclick = function() { window.open('/pages/proposal?' + params.toString(), '_blank'); };
 
-Here's what we're going to build for ${client}:
+  var subject = 'Your Automation Plan — ' + client + ' × PURIST';
+  document.getElementById('mailtoBtn').href = 'mailto:' + email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(emailText);
 
-1. ${v('w1')} → saves ${v('w1save')}
-2. ${v('w2')} → saves ${v('w2save')}
-3. ${v('w3')} → saves ${v('w3save')}
+  document.getElementById('result').style.display = 'block';
+  document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
 
-Total: ${hours} hours saved per week — ${currSymbol}${annualFormatted} recovered annually, ${roi}× ROI in year 1.
+document.getElementById('copyEmailBtn').addEventListener('click', function() {
+  var btn = this;
+  navigator.clipboard.writeText(emailText).then(function() {
+    btn.textContent = '✓ Copied!';
+    setTimeout(function() { btn.textContent = '📋 Copy email'; }, 2000);
+  });
+});
 
-Your investment: ${currSymbol}${price} (one-time setup — includes 90 days of monitoring and support).
-
-View your full proposal here:
-${url}
-
-If this looks good, just reply "let's go" and I'll send the invoice and onboarding form within 2 hours. We can have your first automation live within ${v('deploy') || '7–10'} business days.
-
-Any questions, I'm here.
-
-Hugo
-PURIST — Workflow Automation & AI Agents
-purist.online`;
-
-  document.getElementById('email-body').textContent = emailBody;
-
-  // Mailto
-  const mailtoHref = `mailto:${clientEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-  document.getElementById('mailto-btn').href = mailtoHref;
-
-  // Show output
-  const out = document.getElementById('output');
-  out.classList.add('show');
-  out.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-function copyLink() {
-  navigator.clipboard.writeText(document.getElementById('output-url').textContent);
-  event.target.textContent = '✓ Copied!';
-  setTimeout(() => event.target.textContent = '📋 Copy link', 2000);
-}
-
-function copyEmail() {
-  navigator.clipboard.writeText(document.getElementById('email-body').textContent);
-  event.target.textContent = '✓ Copied!';
-  setTimeout(() => event.target.textContent = '📋 Copy email', 2000);
-}
+document.getElementById('copyLinkBtn').addEventListener('click', function() {
+  var btn = this;
+  navigator.clipboard.writeText(proposalUrl).then(function() {
+    btn.textContent = '✓ Link copied!';
+    setTimeout(function() { btn.textContent = '🔗 Copy proposal link'; }, 2000);
+  });
+});
 </script>
-
 </body>
 </html>
