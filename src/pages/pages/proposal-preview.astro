@@ -48,8 +48,28 @@
     .prog-label.active{color:rgba(232,180,176,0.7)}
 
     /* Body */
-    .bd{background:#F8F6F1;padding:2.25rem 2.5rem;position:relative;overflow:hidden;}
-    .bd::before{content:'PURIST';position:absolute;bottom:-2rem;left:50%;transform:translateX(-50%);font-family:'DM Serif Display',Georgia,serif;font-size:13rem;font-weight:400;color:rgba(201,123,106,0.22);white-space:nowrap;letter-spacing:-0.04em;pointer-events:none;user-select:none;z-index:9999;mix-blend-mode:multiply;}
+    .bd{background:#F8F6F1;padding:2.25rem 2.5rem;}
+    .signature{background:#0A0A0A;padding:1.5rem 2.5rem 0;overflow:hidden;}
+    .signature-logo{
+      font-family:'DM Serif Display',Georgia,serif;
+      font-size:clamp(5rem,18vw,12rem);
+      font-weight:500;
+      letter-spacing:-0.02em;
+      line-height:0.85;
+      user-select:none;
+      pointer-events:none;
+      background:linear-gradient(115deg,rgba(232,180,176,0.55) 0%,rgba(255,255,255,0.75) 25%,rgba(164,139,250,0.55) 50%,rgba(232,180,176,0.55) 75%,rgba(255,255,255,0.7) 100%);
+      background-size:300% 300%;
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      animation:footer-shimmer 8s ease-in-out infinite;
+    }
+    @keyframes footer-shimmer{
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
 
     /* Divider */
     .div{border:none;border-top:1px solid rgba(10,10,10,0.07);margin:2.25rem 0}
@@ -679,6 +699,11 @@
       <p class="cta-alt">Or simply reply "yes" to this email. Hugo reads every reply personally.</p>
     </div>
 
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="signature">
+    <p class="signature-logo" aria-hidden="true">PURIST<span style="font-size:0.25em;vertical-align:super;">®</span></p>
   </div>
 
   <!-- FOOTER -->
