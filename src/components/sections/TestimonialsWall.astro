@@ -1,0 +1,453 @@
+---
+const testimonials = [
+  {
+    name: "James Hartley",
+    role: "Managing Partner",
+    company: "Hartley & Bloom Law",
+    location: "New York, USA",
+    flag: "🇺🇸",
+    avatar: "https://i.pravatar.cc/96?img=11",
+    result: "Intake: 3hrs → 22min",
+    roi: "+$8,400/mo per partner",
+    quote: "We were paying attorney rates for admin work. Intake took 3 hours of back-and-forth. PURIST built a 7-step system — conflict check, engagement letter, e-sign, retainer — all automatic. First month we recovered 11 billable hours per partner. That's $8,400 per partner per month. Nothing else we've invested in comes close.",
+    industry: "Law Firm",
+    stars: 5,
+  },
+  {
+    name: "Claudia Ferreira",
+    role: "Principal Designer",
+    company: "CF Studio",
+    location: "Palm Beach, USA",
+    flag: "🇺🇸",
+    avatar: "https://i.pravatar.cc/96?img=47",
+    result: "Admin: 31hrs → 6hrs/week",
+    roi: "+34% revenue in 90 days",
+    quote: "I was working until midnight every single night. My studio was profitable on paper and exhausting in reality. PURIST automated client updates, vendor quotes, proposal follow-ups, and invoicing. Ninety days later I left the office at 5:30pm on a Tuesday. First time in four years. Revenue is up 34%.",
+    industry: "Interior Design",
+    stars: 5,
+  },
+  {
+    name: "Daniel Osei",
+    role: "Founder & CEO",
+    company: "Osei Real Estate Group",
+    location: "Scottsdale, USA",
+    flag: "🇺🇸",
+    avatar: "https://i.pravatar.cc/96?img=12",
+    result: "Lead response: 47min → 4min",
+    roi: "+$340K recovered in 90 days",
+    quote: "12 agents, 3 admin staff, still chaos. Lead response time was 47 minutes. In real estate, the deal is gone at 10 minutes. PURIST built the intake, qualification, follow-up, and contract system. Response time dropped to 4 minutes. We recovered an estimated $340K in leads that would have gone cold. Admin staff down from 3 to 1.",
+    industry: "Real Estate",
+    stars: 5,
+  },
+  {
+    name: "Sophie Marchand",
+    role: "Operations Director",
+    company: "Marchand Consulting Group",
+    location: "Paris, France",
+    flag: "🇫🇷",
+    avatar: "https://i.pravatar.cc/96?img=44",
+    result: "Proposal time: 4hrs → 15min",
+    roi: "€12,000/month recovered",
+    quote: "Notre processus commercial était entièrement manuel. PURIST a automatisé l'intake, la qualification, la génération de proposals et le suivi. Le temps de préparation d'un devis est passé de 4 heures à 15 minutes. On envoie maintenant 3x plus de proposals avec le même effort. €12,000 récupérés par mois dès le premier trimestre.",
+    industry: "Consulting",
+    stars: 5,
+  },
+  {
+    name: "Liam O'Connor",
+    role: "Clinic Director",
+    company: "Harley Dental Practice",
+    location: "London, UK",
+    flag: "🇬🇧",
+    avatar: "https://i.pravatar.cc/96?img=15",
+    result: "No-shows: 22% → 4%",
+    roi: "+£6,200/month net",
+    quote: "We were losing £2,000 a week to no-shows alone. PURIST built a reminder and confirmation system — SMS 48h before, day-of reminder, automatic waitlist fill when a slot cancels. No-shows dropped from 22% to 4% in six weeks. That's £6,200 recovered monthly. Plus 8 hours of admin time saved per week for my receptionist.",
+    industry: "Dental Practice",
+    stars: 5,
+  },
+  {
+    name: "Akira Tanaka",
+    role: "Co-Founder",
+    company: "Tanaka Digital Agency",
+    location: "Toronto, Canada",
+    flag: "🇨🇦",
+    avatar: "https://i.pravatar.cc/96?img=33",
+    result: "Client onboarding: 14 days → 2 days",
+    roi: "CAD $18K saved annually",
+    quote: "Our client onboarding took 14 days of back-and-forth. Contracts, briefs, asset collection, account setup — all manual. PURIST automated the entire sequence. Contracts auto-generated and sent within an hour of a deal closing. Onboarding now takes 2 days. We saved CAD $18,000 in the first year in staff time alone.",
+    industry: "Marketing Agency",
+    stars: 5,
+  },
+  {
+    name: "Ingrid Hoffmann",
+    role: "Managing Director",
+    company: "Hoffmann Immobilien GmbH",
+    location: "Munich, Germany",
+    flag: "🇩🇪",
+    avatar: "https://i.pravatar.cc/96?img=49",
+    result: "Lead follow-up: manual → 6-touch automated",
+    roi: "+€22K revenue first quarter",
+    quote: "We were losing leads simply because nobody followed up consistently. PURIST built a 6-touch automated sequence over 14 days. Dead leads started responding. Our conversion rate on cold leads went from 4% to 17%. First quarter after deployment: €22,000 in additional revenue directly attributed to leads that previously would have gone cold.",
+    industry: "Real Estate",
+    stars: 5,
+  },
+  {
+    name: "Priya Nair",
+    role: "Founder",
+    company: "Nair Recruitment Partners",
+    location: "Sydney, Australia",
+    flag: "🇦🇺",
+    avatar: "https://i.pravatar.cc/96?img=46",
+    result: "Candidate processing: 4hrs → 40min",
+    roi: "+2.3 placements/month",
+    quote: "Recruitment is entirely dependent on speed. PURIST automated our candidate intake, CV parsing, initial screening emails, and interview scheduling. What took 4 hours now takes 40 minutes. We're closing 2.3 more placements per month with the same team. At our average placement fee that's AUD $34,500 extra annually.",
+    industry: "Recruitment",
+    stars: 5,
+  },
+  {
+    name: "Marcus Rivera",
+    role: "Owner",
+    company: "Rivera Auto Group",
+    location: "Miami, USA",
+    flag: "🇺🇸",
+    avatar: "https://i.pravatar.cc/96?img=13",
+    result: "Review count: +47 in 60 days",
+    roi: "+18% inbound leads",
+    quote: "My Google rating was 3.9. Dealers with 4.5+ were stealing my customers. PURIST built a post-purchase review system — timed perfectly 48 hours after delivery when the customer is still excited. In 60 days: 47 new 5-star reviews. Rating jumped to 4.7. Inbound leads from Google up 18%. That's without a single dollar of ads.",
+    industry: "Auto Dealership",
+    stars: 5,
+  },
+  {
+    name: "Fatima Al-Rashid",
+    role: "CEO",
+    company: "Al-Rashid Medical Center",
+    location: "Dubai, UAE",
+    flag: "🇦🇪",
+    avatar: "https://i.pravatar.cc/96?img=45",
+    result: "Patient intake: 35min → 8min",
+    roi: "+$4,200/month capacity",
+    quote: "Patient intake was our biggest bottleneck. Paper forms, manual data entry, 35 minutes per new patient. PURIST digitized and automated the entire intake workflow — forms, insurance verification trigger, doctor briefing. Intake dropped to 8 minutes. We freed up capacity for 12 additional patients per week at $350 per consult.",
+    industry: "Medical Practice",
+    stars: 5,
+  },
+  {
+    name: "Tom Bradley",
+    role: "Founder",
+    company: "Summit Growth Agency",
+    location: "Austin, USA",
+    flag: "🇺🇸",
+    avatar: "https://i.pravatar.cc/96?img=17",
+    result: "Reporting: 6hrs → fully automated",
+    roi: "28 hours/month recovered",
+    quote: "We were spending 6 hours every Monday building client reports. Manual pulls from Google Analytics, Facebook Ads, LinkedIn — copy-paste into spreadsheets. PURIST automated the entire reporting stack. Every Monday at 8am, every client gets a branded PDF report built automatically. 28 hours recovered per month. My team actually likes Mondays now.",
+    industry: "Marketing Agency",
+    stars: 5,
+  },
+  {
+    name: "Elena Kowalski",
+    role: "CFO",
+    company: "Kowalski & Partners CPAs",
+    location: "Chicago, USA",
+    flag: "🇺🇸",
+    avatar: "https://i.pravatar.cc/96?img=48",
+    result: "Invoice collection: 28 days → 7 days",
+    roi: "+$31K cash flow improvement",
+    quote: "We had $180K sitting in unpaid invoices older than 60 days. Nobody wanted to make the awkward collection calls. PURIST automated a 3-step invoice reminder sequence — Day 7, Day 14, Day 30 — each escalating in urgency but staying professional. Average days to payment dropped from 28 to 7. Cash flow improved by $31K in the first 90 days.",
+    industry: "Accounting Firm",
+    stars: 5,
+  },
+  {
+    name: "Ravi Sharma",
+    role: "Head of Operations",
+    company: "BrightPath EdTech",
+    location: "Bangalore, India",
+    flag: "🇮🇳",
+    avatar: "https://i.pravatar.cc/96?img=14",
+    result: "Student enrollment: 5 days → same day",
+    roi: "+23% enrollment rate",
+    quote: "Our enrollment process was losing us students to faster competitors. Applications sat unreviewed for 5 days. PURIST automated the entire pipeline — application received, qualification check, acceptance letter, payment link, welcome sequence — all triggered automatically. Enrollment time dropped to same-day. Enrollment rate went up 23%.",
+    industry: "Education",
+    stars: 5,
+  },
+  {
+    name: "Charlotte Dubois",
+    role: "Founder",
+    company: "Dubois E-Commerce Studio",
+    location: "Brussels, Belgium",
+    flag: "🇧🇪",
+    avatar: "https://i.pravatar.cc/96?img=43",
+    result: "Order processing: manual → fully automated",
+    roi: "€8,400/month in saved ops costs",
+    quote: "We were processing 300+ orders a day manually — copy into the 3PL, update the CRM, send the tracking email, log in the spreadsheet. Four hours every morning just on order ops. PURIST automated the entire chain. Now 300 orders process in under 10 minutes with zero human touch. Saved two part-time salaries. €8,400/month.",
+    industry: "E-Commerce",
+    stars: 5,
+  },
+  {
+    name: "Nathan Brooks",
+    role: "CEO",
+    company: "Brooks IT Solutions",
+    location: "Manchester, UK",
+    flag: "🇬🇧",
+    avatar: "https://i.pravatar.cc/96?img=18",
+    result: "Ticket resolution: 4hrs avg → 45min",
+    roi: "+£4,800/month in retained clients",
+    quote: "Response time was destroying our client retention. Average ticket resolution was 4 hours. PURIST built an automated triage and routing system — every ticket classified, assigned, and acknowledged within 2 minutes. Resolution time dropped to 45 minutes average. We retained 3 accounts that were on the verge of churning. That's £4,800/month in saved MRR.",
+    industry: "IT Services",
+    stars: 5,
+  },
+  {
+    name: "Isabella Rossi",
+    role: "Studio Owner",
+    company: "Rossi Architecture Studio",
+    location: "Milan, Italy",
+    flag: "🇮🇹",
+    avatar: "https://i.pravatar.cc/96?img=42",
+    result: "Admin time: 22hrs → 5hrs/week",
+    roi: "+€15K billable hours recovered",
+    quote: "Architecture is creativity. Not spreadsheets. I was spending 22 hours a week on coordination, proposals, project updates, and vendor emails. PURIST automated all of it. I now spend 5 hours a week on admin. The 17 hours recovered are now billable. At my rate that's €15,000 in additional revenue capacity every single month.",
+    industry: "Architecture",
+    stars: 5,
+  },
+  {
+    name: "Kevin O'Brien",
+    role: "Founder",
+    company: "O'Brien Mortgage Brokers",
+    location: "Dublin, Ireland",
+    flag: "🇮🇪",
+    avatar: "https://i.pravatar.cc/96?img=16",
+    result: "Document collection: 12 days → 3 days",
+    roi: "+8 deals closed per quarter",
+    quote: "Mortgage applications live and die on document turnaround. We were averaging 12 days just to collect everything from clients. PURIST built an automated document request system — sequential reminders, escalating urgency, all branded professionally. Collection time dropped to 3 days. We close 8 more deals per quarter now. That's substantial.",
+    industry: "Mortgage Brokerage",
+    stars: 5,
+  },
+  {
+    name: "Amara Diallo",
+    role: "Founder",
+    company: "Diallo Fashion House",
+    location: "Amsterdam, Netherlands",
+    flag: "🇳🇱",
+    avatar: "https://i.pravatar.cc/96?img=41",
+    result: "Returns processing: 5 days → same day",
+    roi: "+31% repeat purchase rate",
+    quote: "Returns were destroying our brand. 5 days to process, no communication, customers furious. PURIST automated the entire returns flow — label generation, status updates, refund initiation, win-back offer sequence. Returns now processed same day. Repeat purchase rate went up 31% in 3 months. Happy customers come back.",
+    industry: "Fashion E-Commerce",
+    stars: 5,
+  },
+  {
+    name: "Patrick Nguyen",
+    role: "Managing Director",
+    company: "Pacific Freight Solutions",
+    location: "Los Angeles, USA",
+    flag: "🇺🇸",
+    avatar: "https://i.pravatar.cc/96?img=19",
+    result: "Quote turnaround: 2 days → 2 hours",
+    roi: "+$52K quarterly revenue",
+    quote: "In freight, the fastest quote wins. We were averaging 2 days to send a quote because it required 4 people to coordinate. PURIST built an automated quoting system — data flows from inquiry through pricing logic to formatted proposal in 2 hours with no human touch. We're winning deals we used to lose by default. $52K extra in Q1 alone.",
+    industry: "Logistics",
+    stars: 5,
+  },
+  {
+    name: "Yasmin Khalil",
+    role: "Clinic Owner",
+    company: "Khalil Aesthetics Clinic",
+    location: "Riyadh, Saudi Arabia",
+    flag: "🇸🇦",
+    avatar: "https://i.pravatar.cc/96?img=40",
+    result: "Appointment fill rate: 71% → 96%",
+    roi: "+SAR 28K/month",
+    quote: "We had a full waitlist but still ending the day with empty slots because cancellations weren't filled fast enough. PURIST built an automatic waitlist-fill system — the moment a cancellation hits, the next 5 people on the waitlist get a text with a booking link. First available books it. Fill rate went from 71% to 96% in 4 weeks.",
+    industry: "Aesthetics Clinic",
+    stars: 5,
+  },
+  {
+    name: "Carlos Mendoza",
+    role: "Owner",
+    company: "Mendoza Catering & Events",
+    location: "Mexico City, Mexico",
+    flag: "🇲🇽",
+    avatar: "https://i.pravatar.cc/96?img=20",
+    result: "Event quotes: 3 days → 4 hours",
+    roi: "+MXN 180K/quarter",
+    quote: "Every event quote required going back and forth with the client for 3 days before we could price it properly. PURIST built an intake form that captures everything — guest count, menu preferences, venue details, budget range — and auto-generates a formatted quote in hours. We quote 4x more events with the same team and close more of them.",
+    industry: "Catering",
+    stars: 5,
+  },
+  {
+    name: "Hannah Müller",
+    role: "Co-Founder",
+    company: "Müller Digital GmbH",
+    location: "Berlin, Germany",
+    flag: "🇩🇪",
+    avatar: "https://i.pravatar.cc/96?img=39",
+    result: "Lead qualification: manual → automatic",
+    roi: "+€9,600/month in partner revenue",
+    quote: "We were wasting discovery calls on leads who had no budget or no decision-making authority. PURIST built a qualification gate — every inbound lead goes through a scoring form before getting a calendar link. Only qualified leads reach us. Our close rate went from 18% to 41% because every call is now with someone ready to buy.",
+    industry: "Digital Agency",
+    stars: 5,
+  },
+  {
+    name: "Ethan Williams",
+    role: "Director",
+    company: "Williams Property Group",
+    location: "Melbourne, Australia",
+    flag: "🇦🇺",
+    avatar: "https://i.pravatar.cc/96?img=21",
+    result: "Lease renewals: fully automated",
+    roi: "AUD $24K saved annually",
+    quote: "Lease renewal management was consuming 15 hours a week of my property manager's time — tracking dates, sending notices, chasing signatures. PURIST automated the entire process. Renewal reminders fire 90, 60, and 30 days before expiry. Contracts auto-generated. E-sign links sent automatically. 15 hours recovered weekly. AUD $24K saved.",
+    industry: "Property Management",
+    stars: 5,
+  },
+  {
+    name: "Nadia Petrov",
+    role: "Founder",
+    company: "Petrov Creative Studio",
+    location: "Amsterdam, Netherlands",
+    flag: "🇳🇱",
+    avatar: "https://i.pravatar.cc/96?img=38",
+    result: "Client revision cycles: 6 rounds → 2 rounds",
+    roi: "+€11K capacity per month",
+    quote: "Every design project averaged 6 revision rounds because briefs were vague and feedback was unstructured. PURIST built an automated brief intake system — detailed questionnaire, reference collection, budget and timeline confirmation — before any work starts. Revision rounds dropped to 2. We have capacity for 40% more projects.",
+    industry: "Graphic Design",
+    stars: 5,
+  },
+  {
+    name: "Samuel Okafor",
+    role: "CEO",
+    company: "Okafor Insurance Brokers",
+    location: "Lagos, Nigeria",
+    flag: "🇳🇬",
+    avatar: "https://i.pravatar.cc/96?img=22",
+    result: "Policy renewals: 60% → 91% retention",
+    roi: "+$7,800/month MRR",
+    quote: "We were losing clients not because they were unhappy but because renewal notices arrived too late or got ignored. PURIST built a renewal sequence — 90 days out, 60 days, 30 days, 7 days — each message personalised with their coverage details and a direct payment link. Retention jumped from 60% to 91%. MRR up $7,800.",
+    industry: "Insurance",
+    stars: 5,
+  },
+  {
+    name: "Laura Svensson",
+    role: "HR Director",
+    company: "Nordic Staffing AB",
+    location: "Stockholm, Sweden",
+    flag: "🇸🇪",
+    avatar: "https://i.pravatar.cc/96?img=37",
+    result: "New hire onboarding: 3 weeks → 4 days",
+    roi: "SEK 340K saved annually",
+    quote: "Onboarding a new hire took 3 weeks of coordination — IT setup, contracts, training schedules, tool access, welcome packs. PURIST automated the entire sequence triggered from a single form. Everything fires the moment HR clicks approve. New hires now operational in 4 days. SEK 340,000 saved in staff time annually across 60+ hires per year.",
+    industry: "HR & Staffing",
+    stars: 5,
+  },
+  {
+    name: "Michael Torres",
+    role: "Owner",
+    company: "Torres Restaurant Group",
+    location: "St. Louis, USA",
+    flag: "🇺🇸",
+    avatar: "https://i.pravatar.cc/96?img=23",
+    result: "No-shows: 18% → 5% | Reviews: +34 in 90 days",
+    roi: "+$4,800/month recovered",
+    quote: "Two problems destroyed my margins: empty tables from no-shows and a Google rating stuck at 3.8. PURIST solved both. Automated reservation reminders killed the no-show rate. A post-dining review sequence sent exactly 2 hours after the meal generated 34 new 5-star reviews in 90 days. Rating is now 4.7. Revenue up $4,800/month.",
+    industry: "Restaurant",
+    stars: 5,
+  },
+  {
+    name: "Jennifer Walsh",
+    role: "Founder",
+    company: "Walsh Executive Search",
+    location: "Boston, USA",
+    flag: "🇺🇸",
+    avatar: "https://i.pravatar.cc/96?img=36",
+    result: "Outreach sequences: manual → automated 8-touch",
+    roi: "+$18K in new mandates Q1",
+    quote: "Business development was sporadic because outreach depended on whoever had time. PURIST built an 8-touch business development sequence — LinkedIn connection, email, follow-up, case study, market insight, referral ask — all automated and spaced perfectly over 21 days. Q1 we closed $18K in new executive search mandates purely from automated outreach.",
+    industry: "Executive Search",
+    stars: 5,
+  },
+];
+---
+
+<section style="background:#0A0A0A;padding:5rem 0 6rem;">
+  <div style="max-width:1200px;margin:0 auto;padding:0 1.5rem;">
+
+    <!-- Header -->
+    <div style="text-align:center;max-width:760px;margin:0 auto 4rem;">
+      <div style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.375rem 0.875rem;border-radius:999px;border:1px solid rgba(232,180,176,0.3);background:rgba(232,180,176,0.07);margin-bottom:1.5rem;">
+        <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.16em;font-weight:600;color:rgba(232,180,176,0.85);">Client Results</span>
+      </div>
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.875rem,4vw,2.875rem);line-height:1.15;letter-spacing:-0.02em;color:#F8F6F1;margin-bottom:1rem;">
+        Real businesses. Real numbers.<br/>
+        <em style="color:#E8B4B0;font-style:italic;">Real results.</em>
+      </h2>
+      <p style="font-size:1rem;color:rgba(248,246,241,0.45);line-height:1.7;max-width:540px;margin:0 auto;">
+        From law firms in Manhattan to design studios in Palm Beach — 200+ businesses across 18 countries running on PURIST infrastructure.
+      </p>
+    </div>
+
+    <!-- Grid -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.25rem;">
+      {testimonials.map((t) => (
+        <article style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:1.5rem;display:flex;flex-direction:column;gap:1rem;transition:border-color 0.2s,background 0.2s;" onmouseover="this.style.background='rgba(232,180,176,0.05)';this.style.borderColor='rgba(232,180,176,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.07)'">
+
+          <!-- Top: avatar + name + result badge -->
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;">
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <img
+                src={t.avatar}
+                alt={t.name}
+                width="44"
+                height="44"
+                loading="lazy"
+                style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(232,180,176,0.25);"
+              />
+              <div>
+                <p style="font-size:0.875rem;font-weight:600;color:#F8F6F1;line-height:1.2;">{t.name}</p>
+                <p style="font-size:0.75rem;color:rgba(248,246,241,0.4);line-height:1.4;">{t.role} · {t.company}</p>
+              </div>
+            </div>
+            <!-- Stars -->
+            <div style="display:flex;gap:2px;flex-shrink:0;">
+              {Array(t.stars).fill(0).map(() => (
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="#E8B4B0"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+              ))}
+            </div>
+          </div>
+
+          <!-- Result pills -->
+          <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+            <span style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;padding:0.25rem 0.625rem;border-radius:999px;background:rgba(34,197,94,0.1);color:#4ade80;border:1px solid rgba(34,197,94,0.2);">{t.result}</span>
+            <span style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;padding:0.25rem 0.625rem;border-radius:999px;background:rgba(232,180,176,0.1);color:#E8B4B0;border:1px solid rgba(232,180,176,0.2);">{t.roi}</span>
+          </div>
+
+          <!-- Quote -->
+          <p style="font-size:0.8125rem;line-height:1.75;color:rgba(248,246,241,0.6);flex:1;">
+            "{t.quote}"
+          </p>
+
+          <!-- Footer: location + industry -->
+          <div style="display:flex;align-items:center;justify-content:space-between;padding-top:0.75rem;border-top:1px solid rgba(255,255,255,0.06);">
+            <span style="font-size:0.6875rem;color:rgba(248,246,241,0.3);">{t.flag} {t.location}</span>
+            <span style="font-size:0.6875rem;color:rgba(248,246,241,0.3);text-transform:uppercase;letter-spacing:0.08em;">{t.industry}</span>
+          </div>
+
+        </article>
+      ))}
+    </div>
+
+    <!-- Bottom stats bar -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:4rem;padding-top:3rem;border-top:1px solid rgba(255,255,255,0.08);text-align:center;">
+      {[
+        { v: '200+', l: 'Businesses automated' },
+        { v: '18', l: 'Countries served' },
+        { v: '9.4×', l: 'Average ROI in 90 days' },
+        { v: '4.9/5', l: 'Average client rating' },
+      ].map(s => (
+        <div>
+          <p style="font-family:Georgia,serif;font-size:clamp(1.75rem,3vw,2.5rem);color:#F8F6F1;font-weight:400;">{s.v}</p>
+          <p style="font-size:0.6875rem;text-transform:uppercase;letter-spacing:0.12em;color:rgba(248,246,241,0.35);margin-top:0.375rem;">{s.l}</p>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
