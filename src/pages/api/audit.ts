@@ -189,26 +189,26 @@ Return valid JSON only. No markdown, no code blocks, just raw JSON.`,
       text: `Hi ${name.split(' ')[0]},\n\nWe have prepared a personalised automation analysis for ${company}.\n\nThis email contains your full proposal: 3 recommended workflows, industry benchmarks, ROI projections, and a deployment timeline — all based on your submission.\n\nIf the HTML version is not displaying correctly, reply to this email and we will send the proposal in another format.\n\nTo get started, reply "yes" to this email. Your first workflow goes live in 3 business days. No call required.\n\n-- Hugo\nPURIST\nhello@purist.online\npurist.online`,
     });
 
-    // ── 5. Send onboarding follow-up 2 minutes later ─────────────
-    const resendKey2 = resendKey; // same key, captured before async gap
-    setTimeout(async () => {
-      try {
-        const resend2 = new Resend(resendKey2);
-        const onboardingHtml = generateOnboardingEmail({
-          name, company, email,
-          business_type, team_size, pain_point, tools, budget,
-        });
-        await resend2.emails.send({
-          from: 'PURIST <hello@purist.online>',
-          to: [email],
-          subject: `${name.split(' ')[0]}, here is what happens next — PURIST`,
-          html: onboardingHtml,
-          text: `Hi ${name.split(' ')[0]},\n\nThis is a quick follow-up to the proposal you just received.\n\nWe wanted to share exactly what the onboarding looks like so you can start preparing your side before we connect.\n\nReply "yes" to either email and we will send the onboarding form and invoice within 2 hours.\n\n-- Hugo\nPURIST\nhello@purist.online`,
-        });
-      } catch {
-        // Follow-up is best-effort — do not surface errors to the client
-      }
-    }, 2 * 60 * 1000); // 2 minutes
+    // ── 5. Schedule onboarding follow-up via Resend scheduledAt ──
+    // setTimeout does not survive Vercel serverless termination.
+    // Resend's scheduledAt queues the send server-side, reliably.
+    try {
+      const onboardingHtml = generateOnboardingEmail({
+        name, company, email,
+        business_type, team_size, pain_point, tools, budget,
+      });
+      const sendAt = new Date(Date.now() + 2 * 60 * 1000).toISOString(); // 2 min from now
+      await resend.emails.send({
+        from: 'PURIST <hello@purist.online>',
+        to: [email],
+        subject: `${name.split(' ')[0]}, here is what happens next — PURIST`,
+        html: onboardingHtml,
+        scheduledAt: sendAt,
+        text: `Hi ${name.split(' ')[0]},\n\nThis is a quick follow-up to the proposal you just received.\n\nWe wanted to share exactly what the onboarding looks like so you can start preparing your side before we connect.\n\nReply "yes" to either email and we will send the onboarding form and invoice within 2 hours.\n\n-- Hugo\nPURIST\nhello@purist.online`,
+      });
+    } catch {
+      // Follow-up scheduling is best-effort — do not surface errors to the client
+    }
 
     return new Response(JSON.stringify({ success: true }), {
       headers: { 'Content-Type': 'application/json' },
