@@ -1,6 +1,17 @@
 // PURIST, Personalized proposal email generator
 // Called automatically from /api/audit.ts after every welcome form submission
 
+export interface OnboardingFormData {
+  name: string;
+  company: string;
+  email: string;
+  business_type?: string;
+  team_size?: string;
+  pain_point?: string;
+  tools?: string;
+  budget?: string;
+}
+
 export interface ProposalFormData {
   name: string;
   company: string;
@@ -1072,13 +1083,17 @@ export function generateProposalEmail(data: ProposalFormData): string {
     <!-- SECTION 7: Investment -->
     <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#E8B4B0;font-weight:700;margin-bottom:14px;">Section 07 · Your investment</div>
     <div style="background:white;border:1px solid rgba(10,10,10,0.07);border-radius:14px;padding:22px;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;gap:12px;flex-wrap:wrap;">
-        <div>
-          <div style="font-size:36px;font-family:Georgia,serif;color:#0A0A0A;line-height:1;">€${fmt(price)}</div>
-          <div style="font-size:12.5px;color:#aaa;margin-top:5px;">One-time setup fee · 90-day monitoring and support included</div>
-        </div>
-        ${withinBudget ? `<div style="background:#F0EDE8;color:#0A0A0A;font-size:11.5px;font-weight:700;padding:7px 16px;border-radius:99px;border:1px solid rgba(10,10,10,0.1);">Within your stated budget</div>` : ''}
-      </div>
+      <table style="width:100%;border-collapse:collapse;margin-bottom:18px;">
+        <tr>
+          <td style="vertical-align:middle;">
+            <div style="font-size:36px;font-family:Georgia,serif;color:#0A0A0A;line-height:1;">€${fmt(price)}</div>
+            <div style="font-size:12.5px;color:#aaa;margin-top:5px;">One-time setup fee · 90-day monitoring and support included</div>
+          </td>
+          ${withinBudget ? `<td style="vertical-align:middle;text-align:right;white-space:nowrap;padding-left:16px;">
+            <span style="display:inline-block;background:#0A0A0A;color:#ffffff;font-size:11px;font-weight:700;padding:9px 20px;border-radius:99px;letter-spacing:0.04em;white-space:nowrap;">Within your stated budget</span>
+          </td>` : ''}
+        </tr>
+      </table>
       ${[
         '3 production automations built, tested and deployed in your exact environment',
         'Full error handling, retry logic, and real-time alerting, nothing runs silently',
@@ -1136,22 +1151,318 @@ export function generateProposalEmail(data: ProposalFormData): string {
 
   </div>
 
-  <!-- PURIST SIGNATURE -->
-  <div style="background:#0A0A0A;padding:28px 36px 0;overflow:hidden;">
-    <p style="font-family:Georgia,'Times New Roman',serif;font-size:96px;font-weight:400;letter-spacing:-0.02em;line-height:0.85;margin:0;padding:0;" aria-hidden="true"><span style="color:rgba(232,180,176,0.75);">P</span><span style="color:rgba(255,255,255,0.55);">U</span><span style="color:rgba(164,139,250,0.65);">R</span><span style="color:rgba(232,180,176,0.70);">I</span><span style="color:rgba(255,255,255,0.50);">S</span><span style="color:rgba(164,139,250,0.60);">T</span><span style="font-size:22px;vertical-align:super;color:rgba(232,180,176,0.55);">&#174;</span></p>
+  <!-- FOOTER TOP: FOLLOW THE WORK -->
+  <div style="background:#0A0A0A;padding:36px 36px 0;text-align:center;">
+    <div style="font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(255,255,255,0.28);font-weight:700;margin-bottom:18px;">Follow the work</div>
+    <table style="border-collapse:collapse;margin:0 auto 24px;">
+      <tr>
+        <td style="padding:0 5px;"><a href="https://www.tiktok.com/@puristonline" style="display:inline-block;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);text-align:center;line-height:38px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.45);text-decoration:none;">Tk</a></td>
+        <td style="padding:0 5px;"><a href="https://www.instagram.com/puristonline" style="display:inline-block;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);text-align:center;line-height:38px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.45);text-decoration:none;">Ig</a></td>
+        <td style="padding:0 5px;"><a href="https://www.threads.net/@puristonline" style="display:inline-block;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);text-align:center;line-height:38px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.45);text-decoration:none;">@</a></td>
+        <td style="padding:0 5px;"><a href="https://x.com/puristonline" style="display:inline-block;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);text-align:center;line-height:38px;font-size:13px;font-weight:700;color:rgba(255,255,255,0.45);text-decoration:none;">X</a></td>
+        <td style="padding:0 5px;"><a href="https://www.pinterest.com/puristonline" style="display:inline-block;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);text-align:center;line-height:38px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.45);text-decoration:none;">Pi</a></td>
+        <td style="padding:0 5px;"><a href="https://www.linkedin.com/company/puristonline" style="display:inline-block;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);text-align:center;line-height:38px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.45);text-decoration:none;">in</a></td>
+        <td style="padding:0 5px;"><a href="https://medium.com/@puristonline" style="display:inline-block;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);text-align:center;line-height:38px;font-size:13px;font-weight:700;color:rgba(255,255,255,0.45);text-decoration:none;">M</a></td>
+      </tr>
+    </table>
+    <div style="height:1px;background:rgba(255,255,255,0.06);margin-bottom:18px;"></div>
+    <!-- Bottom legal row -->
+    <table style="width:100%;border-collapse:collapse;margin-bottom:20px;">
+      <tr>
+        <td style="font-size:10px;color:rgba(255,255,255,0.2);text-align:left;vertical-align:middle;">
+          &copy; 2026 PURIST&reg; &nbsp;&middot;&nbsp;
+          <a href="https://www.purist.online/pages/privacy-policy" style="color:rgba(255,255,255,0.2);text-decoration:none;">Privacy policy</a> &nbsp;&middot;&nbsp;
+          <a href="https://www.purist.online/pages/terms-of-service" style="color:rgba(255,255,255,0.2);text-decoration:none;">Terms of service</a> &nbsp;&middot;&nbsp;
+          <a href="https://www.purist.online/pages/accessibility" style="color:rgba(255,255,255,0.2);text-decoration:none;">Accessibility</a>
+        </td>
+        <td style="font-size:10px;color:rgba(255,255,255,0.2);text-align:right;vertical-align:middle;">
+          <a href="https://clutch.co" style="color:rgba(255,255,255,0.2);text-decoration:none;">Verified on Clutch</a> &nbsp;&middot;&nbsp;
+          <a href="https://www.producthunt.com" style="color:rgba(255,255,255,0.2);text-decoration:none;">Product Hunt</a>
+        </td>
+      </tr>
+    </table>
+    <!-- BIG PURIST WORDMARK matching site footer gradient -->
+    <p style="font-family:Georgia,'Times New Roman',serif;font-size:108px;font-weight:400;letter-spacing:-0.02em;line-height:0.85;margin:0;padding:0;text-align:left;" aria-hidden="true"><span style="color:rgba(232,180,176,0.85);">P</span><span style="color:rgba(215,205,200,0.72);">U</span><span style="color:rgba(185,165,238,0.82);">R</span><span style="color:rgba(164,139,250,0.88);">I</span><span style="color:rgba(164,139,250,0.70);">S</span><span style="color:rgba(195,180,248,0.75);">T</span><span style="font-size:26px;vertical-align:super;color:rgba(164,139,250,0.50);">&#174;</span></p>
   </div>
 
-  <!-- FOOTER -->
-  <div style="background:#0A0A0A;padding:20px 36px 24px;border-top:1px solid rgba(255,255,255,0.04);">
-    <div style="font-family:Georgia,serif;font-size:16px;color:rgba(255,255,255,0.25);margin-bottom:10px;">PURIST<span style="color:rgba(232,180,176,0.35);">.</span></div>
-    <div style="font-size:11.5px;color:rgba(255,255,255,0.15);line-height:1.7;">
-      purist.online · hello@purist.online<br/>
-      This proposal was prepared specifically for ${fn} at ${company} based on your submission. It is confidential and intended solely for the recipient.<br/><br/>
-      <a href="https://www.purist.online/pages/privacy-policy" style="color:rgba(232,180,176,0.35);text-decoration:none;">Privacy policy</a>
+  <!-- DISCLAIMER + CONFIDENTIAL -->
+  <div style="background:#0A0A0A;padding:18px 36px 28px;">
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:14px 18px;margin-bottom:12px;">
+      <div style="font-size:10.5px;color:rgba(255,255,255,0.18);line-height:1.75;"><strong style="color:rgba(255,255,255,0.28);">*Results vary based on business size, industry and existing systems.</strong> Reported metrics are based on aggregated client data and may not reflect your specific outcomes. All automations are deployed on your own infrastructure. PURIST does not store your business data beyond what is required for workflow execution and monitoring.</div>
     </div>
+    <div style="font-size:10px;color:rgba(255,255,255,0.13);text-align:center;margin-bottom:6px;">**Free automation audit available for new clients only.</div>
+    <div style="font-size:10px;color:rgba(255,255,255,0.10);text-align:center;">This proposal was prepared specifically for ${fn} at ${esc(company)} based on your submission. It is confidential and intended solely for the recipient.</div>
   </div>
 
 </div>
+</div>
+</body>
+</html>`;
+}
+
+// ─── FOOTER BLOCK (shared across emails) ─────────────────────────────────────
+function sharedFooter(recipientName: string, recipientCompany: string): string {
+  return `
+  <div style="background:#0A0A0A;padding:36px 36px 0;text-align:center;">
+    <div style="font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(255,255,255,0.28);font-weight:700;margin-bottom:18px;">Follow the work</div>
+    <table style="border-collapse:collapse;margin:0 auto 24px;">
+      <tr>
+        <td style="padding:0 5px;"><a href="https://www.tiktok.com/@puristonline" style="display:inline-block;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);text-align:center;line-height:38px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.45);text-decoration:none;">Tk</a></td>
+        <td style="padding:0 5px;"><a href="https://www.instagram.com/puristonline" style="display:inline-block;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);text-align:center;line-height:38px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.45);text-decoration:none;">Ig</a></td>
+        <td style="padding:0 5px;"><a href="https://www.threads.net/@puristonline" style="display:inline-block;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);text-align:center;line-height:38px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.45);text-decoration:none;">@</a></td>
+        <td style="padding:0 5px;"><a href="https://x.com/puristonline" style="display:inline-block;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);text-align:center;line-height:38px;font-size:13px;font-weight:700;color:rgba(255,255,255,0.45);text-decoration:none;">X</a></td>
+        <td style="padding:0 5px;"><a href="https://www.pinterest.com/puristonline" style="display:inline-block;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);text-align:center;line-height:38px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.45);text-decoration:none;">Pi</a></td>
+        <td style="padding:0 5px;"><a href="https://www.linkedin.com/company/puristonline" style="display:inline-block;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);text-align:center;line-height:38px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.45);text-decoration:none;">in</a></td>
+        <td style="padding:0 5px;"><a href="https://medium.com/@puristonline" style="display:inline-block;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);text-align:center;line-height:38px;font-size:13px;font-weight:700;color:rgba(255,255,255,0.45);text-decoration:none;">M</a></td>
+      </tr>
+    </table>
+    <div style="height:1px;background:rgba(255,255,255,0.06);margin-bottom:18px;"></div>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:20px;">
+      <tr>
+        <td style="font-size:10px;color:rgba(255,255,255,0.2);text-align:left;vertical-align:middle;">
+          &copy; 2026 PURIST&reg; &nbsp;&middot;&nbsp;
+          <a href="https://www.purist.online/pages/privacy-policy" style="color:rgba(255,255,255,0.2);text-decoration:none;">Privacy policy</a> &nbsp;&middot;&nbsp;
+          <a href="https://www.purist.online/pages/terms-of-service" style="color:rgba(255,255,255,0.2);text-decoration:none;">Terms of service</a> &nbsp;&middot;&nbsp;
+          <a href="https://www.purist.online/pages/accessibility" style="color:rgba(255,255,255,0.2);text-decoration:none;">Accessibility</a>
+        </td>
+        <td style="font-size:10px;color:rgba(255,255,255,0.2);text-align:right;vertical-align:middle;">
+          <a href="https://clutch.co" style="color:rgba(255,255,255,0.2);text-decoration:none;">Verified on Clutch</a> &nbsp;&middot;&nbsp;
+          <a href="https://www.producthunt.com" style="color:rgba(255,255,255,0.2);text-decoration:none;">Product Hunt</a>
+        </td>
+      </tr>
+    </table>
+    <p style="font-family:Georgia,'Times New Roman',serif;font-size:108px;font-weight:400;letter-spacing:-0.02em;line-height:0.85;margin:0;padding:0;text-align:left;" aria-hidden="true"><span style="color:rgba(232,180,176,0.85);">P</span><span style="color:rgba(215,205,200,0.72);">U</span><span style="color:rgba(185,165,238,0.82);">R</span><span style="color:rgba(164,139,250,0.88);">I</span><span style="color:rgba(164,139,250,0.70);">S</span><span style="color:rgba(195,180,248,0.75);">T</span><span style="font-size:26px;vertical-align:super;color:rgba(164,139,250,0.50);">&#174;</span></p>
+  </div>
+  <div style="background:#0A0A0A;padding:18px 36px 28px;">
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:14px 18px;margin-bottom:12px;">
+      <div style="font-size:10.5px;color:rgba(255,255,255,0.18);line-height:1.75;"><strong style="color:rgba(255,255,255,0.28);">*Results vary based on business size, industry and existing systems.</strong> Reported metrics are based on aggregated client data and may not reflect your specific outcomes. All automations are deployed on your own infrastructure. PURIST does not store your business data beyond what is required for workflow execution and monitoring.</div>
+    </div>
+    <div style="font-size:10px;color:rgba(255,255,255,0.13);text-align:center;margin-bottom:6px;">**Free automation audit available for new clients only.</div>
+    <div style="font-size:10px;color:rgba(255,255,255,0.10);text-align:center;">This email was prepared specifically for ${esc(recipientName)} at ${esc(recipientCompany)}. It is confidential and intended solely for the recipient.</div>
+  </div>`;
+}
+
+// ─── ONBOARDING FOLLOW-UP EMAIL ───────────────────────────────────────────────
+// Sent 2 minutes after the proposal. Personalized CTA + onboarding preparation.
+export interface OnboardingFormData {
+  name: string;
+  company: string;
+  email: string;
+  business_type?: string;
+  team_size?: string;
+  pain_point?: string;
+  tools?: string;
+  budget?: string;
+}
+
+export function generateOnboardingEmail(data: OnboardingFormData): string {
+  const { name, company, business_type, team_size, pain_point, tools, budget } = data;
+  const fn = firstName(name);
+  const industryKey = (business_type || '').toLowerCase();
+
+  type OnboardingProfile = {
+    readyIn: string;
+    step1Title: string; step1Body: string;
+    step2Title: string; step2Body: string;
+    step3Title: string; step3Body: string;
+    ctaLine: string;
+    firstWinLabel: string;
+  };
+
+  const onboardingProfiles: Record<string, OnboardingProfile> = {
+    ecommerce: {
+      readyIn: '3 business days',
+      step1Title: 'Connect your store data',
+      step1Body: 'We will need read access to your Shopify or WooCommerce store and your fulfilment system. No coding required — we handle the connection.',
+      step2Title: 'Map your order flow',
+      step2Body: 'We document the exact journey from purchase to delivery confirmation. This takes 30 minutes on a call or async via Loom.',
+      step3Title: 'Live in 72 hours',
+      step3Body: 'Order routing, inventory sync, and customer notification workflows go live. You watch it run in your new monitoring dashboard.',
+      ctaLine: 'Your abandoned cart and post-purchase flows can be live before the weekend.',
+      firstWinLabel: 'First automation live',
+    },
+    saas: {
+      readyIn: '3 business days',
+      step1Title: 'Share your toolstack credentials',
+      step1Body: 'We will need API access to your CRM, support inbox, and billing system. We use read/write scopes only where needed — nothing more.',
+      step2Title: 'Define your activation trigger',
+      step2Body: 'We identify the exact event that signals a user is stuck or about to churn, then build the intervention sequence around it.',
+      step3Title: 'Onboarding sequences go live',
+      step3Body: 'Trial-to-paid nudge, churn early-warning, and internal alert workflows activate. Your dashboard tracks every run in real time.',
+      ctaLine: 'Trial-to-paid conversion improvements show results within the first 14 days.',
+      firstWinLabel: 'First automation live',
+    },
+    agency: {
+      readyIn: '3 business days',
+      step1Title: 'Connect your project management tools',
+      step1Body: 'We integrate with ClickUp, Asana, Monday, or Notion — wherever your projects live. Client-facing portals can be connected too.',
+      step2Title: 'Map your client delivery cycle',
+      step2Body: 'We document your delivery stages and identify where status updates, approvals, and reporting currently take manual time.',
+      step3Title: 'Client reporting goes on autopilot',
+      step3Body: 'Automated status emails, approval reminders, and weekly performance reports activate. Your team stops chasing clients.',
+      ctaLine: 'Your team will reclaim 8-12 hours per week starting week one.',
+      firstWinLabel: 'First automation live',
+    },
+    healthcare: {
+      readyIn: '4 business days',
+      step1Title: 'HIPAA-compliant credentials review',
+      step1Body: 'We review your existing data handling setup and ensure all workflow connections meet HIPAA requirements before any integration begins.',
+      step2Title: 'Map your patient intake flow',
+      step2Body: 'We identify where appointment reminders, intake forms, and follow-up sequences are currently done manually.',
+      step3Title: 'Scheduling and follow-up go live',
+      step3Body: 'Automated appointment reminders, no-show re-booking, and discharge follow-up sequences activate in your existing EHR environment.',
+      ctaLine: 'No-show rates typically drop 30-40% within the first 30 days.',
+      firstWinLabel: 'First automation live',
+    },
+    legal: {
+      readyIn: '4 business days',
+      step1Title: 'Secure document access setup',
+      step1Body: 'We establish encrypted connections to your matter management system and document storage. All access is logged and auditable.',
+      step2Title: 'Map your intake and billing cycle',
+      step2Body: 'We document the journey from lead inquiry to matter open, and from time entry to invoice sent — identifying every manual step.',
+      step3Title: 'Billing and intake flows go live',
+      step3Body: 'Automated invoice generation, late payment follow-up, and new client intake sequences activate. Your team stops chasing payments.',
+      ctaLine: 'Firms using this system collect invoices 18 days faster on average.',
+      firstWinLabel: 'First automation live',
+    },
+    real_estate: {
+      readyIn: '3 business days',
+      step1Title: 'Connect your CRM and listing tools',
+      step1Body: 'We integrate with your CRM (HubSpot, Follow Up Boss, etc.) and your listing platform. Lead routing rules take 20 minutes to configure.',
+      step2Title: 'Map your lead response cycle',
+      step2Body: 'We document how leads come in, how fast you respond today, and where deals stall. This informs which automations to build first.',
+      step3Title: 'Lead nurture goes live',
+      step3Body: 'Automated first-response within 2 minutes, multi-touch drip sequences, and showing feedback collection go live across all lead sources.',
+      ctaLine: 'Agents using this system close 40% more leads with no additional outreach effort.',
+      firstWinLabel: 'First automation live',
+    },
+  };
+
+  const profileKey = Object.keys(onboardingProfiles).find(k => industryKey.includes(k)) ?? 'saas';
+  const profile = onboardingProfiles[profileKey] ?? onboardingProfiles['saas'];
+
+  const toolsLine = tools
+    ? `<p style="font-size:14px;color:rgba(255,255,255,0.45);line-height:1.7;margin:0 0 6px;">We already know your stack: <strong style="color:rgba(255,255,255,0.65);">${esc(tools)}</strong>. We will plug directly into what you have — no new software, no migration.</p>`
+    : '';
+
+  const budgetNote = budget
+    ? `<p style="font-size:13px;color:rgba(255,255,255,0.28);line-height:1.6;margin:0;">Your stated budget aligns with this deployment. You will not be asked to spend more than you indicated.</p>`
+    : '';
+
+  const teamNote = team_size ? `a team of ${team_size}` : 'your team';
+
+  const painLine = pain_point
+    ? `<div style="background:rgba(232,180,176,0.08);border-left:3px solid #E8B4B0;border-radius:0 8px 8px 0;padding:14px 18px;margin-bottom:24px;"><div style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#E8B4B0;font-weight:700;margin-bottom:6px;">Your primary goal</div><div style="font-size:14px;color:rgba(255,255,255,0.65);line-height:1.6;">${esc(pain_point)}</div></div>`
+    : '';
+
+  const stepsHtml = [
+    { num: '01', title: profile.step1Title, body: profile.step1Body, timing: 'Day 0 &mdash; Confirmation' },
+    { num: '02', title: profile.step2Title, body: profile.step2Body, timing: 'Day 1 &mdash; Setup call or async Loom' },
+    { num: '03', title: profile.step3Title, body: profile.step3Body, timing: `Day 1&ndash;${profile.readyIn}` },
+  ].map(({ num, title, body, timing }) => `
+    <div style="background:white;border:1px solid rgba(10,10,10,0.07);border-radius:14px;padding:22px;margin-bottom:12px;">
+      <table style="width:100%;border-collapse:collapse;">
+        <tr>
+          <td style="width:44px;vertical-align:top;padding-right:16px;">
+            <div style="width:36px;height:36px;background:#0A0A0A;border-radius:8px;text-align:center;line-height:36px;font-size:12px;font-weight:700;color:#E8B4B0;letter-spacing:0.05em;">${num}</div>
+          </td>
+          <td style="vertical-align:top;">
+            <div style="font-size:11px;color:#aaa;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:5px;">${timing}</div>
+            <div style="font-size:15px;font-weight:700;color:#0A0A0A;margin-bottom:7px;">${title}</div>
+            <div style="font-size:13px;color:#555;line-height:1.65;">${body}</div>
+          </td>
+        </tr>
+      </table>
+    </div>`).join('');
+
+  const prepItemsHtml = [
+    ['&#128273;', 'Admin access to your main tools', 'Not ownership — just admin or API-level access. We will specify exactly what scopes we need.'],
+    ['&#128196;', 'A list of your most repetitive weekly tasks', 'Think: what does your team do on repeat that should not require a human? A quick voice note or list works perfectly.'],
+    ['&#128202;', 'One month of baseline data', 'Volume of emails, tickets, orders, or tasks processed per week. Rough numbers are fine — we use this to size the ROI correctly.'],
+    ['&#127775;', 'One person as your internal point of contact', 'They do not need to be technical. They just need to be available for 30 minutes during the setup phase.'],
+  ].map(([icon, title, desc]) => `
+      <table style="width:100%;border-collapse:collapse;margin-bottom:14px;">
+        <tr>
+          <td style="width:42px;vertical-align:top;padding-right:12px;">
+            <div style="background:rgba(232,180,176,0.1);border:1px solid rgba(232,180,176,0.2);border-radius:8px;width:34px;height:34px;text-align:center;line-height:34px;font-size:15px;">${icon}</div>
+          </td>
+          <td style="vertical-align:top;">
+            <div style="font-size:13.5px;font-weight:600;color:white;margin-bottom:3px;">${title}</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);line-height:1.55;">${desc}</div>
+          </td>
+        </tr>
+      </table>`).join('');
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Your PURIST onboarding is ready, ${esc(fn)}</title>
+</head>
+<body style="margin:0;padding:0;background:#F8F6F1;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
+<div style="max-width:620px;margin:0 auto;background:#F8F6F1;">
+
+  <div style="background:#0A0A0A;padding:11px 28px;">
+    <table style="width:100%;border-collapse:collapse;">
+      <tr>
+        <td style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.35);font-weight:600;">PURIST &nbsp;&middot;&nbsp; Onboarding Preparation</td>
+        <td style="text-align:right;font-size:10px;color:rgba(255,255,255,0.18);">Confidential &nbsp;&middot;&nbsp; ${esc(company)}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div style="background:#0A0A0A;padding:48px 36px 40px;">
+    ${painLine}
+    <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,180,176,0.6);font-weight:700;margin-bottom:14px;">Step 2 of 2 &mdash; Getting ${esc(teamNote)} ready</div>
+    <div style="font-family:Georgia,serif;font-size:30px;color:white;font-weight:400;line-height:1.2;margin-bottom:14px;">${esc(fn)}, here is what<br/><em style="color:#E8B4B0;">happens next.</em></div>
+    <p style="font-size:14px;color:rgba(255,255,255,0.45);line-height:1.75;margin:0 0 10px;">You submitted your audit request. The proposal landed in your inbox a few minutes ago. This email exists for one reason: so you can start preparing your side before our first interaction.</p>
+    ${toolsLine}
+    ${budgetNote}
+  </div>
+
+  <div style="padding:32px 36px;">
+
+    <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#E8B4B0;font-weight:700;margin-bottom:18px;">Your 3-step onboarding &mdash; starts the moment you say yes</div>
+    ${stepsHtml}
+
+    <div style="background:#0A0A0A;border-radius:14px;padding:26px;margin-top:8px;margin-bottom:24px;">
+      <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(232,180,176,0.6);font-weight:700;margin-bottom:16px;">What to have ready before we start</div>
+      ${prepItemsHtml}
+    </div>
+
+    <div style="background:#F0EDE8;border-radius:14px;padding:22px;margin-bottom:24px;text-align:center;">
+      <div style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#aaa;font-weight:600;margin-bottom:8px;">${profile.firstWinLabel}</div>
+      <div style="font-family:Georgia,serif;font-size:20px;color:#0A0A0A;margin-bottom:8px;">${profile.ctaLine}</div>
+      <div style="font-size:12px;color:#888;">Timeline starts the moment you confirm.</div>
+    </div>
+
+    <div style="background:#0A0A0A;border-radius:14px;padding:32px;text-align:center;">
+      <div style="font-family:Georgia,serif;font-size:22px;color:white;margin-bottom:10px;font-weight:400;line-height:1.3;">One reply. That is all it takes.</div>
+      <p style="font-size:13.5px;color:rgba(255,255,255,0.35);margin:0 0 24px;line-height:1.75;max-width:360px;margin-left:auto;margin-right:auto;">Reply &ldquo;<strong style="color:rgba(255,255,255,0.55);">yes</strong>&rdquo; to this email or to the proposal. Hugo will send the onboarding form and invoice within 2 hours. Workflow 1 builds on day 1.</p>
+      <a href="https://www.purist.online/pages/welcome" style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:15px 44px;border-radius:12px;font-size:15px;font-weight:700;text-decoration:none;letter-spacing:-0.01em;">Accept the plan &rarr;</a>
+      <p style="font-size:12px;color:rgba(255,255,255,0.2);margin:14px 0 0;">Or just reply &ldquo;yes&rdquo; here. No forms, no calls required.</p>
+    </div>
+
+    <div style="margin-top:28px;padding-top:24px;border-top:1px solid rgba(10,10,10,0.07);">
+      <table style="width:100%;border-collapse:collapse;">
+        <tr>
+          <td style="vertical-align:top;width:44px;padding-right:14px;">
+            <div style="width:40px;height:40px;background:#0A0A0A;border-radius:50%;text-align:center;line-height:40px;font-size:15px;font-weight:700;color:#E8B4B0;">H</div>
+          </td>
+          <td style="vertical-align:top;">
+            <div style="font-size:14px;font-weight:700;color:#0A0A0A;">Hugo</div>
+            <div style="font-size:12px;color:#aaa;">Founder &mdash; PURIST &nbsp;&middot;&nbsp; <a href="mailto:hello@purist.online" style="color:#aaa;text-decoration:none;">hello@purist.online</a></div>
+            <div style="font-size:12px;color:#bbb;margin-top:3px;">Reply directly. I read every message.</div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+
+  ${sharedFooter(name, company)}
+
 </div>
 </body>
 </html>`;
