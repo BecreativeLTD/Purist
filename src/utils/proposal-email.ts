@@ -1,4 +1,4 @@
-// PURIST — Personalized proposal email generator
+// PURIST, Personalized proposal email generator
 // Called automatically from /api/audit.ts after every welcome form submission
 
 export interface ProposalFormData {
@@ -115,10 +115,10 @@ const PROFILES: Record<string, IndustryProfile> = {
     workflows: [
       {
         title: 'Automated Invoice Dispatch, Chasing and Escalation',
-        desc: 'Every billing milestone in your practice management system triggers an automatic invoice — generated, formatted, and sent from your own email domain. Unpaid at 7 days: personalised reminder referencing the specific matter. At 14 days: firmer notice with a one-click payment link. At 30 days: your billing partner receives a fully drafted final notice, ready to send with one click. Sequence stops the moment payment is received.',
+        desc: 'Every billing milestone in your practice management system triggers an automatic invoice, generated, formatted, and sent from your own email domain. Unpaid at 7 days: personalised reminder referencing the specific matter. At 14 days: firmer notice with a one-click payment link. At 30 days: your billing partner receives a fully drafted final notice, ready to send with one click. Sequence stops the moment payment is received.',
         steps: [
           'Billing milestone reached → invoice auto-generated with matter reference, fee earner name, and correct bank details',
-          'Invoice sent from your own domain — branded, not from a third-party platform',
+          'Invoice sent from your own domain, branded, not from a third-party platform',
           'Day +7: personalised reminder sent if unpaid, references the matter by name',
           'Day +14: firmer notice with one-click payment link, professional escalation tone',
           'Day +30: billing partner notified via email with draft final notice attached',
@@ -130,7 +130,7 @@ const PROFILES: Record<string, IndustryProfile> = {
       },
       {
         title: 'Client Intake, Conflict Check and Matter Opening',
-        desc: 'Every new enquiry — by email, web form, or referral — triggers a structured intake form within 60 seconds. Once submitted, the system runs an instant conflict-of-interest check against your client database. If clear: matter created, assigned to the right fee earner, client receives a branded welcome email with case reference, assigned solicitor name, and next steps. Intake time drops from 45 minutes to under 4.',
+        desc: 'Every new enquiry, by email, web form, or referral, triggers a structured intake form within 60 seconds. Once submitted, the system runs an instant conflict-of-interest check against your client database. If clear: matter created, assigned to the right fee earner, client receives a branded welcome email with case reference, assigned solicitor name, and next steps. Intake time drops from 45 minutes to under 4.',
         steps: [
           'New enquiry received via email, web form, or referral → intake form sent within 60 seconds',
           'Client submits form → conflict-of-interest check runs instantly against your database',
@@ -144,10 +144,10 @@ const PROFILES: Record<string, IndustryProfile> = {
       },
       {
         title: 'Deadline Monitoring, Reminders and Partner Escalation',
-        desc: 'Every court date, filing deadline, and critical task is monitored continuously. The responsible fee earner receives automated reminders at 30, 14, 7, and 1 day before — by email and SMS. No acknowledgement within 2 hours triggers automatic escalation to the supervising partner. A daily 8am digest of upcoming deadlines lands in each fee earner\'s inbox. Zero manual calendar checking. Zero missed dates.',
+        desc: 'Every court date, filing deadline, and critical task is monitored continuously. The responsible fee earner receives automated reminders at 30, 14, 7, and 1 day before, by email and SMS. No acknowledgement within 2 hours triggers automatic escalation to the supervising partner. A daily 8am digest of upcoming deadlines lands in each fee earner\'s inbox. Zero manual calendar checking. Zero missed dates.',
         steps: [
           'Deadline or court date added to your system → monitoring picks it up automatically',
-          'Reminders sent to responsible fee earner at 30d, 14d, 7d, and 1d before — email and SMS',
+          'Reminders sent to responsible fee earner at 30d, 14d, 7d, and 1d before, email and SMS',
           'Fee earner acknowledges with one click → escalation paused and logged',
           'No acknowledgement within 2h of the 1-day reminder → partner notified with full matter details',
           'Daily 8am digest sent to each fee earner: their deadlines for the next 14 days',
@@ -181,10 +181,10 @@ const PROFILES: Record<string, IndustryProfile> = {
     workflows: [
       {
         title: 'Appointment Booking, Patient Record Update and Reminders',
-        desc: 'Every new booking — whether from your website, Doctolib, or phone — is logged in your practice management system, the patient file updated, and a personalised confirmation sent immediately. A reminder sequence triggers automatically: 48h before by email, 2h before by SMS. No-show rate drops 60–70% within the first month with zero manual effort.',
+        desc: 'Every new booking, whether from your website, Doctolib, or phone, is logged in your practice management system, the patient file updated, and a personalised confirmation sent immediately. A reminder sequence triggers automatically: 48h before by email, 2h before by SMS. No-show rate drops 60–70% within the first month with zero manual effort.',
         steps: [
           'New booking received from any channel → created in your practice management system within 30 seconds',
-          'Patient file updated or created automatically — demographic data, treatment type, assigned practitioner',
+          'Patient file updated or created automatically, demographic data, treatment type, assigned practitioner',
           'Personalised confirmation email sent immediately with date, time, location, and prep instructions',
           'Automated reminder: 48h before by email, 2h before by SMS with one-click confirm or reschedule',
           'No-show recorded → reschedule sequence triggered, slot opened for waitlist patient',
@@ -195,7 +195,7 @@ const PROFILES: Record<string, IndustryProfile> = {
       },
       {
         title: 'Review Request and Online Reputation Automation',
-        desc: '24 hours after each completed appointment, a personalised review request is sent automatically — patient name, practitioner name, treatment type. Negative feedback is captured privately via a satisfaction survey before reaching Google, giving your team the chance to resolve it first. Positive responses are directed straight to your Google Business profile.',
+        desc: '24 hours after each completed appointment, a personalised review request is sent automatically, patient name, practitioner name, treatment type. Negative feedback is captured privately via a satisfaction survey before reaching Google, giving your team the chance to resolve it first. Positive responses are directed straight to your Google Business profile.',
         steps: [
           'Appointment marked complete → review request triggered after 24h automatically',
           'Patient receives personalised message referencing their specific visit',
@@ -230,7 +230,7 @@ const PROFILES: Record<string, IndustryProfile> = {
       { metric: 'Admin hours per week', you: '15h', top: '4h', gapPct: 73 },
     ],
     caseStudy: {
-      quote: 'Our no-show rate dropped from 19% to 4% in 6 weeks. The recall automation brought back 38 patients in the first month who had been lapsed for over a year. We stopped hiring a second receptionist — the automation handles everything they were doing.',
+      quote: 'Our no-show rate dropped from 19% to 4% in 6 weeks. The recall automation brought back 38 patients in the first month who had been lapsed for over a year. We stopped hiring a second receptionist, the automation handles everything they were doing.',
       author: 'Dr. Claire M.', role: 'Principal Dentist · 3-chair clinic · Bristol, UK', avatarId: 45,
       r1v: '19% → 4%', r1k: 'No-show rate',
       r2v: '38 patients', r2k: 'Recalled month 1',
@@ -246,12 +246,12 @@ const PROFILES: Record<string, IndustryProfile> = {
     workflows: [
       {
         title: 'Reservation Management, Confirmation and Staff Alerts',
-        desc: 'Every reservation — from your website, Google, TheFork, or phone — is logged automatically, the confirmation sent to the guest, and the right staff notified by SMS or WhatsApp. Table assignments updated in your reservation system. Special requests flagged for the kitchen. Guest history retrieved if they have visited before. Zero manual coordination.',
+        desc: 'Every reservation, from your website, Google, TheFork, or phone, is logged automatically, the confirmation sent to the guest, and the right staff notified by SMS or WhatsApp. Table assignments updated in your reservation system. Special requests flagged for the kitchen. Guest history retrieved if they have visited before. Zero manual coordination.',
         steps: [
           'Reservation received from any channel → logged in your system within 15 seconds',
           'Guest receives personalised confirmation with date, time, party size, and any special notes',
           'Relevant staff notified: front-of-house via SMS, kitchen if special dietary requirement',
-          'Guest history retrieved — returning customers flagged for personalised welcome',
+          'Guest history retrieved, returning customers flagged for personalised welcome',
           'Reminder sent to guest 24h and 2h before reservation with one-tap confirm or cancel',
           'Cancellation → table freed, waitlist guest notified automatically',
         ],
@@ -261,7 +261,7 @@ const PROFILES: Record<string, IndustryProfile> = {
       },
       {
         title: 'Review Request and Reputation Management',
-        desc: 'A personalised review request is sent 2 hours after each dining experience. Unhappy guests receive a private feedback form before their complaint reaches TripAdvisor or Google — giving you the chance to make it right first. Positive reviews are directed to your Google Business profile. Your Google rating typically improves by 0.3–0.6 stars within 90 days.',
+        desc: 'A personalised review request is sent 2 hours after each dining experience. Unhappy guests receive a private feedback form before their complaint reaches TripAdvisor or Google, giving you the chance to make it right first. Positive reviews are directed to your Google Business profile. Your Google rating typically improves by 0.3–0.6 stars within 90 days.',
         steps: [
           'Reservation marked as completed → review request triggered 2h after service',
           'Guest receives personalised message referencing their specific visit and occasion',
@@ -296,7 +296,7 @@ const PROFILES: Record<string, IndustryProfile> = {
       { metric: 'Food cost variance', you: '±8%', top: '±2%', gapPct: 75 },
     ],
     caseStudy: {
-      quote: 'Our no-shows dropped from 24% to 5% in the first month. We stopped losing weekends to stock panic — the system orders everything before we even notice we need it. Our Google rating went from 4.1 to 4.7 in three months.',
+      quote: 'Our no-shows dropped from 24% to 5% in the first month. We stopped losing weekends to stock panic, the system orders everything before we even notice we need it. Our Google rating went from 4.1 to 4.7 in three months.',
       author: 'Marco V.', role: 'Owner · 65-cover restaurant · Lyon, France', avatarId: 33,
       r1v: '24% → 5%', r1k: 'No-show rate',
       r2v: '4.1 → 4.7', r2k: 'Google rating',
@@ -312,7 +312,7 @@ const PROFILES: Record<string, IndustryProfile> = {
     workflows: [
       {
         title: 'Abandoned Cart Recovery Sequence',
-        desc: 'Customers who abandon their cart receive a 3-step personalised recovery sequence — referencing the exact products left behind, with images and prices. Email at 1 hour, SMS at 24 hours, final offer at 72 hours. Sequence stops the moment the order is placed. Average recovery rate across PURIST e-commerce clients: 13–19% of abandoned carts.',
+        desc: 'Customers who abandon their cart receive a 3-step personalised recovery sequence, referencing the exact products left behind, with images and prices. Email at 1 hour, SMS at 24 hours, final offer at 72 hours. Sequence stops the moment the order is placed. Average recovery rate across PURIST e-commerce clients: 13–19% of abandoned carts.',
         steps: [
           'Cart abandoned → sequence triggered after 30 minutes, customer verified as reachable',
           'Hour +1: personalised email with cart contents, product images, and a direct checkout link',
@@ -326,7 +326,7 @@ const PROFILES: Record<string, IndustryProfile> = {
       },
       {
         title: 'Post-purchase Review, Upsell and Loyalty Flow',
-        desc: 'Seven days after confirmed delivery, a personalised review request is sent — product photo included, one-click submission. Non-reviewers receive a gentle follow-up at 14 days. Based on purchase history, a personalised product recommendation or complementary item is suggested at day 14 for reviewers and day 21 for non-reviewers. LTV increases by an average of 18–27% within 90 days.',
+        desc: 'Seven days after confirmed delivery, a personalised review request is sent, product photo included, one-click submission. Non-reviewers receive a gentle follow-up at 14 days. Based on purchase history, a personalised product recommendation or complementary item is suggested at day 14 for reviewers and day 21 for non-reviewers. LTV increases by an average of 18–27% within 90 days.',
         steps: [
           'Delivery confirmed → review request triggered after 7 days',
           'Personalised email with product image, customer name, one-click review link',
@@ -340,7 +340,7 @@ const PROFILES: Record<string, IndustryProfile> = {
       },
       {
         title: 'Inventory Alert, Supplier Reorder and Ad Spend Pause',
-        desc: 'When any SKU drops below its reorder threshold, a purchase order draft is sent to your supplier. Low-stock products are flagged on your dashboard and — critically — removed from active ad campaigns automatically to prevent spending money promoting items you cannot fulfil. Overstock items are flagged for markdown. Stock accuracy improves significantly within 30 days.',
+        desc: 'When any SKU drops below its reorder threshold, a purchase order draft is sent to your supplier. Low-stock products are flagged on your dashboard and, critically, removed from active ad campaigns automatically to prevent spending money promoting items you cannot fulfil. Overstock items are flagged for markdown. Stock accuracy improves significantly within 30 days.',
         steps: [
           'Inventory below threshold → purchase order drafted and sent to supplier automatically',
           'Supplier confirmation received → expected delivery date added to your dashboard',
@@ -376,13 +376,13 @@ const PROFILES: Record<string, IndustryProfile> = {
     setupPrice: 3600,
     workflows: [
       {
-        title: 'Client Reporting — Auto-generated Monthly Performance Reports',
-        desc: 'Monthly performance reports for every client are pulled automatically from Google Analytics, Meta Ads, Google Ads, and LinkedIn. Formatted in your branded template, personalised with the client\'s name and campaign objectives, and sent by email — without anyone on your team touching a spreadsheet. At 5 clients this saves 10h/month. At 20 clients: 40h/month.',
+        title: 'Client Reporting, Auto-generated Monthly Performance Reports',
+        desc: 'Monthly performance reports for every client are pulled automatically from Google Analytics, Meta Ads, Google Ads, and LinkedIn. Formatted in your branded template, personalised with the client\'s name and campaign objectives, and sent by email, without anyone on your team touching a spreadsheet. At 5 clients this saves 10h/month. At 20 clients: 40h/month.',
         steps: [
           'Report generation triggered on the 1st of each month per client',
           'Data pulled automatically from Google Analytics, Meta, Google Ads, LinkedIn APIs',
           'Formatted in your branded template with client name, campaign objectives, and period comparison',
-          'Key insights section auto-written from performance deltas — highlights and concerns flagged',
+          'Key insights section auto-written from performance deltas, highlights and concerns flagged',
           'Report emailed to client and CC\'d to account manager for review before send (optional approval step)',
         ],
         hoursPerWeek: 9,
@@ -405,12 +405,12 @@ const PROFILES: Record<string, IndustryProfile> = {
         stack: ['HubSpot / Pipedrive', 'Gmail', 'n8n'],
       },
       {
-        title: 'Client Onboarding — Fully Automated Welcome Workflow',
+        title: 'Client Onboarding, Fully Automated Welcome Workflow',
         desc: 'The moment a new client signs, the onboarding workflow fires: tasks created in your project management tool, contract sent via DocuSign, kick-off meeting booked via Calendly, client added to Slack, and a branded welcome email sent with their dedicated account manager name, onboarding timeline, and first deliverable date. What used to take 90 minutes takes 4 minutes.',
         steps: [
           'Contract signed → onboarding workflow triggers automatically within 60 seconds',
           'Project created in Asana / ClickUp / Monday with all standard tasks pre-populated',
-          'Onboarding questionnaire sent to client — due date set automatically',
+          'Onboarding questionnaire sent to client, due date set automatically',
           'Client added to dedicated Slack channel and introduced to account manager',
           'Branded welcome email sent: account manager name, timeline, kick-off date, what to expect',
         ],
@@ -476,7 +476,7 @@ const PROFILES: Record<string, IndustryProfile> = {
           'Report generation triggered on the agreed date each month per client',
           'Data pulled from your property management system and portals automatically',
           'Formatted in your branded template with client name, property address, and period',
-          'Comparable market data added for context — relevant sold/rented comps in the same area',
+          'Comparable market data added for context, relevant sold/rented comps in the same area',
           'Report emailed from the assigned agent\'s address with a personal closing line',
         ],
         hoursPerWeek: 5,
@@ -508,11 +508,11 @@ const PROFILES: Record<string, IndustryProfile> = {
     workflows: [
       {
         title: 'Trial Activation and Feature Adoption Onboarding Sequence',
-        desc: 'When a user signs up for a trial, a personalised onboarding sequence triggers based on their role, company size, and use case. Users who have not activated key features within 48 hours receive a targeted nudge — specific to the feature they skipped, not a generic reminder. Activation rate typically increases 35–50% within 60 days. Churned trials drop significantly.',
+        desc: 'When a user signs up for a trial, a personalised onboarding sequence triggers based on their role, company size, and use case. Users who have not activated key features within 48 hours receive a targeted nudge, specific to the feature they skipped, not a generic reminder. Activation rate typically increases 35–50% within 60 days. Churned trials drop significantly.',
         steps: [
           'New signup → segmented by role, company size, and self-declared use case',
           'Welcome email sent within 60 seconds with personalised quick-start steps for their role',
-          'Day 2: check if key feature activated — if not, targeted nudge email sent',
+          'Day 2: check if key feature activated, if not, targeted nudge email sent',
           'Day 5: progress email showing what they have done vs. what top users do',
           'Day 12: personalised check-in email from a named team member based on their segment',
           'Trial end approaching: tailored conversion email with relevant case study for their industry',
@@ -537,10 +537,10 @@ const PROFILES: Record<string, IndustryProfile> = {
       },
       {
         title: 'Billing Dunning, Failed Payment Recovery and Upgrade Triggers',
-        desc: 'Failed payments trigger an immediate dunning sequence — in-app notification, email with one-click update link, and SMS on day 3. Sequence stops the moment payment is recovered. Users approaching plan limits receive personalised upgrade prompts with their specific usage data and a tailored recommendation for the right next plan. Involuntary churn drops 60–70%. Expansion MRR increases.',
+        desc: 'Failed payments trigger an immediate dunning sequence, in-app notification, email with one-click update link, and SMS on day 3. Sequence stops the moment payment is recovered. Users approaching plan limits receive personalised upgrade prompts with their specific usage data and a tailored recommendation for the right next plan. Involuntary churn drops 60–70%. Expansion MRR increases.',
         steps: [
           'Payment fails → in-app notification + email sent within 10 minutes with update link',
-          'Day 3: SMS sent if card still not updated — concise, urgent, one-click action',
+          'Day 3: SMS sent if card still not updated, concise, urgent, one-click action',
           'Day 7: final warning with account suspension date clearly stated',
           'Payment recovered → sequence stops, no further messages, thank-you confirmation sent',
           'Usage at 80% of plan limit → upgrade email with personalised usage data and plan comparison',
@@ -558,7 +558,7 @@ const PROFILES: Record<string, IndustryProfile> = {
       { metric: 'Admin hours per week', you: '16h', top: '4h', gapPct: 75 },
     ],
     caseStudy: {
-      quote: 'We were losing 2.1% of MRR every month to involuntary churn alone — cards expiring, failed payments, nothing automated. PURIST fixed it in a week. Involuntary churn dropped to 0.4%. The activation sequence added 11 percentage points to our trial conversion.',
+      quote: 'We were losing 2.1% of MRR every month to involuntary churn alone, cards expiring, failed payments, nothing automated. PURIST fixed it in a week. Involuntary churn dropped to 0.4%. The activation sequence added 11 percentage points to our trial conversion.',
       author: 'Thomas R.', role: 'CEO · B2B SaaS · 18-person team · Berlin', avatarId: 68,
       r1v: '2.1% → 0.4%', r1k: 'Involuntary churn',
       r2v: '€96,000', r2k: 'Year-1 value',
@@ -574,7 +574,7 @@ const PROFILES: Record<string, IndustryProfile> = {
     workflows: [
       {
         title: 'Document Collection, Checklists and Escalating Client Reminders',
-        desc: 'At the start of each accounting period, every client receives a personalised document request email with a tailored checklist — based on their entity type, previous submissions, and any outstanding items from last period. Reminders escalate automatically at 5, 10, and 15 days. The partner is notified when a client has not responded by the final deadline. Document collection time drops by over 70%.',
+        desc: 'At the start of each accounting period, every client receives a personalised document request email with a tailored checklist, based on their entity type, previous submissions, and any outstanding items from last period. Reminders escalate automatically at 5, 10, and 15 days. The partner is notified when a client has not responded by the final deadline. Document collection time drops by over 70%.',
         steps: [
           'Period start date reached → personalised document request sent to each client within minutes',
           'Checklist tailored: entity type, VAT registration, payroll, previous year gaps',
@@ -589,7 +589,7 @@ const PROFILES: Record<string, IndustryProfile> = {
       },
       {
         title: 'Invoice Generation, Payment Automation and Late Payment Chasing',
-        desc: 'Client invoices are generated automatically at billing milestones and sent from your practice. Payment reminders at 7, 14, and 30 days overdue — each personalised, professional, and referencing the specific engagement. Late payments escalated to the billing partner with a pre-drafted final notice at day 30. Average payment cycle reduces from 42 days to 11 days.',
+        desc: 'Client invoices are generated automatically at billing milestones and sent from your practice. Payment reminders at 7, 14, and 30 days overdue, each personalised, professional, and referencing the specific engagement. Late payments escalated to the billing partner with a pre-drafted final notice at day 30. Average payment cycle reduces from 42 days to 11 days.',
         steps: [
           'Billing milestone reached → invoice generated with correct fee, VAT, and engagement reference',
           'Invoice sent from your domain to the correct client contact',
@@ -607,7 +607,7 @@ const PROFILES: Record<string, IndustryProfile> = {
         steps: [
           'Filing deadlines imported from your practice management system',
           'Task created and assigned to responsible team member at 30 days before deadline',
-          'Reminders sent at 30d, 14d, 7d — escalating urgency, correct team member',
+          'Reminders sent at 30d, 14d, 7d, escalating urgency, correct team member',
           'Partner weekly digest: all deadlines in the next 30 days, status per client',
           'Daily 8am digest for each team member: their deadlines for the coming week',
         ],
@@ -624,7 +624,7 @@ const PROFILES: Record<string, IndustryProfile> = {
       { metric: 'Client late document rate', you: '41%', top: '11%', gapPct: 73 },
     ],
     caseStudy: {
-      quote: 'Document collection used to take us 3 weeks and constant chasing. PURIST cut it to 4 days. Our invoice payment cycle dropped from 44 days to 9. We stopped hiring an admin — the automation handles all of it.',
+      quote: 'Document collection used to take us 3 weeks and constant chasing. PURIST cut it to 4 days. Our invoice payment cycle dropped from 44 days to 9. We stopped hiring an admin, the automation handles all of it.',
       author: 'Rachel T.', role: 'Managing Director · 9-person practice · Edinburgh', avatarId: 36,
       r1v: '3 weeks → 4 days', r1k: 'Doc collection',
       r2v: '€67,200', r2k: 'Year-1 value',
@@ -643,12 +643,12 @@ const FALLBACK_PROFILE: IndustryProfile = {
   workflows: [
     {
       title: 'Lead Capture, CRM Update and Follow-up Sequence',
-      desc: 'Every new lead — from your website, email, or referral — is captured automatically, entered in your CRM with full context, and a personalised follow-up sequence triggered within minutes. No lead goes cold. No manual data entry. Response time drops from hours to seconds.',
+      desc: 'Every new lead, from your website, email, or referral, is captured automatically, entered in your CRM with full context, and a personalised follow-up sequence triggered within minutes. No lead goes cold. No manual data entry. Response time drops from hours to seconds.',
       steps: [
         'Lead received from any source → CRM entry created with full context within 60 seconds',
         'Lead scored and assigned to the right team member automatically',
         'Personalised follow-up email sent within 5 minutes of first contact',
-        'Follow-up sequence: day 1, day 3, day 7 — stops on reply',
+        'Follow-up sequence: day 1, day 3, day 7, stops on reply',
         'Weekly lead summary sent to manager: volume, conversion, response times',
       ],
       hoursPerWeek: 6, deployDays: '3 business days',
@@ -656,7 +656,7 @@ const FALLBACK_PROFILE: IndustryProfile = {
     },
     {
       title: 'Invoice Generation, Sending and Payment Chasing',
-      desc: 'Invoices generated and sent automatically at billing milestones. Payment reminders triggered at 7, 14, and 30 days overdue — personalised, professional, and stopping the moment payment is received. Average payment cycle reduces by 60–70% within the first 90 days.',
+      desc: 'Invoices generated and sent automatically at billing milestones. Payment reminders triggered at 7, 14, and 30 days overdue, personalised, professional, and stopping the moment payment is received. Average payment cycle reduces by 60–70% within the first 90 days.',
       steps: [
         'Billing milestone reached → invoice generated and sent automatically',
         'Day +7: polite payment reminder with direct payment link',
@@ -668,14 +668,14 @@ const FALLBACK_PROFILE: IndustryProfile = {
       stack: ['Xero / QuickBooks', 'Stripe', 'Gmail', 'n8n'],
     },
     {
-      title: 'Client Reporting — Automated Monthly Performance Reports',
-      desc: 'Monthly reports for all clients generated and sent automatically — pulled from your data sources, formatted in your brand, and emailed on a fixed schedule without manual work. Each report is personalised with the client name, period, and key metrics relevant to their account.',
+      title: 'Client Reporting, Automated Monthly Performance Reports',
+      desc: 'Monthly reports for all clients generated and sent automatically, pulled from your data sources, formatted in your brand, and emailed on a fixed schedule without manual work. Each report is personalised with the client name, period, and key metrics relevant to their account.',
       steps: [
         'Report generation triggered on the scheduled date for each client',
         'Data pulled from relevant sources automatically',
         'Formatted in your branded template with personalised metrics',
         'Report emailed from your address, CC\'d to account manager',
-        'Delivery confirmation logged — unresponsive clients flagged for follow-up',
+        'Delivery confirmation logged, unresponsive clients flagged for follow-up',
       ],
       hoursPerWeek: 3, deployDays: '4 business days',
       stack: ['Google Analytics', 'Gmail', 'Google Sheets', 'n8n'],
@@ -857,7 +857,7 @@ export function generateProposalEmail(data: ProposalFormData): string {
       Personalised automation analysis · ${company}
     </div>
     <div style="font-family:Georgia,serif;font-size:30px;color:white;line-height:1.2;font-weight:400;margin-bottom:14px;">${fn}, we've mapped<br/><em style="color:#E8B4B0;">your hidden costs.</em></div>
-    <p style="font-size:14px;color:rgba(255,255,255,0.38);line-height:1.7;margin:0 0 20px;max-width:480px;">We reviewed your submission in detail. Below is a full operational analysis of ${company} — the inefficiencies we identified, the exact automations we recommend, and the financial impact of each one.</p>
+    <p style="font-size:14px;color:rgba(255,255,255,0.38);line-height:1.7;margin:0 0 20px;max-width:480px;">We reviewed your submission in detail. Below is a full operational analysis of ${company}, the inefficiencies we identified, the exact automations we recommend, and the financial impact of each one.</p>
     <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:18px;">
       <span style="display:inline-block;font-size:11px;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);padding:4px 12px;border-radius:99px;border:1px solid rgba(255,255,255,0.08);margin:0 6px 6px 0;">${esc(profile.displayName)}</span>
       <span style="display:inline-block;font-size:11px;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);padding:4px 12px;border-radius:99px;border:1px solid rgba(255,255,255,0.08);margin:0 6px 6px 0;">${esc(teamLabel)}</span>
@@ -873,7 +873,7 @@ export function generateProposalEmail(data: ProposalFormData): string {
     <p style="font-size:15px;line-height:1.8;color:#444;margin:0 0 24px;">
       ${data.aiIntro
         ? esc(data.aiIntro)
-        : `We reviewed your profile carefully — your industry, team of ${esc(teamLabel)}, the tools you use daily, and the specific challenge you described: <strong style="color:#0A0A0A;">${esc(painLabel)}</strong>. What follows is not a generic proposal. It is a targeted operational analysis built specifically for ${company}, based on working with similar businesses at your stage.`
+        : `We reviewed your profile carefully, your industry, team of ${esc(teamLabel)}, the tools you use daily, and the specific challenge you described: <strong style="color:#0A0A0A;">${esc(painLabel)}</strong>. What follows is not a generic proposal. It is a targeted operational analysis built specifically for ${company}, based on working with similar businesses at your stage.`
       }
     </p>
     ${data.aiInsights && data.aiInsights.length ? `
@@ -888,7 +888,7 @@ export function generateProposalEmail(data: ProposalFormData): string {
     <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#E8B4B0;font-weight:700;margin-bottom:14px;">Section 01 · What this is actually costing ${company} each year</div>
     <div style="background:white;border:1px solid rgba(10,10,10,0.07);border-radius:14px;padding:22px;">
       <p style="font-size:15px;font-weight:700;color:#0A0A0A;margin:0 0 6px;font-family:Georgia,serif;">The true cost of manual operations at your team size</p>
-      <p style="font-size:13.5px;color:#777;line-height:1.65;margin:0 0 16px;">Based on a ${esc(teamLabel)} business in ${esc(profile.displayName)}, here is a conservative breakdown of what your current manual processes cost — before any automation.</p>
+      <p style="font-size:13.5px;color:#777;line-height:1.65;margin:0 0 16px;">Based on a ${esc(teamLabel)} business in ${esc(profile.displayName)}, here is a conservative breakdown of what your current manual processes cost, before any automation.</p>
       <table style="width:100%;border-collapse:collapse;">
         <tr>
           <td style="width:50%;padding:0 8px 8px 0;vertical-align:top;">
@@ -957,7 +957,7 @@ export function generateProposalEmail(data: ProposalFormData): string {
 
     <!-- SECTION 3: Workflows -->
     <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#E8B4B0;font-weight:700;margin-bottom:8px;">Section 03 · Your 3 automations, ranked by ROI</div>
-    <p style="font-size:13.5px;color:#777;line-height:1.65;margin:0 0 4px;">Each workflow was selected for your specific situation — ${esc(profile.displayName)}, ${esc(teamLabel)}, ${esc(painLabel)} as primary bottleneck, and ${toolsStr} as your current stack. Deployed in order of financial impact.</p>
+    <p style="font-size:13.5px;color:#777;line-height:1.65;margin:0 0 4px;">Each workflow was selected for your specific situation, ${esc(profile.displayName)}, ${esc(teamLabel)}, ${esc(painLabel)} as primary bottleneck, and ${toolsStr} as your current stack. Deployed in order of financial impact.</p>
     ${wfs.map((w, i) => W(w, i)).join('')}
 
     <hr style="border:none;border-top:1px solid rgba(10,10,10,0.07);margin:28px 0;"/>
@@ -1047,9 +1047,9 @@ export function generateProposalEmail(data: ProposalFormData): string {
     <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#E8B4B0;font-weight:700;margin-bottom:14px;">Section 06 · Included at no extra cost · Total value €1,450</div>
     <div style="background:#0A0A0A;border-radius:14px;padding:22px;">
       ${[
-        ['&#128203;', 'SOP documentation for all 3 workflows', 'Worth &#8364;350', 'Full written documentation of every automation — how it works, what triggers it, how to modify it. Your team understands every process. Yours to keep forever.'],
+        ['&#128203;', 'SOP documentation for all 3 workflows', 'Worth &#8364;350', 'Full written documentation of every automation, how it works, what triggers it, how to modify it. Your team understands every process. Yours to keep forever.'],
         ['&#128202;', 'Live monitoring dashboard &middot; 90 days included', 'Worth &#8364;400', 'Real-time view of every automation run, trigger, and output. Cumulative time and money saved updated daily. You see exactly what is happening at all times.'],
-        ['&#128269;', 'Day-45 optimisation review', 'Worth &#8364;300', 'At day 45, your PURIST engineer reviews all workflow performance data and implements up to 3 refinements at no charge — based on real usage patterns.'],
+        ['&#128269;', 'Day-45 optimisation review', 'Worth &#8364;300', 'At day 45, your PURIST engineer reviews all workflow performance data and implements up to 3 refinements at no charge, based on real usage patterns.'],
         ['&#9889;', 'Priority deployment queue', 'Worth &#8364;200', 'Your project goes to the front of our deployment queue. Workflow 1 build starts on day 1 after credential handover. Reserved for clients who confirm within 72 hours of receiving this proposal.'],
         ['&#127891;', 'Team walkthrough session (recorded)', 'Worth &#8364;200', 'A recorded Loom walkthrough for your team explaining what each automation does, what they need to do differently (usually nothing), and how to read the dashboard.'],
       ].map(([icon, title, val, desc]) => `
@@ -1081,13 +1081,13 @@ export function generateProposalEmail(data: ProposalFormData): string {
       </div>
       ${[
         '3 production automations built, tested and deployed in your exact environment',
-        'Full error handling, retry logic, and real-time alerting — nothing runs silently',
+        'Full error handling, retry logic, and real-time alerting, nothing runs silently',
         'Live monitoring dashboard showing every run and output in real time',
         'Dedicated Slack channel with direct access to your PURIST engineer, 7 days a week',
-        'All edge cases handled — exceptions, errors, and escalations fully covered',
+        'All edge cases handled, exceptions, errors, and escalations fully covered',
         '90-day ROI report with confirmed hours saved and net financial impact',
         'All 5 bonuses included: SOP docs, day-45 review, team walkthrough, priority queue, dashboard',
-        '30-day fix-or-refund guarantee — if anything underperforms, we fix it in 48h or refund in full',
+        '30-day fix-or-refund guarantee, if anything underperforms, we fix it in 48h or refund in full',
       ].map(item => `
       <table style="width:100%;border-collapse:collapse;margin-bottom:8px;">
         <tr>
@@ -1106,7 +1106,7 @@ export function generateProposalEmail(data: ProposalFormData): string {
           <td style="width:40px;vertical-align:top;padding-right:14px;font-size:22px;line-height:1;">&#128737;</td>
           <td style="vertical-align:top;">
             <div style="font-size:14px;font-weight:700;color:#0A0A0A;margin-bottom:5px;">30-day fix-or-refund guarantee &middot; No questions asked</div>
-            <div style="font-size:13px;color:#666;line-height:1.65;">If any of the 3 workflows does not perform exactly as described in this proposal within the first 30 days, we fix it within 48 hours or issue a full refund. We have never had to use it — but it is there, in writing.</div>
+            <div style="font-size:13px;color:#666;line-height:1.65;">If any of the 3 workflows does not perform exactly as described in this proposal within the first 30 days, we fix it within 48 hours or issue a full refund. We have never had to use it, but it is there, in writing.</div>
           </td>
         </tr>
       </table>
@@ -1137,8 +1137,8 @@ export function generateProposalEmail(data: ProposalFormData): string {
   </div>
 
   <!-- PURIST SIGNATURE -->
-  <div style="background:#0A0A0A;padding:24px 36px 0;overflow:hidden;">
-    <p style="font-family:Georgia,'Times New Roman',serif;font-size:96px;font-weight:400;color:rgba(232,180,176,0.22);letter-spacing:-0.02em;line-height:0.85;margin:0;padding:0;user-select:none;" aria-hidden="true">PURIST<span style="font-size:24px;vertical-align:super;font-weight:400;">&#174;</span></p>
+  <div style="background:#0A0A0A;padding:28px 36px 0;overflow:hidden;">
+    <p style="font-family:Georgia,'Times New Roman',serif;font-size:96px;font-weight:400;letter-spacing:-0.02em;line-height:0.85;margin:0;padding:0;" aria-hidden="true"><span style="color:rgba(232,180,176,0.75);">P</span><span style="color:rgba(255,255,255,0.55);">U</span><span style="color:rgba(164,139,250,0.65);">R</span><span style="color:rgba(232,180,176,0.70);">I</span><span style="color:rgba(255,255,255,0.50);">S</span><span style="color:rgba(164,139,250,0.60);">T</span><span style="font-size:22px;vertical-align:super;color:rgba(232,180,176,0.55);">&#174;</span></p>
   </div>
 
   <!-- FOOTER -->
