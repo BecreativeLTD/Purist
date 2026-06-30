@@ -801,7 +801,8 @@ function sharedFooter(recipientName: string, recipientCompany: string): string {
           </tr>
         </table>
       </div>
-      <p style="font-family:Georgia,'Times New Roman',serif;font-size:96px;font-weight:400;letter-spacing:-0.02em;line-height:0.85;margin:0 0 -4px;padding:0;text-align:left;" aria-hidden="true"><span style="color:rgba(232,180,176,0.60);">P</span><span style="color:rgba(248,248,255,0.72);">U</span><span style="color:rgba(164,139,250,0.60);">R</span><span style="color:rgba(232,180,176,0.58);">I</span><span style="color:rgba(248,248,255,0.68);">S</span><span style="color:rgba(164,139,250,0.55);">T</span><span style="font-size:24px;vertical-align:super;color:rgba(164,139,250,0.38);">&#174;</span></p>
+      <!-- Wordmark: gradient left=purple → right=pink, matching site footer-wordmark-shimmer -->
+      <p style="font-family:Georgia,'Times New Roman',serif;font-size:96px;font-weight:500;letter-spacing:-0.02em;line-height:0.85;margin:0 0 -4px;padding:0;text-align:left;" aria-hidden="true"><span style="color:rgba(120,100,185,0.72);">P</span><span style="color:rgba(140,118,198,0.67);">U</span><span style="color:rgba(164,139,210,0.62);">R</span><span style="color:rgba(188,158,210,0.60);">I</span><span style="color:rgba(210,170,190,0.62);">S</span><span style="color:rgba(232,180,176,0.68);">T</span><span style="font-size:22px;vertical-align:super;color:rgba(232,180,176,0.40);">&#174;</span></p>
     </div>
   </div>
   <div style="background:#0A0A0A;padding:20px 36px 32px;">
