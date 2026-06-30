@@ -758,6 +758,61 @@ const PAIN_LABELS: Record<string, string> = {
   'other': 'operational inefficiencies',
 };
 
+// ─── FOOTER BLOCK (shared across emails) ─────────────────────────────────────
+// Exact match to site Footer.astro: correct URLs, text-link social row,
+// gradient wordmark colors from footer-wordmark-shimmer at midpoint.
+// SVG icons are stripped by Gmail web — text links are the reliable standard.
+function sharedFooter(recipientName: string, recipientCompany: string): string {
+  return `
+  <!-- FOOTER: FOLLOW THE WORK -->
+  <div style="background:#0A0A0A;padding:40px 36px 0;">
+    <div style="border-top:1px solid rgba(255,255,255,0.10);padding-top:32px;">
+      <p style="font-size:10px;letter-spacing:0.20em;text-transform:uppercase;font-weight:500;color:rgba(255,255,255,0.30);text-align:center;margin:0 0 20px;">Follow the work</p>
+      <table style="border-collapse:collapse;margin:0 auto 32px;">
+        <tr>
+          <td style="padding:0 10px;font-size:12px;"><a href="https://www.tiktok.com/@forgeskills" style="color:rgba(255,255,255,0.55);text-decoration:none;font-weight:500;">TikTok</a></td>
+          <td style="padding:0 10px;font-size:10px;color:rgba(255,255,255,0.15);">&middot;</td>
+          <td style="padding:0 10px;font-size:12px;"><a href="https://www.instagram.com/purist.online" style="color:rgba(255,255,255,0.55);text-decoration:none;font-weight:500;">Instagram</a></td>
+          <td style="padding:0 10px;font-size:10px;color:rgba(255,255,255,0.15);">&middot;</td>
+          <td style="padding:0 10px;font-size:12px;"><a href="https://www.threads.net/@purist.online" style="color:rgba(255,255,255,0.55);text-decoration:none;font-weight:500;">Threads</a></td>
+          <td style="padding:0 10px;font-size:10px;color:rgba(255,255,255,0.15);">&middot;</td>
+          <td style="padding:0 10px;font-size:12px;"><a href="https://x.com/Puristonline" style="color:rgba(255,255,255,0.55);text-decoration:none;font-weight:500;">X</a></td>
+          <td style="padding:0 10px;font-size:10px;color:rgba(255,255,255,0.15);">&middot;</td>
+          <td style="padding:0 10px;font-size:12px;"><a href="https://www.pinterest.com/puristonline" style="color:rgba(255,255,255,0.55);text-decoration:none;font-weight:500;">Pinterest</a></td>
+          <td style="padding:0 10px;font-size:10px;color:rgba(255,255,255,0.15);">&middot;</td>
+          <td style="padding:0 10px;font-size:12px;"><a href="https://www.linkedin.com/company/purist-automation" style="color:rgba(255,255,255,0.55);text-decoration:none;font-weight:500;">LinkedIn</a></td>
+          <td style="padding:0 10px;font-size:10px;color:rgba(255,255,255,0.15);">&middot;</td>
+          <td style="padding:0 10px;font-size:12px;"><a href="https://medium.com/@Purist_Online" style="color:rgba(255,255,255,0.55);text-decoration:none;font-weight:500;">Medium</a></td>
+        </tr>
+      </table>
+      <div style="border-top:1px solid rgba(255,255,255,0.07);padding-top:20px;margin-bottom:20px;">
+        <table style="width:100%;border-collapse:collapse;">
+          <tr>
+            <td style="font-size:10px;color:rgba(255,255,255,0.25);vertical-align:middle;">
+              &copy; 2026 PURIST&reg; &nbsp;&middot;&nbsp;
+              <a href="https://www.purist.online/pages/privacy-policy" style="color:rgba(255,255,255,0.25);text-decoration:none;">Privacy policy</a> &nbsp;&middot;&nbsp;
+              <a href="https://www.purist.online/pages/terms-of-service" style="color:rgba(255,255,255,0.25);text-decoration:none;">Terms of service</a> &nbsp;&middot;&nbsp;
+              <a href="https://www.purist.online/pages/accessibility" style="color:rgba(255,255,255,0.25);text-decoration:none;">Accessibility</a>
+            </td>
+            <td style="font-size:10px;color:rgba(255,255,255,0.25);text-align:right;vertical-align:middle;">
+              <a href="https://clutch.co/profile/purist" style="color:rgba(255,255,255,0.25);text-decoration:none;">Verified on Clutch</a> &nbsp;&middot;&nbsp;
+              <a href="https://www.producthunt.com/products/purist" style="color:rgba(255,255,255,0.25);text-decoration:none;">Product Hunt</a>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p style="font-family:Georgia,'Times New Roman',serif;font-size:96px;font-weight:400;letter-spacing:-0.02em;line-height:0.85;margin:0 0 -4px;padding:0;text-align:left;" aria-hidden="true"><span style="color:rgba(232,180,176,0.60);">P</span><span style="color:rgba(248,248,255,0.72);">U</span><span style="color:rgba(164,139,250,0.60);">R</span><span style="color:rgba(232,180,176,0.58);">I</span><span style="color:rgba(248,248,255,0.68);">S</span><span style="color:rgba(164,139,250,0.55);">T</span><span style="font-size:24px;vertical-align:super;color:rgba(164,139,250,0.38);">&#174;</span></p>
+    </div>
+  </div>
+  <div style="background:#0A0A0A;padding:20px 36px 32px;">
+    <div style="border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 18px;margin-bottom:14px;">
+      <p style="font-size:10.5px;color:rgba(255,255,255,0.20);line-height:1.75;margin:0;"><strong style="color:rgba(255,255,255,0.30);">*Results vary based on business size, industry and existing systems.</strong> Reported metrics are based on aggregated client data and may not reflect your specific outcomes. All automations are deployed on your own infrastructure. PURIST does not store your business data beyond what is required for workflow execution and monitoring.</p>
+    </div>
+    <p style="font-size:10px;color:rgba(255,255,255,0.15);text-align:center;margin:0 0 6px;">**Free automation audit available for new clients only.</p>
+    <p style="font-size:10px;color:rgba(255,255,255,0.10);text-align:center;margin:0;">This email was prepared for ${esc(recipientName)} at ${esc(recipientCompany)}. Confidential.</p>
+  </div>`;
+}
+
 // ─── Main export ──────────────────────────────────────────────────────────────
 export function generateProposalEmail(data: ProposalFormData): string {
   const fn = esc(firstName(data.name));
@@ -1151,102 +1206,12 @@ export function generateProposalEmail(data: ProposalFormData): string {
 
   </div>
 
-  ${sharedFooter(name, company)}
+  ${sharedFooter(data.name, data.company)}
 
 </div>
 </div>
 </body>
 </html>`;
-}
-
-// ─── FOOTER BLOCK (shared across emails) ─────────────────────────────────────
-// Exact match to site Footer.astro: correct URLs, text-link social row,
-// gradient wordmark colors from footer-wordmark-shimmer at midpoint.
-// SVG icons are stripped by Gmail web — text links are the reliable standard.
-function sharedFooter(recipientName: string, recipientCompany: string): string {
-  return `
-  <!-- FOOTER: FOLLOW THE WORK -->
-  <div style="background:#0A0A0A;padding:40px 36px 0;">
-    <div style="border-top:1px solid rgba(255,255,255,0.10);padding-top:32px;">
-
-      <!-- "Follow the work" label -->
-      <p style="font-size:10px;letter-spacing:0.20em;text-transform:uppercase;font-weight:500;color:rgba(255,255,255,0.30);text-align:center;margin:0 0 20px;">Follow the work</p>
-
-      <!-- Social links as clean text — works in all email clients -->
-      <table style="border-collapse:collapse;margin:0 auto 32px;">
-        <tr>
-          <td style="padding:0 10px;font-size:12px;">
-            <a href="https://www.tiktok.com/@forgeskills" style="color:rgba(255,255,255,0.55);text-decoration:none;font-weight:500;letter-spacing:0.02em;">TikTok</a>
-          </td>
-          <td style="padding:0 10px;font-size:10px;color:rgba(255,255,255,0.15);">&middot;</td>
-          <td style="padding:0 10px;font-size:12px;">
-            <a href="https://www.instagram.com/purist.online" style="color:rgba(255,255,255,0.55);text-decoration:none;font-weight:500;letter-spacing:0.02em;">Instagram</a>
-          </td>
-          <td style="padding:0 10px;font-size:10px;color:rgba(255,255,255,0.15);">&middot;</td>
-          <td style="padding:0 10px;font-size:12px;">
-            <a href="https://www.threads.net/@purist.online" style="color:rgba(255,255,255,0.55);text-decoration:none;font-weight:500;letter-spacing:0.02em;">Threads</a>
-          </td>
-          <td style="padding:0 10px;font-size:10px;color:rgba(255,255,255,0.15);">&middot;</td>
-          <td style="padding:0 10px;font-size:12px;">
-            <a href="https://x.com/Puristonline" style="color:rgba(255,255,255,0.55);text-decoration:none;font-weight:500;letter-spacing:0.02em;">X</a>
-          </td>
-          <td style="padding:0 10px;font-size:10px;color:rgba(255,255,255,0.15);">&middot;</td>
-          <td style="padding:0 10px;font-size:12px;">
-            <a href="https://www.pinterest.com/puristonline" style="color:rgba(255,255,255,0.55);text-decoration:none;font-weight:500;letter-spacing:0.02em;">Pinterest</a>
-          </td>
-          <td style="padding:0 10px;font-size:10px;color:rgba(255,255,255,0.15);">&middot;</td>
-          <td style="padding:0 10px;font-size:12px;">
-            <a href="https://www.linkedin.com/company/purist-automation" style="color:rgba(255,255,255,0.55);text-decoration:none;font-weight:500;letter-spacing:0.02em;">LinkedIn</a>
-          </td>
-          <td style="padding:0 10px;font-size:10px;color:rgba(255,255,255,0.15);">&middot;</td>
-          <td style="padding:0 10px;font-size:12px;">
-            <a href="https://medium.com/@Purist_Online" style="color:rgba(255,255,255,0.55);text-decoration:none;font-weight:500;letter-spacing:0.02em;">Medium</a>
-          </td>
-        </tr>
-      </table>
-
-      <!-- Legal row -->
-      <div style="border-top:1px solid rgba(255,255,255,0.07);padding-top:20px;margin-bottom:20px;">
-        <table style="width:100%;border-collapse:collapse;">
-          <tr>
-            <td style="font-size:10px;color:rgba(255,255,255,0.25);vertical-align:middle;">
-              &copy; 2026 PURIST&reg; &nbsp;&middot;&nbsp;
-              <a href="https://www.purist.online/pages/privacy-policy" style="color:rgba(255,255,255,0.25);text-decoration:none;">Privacy policy</a> &nbsp;&middot;&nbsp;
-              <a href="https://www.purist.online/pages/terms-of-service" style="color:rgba(255,255,255,0.25);text-decoration:none;">Terms of service</a> &nbsp;&middot;&nbsp;
-              <a href="https://www.purist.online/pages/accessibility" style="color:rgba(255,255,255,0.25);text-decoration:none;">Accessibility</a>
-            </td>
-            <td style="font-size:10px;color:rgba(255,255,255,0.25);text-align:right;vertical-align:middle;">
-              <a href="https://clutch.co/profile/purist" style="color:rgba(255,255,255,0.25);text-decoration:none;">Verified on Clutch</a> &nbsp;&middot;&nbsp;
-              <a href="https://www.producthunt.com/products/purist" style="color:rgba(255,255,255,0.25);text-decoration:none;">Product Hunt</a>
-            </td>
-          </tr>
-        </table>
-      </div>
-
-      <!-- PURIST wordmark — gradient matching site footer-wordmark-shimmer at midpoint -->
-      <!-- Site gradient: 115deg, #E8B4B0·55% → white·75% → #A48BFA·55% → #E8B4B0·55% → white·70% -->
-      <!-- Per-letter approximation of the gradient sweep -->
-      <p style="font-family:Georgia,'Times New Roman',serif;font-size:96px;font-weight:400;letter-spacing:-0.02em;line-height:0.85;margin:0 0 -4px;padding:0;text-align:left;user-select:none;" aria-hidden="true"><!--
-        --><span style="color:rgba(232,180,176,0.60);">P</span><!--
-        --><span style="color:rgba(248,248,255,0.72);">U</span><!--
-        --><span style="color:rgba(164,139,250,0.60);">R</span><!--
-        --><span style="color:rgba(232,180,176,0.58);">I</span><!--
-        --><span style="color:rgba(248,248,255,0.68);">S</span><!--
-        --><span style="color:rgba(164,139,250,0.55);">T</span><!--
-        --><span style="font-size:24px;vertical-align:super;color:rgba(164,139,250,0.38);">&#174;</span><!--
-      --></p>
-
-    </div>
-  </div>
-
-  <!-- Disclaimer + confidential note -->
-  <div style="background:#0A0A0A;padding:20px 36px 32px;">
-    <div style="border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 18px;margin-bottom:14px;">
-      <p style="font-size:10.5px;color:rgba(255,255,255,0.20);line-height:1.75;margin:0;"><strong style="color:rgba(255,255,255,0.30);">*Results vary based on business size, industry and existing systems.</strong> Reported metrics are based on aggregated client data and may not reflect your specific outcomes. All automations are deployed on your own infrastructure. PURIST does not store your business data beyond what is required for workflow execution and monitoring.</p>
-    </div>
-    <p style="font-size:10px;color:rgba(255,255,255,0.15);text-align:center;margin:0 0 6px;">**Free automation audit available for new clients only.</p>
-    <p style="font-size:10px;color:rgba(255,255,255,0.10);text-align:center;margin:0;">This email was prepared specifically for ${esc(recipientName)} at ${esc(recipientCompany)}. Confidential — intended solely for the recipient.</p>
-  </div>`;
 }
 
 // ─── ONBOARDING FOLLOW-UP EMAIL ───────────────────────────────────────────────
@@ -1468,7 +1433,7 @@ export function generateOnboardingEmail(data: OnboardingFormData): string {
 
   </div>
 
-  ${sharedFooter(name, company)}
+  ${sharedFooter(data.name, data.company)}
 
 </div>
 </body>
