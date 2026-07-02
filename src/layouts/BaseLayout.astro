@@ -90,6 +90,26 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
      });
    </script>
 
+   <!-- Microsoft Clarity — deferred after idle to avoid blocking LCP -->
+   <script is:inline>
+   (function(){
+     function _loadClarity(){
+       if(window._clarityLoaded) return;
+       window._clarityLoaded = true;
+       (function(c,l,a,r,i,t,y){
+         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+       })(window,document,"clarity","script","xg6u657oh8");
+     }
+     if('requestIdleCallback' in window){
+       requestIdleCallback(_loadClarity,{timeout:4000});
+     } else {
+       setTimeout(_loadClarity,3000);
+     }
+   })();
+   </script>
+
    <!-- GTM + Conversion tracking — all deferred until after load to avoid TBT -->
    <script is:inline>
    (function(){
