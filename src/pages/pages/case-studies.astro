@@ -28,7 +28,7 @@ const cases = [
     stat: '97%', statLabel: 'reduction in returns handling time',
     hours: '16', roi: '€74K', roiX: '7.2×', payback: '28 days', deploy: '6 days',
     before: '3 ops staff handling returns manually. 3-day average resolution. Customer satisfaction 52%. Refund disputes rising.',
-    after: 'Return portal triggers automated label, inspection routing, refund or exchange — resolved in under 4 minutes end-to-end.',
+    after: 'Return portal triggers automated label, inspection routing, refund or exchange. Resolved in under 4 minutes end-to-end.',
     workflows: ['Return portal automation', 'Inspection routing', 'Refund/exchange logic', 'Customer satisfaction loop'],
     tools: ['n8n', 'Shopify', 'Loop Returns', 'Stripe'],
     quote: 'Our returns rate did not change. But our cost per return dropped 91% and our repeat purchase rate after a return went from 19% to 44%.',
@@ -73,7 +73,7 @@ const cases = [
     stat: '5 days → 6h', statLabel: 'order processing time',
     hours: '20', roi: '€91K', roiX: '8.6×', payback: '24 days', deploy: '8 days',
     before: '140+ wholesale orders/month processed manually. 5-day average cycle. Two FTE dedicated to nothing but order admin.',
-    after: 'EDI-style order intake, credit check, stock allocation, invoice and shipping confirmation — fully automated. Both FTEs redeployed to sales.',
+    after: 'EDI-style order intake, credit check, stock allocation, invoice and shipping confirmation. Fully automated. Both FTEs redeployed to sales.',
     workflows: ['Order intake & validation', 'Credit check automation', 'Stock allocation', 'Invoice + shipping sync'],
     tools: ['n8n', 'Business Central', 'DHL API', 'Stripe'],
     quote: 'Our wholesale customers noticed before our own team did. Orders that used to take until Thursday were confirmed the same morning.',
@@ -118,10 +118,10 @@ const cases = [
     stat: '61%', statLabel: 'VIP repeat purchase rate',
     hours: '6', roi: '€168K', roiX: '14.2×', payback: '15 days', deploy: '9 days',
     before: 'VIP client journey entirely manual. Personal shopping emails written one by one. No systematic follow-up after purchase.',
-    after: 'White-glove automated journey: post-purchase care, personalised restocking alerts, anniversary gifting, and concierge booking — all zero-touch.',
+    after: 'White-glove automated journey: post-purchase care, personalised restocking alerts, anniversary gifting, and concierge booking. All zero-touch.',
     workflows: ['Post-purchase care sequence', 'Personalised product alerts', 'Anniversary & milestone triggers', 'Concierge booking automation'],
     tools: ['n8n', 'Shopify Plus', 'Claude AI', 'Klaviyo'],
-    quote: 'Our VIP clients feel more looked after than before — and we are doing less manual work. The automation is indistinguishable from a personal touch.',
+    quote: 'Our VIP clients feel more looked after than before, and we are doing less manual work. The automation is indistinguishable from a personal touch.',
     role: 'Customer Relations Director',
     color: '#E8B4B0',
   },
@@ -195,7 +195,7 @@ const cases = [
     stat: '81%', statLabel: 'faster intake process',
     hours: '14', roi: '€84K', roiX: '10.2×', payback: '21 days', deploy: '7 days',
     before: 'Intake requiring 6 manual touchpoints: enquiry, triage form, clinical screening, admin review, matching, appointment. 21 days average.',
-    after: 'Intake form triggers clinical triage scoring, therapist matching algorithm, and appointment booking — fully automated with GDPR-compliant data handling.',
+    after: 'Intake form triggers clinical triage scoring, therapist matching algorithm, and appointment booking. Fully automated with GDPR-compliant data handling.',
     workflows: ['Enquiry triage & scoring', 'Therapist matching algorithm', 'Automated appointment booking', 'GDPR-compliant data flows'],
     tools: ['n8n', 'SimplePractice', 'Claude AI', 'DocuSign'],
     quote: 'People seeking mental health support cannot wait 3 weeks. We now get them matched and booked in under a week. That matters more than the ROI.',
@@ -256,7 +256,7 @@ const cases = [
     headline: 'Document generation from 3 hours to 18 minutes per matter.',
     stat: '90%', statLabel: 'faster document generation',
     hours: '12', roi: '€98K', roiX: '11.6×', payback: '20 days', deploy: '7 days',
-    before: 'Standard documents — financial disclosure forms, consent orders, court bundles — drafted from scratch each time. 3h per matter average.',
+    before: 'Standard documents (financial disclosure forms, consent orders, court bundles) drafted from scratch each time. 3h per matter average.',
     after: 'AI-powered document generation from matter data. Lawyer reviews and approves. Fully personalised, court-compliant output in 18 minutes.',
     workflows: ['AI document generation', 'Court bundle compilation', 'Signature & execution flow', 'Court filing checklist'],
     tools: ['n8n', 'Clio', 'Claude AI', 'DocuSign'],
@@ -695,7 +695,7 @@ const cases = [
     stat: '52%', statLabel: 'reduction in enrolment drop-off',
     hours: '11', roi: '€67K', roiX: '8.3×', payback: '24 days', deploy: '5 days',
     before: '7 manual steps between enquiry and enrolment. 48% of enquiries dropping off during the process. Student coordinators spending 60% of time on admin.',
-    after: 'Online level assessment, class matching, timetable selection and payment — automated end-to-end in under 12 minutes.',
+    after: 'Online level assessment, class matching, timetable selection and payment. Automated end-to-end in under 12 minutes.',
     workflows: ['Level assessment automation', 'Class matching algorithm', 'Timetable selection flow', 'Payment & welcome sequence'],
     tools: ['n8n', 'Salesforce', 'Stripe', 'Claude AI'],
     quote: 'Half our enquiries were converting to ghost. Now they convert to students. The enrolment process is so smooth we actually get compliments on it.',
@@ -761,7 +761,7 @@ const cases = [
     stat: '86%', statLabel: 'faster proposal production',
     hours: '11', roi: '€142K', roiX: '13.1×', payback: '17 days', deploy: '7 days',
     before: 'Proposals written from scratch per client. 18-hour average effort. Principals involved in formatting and production instead of strategy.',
-    after: 'Discovery call transcript ingested by AI. Tailored proposal structured, quantified and branded — ready for partner review in 2.5 hours.',
+    after: 'Discovery call transcript ingested by AI. Tailored proposal structured, quantified and branded. Ready for partner review in 2.5 hours.',
     workflows: ['Discovery transcript processing', 'AI proposal generation', 'Pricing model automation', 'Follow-up sequence'],
     tools: ['n8n', 'Claude AI', 'Notion', 'DocuSign'],
     quote: 'We win more because we respond faster and our proposals are sharper. The AI forces us to be specific about ROI in every proposal. Clients respond to that.',
@@ -831,6 +831,11 @@ const featured = [
   }
   .ticker-inner { animation: ticker-scroll 40s linear infinite; }
   .ticker-inner:hover { animation-play-state: paused; }
+  @media (max-width: 640px) {
+    .seo-two-col { grid-template-columns: 1fr !important; gap: 28px !important; }
+    .agg-grid { grid-template-columns: repeat(3,1fr) !important; }
+    .featured-grid { grid-template-columns: 1fr !important; }
+  }
 </style>
 
 <!-- ════════════════════════════════════════════════════
@@ -851,9 +856,8 @@ const featured = [
         </span>
       </div>
 
-      <h1 class="font-display" style="font-size:clamp(2.4rem,5.5vw,4.2rem);line-height:1.05;letter-spacing:-0.03em;color:#fff;margin-bottom:22px;">
-        What happens when you stop<br/>
-        <em style="color:#E8B4B0;font-style:italic;">doing things manually.</em>
+      <h1 class="font-display" style="font-size:clamp(2rem,4vw,3.2rem);line-height:1.08;letter-spacing:-0.03em;color:#fff;margin-bottom:22px;">
+        What happens when you stop <em style="color:#E8B4B0;font-style:italic;">doing things manually.</em>
       </h1>
 
       <p style="font-size:15px;line-height:1.8;color:rgba(255,255,255,0.38);max-width:560px;margin-bottom:32px;">
@@ -960,7 +964,7 @@ const featured = [
 
           <blockquote style={`border-left:3px solid ${c.color};padding-left:14px;margin:0 0 16px;`}>
             <p style="font-size:13px;color:rgba(255,255,255,0.65);line-height:1.65;font-style:italic;">"{c.quote}"</p>
-            <cite style="font-size:10px;color:rgba(255,255,255,0.25);font-style:normal;display:block;margin-top:6px;">— {c.role}, {c.tag}</cite>
+            <cite style="font-size:10px;color:rgba(255,255,255,0.25);font-style:normal;display:block;margin-top:6px;">{c.role}, {c.tag}</cite>
           </blockquote>
 
           <div style="display:flex;flex-wrap:wrap;gap:5px;">
@@ -1067,7 +1071,7 @@ const featured = [
           <!-- Quote -->
           <blockquote style={`border-left:2px solid ${c.color};padding:8px 0 8px 12px;margin:0 0 14px;`}>
             <p style="font-size:12px;color:rgba(10,10,10,0.55);line-height:1.6;font-style:italic;">"{c.quote}"</p>
-            <cite style="font-size:9.5px;color:rgba(10,10,10,0.30);font-style:normal;display:block;margin-top:4px;">— {c.role}</cite>
+            <cite style="font-size:9.5px;color:rgba(10,10,10,0.30);font-style:normal;display:block;margin-top:4px;">{c.role}</cite>
           </blockquote>
 
           <!-- Footer -->
@@ -1085,7 +1089,7 @@ const featured = [
 
     <!-- Empty state -->
     <div id="empty-state" style="display:none;text-align:center;padding:80px 20px;">
-      <p style="font-size:15px;color:rgba(10,10,10,0.35);">No cases for this industry yet — <a href="/pages/contact-us" style="color:#0A0A0A;font-weight:600;text-decoration:underline;">ask us about yours</a>.</p>
+      <p style="font-size:15px;color:rgba(10,10,10,0.35);">No cases for this industry yet. <a href="/pages/contact-us" style="color:#0A0A0A;font-weight:600;text-decoration:underline;">Ask us about yours.</a></p>
     </div>
 
   </div>
@@ -1146,7 +1150,7 @@ const featured = [
         <p style="font-size:9px;font-weight:700;letter-spacing:0.24em;text-transform:uppercase;color:rgba(10,10,10,0.35);margin-bottom:10px;">Our methodology</p>
         <h2 class="font-display" style="font-size:clamp(1.8rem,3vw,2.6rem);letter-spacing:-0.025em;color:#0A0A0A;line-height:1.1;margin-bottom:20px;">How we measure<br/><em style="color:#6B5CE7;">and verify results.</em></h2>
         <p style="font-size:14px;line-height:1.8;color:rgba(10,10,10,0.50);margin-bottom:16px;">
-          Every number in these case studies is extracted from client monitoring dashboards — not estimates or projections. We run automated run-log aggregation throughout the deployment lifecycle.
+          Every number in these case studies is extracted from client monitoring dashboards, not estimates or projections. We run automated run-log aggregation throughout the deployment lifecycle.
         </p>
         <p style="font-size:14px;line-height:1.8;color:rgba(10,10,10,0.50);">
           ROI calculations use the client's own fully-loaded staff cost figures collected at onboarding. Payback periods are calculated from go-live date to the point where cumulative savings exceed the setup fee.
@@ -1174,6 +1178,61 @@ const featured = [
 </section>
 
 <!-- ════════════════════════════════════════════════════
+     SEO CONTENT SECTION
+════════════════════════════════════════════════════ -->
+<section style="background:#F8F6F1;padding:80px 0;">
+  <div class="container-x">
+    <div style="max-width:860px;margin:0 auto;">
+      <p style="font-size:9px;font-weight:700;letter-spacing:0.24em;text-transform:uppercase;color:rgba(10,10,10,0.35);margin-bottom:12px;">Why automation delivers results this fast</p>
+      <h2 class="font-display" style="font-size:clamp(1.6rem,3vw,2.4rem);letter-spacing:-0.025em;color:#0A0A0A;line-height:1.15;margin-bottom:32px;">The business case for workflow automation in 2025</h2>
+
+      <div class="seo-two-col" style="display:grid;grid-template-columns:1fr 1fr;gap:40px;">
+        <div>
+          <h3 style="font-size:15px;font-weight:700;color:#0A0A0A;margin-bottom:10px;">What makes PURIST deployments different</h3>
+          <p style="font-size:13.5px;line-height:1.8;color:rgba(10,10,10,0.55);margin-bottom:16px;">Most automation projects fail because they try to automate the wrong things first. At PURIST, every engagement starts with a structured audit that ranks your processes by ROI potential. We deploy the three highest-impact workflows in week one, so you see results before the end of your first month.</p>
+          <p style="font-size:13.5px;line-height:1.8;color:rgba(10,10,10,0.55);">Our stack is built on self-hosted n8n, which gives your data full sovereignty and eliminates per-task pricing. Claude AI handles the intelligence layer: document extraction, lead scoring, churn prediction, and personalised communication at scale. Everything runs on your infrastructure, monitored 24/7 with 90-second error alerts.</p>
+        </div>
+        <div>
+          <h3 style="font-size:15px;font-weight:700;color:#0A0A0A;margin-bottom:10px;">The most common automation wins by sector</h3>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            {[
+              ['E-commerce', 'Abandoned cart recovery, subscription churn prevention, returns processing'],
+              ['Healthcare', 'Appointment reminders, patient recall campaigns, insurance pre-authorisation'],
+              ['Legal', 'Client intake, document generation, billing accuracy, deadline tracking'],
+              ['SaaS', 'Trial onboarding sequences, lead scoring, churn early warning systems'],
+              ['Finance', 'Reconciliation, quarterly reporting, renewal management'],
+              ['Agency', 'Client onboarding, automated reporting, invoice generation'],
+            ].map(([sector, wins]) => (
+              <div style="border-left:2px solid rgba(10,10,10,0.10);padding-left:12px;">
+                <p style="font-size:11px;font-weight:700;color:#0A0A0A;margin-bottom:2px;">{sector}</p>
+                <p style="font-size:12px;color:rgba(10,10,10,0.45);line-height:1.5;">{wins}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:48px;padding-top:32px;border-top:1px solid rgba(10,10,10,0.07);">
+        <h3 style="font-size:15px;font-weight:700;color:#0A0A0A;margin-bottom:14px;">Frequently asked questions about automation ROI</h3>
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          {[
+            ['How quickly will I see results?', 'The first workflows go live within 3 to 7 business days of your audit. Most clients hit payback within 21 days, meaning the cumulative time and money saved exceeds the setup investment. The 90-day mark is when the full stack is operational and ROI is typically confirmed in writing.'],
+            ['Are these results typical or cherry-picked?', 'These 50 cases represent a cross-section of our deployments, not our top outliers. The median ROI multiple across all 312 deployments is 9.2x at 90 days. Results below 7x are rare and usually involve very small teams where baseline admin costs are low.'],
+            ['What happens if a workflow breaks?', 'Our monitoring infrastructure runs sub-workflow checks every 90 seconds. If a run fails, the on-call engineer is paged immediately. Our 99.97% uptime SLA applies across all production workflows, and Enterprise plans include a financial guarantee on that figure.'],
+            ['Do I need technical knowledge to manage the system?', 'No. Once deployed, every workflow runs without technical intervention. You receive a plain-English dashboard showing what ran, when, and what it saved. Anything requiring a change goes through our team. Clients typically spend under 20 minutes per month reviewing their automation reports.'],
+          ].map(([q, a]) => (
+            <div>
+              <p style="font-size:13.5px;font-weight:700;color:#0A0A0A;margin-bottom:6px;">{q}</p>
+              <p style="font-size:13px;line-height:1.75;color:rgba(10,10,10,0.52);">{a}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
      CTA
 ════════════════════════════════════════════════════ -->
 <section style="background:#0A0A0A;padding:96px 0;">
@@ -1183,13 +1242,12 @@ const featured = [
         <span style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(232,180,176,0.65);">Free automation audit · No call required</span>
       </div>
 
-      <h2 class="font-display" style="font-size:clamp(2rem,4.5vw,3.2rem);color:#fff;line-height:1.1;letter-spacing:-0.025em;margin-bottom:16px;">
-        Which of these results<br/>
-        <em style="color:#E8B4B0;">is closest to yours?</em>
+      <h2 class="font-display" style="font-size:clamp(1.8rem,4vw,3rem);color:#fff;line-height:1.1;letter-spacing:-0.025em;margin-bottom:16px;">
+        Which of these results <em style="color:#E8B4B0;">is closest to yours?</em>
       </h2>
 
       <p style="font-size:14px;color:rgba(255,255,255,0.32);line-height:1.8;margin-bottom:36px;max-width:440px;margin-left:auto;margin-right:auto;">
-        Submit the audit form. We analyse your operations, identify the three highest-ROI workflows for your business, and send you a personalised proposal — within one business day. No obligation.
+        Submit the audit form. We analyse your operations, identify the three highest-ROI workflows for your business, and send you a personalised proposal within one business day. No obligation.
       </p>
 
       <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
