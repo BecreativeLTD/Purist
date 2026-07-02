@@ -815,15 +815,19 @@ const featured = [
 >
 
 <style>
-  .case-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
-  .case-card:hover { transform: translateY(-3px); box-shadow: 0 20px 60px rgba(0,0,0,0.08); }
+  @keyframes card-up { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+  .case-card {
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+    animation: card-up 0.38s ease both;
+  }
+  .case-card:hover { transform: translateY(-4px); box-shadow: 0 28px 64px rgba(0,0,0,0.10); border-color: rgba(10,10,10,0.14) !important; }
+  .case-card[data-industry].hidden { display: none; }
   .filter-btn { transition: all 0.18s ease; cursor: pointer; border: none; background: none; }
   .filter-btn.active {
     background: #0A0A0A !important;
     color: #fff !important;
     border-color: #0A0A0A !important;
   }
-  .case-card[data-industry].hidden { display: none; }
   @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.4} }
   @keyframes ticker-scroll {
     0%   { transform: translateX(0); }
@@ -1010,78 +1014,84 @@ const featured = [
 
     <!-- Grid -->
     <div id="cases-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;">
-      {cases.map(c => (
+      {cases.map((c, idx) => (
         <article
           class="case-card"
           data-industry={c.industry}
-          style="background:#fff;border:1px solid rgba(10,10,10,0.07);border-radius:18px;padding:26px;position:relative;overflow:hidden;"
+          style={`background:#fff;border:1px solid rgba(10,10,10,0.07);border-radius:18px;padding:24px;position:relative;overflow:hidden;animation-delay:${Math.min(idx * 0.035, 0.5)}s;`}
         >
           <!-- Color accent bar -->
-          <div style={`position:absolute;top:0;left:0;right:0;height:3px;background:${c.color};opacity:0.7;`}></div>
+          <div style={`position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,${c.color},${c.color}55);`}></div>
 
-          <!-- Header -->
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;">
-            <div>
-              <span style={`display:inline-block;font-size:8.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:${c.color};background:${c.color}18;border-radius:99px;padding:3px 8px;margin-bottom:6px;`}>{c.industry}</span>
-              <p style="font-size:10.5px;color:rgba(10,10,10,0.38);">{c.tag}</p>
-            </div>
-            <div style="text-align:right;flex-shrink:0;">
-              <div style={`font-family:Georgia,serif;font-size:1.8rem;font-weight:500;color:${c.color};line-height:1;`}>{c.stat}</div>
-              <div style="font-size:8.5px;text-transform:uppercase;letter-spacing:0.1em;color:rgba(10,10,10,0.3);">{c.statLabel}</div>
-            </div>
+          <!-- Header: industry + deploy badge -->
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px;">
+            <span style={`font-size:8px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:${c.color};background:${c.color}15;border-radius:99px;padding:3px 9px;`}>{c.industry}</span>
+            <span style="font-size:9px;color:rgba(10,10,10,0.30);display:flex;align-items:center;gap:4px;">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              {c.deploy}
+            </span>
           </div>
 
-          <!-- Headline -->
-          <h3 style="font-size:15px;font-weight:700;color:#0A0A0A;line-height:1.35;margin-bottom:14px;">{c.headline}</h3>
+          <!-- Location tag -->
+          <p style="font-size:10px;color:rgba(10,10,10,0.32);margin-bottom:10px;letter-spacing:0.02em;">{c.tag}</p>
 
-          <!-- Stats row -->
-          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:16px;">
+          <!-- Headline -->
+          <h3 style="font-size:14.5px;font-weight:600;color:#0A0A0A;line-height:1.4;margin-bottom:14px;letter-spacing:-0.01em;">{c.headline}</h3>
+
+          <!-- Big stat -->
+          <div style={`display:inline-flex;align-items:baseline;gap:6px;background:${c.color}0d;border-radius:10px;padding:8px 14px;margin-bottom:14px;`}>
+            <span style={`font-size:1.6rem;font-weight:700;color:${c.color};line-height:1;letter-spacing:-0.02em;`}>{c.stat}</span>
+            <span style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.10em;color:rgba(10,10,10,0.38);">{c.statLabel}</span>
+          </div>
+
+          <!-- 4-metric grid -->
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:16px;">
             {[
-              ['Saved/wk', c.hours + 'h'],
-              ['ROI', c.roi],
-              ['Multiple', c.roiX],
+              ['Hours saved', c.hours + 'h'],
+              ['Annual ROI', c.roi],
+              ['ROI multiple', c.roiX],
               ['Payback', c.payback],
             ].map(([l,v]) => (
-              <div style="background:#F8F6F1;border-radius:8px;padding:8px 6px;text-align:center;">
-                <div style="font-size:8.5px;text-transform:uppercase;letter-spacing:0.08em;color:rgba(10,10,10,0.30);margin-bottom:2px;">{l}</div>
-                <div style="font-size:12px;font-weight:700;color:#0A0A0A;">{v}</div>
+              <div style="background:#F8F6F1;border-radius:8px;padding:8px 5px;text-align:center;">
+                <div style="font-size:8px;text-transform:uppercase;letter-spacing:0.07em;color:rgba(10,10,10,0.28);margin-bottom:3px;line-height:1.2;">{l}</div>
+                <div style="font-size:12px;font-weight:700;color:#0A0A0A;letter-spacing:-0.01em;">{v}</div>
               </div>
             ))}
           </div>
 
-          <!-- Before / After -->
-          <div style="margin-bottom:14px;">
-            <div style="display:flex;gap:6px;margin-bottom:8px;">
-              <span style="font-size:8.5px;background:#fef2f2;color:#dc2626;border-radius:4px;padding:2px 7px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;flex-shrink:0;">Before</span>
-              <p style="font-size:12px;color:rgba(10,10,10,0.45);line-height:1.5;">{c.before}</p>
+          <!-- Before / After — clean vertical layout -->
+          <div style="margin-bottom:16px;display:flex;flex-direction:column;gap:8px;">
+            <div style="border-left:2px solid #fca5a5;padding:8px 0 8px 12px;border-radius:0 6px 6px 0;background:#fef2f2;">
+              <span style="font-size:8px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#dc2626;display:block;margin-bottom:3px;">Before</span>
+              <p style="font-size:11.5px;color:rgba(10,10,10,0.50);line-height:1.55;margin:0;">{c.before}</p>
             </div>
-            <div style="display:flex;gap:6px;">
-              <span style="font-size:8.5px;background:#f0fdf4;color:#16a34a;border-radius:4px;padding:2px 7px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;flex-shrink:0;">After</span>
-              <p style="font-size:12px;color:rgba(10,10,10,0.60);line-height:1.5;">{c.after}</p>
+            <div style="border-left:2px solid #86efac;padding:8px 0 8px 12px;border-radius:0 6px 6px 0;background:#f0fdf4;">
+              <span style="font-size:8px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#16a34a;display:block;margin-bottom:3px;">After</span>
+              <p style="font-size:11.5px;color:rgba(10,10,10,0.60);line-height:1.55;margin:0;">{c.after}</p>
             </div>
           </div>
 
           <!-- Workflows -->
           <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:14px;">
             {c.workflows.map(w => (
-              <span style="font-size:10px;background:#F0EDE8;border-radius:6px;padding:3px 8px;color:rgba(10,10,10,0.50);">{w}</span>
+              <span style={`font-size:10px;background:${c.color}0f;border:1px solid ${c.color}25;border-radius:6px;padding:3px 8px;color:rgba(10,10,10,0.52);`}>{w}</span>
             ))}
           </div>
 
           <!-- Quote -->
           <blockquote style={`border-left:2px solid ${c.color};padding:8px 0 8px 12px;margin:0 0 14px;`}>
-            <p style="font-size:12px;color:rgba(10,10,10,0.55);line-height:1.6;font-style:italic;">"{c.quote}"</p>
-            <cite style="font-size:9.5px;color:rgba(10,10,10,0.30);font-style:normal;display:block;margin-top:4px;">{c.role}</cite>
+            <p style="font-size:12px;color:rgba(10,10,10,0.52);line-height:1.65;font-style:italic;">"{c.quote}"</p>
+            <cite style="font-size:9px;color:rgba(10,10,10,0.28);font-style:normal;display:flex;align-items:center;gap:5px;margin-top:6px;">
+              <span style="width:3px;height:3px;border-radius:50%;background:rgba(10,10,10,0.20);flex-shrink:0;display:inline-block;"></span>
+              {c.role} · {c.tag.split('·')[1]?.trim() ?? c.tag}
+            </cite>
           </blockquote>
 
-          <!-- Footer -->
-          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-            <div style="display:flex;flex-wrap:wrap;gap:4px;">
-              {c.tools.map(t => (
-                <span style="font-size:9.5px;border:1px solid rgba(10,10,10,0.10);border-radius:99px;padding:2px 7px;color:rgba(10,10,10,0.35);">{t}</span>
-              ))}
-            </div>
-            <span style="font-size:9.5px;color:rgba(10,10,10,0.28);">Live in {c.deploy}</span>
+          <!-- Footer: tools -->
+          <div style="display:flex;flex-wrap:wrap;gap:4px;padding-top:12px;border-top:1px solid rgba(10,10,10,0.05);">
+            {c.tools.map(t => (
+              <span style="font-size:9px;border:1px solid rgba(10,10,10,0.09);border-radius:99px;padding:2px 8px;color:rgba(10,10,10,0.32);background:#fafafa;">{t}</span>
+            ))}
           </div>
         </article>
       ))}
@@ -1275,10 +1285,21 @@ const featured = [
       btn.classList.add('active');
       const f = btn.dataset.filter;
       let visible = 0;
+      let delay = 0;
       cards.forEach(card => {
         const show = f === 'All' || card.dataset.industry === f;
         card.classList.toggle('hidden', !show);
-        if (show) visible++;
+        if (show) {
+          // Re-trigger entrance animation
+          card.style.animation = 'none';
+          card.style.animationDelay = delay + 's';
+          requestAnimationFrame(() => {
+            card.style.animation = '';
+            card.style.animationDelay = delay + 's';
+          });
+          delay = Math.min(delay + 0.04, 0.4);
+          visible++;
+        }
       });
       countEl.textContent = f === 'All'
         ? `Showing all ${visible} results`
