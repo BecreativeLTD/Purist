@@ -61,6 +61,7 @@ const pages = [
   { url: '/pages/fable-5',                       lastmod: '2026-06-18' },
   { url: '/pages/docs',                          lastmod: '2026-06-18' },
   { url: '/pages/services',                      lastmod: '2026-06-18' },
+  { url: '/pages/case-studies',                  lastmod: '2026-07-02' },
   { url: '/pages/hermes-agent',                  lastmod: '2026-06-27' },
   { url: '/pages/research',                      lastmod: '2026-06-27' },
   { url: '/pages/n8n-agency',                    lastmod: '2026-06-18' },
