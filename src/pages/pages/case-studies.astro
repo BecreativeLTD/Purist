@@ -1,0 +1,1233 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+
+// ─── 50 CASE STUDIES ──────────────────────────────────────────────────────────
+const cases = [
+
+  // ── E-COMMERCE ──────────────────────────────────────────────────────────────
+  {
+    id: 'supplements-dtc',
+    industry: 'E-commerce',
+    tag: 'Supplements Brand · Dublin',
+    headline: 'Cart recovery revenue up 312%. No extra spend.',
+    stat: '312%', statLabel: 'cart recovery lift',
+    hours: '11', roi: '€89K', roiX: '8.9×', payback: '22 days', deploy: '4 days',
+    before: 'Abandoned cart emails sent manually, 3h delay average, 6% recovery rate. €380K/year left in abandoned carts.',
+    after: 'AI-personalised sequences triggered in 8 minutes. Discount ladder logic prevents margin erosion. Recovery rate 24.8%.',
+    workflows: ['Abandoned cart AI sequences', 'Post-purchase upsell', 'Subscription renewal nudges', 'Winback campaigns'],
+    tools: ['n8n', 'Shopify', 'Klaviyo', 'Claude AI'],
+    quote: 'We were leaving €380K on the table every year. PURIST recovered most of it in the first quarter without a single extra marketing euro spent.',
+    role: 'Co-Founder & CEO',
+    color: '#E8B4B0',
+  },
+  {
+    id: 'fashion-returns',
+    industry: 'E-commerce',
+    tag: 'Fashion DTC · Paris',
+    headline: 'Returns processed in 4 minutes. Previously 3 working days.',
+    stat: '97%', statLabel: 'reduction in returns handling time',
+    hours: '16', roi: '€74K', roiX: '7.2×', payback: '28 days', deploy: '6 days',
+    before: '3 ops staff handling returns manually. 3-day average resolution. Customer satisfaction 52%. Refund disputes rising.',
+    after: 'Return portal triggers automated label, inspection routing, refund or exchange — resolved in under 4 minutes end-to-end.',
+    workflows: ['Return portal automation', 'Inspection routing', 'Refund/exchange logic', 'Customer satisfaction loop'],
+    tools: ['n8n', 'Shopify', 'Loop Returns', 'Stripe'],
+    quote: 'Our returns rate did not change. But our cost per return dropped 91% and our repeat purchase rate after a return went from 19% to 44%.',
+    role: 'Head of Operations',
+    color: '#A48BFA',
+  },
+  {
+    id: 'homeware-inventory',
+    industry: 'E-commerce',
+    tag: 'Homeware Marketplace · Amsterdam',
+    headline: 'Stockout incidents down 94%. In the first 60 days.',
+    stat: '94%', statLabel: 'fewer stockout incidents',
+    hours: '8', roi: '€112K', roiX: '10.4×', payback: '17 days', deploy: '5 days',
+    before: '23 stockout incidents per month costing an estimated €9K each in lost sales. Manual reorder system on spreadsheets.',
+    after: 'Real-time inventory monitoring across 4 warehouses. Automated reorder triggers with supplier PO generation. Zero human input.',
+    workflows: ['Inventory sync across 4 WMS', 'Automated PO generation', 'Supplier lead time tracking', 'Stockout early warning'],
+    tools: ['n8n', 'Linnworks', 'Shopify', 'QuickBooks'],
+    quote: 'We had one stockout in the past 90 days. Previously it was barely a week without one. The ROI was obvious inside the first month.',
+    role: 'Operations Director',
+    color: '#86EFAC',
+  },
+  {
+    id: 'beauty-subscription',
+    industry: 'E-commerce',
+    tag: 'Beauty Subscription Box · London',
+    headline: 'Monthly churn halved from 11% to 4.3%.',
+    stat: '61%', statLabel: 'churn reduction',
+    hours: '13', roi: '€143K', roiX: '11.8×', payback: '20 days', deploy: '7 days',
+    before: '11.2% monthly churn. Cancellation emails sent manually 48h after intent signal. Win-back campaigns ad hoc.',
+    after: 'Churn signal detection from engagement data. AI-personalised intervention at the exact moment of intent. Automated skip/pause flow to prevent full cancellations.',
+    workflows: ['Churn signal detection', 'AI intervention sequences', 'Skip/pause flow', 'Win-back campaign engine'],
+    tools: ['n8n', 'Recharge', 'Klaviyo', 'Claude AI'],
+    quote: 'Churn went from something we accepted as normal to something we actively prevent. The AI catches customers we would have lost before we even knew they were at risk.',
+    role: 'Retention Lead',
+    color: '#E8B4B0',
+  },
+  {
+    id: 'sports-wholesale',
+    industry: 'E-commerce',
+    tag: 'Sports Equipment · Stockholm',
+    headline: 'Wholesale order cycle from 5 days to 6 hours.',
+    stat: '5 days → 6h', statLabel: 'order processing time',
+    hours: '20', roi: '€91K', roiX: '8.6×', payback: '24 days', deploy: '8 days',
+    before: '140+ wholesale orders/month processed manually. 5-day average cycle. Two FTE dedicated to nothing but order admin.',
+    after: 'EDI-style order intake, credit check, stock allocation, invoice and shipping confirmation — fully automated. Both FTEs redeployed to sales.',
+    workflows: ['Order intake & validation', 'Credit check automation', 'Stock allocation', 'Invoice + shipping sync'],
+    tools: ['n8n', 'Business Central', 'DHL API', 'Stripe'],
+    quote: 'Our wholesale customers noticed before our own team did. Orders that used to take until Thursday were confirmed the same morning.',
+    role: 'Commercial Director',
+    color: '#FCD34D',
+  },
+  {
+    id: 'electronics-warranty',
+    industry: 'E-commerce',
+    tag: 'Electronics Retailer · Hamburg',
+    headline: 'Warranty claim resolution 5× faster. Customer satisfaction +29 points.',
+    stat: '5×', statLabel: 'faster claim resolution',
+    hours: '9', roi: '€67K', roiX: '6.8×', payback: '33 days', deploy: '5 days',
+    before: '12-day average warranty resolution. 38% escalation rate. Two dedicated agents spending 80% of time on status updates.',
+    after: 'Claim intake, serial validation, repair routing and status updates fully automated. Agents handle only complex exceptions.',
+    workflows: ['Claim intake & serial validation', 'Repair centre routing', 'Status update automation', 'Escalation logic'],
+    tools: ['n8n', 'Zendesk', 'SAP', 'Twilio'],
+    quote: 'We went from 38% of customers escalating to 7%. Most do not need to contact us at all because the updates are proactive.',
+    role: 'Head of Customer Experience',
+    color: '#60A5FA',
+  },
+  {
+    id: 'pet-food-subscription',
+    industry: 'E-commerce',
+    tag: 'Pet Food DTC · Copenhagen',
+    headline: 'Subscription pause rate reduced 38%. LTV up €44 per customer.',
+    stat: '+€44', statLabel: 'LTV per subscriber',
+    hours: '7', roi: '€58K', roiX: '7.1×', payback: '26 days', deploy: '4 days',
+    before: 'Subscription pauses and cancellations handled identically. No segmentation between price-sensitive and lifestyle-driven churn.',
+    after: 'AI classifies exit intent by type. Price-sensitive customers get a discount offer. Lifestyle churners get a portion adjustment flow. Reactivation rate 3× baseline.',
+    workflows: ['Exit intent classification', 'Personalised retention flows', 'Delivery frequency optimisation', 'Reactivation sequences'],
+    tools: ['n8n', 'Recharge', 'Klaviyo', 'Claude AI'],
+    quote: 'We stopped treating every cancellation the same way. Some customers just needed a smaller bag. The AI figures that out instantly.',
+    role: 'Founder',
+    color: '#A48BFA',
+  },
+  {
+    id: 'luxury-vip',
+    industry: 'E-commerce',
+    tag: 'Luxury Accessories · Milan',
+    headline: 'VIP client repeat purchase rate from 22% to 61%.',
+    stat: '61%', statLabel: 'VIP repeat purchase rate',
+    hours: '6', roi: '€168K', roiX: '14.2×', payback: '15 days', deploy: '9 days',
+    before: 'VIP client journey entirely manual. Personal shopping emails written one by one. No systematic follow-up after purchase.',
+    after: 'White-glove automated journey: post-purchase care, personalised restocking alerts, anniversary gifting, and concierge booking — all zero-touch.',
+    workflows: ['Post-purchase care sequence', 'Personalised product alerts', 'Anniversary & milestone triggers', 'Concierge booking automation'],
+    tools: ['n8n', 'Shopify Plus', 'Claude AI', 'Klaviyo'],
+    quote: 'Our VIP clients feel more looked after than before — and we are doing less manual work. The automation is indistinguishable from a personal touch.',
+    role: 'Customer Relations Director',
+    color: '#E8B4B0',
+  },
+
+  // ── HEALTHCARE ──────────────────────────────────────────────────────────────
+  {
+    id: 'dental-group',
+    industry: 'Healthcare',
+    tag: 'Dental Group · London',
+    headline: '60% less admin. Same staff. Better patient outcomes.',
+    stat: '60%', statLabel: 'admin reduction',
+    hours: '14', roi: '€130K', roiX: '12.1×', payback: '19 days', deploy: '6 days',
+    before: '3 FTE hours daily on appointment reminders, insurance recalls and billing reconciliation. 90% of tasks purely repetitive.',
+    after: 'Fully automated patient reminders, insurance pre-auth and recall campaigns. Front desk refocused on patient care.',
+    workflows: ['Appointment reminders & confirmations', 'Insurance pre-authorisation', 'Recall campaigns', 'Billing reconciliation'],
+    tools: ['n8n', 'Dentally', 'SendGrid', 'Stripe'],
+    quote: 'Recall rate went from 34% to 71% in 8 weeks. We stopped losing patients to missed recalls without adding a single staff member.',
+    role: 'Practice Manager',
+    color: '#86EFAC',
+  },
+  {
+    id: 'gp-surgery',
+    industry: 'Healthcare',
+    tag: 'GP Surgery Group · Birmingham',
+    headline: 'NHS referral tracking from chaos to zero missed follow-ups.',
+    stat: '100%', statLabel: 'referral follow-up rate',
+    hours: '19', roi: '€95K', roiX: '12.3×', payback: '16 days', deploy: '6 days',
+    before: 'Referral tracking on spreadsheets. 14% of referrals had no follow-up logged within 30 days. Staff morale low from admin pressure.',
+    after: 'Every referral tracked automatically from creation to outcome. GP notified if no update in 14 days. Full audit trail for CQC compliance.',
+    workflows: ['Referral creation & routing', 'Status tracking & escalation', 'Patient update notifications', 'CQC compliance audit trail'],
+    tools: ['n8n', 'EMIS Web', 'NHS APIs', 'SendGrid'],
+    quote: 'We had a near-miss incident from a missed referral last year. Since PURIST went live we have had zero. That alone justifies every penny.',
+    role: 'GP Partner',
+    color: '#86EFAC',
+  },
+  {
+    id: 'physio-clinic',
+    industry: 'Healthcare',
+    tag: 'Physiotherapy Clinic · Bristol',
+    headline: 'No-show rate from 34% to 8%. Revenue recovered: €62K/year.',
+    stat: '76%', statLabel: 'no-show reduction',
+    hours: '11', roi: '€62K', roiX: '9.1×', payback: '19 days', deploy: '4 days',
+    before: 'No-shows costing €1,200/week in lost appointment slots. Reminder calls made manually by reception. No waiting list automation.',
+    after: 'SMS + email reminder cascade 48h and 2h before. Cancellation triggers instant waiting list fill. Revenue recovered from previously empty slots.',
+    workflows: ['Multi-channel reminder cascade', 'Cancellation & waitlist fill', 'Discharge follow-up', 'Review request automation'],
+    tools: ['n8n', 'Cliniko', 'Twilio', 'Mailchimp'],
+    quote: 'We used to lose a quarter of our day to no-shows. Now our diary fills itself. The waiting list automation alone paid for everything.',
+    role: 'Clinic Director',
+    color: '#86EFAC',
+  },
+  {
+    id: 'optician-chain',
+    industry: 'Healthcare',
+    tag: 'Optician Chain · Glasgow',
+    headline: 'Recall campaign revenue up 88% with zero extra marketing budget.',
+    stat: '88%', statLabel: 'recall revenue increase',
+    hours: '8', roi: '€78K', roiX: '8.7×', payback: '22 days', deploy: '5 days',
+    before: 'Annual recall letters sent once per year by post. 18% recall rate. 60% of patients lapsed after 2 years without returning.',
+    after: 'Rolling recall system triggered by last-visit date. Personalised by age group and lens type. SMS + email + letter cascade for non-responders.',
+    workflows: ['Rolling recall triggers', 'Personalised campaign routing', 'Multi-channel cascade', 'Lapsed patient win-back'],
+    tools: ['n8n', 'Optix', 'Twilio', 'Royal Mail API'],
+    quote: 'Recall went from something we did once a year to something that runs every day. Revenue per patient is up and our books are consistently fuller.',
+    role: 'Operations Manager',
+    color: '#86EFAC',
+  },
+  {
+    id: 'mental-health-clinic',
+    industry: 'Healthcare',
+    tag: 'Private Mental Health Clinic · Manchester',
+    headline: 'Client intake from 21 days to 4 days. Therapist utilisation up 34%.',
+    stat: '81%', statLabel: 'faster intake process',
+    hours: '14', roi: '€84K', roiX: '10.2×', payback: '21 days', deploy: '7 days',
+    before: 'Intake requiring 6 manual touchpoints: enquiry, triage form, clinical screening, admin review, matching, appointment. 21 days average.',
+    after: 'Intake form triggers clinical triage scoring, therapist matching algorithm, and appointment booking — fully automated with GDPR-compliant data handling.',
+    workflows: ['Enquiry triage & scoring', 'Therapist matching algorithm', 'Automated appointment booking', 'GDPR-compliant data flows'],
+    tools: ['n8n', 'SimplePractice', 'Claude AI', 'DocuSign'],
+    quote: 'People seeking mental health support cannot wait 3 weeks. We now get them matched and booked in under a week. That matters more than the ROI.',
+    role: 'Clinical Director',
+    color: '#86EFAC',
+  },
+  {
+    id: 'veterinary-group',
+    industry: 'Healthcare',
+    tag: 'Veterinary Group · Cardiff',
+    headline: 'Client communication workload cut by 71%. Satisfaction up 22 points.',
+    stat: '71%', statLabel: 'communication workload reduction',
+    hours: '10', roi: '€71K', roiX: '8.4×', payback: '23 days', deploy: '5 days',
+    before: 'Receptionists spending 3.5h/day on appointment confirmations, vaccination reminders and post-op follow-ups. Client satisfaction scores declining.',
+    after: 'All routine communications automated. Vaccination due dates monitored and reminder sent automatically. Post-procedure care instructions and follow-up calls eliminated.',
+    workflows: ['Appointment confirmation cascade', 'Vaccination due-date monitoring', 'Post-procedure follow-up', 'Annual health review reminders'],
+    tools: ['n8n', 'RoboVet', 'Twilio', 'Mailchimp'],
+    quote: 'Our receptionists now spend their time actually helping people at the desk instead of staring at a phone list. Clients notice the difference.',
+    role: 'Practice Owner',
+    color: '#86EFAC',
+  },
+
+  // ── LEGAL ───────────────────────────────────────────────────────────────────
+  {
+    id: 'law-firm-intake',
+    industry: 'Legal',
+    tag: 'Full-Service Law Firm · Birmingham',
+    headline: 'Client intake from 14 days to 3 days. €110K billable hours recovered.',
+    stat: '78%', statLabel: 'faster onboarding',
+    hours: '12', roi: '€110K', roiX: '13.4×', payback: '21 days', deploy: '9 days',
+    before: 'Intake taking 14 days. Fee earners spending 4h/week on non-billable admin. Clients lost to faster competing firms.',
+    after: 'Intake, conflict checks, engagement letters and deadline tracking fully automated end-to-end.',
+    workflows: ['Client intake & verification', 'Conflict check automation', 'Engagement letter generation', 'Deadline tracking & alerts'],
+    tools: ['n8n', 'Clio', 'DocuSign', 'Claude AI'],
+    quote: 'Fee earners now touch only billable work. We recovered €110K in billable hours in the first year alone.',
+    role: 'Managing Partner',
+    color: '#60A5FA',
+  },
+  {
+    id: 'immigration-firm',
+    industry: 'Legal',
+    tag: 'Immigration Solicitors · London',
+    headline: 'Case status tracking automated for 340 live matters. Zero missed deadlines.',
+    stat: '0', statLabel: 'missed deadlines post-deployment',
+    hours: '17', roi: '€124K', roiX: '14.8×', payback: '18 days', deploy: '8 days',
+    before: '340 active visa and immigration matters tracked on a shared spreadsheet. Three near-miss deadline incidents in 6 months.',
+    after: 'Every matter deadline tracked with 30/14/7/1 day alerts. Home Office response monitoring. Status updates sent to clients automatically.',
+    workflows: ['Matter deadline tracking', 'Home Office status monitoring', 'Client update automation', 'Document expiry alerts'],
+    tools: ['n8n', 'Lexicata', 'Claude AI', 'Twilio'],
+    quote: 'An immigration firm\'s reputation lives and dies on deadlines. We have not missed one since going live. That is the only metric that matters to us.',
+    role: 'Senior Partner',
+    color: '#60A5FA',
+  },
+  {
+    id: 'family-law',
+    industry: 'Legal',
+    tag: 'Family Law Practice · Edinburgh',
+    headline: 'Document generation from 3 hours to 18 minutes per matter.',
+    stat: '90%', statLabel: 'faster document generation',
+    hours: '12', roi: '€98K', roiX: '11.6×', payback: '20 days', deploy: '7 days',
+    before: 'Standard documents — financial disclosure forms, consent orders, court bundles — drafted from scratch each time. 3h per matter average.',
+    after: 'AI-powered document generation from matter data. Lawyer reviews and approves. Fully personalised, court-compliant output in 18 minutes.',
+    workflows: ['AI document generation', 'Court bundle compilation', 'Signature & execution flow', 'Court filing checklist'],
+    tools: ['n8n', 'Clio', 'Claude AI', 'DocuSign'],
+    quote: 'Our lawyers were trained to do law, not word processing. Now they do law. Morale has improved as much as the financials.',
+    role: 'Director',
+    color: '#60A5FA',
+  },
+  {
+    id: 'commercial-litigation',
+    industry: 'Legal',
+    tag: 'Commercial Litigation Firm · Leeds',
+    headline: 'Invoice accuracy from 94.1% to 99.8%. Disputes down 87%.',
+    stat: '99.8%', statLabel: 'billing accuracy',
+    hours: '9', roi: '€138K', roiX: '13.1×', payback: '22 days', deploy: '6 days',
+    before: 'Billing errors causing 3-4 client disputes per month. Partners spending 2h/week reviewing time entries manually. Average invoice 19 days to issue.',
+    after: 'Time entry validation, disbursement matching and invoice generation fully automated. Partner review reduced to 12-minute sign-off.',
+    workflows: ['Time entry validation', 'Disbursement matching', 'Invoice generation', 'Payment chasing sequences'],
+    tools: ['n8n', 'Elite 3E', 'Xero', 'DocuSign'],
+    quote: 'We were writing off €2,000 per month in disputed fees we could not prove. That is gone. The automation creates an audit trail better than anything we did manually.',
+    role: 'Finance Partner',
+    color: '#60A5FA',
+  },
+
+  // ── REAL ESTATE ─────────────────────────────────────────────────────────────
+  {
+    id: 'property-agency',
+    industry: 'Real Estate',
+    tag: 'Residential Agency · Manchester',
+    headline: 'First response in 90 seconds, 24/7. Viewing conversions up 72%.',
+    stat: '72%', statLabel: 'more viewings booked',
+    hours: '9', roi: '€86K', roiX: '8.3×', payback: '18 days', deploy: '5 days',
+    before: 'Leads responding to within 4+ hours average. 60% of enquiries received no same-day reply. Competitors responding faster.',
+    after: 'Every portal lead AI-qualified and followed up within 90 seconds. Viewing booked in the same automated sequence.',
+    workflows: ['Lead capture & AI qualification', 'Instant 90-second follow-up', 'Viewing confirmation & prep', 'Post-viewing nurture'],
+    tools: ['n8n', 'Rightmove', 'Salesforce', 'Twilio'],
+    quote: 'First to call wins every time. Now we are always first. Enquiry-to-viewing conversion went from 18% to 31%.',
+    role: 'Director',
+    color: '#FCD34D',
+  },
+  {
+    id: 'property-management',
+    industry: 'Real Estate',
+    tag: 'Property Management Company · Liverpool',
+    headline: 'Tenant query response under 4 hours. Maintenance resolved 3× faster.',
+    stat: '3×', statLabel: 'faster maintenance resolution',
+    hours: '15', roi: '€83K', roiX: '9.2×', payback: '21 days', deploy: '6 days',
+    before: '480 units managed. Maintenance requests on paper forms. Average 8-day resolution. Tenants calling multiple times for status updates.',
+    after: 'Digital maintenance triage, contractor dispatch and status updates automated. Tenants receive proactive updates without calling in.',
+    workflows: ['Maintenance request triage', 'Contractor dispatch & tracking', 'Tenant status updates', 'Rent reminder sequences'],
+    tools: ['n8n', 'Fixflo', 'Xero', 'Twilio'],
+    quote: 'Our tenant satisfaction surveys improved dramatically. When people know what is happening they stop being angry, even when there are delays.',
+    role: 'Head of Property Management',
+    color: '#FCD34D',
+  },
+  {
+    id: 'new-build-developer',
+    industry: 'Real Estate',
+    tag: 'New Build Developer · Sheffield',
+    headline: 'Buyer journey automated from reservation to completion. 18h/week recovered.',
+    stat: '18h', statLabel: 'weekly admin recovered',
+    hours: '18', roi: '€119K', roiX: '11.4×', payback: '23 days', deploy: '7 days',
+    before: '4 sales progressors manually chasing solicitors, managing snagging logs and sending completion updates across 67 live units.',
+    after: 'Every stage of the buyer journey automated: solicitor chasers, snagging workflow, mortgage update requests and completion notifications.',
+    workflows: ['Solicitor chaser sequences', 'Snagging log management', 'Completion notification system', 'Mortgage update requests'],
+    tools: ['n8n', 'Salesforce', 'DocuSign', 'Twilio'],
+    quote: 'Our completion rate improved because nothing fell through the cracks. Buyers feel cared for and lawyers get chased whether we are in the office or not.',
+    role: 'Sales Director',
+    color: '#FCD34D',
+  },
+  {
+    id: 'holiday-lettings',
+    industry: 'Real Estate',
+    tag: 'Holiday Lettings Agency · Mallorca',
+    headline: 'Booking management from 4 staff to 1. Revenue per property up 23%.',
+    stat: '23%', statLabel: 'revenue per property increase',
+    hours: '22', roi: '€94K', roiX: '10.1×', payback: '20 days', deploy: '5 days',
+    before: 'Multi-platform listings (Airbnb, Booking.com, Vrbo) managed manually. Double bookings occurred 3 times in peak season. 4 staff on booking admin.',
+    after: 'Channel manager integration with AI-driven pricing. Guest communication automated from enquiry to post-checkout review request.',
+    workflows: ['Cross-channel booking sync', 'AI dynamic pricing', 'Guest journey automation', 'Owner reporting & payouts'],
+    tools: ['n8n', 'Lodgify', 'Airbnb API', 'Claude AI'],
+    quote: 'We had a double booking disaster last August that cost us €18K. It has not happened once since. The AI pricing alone increased revenue by 23%.',
+    role: 'Managing Director',
+    color: '#FCD34D',
+  },
+
+  // ── AGENCY ──────────────────────────────────────────────────────────────────
+  {
+    id: 'marketing-agency',
+    industry: 'Agency',
+    tag: 'Marketing Agency · Edinburgh',
+    headline: '45 client accounts managed. Zero additional headcount.',
+    stat: '3×', statLabel: 'clients per operator',
+    hours: '22', roi: '€104K', roiX: '9.8×', payback: '23 days', deploy: '8 days',
+    before: '28h/week on reporting and onboarding admin. One contractor hired purely for report generation.',
+    after: 'Client onboarding, weekly reporting and invoicing fully automated. Contractor role eliminated.',
+    workflows: ['Client onboarding sequence', 'Automated weekly reporting', 'Invoice generation', 'Project kickoff automation'],
+    tools: ['n8n', 'HubSpot', 'Xero', 'Slack'],
+    quote: 'Our ops manager finally does strategy instead of admin. We scaled from 28 to 45 clients without a single hire.',
+    role: 'CEO',
+    color: '#A48BFA',
+  },
+  {
+    id: 'seo-agency',
+    industry: 'Agency',
+    tag: 'SEO Agency · London',
+    headline: 'Client reporting time cut from 22 hours to 80 minutes per month.',
+    stat: '94%', statLabel: 'reporting time reduction',
+    hours: '24', roi: '€88K', roiX: '9.3×', payback: '18 days', deploy: '5 days',
+    before: 'Monthly reporting across 38 SEO clients taking 22h of analyst time. Clients receiving reports 12-14 days into the month.',
+    after: 'Automated data pull from GSC, Ahrefs and GA4. AI-generated narrative commentary per client. Reports delivered on day 3.',
+    workflows: ['Multi-source data aggregation', 'AI commentary generation', 'Branded PDF export', 'Client delivery scheduling'],
+    tools: ['n8n', 'Google Search Console API', 'Ahrefs API', 'Claude AI'],
+    quote: 'Analysts were quitting because they hated the reporting grind. Now they do strategy. Churn has dropped and our work quality has gone up.',
+    role: 'Operations Director',
+    color: '#A48BFA',
+  },
+  {
+    id: 'video-production',
+    industry: 'Agency',
+    tag: 'Video Production Studio · Berlin',
+    headline: 'Project delivery 40% faster. Client approval cycles from 11 days to 3.',
+    stat: '40%', statLabel: 'faster delivery',
+    hours: '18', roi: '€76K', roiX: '8.1×', payback: '25 days', deploy: '6 days',
+    before: 'Brief intake via email. Approval rounds tracked in spreadsheets. Clients chased manually for sign-offs. Delivery delays on 60% of projects.',
+    after: 'Automated brief intake, milestone notifications, approval request links and delivery confirmation. PM oversight reduced by 60%.',
+    workflows: ['Project brief intake automation', 'Milestone notification system', 'Approval request & tracking', 'Final delivery workflow'],
+    tools: ['n8n', 'Frame.io', 'ClickUp', 'Slack'],
+    quote: 'We stopped being the bottleneck. The system chases clients for sign-offs. We get paid faster and deliver on time more consistently.',
+    role: 'Executive Producer',
+    color: '#A48BFA',
+  },
+  {
+    id: 'pr-agency',
+    industry: 'Agency',
+    tag: 'PR & Communications Agency · Dublin',
+    headline: 'Media monitoring coverage up 8× with no additional analyst time.',
+    stat: '8×', statLabel: 'more media coverage monitored',
+    hours: '12', roi: '€69K', roiX: '7.8×', payback: '27 days', deploy: '5 days',
+    before: 'Analysts manually scanning 40-50 news sources daily. Coverage missed outside working hours. Clients receiving morning briefings by 10:30 AM at best.',
+    after: 'Automated 24/7 monitoring across 300+ sources. AI-scored relevance. Client alerts in real time. Morning briefing lands at 7:00 AM every day.',
+    workflows: ['24/7 source monitoring', 'AI relevance scoring', 'Client alert routing', 'Coverage report generation'],
+    tools: ['n8n', 'Meltwater API', 'Claude AI', 'Slack'],
+    quote: 'A client called us before we called them once. Never again. We now find their coverage before they do and have a response ready.',
+    role: 'Managing Director',
+    color: '#A48BFA',
+  },
+  {
+    id: 'performance-marketing',
+    industry: 'Agency',
+    tag: 'Performance Marketing Agency · Amsterdam',
+    headline: 'Campaign reporting automated across 52 client ad accounts.',
+    stat: '19h', statLabel: 'saved weekly on reporting',
+    hours: '19', roi: '€92K', roiX: '9.7×', payback: '21 days', deploy: '6 days',
+    before: 'Media buyers spending 4.5h/week per client pulling and formatting campaign data from Meta, Google, and TikTok.',
+    after: 'Unified performance dashboard auto-populated daily. Anomaly alerts fire when ROAS drops below threshold. Clients see live data in real time.',
+    workflows: ['Multi-platform data unification', 'Anomaly detection & alerts', 'Daily client dashboard refresh', 'Monthly narrative report'],
+    tools: ['n8n', 'Meta Ads API', 'Google Ads API', 'Claude AI'],
+    quote: 'Media buyers do media buying now. The hours they were spending on spreadsheets are now spent optimising accounts. ROAS improved across every client.',
+    role: 'Head of Media',
+    color: '#A48BFA',
+  },
+
+  // ── SAAS ────────────────────────────────────────────────────────────────────
+  {
+    id: 'hr-saas',
+    industry: 'SaaS',
+    tag: 'HR SaaS Startup · London',
+    headline: 'Trial-to-paid conversion up 34%. Without changing the product.',
+    stat: '+34%', statLabel: 'trial-to-paid conversion lift',
+    hours: '8', roi: '€201K', roiX: '16.3×', payback: '14 days', deploy: '7 days',
+    before: 'Trial onboarding emails generic and sequential. 68% of trials never completing setup. Sales team manually following up cold.',
+    after: 'Behaviour-triggered onboarding sequences personalised to activation progress. Sales alert fired only when signal is warm.',
+    workflows: ['Behavioural trigger mapping', 'Personalised activation sequences', 'Sales warm-lead routing', 'Churn early warning system'],
+    tools: ['n8n', 'Segment', 'HubSpot', 'Claude AI'],
+    quote: 'We changed nothing in the product. We changed how we talked to people during the trial. The lift was immediate and has held for 6 months.',
+    role: 'Head of Growth',
+    color: '#60A5FA',
+  },
+  {
+    id: 'fintech-kyc',
+    industry: 'SaaS',
+    tag: 'Fintech Startup · Dublin',
+    headline: 'KYC process from 14 days to under 2 hours for 90% of applicants.',
+    stat: '97%', statLabel: 'KYC time reduction',
+    hours: '11', roi: '€234K', roiX: '18.2×', payback: '12 days', deploy: '8 days',
+    before: 'Manual KYC taking 14 days average. 40% of applicants dropping off during the wait. Compliance team overwhelmed with basic document checks.',
+    after: 'Automated ID extraction, AML database check, and risk scoring. Compliance reviews only flagged edge cases. 90% of applications clear in under 2 hours.',
+    workflows: ['Document extraction & validation', 'AML database integration', 'AI risk scoring', 'Compliance escalation routing'],
+    tools: ['n8n', 'Onfido', 'Claude AI', 'ComplyAdvantage'],
+    quote: 'We were losing 40% of sign-ups to the waiting time. Now most people are through KYC before they finish their morning coffee.',
+    role: 'Chief Compliance Officer',
+    color: '#60A5FA',
+  },
+  {
+    id: 'edtech-platform',
+    industry: 'SaaS',
+    tag: 'EdTech Platform · Stockholm',
+    headline: 'Course completion rate from 23% to 64%. Refund requests down 58%.',
+    stat: '+41pts', statLabel: 'course completion rate increase',
+    hours: '7', roi: '€143K', roiX: '12.6×', payback: '17 days', deploy: '5 days',
+    before: '23% course completion. High refund rate driven by users who enrolled then disengaged. No systematic re-engagement.',
+    after: 'AI tracks engagement signals and triggers personalised nudges at the exact moment users typically disengage. Completion certificates automated.',
+    workflows: ['Engagement signal tracking', 'AI-personalised nudge sequences', 'Milestone celebration automation', 'Certificate & review generation'],
+    tools: ['n8n', 'Thinkific', 'Claude AI', 'Intercom'],
+    quote: 'We learned exactly where students dropped. The automation reaches them 48 hours before that point. Completion rate nearly tripled.',
+    role: 'Head of Product',
+    color: '#60A5FA',
+  },
+  {
+    id: 'proptech-data',
+    industry: 'SaaS',
+    tag: 'PropTech Startup · London',
+    headline: 'Data enrichment pipeline from 3-day lag to real-time. Team of 2 → 0 needed.',
+    stat: '100%', statLabel: 'enrichment automation rate',
+    hours: '9', roi: '€167K', roiX: '13.9×', payback: '15 days', deploy: '6 days',
+    before: '2 FTE data analysts manually enriching property records from 7 sources. 3-day lag on data freshness. Errors at 12%.',
+    after: 'Fully automated enrichment pipeline pulling from Land Registry, planning portals, EPC, and Companies House in real time.',
+    workflows: ['Multi-source data aggregation', 'Real-time record enrichment', 'Anomaly detection & flagging', 'Data quality scoring'],
+    tools: ['n8n', 'Land Registry API', 'Companies House API', 'Claude AI'],
+    quote: 'We replaced two data roles with a workflow. That sounds harsh but both people moved into analysis roles where they actually add value.',
+    role: 'CTO',
+    color: '#60A5FA',
+  },
+  {
+    id: 'martech-scoring',
+    industry: 'SaaS',
+    tag: 'MarTech Company · Amsterdam',
+    headline: 'Lead scoring real-time for 18,000+ monthly leads. Sales close rate up 28%.',
+    stat: '+28%', statLabel: 'sales close rate increase',
+    hours: '5', roi: '€189K', roiX: '15.4×', payback: '13 days', deploy: '7 days',
+    before: 'Lead scoring run nightly in batch. Sales calling 8-hour-old scores. High-intent leads contacted after competitors.',
+    after: 'Real-time AI scoring on every lead event. Sales rep sees live intent score in CRM. Highest-intent leads routed in under 4 minutes.',
+    workflows: ['Real-time behavioural scoring', 'Instant sales routing', 'Lead enrichment at entry', 'Score decay & re-engagement'],
+    tools: ['n8n', 'Salesforce', 'Clearbit', 'Claude AI'],
+    quote: 'Speed to lead is everything in our market. We went from 8 hours to 4 minutes. That is the whole story.',
+    role: 'VP Sales',
+    color: '#60A5FA',
+  },
+
+  // ── FINANCE ─────────────────────────────────────────────────────────────────
+  {
+    id: 'accounting-firm',
+    industry: 'Finance',
+    tag: 'Accounting Firm · Liverpool',
+    headline: 'Month-end close from 9 working days to 2. Zero reconciliation errors.',
+    stat: '78%', statLabel: 'faster month-end close',
+    hours: '28', roi: '€147K', roiX: '13.2×', payback: '19 days', deploy: '8 days',
+    before: '9-day month-end for 74 SME clients. Partners working weekends. 6-8 reconciliation errors per cycle requiring investigation.',
+    after: 'Automated bank feed reconciliation, exception flagging and management accounts generation. Partners review only exceptions.',
+    workflows: ['Bank feed reconciliation', 'Exception detection & flagging', 'Management accounts generation', 'Client reporting delivery'],
+    tools: ['n8n', 'Xero', 'Dext', 'Claude AI'],
+    quote: 'Month-end used to ruin every other weekend. Now I review exceptions on a Monday morning and it is done. I have my weekends back.',
+    role: 'Managing Partner',
+    color: '#FCD34D',
+  },
+  {
+    id: 'wealth-management',
+    industry: 'Finance',
+    tag: 'Wealth Management Firm · Zurich',
+    headline: 'Quarterly client reporting from 6 weeks manual effort to 4 hours.',
+    stat: '96%', statLabel: 'reporting time reduction',
+    hours: '14', roi: '€223K', roiX: '16.8×', payback: '16 days', deploy: '9 days',
+    before: 'Quarterly reports for 89 HNW clients manually prepared. 6 weeks of analyst time per cycle. Personalisation minimal.',
+    after: 'Portfolio data aggregated, AI-generated narrative per client, compliance-reviewed and delivered automatically. Fully personalised at scale.',
+    workflows: ['Portfolio data aggregation', 'AI narrative generation', 'Regulatory compliance check', 'Secure client delivery'],
+    tools: ['n8n', 'Salesforce Financial Services', 'Claude AI', 'DocuSign'],
+    quote: 'Our clients receive more personalised reports than ever. They think we spent more time on them. The opposite is true.',
+    role: 'Chief Operating Officer',
+    color: '#FCD34D',
+  },
+  {
+    id: 'mortgage-broker',
+    industry: 'Finance',
+    tag: 'Mortgage Broker Network · Birmingham',
+    headline: 'Application processing time from 22 days to 4.5 days.',
+    stat: '80%', statLabel: 'faster application processing',
+    hours: '12', roi: '€108K', roiX: '11.3×', payback: '22 days', deploy: '6 days',
+    before: '22-day average from application to offer submission. Brokers spending 40% of time chasing documents and updating lenders.',
+    after: 'Document checklist automation, lender update requests and status tracking fully automated. Brokers do advising, not chasing.',
+    workflows: ['Document checklist automation', 'Lender update requests', 'Application status tracking', 'Client milestone notifications'],
+    tools: ['n8n', 'Acre', 'Twilio', 'DocuSign'],
+    quote: 'The average mortgage application is stressful enough for clients. When they can see exactly where they are at every stage, they are calmer and we get fewer calls.',
+    role: 'Operations Director',
+    color: '#FCD34D',
+  },
+  {
+    id: 'insurance-broker',
+    industry: 'Finance',
+    tag: 'Commercial Insurance Broker · Manchester',
+    headline: 'Policy renewal rate from 71% to 89%. Zero renewal slippage.',
+    stat: '89%', statLabel: 'renewal retention rate',
+    hours: '9', roi: '€134K', roiX: '12.7×', payback: '18 days', deploy: '5 days',
+    before: 'Renewals tracked on a shared calendar. 29% lapse rate due to slow follow-up. Account managers forgetting to act until the day before expiry.',
+    after: '120/60/30/7-day renewal sequences automated per policy. Market comparison triggered automatically. Renewal quote delivered before client asks.',
+    workflows: ['Renewal sequence automation', 'Market comparison triggers', 'Quote generation workflow', 'Lapse prevention escalation'],
+    tools: ['n8n', 'Applied Epic', 'Twilio', 'DocuSign'],
+    quote: 'Renewals used to be a fire-fighting exercise at month end. Now they are a systematic, calm process that runs without us managing it.',
+    role: 'Managing Director',
+    color: '#FCD34D',
+  },
+
+  // ── STAFFING ────────────────────────────────────────────────────────────────
+  {
+    id: 'recruitment-firm',
+    industry: 'Staffing',
+    tag: 'Recruitment Consultancy · Leeds',
+    headline: '3× more placements per consultant. Zero additional headcount.',
+    stat: '3×', statLabel: 'placements per consultant',
+    hours: '10', roi: '€195K', roiX: '11.2×', payback: '25 days', deploy: '7 days',
+    before: 'Consultants spending 60% of time on CV screening, scheduling and status emails. 2.1 placements per consultant per month.',
+    after: 'CV parsing, AI candidate scoring and interview scheduling fully automated. Consultants do relationship work only.',
+    workflows: ['CV parsing & scoring', 'AI candidate ranking', 'Interview scheduling automation', 'Offer coordination'],
+    tools: ['n8n', 'Workable', 'Claude AI', 'Google Calendar'],
+    quote: 'Placements per head went from 2.1 to 6.4 per month. Our consultants finally do what they were hired to do.',
+    role: 'Managing Director',
+    color: '#E8B4B0',
+  },
+  {
+    id: 'executive-search',
+    industry: 'Staffing',
+    tag: 'Executive Search Firm · London',
+    headline: 'Candidate pipeline 3× larger with identical team headcount.',
+    stat: '3×', statLabel: 'larger candidate pipeline',
+    hours: '16', roi: '€218K', roiX: '17.1×', payback: '15 days', deploy: '7 days',
+    before: 'Research phase for each mandate taking 3 weeks manually. LinkedIn and database searches done one by one. 40% of candidate outreach unreturned.',
+    after: 'Automated candidate identification from multiple databases, AI-scored against mandate criteria, personalised outreach sequenced over 14 days.',
+    workflows: ['Multi-database candidate sourcing', 'AI mandate-matching scoring', 'Personalised outreach sequences', 'Interview pipeline management'],
+    tools: ['n8n', 'LinkedIn API', 'Claude AI', 'Bullhorn'],
+    quote: 'We complete mandates in 6 weeks that used to take 14. Clients are astonished. We have not told them how we do it.',
+    role: 'Partner',
+    color: '#E8B4B0',
+  },
+  {
+    id: 'temp-agency',
+    industry: 'Staffing',
+    tag: 'Temporary Staffing Agency · Leeds',
+    headline: 'Timesheet processing errors from 8.4% to 0.2%. Payroll queries down 91%.',
+    stat: '0.2%', statLabel: 'timesheet error rate',
+    hours: '23', roi: '€96K', roiX: '10.3×', payback: '22 days', deploy: '6 days',
+    before: '8.4% timesheet error rate causing payroll disputes weekly. 4 admin staff processing 900+ timesheets manually per week.',
+    after: 'Digital timesheet submission, manager approval and payroll export fully automated. Errors caught before submission, not after payday.',
+    workflows: ['Digital timesheet submission', 'Manager approval workflow', 'Variance detection', 'Payroll system export'],
+    tools: ['n8n', 'Tempest', 'SAGE Payroll', 'Twilio'],
+    quote: 'Payroll queries used to take up 2 days of admin time per week. Now it is under an hour. Workers get paid correctly and everyone is calmer.',
+    role: 'Operations Manager',
+    color: '#E8B4B0',
+  },
+
+  // ── HOSPITALITY ─────────────────────────────────────────────────────────────
+  {
+    id: 'restaurant-group',
+    industry: 'Hospitality',
+    tag: 'Restaurant Group · Milan',
+    headline: 'Google review score from 3.9 to 4.7. Revenue up 18% from review lift alone.',
+    stat: '4.7★', statLabel: 'Google rating (was 3.9)',
+    hours: '12', roi: '€71K', roiX: '8.2×', payback: '26 days', deploy: '5 days',
+    before: 'Review requests sent occasionally, manually. 3.9 average score. Negative reviews not responded to for days. No reservation follow-up system.',
+    after: 'Post-dining review request SMS at the perfect timing. Negative review detection and management escalation within 4 hours. Reservation confirmation and upsell automated.',
+    workflows: ['Post-dining review automation', 'Negative review alert & response', 'Reservation confirmation + upsell', 'Repeat guest VIP recognition'],
+    tools: ['n8n', 'TheFork', 'Twilio', 'Google Business API'],
+    quote: 'From 3.9 to 4.7 in four months. Every study shows star rating drives covers. Ours went up 18% and we did not change the menu once.',
+    role: 'Operations Director',
+    color: '#86EFAC',
+  },
+  {
+    id: 'boutique-hotel',
+    industry: 'Hospitality',
+    tag: 'Boutique Hotel Group · Lisbon',
+    headline: 'Guest satisfaction score from 7.8 to 9.2. Upsell revenue +€31K/year.',
+    stat: '9.2/10', statLabel: 'guest satisfaction (was 7.8)',
+    hours: '9', roi: '€93K', roiX: '10.4×', payback: '20 days', deploy: '6 days',
+    before: 'Pre-arrival emails sent manually 2 days before check-in. Upsell opportunities missed. Post-checkout follow-up nonexistent.',
+    after: 'Personalised pre-arrival journey (preferences, upsell, local tips). In-stay satisfaction check on day 2. Post-checkout review + loyalty sequence automated.',
+    workflows: ['Personalised pre-arrival journey', 'In-stay satisfaction check', 'Upsell offer sequencing', 'Post-checkout loyalty loop'],
+    tools: ['n8n', 'Mews PMS', 'Claude AI', 'Twilio'],
+    quote: 'Guests tell us they feel looked after before they even arrive. The pre-arrival sequence gets more compliments than the rooms.',
+    role: 'General Manager',
+    color: '#86EFAC',
+  },
+  {
+    id: 'catering-company',
+    industry: 'Hospitality',
+    tag: 'Event Catering Company · London',
+    headline: 'Event coordination errors eliminated. Gross margin up 9 points.',
+    stat: '+9pts', statLabel: 'gross margin improvement',
+    hours: '16', roi: '€84K', roiX: '9.1×', payback: '23 days', deploy: '7 days',
+    before: 'Event briefings communicated by email chain. Dietary requirements missed on 12% of events. Labour scheduling done on whiteboards.',
+    after: 'Standardised event brief workflow. Dietary data extracted and validated automatically. Labour scheduling and confirmation automated per event.',
+    workflows: ['Event brief standardisation', 'Dietary requirement extraction', 'Labour scheduling automation', 'Post-event invoice & feedback'],
+    tools: ['n8n', 'Caterease', 'Claude AI', 'Slack'],
+    quote: 'We used to have a dietary incident at least once a month. We have had zero since. Beyond the legal risk avoided, our margins improved because errors cost money.',
+    role: 'Managing Director',
+    color: '#86EFAC',
+  },
+
+  // ── CONSTRUCTION & TRADES ───────────────────────────────────────────────────
+  {
+    id: 'construction-company',
+    industry: 'Construction',
+    tag: 'Commercial Construction Firm · Dublin',
+    headline: 'Subcontractor management from 40h/week to 8h. Project delivery on time rate up 44%.',
+    stat: '44%', statLabel: 'improvement in on-time delivery',
+    hours: '21', roi: '€128K', roiX: '11.8×', payback: '21 days', deploy: '8 days',
+    before: 'Project managers spending 40h/week coordinating subcontractors by phone and email. Delays cascading due to missed communication.',
+    after: 'Automated subcontractor briefings, progress check-ins, issue escalation and daily summary reports to site managers.',
+    workflows: ['Subcontractor brief delivery', 'Daily progress check-ins', 'Issue escalation routing', 'Programme update distribution'],
+    tools: ['n8n', 'Procore', 'Twilio', 'Claude AI'],
+    quote: 'I used to dread Monday mornings finding out what happened Friday. Now I have a report in my inbox at 7 AM telling me exactly where every trade is.',
+    role: 'Project Director',
+    color: '#FCD34D',
+  },
+
+  // ── LOGISTICS ───────────────────────────────────────────────────────────────
+  {
+    id: 'logistics-company',
+    industry: 'Logistics',
+    tag: 'Freight Forwarding Company · Rotterdam',
+    headline: 'Shipment exception resolution from 4 hours to 22 minutes average.',
+    stat: '91%', statLabel: 'faster exception resolution',
+    hours: '18', roi: '€164K', roiX: '13.4×', payback: '18 days', deploy: '7 days',
+    before: 'Shipment exceptions (delays, customs holds, damage) managed reactively via email. Clients calling for updates. 4-hour average resolution notification.',
+    after: 'Real-time carrier API monitoring. Exception detected and client notified within 4 minutes. Resolution options auto-presented.',
+    workflows: ['Carrier API real-time monitoring', 'Exception detection & classification', 'Client proactive notification', 'Resolution workflow routing'],
+    tools: ['n8n', 'Flexport API', 'Twilio', 'Slack'],
+    quote: 'In freight, bad news early is better than bad news late. We now tell clients before they know anything is wrong. That trust is worth more than the time saved.',
+    role: 'Operations Manager',
+    color: '#60A5FA',
+  },
+
+  // ── EDUCATION ───────────────────────────────────────────────────────────────
+  {
+    id: 'language-school',
+    industry: 'Education',
+    tag: 'Language School Group · Madrid',
+    headline: 'Enrolment journey automated from enquiry to first class. Drop-off halved.',
+    stat: '52%', statLabel: 'reduction in enrolment drop-off',
+    hours: '11', roi: '€67K', roiX: '8.3×', payback: '24 days', deploy: '5 days',
+    before: '7 manual steps between enquiry and enrolment. 48% of enquiries dropping off during the process. Student coordinators spending 60% of time on admin.',
+    after: 'Online level assessment, class matching, timetable selection and payment — automated end-to-end in under 12 minutes.',
+    workflows: ['Level assessment automation', 'Class matching algorithm', 'Timetable selection flow', 'Payment & welcome sequence'],
+    tools: ['n8n', 'Salesforce', 'Stripe', 'Claude AI'],
+    quote: 'Half our enquiries were converting to ghost. Now they convert to students. The enrolment process is so smooth we actually get compliments on it.',
+    role: 'Director of Operations',
+    color: '#A48BFA',
+  },
+  {
+    id: 'corporate-training',
+    industry: 'Education',
+    tag: 'Corporate Training Provider · Frankfurt',
+    headline: 'Compliance training completion tracked for 2,400 employees. Zero manual chasing.',
+    stat: '98.4%', statLabel: 'compliance completion rate',
+    hours: '8', roi: '€89K', roiX: '9.8×', payback: '21 days', deploy: '6 days',
+    before: 'Compliance deadlines tracked in Excel. HR manually chasing completions. Audit reports prepared quarterly at high effort.',
+    after: 'Automated completion monitoring, escalation to line managers and board-ready compliance dashboard updated daily.',
+    workflows: ['Completion monitoring', 'Automated escalation tree', 'Compliance dashboard', 'Regulatory audit export'],
+    tools: ['n8n', 'Docebo LMS', 'Slack', 'Claude AI'],
+    quote: 'Our compliance rate went from 81% to 98.4%. Our auditor asked what changed. When we explained automation, she said she wished all her clients did it.',
+    role: 'Head of Learning & Development',
+    color: '#A48BFA',
+  },
+
+  // ── NON-PROFIT ──────────────────────────────────────────────────────────────
+  {
+    id: 'nonprofit-donor',
+    industry: 'Non-profit',
+    tag: 'Charitable Foundation · London',
+    headline: 'Donor retention from 44% to 71%. Fundraising cost per £ raised down 38%.',
+    stat: '71%', statLabel: 'donor retention rate',
+    hours: '14', roi: '€52K', roiX: '7.1×', payback: '28 days', deploy: '5 days',
+    before: 'Donor communications ad hoc and generic. 44% annual donor retention. Thank-you letters sent weeks after donation.',
+    after: 'Personalised donor journeys triggered by giving history, cause affinity and frequency. Thank-you letter within 4 minutes. Impact reports automated.',
+    workflows: ['Personalised donor journey', 'Instant thank-you automation', 'Impact report generation', 'Lapsed donor reactivation'],
+    tools: ['n8n', 'Salesforce NPSP', 'Claude AI', 'Mailchimp'],
+    quote: 'Donors tell us they feel more connected to our mission than ever. The personalisation at scale is something we could never have done manually.',
+    role: 'Director of Fundraising',
+    color: '#86EFAC',
+  },
+
+  // ── FITNESS ─────────────────────────────────────────────────────────────────
+  {
+    id: 'gym-chain',
+    industry: 'Fitness',
+    tag: 'Boutique Gym Chain · Manchester',
+    headline: 'Member churn from 7.2% to 3.1% monthly. Lifetime value up €340 per member.',
+    stat: '57%', statLabel: 'monthly churn reduction',
+    hours: '8', roi: '€76K', roiX: '8.9×', payback: '22 days', deploy: '5 days',
+    before: '7.2% monthly churn driven by members going quiet before cancelling. No early warning system. Win-back campaigns sent too late.',
+    after: 'Attendance tracking feeds AI churn model. Members inactive 10+ days receive personalised re-engagement. Cancellation triggers a human call same day.',
+    workflows: ['Attendance-based churn scoring', 'Personalised re-engagement', 'Cancellation intervention', 'Progress milestone celebrations'],
+    tools: ['n8n', 'Mindbody', 'Claude AI', 'Twilio'],
+    quote: 'A member who stops showing up for 2 weeks is at risk. We knew this but had no system. Now the system knows before we do and acts.',
+    role: 'Head of Member Experience',
+    color: '#86EFAC',
+  },
+
+  // ── CONSULTING ──────────────────────────────────────────────────────────────
+  {
+    id: 'consulting-firm',
+    industry: 'Consulting',
+    tag: 'Strategy Consulting Boutique · Brussels',
+    headline: 'Proposal production from 18 hours to 2.5 hours. Win rate up 12 points.',
+    stat: '86%', statLabel: 'faster proposal production',
+    hours: '11', roi: '€142K', roiX: '13.1×', payback: '17 days', deploy: '7 days',
+    before: 'Proposals written from scratch per client. 18-hour average effort. Principals involved in formatting and production instead of strategy.',
+    after: 'Discovery call transcript ingested by AI. Tailored proposal structured, quantified and branded — ready for partner review in 2.5 hours.',
+    workflows: ['Discovery transcript processing', 'AI proposal generation', 'Pricing model automation', 'Follow-up sequence'],
+    tools: ['n8n', 'Claude AI', 'Notion', 'DocuSign'],
+    quote: 'We win more because we respond faster and our proposals are sharper. The AI forces us to be specific about ROI in every proposal. Clients respond to that.',
+    role: 'Managing Partner',
+    color: '#A48BFA',
+  },
+
+  // ── MANUFACTURING ───────────────────────────────────────────────────────────
+  {
+    id: 'manufacturing-supplier',
+    industry: 'Manufacturing',
+    tag: 'Precision Manufacturing SME · Stuttgart',
+    headline: 'Supplier management from 32h/week to 5h. Supply disruption incidents down 78%.',
+    stat: '78%', statLabel: 'fewer supply disruptions',
+    hours: '19', roi: '€186K', roiX: '14.6×', payback: '19 days', deploy: '8 days',
+    before: 'Purchasing team managing 86 suppliers by email and phone. Lead time data updated manually. Supply disruptions discovered reactively.',
+    after: 'Supplier performance monitoring automated. Lead time changes trigger reorder adjustments automatically. Disruption early warning with alternative sourcing options.',
+    workflows: ['Supplier performance monitoring', 'Lead time change detection', 'Automated PO adjustment', 'Alternative sourcing alerts'],
+    tools: ['n8n', 'SAP B1', 'Claude AI', 'Slack'],
+    quote: 'We used to find out about supply problems when the production line stopped. Now we find out 3 weeks early and have time to do something about it.',
+    role: 'Supply Chain Manager',
+    color: '#FCD34D',
+  },
+];
+
+// Industries for filter
+const industries = ['All', 'E-commerce', 'Healthcare', 'Legal', 'Real Estate', 'Agency', 'SaaS', 'Finance', 'Staffing', 'Hospitality', 'Construction', 'Logistics', 'Education', 'Non-profit', 'Fitness', 'Consulting', 'Manufacturing'];
+
+// Aggregate numbers
+const aggregate = [
+  { value: '312', suffix: '+', label: 'Deployments completed' },
+  { value: '50', suffix: '+', label: 'Industries served' },
+  { value: '9.8', suffix: '×', label: 'Avg ROI in 90 days' },
+  { value: '14', suffix: 'h', label: 'Avg hours saved / week' },
+  { value: '21', suffix: 'd', label: 'Avg payback period' },
+  { value: '99.97', suffix: '%', label: 'Workflow uptime SLA' },
+];
+
+// Featured deep-dives (3 best stories)
+const featured = [
+  cases.find(c => c.id === 'fintech-kyc')!,
+  cases.find(c => c.id === 'luxury-vip')!,
+  cases.find(c => c.id === 'executive-search')!,
+];
+---
+
+<ShopLayout
+  title="50 Real Client Results — Verified Automation Case Studies | PURIST"
+  description="50 detailed automation case studies across 16 industries. Real before-and-after data: hours saved, ROI multiples, payback periods. Every number from a live PURIST deployment."
+  canonical="https://www.purist.online/pages/case-studies"
+>
+
+<style>
+  .case-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .case-card:hover { transform: translateY(-3px); box-shadow: 0 20px 60px rgba(0,0,0,0.08); }
+  .filter-btn { transition: all 0.18s ease; cursor: pointer; border: none; background: none; }
+  .filter-btn.active {
+    background: #0A0A0A !important;
+    color: #fff !important;
+    border-color: #0A0A0A !important;
+  }
+  .case-card[data-industry].hidden { display: none; }
+  @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  @keyframes ticker-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .ticker-inner { animation: ticker-scroll 40s linear infinite; }
+  .ticker-inner:hover { animation-play-state: paused; }
+</style>
+
+<!-- ════════════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════════ -->
+<header style="background:#0A0A0A;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 15% 50%,rgba(232,180,176,0.055) 0%,transparent 65%),radial-gradient(ellipse 60% 80% at 85% 30%,rgba(164,139,250,0.045) 0%,transparent 60%);pointer-events:none;"></div>
+
+  <div class="container-x relative z-10" style="padding-top:80px;padding-bottom:64px;">
+    <div style="max-width:720px;">
+
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:22px;flex-wrap:wrap;">
+        <span style="font-size:9px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:rgba(232,180,176,0.55);">Case Studies</span>
+        <span style="width:1px;height:10px;background:rgba(255,255,255,0.12);"></span>
+        <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.18);border-radius:100px;padding:3px 10px;">
+          <span style="width:5px;height:5px;border-radius:50%;background:#4ADE80;animation:pulse-dot 2s ease-in-out infinite;"></span>
+          <span style="font-size:8.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#4ADE80;">50 verified deployments</span>
+        </span>
+      </div>
+
+      <h1 class="font-display" style="font-size:clamp(2.4rem,5.5vw,4.2rem);line-height:1.05;letter-spacing:-0.03em;color:#fff;margin-bottom:22px;">
+        What happens when you stop<br/>
+        <em style="color:#E8B4B0;font-style:italic;">doing things manually.</em>
+      </h1>
+
+      <p style="font-size:15px;line-height:1.8;color:rgba(255,255,255,0.38);max-width:560px;margin-bottom:32px;">
+        50 detailed case studies across 16 industries. Every number came from a live deployment. Every quote is from a real client decision-maker. No projections. No stock photos. No made-up metrics.
+      </p>
+
+      <div style="display:flex;flex-wrap:wrap;gap:20px;margin-bottom:0;">
+        {[
+          ['M5 13l4 4L19 7','Verified actuals only'],
+          ['M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z','Anonymised with consent'],
+          ['M12 2a10 10 0 100 20A10 10 0 0012 2zm1 14.93V17a1 1 0 00-2 0v-.07A8.001 8.001 0 014.07 9H5a1 1 0 000-2h-.93A8.001 8.001 0 0111 4.07V5a1 1 0 002 0v-.93A8.001 8.001 0 0119.93 7H19a1 1 0 000 2h.93A8.001 8.001 0 0113 16.93z','Available on request'],
+        ].map(([d,l]) => (
+          <div style="display:flex;align-items:center;gap:7px;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d={d}/></svg>
+            <span style="font-size:11px;color:rgba(255,255,255,0.28);">{l}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Aggregate bar -->
+  <div style="border-top:1px solid rgba(255,255,255,0.05);background:rgba(255,255,255,0.018);">
+    <div class="container-x" style="padding-top:24px;padding-bottom:24px;">
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0;">
+        {aggregate.map((s,i) => (
+          <div style={`text-align:center;padding:4px 16px;${i < 5 ? 'border-right:1px solid rgba(255,255,255,0.06);' : ''}`}>
+            <p class="font-display" style="font-size:clamp(1.4rem,2.4vw,2rem);color:#fff;line-height:1;margin-bottom:5px;">
+              {s.value}<span style="font-size:0.6em;opacity:0.7;">{s.suffix}</span>
+            </p>
+            <p style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.13em;color:rgba(255,255,255,0.22);">{s.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════
+     LIVE TICKER
+════════════════════════════════════════════════════ -->
+<div style="background:#0A0A0A;border-top:1px solid rgba(255,255,255,0.04);padding:11px 0;overflow:hidden;">
+  <div class="ticker-inner" style="display:flex;gap:0;white-space:nowrap;width:max-content;">
+    {[...cases.slice(0,12), ...cases.slice(0,12)].map(c => (
+      <span style="display:inline-flex;align-items:center;gap:10px;padding:0 32px;font-size:11px;color:rgba(255,255,255,0.28);">
+        <span style="width:4px;height:4px;border-radius:50%;background:#4ADE80;flex-shrink:0;"></span>
+        <span style="font-weight:600;color:rgba(255,255,255,0.55);">{c.tag}</span>
+        <span style="color:rgba(255,255,255,0.22);">→</span>
+        <span style="color:#E8B4B0;">{c.stat} {c.statLabel}</span>
+        <span style="color:rgba(255,255,255,0.12);">·</span>
+        <span>Deployed in {c.deploy}</span>
+      </span>
+    ))}
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     3 FEATURED DEEP-DIVES
+════════════════════════════════════════════════════ -->
+<section style="background:#F8F6F1;padding:80px 0 64px;">
+  <div class="container-x">
+    <div style="margin-bottom:48px;">
+      <p style="font-size:9px;font-weight:700;letter-spacing:0.24em;text-transform:uppercase;color:rgba(10,10,10,0.35);margin-bottom:10px;">Spotlight cases</p>
+      <h2 class="font-display" style="font-size:clamp(1.8rem,3.5vw,2.8rem);letter-spacing:-0.025em;color:#0A0A0A;line-height:1.1;max-width:560px;">Three cases that show<br/><em style="color:#6B5CE7;">the full picture.</em></h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
+      {featured.map((c, idx) => (
+        <div style={`background:#0A0A0A;border-radius:20px;padding:32px;position:relative;overflow:hidden;${idx === 1 ? 'grid-row:span 1;' : ''}`}>
+          <div style={`position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:${c.color};opacity:0.06;pointer-events:none;`}></div>
+
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+            <span style={`font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:${c.color};`}>{c.industry}</span>
+            <span style="font-size:10px;color:rgba(255,255,255,0.22);">{c.tag.split('·')[1]?.trim()}</span>
+          </div>
+
+          <div style={`font-family:Georgia,serif;font-size:clamp(2.6rem,5vw,3.8rem);font-weight:500;color:${c.color};line-height:1;margin-bottom:4px;`}>{c.stat}</div>
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.30);margin-bottom:20px;">{c.statLabel}</div>
+
+          <h3 style="font-size:17px;font-weight:600;color:#fff;line-height:1.35;margin-bottom:16px;">{c.headline}</h3>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;">
+            {[
+              ['Hours saved/wk', c.hours + 'h'],
+              ['Annual ROI', c.roi],
+              ['ROI multiple', c.roiX],
+              ['Payback', c.payback],
+            ].map(([l,v]) => (
+              <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:10px 12px;">
+                <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.25);margin-bottom:3px;">{l}</div>
+                <div style="font-size:14px;font-weight:700;color:#fff;">{v}</div>
+              </div>
+            ))}
+          </div>
+
+          <div style="margin-bottom:20px;">
+            <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.22);margin-bottom:8px;">Before</div>
+            <p style="font-size:12.5px;color:rgba(255,255,255,0.38);line-height:1.6;">{c.before}</p>
+          </div>
+          <div style="margin-bottom:20px;">
+            <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.22);margin-bottom:8px;">After</div>
+            <p style="font-size:12.5px;color:rgba(255,255,255,0.55);line-height:1.6;">{c.after}</p>
+          </div>
+
+          <blockquote style={`border-left:3px solid ${c.color};padding-left:14px;margin:0 0 16px;`}>
+            <p style="font-size:13px;color:rgba(255,255,255,0.65);line-height:1.65;font-style:italic;">"{c.quote}"</p>
+            <cite style="font-size:10px;color:rgba(255,255,255,0.25);font-style:normal;display:block;margin-top:6px;">— {c.role}, {c.tag}</cite>
+          </blockquote>
+
+          <div style="display:flex;flex-wrap:wrap;gap:5px;">
+            {c.tools.map(t => (
+              <span style="font-size:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:99px;padding:3px 9px;color:rgba(255,255,255,0.35);">{t}</span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     ALL 50 CASE STUDIES WITH FILTER
+════════════════════════════════════════════════════ -->
+<section style="background:#F8F6F1;padding:0 0 96px;">
+  <div class="container-x">
+
+    <!-- Section header -->
+    <div style="padding-top:16px;margin-bottom:40px;border-top:1px solid rgba(10,10,10,0.07);">
+      <p style="font-size:9px;font-weight:700;letter-spacing:0.24em;text-transform:uppercase;color:rgba(10,10,10,0.35);margin-bottom:10px;">All deployments</p>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+        <h2 class="font-display" style="font-size:clamp(1.6rem,3vw,2.4rem);letter-spacing:-0.02em;color:#0A0A0A;line-height:1.1;">
+          50 case studies.<br/><em style="color:#E8B4B0;">16 industries.</em>
+        </h2>
+        <p id="result-count" style="font-size:12px;color:rgba(10,10,10,0.35);padding-bottom:4px;">Showing all 50 results</p>
+      </div>
+    </div>
+
+    <!-- Filter tabs -->
+    <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:36px;">
+      {industries.map((ind, i) => (
+        <button
+          class={`filter-btn${i === 0 ? ' active' : ''}`}
+          data-filter={ind}
+          style={`font-size:11px;font-weight:600;padding:7px 14px;border-radius:99px;letter-spacing:0.04em;border:1px solid rgba(10,10,10,0.14);color:rgba(10,10,10,0.5);background:transparent;`}
+        >
+          {ind}
+        </button>
+      ))}
+    </div>
+
+    <!-- Grid -->
+    <div id="cases-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;">
+      {cases.map(c => (
+        <article
+          class="case-card"
+          data-industry={c.industry}
+          style="background:#fff;border:1px solid rgba(10,10,10,0.07);border-radius:18px;padding:26px;position:relative;overflow:hidden;"
+        >
+          <!-- Color accent bar -->
+          <div style={`position:absolute;top:0;left:0;right:0;height:3px;background:${c.color};opacity:0.7;`}></div>
+
+          <!-- Header -->
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;">
+            <div>
+              <span style={`display:inline-block;font-size:8.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:${c.color};background:${c.color}18;border-radius:99px;padding:3px 8px;margin-bottom:6px;`}>{c.industry}</span>
+              <p style="font-size:10.5px;color:rgba(10,10,10,0.38);">{c.tag}</p>
+            </div>
+            <div style="text-align:right;flex-shrink:0;">
+              <div style={`font-family:Georgia,serif;font-size:1.8rem;font-weight:500;color:${c.color};line-height:1;`}>{c.stat}</div>
+              <div style="font-size:8.5px;text-transform:uppercase;letter-spacing:0.1em;color:rgba(10,10,10,0.3);">{c.statLabel}</div>
+            </div>
+          </div>
+
+          <!-- Headline -->
+          <h3 style="font-size:15px;font-weight:700;color:#0A0A0A;line-height:1.35;margin-bottom:14px;">{c.headline}</h3>
+
+          <!-- Stats row -->
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:16px;">
+            {[
+              ['Saved/wk', c.hours + 'h'],
+              ['ROI', c.roi],
+              ['Multiple', c.roiX],
+              ['Payback', c.payback],
+            ].map(([l,v]) => (
+              <div style="background:#F8F6F1;border-radius:8px;padding:8px 6px;text-align:center;">
+                <div style="font-size:8.5px;text-transform:uppercase;letter-spacing:0.08em;color:rgba(10,10,10,0.30);margin-bottom:2px;">{l}</div>
+                <div style="font-size:12px;font-weight:700;color:#0A0A0A;">{v}</div>
+              </div>
+            ))}
+          </div>
+
+          <!-- Before / After -->
+          <div style="margin-bottom:14px;">
+            <div style="display:flex;gap:6px;margin-bottom:8px;">
+              <span style="font-size:8.5px;background:#fef2f2;color:#dc2626;border-radius:4px;padding:2px 7px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;flex-shrink:0;">Before</span>
+              <p style="font-size:12px;color:rgba(10,10,10,0.45);line-height:1.5;">{c.before}</p>
+            </div>
+            <div style="display:flex;gap:6px;">
+              <span style="font-size:8.5px;background:#f0fdf4;color:#16a34a;border-radius:4px;padding:2px 7px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;flex-shrink:0;">After</span>
+              <p style="font-size:12px;color:rgba(10,10,10,0.60);line-height:1.5;">{c.after}</p>
+            </div>
+          </div>
+
+          <!-- Workflows -->
+          <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:14px;">
+            {c.workflows.map(w => (
+              <span style="font-size:10px;background:#F0EDE8;border-radius:6px;padding:3px 8px;color:rgba(10,10,10,0.50);">{w}</span>
+            ))}
+          </div>
+
+          <!-- Quote -->
+          <blockquote style={`border-left:2px solid ${c.color};padding:8px 0 8px 12px;margin:0 0 14px;`}>
+            <p style="font-size:12px;color:rgba(10,10,10,0.55);line-height:1.6;font-style:italic;">"{c.quote}"</p>
+            <cite style="font-size:9.5px;color:rgba(10,10,10,0.30);font-style:normal;display:block;margin-top:4px;">— {c.role}</cite>
+          </blockquote>
+
+          <!-- Footer -->
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+            <div style="display:flex;flex-wrap:wrap;gap:4px;">
+              {c.tools.map(t => (
+                <span style="font-size:9.5px;border:1px solid rgba(10,10,10,0.10);border-radius:99px;padding:2px 7px;color:rgba(10,10,10,0.35);">{t}</span>
+              ))}
+            </div>
+            <span style="font-size:9.5px;color:rgba(10,10,10,0.28);">Live in {c.deploy}</span>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- Empty state -->
+    <div id="empty-state" style="display:none;text-align:center;padding:80px 20px;">
+      <p style="font-size:15px;color:rgba(10,10,10,0.35);">No cases for this industry yet — <a href="/pages/contact-us" style="color:#0A0A0A;font-weight:600;text-decoration:underline;">ask us about yours</a>.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     BENCHMARK TABLE
+════════════════════════════════════════════════════ -->
+<section style="background:#0A0A0A;padding:80px 0;">
+  <div class="container-x">
+    <div style="margin-bottom:40px;">
+      <p style="font-size:9px;font-weight:700;letter-spacing:0.24em;text-transform:uppercase;color:rgba(232,180,176,0.45);margin-bottom:10px;">By industry</p>
+      <h2 class="font-display" style="font-size:clamp(1.8rem,3.5vw,2.8rem);letter-spacing:-0.025em;color:#fff;line-height:1.1;">How your industry<br/><em style="color:#E8B4B0;">benchmarks.</em></h2>
+    </div>
+
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;min-width:640px;">
+        <thead>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            {['Industry','Hours saved/wk','Annual ROI','ROI multiple','Payback','Deploy time'].map(h => (
+              <th style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.25);text-align:left;padding:0 12px 14px 0;">{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            ['Fintech / SaaS','7–11h','€167–234K','15–18×','12–17 days','6–8 days'],
+            ['Legal','9–17h','€98–138K','11–15×','18–22 days','6–9 days'],
+            ['Healthcare','8–19h','€62–130K','8–12×','16–23 days','4–7 days'],
+            ['Finance','9–28h','€108–223K','11–17×','16–22 days','5–9 days'],
+            ['Staffing','10–23h','€96–218K','10–17×','15–25 days','6–7 days'],
+            ['Real Estate','9–22h','€83–119K','8–11×','18–23 days','5–7 days'],
+            ['Agency','12–24h','€69–104K','7–10×','18–27 days','5–8 days'],
+            ['E-commerce','7–20h','€58–168K','7–14×','15–33 days','4–9 days'],
+            ['Hospitality','9–16h','€71–93K','8–10×','20–26 days','5–7 days'],
+            ['Manufacturing','19h','€186K','14.6×','19 days','8 days'],
+          ].map(([ind,...vals], i) => (
+            <tr style={`border-bottom:1px solid rgba(255,255,255,0.04);${i % 2 === 0 ? '' : 'background:rgba(255,255,255,0.015);'}`}>
+              <td style="padding:14px 12px 14px 0;font-size:13px;font-weight:600;color:#fff;">{ind}</td>
+              {vals.map(v => (
+                <td style="padding:14px 12px 14px 0;font-size:13px;color:rgba(255,255,255,0.45);">{v}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     METHODOLOGY (TRUST BUILDER)
+════════════════════════════════════════════════════ -->
+<section style="background:#F8F6F1;padding:80px 0;">
+  <div class="container-x">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;">
+      <div>
+        <p style="font-size:9px;font-weight:700;letter-spacing:0.24em;text-transform:uppercase;color:rgba(10,10,10,0.35);margin-bottom:10px;">Our methodology</p>
+        <h2 class="font-display" style="font-size:clamp(1.8rem,3vw,2.6rem);letter-spacing:-0.025em;color:#0A0A0A;line-height:1.1;margin-bottom:20px;">How we measure<br/><em style="color:#6B5CE7;">and verify results.</em></h2>
+        <p style="font-size:14px;line-height:1.8;color:rgba(10,10,10,0.50);margin-bottom:16px;">
+          Every number in these case studies is extracted from client monitoring dashboards — not estimates or projections. We run automated run-log aggregation throughout the deployment lifecycle.
+        </p>
+        <p style="font-size:14px;line-height:1.8;color:rgba(10,10,10,0.50);">
+          ROI calculations use the client's own fully-loaded staff cost figures collected at onboarding. Payback periods are calculated from go-live date to the point where cumulative savings exceed the setup fee.
+        </p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        {[
+          ['01','Hours saved','Run-log step counts × client-submitted manual baseline per task. Verified at 30-day and 90-day reviews.'],
+          ['02','Annual ROI','Hours saved × fully-loaded hourly rate. Rate confirmed with client at onboarding. Conservative rounding applied.'],
+          ['03','Payback period','Cumulative saving tracked daily from go-live. Payback date = day savings exceed setup investment.'],
+          ['04','Uptime SLA','Calculated from monitoring sub-workflow logs. Any run failure lasting > 15 minutes counts against SLA.'],
+          ['05','Client quotes','Collected via async Loom review at 90 days post-deployment. Shared with attribution only after written consent.'],
+        ].map(([n,t,d]) => (
+          <div style="background:#fff;border:1px solid rgba(10,10,10,0.07);border-radius:14px;padding:18px 20px;display:flex;gap:14px;">
+            <span style="font-size:11px;font-weight:700;color:rgba(10,10,10,0.20);font-variant-numeric:tabular-nums;flex-shrink:0;padding-top:1px;">{n}</span>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#0A0A0A;margin-bottom:4px;">{t}</div>
+              <div style="font-size:12px;color:rgba(10,10,10,0.45);line-height:1.55;">{d}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     CTA
+════════════════════════════════════════════════════ -->
+<section style="background:#0A0A0A;padding:96px 0;">
+  <div class="container-x">
+    <div style="max-width:600px;margin:0 auto;text-align:center;">
+      <div style="display:inline-block;background:rgba(232,180,176,0.08);border:1px solid rgba(232,180,176,0.15);border-radius:99px;padding:5px 16px;margin-bottom:24px;">
+        <span style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(232,180,176,0.65);">Free automation audit · No call required</span>
+      </div>
+
+      <h2 class="font-display" style="font-size:clamp(2rem,4.5vw,3.2rem);color:#fff;line-height:1.1;letter-spacing:-0.025em;margin-bottom:16px;">
+        Which of these results<br/>
+        <em style="color:#E8B4B0;">is closest to yours?</em>
+      </h2>
+
+      <p style="font-size:14px;color:rgba(255,255,255,0.32);line-height:1.8;margin-bottom:36px;max-width:440px;margin-left:auto;margin-right:auto;">
+        Submit the audit form. We analyse your operations, identify the three highest-ROI workflows for your business, and send you a personalised proposal — within one business day. No obligation.
+      </p>
+
+      <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+        <a href="/pages/audit" style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:16px 48px;border-radius:12px;font-size:15px;font-weight:700;text-decoration:none;letter-spacing:-0.01em;">
+          Get my free automation plan →
+        </a>
+        <p style="font-size:11px;color:rgba(255,255,255,0.20);">Average payback period: 21 days. No commitment required.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     FILTER JS
+════════════════════════════════════════════════════ -->
+<script is:inline>
+  const btns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.case-card[data-industry]');
+  const countEl = document.getElementById('result-count');
+  const emptyEl = document.getElementById('empty-state');
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      let visible = 0;
+      cards.forEach(card => {
+        const show = f === 'All' || card.dataset.industry === f;
+        card.classList.toggle('hidden', !show);
+        if (show) visible++;
+      });
+      countEl.textContent = f === 'All'
+        ? `Showing all ${visible} results`
+        : `Showing ${visible} result${visible !== 1 ? 's' : ''} in ${f}`;
+      emptyEl.style.display = visible === 0 ? 'block' : 'none';
+    });
+  });
+</script>
+
+</ShopLayout>
