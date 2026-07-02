@@ -817,42 +817,36 @@ const featured = [
 <style>
   @keyframes card-up { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
 
-  /* Flip container */
+  /* ── Flip card ── */
   .flip-wrap {
     perspective: 1100px;
-    cursor: pointer;
-    height: 520px;
+    cursor: default;
+    height: 560px;
     animation: card-up 0.38s ease both;
   }
   .flip-wrap[data-industry].hidden { display: none; }
   .flip-inner {
     position: relative; width: 100%; height: 100%;
     transform-style: preserve-3d;
-    transition: transform 0.65s cubic-bezier(0.4,0,0.2,1);
+    transition: transform 0.60s cubic-bezier(0.4,0,0.2,1);
+    will-change: transform;
   }
+  /* Only the hovered card flips — direct child selector */
   @media (hover: hover) {
-    .flip-wrap:hover .flip-inner { transform: rotateY(180deg); }
+    .flip-wrap:hover > .flip-inner { transform: rotateY(180deg); }
   }
-  .flip-wrap.is-flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-wrap.is-flipped > .flip-inner { transform: rotateY(180deg); }
   .flip-front, .flip-back {
     position: absolute; inset: 0;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     border-radius: 18px;
-    overflow: hidden;
-  }
-  .flip-back {
-    transform: rotateY(180deg);
     overflow-y: auto;
     overflow-x: hidden;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255,255,255,0.12) transparent;
   }
+  .flip-back { transform: rotateY(180deg); scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.10) transparent; }
   .flip-back::-webkit-scrollbar { width: 3px; }
-  .flip-back::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 99px; }
-
-  /* Legacy alias so filter JS still works */
-  .case-card { display: contents; }
+  .flip-back::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.10); border-radius: 99px; }
 
   .filter-btn { transition: all 0.18s ease; cursor: pointer; border: none; background: none; }
   .filter-btn.active {
@@ -1051,121 +1045,132 @@ const featured = [
           class="flip-wrap"
           data-industry={c.industry}
           style={`animation-delay:${Math.min(idx * 0.035, 0.5)}s;`}
-          aria-label={`${c.headline} — hover or tap for full case`}
         >
           <div class="flip-inner">
 
-            {/* ── FRONT ─────────────────────────────── */}
-            <div class="flip-front" style="background:#fff;border:1px solid rgba(10,10,10,0.07);display:flex;flex-direction:column;">
-              <div style={`height:2px;background:linear-gradient(90deg,${c.color},${c.color}44);flex-shrink:0;`}></div>
-              <div style="padding:20px;display:flex;flex-direction:column;flex:1;min-height:0;">
+            {/* ══ FRONT — full content ══════════════════ */}
+            <div class="flip-front" style="background:#fff;border:1px solid rgba(10,10,10,0.07);padding:0;">
+              <div style={`height:2px;background:linear-gradient(90deg,${c.color},${c.color}44);`}></div>
+              <div style="padding:20px 20px 18px;">
 
                 {/* Industry + deploy */}
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
                   <span style={`font-size:7.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:${c.color};background:${c.color}14;border-radius:99px;padding:3px 9px;`}>{c.industry}</span>
-                  <span style="font-size:8.5px;color:rgba(10,10,10,0.26);display:flex;align-items:center;gap:3px;">
+                  <span style="font-size:8.5px;color:rgba(10,10,10,0.24);display:flex;align-items:center;gap:3px;">
                     <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
                     {c.deploy}
                   </span>
                 </div>
 
                 {/* Location */}
-                <p style="font-size:9.5px;color:rgba(10,10,10,0.28);margin-bottom:11px;">{c.tag}</p>
+                <p style="font-size:9.5px;color:rgba(10,10,10,0.28);margin-bottom:10px;">{c.tag}</p>
 
                 {/* Headline */}
-                <h3 style="font-size:14px;font-weight:600;color:#0A0A0A;line-height:1.42;margin-bottom:0;letter-spacing:-0.01em;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">{c.headline}</h3>
+                <h3 style="font-size:14px;font-weight:600;color:#0A0A0A;line-height:1.42;margin-bottom:12px;letter-spacing:-0.01em;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">{c.headline}</h3>
 
-                <div style="flex:1;min-height:14px;"></div>
-
-                {/* Big stat */}
-                <div style={`display:inline-flex;align-items:baseline;gap:6px;background:${c.color}11;border-radius:10px;padding:8px 12px;margin-bottom:12px;align-self:flex-start;`}>
-                  <span style={`font-size:1.55rem;font-weight:700;color:${c.color};line-height:1;letter-spacing:-0.02em;`}>{c.stat}</span>
-                  <span style="font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:0.09em;color:rgba(10,10,10,0.36);">{c.statLabel}</span>
+                {/* Big stat — display font */}
+                <div style={`display:flex;align-items:baseline;gap:7px;margin-bottom:12px;`}>
+                  <span class="font-display" style={`font-size:2rem;color:${c.color};line-height:1;letter-spacing:-0.02em;`}>{c.stat}</span>
+                  <span style="font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:0.10em;color:rgba(10,10,10,0.34);">{c.statLabel}</span>
                 </div>
 
                 {/* 4-metric grid */}
                 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:14px;">
-                  {[
-                    ['Hours saved', c.hours + 'h'],
-                    ['Annual ROI', c.roi],
-                    ['Multiple', c.roiX],
-                    ['Payback', c.payback],
-                  ].map(([l, v]) => (
+                  {[['Hours saved',c.hours+'h'],['Annual ROI',c.roi],['Multiple',c.roiX],['Payback',c.payback]].map(([l,v]) => (
                     <div style="background:#F8F6F1;border-radius:8px;padding:7px 4px;text-align:center;">
-                      <div style="font-size:7.5px;text-transform:uppercase;letter-spacing:0.07em;color:rgba(10,10,10,0.28);margin-bottom:2px;line-height:1.2;">{l}</div>
+                      <div style="font-size:7px;text-transform:uppercase;letter-spacing:0.06em;color:rgba(10,10,10,0.28);margin-bottom:2px;line-height:1.2;">{l}</div>
                       <div style="font-size:11.5px;font-weight:700;color:#0A0A0A;">{v}</div>
                     </div>
                   ))}
                 </div>
 
-                {/* Flip hint */}
-                <div style={`display:flex;align-items:center;justify-content:center;gap:5px;padding:7px 10px;border-radius:8px;border:1px solid ${c.color}20;background:${c.color}07;`}>
-                  <span style={`font-size:9px;font-weight:600;color:${c.color};opacity:0.75;`}>See full case study</span>
-                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke={c.color} stroke-width="2.5" stroke-linecap="round" style="opacity:0.75;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                {/* Before / After */}
+                <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:13px;">
+                  <div style="border-left:2px solid #fca5a5;padding:7px 10px;background:#fef2f2;border-radius:0 6px 6px 0;">
+                    <span style="font-size:7px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#dc2626;display:block;margin-bottom:3px;">Before</span>
+                    <p style="font-size:11px;color:rgba(10,10,10,0.50);line-height:1.55;margin:0;">{c.before}</p>
+                  </div>
+                  <div style="border-left:2px solid #86efac;padding:7px 10px;background:#f0fdf4;border-radius:0 6px 6px 0;">
+                    <span style="font-size:7px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#16a34a;display:block;margin-bottom:3px;">After</span>
+                    <p style="font-size:11px;color:rgba(10,10,10,0.58);line-height:1.55;margin:0;">{c.after}</p>
+                  </div>
                 </div>
+
+                {/* Workflow tags */}
+                <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px;">
+                  {c.workflows.map(w => (
+                    <span style={`font-size:9.5px;background:${c.color}0e;border:1px solid ${c.color}22;border-radius:6px;padding:3px 8px;color:rgba(10,10,10,0.50);`}>{w}</span>
+                  ))}
+                </div>
+
+                {/* Quote preview */}
+                <blockquote style={`border-left:2px solid ${c.color};padding:7px 0 7px 11px;margin:0;`}>
+                  <p style="font-size:11px;color:rgba(10,10,10,0.48);line-height:1.6;font-style:italic;">"{c.quote}"</p>
+                  <cite style="font-size:8.5px;color:rgba(10,10,10,0.26);font-style:normal;display:block;margin-top:4px;">{c.role} · {c.tag.split('·')[1]?.trim() ?? c.tag}</cite>
+                </blockquote>
 
               </div>
             </div>
 
-            {/* ── BACK ──────────────────────────────── */}
-            <div class="flip-back" style="background:#0A0A0A;border:1px solid rgba(255,255,255,0.07);">
+            {/* ══ BACK — dark detailed view ════════════ */}
+            <div class="flip-back" style="background:#0A0A0A;border:1px solid rgba(255,255,255,0.07);padding:0;">
               <div style={`height:2px;background:linear-gradient(90deg,${c.color},${c.color}44);`}></div>
-              <div style="padding:20px;">
+              <div style="padding:20px 20px 18px;">
 
                 {/* Header */}
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
                   <span style={`font-size:7.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:${c.color};`}>{c.industry}</span>
-                  <span style="font-size:9px;color:rgba(255,255,255,0.22);">{c.tag}</span>
+                  <span style={`font-size:11px;font-weight:700;color:${c.color};`}>{c.roiX} ROI</span>
                 </div>
+                <p style="font-size:9px;color:rgba(255,255,255,0.22);margin-bottom:12px;">{c.tag}</p>
                 <div style="height:1px;background:rgba(255,255,255,0.05);margin-bottom:14px;"></div>
+
+                {/* Headline repeat */}
+                <p style="font-size:13.5px;font-weight:600;color:#fff;line-height:1.4;margin-bottom:14px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">{c.headline}</p>
 
                 {/* Challenge */}
                 <div style="margin-bottom:11px;">
-                  <p style="font-size:7.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(220,100,100,0.55);margin-bottom:5px;">The Challenge</p>
+                  <p style="font-size:7.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(220,100,100,0.55);margin-bottom:4px;">The Challenge</p>
                   <p style="font-size:11.5px;line-height:1.58;color:rgba(255,255,255,0.42);">{c.before}</p>
                 </div>
 
                 {/* Solution */}
                 <div style="margin-bottom:14px;">
-                  <p style="font-size:7.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(100,190,150,0.55);margin-bottom:5px;">The Solution</p>
+                  <p style="font-size:7.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(100,190,150,0.55);margin-bottom:4px;">The Solution</p>
                   <p style="font-size:11.5px;line-height:1.58;color:rgba(255,255,255,0.62);">{c.after}</p>
                 </div>
 
                 {/* 3 key metrics */}
-                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px;">
-                  {[
-                    [c.hours + 'h', 'saved / week'],
-                    [c.roi, 'annual ROI'],
-                    [c.payback, 'to payback'],
-                  ].map(([v, l]) => (
-                    <div style={`background:${c.color}11;border:1px solid ${c.color}22;border-radius:8px;padding:8px 6px;text-align:center;`}>
-                      <div style={`font-size:13px;font-weight:700;color:${c.color};letter-spacing:-0.01em;line-height:1;margin-bottom:3px;`}>{v}</div>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:13px;">
+                  {[[c.hours+'h','saved / wk'],[c.roi,'annual ROI'],[c.payback,'payback']].map(([v,l]) => (
+                    <div style={`background:${c.color}11;border:1px solid ${c.color}20;border-radius:8px;padding:8px 5px;text-align:center;`}>
+                      <div class="font-display" style={`font-size:1.1rem;color:${c.color};line-height:1;margin-bottom:3px;`}>{v}</div>
                       <div style="font-size:7.5px;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.22);">{l}</div>
                     </div>
                   ))}
                 </div>
 
                 {/* Workflows */}
-                <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:13px;">
+                <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px;">
                   {c.workflows.map(w => (
-                    <span style="font-size:9.5px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);border-radius:6px;padding:3px 8px;color:rgba(255,255,255,0.38);">{w}</span>
+                    <span style="font-size:9.5px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:3px 8px;color:rgba(255,255,255,0.38);">{w}</span>
                   ))}
                 </div>
 
                 {/* Quote */}
-                <blockquote style={`border-left:2px solid ${c.color};padding:7px 0 7px 11px;margin:0 0 13px;`}>
+                <blockquote style={`border-left:2px solid ${c.color};padding:7px 0 7px 11px;margin:0 0 12px;`}>
                   <p style="font-size:11px;color:rgba(255,255,255,0.48);line-height:1.65;font-style:italic;">"{c.quote}"</p>
-                  <cite style="font-size:8.5px;color:rgba(255,255,255,0.20);font-style:normal;display:block;margin-top:5px;">{c.role} · {c.tag.split('·')[1]?.trim() ?? ''}</cite>
+                  <cite style="font-size:8.5px;color:rgba(255,255,255,0.20);font-style:normal;display:block;margin-top:4px;">{c.role}</cite>
                 </blockquote>
 
-                {/* Footer: tools + CTA */}
-                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);">
+                {/* Footer */}
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding-top:11px;border-top:1px solid rgba(255,255,255,0.05);">
                   <div style="display:flex;flex-wrap:wrap;gap:3px;">
                     {c.tools.map(t => (
-                      <span style="font-size:8.5px;border:1px solid rgba(255,255,255,0.08);border-radius:99px;padding:2px 7px;color:rgba(255,255,255,0.25);">{t}</span>
+                      <span style="font-size:8.5px;border:1px solid rgba(255,255,255,0.08);border-radius:99px;padding:2px 7px;color:rgba(255,255,255,0.24);">{t}</span>
                     ))}
                   </div>
-                  <a href="/pages/audit" style={`font-size:9.5px;font-weight:700;background:${c.color};color:#0A0A0A;padding:5px 12px;border-radius:6px;text-decoration:none;white-space:nowrap;flex-shrink:0;`}>Get similar results →</a>
+                  <a href="/pages/audit" style={`font-size:9.5px;font-weight:700;background:${c.color};color:#0A0A0A;padding:6px 13px;border-radius:7px;text-decoration:none;white-space:nowrap;flex-shrink:0;`}>Get similar results →</a>
                 </div>
 
               </div>
@@ -1269,55 +1274,100 @@ const featured = [
 <!-- ════════════════════════════════════════════════════
      SEO CONTENT SECTION
 ════════════════════════════════════════════════════ -->
-<section style="background:#F8F6F1;padding:80px 0;">
+<section style="background:#0A0A0A;padding:96px 0;">
   <div class="container-x">
-    <div style="max-width:860px;margin:0 auto;">
-      <p style="font-size:9px;font-weight:700;letter-spacing:0.24em;text-transform:uppercase;color:rgba(10,10,10,0.35);margin-bottom:12px;">Why automation delivers results this fast</p>
-      <h2 class="font-display" style="font-size:clamp(1.6rem,3vw,2.4rem);letter-spacing:-0.025em;color:#0A0A0A;line-height:1.15;margin-bottom:32px;">The business case for workflow automation in 2025</h2>
 
-      <div class="seo-two-col" style="display:grid;grid-template-columns:1fr 1fr;gap:40px;">
-        <div>
-          <p style="font-size:12px;font-weight:700;letter-spacing:0.01em;color:#0A0A0A;margin-bottom:10px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">What makes PURIST deployments different</p>
-          <p style="font-size:13.5px;line-height:1.8;color:rgba(10,10,10,0.55);margin-bottom:16px;">Most automation projects fail because they try to automate the wrong things first. At PURIST, every engagement starts with a structured audit that ranks your processes by ROI potential. We deploy the three highest-impact workflows in week one, so you see results before the end of your first month.</p>
-          <p style="font-size:13.5px;line-height:1.8;color:rgba(10,10,10,0.55);">Our stack is built on self-hosted n8n, which gives your data full sovereignty and eliminates per-task pricing. Claude AI handles the intelligence layer: document extraction, lead scoring, churn prediction, and personalised communication at scale. Everything runs on your infrastructure, monitored 24/7 with 90-second error alerts.</p>
-        </div>
-        <div>
-          <p style="font-size:12px;font-weight:700;letter-spacing:0.01em;color:#0A0A0A;margin-bottom:10px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">The most common automation wins by sector</p>
-          <div style="display:flex;flex-direction:column;gap:10px;">
-            {[
-              ['E-commerce', 'Abandoned cart recovery, subscription churn prevention, returns processing'],
-              ['Healthcare', 'Appointment reminders, patient recall campaigns, insurance pre-authorisation'],
-              ['Legal', 'Client intake, document generation, billing accuracy, deadline tracking'],
-              ['SaaS', 'Trial onboarding sequences, lead scoring, churn early warning systems'],
-              ['Finance', 'Reconciliation, quarterly reporting, renewal management'],
-              ['Agency', 'Client onboarding, automated reporting, invoice generation'],
-            ].map(([sector, wins]) => (
-              <div style="border-left:2px solid rgba(10,10,10,0.10);padding-left:12px;">
-                <p style="font-size:11px;font-weight:700;color:#0A0A0A;margin-bottom:2px;">{sector}</p>
-                <p style="font-size:12px;color:rgba(10,10,10,0.45);line-height:1.5;">{wins}</p>
-              </div>
-            ))}
+    <!-- Header -->
+    <div style="max-width:600px;margin:0 auto 64px;text-align:center;">
+      <p style="font-size:9px;font-weight:700;letter-spacing:0.24em;text-transform:uppercase;color:rgba(232,180,176,0.45);margin-bottom:12px;">Why automation works</p>
+      <h2 class="font-display" style="font-size:clamp(1.8rem,3.5vw,2.8rem);letter-spacing:-0.025em;color:#fff;line-height:1.1;margin-bottom:16px;">The business case for<br/><em style="color:#E8B4B0;">workflow automation in 2025</em></h2>
+      <p style="font-size:14px;line-height:1.75;color:rgba(255,255,255,0.30);max-width:480px;margin:0 auto;">Most automation projects fail because they start with the wrong processes. Here is what PURIST does differently — and why the numbers hold up across every industry.</p>
+    </div>
+
+    <!-- 4 differentiator cards -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:64px;">
+      {[
+        {
+          icon: 'M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z',
+          label: 'ROI-first audit',
+          body: 'Every engagement starts with a structured audit that ranks your processes by ROI potential. The three highest-impact workflows go live in week one.',
+          accent: '#E8B4B0',
+        },
+        {
+          icon: 'M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z',
+          label: 'Data sovereignty',
+          body: 'Our stack runs on self-hosted n8n. Your data never touches a third-party automation platform. No per-task pricing. No vendor lock-in.',
+          accent: '#7BAEA0',
+        },
+        {
+          icon: 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
+          label: 'AI intelligence layer',
+          body: 'Claude AI handles document extraction, lead scoring, churn prediction, and personalised communication at scale. Embedded in every workflow by default.',
+          accent: '#89A8C4',
+        },
+        {
+          icon: 'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9',
+          label: '90-second monitoring',
+          body: 'Sub-workflow checks run every 90 seconds. Any failure pages the on-call engineer instantly. 99.97% uptime SLA across all production workflows.',
+          accent: '#C4A870',
+        },
+      ].map(d => (
+        <div style={`background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:18px;padding:28px 24px;transition:border-color 0.2s;`}>
+          <div style={`width:38px;height:38px;border-radius:10px;background:${d.accent}14;border:1px solid ${d.accent}22;display:flex;align-items:center;justify-content:center;margin-bottom:18px;`}>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke={d.accent} stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={d.icon}/></svg>
           </div>
+          <p style={`font-size:12px;font-weight:700;letter-spacing:0.04em;color:#fff;margin-bottom:8px;`}>{d.label}</p>
+          <p style="font-size:12.5px;line-height:1.7;color:rgba(255,255,255,0.38);">{d.body}</p>
         </div>
-      </div>
+      ))}
+    </div>
 
-      <div style="margin-top:48px;padding-top:32px;border-top:1px solid rgba(10,10,10,0.07);">
-        <p style="font-size:12px;font-weight:700;letter-spacing:0.01em;color:#0A0A0A;margin-bottom:14px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">Frequently asked questions about automation ROI</p>
-        <div style="display:flex;flex-direction:column;gap:20px;">
-          {[
-            ['How quickly will I see results?', 'The first workflows go live within 3 to 7 business days of your audit. Most clients hit payback within 21 days, meaning the cumulative time and money saved exceeds the setup investment. The 90-day mark is when the full stack is operational and ROI is typically confirmed in writing.'],
-            ['Are these results typical or cherry-picked?', 'These 50 cases represent a cross-section of our deployments, not our top outliers. The median ROI multiple across all 312 deployments is 9.2x at 90 days. Results below 7x are rare and usually involve very small teams where baseline admin costs are low.'],
-            ['What happens if a workflow breaks?', 'Our monitoring infrastructure runs sub-workflow checks every 90 seconds. If a run fails, the on-call engineer is paged immediately. Our 99.97% uptime SLA applies across all production workflows, and Enterprise plans include a financial guarantee on that figure.'],
-            ['Do I need technical knowledge to manage the system?', 'No. Once deployed, every workflow runs without technical intervention. You receive a plain-English dashboard showing what ran, when, and what it saved. Anything requiring a change goes through our team. Clients typically spend under 20 minutes per month reviewing their automation reports.'],
-          ].map(([q, a]) => (
-            <div>
-              <p style="font-size:13.5px;font-weight:700;color:#0A0A0A;margin-bottom:6px;">{q}</p>
-              <p style="font-size:13px;line-height:1.75;color:rgba(10,10,10,0.52);">{a}</p>
-            </div>
-          ))}
-        </div>
+    <!-- Sector wins -->
+    <div style="border-top:1px solid rgba(255,255,255,0.05);padding-top:56px;margin-bottom:56px;">
+      <p style="font-size:9px;font-weight:700;letter-spacing:0.24em;text-transform:uppercase;color:rgba(255,255,255,0.20);margin-bottom:24px;text-align:center;">Common automation wins by sector</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;">
+        {[
+          ['E-commerce', '#89A8C4', 'Abandoned cart recovery · subscription churn prevention · returns processing'],
+          ['Healthcare', '#7BAEA0', 'Appointment reminders · patient recall · insurance pre-authorisation'],
+          ['Legal', '#C4A870', 'Client intake · document generation · billing accuracy · deadline tracking'],
+          ['SaaS / Fintech', '#E8B4B0', 'Trial onboarding · lead scoring · churn early warning systems'],
+          ['Finance', '#89A8C4', 'Reconciliation · quarterly reporting · renewal management'],
+          ['Agency', '#7BAEA0', 'Client onboarding · automated reporting · invoice generation'],
+        ].map(([sector, accent, wins]) => (
+          <div style={`border:1px solid ${accent}18;border-radius:12px;padding:16px 18px;background:${accent}06;`}>
+            <p style={`font-size:9.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:${accent};margin-bottom:6px;`}>{sector}</p>
+            <p style="font-size:11.5px;line-height:1.6;color:rgba(255,255,255,0.32);">{wins}</p>
+          </div>
+        ))}
       </div>
     </div>
+
+    <!-- FAQ accordion -->
+    <div style="border-top:1px solid rgba(255,255,255,0.05);padding-top:56px;">
+      <p style="font-size:9px;font-weight:700;letter-spacing:0.24em;text-transform:uppercase;color:rgba(255,255,255,0.20);margin-bottom:32px;text-align:center;">Frequently asked questions</p>
+      <div style="max-width:680px;margin:0 auto;" id="faq-list">
+        {[
+          ['How quickly will I see results?', 'The first workflows go live within 3 to 7 business days of your audit. Most clients hit payback within 21 days, meaning cumulative time and money saved exceeds the setup investment. The 90-day mark is when the full stack is operational and ROI is confirmed in writing.'],
+          ['Are these results typical or cherry-picked?', 'These 50 cases represent a cross-section of our deployments, not our top outliers. The median ROI multiple across all 312 deployments is 9.2× at 90 days. Results below 7× are rare and usually involve very small teams where baseline admin costs are low.'],
+          ['What happens if a workflow breaks?', 'Our monitoring infrastructure runs sub-workflow checks every 90 seconds. If a run fails, the on-call engineer is paged immediately. Our 99.97% uptime SLA applies across all production workflows, and Enterprise plans include a financial guarantee on that figure.'],
+          ['Do I need technical knowledge to manage the system?', 'No. Once deployed, every workflow runs without technical intervention. You receive a plain-English dashboard showing what ran, when, and what it saved. Anything requiring a change goes through our team. Clients typically spend under 20 minutes per month reviewing automation reports.'],
+          ['What does the setup process look like?', 'Week 1: audit call and workflow mapping. Week 2: build and internal testing. Week 3: staged rollout with your team. By day 21 you have three live automations, a monitoring dashboard, and your first ROI report in your inbox.'],
+        ].map(([q, a], i) => (
+          <div class="faq-item" style={`border-bottom:1px solid rgba(255,255,255,0.05);${i === 0 ? 'border-top:1px solid rgba(255,255,255,0.05);' : ''}`}>
+            <button class="faq-btn" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 0;background:none;border:none;cursor:pointer;text-align:left;">
+              <span style="font-size:14px;font-weight:600;color:#fff;line-height:1.4;letter-spacing:-0.01em;">{q}</span>
+              <span class="faq-icon" style="flex-shrink:0;width:22px;height:22px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;transition:transform 0.3s ease,background 0.2s;">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="rgba(255,255,255,0.50)" stroke-width="1.5" stroke-linecap="round"><path d="M2 4l3 3 3-3"/></svg>
+              </span>
+            </button>
+            <div class="faq-body" style="overflow:hidden;max-height:0;transition:max-height 0.38s cubic-bezier(0.4,0,0.2,1);">
+              <p style="font-size:13.5px;line-height:1.8;color:rgba(255,255,255,0.40);padding-bottom:20px;">{a}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1390,6 +1440,28 @@ const featured = [
       card.addEventListener('click', () => card.classList.toggle('is-flipped'));
     });
   }
+
+  // ── FAQ ACCORDION ─────────────────────────────────────────────
+  document.querySelectorAll('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const body = item.querySelector('.faq-body');
+      const icon = btn.querySelector('.faq-icon');
+      const isOpen = body.style.maxHeight && body.style.maxHeight !== '0px';
+      // Close all
+      document.querySelectorAll('.faq-item').forEach(el => {
+        el.querySelector('.faq-body').style.maxHeight = '0px';
+        el.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
+        el.querySelector('.faq-icon').style.background = 'transparent';
+      });
+      // Open clicked if it was closed
+      if (!isOpen) {
+        body.style.maxHeight = body.scrollHeight + 'px';
+        icon.style.transform = 'rotate(180deg)';
+        icon.style.background = 'rgba(255,255,255,0.05)';
+      }
+    });
+  });
 </script>
 
 </ShopLayout>
