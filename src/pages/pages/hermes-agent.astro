@@ -8,7 +8,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
   canonical="https://www.purist.online/pages/hermes-agent"
 >
 
-<script type="application/ld+json" is:inline>{JSON.stringify({
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Service",
   "name": "Hermes AI Agent Setup and Automation",
@@ -17,7 +17,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
   "serviceType": "AI Agent Deployment",
   "areaServed": [{ "@type": "Country", "name": "United States" }, { "@type": "Country", "name": "United Kingdom" }],
   "url": "https://www.purist.online/pages/hermes-agent"
-})}</script>
+})} />
 
 <!-- HERO -->
 <section style="background:#0A0A0A;color:#F8F6F1;padding:5rem 0 4rem;position:relative;overflow:hidden;">

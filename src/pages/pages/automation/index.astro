@@ -16,14 +16,14 @@ const byCategory = categories.map(cat => ({
 >
 
 <!-- JSON-LD Schema -->
-<script type="application/ld+json" is:inline>{JSON.stringify({
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "CollectionPage",
   "name": "Business Automation by Industry — PURIST",
   "description": "n8n workflow automation for 200 professions and industries across the United States.",
   "url": "https://www.purist.online/pages/automation",
   "provider": { "@type": "Organization", "name": "PURIST", "url": "https://www.purist.online" }
-})}</script>
+})} />
 
 <!-- Hero -->
 <section style="background:#0A0A0A;color:#F8F6F1;padding:5rem 0 4rem;position:relative;overflow:hidden;">
