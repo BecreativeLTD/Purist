@@ -85,10 +85,12 @@ const pageUrl = `${(Astro.site?.toString() ?? 'https://www.purist.online').repla
 
 // ── Markdown link parser ───────────────────────────────────────
 function parseMdLinks(text: string): string {
- return text.replace(
-   /\[([^\]]+)\]\(([^)]+)\)/g,
-   '<a href="$2" style="color:#0A0A0A;font-weight:600;text-decoration:underline;text-decoration-color:rgba(232,180,176,0.8);text-underline-offset:3px;transition:text-decoration-color 0.15s;">$1</a>'
- );
+ return text
+   .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+   .replace(
+     /\[([^\]]+)\]\(([^)]+)\)/g,
+     '<a href="$2" style="color:#0A0A0A;font-weight:600;text-decoration:underline;text-decoration-color:rgba(232,180,176,0.8);text-underline-offset:3px;transition:text-decoration-color 0.15s;">$1</a>'
+   );
 }
 
 // ── Glossary auto-linker (first occurrence per term, max 10 per article) ──
@@ -325,24 +327,20 @@ const howToSteps: { name: string; text: string }[] = (() => {
      <div style="min-width:0;" itemprop="articleBody">
        {blocks.map((block) => {
          if (block.type === 'h2') return (
-           <h2 id={block.id} style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.4rem,3vw,1.9rem);font-weight:400;letter-spacing:-0.02em;line-height:1.2;color:#0A0A0A;margin:3rem 0 1.25rem;scroll-margin-top:80px;">
-             {block.text}
-           </h2>
+           <h2 id={block.id} style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.4rem,3vw,1.9rem);font-weight:400;letter-spacing:-0.02em;line-height:1.2;color:#0A0A0A;margin:3rem 0 1.25rem;scroll-margin-top:80px;" set:html={parseMdLinks(block.text)} />
          );
          if (block.type === 'h3') return (
-           <h3 style="font-family:'Fraunces',Georgia,serif;font-size:1.2rem;font-weight:400;letter-spacing:-0.01em;line-height:1.3;color:#0A0A0A;margin:2rem 0 0.75rem;">
-             {block.text}
-           </h3>
+           <h3 style="font-family:'Fraunces',Georgia,serif;font-size:1.2rem;font-weight:400;letter-spacing:-0.01em;line-height:1.3;color:#0A0A0A;margin:2rem 0 0.75rem;" set:html={parseMdLinks(block.text)} />
          );
          if (block.type === 'blockquote') return (
            <blockquote style="border-left:3px solid #E8B4B0;padding:1.25rem 1.5rem;margin:2rem 0;background:#FDF9F8;border-radius:0 12px 12px 0;">
-             <p style="font-family:'Fraunces',Georgia,serif;font-size:1.1rem;font-style:italic;font-weight:400;color:#0A0A0A;line-height:1.6;margin:0;">{block.text}</p>
+             <p style="font-family:'Fraunces',Georgia,serif;font-size:1.1rem;font-style:italic;font-weight:400;color:#0A0A0A;line-height:1.6;margin:0;" set:html={parseMdLinks(block.text)} />
            </blockquote>
          );
          if (block.type === 'callout') return (
            <div style="background:#0A0A0A;border-radius:14px;padding:1.5rem 1.75rem;margin:2rem 0;display:flex;align-items:flex-start;gap:12px;">
              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-             <p style="font-size:13.5px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0;font-weight:500;">{block.text}</p>
+             <p style="font-size:13.5px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0;font-weight:500;" set:html={parseMdLinks(block.text)} />
            </div>
          );
          if (block.type === 'list') return (
