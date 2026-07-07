@@ -19,7 +19,7 @@ PURIST serves clients as: automation agency (UK), business automation company (U
 - [The Full Stack](https://www.purist.online/plans/full-stack) — Automation Pro + AI Agent Deploy. Full operational transformation. From £1,197/mo.
 - [Free AI Readiness Audit](https://www.purist.online/pages/welcome) — Free 48h audit of your current workflows and automation opportunities.
 
-## Blog — Full Article Index (50 articles)
+## Blog — Full Article Index (60 articles)
 
 All articles are written by PURIST's engineering team from real production deployments.
 
@@ -54,6 +54,7 @@ All articles are written by PURIST's engineering team from real production deplo
 - [Agentic AI in 2026: What It Actually Means for Your Business Operations](https://www.purist.online/pages/blog/agentic-ai-business-operations-what-it-means-2026) — What agentic AI is, what it is not, and which use cases are ready for production.
 - [AI Customer Service Automation: Build a Support System That Never Sleeps](https://www.purist.online/pages/blog/ai-customer-service-automation-support-never-sleeps-2026) — From rule-based routing to full AI triage and response.
 - [15 AI Agent Examples That Work in Real Businesses](https://www.purist.online/pages/blog/ai-agent-examples-real-business-use-cases-2026) — Production AI agent implementations with tools, architecture, and real ROI figures.
+- [GPT-5.2 for Business Workflows + spec-workflow-mcp Explained 2026](https://www.purist.online/pages/blog/gpt-5-2-business-workflows-mcp-2026) — GPT-5.2 business capabilities, Model Context Protocol workflow specification standard, n8n + Claude comparison.
 
 ### Operations & Processes
 - [How to Automate Your Business in 2026: The Complete Playbook](https://www.purist.online/pages/blog/how-to-automate-your-business-complete-playbook-2026) — Step-by-step framework for identifying and deploying automation across your operations.
@@ -81,6 +82,19 @@ All articles are written by PURIST's engineering team from real production deplo
 - [Healthcare Automation: 10 Workflows Every Medical Practice Needs](https://www.purist.online/pages/blog/healthcare-automation-medical-practice-workflows-2026) — Real results: dental 14%→3.2% no-shows, GP surgery 61% admin reduction.
 - [Law Firm Automation: 12 Workflows That Cut Admin by 60%](https://www.purist.online/pages/blog/legal-firm-automation-workflows-2026) — PURIST case study: 12-solicitor firm, 61% admin reduction, payback in month 4.
 - [Staffing Agency Automation: The Playbook for High-Volume Recruiting](https://www.purist.online/pages/blog/staffing-agency-automation-workflows-2026) — 15-person agency case study: 38% volume growth, zero new hires, ~700% ROI.
+
+### Workflow Automation & Operations
+- [Enterprise Workflow Automation: The Complete Guide 2026](https://www.purist.online/pages/blog/enterprise-workflow-automation-guide-2026) — Workflow 360 concept, top workflow apps, 6-phase implementation roadmap, ROI calculation for mid-market companies.
+- [Document Workflow Automation Software: Full Stack Guide 2026](https://www.purist.online/pages/blog/document-workflow-automation-software-2026) — OCR, e-signatures, approval routing, document workflow software comparison and n8n implementation.
+- [Marketing Automation Workflow + Content Creation Pipeline 2026](https://www.purist.online/pages/blog/marketing-automation-workflow-content-creation-2026) — AI content creation to distribution pipeline, repurposing 1 post into 8 formats, lead nurturing sequences.
+- [Ad Campaign Workflow Data Model + SDR Pipeline 2026](https://www.purist.online/pages/blog/ad-campaign-workflow-data-model-sdr-pipeline-2026) — Campaign tags, labels, status lifecycle, archiving rules, and connecting campaign attribution to SDR inbound pipeline.
+
+### Industry-Specific & Regulated Workflows
+- [ComfyUI Workflows for Business Automation 2026](https://www.purist.online/pages/blog/comfyui-workflows-business-automation-guide-2026) — Product photography automation, ad creative generation, batch processing, NSFW content moderation in ComfyUI.
+- [Government Workflow Automation: California Contracts + SSA Overhaul 2026](https://www.purist.online/pages/blog/government-workflow-automation-california-ssa-2026) — California board-approved contract automation, SSA workflow disruption risk and business continuity planning.
+- [GDPR-Compliant Mental Health Data Annotation Workflow 2026](https://www.purist.online/pages/blog/gdpr-compliant-mental-health-data-annotation-workflow-2026) — Article 9 legal basis, consent architecture, pseudonymisation, annotator access controls, audit trail implementation.
+- [AI Pharmacovigilance Workflows: Validated, Auditable, Explainable 2026](https://www.purist.online/pages/blog/ai-pharmacovigilance-workflows-validated-auditable-2026) — FDA 21 CFR Part 11, GxP compliance, GAMP 5 validation, MedDRA coding, explainability design for pharma.
+- [Oil & Gas Revenue Accounting + Royalty Distribution Workflow 2026](https://www.purist.online/pages/blog/oil-gas-revenue-accounting-royalty-workflow-2026) — Manual workflow pain points in revenue accounting, division orders, JIB statements, automation ROI for operators.
 
 ## Glossary — 325 Automation & AI Terms
 
