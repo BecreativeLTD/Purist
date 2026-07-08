@@ -19,7 +19,7 @@ PURIST serves clients as: automation agency (UK), business automation company (U
 - [The Full Stack](https://www.purist.online/plans/full-stack) — Automation Pro + AI Agent Deploy. Full operational transformation. From £1,197/mo.
 - [Free AI Readiness Audit](https://www.purist.online/pages/welcome) — Free 48h audit of your current workflows and automation opportunities.
 
-## Blog — Full Article Index (60 articles)
+## Blog — Full Article Index (66 articles)
 
 All articles are written by PURIST's engineering team from real production deployments.
 
@@ -95,6 +95,14 @@ All articles are written by PURIST's engineering team from real production deplo
 - [GDPR-Compliant Mental Health Data Annotation Workflow 2026](https://www.purist.online/pages/blog/gdpr-compliant-mental-health-data-annotation-workflow-2026) — Article 9 legal basis, consent architecture, pseudonymisation, annotator access controls, audit trail implementation.
 - [AI Pharmacovigilance Workflows: Validated, Auditable, Explainable 2026](https://www.purist.online/pages/blog/ai-pharmacovigilance-workflows-validated-auditable-2026) — FDA 21 CFR Part 11, GxP compliance, GAMP 5 validation, MedDRA coding, explainability design for pharma.
 - [Oil & Gas Revenue Accounting + Royalty Distribution Workflow 2026](https://www.purist.online/pages/blog/oil-gas-revenue-accounting-royalty-workflow-2026) — Manual workflow pain points in revenue accounting, division orders, JIB statements, automation ROI for operators.
+
+### B2B Automation
+- [B2B Marketing Automation: The Agency & Consultant Guide 2026](https://www.purist.online/pages/blog/b2b-marketing-automation-agency-consultant-guide-2026) — How marketing automation agencies and consultants build, sell, and scale B2B automation programs for clients.
+- [Industrial Automation Company B2B: Best Practices 2026](https://www.purist.online/pages/blog/industrial-automation-company-b2b-best-practices-2026) — How industrial automation companies apply B2B workflow automation to sales cycles, operations, and service delivery.
+- [Act-On vs HubSpot vs Pardot vs Marketo: B2B Platform Comparison 2026](https://www.purist.online/pages/blog/act-on-vs-hubspot-vs-pardot-vs-marketo-b2b-2026) — Honest comparison of the four leading B2B marketing automation platforms across features, pricing, and fit.
+- [B2B Finance Automation: Payments, AP & Reconciliation 2026](https://www.purist.online/pages/blog/b2b-finance-automation-payments-ap-reconciliation-2026) — Automating accounts payable, payment processing, and reconciliation for B2B finance teams using n8n and AI.
+- [Marketing Automation for B2B Service Businesses 2026](https://www.purist.online/pages/blog/marketing-automation-b2b-service-businesses-2026) — How service businesses — consultancies, agencies, law firms — implement marketing automation that converts.
+- [B2B Sales Outbound Automation: Technology & Playbook 2026](https://www.purist.online/pages/blog/b2b-sales-outbound-automation-technology-2026) — Full outbound automation stack for B2B sales teams: prospecting, sequencing, enrichment, and CRM sync.
 
 ## Glossary — 325 Automation & AI Terms
 
