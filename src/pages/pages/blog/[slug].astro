@@ -36,7 +36,9 @@ type Block =
  | { type: 'blockquote'; text: string }
  | { type: 'callout'; text: string }
  | { type: 'list'; items: string[] }
- | { type: 'paragraph'; text: string; first: boolean };
+ | { type: 'paragraph'; text: string; first: boolean }
+ | { type: 'code'; lang: string; code: string }
+ | { type: 'table'; headers: string[]; rows: string[][] };
 
 const slugify = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
@@ -68,6 +70,23 @@ for (const raw of article.body.split('\n\n')) {
  } else if (line.startsWith('- ')) {
    const items = line.split('\n').filter(l => l.startsWith('- ')).map(l => l.slice(2));
    blocks.push({ type: 'list', items });
+ } else if (line.startsWith('```')) {
+   flushList();
+   const codeLines = line.split('\n');
+   const lang = codeLines[0].slice(3).trim() || 'text';
+   const inner = codeLines.slice(1);
+   const closeIdx = inner.lastIndexOf('```');
+   const code = (closeIdx >= 0 ? inner.slice(0, closeIdx) : inner).join('\n');
+   blocks.push({ type: 'code', lang, code });
+ } else if (line.startsWith('|')) {
+   flushList();
+   const tblLines = line.split('\n').filter(l => l.trim().startsWith('|'));
+   if (tblLines.length >= 2) {
+     const parseRow = (row: string) => row.split('|').slice(1, -1).map(c => c.trim());
+     const headers = parseRow(tblLines[0]);
+     const rows = tblLines.slice(2).map(parseRow).filter(r => r.length > 0);
+     blocks.push({ type: 'table', headers, rows });
+   }
  } else {
    flushList();
    blocks.push({ type: 'paragraph', text: line, first: firstPara });
@@ -341,6 +360,36 @@ const howToSteps: { name: string; text: string }[] = (() => {
            <div style="background:#0A0A0A;border-radius:14px;padding:1.5rem 1.75rem;margin:2rem 0;display:flex;align-items:flex-start;gap:12px;">
              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
              <p style="font-size:13.5px;color:rgba(255,255,255,0.85);line-height:1.6;margin:0;font-weight:500;" set:html={parseMdLinks(block.text)} />
+           </div>
+         );
+         if (block.type === 'code') return (
+           <div style="margin:2rem 0;border-radius:12px;overflow:hidden;border:1px solid rgba(10,10,10,0.1);">
+             <div style="background:#1a1a1a;padding:8px 16px;border-bottom:1px solid rgba(255,255,255,0.06);">
+               <span style="font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.14em;color:rgba(255,255,255,0.3);">{block.lang}</span>
+             </div>
+             <pre style="background:#0A0A0A;padding:1.5rem;margin:0;overflow-x:auto;scrollbar-width:thin;"><code style="font-family:'JetBrains Mono',Consolas,'Courier New',monospace;font-size:12.5px;line-height:1.65;color:rgba(248,246,241,0.82);">{block.code}</code></pre>
+           </div>
+         );
+         if (block.type === 'table') return (
+           <div style="margin:2rem 0;overflow-x:auto;border-radius:12px;border:1px solid rgba(10,10,10,0.1);">
+             <table style="width:100%;border-collapse:collapse;font-size:13.5px;">
+               <thead>
+                 <tr>
+                   {block.headers.map((h: string) => (
+                     <th style="padding:12px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.7);text-align:left;background:#0A0A0A;white-space:nowrap;">{h}</th>
+                   ))}
+                 </tr>
+               </thead>
+               <tbody>
+                 {block.rows.map((row: string[], i: number) => (
+                   <tr style={i % 2 === 0 ? "background:#fff;" : "background:#F8F6F1;"}>
+                     {row.map((cell: string, j: number) => (
+                       <td style={`padding:10px 16px;color:rgba(10,10,10,0.75);border-top:1px solid rgba(10,10,10,0.06);line-height:1.5;${j === 0 ? 'font-weight:600;color:#0A0A0A;' : ''}`}>{cell}</td>
+                     ))}
+                   </tr>
+                 ))}
+               </tbody>
+             </table>
            </div>
          );
          if (block.type === 'list') return (
