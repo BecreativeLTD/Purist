@@ -22,7 +22,7 @@ const glossaryTermPages = terms.map(t => ({
 
 const blogPages = blogData.articles.map(a => ({
   url: `/pages/blog/${a.slug}`,
-  lastmod: '2026-06-18',
+  lastmod: '2026-07-11',
 }));
 
 const pages = [
