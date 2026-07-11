@@ -9,7 +9,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
 >
 
 <!-- JSON-LD Schema -->
-<script type="application/ld+json" is:inline>{JSON.stringify({
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Service",
   "name": "Business Automation Consultant UK — PURIST",
@@ -28,7 +28,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
     "price": "0",
     "description": "Free 30-minute automation audit"
   }
-})}</script>
+})} />
 
 <!-- Hero -->
 <section style="background:#0A0A0A;color:#F8F6F1;padding:5rem 0 4rem;position:relative;overflow:hidden;">

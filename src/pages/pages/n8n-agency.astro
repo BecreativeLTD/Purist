@@ -9,7 +9,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
 >
 
 <!-- JSON-LD Schema -->
-<script type="application/ld+json" is:inline>{JSON.stringify({
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Service",
   "name": "n8n Automation Agency USA — PURIST",
@@ -28,7 +28,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
     "price": "997",
     "availability": "https://schema.org/InStock"
   }
-})}</script>
+})} />
 
 <!-- Hero -->
 <section style="background:#0A0A0A;color:#F8F6F1;padding:5rem 0 4rem;position:relative;overflow:hidden;">

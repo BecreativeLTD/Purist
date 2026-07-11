@@ -8,7 +8,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
   canonical="https://www.purist.online/pages/services"
 >
 
-<script type="application/ld+json" is:inline>{JSON.stringify({
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Service",
   "name": "PURIST — Business Automation & AI Agent Services",
@@ -27,7 +27,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Zapier Alternative Agency", "url": "https://www.purist.online/pages/zapier-alternative-agency" }}
     ]
   }
-})}</script>
+})} />
 
 <style>
   .service-card:hover .service-card-inner {
