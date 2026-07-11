@@ -1,0 +1,216 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+---
+
+<ShopLayout
+  title="Workflow Automation Guide 2026: Tools, Platforms & Implementation | PURIST"
+  description="The complete workflow automation guide. Compare n8n, Make and Zapier, learn architecture patterns, and deploy production workflows. 25+ in-depth guides from PURIST's engineering team."
+  canonical="https://www.purist.online/pages/workflow-automation-guide"
+>
+
+<!-- JSON-LD Schema -->
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Workflow Automation Guide 2026 — PURIST",
+  "description": "The complete workflow automation guide covering platform comparisons, n8n tutorials, architecture patterns, and business workflow guides.",
+  "url": "https://www.purist.online/pages/workflow-automation-guide",
+  "publisher": {
+    "@type": "Organization",
+    "name": "PURIST",
+    "url": "https://www.purist.online"
+  },
+  "hasPart": [
+    { "@type": "Article", "name": "n8n vs Make vs Zapier: the honest comparison", "url": "https://www.purist.online/pages/blog/n8n-vs-make-vs-zapier-honest-comparison" },
+    { "@type": "Article", "name": "n8n tutorial: build your first production workflow", "url": "https://www.purist.online/pages/blog/n8n-tutorial-build-first-production-workflow-2026" },
+    { "@type": "Article", "name": "Webhook vs polling: the architecture decision", "url": "https://www.purist.online/pages/blog/webhook-vs-polling-automation-architecture-decision" }
+  ]
+})} />
+
+<!-- Hero -->
+<section style="background:#0A0A0A;color:#F8F6F1;padding:5rem 0 4rem;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 55% at 50% 0%,rgba(232,180,176,0.07) 0%,transparent 65%);"></div>
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1;">
+    <div style="max-width:760px;margin:0 auto;text-align:center;">
+      <div style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.375rem 0.875rem;border-radius:999px;border:1px solid rgba(232,180,176,0.28);background:rgba(232,180,176,0.06);margin-bottom:1.5rem;">
+        <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.16em;font-weight:600;color:rgba(232,180,176,0.8);">25+ In-Depth Guides · Production-Tested · Updated 2026</span>
+      </div>
+      <h1 style="font-family:Georgia,serif;font-size:clamp(2.1rem,5vw,3.3rem);line-height:1.08;letter-spacing:-0.025em;color:#F8F6F1;margin-bottom:1.25rem;">
+        The Complete Workflow<br/><em style="font-style:italic;color:#E8B4B0;">Automation Guide</em>
+      </h1>
+      <p style="font-size:1.0625rem;line-height:1.7;color:rgba(248,246,241,0.52);max-width:600px;margin:0 auto 2.5rem;">
+        25 in-depth guides covering every major platform, architecture pattern, and deployment decision — written by engineers who run 500+ production systems.
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:3rem;">
+        <a href="/pages/welcome" style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:1rem 2rem;border-radius:10px;font-size:0.875rem;font-weight:600;text-decoration:none;">Get my free automation plan</a>
+        <a href="/pages/blog" style="display:inline-block;background:rgba(255,255,255,0.06);color:rgba(248,246,241,0.7);border:1px solid rgba(255,255,255,0.12);padding:1rem 2rem;border-radius:10px;font-size:0.875rem;font-weight:500;text-decoration:none;">Browse all articles</a>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:2.5rem;">
+        {[['500+','Production deployments'],['25+','In-depth guides'],['3 platforms','Covered in depth'],['14h/wk','Average time saved']].map(([n,l]) => (
+          <div style="text-align:center;">
+            <p style="font-family:Georgia,serif;font-size:1.75rem;line-height:1;margin-bottom:0.25rem;color:#E8B4B0;">{n}</p>
+            <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(248,246,241,0.3);">{l}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Intro -->
+<section style="background:#F8F6F1;padding:4rem 0 2rem;">
+  <div style="max-width:800px;margin:0 auto;padding:0 1.5rem;">
+    <p style="font-size:1rem;line-height:1.85;color:rgba(10,10,10,0.65);">
+      Workflow automation in 2026 is not about replacing people. It is about removing the repetitive, error-prone, time-consuming mechanical work that stops your team from doing the things that actually require human judgment. This guide library covers the full spectrum: from choosing the right platform in the first place, to building your first n8n workflow, to architecting enterprise-grade systems that handle millions of events without breaking at 3am. Every article is written from direct production experience across 500+ deployments, not vendor documentation or affiliate comparisons. Whether you are evaluating n8n against Make and Zapier, learning how webhooks differ from polling, or building industry-specific workflows for print, government, or ComfyUI pipelines, you will find the honest, practical answer here.
+    </p>
+  </div>
+</section>
+
+<!-- Section 1: Platform Comparisons -->
+<section style="background:#F8F6F1;padding:3rem 0 4rem;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 2rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#0A0A0A;margin-bottom:1rem;">Platform Comparisons and Tool Selection</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.55);">Choosing between n8n, Make and Zapier is the most consequential automation decision you will make. The wrong choice locks you into pricing models that punish your growth or architectures that cannot handle your data requirements. These articles cut through the affiliate noise with honest assessments from 500 real production deployments.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+      {[
+        { slug: 'n8n-vs-make-vs-zapier-honest-comparison', title: 'n8n vs Make vs Zapier: the honest comparison your business actually needs.', excerpt: 'Forget the affiliate-driven comparisons. Here is what actually matters when choosing an automation platform, based on 500+ real deployments.', tags: ['n8n','Make','Zapier'] },
+        { slug: 'n8n-vs-make-vs-zapier-500-production-deployments', title: 'n8n vs Make vs Zapier: an honest comparison from 500 production deployments.', excerpt: 'After 500 production workflow deployments across all three platforms, here is what nobody with an affiliate link will tell you.', tags: ['n8n','Make','Zapier'] },
+        { slug: 'best-zapier-alternatives-2026-honest-review', title: 'The 9 best Zapier alternatives in 2026: ranked after 500 real deployments', excerpt: "Zapier's per-task pricing has become a serious constraint for scaling businesses but not all alternatives are created equal.", tags: ['Zapier','alternatives','n8n'] },
+        { slug: 'zapier-free-alternatives-2026', title: '5 Zapier Free Alternatives That Handle Real Production Workloads', excerpt: 'Zapier is expensive at scale. These 5 alternatives handle real production workloads: n8n, Make, Pipedream, Activepieces, and Albato.', tags: ['Zapier','free alternatives','n8n'] },
+        { slug: 'n8n-self-hosted-vs-cloud-complete-guide-2026', title: 'n8n Self-Hosted vs Cloud: The Complete Decision Guide (2026)', excerpt: 'Self-hosted n8n costs £15-40/mo on a VPS. n8n Cloud starts at $50/mo. The right choice depends on your team, data sensitivity, and scale.', tags: ['n8n','self-hosted','cloud'] },
+        { slug: 'automation-consultant-vs-diy-how-to-decide-2026', title: 'Automation consultant vs DIY: how to decide what is right for your business', excerpt: 'Neither DIY nor hiring a consultant is universally right. The answer depends on five specific criteria and this guide gives you the framework.', tags: ['consultant','DIY','strategy'] },
+      ].map(a => (
+        <div style="background:white;border:1px solid rgba(10,10,10,0.08);border-radius:14px;padding:1.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+          <a href={`/pages/blog/${a.slug}`} style="font-family:Georgia,serif;font-size:1rem;line-height:1.45;color:#0A0A0A;text-decoration:none;font-weight:500;">{a.title}</a>
+          <p style="font-size:0.8125rem;line-height:1.65;color:rgba(10,10,10,0.5);flex:1;">{a.excerpt}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.375rem;">
+            {a.tags.map(t => <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:999px;background:rgba(232,180,176,0.12);color:rgba(10,10,10,0.5);">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Section 2: n8n Tutorials (dark) -->
+<section style="background:#0A0A0A;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 2rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#F8F6F1;margin-bottom:1rem;">n8n Tutorials and Guides</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(248,246,241,0.45);">n8n is the most powerful open-source automation platform available in 2026. These guides take you from your first workflow to production-grade integrations with WhatsApp, Airtable, and any API in the world. Every tutorial is based on real deployments, not sandboxed demos.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+      {[
+        { slug: 'n8n-tutorial-build-first-production-workflow-2026', title: 'n8n tutorial: build your first production workflow in under an hour (2026)', excerpt: 'n8n is the most powerful free automation platform available in 2026 but the learning curve trips up most beginners. This step-by-step tutorial changes that.', tags: ['n8n','tutorial','beginners'] },
+        { slug: 'n8n-http-request-node-documentation', title: 'n8n HTTP Request Node: Complete Documentation and Examples', excerpt: 'The HTTP Request node is the most used node in n8n, connecting your workflows to any API or web service. This guide covers every configuration option.', tags: ['n8n','HTTP','API'] },
+        { slug: 'n8n-self-hosted-vs-cloud-complete-guide-2026', title: 'n8n Self-Hosted vs Cloud: The Complete Decision Guide (2026)', excerpt: 'Self-hosted n8n costs £15-40/mo on a VPS. n8n Cloud starts at $50/mo. The right choice depends on your team, data sensitivity, and scale.', tags: ['n8n','self-hosted','cloud'] },
+        { slug: 'whatsapp-business-automation-n8n-workflows-2026', title: 'WhatsApp Business Automation With n8n: Build a 24/7 Customer Inbox That Runs Itself', excerpt: "WhatsApp is where your customers want to communicate, but a manual inbox does not scale. These n8n workflows build an automated inbox.", tags: ['n8n','WhatsApp','customer'] },
+        { slug: 'airtable-automation-workflows-n8n-integration-2026', title: 'Airtable Automation With n8n: 10 Workflows That Make Your Base Actually Work', excerpt: 'Airtable is where teams store their operational data. But Airtable alone is an island. n8n connects it to everything else you use.', tags: ['n8n','Airtable','integration'] },
+        { slug: 'google-workspace-automation-sheets-drive-gmail-2026', title: 'Google Workspace Automation: 15 Workflows for Sheets, Drive, Gmail and Calendar', excerpt: 'Google Workspace is where most businesses live, but almost nobody automates it beyond basic filters. These 15 n8n workflows change that.', tags: ['n8n','Google','Workspace'] },
+      ].map(a => (
+        <div style="border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+          <a href={`/pages/blog/${a.slug}`} style="font-family:Georgia,serif;font-size:1rem;line-height:1.45;color:#F8F6F1;text-decoration:none;font-weight:500;">{a.title}</a>
+          <p style="font-size:0.8125rem;line-height:1.65;color:rgba(248,246,241,0.4);flex:1;">{a.excerpt}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.375rem;">
+            {a.tags.map(t => <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:999px;background:rgba(232,180,176,0.12);color:rgba(232,180,176,0.6);">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Section 3: Workflow Architecture (light) -->
+<section style="background:#F8F6F1;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 2rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#0A0A0A;margin-bottom:1rem;">Workflow Architecture</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.55);">The most expensive automation mistakes are architectural, not technical. Choosing polling when you need webhooks. Building a workflow with no error handling. Letting enterprise complexity become an excuse to do nothing. These articles give you the engineering principles that separate production-grade automation from fragile prototypes.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+      {[
+        { slug: 'webhook-vs-polling-automation-architecture-decision', title: 'Webhook vs polling: the architecture decision that determines your automation quality.', excerpt: 'It is the most overlooked architecture decision in workflow automation, and getting it wrong adds latency, wastes API quota, and compounds errors.', tags: ['architecture','webhooks','polling'] },
+        { slug: 'building-24-7-error-handling-system-for-automations', title: 'Building a 24/7 error handling system: what happens when your automation breaks at 3am.', excerpt: 'Your automation will break. The question is whether it breaks silently and damages your business, or breaks loudly and gets fixed before anyone notices.', tags: ['error handling','reliability','n8n'] },
+        { slug: 'enterprise-workflow-automation-guide-2026', title: 'Enterprise Workflow Automation: The Complete Guide for 2026', excerpt: 'Enterprise workflow automation is no longer optional for mid-market companies competing against software-native businesses on operational efficiency.', tags: ['enterprise','architecture','scale'] },
+      ].map(a => (
+        <div style="background:white;border:1px solid rgba(10,10,10,0.08);border-radius:14px;padding:1.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+          <a href={`/pages/blog/${a.slug}`} style="font-family:Georgia,serif;font-size:1rem;line-height:1.45;color:#0A0A0A;text-decoration:none;font-weight:500;">{a.title}</a>
+          <p style="font-size:0.8125rem;line-height:1.65;color:rgba(10,10,10,0.5);flex:1;">{a.excerpt}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.375rem;">
+            {a.tags.map(t => <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:999px;background:rgba(232,180,176,0.12);color:rgba(10,10,10,0.5);">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Section 4: Business Workflow Guides (dark) -->
+<section style="background:#0A0A0A;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 2rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#F8F6F1;margin-bottom:1rem;">Business Workflow Guides</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(248,246,241,0.45);">Platform-agnostic workflow guides covering the tools and processes most businesses actually run. GoHighLevel for local service businesses, Shopify Flow for e-commerce, connecting Airtable to Slack and Typeform, document automation, and marketing pipeline workflows. Each guide includes implementation details, not just concepts.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+      {[
+        { slug: 'gohighlevel-workflow-automation-local-business-2026', title: 'GoHighLevel Workflow Automation for Local Business: Complete Guide 2026', excerpt: 'GoHighLevel is the most powerful all-in-one automation platform for local service businesses, agencies, and franchises.', tags: ['GoHighLevel','local business','CRM'] },
+        { slug: 'shopify-flow-ai-workflows-automation-2026', title: 'How to Use Shopify Flow and AI to Create Workflows: Complete Guide 2026', excerpt: 'Shopify Flow is the most powerful native automation tool available to Shopify merchants, and combining it with AI transforms what is possible.', tags: ['Shopify','e-commerce','AI'] },
+        { slug: 'connect-airtable-slack-typeform-automation-2026', title: 'Connect Airtable, Slack and Typeform: The Complete Automation Guide 2026', excerpt: 'Airtable, Slack, and Typeform are three of the most widely used business tools in the world. Connecting them without code takes under an hour.', tags: ['Airtable','Slack','Typeform'] },
+        { slug: 'document-workflow-automation-software-2026', title: 'Document Workflow Automation: Software, Implementation, and Real Results', excerpt: 'Document-heavy workflows, contracts, invoices, onboarding packs, approvals, are where manual processes cost most. Here is how to automate them.', tags: ['documents','contracts','automation'] },
+        { slug: 'marketing-automation-workflow-content-creation-2026', title: 'Marketing Automation Workflow: From Content Creation to Distribution', excerpt: 'Building a marketing automation workflow that handles content creation, scheduling, email sequences, and lead nurturing requires careful architecture.', tags: ['marketing','content','distribution'] },
+        { slug: 'workflow-automation-consulting-guide-2026', title: 'Workflow Automation Consulting: How to Choose, Hire, and Get Results 2026', excerpt: 'Hiring a workflow automation consultant is the fastest path to production automation, if you choose correctly. This guide tells you how.', tags: ['consulting','hiring','strategy'] },
+      ].map(a => (
+        <div style="border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+          <a href={`/pages/blog/${a.slug}`} style="font-family:Georgia,serif;font-size:1rem;line-height:1.45;color:#F8F6F1;text-decoration:none;font-weight:500;">{a.title}</a>
+          <p style="font-size:0.8125rem;line-height:1.65;color:rgba(248,246,241,0.4);flex:1;">{a.excerpt}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.375rem;">
+            {a.tags.map(t => <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:999px;background:rgba(232,180,176,0.12);color:rgba(232,180,176,0.6);">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Section 5: Specialist Automation (light) -->
+<section style="background:#F8F6F1;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 2rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#0A0A0A;margin-bottom:1rem;">Specialist Automation</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.55);">Beyond the mainstream platforms, automation is transforming specialised industries: print production, government procurement, industrial B2B operations, retail AI vision, and ComfyUI for creative workflows. These guides go deep into the specific requirements, compliance considerations, and implementation patterns that generic tutorials miss entirely.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+      {[
+        { slug: 'comfyui-workflows-business-automation-guide-2026', title: 'ComfyUI Workflows for Business: Product Photography, Marketing Assets, and Brand Safety', excerpt: 'ComfyUI workflows are transforming how businesses produce visual content at scale, from product photography to marketing assets.', tags: ['ComfyUI','AI','visual'] },
+        { slug: 'government-workflow-automation-california-ssa-2026', title: 'Government Workflow Automation: California Contracts and SSA Overhaul', excerpt: "Two major government workflow stories are reshaping business operations: California's board-approved automation contracts and the SSA's overhaul.", tags: ['government','public sector','compliance'] },
+        { slug: 'industrial-automation-company-b2b-best-practices-2026', title: 'Industrial Automation Company: B2B Best Practices for Marketing, Operations and Growth in 2026', excerpt: 'Industrial automation companies face a specific challenge: highly technical products, long sales cycles, and B2B buyers who distrust hype.', tags: ['industrial','B2B','manufacturing'] },
+        { slug: 'print-workflow-automation-software-guide-2026', title: 'Print Workflow Automation Software: Complete Guide for Print Businesses 2026', excerpt: 'Print businesses lose an average of 35% of their operational capacity to manual job management, file processing, and customer communications.', tags: ['print','production','workflow'] },
+        { slug: 'retail-ai-vision-automation-iot-replenishment-2026', title: 'Retail AI Vision Automation and IoT Parts Replenishment: Complete Guide 2026', excerpt: 'Retail AI vision automation and IoT-driven parts replenishment are two of the highest-ROI applications of automation in the sector.', tags: ['retail','AI vision','IoT'] },
+        { slug: 'behavioral-health-lab-workflow-automation-2026', title: 'Behavioral Health and Lab Workflow Automation: Complete Guide 2026', excerpt: 'Behavioral health practices and clinical laboratories share a common challenge: high-volume, compliance-sensitive administrative workflows.', tags: ['healthcare','compliance','lab'] },
+      ].map(a => (
+        <div style="background:white;border:1px solid rgba(10,10,10,0.08);border-radius:14px;padding:1.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+          <a href={`/pages/blog/${a.slug}`} style="font-family:Georgia,serif;font-size:1rem;line-height:1.45;color:#0A0A0A;text-decoration:none;font-weight:500;">{a.title}</a>
+          <p style="font-size:0.8125rem;line-height:1.65;color:rgba(10,10,10,0.5);flex:1;">{a.excerpt}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.375rem;">
+            {a.tags.map(t => <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:999px;background:rgba(232,180,176,0.12);color:rgba(10,10,10,0.5);">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:#E8B4B0;padding:4rem 0;">
+  <div style="max-width:680px;margin:0 auto;padding:0 1.5rem;text-align:center;">
+    <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.3rem);color:#0A0A0A;margin-bottom:1rem;">Ready to Deploy Your First Production Workflow?</h2>
+    <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.65);margin-bottom:2rem;">Book a free 30-minute audit. We map your workflows, identify the highest-ROI automation targets, and give you a written deployment blueprint. No commitment required. Most clients see payback within 6 weeks.</p>
+    <a href="/pages/welcome" style="display:inline-block;background:#0A0A0A;color:#F8F6F1;padding:1.125rem 2.5rem;border-radius:10px;font-size:0.9375rem;font-weight:600;text-decoration:none;">Get my free automation plan</a>
+    <p style="font-size:0.75rem;color:rgba(10,10,10,0.45);margin-top:1rem;">No payment required · UK-based team · Response within 1 business day</p>
+  </div>
+</section>
+
+</ShopLayout>

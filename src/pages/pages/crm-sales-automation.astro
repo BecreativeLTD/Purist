@@ -1,0 +1,205 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+---
+
+<ShopLayout
+  title="CRM & Sales Automation Guide 2026: Pipelines That Close Themselves | PURIST"
+  description="Automate your entire sales pipeline — CRM data quality, email sequences, lead generation, HubSpot, Pipedrive, Salesforce. Built by PURIST from 500+ real deployments."
+  canonical="https://www.purist.online/pages/crm-sales-automation"
+>
+
+<!-- JSON-LD Schema -->
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "CRM and Sales Automation Guide 2026 — PURIST",
+  "description": "From lead capture to closed deal — automation playbooks for every stage of the sales pipeline.",
+  "url": "https://www.purist.online/pages/crm-sales-automation",
+  "publisher": {
+    "@type": "Organization",
+    "name": "PURIST",
+    "url": "https://www.purist.online"
+  },
+  "hasPart": [
+    { "@type": "Article", "name": "CRM automation: the complete 2026 guide to a self-running sales pipeline", "url": "https://www.purist.online/pages/blog/crm-automation-complete-guide-self-running-sales-pipeline-2026" },
+    { "@type": "Article", "name": "Your CRM is lying to you: how data quality automation fixes the silent revenue killer", "url": "https://www.purist.online/pages/blog/your-crm-is-lying-to-you-data-quality-automation" },
+    { "@type": "Article", "name": "Lead generation automation: build a 24/7 prospecting machine", "url": "https://www.purist.online/pages/blog/lead-generation-automation-prospecting-machine-2026" }
+  ]
+})} />
+
+<!-- Hero -->
+<section style="background:#0A0A0A;color:#F8F6F1;padding:5rem 0 4rem;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 55% at 50% 0%,rgba(232,180,176,0.07) 0%,transparent 65%);"></div>
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1;">
+    <div style="max-width:760px;margin:0 auto;text-align:center;">
+      <div style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.375rem 0.875rem;border-radius:999px;border:1px solid rgba(232,180,176,0.28);background:rgba(232,180,176,0.06);margin-bottom:1.5rem;">
+        <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.16em;font-weight:600;color:rgba(232,180,176,0.8);">HubSpot · Pipedrive · Salesforce · Email · Outbound</span>
+      </div>
+      <h1 style="font-family:Georgia,serif;font-size:clamp(2.1rem,5vw,3.3rem);line-height:1.08;letter-spacing:-0.025em;color:#F8F6F1;margin-bottom:1.25rem;">
+        CRM and Sales<br/><em style="font-style:italic;color:#E8B4B0;">Automation</em>
+      </h1>
+      <p style="font-size:1.0625rem;line-height:1.7;color:rgba(248,246,241,0.52);max-width:600px;margin:0 auto 2.5rem;">
+        From lead capture to closed deal — automation playbooks for every stage of the sales pipeline.
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:3rem;">
+        <a href="/pages/welcome" style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:1rem 2rem;border-radius:10px;font-size:0.875rem;font-weight:600;text-decoration:none;">Get my free automation plan</a>
+        <a href="/pages/blog" style="display:inline-block;background:rgba(255,255,255,0.06);color:rgba(248,246,241,0.7);border:1px solid rgba(255,255,255,0.12);padding:1rem 2rem;border-radius:10px;font-size:0.875rem;font-weight:500;text-decoration:none;">Browse all articles</a>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:2.5rem;">
+        {[['500+','Pipeline deployments'],['28%','Time reps spend selling (manual)'],['72%','Admin that automation reclaims'],['13 guides','In-depth CRM playbooks']].map(([n,l]) => (
+          <div style="text-align:center;">
+            <p style="font-family:Georgia,serif;font-size:1.75rem;line-height:1;margin-bottom:0.25rem;color:#E8B4B0;">{n}</p>
+            <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(248,246,241,0.3);">{l}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Intro -->
+<section style="background:#F8F6F1;padding:4rem 0 2rem;">
+  <div style="max-width:800px;margin:0 auto;padding:0 1.5rem;">
+    <p style="font-size:1rem;line-height:1.85;color:rgba(10,10,10,0.65);">
+      Sales reps spend only 28% of their time actually selling. The other 72% is administrative: updating CRM records, scheduling follow-ups, logging call notes, building sequences, researching prospects. Every hour spent on those tasks is an hour not spent closing revenue. CRM and sales automation changes that equation fundamentally. This guide library covers the complete sales automation stack: fixing the data quality problems that make your CRM unreliable in the first place, building lead capture systems that respond within minutes instead of days, deploying email sequences that convert while your team sleeps, and connecting your CRM to every tool in your stack so nothing falls through the cracks. Every guide is built from 500+ production deployments, not theoretical best practices or vendor marketing.
+    </p>
+  </div>
+</section>
+
+<!-- Section 1: CRM Setup & Data Quality -->
+<section style="background:#F8F6F1;padding:3rem 0 4rem;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 2rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#0A0A0A;margin-bottom:1rem;">CRM Setup and Data Quality</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.55);">Most CRM problems are not software problems. They are data quality problems: duplicate contacts, outdated fields, missing company data, and contact records that bear no resemblance to the actual relationship. These guides start where every CRM project should start — fixing the data foundation before building any automation on top of it.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+      {[
+        { slug: 'crm-automation-complete-guide-self-running-sales-pipeline-2026', title: 'CRM automation: the complete 2026 guide to a self-running sales pipeline', excerpt: 'Most CRMs are expensive address books. CRM automation transforms them into self-running revenue engines but only when you build the right architecture.', tags: ['CRM','pipeline','automation'] },
+        { slug: 'your-crm-is-lying-to-you-data-quality-automation', title: 'Your CRM is lying to you: how data quality automation fixes the silent revenue killer.', excerpt: 'Duplicate contacts, outdated emails, missing fields, CRM data rot costs businesses thousands in lost deals every quarter. Here is how to fix it automatically.', tags: ['data quality','CRM','deduplication'] },
+        { slug: 'salesforce-hubspot-sync-automation-2026', title: 'Salesforce to HubSpot Sync: The Integration That Keeps Both CRMs Clean and Current', excerpt: 'When sales runs on Salesforce and marketing runs on HubSpot, data divergence is inevitable without a proper sync. Here is the architecture that prevents it.', tags: ['Salesforce','HubSpot','sync'] },
+      ].map(a => (
+        <div style="background:white;border:1px solid rgba(10,10,10,0.08);border-radius:14px;padding:1.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+          <a href={`/pages/blog/${a.slug}`} style="font-family:Georgia,serif;font-size:1rem;line-height:1.45;color:#0A0A0A;text-decoration:none;font-weight:500;">{a.title}</a>
+          <p style="font-size:0.8125rem;line-height:1.65;color:rgba(10,10,10,0.5);flex:1;">{a.excerpt}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.375rem;">
+            {a.tags.map(t => <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:999px;background:rgba(232,180,176,0.12);color:rgba(10,10,10,0.5);">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Section 2: Lead Generation & Capture (dark) -->
+<section style="background:#0A0A0A;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 2rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#F8F6F1;margin-bottom:1rem;">Lead Generation and Capture</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(248,246,241,0.45);">The average Facebook Lead Ads lead waits 47 hours before receiving first contact. Businesses that respond within 5 minutes are 100x more likely to make contact. Calendly bookings that sit in an inbox without CRM updates lose deal context within hours. These guides close the gap between lead arrival and first meaningful contact, automatically.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+      {[
+        { slug: 'lead-generation-automation-prospecting-machine-2026', title: 'Lead generation automation: build a 24/7 prospecting machine in 2026', excerpt: 'Most businesses generate leads manually, attending events, posting content, sending cold emails one by one. Here is how to build a system that runs around the clock.', tags: ['lead gen','prospecting','24/7'] },
+        { slug: 'facebook-lead-ads-crm-automation-2026', title: 'Facebook Lead Ads to CRM Automation: Zero-Lag Lead Capture That Closes More Deals', excerpt: 'The average Facebook Lead Ads lead waits 47 hours before receiving first contact. Businesses that respond within 5 minutes are 100x more likely to make contact.', tags: ['Facebook Ads','lead capture','CRM'] },
+        { slug: 'calendly-hubspot-automation-workflows-2026', title: 'Calendly + HubSpot Automation: From Booked Meeting to Closed Deal Without Touching a Keyboard', excerpt: 'Every Calendly booking that requires manual HubSpot updates costs 8-12 minutes and introduces CRM data gaps that hurt deal progression.', tags: ['Calendly','HubSpot','meetings'] },
+      ].map(a => (
+        <div style="border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+          <a href={`/pages/blog/${a.slug}`} style="font-family:Georgia,serif;font-size:1rem;line-height:1.45;color:#F8F6F1;text-decoration:none;font-weight:500;">{a.title}</a>
+          <p style="font-size:0.8125rem;line-height:1.65;color:rgba(248,246,241,0.4);flex:1;">{a.excerpt}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.375rem;">
+            {a.tags.map(t => <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:999px;background:rgba(232,180,176,0.12);color:rgba(232,180,176,0.6);">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Section 3: Email & Communication (light) -->
+<section style="background:#F8F6F1;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 2rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#0A0A0A;margin-bottom:1rem;">Email and Communication Automation</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.55);">Most businesses send emails. Few businesses have email automation that actually converts. The difference is not volume, it is timing, segmentation, and the 7 sequences that every revenue-generating business needs running continuously. These guides also cover Slack and Notion automation, the two communication hubs where most operational context gets created and then forgotten.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+      {[
+        { slug: 'email-automation-complete-guide-sequences-that-convert-2026', title: 'Email automation in 2026: build sequences that convert while you sleep', excerpt: 'Most businesses send emails. Few businesses have email automation that actually converts. Here are the 7 sequences every business needs and how to build them.', tags: ['email','sequences','conversion'] },
+        { slug: 'slack-automation-workflows-save-time-team-2026', title: 'Slack automation: 15 workflows that save your team 10 hours a week', excerpt: 'Slack sits at the centre of most teams operations which makes it the perfect hub for automation. Here are 15 concrete workflows with implementation details.', tags: ['Slack','team','workflows'] },
+        { slug: 'notion-automation-connect-workspace-every-tool-2026', title: 'Notion automation: connect your workspace to every tool you use in 2026', excerpt: 'Notion is the operational hub for thousands of teams but without automation, it is a beautiful dead end. Here are 10 automations that change that.', tags: ['Notion','workspace','integration'] },
+      ].map(a => (
+        <div style="background:white;border:1px solid rgba(10,10,10,0.08);border-radius:14px;padding:1.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+          <a href={`/pages/blog/${a.slug}`} style="font-family:Georgia,serif;font-size:1rem;line-height:1.45;color:#0A0A0A;text-decoration:none;font-weight:500;">{a.title}</a>
+          <p style="font-size:0.8125rem;line-height:1.65;color:rgba(10,10,10,0.5);flex:1;">{a.excerpt}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.375rem;">
+            {a.tags.map(t => <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:999px;background:rgba(232,180,176,0.12);color:rgba(10,10,10,0.5);">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Section 4: Pipeline & Revenue (dark) -->
+<section style="background:#0A0A0A;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 2rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#F8F6F1;margin-bottom:1rem;">Pipeline and Revenue Automation</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(248,246,241,0.45);">HubSpot has powerful native automation, but most businesses use less than 20% of what it can do. Pipedrive is only as powerful as the workflows built around it. Sales automation is the difference between a pipeline that moves deals forward automatically and one that depends entirely on rep discipline. These guides cover the complete pipeline automation stack.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+      {[
+        { slug: 'sales-automation-pipeline-works-while-reps-sleep-2026', title: 'Sales automation: build a pipeline that works while your reps sleep', excerpt: 'Sales reps spend only 28% of their time actually selling. The other 72% is admin, scheduling, and data entry that automation handles better and faster.', tags: ['sales','pipeline','automation'] },
+        { slug: 'hubspot-automation-workflows-crm-revenue-2026', title: 'HubSpot automation: 10 workflows that turn your CRM into a revenue machine', excerpt: 'HubSpot has powerful native automation, but most businesses use less than 20% of what it can do. Here are 10 specific workflows that change that.', tags: ['HubSpot','CRM','revenue'] },
+        { slug: 'pipedrive-automation-workflows-close-deals-autopilot-2026', title: 'Pipedrive automation: 9 workflows that close deals on autopilot in 2026', excerpt: 'Pipedrive is only as powerful as the workflows built around it. These 9 automations turn your CRM into a self-running sales machine.', tags: ['Pipedrive','deals','autopilot'] },
+        { slug: 'failed-payment-recovery-automation-2026', title: 'Failed Payment Recovery Automation: Recover 60% of Failed Transactions Automatically', excerpt: 'The average SaaS business loses 9% of monthly revenue to failed payments. Most of those failures are recoverable with the right dunning automation.', tags: ['payments','recovery','revenue'] },
+      ].map(a => (
+        <div style="border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+          <a href={`/pages/blog/${a.slug}`} style="font-family:Georgia,serif;font-size:1rem;line-height:1.45;color:#F8F6F1;text-decoration:none;font-weight:500;">{a.title}</a>
+          <p style="font-size:0.8125rem;line-height:1.65;color:rgba(248,246,241,0.4);flex:1;">{a.excerpt}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.375rem;">
+            {a.tags.map(t => <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:999px;background:rgba(232,180,176,0.12);color:rgba(232,180,176,0.6);">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Section 5: Outbound & B2B (light) -->
+<section style="background:#F8F6F1;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 2rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#0A0A0A;margin-bottom:1rem;">Outbound and B2B Sales Automation</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.55);">The 451 Research data on B2B outbound automation is unambiguous: sequence quality and timing matter more than volume. AI-powered lead generation is transforming what trade businesses and local service providers can achieve. Inbound pipeline and SDR workflow automation closes the gap between marketing-qualified leads and sales conversations. These guides cover the full outbound stack.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+      {[
+        { slug: 'b2b-sales-outbound-automation-technology-2026', title: 'B2B Sales Outbound Automation: Technology, Sequencing and What the Research Actually Says in 2026', excerpt: 'The 451 Research and Salesforce Eloqua data on B2B outbound automation is clear: sequence quality and timing matter more than volume and spray-and-pray.', tags: ['B2B','outbound','sequencing'] },
+        { slug: 'inbound-marketing-pipeline-sdr-workflow-automation-2026', title: 'Inbound Marketing Pipeline and SDR Workflow Automation: Complete Guide 2026', excerpt: 'The gap between marketing and SDR teams is where pipeline leaks. This guide covers the complete inbound pipeline automation from MQL to booked meeting.', tags: ['inbound','SDR','pipeline'] },
+        { slug: 'ai-lead-generation-automation-trade-local-business-2026', title: 'AI Lead Generation Automation for Trade and Local Service Businesses 2026', excerpt: 'Trade businesses lose more leads to slow follow-up than to competition. AI lead generation automation closes that gap and builds a 24/7 prospecting engine.', tags: ['AI','lead gen','local business'] },
+      ].map(a => (
+        <div style="background:white;border:1px solid rgba(10,10,10,0.08);border-radius:14px;padding:1.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+          <a href={`/pages/blog/${a.slug}`} style="font-family:Georgia,serif;font-size:1rem;line-height:1.45;color:#0A0A0A;text-decoration:none;font-weight:500;">{a.title}</a>
+          <p style="font-size:0.8125rem;line-height:1.65;color:rgba(10,10,10,0.5);flex:1;">{a.excerpt}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.375rem;">
+            {a.tags.map(t => <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:999px;background:rgba(232,180,176,0.12);color:rgba(10,10,10,0.5);">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:#E8B4B0;padding:4rem 0;">
+  <div style="max-width:680px;margin:0 auto;padding:0 1.5rem;text-align:center;">
+    <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.3rem);color:#0A0A0A;margin-bottom:1rem;">Ready to Build a Pipeline That Closes Itself?</h2>
+    <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.65);margin-bottom:2rem;">Book a free 30-minute audit. We map your current sales process, identify where leads are falling through the cracks, and build you an automation blueprint that your team can deploy in under 10 days. No commitment required.</p>
+    <a href="/pages/welcome" style="display:inline-block;background:#0A0A0A;color:#F8F6F1;padding:1.125rem 2.5rem;border-radius:10px;font-size:0.9375rem;font-weight:600;text-decoration:none;">Get my free automation plan</a>
+    <p style="font-size:0.75rem;color:rgba(10,10,10,0.45);margin-top:1rem;">No payment required · UK-based team · Response within 1 business day</p>
+  </div>
+</section>
+
+</ShopLayout>

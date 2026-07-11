@@ -1,0 +1,240 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+---
+
+<ShopLayout
+  title="Business Automation Guide 2026: Playbooks for Every Department | PURIST"
+  description="Automation playbooks for every business department — operations, HR, finance, customer onboarding, invoicing, scheduling, reporting. Real implementations from PURIST."
+  canonical="https://www.purist.online/pages/business-automation-guide"
+>
+
+<!-- JSON-LD Schema -->
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Business Automation Guide 2026 — PURIST",
+  "description": "Department-by-department automation playbooks built from real production deployments across 500+ businesses.",
+  "url": "https://www.purist.online/pages/business-automation-guide",
+  "publisher": {
+    "@type": "Organization",
+    "name": "PURIST",
+    "url": "https://www.purist.online"
+  },
+  "hasPart": [
+    { "@type": "Article", "name": "How to automate your business in 2026: the complete playbook", "url": "https://www.purist.online/pages/blog/how-to-automate-your-business-complete-playbook-2026" },
+    { "@type": "Article", "name": "Invoice automation: eliminate manual billing", "url": "https://www.purist.online/pages/blog/invoice-automation-eliminate-manual-billing-get-paid-faster-2026" },
+    { "@type": "Article", "name": "HR automation: 11 processes you should stop doing manually", "url": "https://www.purist.online/pages/blog/hr-automation-processes-stop-doing-manually-2026" }
+  ]
+})} />
+
+<!-- Hero -->
+<section style="background:#0A0A0A;color:#F8F6F1;padding:5rem 0 4rem;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 55% at 50% 0%,rgba(232,180,176,0.07) 0%,transparent 65%);"></div>
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1;">
+    <div style="max-width:760px;margin:0 auto;text-align:center;">
+      <div style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.375rem 0.875rem;border-radius:999px;border:1px solid rgba(232,180,176,0.28);background:rgba(232,180,176,0.06);margin-bottom:1.5rem;">
+        <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.16em;font-weight:600;color:rgba(232,180,176,0.8);">Operations · Finance · HR · Customer Success · Industry</span>
+      </div>
+      <h1 style="font-family:Georgia,serif;font-size:clamp(2.1rem,5vw,3.3rem);line-height:1.08;letter-spacing:-0.025em;color:#F8F6F1;margin-bottom:1.25rem;">
+        Business Automation<br/><em style="font-style:italic;color:#E8B4B0;">Playbook</em>
+      </h1>
+      <p style="font-size:1.0625rem;line-height:1.7;color:rgba(248,246,241,0.52);max-width:600px;margin:0 auto 2.5rem;">
+        Department-by-department automation guides built from real production deployments across 500+ businesses.
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:3rem;">
+        <a href="/pages/welcome" style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:1rem 2rem;border-radius:10px;font-size:0.875rem;font-weight:600;text-decoration:none;">Get my free automation plan</a>
+        <a href="/pages/blog" style="display:inline-block;background:rgba(255,255,255,0.06);color:rgba(248,246,241,0.7);border:1px solid rgba(255,255,255,0.12);padding:1rem 2rem;border-radius:10px;font-size:0.875rem;font-weight:500;text-decoration:none;">Browse all articles</a>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:2.5rem;">
+        {[['500+','Businesses automated'],['27+','Department guides'],['14h/wk','Average time saved'],['6 wks','Average payback period']].map(([n,l]) => (
+          <div style="text-align:center;">
+            <p style="font-family:Georgia,serif;font-size:1.75rem;line-height:1;margin-bottom:0.25rem;color:#E8B4B0;">{n}</p>
+            <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(248,246,241,0.3);">{l}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Intro -->
+<section style="background:#F8F6F1;padding:4rem 0 2rem;">
+  <div style="max-width:800px;margin:0 auto;padding:0 1.5rem;">
+    <p style="font-size:1rem;line-height:1.85;color:rgba(10,10,10,0.65);">
+      Every department in your business is running manual processes that should be automated. Not because automation is fashionable, but because those manual processes are the single largest drag on your capacity to grow without proportionally increasing headcount. Finance teams re-entering Stripe transactions into QuickBooks. HR spending 73% of their time on admin that follows predictable rules. Operations manually compiling reports that update themselves in a connected system. Customer success chasing onboarding tasks instead of building relationships. This playbook covers every department with specific, production-tested automation guides: what to automate first, what tools to use, and what real results to expect. Every guide is built from actual deployments, not theoretical frameworks.
+    </p>
+  </div>
+</section>
+
+<!-- Section 1: Operations & Scaling -->
+<section style="background:#F8F6F1;padding:3rem 0 4rem;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 2rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#0A0A0A;margin-bottom:1rem;">Operations and Scaling</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.55);">The instinct when overwhelmed is to hire. The companies that grow fastest without burning cash have learned to automate first. These guides cover the complete operational automation playbook: from the first 12 quick wins under £500 to the full step-by-step system for automating an entire business, plus 50 concrete examples you can deploy this week.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+      {[
+        { slug: 'scaling-without-hiring-the-automation-playbook', title: 'Scaling without hiring: the automation playbook for growing teams.', excerpt: 'The instinct when overwhelmed is to hire. But what if 60% of those tasks could be automated? The companies that grow fastest know the difference.', tags: ['scaling','operations','growth'] },
+        { slug: 'how-to-automate-your-business-complete-playbook-2026', title: 'How to automate your business in 2026: the complete step-by-step playbook', excerpt: 'Business process automation is no longer optional for competitive SMBs but most businesses start in the wrong place and waste the first six months.', tags: ['playbook','SMB','strategy'] },
+        { slug: 'workflow-automation-small-business-quick-wins-2026', title: 'Workflow automation for small businesses: 12 quick wins under £500', excerpt: 'Small businesses are systematically underinvesting in automation not because it does not work for them, but because nobody told them where to start.', tags: ['small business','quick wins','budget'] },
+        { slug: 'business-process-automation-complete-guide-2026', title: 'Business Process Automation: The Complete Guide for 2026', excerpt: 'Business process automation is not about replacing people. It is about removing the work that stops them doing what they were hired to do.', tags: ['BPA','process','guide'] },
+        { slug: 'workflow-automation-examples-50-ideas-2026', title: '50 Workflow Automation Examples Your Business Can Deploy Today', excerpt: '50 concrete workflow automation examples across sales, marketing, operations, finance, HR, and customer support organised by department and complexity.', tags: ['examples','ideas','department'] },
+        { slug: 'the-operations-stack-we-recommend-for-scaling-startups-2026', title: 'The operations stack we recommend for scaling startups in 2026.', excerpt: 'The tools you choose at 10 employees determine your operational ceiling at 100. Here is the stack we consistently recommend and why.', tags: ['stack','startup','tools'] },
+      ].map(a => (
+        <div style="background:white;border:1px solid rgba(10,10,10,0.08);border-radius:14px;padding:1.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+          <a href={`/pages/blog/${a.slug}`} style="font-family:Georgia,serif;font-size:1rem;line-height:1.45;color:#0A0A0A;text-decoration:none;font-weight:500;">{a.title}</a>
+          <p style="font-size:0.8125rem;line-height:1.65;color:rgba(10,10,10,0.5);flex:1;">{a.excerpt}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.375rem;">
+            {a.tags.map(t => <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:999px;background:rgba(232,180,176,0.12);color:rgba(10,10,10,0.5);">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Section 2: Finance & Admin (dark) -->
+<section style="background:#0A0A0A;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 2rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#F8F6F1;margin-bottom:1rem;">Finance and Admin</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(248,246,241,0.45);">Finance automation has the clearest ROI of any department. Every Stripe transaction manually entered into QuickBooks costs 4-7 minutes and carries a 12% error rate. Every manual invoice adds 8-12 days to payment cycles. Every subscription renewal processed by hand is a churn risk. These guides cover the complete finance automation stack from bookkeeping to billing.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+      {[
+        { slug: 'invoice-automation-eliminate-manual-billing-get-paid-faster-2026', title: 'Invoice automation: eliminate manual billing and get paid faster in 2026', excerpt: 'Manual invoicing costs the average SMB 6-10 hours per month and adds 8-12 days to payment cycles. Here is how to automate the entire process.', tags: ['invoicing','billing','finance'] },
+        { slug: 'accounting-firm-automation-bookkeeping-workflows-2026', title: 'Accounting Firm Automation: 12 Workflows That Eliminate Manual Bookkeeping', excerpt: 'Manual bookkeeping consumes 60-70% of accounting staff time on tasks that add no analytical value. These 12 workflows eliminate the manual layer.', tags: ['accounting','bookkeeping','workflows'] },
+        { slug: 'subscription-billing-automation-reduce-churn-revenue-2026', title: 'Subscription Billing Automation: Stop Losing Revenue to Failed Payments and Churn', excerpt: 'Subscription businesses lose 9-11% of monthly recurring revenue to billing failures, involuntary churn, and manual billing errors. Fix it.', tags: ['subscriptions','billing','churn'] },
+        { slug: 'purchase-order-approval-automation-2026', title: 'Purchase Order Approval Automation: Eliminate the Email Chain That Slows Every Deal', excerpt: 'The average purchase order spends 3-7 days in an email approval chain. Automated PO approval workflows cut that to under 4 hours.', tags: ['purchase orders','approval','finance'] },
+        { slug: 'stripe-quickbooks-integration-automation-2026', title: 'Stripe to QuickBooks Integration: The Automation That Eliminates Manual Bookkeeping', excerpt: 'Every Stripe payment manually re-entered into QuickBooks costs 4-7 minutes and carries a 12% error rate. Here is the integration that ends that.', tags: ['Stripe','QuickBooks','integration'] },
+        { slug: 'b2b-finance-automation-payments-ap-reconciliation-2026', title: 'B2B Finance Automation: How to Automate Payments, Accounts Payable and Reconciliation in 2026', excerpt: 'Manual B2B payments, accounts payable, and bank reconciliation cost finance teams 15 to 25 hours per week in data entry and exception handling.', tags: ['B2B','accounts payable','reconciliation'] },
+      ].map(a => (
+        <div style="border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+          <a href={`/pages/blog/${a.slug}`} style="font-family:Georgia,serif;font-size:1rem;line-height:1.45;color:#F8F6F1;text-decoration:none;font-weight:500;">{a.title}</a>
+          <p style="font-size:0.8125rem;line-height:1.65;color:rgba(248,246,241,0.4);flex:1;">{a.excerpt}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.375rem;">
+            {a.tags.map(t => <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:999px;background:rgba(232,180,176,0.12);color:rgba(232,180,176,0.6);">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Section 3: People & HR (light) -->
+<section style="background:#F8F6F1;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 2rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#0A0A0A;margin-bottom:1rem;">People and HR</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.55);">HR teams spend 73% of their time on administrative work that follows predictable rules: onboarding checklists, joiner-mover-leaver IT provisioning, recruitment screening, policy acknowledgement tracking. Automation does not replace HR judgment. It removes the paperwork that prevents HR from exercising that judgment where it matters.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+      {[
+        { slug: 'hr-automation-processes-stop-doing-manually-2026', title: 'HR automation: 11 processes you should stop doing manually in 2026', excerpt: 'HR teams spend 73% of their time on admin that could be automated. Here are the 11 processes consuming that time and exactly how to automate each one.', tags: ['HR','admin','automation'] },
+        { slug: 'joiner-mover-leaver-automation-hr-workflow-2026', title: 'Joiner Mover Leaver Automation: The Complete HR Workflow Guide 2026', excerpt: 'Every employee lifecycle event triggers a cascade of manual tasks across IT, HR, finance, and operations. Automation handles the entire cascade.', tags: ['HR','JML','IT provisioning'] },
+        { slug: 'student-enrolment-automation-complete-guide-2026', title: 'Student Enrolment Automation: The Complete Guide for Schools and Universities 2026', excerpt: 'Manual student enrolment processes cost schools and universities thousands of staff hours every year. This guide covers the complete automation system.', tags: ['education','enrolment','admin'] },
+        { slug: 'recruitment-agency-automation-workflows-2026', title: 'Recruitment Agency Automation: From CV Screening to Offer Letter Without the Admin', excerpt: 'Recruitment consultants spend 60% of their time on administrative tasks that add no value to clients or candidates. These workflows change that.', tags: ['recruitment','CV screening','agency'] },
+      ].map(a => (
+        <div style="background:white;border:1px solid rgba(10,10,10,0.08);border-radius:14px;padding:1.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+          <a href={`/pages/blog/${a.slug}`} style="font-family:Georgia,serif;font-size:1rem;line-height:1.45;color:#0A0A0A;text-decoration:none;font-weight:500;">{a.title}</a>
+          <p style="font-size:0.8125rem;line-height:1.65;color:rgba(10,10,10,0.5);flex:1;">{a.excerpt}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.375rem;">
+            {a.tags.map(t => <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:999px;background:rgba(232,180,176,0.12);color:rgba(10,10,10,0.5);">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Section 4: Customer Operations (dark) -->
+<section style="background:#0A0A0A;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 2rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#F8F6F1;margin-bottom:1rem;">Customer Operations</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(248,246,241,0.45);">Customer onboarding, scheduling, and SaaS activation are the three customer operations areas with the highest automation ROI. Manual onboarding breaks at 10 clients. Manual scheduling produces no-shows that cost the NHS £1 billion per year. Manual SaaS onboarding causes 60% of first-month churn. Automation solves all three at scale.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+      {[
+        { slug: 'customer-onboarding-automation-5-star-experience-scale-2026', title: 'Customer onboarding automation: deliver a 5-star experience at scale in 2026', excerpt: 'Manual onboarding breaks the moment you have more than 10 clients. Automated onboarding delivers a better experience to 1,000 clients than you could manually deliver to 10.', tags: ['onboarding','customer','scale'] },
+        { slug: 'appointment-scheduling-automation-zero-no-shows-2026', title: 'Appointment scheduling automation: zero no-shows and full calendars in 2026', excerpt: 'No-shows cost the NHS £1 billion per year. Private practices lose £150-400 per missed slot. A 6-layer scheduling automation eliminates them.', tags: ['scheduling','no-shows','appointments'] },
+        { slug: 'saas-onboarding-automation-activation-retention-2026', title: 'SaaS Onboarding Automation: Cut Time-to-Value and Reduce Churn From Week One', excerpt: '60% of SaaS churn happens before the end of the first month. The root cause is almost always the same: users did not reach their activation moment.', tags: ['SaaS','onboarding','churn'] },
+        { slug: 'failed-payment-recovery-automation-2026', title: 'Failed Payment Recovery Automation: Recover 60% of Failed Transactions Automatically', excerpt: 'The average SaaS business loses 9% of monthly revenue to failed payments. Most of those failures are recoverable with the right automation running within 24 hours.', tags: ['payments','recovery','dunning'] },
+      ].map(a => (
+        <div style="border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+          <a href={`/pages/blog/${a.slug}`} style="font-family:Georgia,serif;font-size:1rem;line-height:1.45;color:#F8F6F1;text-decoration:none;font-weight:500;">{a.title}</a>
+          <p style="font-size:0.8125rem;line-height:1.65;color:rgba(248,246,241,0.4);flex:1;">{a.excerpt}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.375rem;">
+            {a.tags.map(t => <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:999px;background:rgba(232,180,176,0.12);color:rgba(232,180,176,0.6);">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Section 5: Industry Operations (light) -->
+<section style="background:#F8F6F1;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 2rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#0A0A0A;margin-bottom:1rem;">Industry Operations</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.55);">Generic automation advice misses the specific operational patterns of each industry. A property manager handling 200 units has entirely different workflow requirements than a restaurant managing online orders. A construction company winning bids needs different automation than a gym managing member journeys. These guides go deep into each vertical.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+      {[
+        { slug: 'property-management-automation-tenant-landlord-workflows-2026', title: 'Property Management Automation: How to Run 200 Units Without a Full Ops Team', excerpt: 'Property managers handling 200 units with a small team are drowning in maintenance requests, tenant communications, rent collection, and compliance checks.', tags: ['property','real estate','tenants'] },
+        { slug: 'restaurant-automation-orders-staff-reviews-2026', title: 'Restaurant Automation: From Online Orders to Staff Scheduling on Autopilot', excerpt: 'Restaurants operating on 3-5% net margins cannot afford the hidden costs of manual operations: missed orders, scheduling errors, and lost reviews.', tags: ['restaurant','hospitality','scheduling'] },
+        { slug: 'construction-company-automation-project-workflows-2026', title: 'Construction Company Automation: Project Management Workflows That Win More Jobs', excerpt: 'Construction companies lose bids because quotes take too long. They lose margin because site communications are inefficient. Automation fixes both.', tags: ['construction','project management','quotes'] },
+        { slug: 'gym-fitness-studio-automation-member-workflows-2026', title: 'Gym and Fitness Studio Automation: Member Journeys That Run Without You', excerpt: 'Gym owners and studio managers spend 60% of their operational time on tasks that should be automated: new member onboarding, class reminders, payment chasing.', tags: ['gym','fitness','members'] },
+        { slug: 'nonprofit-automation-donor-volunteer-management-2026', title: 'Nonprofit Automation: How Charities Are Doing More With Less Using Workflows', excerpt: 'Charities face the same operational complexity as businesses but with a fraction of the budget and staff. Automation closes that gap significantly.', tags: ['nonprofit','charity','donors'] },
+        { slug: 'insurance-broker-automation-client-policy-workflows-2026', title: 'Insurance Broker Automation: Client Onboarding, Policy Renewals and Claims on Autopilot', excerpt: 'Insurance brokers spend 70% of their time on administrative tasks that add no client value: data entry, renewal chasing, and compliance documentation.', tags: ['insurance','broker','renewals'] },
+      ].map(a => (
+        <div style="background:white;border:1px solid rgba(10,10,10,0.08);border-radius:14px;padding:1.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+          <a href={`/pages/blog/${a.slug}`} style="font-family:Georgia,serif;font-size:1rem;line-height:1.45;color:#0A0A0A;text-decoration:none;font-weight:500;">{a.title}</a>
+          <p style="font-size:0.8125rem;line-height:1.65;color:rgba(10,10,10,0.5);flex:1;">{a.excerpt}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.375rem;">
+            {a.tags.map(t => <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:999px;background:rgba(232,180,176,0.12);color:rgba(10,10,10,0.5);">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Section 6: Data & Reporting (dark) -->
+<section style="background:#0A0A0A;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 2rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#F8F6F1;margin-bottom:1rem;">Data and Reporting</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(248,246,241,0.45);">Managers spend 8 hours every week on reporting. That is 20% of a working week on copy-paste. Data entry automation eliminates 90% of manual input. Document generation automation creates contracts and proposals in seconds. Automated reporting builds dashboards that update themselves. These guides cover all three.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+      {[
+        { slug: 'data-entry-automation-eliminate-manual-input-ai-2026', title: 'Data entry automation: eliminate 90% of manual input with AI in 2026', excerpt: 'Manual data entry costs businesses £47 per hour in fully-loaded labour and that is before the error correction. Here is how to eliminate it with AI.', tags: ['data entry','AI','elimination'] },
+        { slug: 'automated-business-reporting-dashboards-update-themselves-2026', title: 'Automated reporting: build dashboards that update themselves in 2026', excerpt: 'Managers spend 8 hours every week on reporting. That is 20% of a working week on copy-paste. Here is how to build a BI system that reports itself.', tags: ['reporting','dashboards','BI'] },
+        { slug: 'document-generation-automation-contracts-proposals-2026', title: 'Document Generation Automation: Create Contracts, Proposals and Reports in Seconds', excerpt: 'Manually creating contracts, proposals, and reports consumes hours per week and introduces version control errors, inconsistencies, and delays.', tags: ['documents','contracts','generation'] },
+      ].map(a => (
+        <div style="border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+          <a href={`/pages/blog/${a.slug}`} style="font-family:Georgia,serif;font-size:1rem;line-height:1.45;color:#F8F6F1;text-decoration:none;font-weight:500;">{a.title}</a>
+          <p style="font-size:0.8125rem;line-height:1.65;color:rgba(248,246,241,0.4);flex:1;">{a.excerpt}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.375rem;">
+            {a.tags.map(t => <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:999px;background:rgba(232,180,176,0.12);color:rgba(232,180,176,0.6);">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:#E8B4B0;padding:4rem 0;">
+  <div style="max-width:680px;margin:0 auto;padding:0 1.5rem;text-align:center;">
+    <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.3rem);color:#0A0A0A;margin-bottom:1rem;">Which Department Should You Automate First?</h2>
+    <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.65);margin-bottom:2rem;">Book a free 30-minute automation audit. We walk through your operations department by department, calculate the ROI for each automation target, and give you a prioritised deployment plan. No commitment required. Most clients start saving time within 2 weeks.</p>
+    <a href="/pages/welcome" style="display:inline-block;background:#0A0A0A;color:#F8F6F1;padding:1.125rem 2.5rem;border-radius:10px;font-size:0.9375rem;font-weight:600;text-decoration:none;">Get my free automation plan</a>
+    <p style="font-size:0.75rem;color:rgba(10,10,10,0.45);margin-top:1rem;">No payment required · UK-based team · Response within 1 business day</p>
+  </div>
+</section>
+
+</ShopLayout>

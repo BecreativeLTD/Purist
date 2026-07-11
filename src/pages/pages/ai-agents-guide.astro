@@ -1,0 +1,154 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+---
+
+<ShopLayout
+  title="AI Agents Guide 2026: Build, Deploy and Scale AI in Your Business | PURIST"
+  description="Everything you need to build production AI agents. What works, what doesn't, architecture patterns, n8n + Claude integration, and 15 real business use cases."
+  canonical="https://www.purist.online/pages/ai-agents-guide"
+>
+
+<!-- JSON-LD Schema -->
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "AI Agents Guide 2026 — PURIST",
+  "description": "Everything you need to build production AI agents: what works, architecture patterns, n8n + Claude integration, and 15 real business use cases.",
+  "url": "https://www.purist.online/pages/ai-agents-guide",
+  "publisher": {
+    "@type": "Organization",
+    "name": "PURIST",
+    "url": "https://www.purist.online"
+  },
+  "hasPart": [
+    { "@type": "Article", "name": "AI agents in 2026: what actually works and what is still hype.", "url": "https://www.purist.online/pages/blog/ai-agents-in-2026-what-actually-works" },
+    { "@type": "Article", "name": "How to build an AI agent with n8n and Claude: the complete technical guide", "url": "https://www.purist.online/pages/blog/how-to-build-ai-agent-n8n-claude-complete-guide" },
+    { "@type": "Article", "name": "15 AI Agent Examples That Work in Real Businesses (Not Just Demos)", "url": "https://www.purist.online/pages/blog/ai-agent-examples-real-business-use-cases-2026" }
+  ]
+})} />
+
+<!-- Hero -->
+<section style="background:#0A0A0A;color:#F8F6F1;padding:5rem 0 4rem;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 55% at 50% 0%,rgba(232,180,176,0.07) 0%,transparent 65%);"></div>
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1;">
+    <div style="max-width:760px;margin:0 auto;text-align:center;">
+      <div style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.375rem 0.875rem;border-radius:999px;border:1px solid rgba(232,180,176,0.28);background:rgba(232,180,176,0.06);margin-bottom:1.5rem;">
+        <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.16em;font-weight:600;color:rgba(232,180,176,0.8);">n8n + Claude · Production-Grade · No Hype · Real Use Cases</span>
+      </div>
+      <h1 style="font-family:Georgia,serif;font-size:clamp(2.1rem,5vw,3.3rem);line-height:1.08;letter-spacing:-0.025em;color:#F8F6F1;margin-bottom:1.25rem;">
+        The AI Agents<br/><em style="font-style:italic;color:#E8B4B0;">Guide</em>
+      </h1>
+      <p style="font-size:1.0625rem;line-height:1.7;color:rgba(248,246,241,0.52);max-width:600px;margin:0 auto 2.5rem;">
+        95% of AI pilots fail. These guides cover what actually works in production — not demos, not hype.
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:3rem;">
+        <a href="/pages/welcome" style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:1rem 2rem;border-radius:10px;font-size:0.875rem;font-weight:600;text-decoration:none;">Get my free automation plan</a>
+        <a href="/pages/blog" style="display:inline-block;background:rgba(255,255,255,0.06);color:rgba(248,246,241,0.7);border:1px solid rgba(255,255,255,0.12);padding:1rem 2rem;border-radius:10px;font-size:0.875rem;font-weight:500;text-decoration:none;">Browse all articles</a>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:2.5rem;">
+        {[['95%','AI pilots that fail'],['5%','That share 3 things in common'],['15','Real business use cases'],['45-65%','AI support ticket resolution rate']].map(([n,l]) => (
+          <div style="text-align:center;">
+            <p style="font-family:Georgia,serif;font-size:1.75rem;line-height:1;margin-bottom:0.25rem;color:#E8B4B0;">{n}</p>
+            <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(248,246,241,0.3);">{l}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Intro -->
+<section style="background:#F8F6F1;padding:4rem 0 2rem;">
+  <div style="max-width:800px;margin:0 auto;padding:0 1.5rem;">
+    <p style="font-size:1rem;line-height:1.85;color:rgba(10,10,10,0.65);">
+      AI agents are the most overhyped and underimplemented technology in business right now. The demos are impressive. The production results are a different story. 95% of AI pilots fail to reach production, not because the technology is broken, but because the architecture is wrong: no memory, no error handling, no clear task scope, and no integration with the systems where the actual work happens. The 5% that succeed share three things in common: a narrow, well-defined task scope, structured data flows rather than open-ended prompting, and integration with real business tools through platforms like n8n. This guide library covers everything you need to join that 5%: what AI agents actually are and are not, how to build them properly using n8n and Claude, how to run them reliably in production, and 15 real business use cases with honest implementation details and results.
+    </p>
+  </div>
+</section>
+
+<!-- Section 1: What AI Agents Are (and Aren't) -->
+<section style="background:#F8F6F1;padding:3rem 0 4rem;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 2rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#0A0A0A;margin-bottom:1rem;">What AI Agents Are (and Are Not)</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.55);">The term "AI agent" has been stretched to cover everything from a simple GPT API call to fully autonomous multi-step decision systems. The gap between a compelling demo and a reliable production deployment is wider than most vendors admit. These articles define what agentic AI actually means in 2026, where it works reliably, and where it consistently fails in production environments.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+      {[
+        { slug: 'ai-agents-in-2026-what-actually-works', title: 'AI agents in 2026: what actually works and what is still hype.', excerpt: '95% of AI pilots fail. The 5% that succeed share three things in common. Here is what separates demo-ready from production-grade AI agents.', tags: ['AI agents','production','2026'] },
+        { slug: 'agentic-ai-business-operations-what-it-means-2026', title: 'Agentic AI in 2026: what it actually means for your business operations', excerpt: 'Agentic AI is the term everyone is using and almost nobody is defining correctly. Here is what it actually means, where it works, and where it does not.', tags: ['agentic AI','definition','business'] },
+        { slug: 'ai-agents-in-production-what-actually-works', title: 'AI agents in production: what actually works vs what sounds good in demos.', excerpt: 'The gap between a compelling AI agent demo and a reliable production deployment is wider than most vendors admit. Here is the honest account.', tags: ['production','demos','reality'] },
+      ].map(a => (
+        <div style="background:white;border:1px solid rgba(10,10,10,0.08);border-radius:14px;padding:1.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+          <a href={`/pages/blog/${a.slug}`} style="font-family:Georgia,serif;font-size:1rem;line-height:1.45;color:#0A0A0A;text-decoration:none;font-weight:500;">{a.title}</a>
+          <p style="font-size:0.8125rem;line-height:1.65;color:rgba(10,10,10,0.5);flex:1;">{a.excerpt}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.375rem;">
+            {a.tags.map(t => <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:999px;background:rgba(232,180,176,0.12);color:rgba(10,10,10,0.5);">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Section 2: Building AI Agents (dark) -->
+<section style="background:#0A0A0A;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 2rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#F8F6F1;margin-bottom:1rem;">Building AI Agents</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(248,246,241,0.45);">AI agents in production are not magic. They are structured workflows with an LLM at the core, surrounded by memory, tools, and error handling. The n8n + Claude combination is the most practical production stack available in 2026: n8n handles the orchestration, tool calling, and error recovery, while Claude handles the reasoning and generation. These guides cover the complete technical implementation from first node to production deployment. Claude AI as a standalone business tool is covered separately for teams who need document processing and reasoning without building a full agentic workflow.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+      {[
+        { slug: 'how-to-build-ai-agent-n8n-claude-complete-guide', title: 'How to build an AI agent with n8n and Claude: the complete technical guide', excerpt: 'AI agents in production are not magic. They are structured workflows with an LLM at the core, surrounded by memory, tools, and error handling. Here is how to build them.', tags: ['n8n','Claude','technical guide'] },
+        { slug: 'claude-ai-business-automation-complete-guide-2026', title: 'Claude AI for Business Automation: What It Does, What It Costs, What You Get', excerpt: "Claude AI is Anthropic's frontier model and the most capable AI for business document processing, reasoning-heavy tasks, and customer-facing automation.", tags: ['Claude AI','Anthropic','business'] },
+        { slug: 'gpt-5-2-business-workflows-mcp-2026', title: 'GPT-5.2 for Business Workflows and the spec-workflow-mcp Standard Explained', excerpt: 'GPT-5.2 changes what AI can do inside business workflows. The spec-workflow-mcp standard is reshaping how AI agents interact with external tools and systems.', tags: ['GPT-5.2','MCP','workflows'] },
+      ].map(a => (
+        <div style="border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+          <a href={`/pages/blog/${a.slug}`} style="font-family:Georgia,serif;font-size:1rem;line-height:1.45;color:#F8F6F1;text-decoration:none;font-weight:500;">{a.title}</a>
+          <p style="font-size:0.8125rem;line-height:1.65;color:rgba(248,246,241,0.4);flex:1;">{a.excerpt}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.375rem;">
+            {a.tags.map(t => <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:999px;background:rgba(232,180,176,0.12);color:rgba(232,180,176,0.6);">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Section 3: AI in Production (light) -->
+<section style="background:#F8F6F1;padding:5rem 0;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+    <div style="max-width:660px;margin:0 auto 2rem;text-align:center;">
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:#0A0A0A;margin-bottom:1rem;">AI in Production</h2>
+      <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.55);">Rule-based chatbots resolve 20% of support tickets. AI-powered support systems built on Claude resolve 45-65%. The difference is reasoning depth and the ability to handle novel situations not in a predefined decision tree. These articles cover three of the highest-value production AI deployments: customer service automation, the full catalogue of real business use cases that actually work, and how GPT-5.2 is changing what is possible inside connected workflow systems.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+      {[
+        { slug: 'ai-customer-service-automation-support-never-sleeps-2026', title: 'AI customer service automation: build a support system that never sleeps', excerpt: 'Rule-based chatbots resolve 20% of tickets. AI-powered support systems resolve 45-65%. Here is how to build a Claude-powered support system that handles the full range.', tags: ['AI','customer service','support'] },
+        { slug: 'ai-agent-examples-real-business-use-cases-2026', title: '15 AI Agent Examples That Work in Real Businesses (Not Just Demos)', excerpt: 'Most AI agent demos show chatbots answering questions. These 15 examples show agents doing real work: screening candidates, processing invoices, qualifying leads.', tags: ['AI agents','examples','real business'] },
+        { slug: 'gpt-5-2-business-workflows-mcp-2026', title: 'GPT-5.2 for Business Workflows and the spec-workflow-mcp Standard Explained', excerpt: 'GPT-5.2 changes what AI can do inside business workflows. The spec-workflow-mcp standard is reshaping how AI agents interact with external tools and systems.', tags: ['GPT-5.2','production','MCP'] },
+      ].map(a => (
+        <div style="background:white;border:1px solid rgba(10,10,10,0.08);border-radius:14px;padding:1.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+          <a href={`/pages/blog/${a.slug}`} style="font-family:Georgia,serif;font-size:1rem;line-height:1.45;color:#0A0A0A;text-decoration:none;font-weight:500;">{a.title}</a>
+          <p style="font-size:0.8125rem;line-height:1.65;color:rgba(10,10,10,0.5);flex:1;">{a.excerpt}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.375rem;">
+            {a.tags.map(t => <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:999px;background:rgba(232,180,176,0.12);color:rgba(10,10,10,0.5);">{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:#E8B4B0;padding:4rem 0;">
+  <div style="max-width:680px;margin:0 auto;padding:0 1.5rem;text-align:center;">
+    <h2 style="font-family:Georgia,serif;font-size:clamp(1.6rem,3.5vw,2.3rem);color:#0A0A0A;margin-bottom:1rem;">Ready to Deploy an AI Agent That Actually Works?</h2>
+    <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.65);margin-bottom:2rem;">Book a free 30-minute audit. We scope the right AI agent use case for your business, design the workflow architecture, and tell you exactly what the production deployment looks like. Most AI agents go live within 10 days. No commitment required.</p>
+    <a href="/pages/welcome" style="display:inline-block;background:#0A0A0A;color:#F8F6F1;padding:1.125rem 2.5rem;border-radius:10px;font-size:0.9375rem;font-weight:600;text-decoration:none;">Get my free automation plan</a>
+    <p style="font-size:0.75rem;color:rgba(10,10,10,0.45);margin-top:1rem;">No payment required · UK-based team · Response within 1 business day</p>
+  </div>
+</section>
+
+</ShopLayout>
