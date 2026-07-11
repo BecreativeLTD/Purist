@@ -19,7 +19,7 @@ PURIST serves clients as: automation agency (UK), business automation company (U
 - [The Full Stack](https://www.purist.online/plans/full-stack) — Automation Pro + AI Agent Deploy. Full operational transformation. From £1,197/mo.
 - [Free AI Readiness Audit](https://www.purist.online/pages/welcome) — Free 48h audit of your current workflows and automation opportunities.
 
-## Blog — Full Article Index (66 articles)
+## Blog — Full Article Index (76 articles)
 
 All articles are written by PURIST's engineering team from real production deployments.
 
@@ -103,6 +103,18 @@ All articles are written by PURIST's engineering team from real production deplo
 - [B2B Finance Automation: Payments, AP & Reconciliation 2026](https://www.purist.online/pages/blog/b2b-finance-automation-payments-ap-reconciliation-2026) — Automating accounts payable, payment processing, and reconciliation for B2B finance teams using n8n and AI.
 - [Marketing Automation for B2B Service Businesses 2026](https://www.purist.online/pages/blog/marketing-automation-b2b-service-businesses-2026) — How service businesses — consultancies, agencies, law firms — implement marketing automation that converts.
 - [B2B Sales Outbound Automation: Technology & Playbook 2026](https://www.purist.online/pages/blog/b2b-sales-outbound-automation-technology-2026) — Full outbound automation stack for B2B sales teams: prospecting, sequencing, enrichment, and CRM sync.
+
+### Workflow Automation by Keyword & Vertical (KD 0–14)
+- [Joiner Mover Leaver Automation: The Complete HR Workflow Guide 2026](https://www.purist.online/pages/blog/joiner-mover-leaver-automation-hr-workflow-2026) — End-to-end automation of HR joiner, mover, and leaver provisioning workflows using n8n and Claude AI.
+- [GoHighLevel Workflow Automation for Local Business 2026](https://www.purist.online/pages/blog/gohighlevel-workflow-automation-local-business-2026) — Complete guide to GoHighLevel workflow automation: triggers, actions, AI branches, and n8n integration for local businesses.
+- [Behavioral Health and Lab Workflow Automation 2026](https://www.purist.online/pages/blog/behavioral-health-lab-workflow-automation-2026) — HIPAA-compliant automation for behavioral health practices and clinical labs: intake, scheduling, results, and billing workflows.
+- [Workflow Automation Consulting: How to Choose, Hire, and Get Results 2026](https://www.purist.online/pages/blog/workflow-automation-consulting-guide-2026) — How to evaluate, hire, and work with a workflow automation consultant to get production results rather than slide decks.
+- [Print Workflow Automation Software: Complete Guide for Print Businesses 2026](https://www.purist.online/pages/blog/print-workflow-automation-software-guide-2026) — Print workflow automation software options, MIS integration, prepress, and production tracking for print businesses.
+- [Retail AI Vision Automation and IoT Parts Replenishment 2026](https://www.purist.online/pages/blog/retail-ai-vision-automation-iot-replenishment-2026) — AI computer vision for retail shelf monitoring and IoT-triggered automated parts replenishment workflows.
+- [How to Use Shopify Flow and AI to Create Workflows 2026](https://www.purist.online/pages/blog/shopify-flow-ai-workflows-automation-2026) — Complete guide to Shopify Flow automation combined with Claude AI and n8n for advanced e-commerce workflows.
+- [AI Lead Generation Automation for Trade and Local Service Businesses 2026](https://www.purist.online/pages/blog/ai-lead-generation-automation-trade-local-business-2026) — AI-powered lead capture, qualification, and follow-up automation for tradespeople and local service businesses.
+- [Inbound Marketing Pipeline and SDR Workflow Automation 2026](https://www.purist.online/pages/blog/inbound-marketing-pipeline-sdr-workflow-automation-2026) — How to connect inbound marketing pipelines to SDR outreach workflows with automation and AI qualification.
+- [Motion Automation Intelligence and Automated Trading Desk Systems 2026](https://www.purist.online/pages/blog/motion-automation-intelligence-trading-desk-2026) — Motion automation intelligence for manufacturing and automated trading desk workflow systems with real-time data routing.
 
 ## Glossary — 325 Automation & AI Terms
 
