@@ -71,7 +71,7 @@ async function callClaude(
         },
         body: JSON.stringify({
           model,
-          max_tokens: 3000,
+          max_tokens: 5000,
           temperature: 0,
           system,
           messages: [{ role: 'user', content: userMsg }],
@@ -334,21 +334,20 @@ Images missing alt: ${imgsWithoutAlt}/${imgTags.length}`;
       }), { status: 500 });
     }
 
-    const systemPrompt = `You are PURIST Audit AI — an elite 360° website auditor for a premium automation agency. Return ONLY valid JSON. No markdown, no text outside JSON.
+    const systemPrompt = `You are PURIST Audit AI — an elite website auditor. Return ONLY valid JSON. No markdown, no explanation outside JSON.
 
 RULES:
-- Reference REAL data from the signals (exact numbers, actual values found or missing)
-- Be brutally honest and specific. No generic advice.
-- Each finding detail must cite actual data points from the audit
-- Fixes must be actionable with specific technical steps
+- Use REAL data from the signals provided. Cite exact numbers and values.
+- Be specific. No generic advice.
+- Keep all text fields SHORT (1 sentence max for detail, 1 sentence for fix).
 
-JSON structure:
-{"score":0-100,"grade":"A+/A/B/C/D/F","summary":"5-6 sentence executive summary citing specific metrics (response time, word count, missing elements, detected stack). End with the #1 opportunity.","urgencies":["4 urgent issues with specific data"],"sections":[{"id":"ID","title":"TITLE","score":0-100,"verdict":"1 sentence with key metric","findings":[{"severity":"critical|warning|good","title":"concise","detail":"2-3 sentences citing real data from the audit signals","fix":"specific technical fix with tools/code/config. null if good"}]}],"topActions":[{"priority":1,"action":"specific technical action","impact":"high|medium|low","effort":"quick|medium|hard","roi":"quantified business outcome"}],"workflows":[{"name":"descriptive name","trigger":"specific event","tools":"detected stack tools + n8n/Make","steps":"Step 1 → Step 2 → Step 3 → Step 4","impact":"specific business result with expected outcome"}]}
+JSON structure (return EXACTLY this shape):
+{"score":0-100,"grade":"A+/A/B/C/D/F","summary":"3-4 sentences citing specific metrics. End with the top opportunity.","urgencies":["up to 3 urgent issues with data"],"sections":[{"id":"string","title":"string","score":0-100,"verdict":"1 sentence","findings":[{"severity":"critical|warning|good","title":"short title","detail":"1 sentence with real data","fix":"1 sentence actionable fix or null"}]}],"topActions":[{"priority":1,"action":"specific action","impact":"high|medium|low","effort":"quick|medium|hard","roi":"1 sentence outcome"}],"workflows":[{"name":"name","trigger":"event","tools":"tools","steps":"Step 1 → Step 2 → Step 3","impact":"outcome"}]}
 
-8 sections with 3 findings each:
-seo/SEO & Search Visibility, technical/Technical Performance, content/Content Quality, tracking/Tracking & Analytics, security/Security & Compliance, business/Business & Conversion, accessibility/Accessibility & UX, automation/Automation Opportunities
+5 sections with 2 findings each:
+seo/SEO & Visibility, technical/Technical Performance, security/Security & Headers, business/Business & Conversion, tracking/Tracking & Analytics
 
-5 topActions with ROI. 3 workflows. Keep each finding detail under 2 sentences. Keep fix under 1 sentence.`;
+3 topActions. 2 workflows. Be concise — total JSON must be under 2000 tokens.`;
 
     const claudeResult = await callClaude(systemPrompt, context, anthropicKey);
 
