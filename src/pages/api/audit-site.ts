@@ -60,7 +60,7 @@ async function callClaude(
 
   for (const model of models) {
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 55000); // 55s — stays under Vercel 60s default
+    const timer = setTimeout(() => controller.abort(), 28000); // 28s per model — stays well under Vercel 60s
     try {
       const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
@@ -71,7 +71,7 @@ async function callClaude(
         },
         body: JSON.stringify({
           model,
-          max_tokens: 8192,
+          max_tokens: 3000,
           temperature: 0,
           system,
           messages: [{ role: 'user', content: userMsg }],
