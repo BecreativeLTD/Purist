@@ -12,34 +12,70 @@ const ads = [
   { src: '/images/ads/ad-10.jpg', alt: 'While you were busy, work got done.' },
   { src: '/images/ads/ad-11.jpg', alt: 'Great workflows don\'t happen by chance.' },
   { src: '/images/ads/ad-12.jpg', alt: 'Work doesn\'t have to be hard.' },
+  { src: '/images/ads/ad-13.jpg', alt: 'Workflows that work. So you can think what\'s next.' },
+  { src: '/images/ads/ad-14.jpg', alt: 'Workflows that work. Without you working.' },
+  { src: '/images/ads/ad-15.jpg', alt: 'Time well designed.' },
+  { src: '/images/ads/ad-16.jpg', alt: 'Work should flow. Not overflow.' },
+  { src: '/images/ads/ad-17.jpg', alt: 'Systems that work. So you can work less.' },
+  { src: '/images/ads/ad-18.jpg', alt: 'Workflows that work. So you don\'t have to.' },
+  { src: '/images/ads/ad-19.jpg', alt: 'Systems that work while you don\'t.' },
+];
+
+const credits = [
+  { role: 'Creative Director', name: 'Claude AI' },
+  { role: 'Director of Photography', name: 'GPT Image-2' },
+  { role: 'Art Direction', name: 'Purist Studio' },
+  { role: 'Production Pipeline', name: 'n8n + Claude Skills' },
+  { role: 'Copy', name: 'Claude AI' },
+  { role: 'Workflow Automation', name: 'Purist Ads System' },
 ];
 ---
 
 <section class="bg-brand-black py-20 lg:py-28 overflow-hidden">
-  <div class="container-x mb-12">
-    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-      <div class="scroll-fade">
-        <span class="inline-block bg-white/10 rounded-full text-[11px] tracking-[0.15em] uppercase font-medium px-4 py-1.5 mb-5 text-white/60">
-          Creative showcase
-        </span>
-        <h2 class="font-display text-3xl lg:text-4xl xl:text-5xl text-white leading-tight">
-          Automation that earns attention.<br />
-          <em class="font-medium text-brand-cream/70">Ads that prove it.</em>
-        </h2>
+  <!-- Header -->
+  <div class="container-x mb-14">
+    <div class="max-w-5xl mx-auto">
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+        <div class="scroll-fade">
+          <span class="inline-block bg-white/10 rounded-full text-[11px] tracking-[0.15em] uppercase font-medium px-4 py-1.5 mb-6 text-white/50">
+            Creative showcase
+          </span>
+          <h2 class="font-display text-3xl lg:text-4xl xl:text-5xl text-white leading-tight">
+            Automation that earns attention.<br />
+            <em class="font-medium text-brand-cream/70">Ads that prove it.</em>
+          </h2>
+        </div>
+
+        <div class="lg:max-w-sm scroll-fade">
+          <p class="text-[15px] text-white/60 leading-relaxed mb-4">
+            Every visual you see was produced entirely by our automation stack.
+            Zero agency retainer. Zero design team. Just n8n workflows, Claude AI creative skills,
+            and a production pipeline that runs while you sleep.
+          </p>
+          <p class="text-[13px] text-white/35 leading-relaxed">
+            This is what we build for clients. Brief in. Campaign out.
+          </p>
+        </div>
       </div>
-      <p class="text-sm text-white/40 max-w-xs sm:text-right scroll-fade">
-        Every visual crafted in-house — the same creative firepower we bring to client campaigns.
-      </p>
+
+      <!-- Pipeline badges -->
+      <div class="flex flex-wrap gap-2 mt-8 scroll-fade">
+        {['n8n workflow', 'Claude Skills', 'GPT Image-2', 'Automated brief → visual', '< 4 min per creative'].map(badge => (
+          <span class="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1 text-[11px] text-white/50 tracking-wide">
+            <span class="w-1 h-1 rounded-full bg-brand-pink inline-block"></span>
+            {badge}
+          </span>
+        ))}
+      </div>
     </div>
   </div>
 
   <!-- Marquee track -->
-  <div class="relative" id="ads-carousel-wrap">
-    <!-- Fade edges -->
-    <div class="pointer-events-none absolute inset-y-0 left-0 w-20 z-10 bg-gradient-to-r from-brand-black to-transparent"></div>
-    <div class="pointer-events-none absolute inset-y-0 right-0 w-20 z-10 bg-gradient-to-l from-brand-black to-transparent"></div>
+  <div class="relative mb-12">
+    <div class="pointer-events-none absolute inset-y-0 left-0 w-24 z-10 bg-gradient-to-r from-brand-black to-transparent"></div>
+    <div class="pointer-events-none absolute inset-y-0 right-0 w-24 z-10 bg-gradient-to-l from-brand-black to-transparent"></div>
 
-    <div class="ads-track flex gap-5" id="ads-track">
+    <div class="ads-track flex gap-5">
       {[...ads, ...ads].map((ad, i) => (
         <div
           class="ads-card shrink-0 rounded-2xl overflow-hidden"
@@ -57,6 +93,28 @@ const ads = [
       ))}
     </div>
   </div>
+
+  <!-- Credits strip -->
+  <div class="container-x">
+    <div class="max-w-5xl mx-auto">
+      <div class="border-t border-white/8 pt-8">
+        <div class="flex flex-wrap items-center gap-x-8 gap-y-3">
+          {credits.map((c, i) => (
+            <div class="flex items-baseline gap-2">
+              <span class="text-[10px] uppercase tracking-[0.15em] text-white/25 font-medium">{c.role}</span>
+              <span class="text-[11px] text-white/50">{c.name}</span>
+              {i < credits.length - 1 && (
+                <span class="hidden sm:inline text-white/15 text-[10px] ml-4">·</span>
+              )}
+            </div>
+          ))}
+        </div>
+        <p class="mt-4 text-[10px] text-white/20 tracking-wide uppercase">
+          Produced entirely in-house using the Purist Ads Automation System · No agency · No retainer · Just workflows.
+        </p>
+      </div>
+    </div>
+  </div>
 </section>
 
 <style>
@@ -71,7 +129,7 @@ const ads = [
 
   @keyframes ads-scroll {
     0%   { transform: translateX(0); }
-    100% { transform: translateX(calc(-220px * 12 - 20px * 12)); }
+    100% { transform: translateX(calc(-220px * 19 - 20px * 19)); }
   }
 
   .ads-card {
@@ -81,6 +139,6 @@ const ads = [
 
   .ads-card:hover {
     transform: scale(1.03) translateY(-4px);
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
   }
 </style>
