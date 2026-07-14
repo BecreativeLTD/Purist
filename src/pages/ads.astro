@@ -1,0 +1,390 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+
+const ads = [
+  { src: '/images/ads/ad-01.jpg', alt: 'Purist workflow automation — from chaos to clarity, automate the busywork and focus on what matters' },
+  { src: '/images/ads/ad-02.jpg', alt: 'Business automation by Purist — workflows should flow, not people, reduce manual tasks instantly' },
+  { src: '/images/ads/ad-03.jpg', alt: 'AI automation replaces busywork, not jobs — Purist n8n workflows free your team to do meaningful work' },
+  { src: '/images/ads/ad-04.jpg', alt: 'Purist automation pipeline — your trigger, our workflow, their result, end-to-end business automation' },
+  { src: '/images/ads/ad-05.jpg', alt: 'Workflows that work while you sleep — Purist builds automation systems that run your business 24/7' },
+  { src: '/images/ads/ad-06.jpg', alt: 'One trigger, infinite automation — Purist connects your tools so every process flows without friction' },
+  { src: '/images/ads/ad-07.jpg', alt: 'Workflows that work — Purist designs and deploys automation systems that scale with your business' },
+  { src: '/images/ads/ad-08.jpg', alt: 'Smart workflows that eliminate bottlenecks — Purist n8n automation for agencies, SMEs and scale-ups' },
+  { src: '/images/ads/ad-09.jpg', alt: 'Less busywork, more breakthroughs — Purist automation removes repetitive tasks so you can grow faster' },
+  { src: '/images/ads/ad-10.jpg', alt: 'While you focus on strategy, Purist automation handles the operational work behind the scenes' },
+  { src: '/images/ads/ad-11.jpg', alt: 'Great workflows are built, not hoped for — Purist designs automation systems with precision and purpose' },
+  { src: '/images/ads/ad-12.jpg', alt: 'Work does not have to be hard — Purist automation takes the friction out of your daily business operations' },
+  { src: '/images/ads/ad-13.jpg', alt: 'Workflows that work so you can think bigger — Purist automation frees headspace for strategy and growth' },
+  { src: '/images/ads/ad-14.jpg', alt: 'Workflows that work without you working — Purist systems handle the execution while you lead the vision' },
+  { src: '/images/ads/ad-15.jpg', alt: 'Time well designed — Purist builds automation systems that buy back hours for what actually matters' },
+  { src: '/images/ads/ad-16.jpg', alt: 'Workflow not overflow — Purist automation reduces workload and scales your business without extra headcount' },
+  { src: '/images/ads/ad-17.jpg', alt: 'Systems that work so you can work less — Purist workflow automation for sustainable business growth' },
+  { src: '/images/ads/ad-18.jpg', alt: 'Workflows that work so you do not have to — Purist deploys n8n automation that delivers results on autopilot' },
+  { src: '/images/ads/ad-19.jpg', alt: 'Systems that work while you do not — Purist 24/7 automation keeps your business running around the clock' },
+  { src: '/images/ads/ad-20.jpg', alt: 'From chaos to clarity — Purist automation turns tangled business processes into streamlined efficient systems' },
+  { src: '/images/ads/ad-21.jpg', alt: 'Your business moves forward, everything else runs itself — Purist AI automation for operational excellence' },
+  { src: '/images/ads/ad-22.jpg', alt: 'Switch from manual to automated — Purist workflow systems do more for your business without extra effort' },
+  { src: '/images/ads/ad-23.jpg', alt: 'Systems work while you focus on growth — Purist coffee-to-code automation from capture to delivery' },
+  { src: '/images/ads/ad-24.jpg', alt: 'Work happens, systems make it flow — Purist smart automation panel with capture, process, deliver, done' },
+  { src: '/images/ads/ad-25.jpg', alt: 'Systems that work while you focus on what matters — Purist automation and workflow design for businesses' },
+  { src: '/images/ads/ad-26.jpg', alt: 'Workflows that work so you can think bigger — Purist automation clears the busywork for strategic focus' },
+  { src: '/images/ads/ad-27.jpg', alt: 'Work flows, systematized — Purist automation turns time into productivity with precision workflow design' },
+  { src: '/images/ads/ad-28.jpg', alt: 'Workflows that work while you do not — Purist cascade automation system for end-to-end business processes' },
+  { src: '/images/ads/ad-29.jpg', alt: 'Work should be built not busy — Purist automates repeating tasks and systemizes your business operations' },
+  { src: '/images/ads/ad-30.jpg', alt: 'Workflow not overflow — Purist smart automation reduces business workload and creates room to scale' },
+  { src: '/images/ads/ad-31.jpg', alt: 'Workflows that work while you do not — Purist time-freedom automation lets your systems work on autopilot' },
+  { src: '/images/ads/ad-32.jpg', alt: 'Workflows should work for you — Purist transforms scattered chaos into an organized automated system' },
+  { src: '/images/ads/ad-33.jpg', alt: 'Systems that work so you can create what is next — Purist automation clears busywork for future growth' },
+  { src: '/images/ads/ad-34.jpg', alt: 'Good systems do not work hard they work together — Purist interconnected automation creates business momentum' },
+  { src: '/images/ads/ad-35.jpg', alt: 'Workflows should work for you — build once run better every time with Purist workflow automation systems' },
+  { src: '/images/ads/ad-36.jpg', alt: 'Great work follows a system — Purist automated workflow delivers from lead captured to done every time' },
+  { src: '/images/ads/ad-37.jpg', alt: 'From chaos to clarity — Purist automation creates systems so your business can breathe and grow with ease' },
+  { src: '/images/ads/ad-38.jpg', alt: 'Work moves you lead — Purist automation dashboard showing leads captured, tasks created, deals advanced' },
+  { src: '/images/ads/ad-39.jpg', alt: 'Workflows that work so work feels lighter — Purist automation opens the door to freedom and bigger opportunity' },
+  { src: '/images/ads/ad-40.jpg', alt: 'Work that works without working you — Purist automation transforms operations across four key business pillars' },
+  { src: '/images/ads/ad-41.jpg', alt: 'Systems do not just save time they create growth — Purist automation cultivates business growth like nature' },
+  { src: '/images/ads/ad-42.jpg', alt: 'Workflows that work — Purist automation moves every item from inbox to done with zero manual intervention' },
+  { src: '/images/ads/ad-43.jpg', alt: 'Work moves systems make it flow — Purist organized workflow system replaces chaotic manual paper processes' },
+  { src: '/images/ads/ad-44.jpg', alt: 'Work flows better when systems think for you — Purist automation cascades through every business stage' },
+  { src: '/images/ads/ad-45.jpg', alt: 'Work flows better with systems — Purist interconnected automation machine where every step triggers the next' },
+  { src: '/images/ads/ad-46.jpg', alt: 'Systems work people thrive — Purist automation integrates, automates, optimizes and elevates your business' },
+  { src: '/images/ads/ad-47.jpg', alt: 'Workflows that work so you can think — Purist automation nurtures business growth step by systematic step' },
+  { src: '/images/ads/ad-48.jpg', alt: 'Workflows that work — Purist automation maze guides complexity into clarity with a clear path to results' },
+  { src: '/images/ads/ad-49.jpg', alt: 'Workflows that work so you do not have to — Purist automation gives back your time to focus on what matters' },
+  { src: '/images/ads/ad-50.jpg', alt: 'Work moves you do not have to — Purist automation handles workflows while you lead your business forward' },
+  { src: '/images/ads/ad-51.jpg', alt: 'Systems do not sleep neither do results — Purist 24/7 automation keeps workflows on for your business always' },
+  { src: '/images/ads/ad-52.jpg', alt: 'Systems do not just save time they create difference — Purist automation makes your business stand out from the crowd' },
+  { src: '/images/ads/ad-53.jpg', alt: 'Workflows that work — Purist automation turns the infinite loop of manual work into streamlined business systems' },
+  { src: '/images/ads/ad-54.jpg', alt: 'Work flows not workload — Purist automation intelligently routes your business processes for maximum efficiency' },
+  { src: '/images/ads/ad-55.jpg', alt: 'Workflows that work, systems that think — Purist AI automation builds the pipeline while you stay creative' },
+  { src: '/images/ads/ad-56.jpg', alt: 'Systems that work, freedom that lasts — Purist automation delivers smarter processes and more time for growth' },
+  { src: '/images/ads/ad-57.jpg', alt: 'Workflows that work while you do not — Purist automation handles every client touchpoint from lead to loyal' },
+  { src: '/images/ads/ad-58.jpg', alt: 'Workflows that work, systems that scale — Purist robot-precision automation builds and delivers consistent results' },
+  { src: '/images/ads/ad-59.jpg', alt: 'Workflows that work, freedom that lasts — Purist automation creates space for what truly matters in business' },
+  { src: '/images/ads/ad-60.jpg', alt: 'Work moves you lead — Purist brass automation machine captures, qualifies, nurtures, delivers and delights clients' },
+  { src: '/images/ads/ad-61.jpg', alt: 'Workflows that work so you can focus — Purist automation transforms laptop workflows into business-wide systems' },
+  { src: '/images/ads/ad-62.jpg', alt: 'Great systems run quietly — Purist automation works silently in the background so your business runs perfectly' },
+  { src: '/images/ads/ad-63.jpg', alt: 'Workflows that work so you can focus on what matters — Purist n8n automation diagram from new lead to growth' },
+  { src: '/images/ads/ad-64.jpg', alt: 'Systems that work so you do not have to — Purist automation captures, organizes, automates, delivers, improves' },
+  { src: '/images/ads/ad-65.jpg', alt: 'Workflows that work while you do not — Purist balanced automation saves time, reduces errors and scales growth' },
+];
+---
+
+<ShopLayout
+  title="Creative Ads — Built by AI, Powered by Purist"
+  description="Every ad you see was produced entirely by the Purist automation stack. n8n workflows + Claude AI Skills. Brief in. Campaign out."
+  noindex={false}
+>
+  <div class="ads-page bg-brand-black min-h-screen">
+
+    <!-- Hero -->
+    <section class="pt-24 pb-16 px-6 lg:px-12 max-w-7xl mx-auto">
+      <div class="hero-line">
+        <span class="inline-block bg-white/8 border border-white/10 rounded-full text-[10px] tracking-[0.2em] uppercase font-medium px-4 py-1.5 mb-8 text-white/40">
+          Creative Showcase · Purist.online
+        </span>
+      </div>
+
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10 mb-4">
+        <div>
+          <h1 class="hero-title font-display text-5xl lg:text-7xl xl:text-8xl text-white leading-[0.95] tracking-tight">
+            Made by AI.<br />
+            <em class="text-white/40 font-medium">For Purist.</em>
+          </h1>
+        </div>
+        <div class="hero-desc max-w-sm">
+          <p class="text-[15px] text-white/50 leading-relaxed mb-5">
+            Every visual on this page was generated entirely by our automation stack —
+            no agency, no retainer, no designer on payroll.
+            Just a brief, an n8n workflow, and Claude AI Skills.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            {['n8n', 'Claude Skills', 'GPT Image-2', '< 4 min/creative'].map(t => (
+              <span class="text-[10px] tracking-widest uppercase text-white/30 border border-white/10 rounded-full px-3 py-1">{t}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats bar -->
+      <div class="hero-stats flex flex-wrap gap-px mt-12 border border-white/8 rounded-2xl overflow-hidden">
+        {[
+          { n: `${ads.length}`, label: 'Ads on this page' },
+          { n: '< 4 min', label: 'Per creative' },
+          { n: '£0', label: 'Agency fees' },
+          { n: '100%', label: 'AI-produced' },
+        ].map(s => (
+          <div class="flex-1 min-w-[120px] bg-white/[0.03] px-6 py-5">
+            <div class="text-2xl font-display text-white mb-0.5">{s.n}</div>
+            <div class="text-[11px] text-white/30 uppercase tracking-widest">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="w-full h-px bg-white/6 mb-2"></div>
+
+    <!-- Masonry grid -->
+    <section class="px-4 lg:px-8 py-12 max-w-[1600px] mx-auto" id="gallery">
+      <div class="masonry-grid">
+        {ads.map((ad, i) => (
+          <div
+            class="masonry-item"
+            style={`animation-delay: ${(i % 6) * 80}ms`}
+            data-index={i}
+          >
+            <div class="masonry-inner">
+              <img
+                src={ad.src}
+                alt={ad.alt}
+                loading={i < 6 ? 'eager' : 'lazy'}
+                decoding="async"
+                class="w-full h-full object-cover"
+              />
+              <div class="masonry-overlay">
+                <p class="text-white text-[13px] font-medium leading-snug px-4 py-3">{ad.alt}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="px-6 py-20 max-w-4xl mx-auto text-center">
+      <div class="border border-white/10 rounded-3xl p-10 lg:p-16 bg-white/[0.02]">
+        <p class="text-[11px] uppercase tracking-[0.2em] text-white/30 mb-6">Want this for your business?</p>
+        <h2 class="font-display text-3xl lg:text-5xl text-white mb-6 leading-tight">
+          Your brand.<br />
+          <em class="text-white/40">Our pipeline.</em>
+        </h2>
+        <p class="text-[15px] text-white/40 mb-10 max-w-md mx-auto leading-relaxed">
+          We deploy the same AI ads system for clients — brief in, campaign out,
+          production-ready creatives in under a working day.
+        </p>
+        <a
+          href="/#products"
+          class="inline-flex items-center gap-3 bg-white text-brand-black text-[13px] font-semibold tracking-wide uppercase px-8 py-4 rounded-full hover:bg-brand-cream transition-colors duration-200"
+        >
+          See how it works
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- Credits footer -->
+    <div class="border-t border-white/6 px-6 py-8 max-w-7xl mx-auto">
+      <div class="flex flex-wrap gap-x-8 gap-y-2 text-[10px] uppercase tracking-[0.15em] text-white/20">
+        <span>Creative Director · Claude AI</span>
+        <span>Director of Photography · GPT Image-2</span>
+        <span>Art Direction · Purist Studio</span>
+        <span>Production · n8n + Claude Skills</span>
+        <span>Copy · Claude AI</span>
+      </div>
+    </div>
+
+  </div>
+</ShopLayout>
+
+<style>
+  /* Hero animations */
+  .hero-line,
+  .hero-title,
+  .hero-desc,
+  .hero-stats {
+    opacity: 0;
+    transform: translateY(24px);
+    animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .hero-line   { animation-delay: 0ms; }
+  .hero-title  { animation-delay: 80ms; }
+  .hero-desc   { animation-delay: 160ms; }
+  .hero-stats  { animation-delay: 240ms; }
+
+  @keyframes fade-up {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Masonry */
+  .masonry-grid {
+    columns: 2;
+    column-gap: 12px;
+  }
+  @media (min-width: 640px)  { .masonry-grid { columns: 3; } }
+  @media (min-width: 1024px) { .masonry-grid { columns: 4; } }
+  @media (min-width: 1280px) { .masonry-grid { columns: 5; } }
+
+  .masonry-item {
+    break-inside: avoid;
+    margin-bottom: 12px;
+    opacity: 0;
+    transform: translateY(32px);
+    animation: item-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  @keyframes item-rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .masonry-inner {
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #111;
+    cursor: zoom-in;
+  }
+
+  .masonry-inner img {
+    display: block;
+    width: 100%;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .masonry-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .masonry-inner:hover img {
+    transform: scale(1.04);
+  }
+
+  .masonry-inner:hover .masonry-overlay {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Lightbox */
+  .lb-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    backdrop-filter: blur(8px);
+  }
+  .lb-backdrop.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .lb-img {
+    max-height: 90vh;
+    max-width: 90vw;
+    border-radius: 16px;
+    object-fit: contain;
+    transform: scale(0.92);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .lb-backdrop.open .lb-img {
+    transform: scale(1);
+  }
+  .lb-close {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    color: rgba(255,255,255,0.5);
+    font-size: 28px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+  .lb-close:hover { color: #fff; }
+  .lb-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.08);
+    border: none;
+    color: #fff;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .lb-nav:hover { background: rgba(255,255,255,0.16); }
+  .lb-prev { left: 20px; }
+  .lb-next { right: 20px; }
+</style>
+
+<div class="lb-backdrop" id="lb">
+  <button class="lb-close" id="lb-close" aria-label="Close">×</button>
+  <button class="lb-nav lb-prev" id="lb-prev" aria-label="Previous">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12 4l-6 6 6 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <img src="" alt="" class="lb-img" id="lb-img" />
+  <button class="lb-nav lb-next" id="lb-next" aria-label="Next">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M8 4l6 6-6 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</div>
+
+<script>
+  const ads = Array.from(document.querySelectorAll<HTMLElement>('.masonry-item'));
+  const lb = document.getElementById('lb')!;
+  const lbImg = document.getElementById('lb-img') as HTMLImageElement;
+  let current = 0;
+
+  function open(i: number) {
+    current = i;
+    const img = ads[i].querySelector('img')!;
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function nav(dir: number) {
+    open((current + dir + ads.length) % ads.length);
+  }
+
+  ads.forEach((el, i) => el.addEventListener('click', () => open(i)));
+  document.getElementById('lb-close')!.addEventListener('click', close);
+  document.getElementById('lb-prev')!.addEventListener('click', () => nav(-1));
+  document.getElementById('lb-next')!.addEventListener('click', () => nav(1));
+  lb.addEventListener('click', e => { if (e.target === lb) close(); });
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') nav(-1);
+    if (e.key === 'ArrowRight') nav(1);
+  });
+
+  // Intersection Observer for scroll-triggered reveal
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => {
+      if (e.isIntersecting) {
+        (e.target as HTMLElement).style.animationPlayState = 'running';
+        observer.unobserve(e.target);
+      }
+    }),
+    { threshold: 0.05 }
+  );
+  ads.forEach((el, i) => {
+    if (i >= 6) {
+      el.style.animationPlayState = 'paused';
+      observer.observe(el);
+    }
+  });
+</script>
