@@ -2,104 +2,159 @@
 import ShopLayout from '~/layouts/ShopLayout.astro';
 
 const ads = [
-  { src: '/images/ads/ad-01.jpg', alt: 'Purist workflow automation — from chaos to clarity, automate the busywork and focus on what matters' },
-  { src: '/images/ads/ad-02.jpg', alt: 'Business automation by Purist — workflows should flow, not people, reduce manual tasks instantly' },
-  { src: '/images/ads/ad-03.jpg', alt: 'AI automation replaces busywork, not jobs — Purist n8n workflows free your team to do meaningful work' },
-  { src: '/images/ads/ad-04.jpg', alt: 'Purist automation pipeline — your trigger, our workflow, their result, end-to-end business automation' },
-  { src: '/images/ads/ad-05.jpg', alt: 'Workflows that work while you sleep — Purist builds automation systems that run your business 24/7' },
-  { src: '/images/ads/ad-06.jpg', alt: 'One trigger, infinite automation — Purist connects your tools so every process flows without friction' },
-  { src: '/images/ads/ad-07.jpg', alt: 'Workflows that work — Purist designs and deploys automation systems that scale with your business' },
-  { src: '/images/ads/ad-08.jpg', alt: 'Smart workflows that eliminate bottlenecks — Purist n8n automation for agencies, SMEs and scale-ups' },
-  { src: '/images/ads/ad-09.jpg', alt: 'Less busywork, more breakthroughs — Purist automation removes repetitive tasks so you can grow faster' },
-  { src: '/images/ads/ad-10.jpg', alt: 'While you focus on strategy, Purist automation handles the operational work behind the scenes' },
-  { src: '/images/ads/ad-11.jpg', alt: 'Great workflows are built, not hoped for — Purist designs automation systems with precision and purpose' },
-  { src: '/images/ads/ad-12.jpg', alt: 'Work does not have to be hard — Purist automation takes the friction out of your daily business operations' },
-  { src: '/images/ads/ad-13.jpg', alt: 'Workflows that work so you can think bigger — Purist automation frees headspace for strategy and growth' },
-  { src: '/images/ads/ad-14.jpg', alt: 'Workflows that work without you working — Purist systems handle the execution while you lead the vision' },
-  { src: '/images/ads/ad-15.jpg', alt: 'Time well designed — Purist builds automation systems that buy back hours for what actually matters' },
-  { src: '/images/ads/ad-16.jpg', alt: 'Workflow not overflow — Purist automation reduces workload and scales your business without extra headcount' },
-  { src: '/images/ads/ad-17.jpg', alt: 'Systems that work so you can work less — Purist workflow automation for sustainable business growth' },
-  { src: '/images/ads/ad-18.jpg', alt: 'Workflows that work so you do not have to — Purist deploys n8n automation that delivers results on autopilot' },
-  { src: '/images/ads/ad-19.jpg', alt: 'Systems that work while you do not — Purist 24/7 automation keeps your business running around the clock' },
-  { src: '/images/ads/ad-20.jpg', alt: 'From chaos to clarity — Purist automation turns tangled business processes into streamlined efficient systems' },
-  { src: '/images/ads/ad-21.jpg', alt: 'Your business moves forward, everything else runs itself — Purist AI automation for operational excellence' },
-  { src: '/images/ads/ad-22.jpg', alt: 'Switch from manual to automated — Purist workflow systems do more for your business without extra effort' },
-  { src: '/images/ads/ad-23.jpg', alt: 'Systems work while you focus on growth — Purist coffee-to-code automation from capture to delivery' },
-  { src: '/images/ads/ad-24.jpg', alt: 'Work happens, systems make it flow — Purist smart automation panel with capture, process, deliver, done' },
-  { src: '/images/ads/ad-25.jpg', alt: 'Systems that work while you focus on what matters — Purist automation and workflow design for businesses' },
-  { src: '/images/ads/ad-26.jpg', alt: 'Workflows that work so you can think bigger — Purist automation clears the busywork for strategic focus' },
-  { src: '/images/ads/ad-27.jpg', alt: 'Work flows, systematized — Purist automation turns time into productivity with precision workflow design' },
-  { src: '/images/ads/ad-28.jpg', alt: 'Workflows that work while you do not — Purist cascade automation system for end-to-end business processes' },
-  { src: '/images/ads/ad-29.jpg', alt: 'Work should be built not busy — Purist automates repeating tasks and systemizes your business operations' },
-  { src: '/images/ads/ad-30.jpg', alt: 'Workflow not overflow — Purist smart automation reduces business workload and creates room to scale' },
-  { src: '/images/ads/ad-31.jpg', alt: 'Workflows that work while you do not — Purist time-freedom automation lets your systems work on autopilot' },
-  { src: '/images/ads/ad-32.jpg', alt: 'Workflows should work for you — Purist transforms scattered chaos into an organized automated system' },
-  { src: '/images/ads/ad-33.jpg', alt: 'Systems that work so you can create what is next — Purist automation clears busywork for future growth' },
-  { src: '/images/ads/ad-34.jpg', alt: 'Good systems do not work hard they work together — Purist interconnected automation creates business momentum' },
-  { src: '/images/ads/ad-35.jpg', alt: 'Workflows should work for you — build once run better every time with Purist workflow automation systems' },
-  { src: '/images/ads/ad-36.jpg', alt: 'Great work follows a system — Purist automated workflow delivers from lead captured to done every time' },
-  { src: '/images/ads/ad-37.jpg', alt: 'From chaos to clarity — Purist automation creates systems so your business can breathe and grow with ease' },
-  { src: '/images/ads/ad-38.jpg', alt: 'Work moves you lead — Purist automation dashboard showing leads captured, tasks created, deals advanced' },
-  { src: '/images/ads/ad-39.jpg', alt: 'Workflows that work so work feels lighter — Purist automation opens the door to freedom and bigger opportunity' },
-  { src: '/images/ads/ad-40.jpg', alt: 'Work that works without working you — Purist automation transforms operations across four key business pillars' },
-  { src: '/images/ads/ad-41.jpg', alt: 'Systems do not just save time they create growth — Purist automation cultivates business growth like nature' },
-  { src: '/images/ads/ad-42.jpg', alt: 'Workflows that work — Purist automation moves every item from inbox to done with zero manual intervention' },
-  { src: '/images/ads/ad-43.jpg', alt: 'Work moves systems make it flow — Purist organized workflow system replaces chaotic manual paper processes' },
-  { src: '/images/ads/ad-44.jpg', alt: 'Work flows better when systems think for you — Purist automation cascades through every business stage' },
-  { src: '/images/ads/ad-45.jpg', alt: 'Work flows better with systems — Purist interconnected automation machine where every step triggers the next' },
-  { src: '/images/ads/ad-46.jpg', alt: 'Systems work people thrive — Purist automation integrates, automates, optimizes and elevates your business' },
-  { src: '/images/ads/ad-47.jpg', alt: 'Workflows that work so you can think — Purist automation nurtures business growth step by systematic step' },
-  { src: '/images/ads/ad-48.jpg', alt: 'Workflows that work — Purist automation maze guides complexity into clarity with a clear path to results' },
-  { src: '/images/ads/ad-49.jpg', alt: 'Workflows that work so you do not have to — Purist automation gives back your time to focus on what matters' },
-  { src: '/images/ads/ad-50.jpg', alt: 'Work moves you do not have to — Purist automation handles workflows while you lead your business forward' },
-  { src: '/images/ads/ad-51.jpg', alt: 'Systems do not sleep neither do results — Purist 24/7 automation keeps workflows on for your business always' },
-  { src: '/images/ads/ad-52.jpg', alt: 'Systems do not just save time they create difference — Purist automation makes your business stand out from the crowd' },
-  { src: '/images/ads/ad-53.jpg', alt: 'Workflows that work — Purist automation turns the infinite loop of manual work into streamlined business systems' },
-  { src: '/images/ads/ad-54.jpg', alt: 'Work flows not workload — Purist automation intelligently routes your business processes for maximum efficiency' },
-  { src: '/images/ads/ad-55.jpg', alt: 'Workflows that work, systems that think — Purist AI automation builds the pipeline while you stay creative' },
-  { src: '/images/ads/ad-56.jpg', alt: 'Systems that work, freedom that lasts — Purist automation delivers smarter processes and more time for growth' },
-  { src: '/images/ads/ad-57.jpg', alt: 'Workflows that work while you do not — Purist automation handles every client touchpoint from lead to loyal' },
-  { src: '/images/ads/ad-58.jpg', alt: 'Workflows that work, systems that scale — Purist robot-precision automation builds and delivers consistent results' },
-  { src: '/images/ads/ad-59.jpg', alt: 'Workflows that work, freedom that lasts — Purist automation creates space for what truly matters in business' },
-  { src: '/images/ads/ad-60.jpg', alt: 'Work moves you lead — Purist brass automation machine captures, qualifies, nurtures, delivers and delights clients' },
-  { src: '/images/ads/ad-61.jpg', alt: 'Workflows that work so you can focus — Purist automation transforms laptop workflows into business-wide systems' },
-  { src: '/images/ads/ad-62.jpg', alt: 'Great systems run quietly — Purist automation works silently in the background so your business runs perfectly' },
-  { src: '/images/ads/ad-63.jpg', alt: 'Workflows that work so you can focus on what matters — Purist n8n automation diagram from new lead to growth' },
-  { src: '/images/ads/ad-64.jpg', alt: 'Systems that work so you do not have to — Purist automation captures, organizes, automates, delivers, improves' },
-  { src: '/images/ads/ad-65.jpg', alt: 'Workflows that work while you do not — Purist balanced automation saves time, reduces errors and scales growth' },
+  { src: '/images/ads/ad-01.jpg', alt: 'Purist workflow automation, from chaos to clarity, automate the busywork and focus on what matters', category: 'general' },
+  { src: '/images/ads/ad-02.jpg', alt: 'Business automation by Purist, workflows should flow not people, reduce manual tasks instantly', category: 'general' },
+  { src: '/images/ads/ad-03.jpg', alt: 'AI automation replaces busywork not jobs, Purist n8n workflows free your team to do meaningful work', category: 'general' },
+  { src: '/images/ads/ad-04.jpg', alt: 'Purist automation pipeline, your trigger our workflow their result, end-to-end business automation', category: 'general' },
+  { src: '/images/ads/ad-05.jpg', alt: 'Workflows that work while you sleep, Purist builds automation systems that run your business 24/7', category: 'general' },
+  { src: '/images/ads/ad-06.jpg', alt: 'One trigger infinite automation, Purist connects your tools so every process flows without friction', category: 'general' },
+  { src: '/images/ads/ad-07.jpg', alt: 'Workflows that work, Purist designs and deploys automation systems that scale with your business', category: 'general' },
+  { src: '/images/ads/ad-08.jpg', alt: 'Smart workflows that eliminate bottlenecks, Purist n8n automation for agencies SMEs and scale-ups', category: 'general' },
+  { src: '/images/ads/ad-09.jpg', alt: 'Less busywork more breakthroughs, Purist automation removes repetitive tasks so you can grow faster', category: 'general' },
+  { src: '/images/ads/ad-10.jpg', alt: 'While you focus on strategy, Purist automation handles the operational work behind the scenes', category: 'general' },
+  { src: '/images/ads/ad-11.jpg', alt: 'Great workflows are built not hoped for, Purist designs automation systems with precision and purpose', category: 'general' },
+  { src: '/images/ads/ad-12.jpg', alt: 'Work does not have to be hard, Purist automation takes the friction out of daily business operations', category: 'general' },
+  { src: '/images/ads/ad-13.jpg', alt: 'Workflows that work so you can think bigger, Purist automation frees headspace for strategy and growth', category: 'general' },
+  { src: '/images/ads/ad-14.jpg', alt: 'Workflows that work without you working, Purist systems handle execution while you lead the vision', category: 'general' },
+  { src: '/images/ads/ad-15.jpg', alt: 'Time well designed, Purist builds automation systems that buy back hours for what actually matters', category: 'general' },
+  { src: '/images/ads/ad-16.jpg', alt: 'Workflow not overflow, Purist automation reduces workload and scales your business without extra headcount', category: 'general' },
+  { src: '/images/ads/ad-17.jpg', alt: 'Systems that work so you can work less, Purist workflow automation for sustainable business growth', category: 'general' },
+  { src: '/images/ads/ad-18.jpg', alt: 'Workflows that work so you do not have to, Purist deploys n8n automation that delivers results on autopilot', category: 'general' },
+  { src: '/images/ads/ad-19.jpg', alt: 'Systems that work while you do not, Purist 24/7 automation keeps your business running around the clock', category: 'general' },
+  { src: '/images/ads/ad-20.jpg', alt: 'From chaos to clarity, Purist automation turns tangled business processes into streamlined efficient systems', category: 'general' },
+  { src: '/images/ads/ad-21.jpg', alt: 'Your business moves forward everything else runs itself, Purist AI automation for operational excellence', category: 'general' },
+  { src: '/images/ads/ad-22.jpg', alt: 'Switch from manual to automated, Purist workflow systems do more for your business without extra effort', category: 'general' },
+  { src: '/images/ads/ad-23.jpg', alt: 'Systems work while you focus on growth, Purist coffee-to-code automation from capture to delivery', category: 'general' },
+  { src: '/images/ads/ad-24.jpg', alt: 'Work happens systems make it flow, Purist smart automation panel with capture process deliver done', category: 'general' },
+  { src: '/images/ads/ad-25.jpg', alt: 'Systems that work while you focus on what matters, Purist automation and workflow design for businesses', category: 'general' },
+  { src: '/images/ads/ad-26.jpg', alt: 'Workflows that work so you can think bigger, Purist automation clears the busywork for strategic focus', category: 'general' },
+  { src: '/images/ads/ad-27.jpg', alt: 'Work flows systematized, Purist automation turns time into productivity with precision workflow design', category: 'general' },
+  { src: '/images/ads/ad-28.jpg', alt: 'Workflows that work while you do not, Purist cascade automation system for end-to-end business processes', category: 'general' },
+  { src: '/images/ads/ad-29.jpg', alt: 'Work should be built not busy, Purist automates repeating tasks and systemizes your business operations', category: 'general' },
+  { src: '/images/ads/ad-30.jpg', alt: 'Workflow not overflow, Purist smart automation reduces business workload and creates room to scale', category: 'general' },
+  { src: '/images/ads/ad-31.jpg', alt: 'Workflows that work while you do not, Purist time-freedom automation lets your systems work on autopilot', category: 'general' },
+  { src: '/images/ads/ad-32.jpg', alt: 'Workflows should work for you, Purist transforms scattered chaos into an organized automated system', category: 'general' },
+  { src: '/images/ads/ad-33.jpg', alt: 'Systems that work so you can create what is next, Purist automation clears busywork for future growth', category: 'general' },
+  { src: '/images/ads/ad-34.jpg', alt: 'Good systems do not work hard they work together, Purist interconnected automation creates business momentum', category: 'general' },
+  { src: '/images/ads/ad-35.jpg', alt: 'Workflows should work for you, build once run better every time with Purist workflow automation systems', category: 'general' },
+  { src: '/images/ads/ad-36.jpg', alt: 'Great work follows a system, Purist automated workflow delivers from lead captured to done every time', category: 'general' },
+  { src: '/images/ads/ad-37.jpg', alt: 'From chaos to clarity, Purist automation creates systems so your business can breathe and grow with ease', category: 'general' },
+  { src: '/images/ads/ad-38.jpg', alt: 'Work moves you lead, Purist automation dashboard showing leads captured tasks created deals advanced', category: 'general' },
+  { src: '/images/ads/ad-39.jpg', alt: 'Workflows that work so work feels lighter, Purist automation opens the door to freedom and bigger opportunity', category: 'general' },
+  { src: '/images/ads/ad-40.jpg', alt: 'Work that works without working you, Purist automation transforms operations across four key business pillars', category: 'general' },
+  { src: '/images/ads/ad-41.jpg', alt: 'Systems do not just save time they create growth, Purist automation cultivates business growth like nature', category: 'general' },
+  { src: '/images/ads/ad-42.jpg', alt: 'Workflows that work, Purist automation moves every item from inbox to done with zero manual intervention', category: 'general' },
+  { src: '/images/ads/ad-43.jpg', alt: 'Work moves systems make it flow, Purist organized workflow system replaces chaotic manual paper processes', category: 'general' },
+  { src: '/images/ads/ad-44.jpg', alt: 'Work flows better when systems think for you, Purist automation cascades through every business stage', category: 'general' },
+  { src: '/images/ads/ad-45.jpg', alt: 'Work flows better with systems, Purist interconnected automation machine where every step triggers the next', category: 'general' },
+  { src: '/images/ads/ad-46.jpg', alt: 'Systems work people thrive, Purist automation integrates automates optimizes and elevates your business', category: 'general' },
+  { src: '/images/ads/ad-47.jpg', alt: 'Workflows that work so you can think, Purist automation nurtures business growth step by systematic step', category: 'general' },
+  { src: '/images/ads/ad-48.jpg', alt: 'Workflows that work, Purist automation maze guides complexity into clarity with a clear path to results', category: 'general' },
+  { src: '/images/ads/ad-49.jpg', alt: 'Workflows that work so you do not have to, Purist automation gives back your time to focus on what matters', category: 'general' },
+  { src: '/images/ads/ad-50.jpg', alt: 'Work moves you do not have to, Purist automation handles workflows while you lead your business forward', category: 'general' },
+  { src: '/images/ads/ad-51.jpg', alt: 'Systems do not sleep neither do results, Purist 24/7 automation keeps workflows on for your business always', category: 'general' },
+  { src: '/images/ads/ad-52.jpg', alt: 'Systems do not just save time they create difference, Purist automation makes your business stand out from the crowd', category: 'general' },
+  { src: '/images/ads/ad-53.jpg', alt: 'Workflows that work, Purist automation turns the infinite loop of manual work into streamlined business systems', category: 'general' },
+  { src: '/images/ads/ad-54.jpg', alt: 'Work flows not workload, Purist automation intelligently routes your business processes for maximum efficiency', category: 'general' },
+  { src: '/images/ads/ad-55.jpg', alt: 'Workflows that work systems that think, Purist AI automation builds the pipeline while you stay creative', category: 'general' },
+  { src: '/images/ads/ad-56.jpg', alt: 'Systems that work freedom that lasts, Purist automation delivers smarter processes and more time for growth', category: 'general' },
+  { src: '/images/ads/ad-57.jpg', alt: 'Workflows that work while you do not, Purist automation handles every client touchpoint from lead to loyal', category: 'general' },
+  { src: '/images/ads/ad-58.jpg', alt: 'Workflows that work systems that scale, Purist robot-precision automation builds and delivers consistent results', category: 'general' },
+  { src: '/images/ads/ad-59.jpg', alt: 'Workflows that work freedom that lasts, Purist automation creates space for what truly matters in business', category: 'general' },
+  { src: '/images/ads/ad-60.jpg', alt: 'Work moves you lead, Purist brass automation machine captures qualifies nurtures delivers and delights clients', category: 'general' },
+  { src: '/images/ads/ad-61.jpg', alt: 'Workflows that work so you can focus, Purist automation transforms laptop workflows into business-wide systems', category: 'general' },
+  { src: '/images/ads/ad-62.jpg', alt: 'Great systems run quietly, Purist automation works silently in the background so your business runs perfectly', category: 'general' },
+  { src: '/images/ads/ad-63.jpg', alt: 'Workflows that work so you can focus on what matters, Purist n8n automation diagram from new lead to growth', category: 'general' },
+  { src: '/images/ads/ad-64.jpg', alt: 'Systems that work so you do not have to, Purist automation captures organizes automates delivers improves', category: 'general' },
+  { src: '/images/ads/ad-65.jpg', alt: 'Workflows that work while you do not, Purist balanced automation saves time reduces errors and scales growth', category: 'general' },
+];
+
+const industries = [
+  { id: 'all', label: 'All Creatives' },
+  { id: 'general', label: 'General Automation' },
+  { id: 'real-estate', label: 'Real Estate' },
+  { id: 'dental', label: 'Dental & Healthcare' },
+  { id: 'legal', label: 'Legal & Law Firms' },
+  { id: 'ecommerce', label: 'E-commerce & Retail' },
+  { id: 'restaurants', label: 'Restaurants & Food' },
+  { id: 'agencies', label: 'Marketing Agencies' },
+  { id: 'finance', label: 'Finance & Fintech' },
+  { id: 'construction', label: 'Construction & Trades' },
+  { id: 'automotive', label: 'Automotive' },
+  { id: 'fitness', label: 'Fitness & Wellness' },
+  { id: 'education', label: 'Education & Coaching' },
+  { id: 'consulting', label: 'Consulting & Advisory' },
+  { id: 'insurance', label: 'Insurance' },
+  { id: 'hospitality', label: 'Hotels & Hospitality' },
+  { id: 'logistics', label: 'Logistics & Supply Chain' },
+  { id: 'hr', label: 'HR & Recruitment' },
+  { id: 'saas', label: 'SaaS & Tech' },
+  { id: 'creative', label: 'Creative Agencies' },
+  { id: 'property', label: 'Property Management' },
+  { id: 'photography', label: 'Photography & Video' },
+  { id: 'interior', label: 'Interior Design' },
+  { id: 'architecture', label: 'Architecture' },
+  { id: 'events', label: 'Event Planning' },
+  { id: 'accounting', label: 'Accounting & Bookkeeping' },
+  { id: 'mortgage', label: 'Mortgage & Lending' },
+  { id: 'coaching', label: 'Life & Business Coaching' },
+  { id: 'landscaping', label: 'Landscape & Gardening' },
+  { id: 'cleaning', label: 'Cleaning Services' },
+  { id: 'pest', label: 'Pest Control' },
+  { id: 'roofing', label: 'Roofing & Solar' },
+  { id: 'plumbing', label: 'Plumbing & HVAC' },
+  { id: 'beauty', label: 'Beauty & Salons' },
+  { id: 'medspa', label: 'Med Spa & Aesthetics' },
+  { id: 'veterinary', label: 'Veterinary' },
+  { id: 'childcare', label: 'Childcare & Education' },
+  { id: 'nonprofit', label: 'Non-Profit' },
+  { id: 'travel', label: 'Travel & Tourism' },
+  { id: 'music', label: 'Music & Entertainment' },
+  { id: 'sports', label: 'Sports & Recreation' },
+  { id: 'manufacturing', label: 'Manufacturing' },
+  { id: 'wholesale', label: 'Wholesale & Distribution' },
+  { id: 'fashion', label: 'Fashion & Apparel' },
+  { id: 'supplements', label: 'Health Supplements' },
+  { id: 'therapy', label: 'Mental Health & Therapy' },
+  { id: 'flooring', label: 'Home Improvement' },
+  { id: 'security', label: 'Security & Surveillance' },
+  { id: 'it', label: 'IT Services & MSP' },
+  { id: 'printing', label: 'Printing & Signage' },
+  { id: 'funeral', label: 'Funeral Services' },
 ];
 ---
 
 <ShopLayout
-  title="Creative Ads — Built by AI, Powered by Purist"
-  description="Every ad you see was produced entirely by the Purist automation stack. n8n workflows + Claude AI Skills. Brief in. Campaign out."
+  title="AI Ad Creative Gallery by Industry — Workflow Automation Ads by Purist"
+  description="65 production-ready ad creatives generated entirely by the Purist automation stack. Browse by industry. n8n workflows, Claude AI Skills, GPT Image-2. Brief in. Campaign out."
   noindex={false}
 >
   <div class="ads-page bg-brand-black min-h-screen">
 
     <!-- Hero -->
-    <section class="pt-24 pb-16 px-6 lg:px-12 max-w-7xl mx-auto">
-      <div class="hero-line">
-        <span class="inline-block bg-white/8 border border-white/10 rounded-full text-[10px] tracking-[0.2em] uppercase font-medium px-4 py-1.5 mb-8 text-white/40">
+    <section class="pt-24 sm:pt-28 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-16 max-w-7xl mx-auto">
+      <div class="hero-line mb-10">
+        <span class="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full text-[10px] tracking-[0.2em] uppercase font-medium px-4 py-1.5 text-white/40">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-pink inline-block"></span>
           Creative Showcase · Purist.online
         </span>
       </div>
 
-      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10 mb-4">
-        <div>
-          <h1 class="hero-title font-display text-5xl lg:text-7xl xl:text-8xl text-white leading-[0.95] tracking-tight">
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-12 mb-14">
+        <div class="max-w-2xl">
+          <h1 class="hero-title font-display text-[2.8rem] sm:text-5xl md:text-6xl lg:text-8xl text-white leading-[0.9] tracking-tight">
             Made by AI.<br />
-            <em class="text-white/40 font-medium">For Purist.</em>
+            <em class="text-white/35 font-medium">For every industry.</em>
           </h1>
         </div>
-        <div class="hero-desc max-w-sm">
-          <p class="text-[15px] text-white/50 leading-relaxed mb-5">
-            Every visual on this page was generated entirely by our automation stack —
-            no agency, no retainer, no designer on payroll.
+        <div class="hero-desc lg:max-w-xs">
+          <p class="text-[14px] text-white/45 leading-relaxed mb-6">
+            Every visual was generated entirely by our automation stack.
+            No agency. No retainer. No designer on payroll.
             Just a brief, an n8n workflow, and Claude AI Skills.
           </p>
           <div class="flex flex-wrap gap-2">
-            {['n8n', 'Claude Skills', 'GPT Image-2', '< 4 min/creative'].map(t => (
+            {['n8n', 'Claude Skills', 'GPT Image-2', 'Under 4 min'].map(t => (
               <span class="text-[10px] tracking-widest uppercase text-white/30 border border-white/10 rounded-full px-3 py-1">{t}</span>
             ))}
           </div>
@@ -107,65 +162,395 @@ const ads = [
       </div>
 
       <!-- Stats bar -->
-      <div class="hero-stats flex flex-wrap gap-px mt-12 border border-white/8 rounded-2xl overflow-hidden">
+      <div class="hero-stats grid grid-cols-2 sm:grid-cols-4 gap-px border border-white/8 rounded-xl sm:rounded-2xl overflow-hidden">
         {[
-          { n: `${ads.length}`, label: 'Ads on this page' },
+          { n: `${ads.length}`, label: 'Creatives' },
           { n: '< 4 min', label: 'Per creative' },
           { n: '£0', label: 'Agency fees' },
-          { n: '100%', label: 'AI-produced' },
+          { n: '50+', label: 'Industries' },
         ].map(s => (
-          <div class="flex-1 min-w-[120px] bg-white/[0.03] px-6 py-5">
-            <div class="text-2xl font-display text-white mb-0.5">{s.n}</div>
-            <div class="text-[11px] text-white/30 uppercase tracking-widest">{s.label}</div>
+          <div class="bg-white/[0.03] px-4 sm:px-6 py-4 sm:py-6">
+            <div class="text-2xl sm:text-3xl font-display text-white mb-1 tracking-tight">{s.n}</div>
+            <div class="text-[9px] sm:text-[10px] text-white/25 uppercase tracking-[0.15em]">{s.label}</div>
           </div>
         ))}
       </div>
     </section>
 
-    <!-- Divider -->
-    <div class="w-full h-px bg-white/6 mb-2"></div>
+    <!-- Filter bar -->
+    <div class="sticky top-0 z-50 bg-brand-black/95 backdrop-blur-md border-b border-white/6 px-4 sm:px-6 lg:px-16 py-3 sm:py-4">
+      <div class="max-w-7xl mx-auto flex items-center justify-between gap-4 sm:gap-6">
+        <div class="flex items-center gap-3">
+          <span class="text-[10px] uppercase tracking-[0.2em] text-white/30 hidden sm:block">Filter by industry</span>
+          <div class="relative">
+            <select
+              id="industry-filter"
+              class="appearance-none bg-white/5 border border-white/12 text-white/70 text-[12px] tracking-wide rounded-full pl-4 pr-10 py-2.5 cursor-pointer focus:outline-none focus:border-white/30 transition-colors"
+            >
+              {industries.map(ind => (
+                <option value={ind.id} class="bg-[#0a0a0a] text-white">{ind.label}</option>
+              ))}
+            </select>
+            <svg class="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-white/40" width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <span id="filter-count" class="text-[11px] text-white/30 shrink-0">{ads.length} creatives</span>
+      </div>
+    </div>
 
     <!-- Masonry grid -->
-    <section class="px-4 lg:px-8 py-12 max-w-[1600px] mx-auto" id="gallery">
-      <div class="masonry-grid">
+    <section class="px-4 lg:px-8 py-10 max-w-[1800px] mx-auto" id="gallery">
+      <div class="masonry-grid" id="masonry-grid">
         {ads.map((ad, i) => (
           <div
             class="masonry-item"
-            style={`animation-delay: ${(i % 6) * 80}ms`}
+            data-category={ad.category}
             data-index={i}
+            style={`animation-delay: ${(i % 8) * 60}ms`}
           >
             <div class="masonry-inner">
               <img
                 src={ad.src}
                 alt={ad.alt}
-                loading={i < 6 ? 'eager' : 'lazy'}
+                loading={i < 10 ? 'eager' : 'lazy'}
                 decoding="async"
                 class="w-full h-full object-cover"
               />
               <div class="masonry-overlay">
-                <p class="text-white text-[13px] font-medium leading-snug px-4 py-3">{ad.alt}</p>
+                <p class="text-white text-[12px] leading-snug px-4 py-4">{ad.alt}</p>
               </div>
             </div>
           </div>
         ))}
       </div>
+
+      <!-- Empty state -->
+      <div id="empty-state" class="hidden py-32 text-center">
+        <p class="text-white/20 text-[13px] tracking-wide mb-2">No creatives yet for this industry.</p>
+        <p class="text-white/12 text-[11px] tracking-widest uppercase">Coming soon · Share your brief with us</p>
+        <a href="/#products" class="inline-flex items-center gap-2 mt-8 border border-white/15 text-white/40 hover:text-white text-[11px] tracking-[0.1em] uppercase px-5 py-2.5 rounded-full transition-all duration-200">
+          Request custom ads
+        </a>
+      </div>
+    </section>
+
+    <!-- Pipeline section -->
+    <section class="px-4 sm:px-6 lg:px-16 py-20 lg:py-28 max-w-7xl mx-auto">
+
+      <div class="mb-12 lg:mb-16">
+        <span class="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full text-[10px] tracking-[0.2em] uppercase font-medium px-4 py-1.5 text-white/40 mb-6 sm:mb-8 block w-fit">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-pink inline-block"></span>
+          Backend Infrastructure · n8n + Claude AI
+        </span>
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 lg:gap-8">
+          <h2 class="font-display text-4xl sm:text-5xl lg:text-7xl text-white leading-[0.92] tracking-tight max-w-lg">
+            The pipelines<br />
+            <em class="text-white/30">behind every ad.</em>
+          </h2>
+          <p class="text-[13px] sm:text-[14px] text-white/40 leading-relaxed max-w-sm">
+            Every format runs on a dedicated n8n workflow, triggered by a single brief.
+            Claude AI orchestrates the creative logic. GPT Image-2 renders the visuals.
+            Production-ready assets delivered straight to your drive.
+          </p>
+        </div>
+      </div>
+
+      <!-- Pipeline cards grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
+
+        <!-- Static Image Pipeline -->
+        <div class="pipeline-card border border-white/8 rounded-2xl p-5 sm:p-7 bg-white/[0.02] hover:bg-white/[0.04] transition-colors duration-300">
+          <div class="flex items-start justify-between mb-5 sm:mb-6">
+            <div>
+              <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-brand-pink/10 border border-brand-pink/20 flex items-center justify-center mb-3 sm:mb-4">
+                <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="3" stroke="#FF6B9D" stroke-width="1.4"/><path d="M6 10l3 3 5-5" stroke="#FF6B9D" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <h3 class="font-display text-lg sm:text-xl text-white mb-0.5">Static Image Ads</h3>
+              <p class="text-[10px] text-brand-pink/70 uppercase tracking-[0.15em]">Active · 65 creatives live</p>
+            </div>
+            <span class="text-[9px] sm:text-[10px] text-white/20 border border-white/10 rounded-full px-2.5 py-1 tracking-widest uppercase shrink-0">Live</span>
+          </div>
+          <p class="text-[12px] sm:text-[13px] text-white/40 leading-relaxed mb-5 sm:mb-6">
+            Single-image ads in 9:16, 4:5, and 1:1 for Meta, TikTok, Google Display, and LinkedIn.
+            One brief triggers the full creative cycle without human intervention.
+          </p>
+          <div class="border-t border-white/6 pt-4 sm:pt-5 space-y-2.5 sm:space-y-3">
+            <div class="pipeline-step">
+              <span class="pipeline-node">Webhook</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">Brief received from form or Airtable trigger</span>
+            </div>
+            <div class="pipeline-step">
+              <span class="pipeline-node">Claude Skill</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">Generates 3 creative concepts + copy variants</span>
+            </div>
+            <div class="pipeline-step">
+              <span class="pipeline-node">HTTP node</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">Calls GPT Image-2 API with structured prompt</span>
+            </div>
+            <div class="pipeline-step">
+              <span class="pipeline-node">Google Drive</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">Assets organized by ratio in client folder</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-white/5">
+            <span class="text-[9px] sm:text-[10px] text-white/20 uppercase tracking-widest">Time to deliver</span>
+            <span class="text-[12px] sm:text-[13px] text-white/60 font-medium">under 4 min</span>
+          </div>
+        </div>
+
+        <!-- Video Ads Pipeline -->
+        <div class="pipeline-card border border-white/8 rounded-2xl p-5 sm:p-7 bg-white/[0.02] hover:bg-white/[0.04] transition-colors duration-300">
+          <div class="flex items-start justify-between mb-5 sm:mb-6">
+            <div>
+              <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-3 sm:mb-4">
+                <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="3" stroke="rgba(255,255,255,0.3)" stroke-width="1.4"/><polygon points="8,7 14,10 8,13" fill="rgba(255,255,255,0.3)"/></svg>
+              </div>
+              <h3 class="font-display text-lg sm:text-xl text-white mb-0.5">Video Ads</h3>
+              <p class="text-[10px] text-white/25 uppercase tracking-[0.15em]">In development</p>
+            </div>
+            <span class="text-[9px] sm:text-[10px] text-white/20 border border-white/10 rounded-full px-2.5 py-1 tracking-widest uppercase shrink-0">Soon</span>
+          </div>
+          <p class="text-[12px] sm:text-[13px] text-white/40 leading-relaxed mb-5 sm:mb-6">
+            Short-form video for Reels, TikTok, and YouTube Shorts. Script, voiceover, motion graphics,
+            and B-roll — all orchestrated inside a single n8n canvas.
+          </p>
+          <div class="border-t border-white/6 pt-4 sm:pt-5 space-y-2.5 sm:space-y-3">
+            <div class="pipeline-step">
+              <span class="pipeline-node">Brief node</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">Claude writes 15s / 30s / 60s scripts per platform</span>
+            </div>
+            <div class="pipeline-step">
+              <span class="pipeline-node">TTS node</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">ElevenLabs voiceover with brand-matched voice</span>
+            </div>
+            <div class="pipeline-step">
+              <span class="pipeline-node">Video node</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">Runway / Kling generates motion from stills</span>
+            </div>
+            <div class="pipeline-step">
+              <span class="pipeline-node">FFmpeg node</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">Caption burn-in, ratio export, compression</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-white/5">
+            <span class="text-[9px] sm:text-[10px] text-white/20 uppercase tracking-widest">Target delivery</span>
+            <span class="text-[12px] sm:text-[13px] text-white/40 font-medium">under 12 min</span>
+          </div>
+        </div>
+
+        <!-- Carousel Pipeline -->
+        <div class="pipeline-card border border-white/8 rounded-2xl p-5 sm:p-7 bg-white/[0.02] hover:bg-white/[0.04] transition-colors duration-300">
+          <div class="flex items-start justify-between mb-5 sm:mb-6">
+            <div>
+              <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-3 sm:mb-4">
+                <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><rect x="1" y="5" width="8" height="10" rx="2" stroke="rgba(255,255,255,0.3)" stroke-width="1.4"/><rect x="11" y="5" width="8" height="10" rx="2" stroke="rgba(255,255,255,0.3)" stroke-width="1.4"/></svg>
+              </div>
+              <h3 class="font-display text-lg sm:text-xl text-white mb-0.5">Carousel Posts</h3>
+              <p class="text-[10px] text-white/25 uppercase tracking-[0.15em]">In development</p>
+            </div>
+            <span class="text-[9px] sm:text-[10px] text-white/20 border border-white/10 rounded-full px-2.5 py-1 tracking-widest uppercase shrink-0">Soon</span>
+          </div>
+          <p class="text-[12px] sm:text-[13px] text-white/40 leading-relaxed mb-5 sm:mb-6">
+            Multi-slide carousel ads for Meta and LinkedIn. Claude structures the narrative arc
+            (hook → value → proof → CTA) then generates each slide as a cohesive visual series.
+          </p>
+          <div class="border-t border-white/6 pt-4 sm:pt-5 space-y-2.5 sm:space-y-3">
+            <div class="pipeline-step">
+              <span class="pipeline-node">Brief node</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">Claude writes 5-8 slide scripts with hooks</span>
+            </div>
+            <div class="pipeline-step">
+              <span class="pipeline-node">Loop node</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">Iterates GPT Image-2 per slide with style lock</span>
+            </div>
+            <div class="pipeline-step">
+              <span class="pipeline-node">Canva API</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">Injects visuals into brand template per slide</span>
+            </div>
+            <div class="pipeline-step">
+              <span class="pipeline-node">Export node</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">PDF + individual PNGs + caption file delivered</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-white/5">
+            <span class="text-[9px] sm:text-[10px] text-white/20 uppercase tracking-widest">Target delivery</span>
+            <span class="text-[12px] sm:text-[13px] text-white/40 font-medium">under 8 min</span>
+          </div>
+        </div>
+
+        <!-- UGC Ads Pipeline -->
+        <div class="pipeline-card border border-white/8 rounded-2xl p-5 sm:p-7 bg-white/[0.02] hover:bg-white/[0.04] transition-colors duration-300">
+          <div class="flex items-start justify-between mb-5 sm:mb-6">
+            <div>
+              <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-3 sm:mb-4">
+                <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3" stroke="rgba(255,255,255,0.3)" stroke-width="1.4"/><path d="M4 17c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="rgba(255,255,255,0.3)" stroke-width="1.4" stroke-linecap="round"/></svg>
+              </div>
+              <h3 class="font-display text-lg sm:text-xl text-white mb-0.5">UGC-Style Ads</h3>
+              <p class="text-[10px] text-white/25 uppercase tracking-[0.15em]">In development</p>
+            </div>
+            <span class="text-[9px] sm:text-[10px] text-white/20 border border-white/10 rounded-full px-2.5 py-1 tracking-widest uppercase shrink-0">Soon</span>
+          </div>
+          <p class="text-[12px] sm:text-[13px] text-white/40 leading-relaxed mb-5 sm:mb-6">
+            Authentic-feeling UGC aesthetics with AI avatars and scripted testimonials.
+            Agency-scale output without influencer budgets or UGC platform subscriptions.
+          </p>
+          <div class="border-t border-white/6 pt-4 sm:pt-5 space-y-2.5 sm:space-y-3">
+            <div class="pipeline-step">
+              <span class="pipeline-node">Claude node</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">Writes first-person testimonial-style script</span>
+            </div>
+            <div class="pipeline-step">
+              <span class="pipeline-node">HeyGen node</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">AI avatar rendered with matched voice + emotion</span>
+            </div>
+            <div class="pipeline-step">
+              <span class="pipeline-node">B-roll node</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">Overlays sourced and composited automatically</span>
+            </div>
+            <div class="pipeline-step">
+              <span class="pipeline-node">Caption node</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">Captions burned-in, platform ratios exported</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-white/5">
+            <span class="text-[9px] sm:text-[10px] text-white/20 uppercase tracking-widest">Target delivery</span>
+            <span class="text-[12px] sm:text-[13px] text-white/40 font-medium">under 18 min</span>
+          </div>
+        </div>
+
+        <!-- Story / Reel Pipeline -->
+        <div class="pipeline-card border border-white/8 rounded-2xl p-5 sm:p-7 bg-white/[0.02] hover:bg-white/[0.04] transition-colors duration-300">
+          <div class="flex items-start justify-between mb-5 sm:mb-6">
+            <div>
+              <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-3 sm:mb-4">
+                <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><rect x="6" y="1" width="8" height="18" rx="2" stroke="rgba(255,255,255,0.3)" stroke-width="1.4"/><line x1="9" y1="15" x2="11" y2="15" stroke="rgba(255,255,255,0.3)" stroke-width="1.4" stroke-linecap="round"/></svg>
+              </div>
+              <h3 class="font-display text-lg sm:text-xl text-white mb-0.5">Story & Reel Covers</h3>
+              <p class="text-[10px] text-white/25 uppercase tracking-[0.15em]">In development</p>
+            </div>
+            <span class="text-[9px] sm:text-[10px] text-white/20 border border-white/10 rounded-full px-2.5 py-1 tracking-widests uppercase shrink-0">Soon</span>
+          </div>
+          <p class="text-[12px] sm:text-[13px] text-white/40 leading-relaxed mb-5 sm:mb-6">
+            Animated Story ads and static Reel covers for Instagram and TikTok.
+            Attention-tested hook overlays and branded templates native to each platform format.
+          </p>
+          <div class="border-t border-white/6 pt-4 sm:pt-5 space-y-2.5 sm:space-y-3">
+            <div class="pipeline-step">
+              <span class="pipeline-node">Claude node</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">Hook text scored and selected by CTR prediction</span>
+            </div>
+            <div class="pipeline-step">
+              <span class="pipeline-node">Image node</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">GPT Image-2 renders 9:16 with visual hierarchy</span>
+            </div>
+            <div class="pipeline-step">
+              <span class="pipeline-node">Overlay node</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">Text, CTA, and brand layer composited on canvas</span>
+            </div>
+            <div class="pipeline-step">
+              <span class="pipeline-node">Drive node</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">5 variants exported and organized for A/B testing</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-white/5">
+            <span class="text-[9px] sm:text-[10px] text-white/20 uppercase tracking-widest">Target delivery</span>
+            <span class="text-[12px] sm:text-[13px] text-white/40 font-medium">under 6 min</span>
+          </div>
+        </div>
+
+        <!-- Full Campaign Bundle -->
+        <div class="pipeline-card border border-white/8 rounded-2xl p-5 sm:p-7 bg-white/[0.02] hover:bg-white/[0.04] transition-colors duration-300 relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-br from-brand-pink/5 to-transparent pointer-events-none rounded-2xl"></div>
+          <div class="flex items-start justify-between mb-5 sm:mb-6">
+            <div>
+              <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-brand-pink/10 border border-brand-pink/20 flex items-center justify-center mb-3 sm:mb-4">
+                <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><path d="M3 10h14M10 3l7 7-7 7" stroke="#FF6B9D" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <h3 class="font-display text-lg sm:text-xl text-white mb-0.5">Full Campaign Bundle</h3>
+              <p class="text-[10px] text-brand-pink/70 uppercase tracking-[0.15em]">Master pipeline</p>
+            </div>
+            <span class="text-[9px] sm:text-[10px] text-brand-pink/60 border border-brand-pink/20 rounded-full px-2.5 py-1 tracking-widest uppercase bg-brand-pink/5 shrink-0">Flagship</span>
+          </div>
+          <p class="text-[12px] sm:text-[13px] text-white/40 leading-relaxed mb-5 sm:mb-6">
+            One brief. One webhook. The master workflow fans out into every pipeline in parallel
+            and delivers a complete campaign package — images, video, carousel, copy, and captions.
+          </p>
+          <div class="border-t border-white/6 pt-4 sm:pt-5 space-y-2.5 sm:space-y-3">
+            <div class="pipeline-step">
+              <span class="pipeline-node">Trigger</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">Client brief parsed by Claude into structured JSON</span>
+            </div>
+            <div class="pipeline-step">
+              <span class="pipeline-node">Split node</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">Parallel branches: image / video / carousel / UGC</span>
+            </div>
+            <div class="pipeline-step">
+              <span class="pipeline-node">Merge node</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">All outputs aggregated and structured by platform</span>
+            </div>
+            <div class="pipeline-step">
+              <span class="pipeline-node">Notify node</span>
+              <span class="pipeline-arrow">→</span>
+              <span class="pipeline-label">Slack DM + Drive link sent to client automatically</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-white/5">
+            <span class="text-[9px] sm:text-[10px] text-white/20 uppercase tracking-widest">Full bundle delivery</span>
+            <span class="text-[12px] sm:text-[13px] text-white/60 font-medium">under 25 min</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Tech stack footnote -->
+      <div class="mt-6 sm:mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 px-1">
+        <span class="text-[9px] text-white/15 uppercase tracking-[0.2em]">Stack</span>
+        {['n8n (self-hosted)', 'Claude claude-sonnet-5', 'GPT Image-2', 'ElevenLabs', 'HeyGen', 'Runway ML', 'Canva API', 'Google Drive', 'Airtable'].map(t => (
+          <span class="text-[11px] text-white/25">{t}</span>
+        ))}
+      </div>
     </section>
 
     <!-- Bottom CTA -->
-    <section class="px-6 py-20 max-w-4xl mx-auto text-center">
-      <div class="border border-white/10 rounded-3xl p-10 lg:p-16 bg-white/[0.02]">
-        <p class="text-[11px] uppercase tracking-[0.2em] text-white/30 mb-6">Want this for your business?</p>
-        <h2 class="font-display text-3xl lg:text-5xl text-white mb-6 leading-tight">
+    <section class="px-4 sm:px-6 py-16 sm:py-24 max-w-3xl mx-auto text-center">
+      <div class="border border-white/8 rounded-2xl sm:rounded-3xl p-8 sm:p-12 lg:p-16 bg-white/[0.02]">
+        <span class="text-[10px] uppercase tracking-[0.2em] text-white/25 mb-6 sm:mb-8 block">Want this for your business?</span>
+        <h2 class="font-display text-3xl sm:text-4xl lg:text-6xl text-white mb-4 sm:mb-6 leading-[0.95] tracking-tight">
           Your brand.<br />
-          <em class="text-white/40">Our pipeline.</em>
+          <em class="text-white/35">Our pipeline.</em>
         </h2>
-        <p class="text-[15px] text-white/40 mb-10 max-w-md mx-auto leading-relaxed">
-          We deploy the same AI ads system for clients — brief in, campaign out,
-          production-ready creatives in under a working day.
+        <p class="text-[13px] sm:text-[14px] text-white/35 mb-8 sm:mb-12 max-w-sm mx-auto leading-relaxed">
+          We deploy the same AI creative system for clients. Brief in, campaign out,
+          production-ready visuals in under a working day.
         </p>
         <a
           href="/#products"
-          class="inline-flex items-center gap-3 bg-white text-brand-black text-[13px] font-semibold tracking-wide uppercase px-8 py-4 rounded-full hover:bg-brand-cream transition-colors duration-200"
+          class="inline-flex items-center gap-3 bg-white text-brand-black text-[12px] font-semibold tracking-[0.08em] uppercase px-6 sm:px-8 py-3.5 sm:py-4 rounded-full hover:bg-brand-cream transition-colors duration-200"
         >
           See how it works
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -176,13 +561,14 @@ const ads = [
     </section>
 
     <!-- Credits footer -->
-    <div class="border-t border-white/6 px-6 py-8 max-w-7xl mx-auto">
-      <div class="flex flex-wrap gap-x-8 gap-y-2 text-[10px] uppercase tracking-[0.15em] text-white/20">
+    <div class="border-t border-white/5 px-6 lg:px-16 py-8 max-w-7xl mx-auto">
+      <div class="flex flex-wrap gap-x-8 gap-y-1.5 text-[9px] uppercase tracking-[0.15em] text-white/20">
         <span>Creative Director · Claude AI</span>
         <span>Director of Photography · GPT Image-2</span>
         <span>Art Direction · Purist Studio</span>
         <span>Production · n8n + Claude Skills</span>
         <span>Copy · Claude AI</span>
+        <span>Automation · Purist Ads System</span>
       </div>
     </div>
 
@@ -190,13 +576,12 @@ const ads = [
 </ShopLayout>
 
 <style>
-  /* Hero animations */
   .hero-line,
   .hero-title,
   .hero-desc,
   .hero-stats {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(20px);
     animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
   .hero-line   { animation-delay: 0ms; }
@@ -208,22 +593,23 @@ const ads = [
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Masonry */
   .masonry-grid {
     columns: 2;
-    column-gap: 12px;
+    column-gap: 10px;
   }
   @media (min-width: 640px)  { .masonry-grid { columns: 3; } }
   @media (min-width: 1024px) { .masonry-grid { columns: 4; } }
   @media (min-width: 1280px) { .masonry-grid { columns: 5; } }
+  @media (min-width: 1600px) { .masonry-grid { columns: 6; } }
 
   .masonry-item {
     break-inside: avoid;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     opacity: 0;
-    transform: translateY(32px);
-    animation: item-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    transform: translateY(28px);
+    animation: item-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
+  .masonry-item.hidden { display: none; }
 
   @keyframes item-rise {
     to { opacity: 1; transform: translateY(0); }
@@ -232,7 +618,7 @@ const ads = [
   .masonry-inner {
     position: relative;
     overflow: hidden;
-    border-radius: 14px;
+    border-radius: 12px;
     background: #111;
     cursor: zoom-in;
   }
@@ -248,26 +634,19 @@ const ads = [
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%);
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(6px);
     transition: opacity 0.3s ease, transform 0.3s ease;
   }
 
-  .masonry-inner:hover img {
-    transform: scale(1.04);
-  }
+  .masonry-inner:hover img { transform: scale(1.04); }
+  .masonry-inner:hover .masonry-overlay { opacity: 1; transform: translateY(0); }
 
-  .masonry-inner:hover .masonry-overlay {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Lightbox */
   .lb-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.92);
+    background: rgba(0,0,0,0.93);
     z-index: 1000;
     display: flex;
     align-items: center;
@@ -275,29 +654,24 @@ const ads = [
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.25s ease;
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(10px);
   }
-  .lb-backdrop.open {
-    opacity: 1;
-    pointer-events: all;
-  }
+  .lb-backdrop.open { opacity: 1; pointer-events: all; }
   .lb-img {
     max-height: 90vh;
     max-width: 90vw;
-    border-radius: 16px;
+    border-radius: 14px;
     object-fit: contain;
-    transform: scale(0.92);
+    transform: scale(0.93);
     transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .lb-backdrop.open .lb-img {
-    transform: scale(1);
-  }
+  .lb-backdrop.open .lb-img { transform: scale(1); }
   .lb-close {
     position: absolute;
-    top: 24px;
-    right: 28px;
-    color: rgba(255,255,255,0.5);
-    font-size: 28px;
+    top: 20px;
+    right: 24px;
+    color: rgba(255,255,255,0.45);
+    font-size: 26px;
     cursor: pointer;
     background: none;
     border: none;
@@ -309,11 +683,11 @@ const ads = [
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.07);
     border: none;
     color: #fff;
-    width: 48px;
-    height: 48px;
+    width: 46px;
+    height: 46px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
@@ -321,57 +695,142 @@ const ads = [
     justify-content: center;
     transition: background 0.2s;
   }
-  .lb-nav:hover { background: rgba(255,255,255,0.16); }
-  .lb-prev { left: 20px; }
-  .lb-next { right: 20px; }
+  .lb-nav:hover { background: rgba(255,255,255,0.15); }
+  .lb-prev { left: 16px; }
+  .lb-next { right: 16px; }
+
+  /* Pipeline cards */
+  .pipeline-step {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .pipeline-node {
+    flex-shrink: 0;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 2px 7px;
+  }
+  .pipeline-arrow {
+    font-size: 11px;
+    color: rgba(255,255,255,0.15);
+    flex-shrink: 0;
+  }
+  .pipeline-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    line-height: 1.4;
+  }
+
+  /* Mobile filter bar */
+  @media (max-width: 640px) {
+    #industry-filter {
+      font-size: 13px;
+      padding-left: 14px;
+      padding-right: 36px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+  }
+
+  /* Touch-friendly lightbox nav on mobile */
+  @media (max-width: 640px) {
+    .lb-prev { left: 8px; }
+    .lb-next { right: 8px; }
+    .lb-nav { width: 38px; height: 38px; }
+    .lb-img { border-radius: 8px; }
+  }
 </style>
 
 <div class="lb-backdrop" id="lb">
   <button class="lb-close" id="lb-close" aria-label="Close">×</button>
   <button class="lb-nav lb-prev" id="lb-prev" aria-label="Previous">
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12 4l-6 6 6 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M12 4l-6 6 6 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
   <img src="" alt="" class="lb-img" id="lb-img" />
   <button class="lb-nav lb-next" id="lb-next" aria-label="Next">
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M8 4l6 6-6 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M8 4l6 6-6 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
 </div>
 
 <script>
-  const ads = Array.from(document.querySelectorAll<HTMLElement>('.masonry-item'));
+  // Lightbox
+  const items = Array.from(document.querySelectorAll<HTMLElement>('.masonry-item'));
   const lb = document.getElementById('lb')!;
   const lbImg = document.getElementById('lb-img') as HTMLImageElement;
   let current = 0;
+  let visibleItems: HTMLElement[] = [];
 
-  function open(i: number) {
+  function getVisible() {
+    return items.filter(el => !el.classList.contains('hidden'));
+  }
+
+  function openLb(i: number) {
+    visibleItems = getVisible();
     current = i;
-    const img = ads[i].querySelector('img')!;
+    const img = visibleItems[i].querySelector('img')!;
     lbImg.src = img.src;
     lbImg.alt = img.alt;
     lb.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
-  function close() {
+  function closeLb() {
     lb.classList.remove('open');
     document.body.style.overflow = '';
   }
-  function nav(dir: number) {
-    open((current + dir + ads.length) % ads.length);
+  function navLb(dir: number) {
+    visibleItems = getVisible();
+    current = (current + dir + visibleItems.length) % visibleItems.length;
+    const img = visibleItems[current].querySelector('img')!;
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
   }
 
-  ads.forEach((el, i) => el.addEventListener('click', () => open(i)));
-  document.getElementById('lb-close')!.addEventListener('click', close);
-  document.getElementById('lb-prev')!.addEventListener('click', () => nav(-1));
-  document.getElementById('lb-next')!.addEventListener('click', () => nav(1));
-  lb.addEventListener('click', e => { if (e.target === lb) close(); });
+  items.forEach((el, i) => {
+    el.addEventListener('click', () => {
+      visibleItems = getVisible();
+      const vi = visibleItems.indexOf(el);
+      if (vi !== -1) openLb(vi);
+    });
+  });
+  document.getElementById('lb-close')!.addEventListener('click', closeLb);
+  document.getElementById('lb-prev')!.addEventListener('click', () => navLb(-1));
+  document.getElementById('lb-next')!.addEventListener('click', () => navLb(1));
+  lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
   document.addEventListener('keydown', e => {
     if (!lb.classList.contains('open')) return;
-    if (e.key === 'Escape') close();
-    if (e.key === 'ArrowLeft') nav(-1);
-    if (e.key === 'ArrowRight') nav(1);
+    if (e.key === 'Escape') closeLb();
+    if (e.key === 'ArrowLeft') navLb(-1);
+    if (e.key === 'ArrowRight') navLb(1);
   });
 
-  // Intersection Observer for scroll-triggered reveal
+  // Industry filter
+  const select = document.getElementById('industry-filter') as HTMLSelectElement;
+  const countEl = document.getElementById('filter-count')!;
+  const emptyState = document.getElementById('empty-state')!;
+
+  function applyFilter(value: string) {
+    let count = 0;
+    items.forEach(el => {
+      const cat = el.dataset.category || '';
+      const show = value === 'all' || cat === value;
+      el.classList.toggle('hidden', !show);
+      if (show) count++;
+    });
+    countEl.textContent = `${count} creative${count !== 1 ? 's' : ''}`;
+    emptyState.classList.toggle('hidden', count > 0);
+  }
+
+  select.addEventListener('change', () => applyFilter(select.value));
+
+  // Intersection Observer for scroll reveal
   const observer = new IntersectionObserver(
     entries => entries.forEach(e => {
       if (e.isIntersecting) {
@@ -379,10 +838,10 @@ const ads = [
         observer.unobserve(e.target);
       }
     }),
-    { threshold: 0.05 }
+    { threshold: 0.04 }
   );
-  ads.forEach((el, i) => {
-    if (i >= 6) {
+  items.forEach((el, i) => {
+    if (i >= 10) {
       el.style.animationPlayState = 'paused';
       observer.observe(el);
     }
