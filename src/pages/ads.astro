@@ -67,6 +67,18 @@ const ads = [
   { src: '/images/ads/ad-63.jpg', alt: 'Workflows that work so you can focus on what matters, Purist n8n automation diagram from new lead to growth', category: 'general' },
   { src: '/images/ads/ad-64.jpg', alt: 'Systems that work so you do not have to, Purist automation captures organizes automates delivers improves', category: 'general' },
   { src: '/images/ads/ad-65.jpg', alt: 'Workflows that work while you do not, Purist balanced automation saves time reduces errors and scales growth', category: 'general' },
+  { src: '/images/ads/ad-66.jpg', alt: 'Great restaurants run on more than great food, Purist automation for restaurant orders workflows kitchen operations and seamless service', category: 'restaurants' },
+  { src: '/images/ads/ad-67.jpg', alt: 'Great food deserves a system that works, Purist restaurant workflow automation for daily operations orders inventory suppliers staff and reports', category: 'restaurants' },
+  { src: '/images/ads/ad-68.jpg', alt: 'Great restaurants don\'t just cook they systemize, Purist robotic automation handles restaurant orders inventory staff suppliers and finance end to end', category: 'restaurants' },
+  { src: '/images/ads/ad-69.jpg', alt: 'Good systems don\'t just save time they raise standards, Purist automation for bio food and organic food brands quality control and traceability', category: 'restaurants' },
+  { src: '/images/ads/ad-70.jpg', alt: 'Same restaurant smarter systems, Purist automation for smart orders inventory alerts staff scheduling and restaurant performance insights', category: 'restaurants' },
+  { src: '/images/ads/ad-71.jpg', alt: 'Systems feed growth automation sustains it, Purist workflows that eliminate repetitive tasks reduce errors and scale restaurant food businesses sustainably', category: 'restaurants' },
+  { src: '/images/ads/ad-72.jpg', alt: 'Good systems make growth inevitable, Purist automation to automate tasks optimize workflows connect systems and scale food businesses sustainably', category: 'restaurants' },
+  { src: '/images/ads/ad-73.jpg', alt: 'Systems that feed growth, Purist automated workflows turn complex food and restaurant business processes into consistent results every time', category: 'restaurants' },
+  { src: '/images/ads/ad-74.jpg', alt: 'Great systems don\'t just organize they nourish, Purist bio food automation captures leads nurtures client relationships and delivers value reliably', category: 'restaurants' },
+  { src: '/images/ads/ad-75.jpg', alt: 'Make work flow every day, Purist smart systems automate tasks simplify restaurant and food business operations and give back what matters most', category: 'restaurants' },
+  { src: '/images/ads/ad-76.jpg', alt: 'Good food needs more than good intentions it needs systems, Purist food business automation to save time reduce waste and grow with scalable workflows', category: 'restaurants' },
+  { src: '/images/ads/ad-77.jpg', alt: 'Systems don\'t tire they deliver, Purist automation from tasks to systems from effort to impact for bio organic food brands and restaurant groups', category: 'restaurants' },
 ];
 
 const industries = [
@@ -219,7 +231,7 @@ const industries = [
                 class="w-full h-full object-cover"
               />
               <div class="masonry-overlay">
-                <p class="text-white text-[12px] leading-snug px-4 py-4">{ad.alt}</p>
+                <p>{ad.alt}</p>
               </div>
             </div>
           </div>
@@ -634,14 +646,21 @@ const industries = [
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%);
+    background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.4) 45%, transparent 100%);
     opacity: 0;
-    transform: translateY(6px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: opacity 0.35s ease;
+    padding-bottom: 4px;
+  }
+  .masonry-overlay p {
+    font-size: 11px;
+    line-height: 1.45;
+    color: rgba(255,255,255,0.88);
+    padding: 16px 14px 14px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
   }
 
   .masonry-inner:hover img { transform: scale(1.04); }
-  .masonry-inner:hover .masonry-overlay { opacity: 1; transform: translateY(0); }
+  .masonry-inner:hover .masonry-overlay { opacity: 1; }
 
   .lb-backdrop {
     position: fixed;
