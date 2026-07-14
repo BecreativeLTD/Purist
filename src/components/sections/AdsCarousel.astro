@@ -1,0 +1,86 @@
+---
+const ads = [
+  { src: '/images/ads/ad-01.jpg', alt: 'Work that used to take all day. Now takes no time.' },
+  { src: '/images/ads/ad-02.jpg', alt: 'Workflows should flow. Not people.' },
+  { src: '/images/ads/ad-03.jpg', alt: 'Automation isn\'t replacing jobs. It\'s replacing busywork.' },
+  { src: '/images/ads/ad-04.jpg', alt: 'Your trigger. Our workflow. Their result.' },
+  { src: '/images/ads/ad-05.jpg', alt: 'Workflows that work while you don\'t.' },
+  { src: '/images/ads/ad-06.jpg', alt: 'One step. Then everything else.' },
+  { src: '/images/ads/ad-07.jpg', alt: 'Workflows that work.' },
+  { src: '/images/ads/ad-08.jpg', alt: 'Workflows should flow.' },
+  { src: '/images/ads/ad-09.jpg', alt: 'Less busywork. More breakthroughs.' },
+  { src: '/images/ads/ad-10.jpg', alt: 'While you were busy, work got done.' },
+  { src: '/images/ads/ad-11.jpg', alt: 'Great workflows don\'t happen by chance.' },
+  { src: '/images/ads/ad-12.jpg', alt: 'Work doesn\'t have to be hard.' },
+];
+---
+
+<section class="bg-brand-black py-20 lg:py-28 overflow-hidden">
+  <div class="container-x mb-12">
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+      <div class="scroll-fade">
+        <span class="inline-block bg-white/10 rounded-full text-[11px] tracking-[0.15em] uppercase font-medium px-4 py-1.5 mb-5 text-white/60">
+          Creative showcase
+        </span>
+        <h2 class="font-display text-3xl lg:text-4xl xl:text-5xl text-white leading-tight">
+          Automation that earns attention.<br />
+          <em class="font-medium text-brand-cream/70">Ads that prove it.</em>
+        </h2>
+      </div>
+      <p class="text-sm text-white/40 max-w-xs sm:text-right scroll-fade">
+        Every visual crafted in-house — the same creative firepower we bring to client campaigns.
+      </p>
+    </div>
+  </div>
+
+  <!-- Marquee track -->
+  <div class="relative" id="ads-carousel-wrap">
+    <!-- Fade edges -->
+    <div class="pointer-events-none absolute inset-y-0 left-0 w-20 z-10 bg-gradient-to-r from-brand-black to-transparent"></div>
+    <div class="pointer-events-none absolute inset-y-0 right-0 w-20 z-10 bg-gradient-to-l from-brand-black to-transparent"></div>
+
+    <div class="ads-track flex gap-5" id="ads-track">
+      {[...ads, ...ads].map((ad, i) => (
+        <div
+          class="ads-card shrink-0 rounded-2xl overflow-hidden"
+          style="width: 220px; aspect-ratio: 9/16;"
+          aria-hidden={i >= ads.length ? 'true' : undefined}
+        >
+          <img
+            src={ad.src}
+            alt={ad.alt}
+            loading="lazy"
+            decoding="async"
+            class="w-full h-full object-cover"
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .ads-track {
+    animation: ads-scroll 40s linear infinite;
+    will-change: transform;
+  }
+
+  .ads-track:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes ads-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(calc(-220px * 12 - 20px * 12)); }
+  }
+
+  .ads-card {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .ads-card:hover {
+    transform: scale(1.03) translateY(-4px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+  }
+</style>
