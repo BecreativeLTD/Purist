@@ -282,33 +282,17 @@ const industries = [
               <h3 class="font-display text-lg sm:text-xl text-white mb-0.5">Static Image Ads</h3>
               <p class="text-[10px] text-brand-pink/70 uppercase tracking-[0.15em]">Active · 65 creatives live</p>
             </div>
-            <span class="text-[9px] sm:text-[10px] text-white/20 border border-white/10 rounded-full px-2.5 py-1 tracking-widest uppercase shrink-0">Live</span>
+            <span class="live-badge">Live</span>
           </div>
           <p class="text-[12px] sm:text-[13px] text-white/40 leading-relaxed mb-5 sm:mb-6">
             Single-image ads in 9:16, 4:5, and 1:1 for Meta, TikTok, Google Display, and LinkedIn.
             One brief triggers the full creative cycle without human intervention.
           </p>
-          <div class="border-t border-white/6 pt-4 sm:pt-5 space-y-2.5 sm:space-y-3">
-            <div class="pipeline-step">
-              <span class="pipeline-node">Webhook</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">Brief received from form or Airtable trigger</span>
-            </div>
-            <div class="pipeline-step">
-              <span class="pipeline-node">Claude Skill</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">Generates 3 creative concepts + copy variants</span>
-            </div>
-            <div class="pipeline-step">
-              <span class="pipeline-node">HTTP node</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">Calls GPT Image-2 API with structured prompt</span>
-            </div>
-            <div class="pipeline-step">
-              <span class="pipeline-node">Google Drive</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">Assets organized by ratio in client folder</span>
-            </div>
+          <div class="border-t border-white/6 pt-4 sm:pt-5 space-y-2 sm:space-y-2.5">
+            <div class="pipeline-step"><span class="pipeline-node">Webhook</span><span class="pipeline-label">Brief received from form or Airtable trigger</span></div>
+            <div class="pipeline-step"><span class="pipeline-node">Claude Skill</span><span class="pipeline-label">Generates 3 creative concepts and copy variants</span></div>
+            <div class="pipeline-step"><span class="pipeline-node">HTTP node</span><span class="pipeline-label">Calls GPT Image-2 API with structured prompt</span></div>
+            <div class="pipeline-step"><span class="pipeline-node">Google Drive</span><span class="pipeline-label">Assets organized by ratio in client folder</span></div>
           </div>
           <div class="flex items-center justify-between mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-white/5">
             <span class="text-[9px] sm:text-[10px] text-white/20 uppercase tracking-widest">Time to deliver</span>
@@ -317,223 +301,143 @@ const industries = [
         </div>
 
         <!-- Video Ads Pipeline -->
-        <div class="pipeline-card border border-white/8 rounded-2xl p-5 sm:p-7 bg-white/[0.02] hover:bg-white/[0.04] transition-colors duration-300">
+        <div class="pipeline-card border border-white/8 rounded-2xl p-5 sm:p-7 bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/14 transition-all duration-300">
           <div class="flex items-start justify-between mb-5 sm:mb-6">
             <div>
-              <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-3 sm:mb-4">
-                <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="3" stroke="rgba(255,255,255,0.3)" stroke-width="1.4"/><polygon points="8,7 14,10 8,13" fill="rgba(255,255,255,0.3)"/></svg>
+              <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-brand-pink/10 border border-brand-pink/20 flex items-center justify-center mb-3 sm:mb-4">
+                <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="3" stroke="#FF6B9D" stroke-width="1.4"/><polygon points="8,7 14,10 8,13" fill="#FF6B9D"/></svg>
               </div>
               <h3 class="font-display text-lg sm:text-xl text-white mb-0.5">Video Ads</h3>
-              <p class="text-[10px] text-white/25 uppercase tracking-[0.15em]">In development</p>
+              <p class="text-[10px] text-brand-pink/60 uppercase tracking-[0.15em]">Active</p>
             </div>
-            <span class="text-[9px] sm:text-[10px] text-white/20 border border-white/10 rounded-full px-2.5 py-1 tracking-widest uppercase shrink-0">Soon</span>
+            <span class="live-badge">Live</span>
           </div>
           <p class="text-[12px] sm:text-[13px] text-white/40 leading-relaxed mb-5 sm:mb-6">
             Short-form video for Reels, TikTok, and YouTube Shorts. Script, voiceover, motion graphics,
-            and B-roll — all orchestrated inside a single n8n canvas.
+            and B-roll orchestrated inside a single n8n canvas.
           </p>
-          <div class="border-t border-white/6 pt-4 sm:pt-5 space-y-2.5 sm:space-y-3">
-            <div class="pipeline-step">
-              <span class="pipeline-node">Brief node</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">Claude writes 15s / 30s / 60s scripts per platform</span>
-            </div>
-            <div class="pipeline-step">
-              <span class="pipeline-node">TTS node</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">ElevenLabs voiceover with brand-matched voice</span>
-            </div>
-            <div class="pipeline-step">
-              <span class="pipeline-node">Video node</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">Runway / Kling generates motion from stills</span>
-            </div>
-            <div class="pipeline-step">
-              <span class="pipeline-node">FFmpeg node</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">Caption burn-in, ratio export, compression</span>
-            </div>
+          <div class="border-t border-white/6 pt-4 sm:pt-5 space-y-2 sm:space-y-2.5">
+            <div class="pipeline-step"><span class="pipeline-node">Brief node</span><span class="pipeline-label">Claude writes 15s / 30s / 60s scripts per platform</span></div>
+            <div class="pipeline-step"><span class="pipeline-node">TTS node</span><span class="pipeline-label">ElevenLabs voiceover with brand-matched voice</span></div>
+            <div class="pipeline-step"><span class="pipeline-node">Video node</span><span class="pipeline-label">Runway / Kling generates motion from stills</span></div>
+            <div class="pipeline-step"><span class="pipeline-node">FFmpeg node</span><span class="pipeline-label">Caption burn-in, ratio export, compression</span></div>
           </div>
           <div class="flex items-center justify-between mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-white/5">
-            <span class="text-[9px] sm:text-[10px] text-white/20 uppercase tracking-widest">Target delivery</span>
-            <span class="text-[12px] sm:text-[13px] text-white/40 font-medium">under 12 min</span>
+            <span class="text-[9px] sm:text-[10px] text-white/20 uppercase tracking-widest">Delivery</span>
+            <span class="text-[12px] sm:text-[13px] text-white/60 font-medium">under 12 min</span>
           </div>
         </div>
 
         <!-- Carousel Pipeline -->
-        <div class="pipeline-card border border-white/8 rounded-2xl p-5 sm:p-7 bg-white/[0.02] hover:bg-white/[0.04] transition-colors duration-300">
+        <div class="pipeline-card border border-white/8 rounded-2xl p-5 sm:p-7 bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/14 transition-all duration-300">
           <div class="flex items-start justify-between mb-5 sm:mb-6">
             <div>
-              <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-3 sm:mb-4">
-                <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><rect x="1" y="5" width="8" height="10" rx="2" stroke="rgba(255,255,255,0.3)" stroke-width="1.4"/><rect x="11" y="5" width="8" height="10" rx="2" stroke="rgba(255,255,255,0.3)" stroke-width="1.4"/></svg>
+              <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-brand-pink/10 border border-brand-pink/20 flex items-center justify-center mb-3 sm:mb-4">
+                <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><rect x="1" y="5" width="8" height="10" rx="2" stroke="#FF6B9D" stroke-width="1.4"/><rect x="11" y="5" width="8" height="10" rx="2" stroke="#FF6B9D" stroke-width="1.4"/></svg>
               </div>
               <h3 class="font-display text-lg sm:text-xl text-white mb-0.5">Carousel Posts</h3>
-              <p class="text-[10px] text-white/25 uppercase tracking-[0.15em]">In development</p>
+              <p class="text-[10px] text-brand-pink/60 uppercase tracking-[0.15em]">Active</p>
             </div>
-            <span class="text-[9px] sm:text-[10px] text-white/20 border border-white/10 rounded-full px-2.5 py-1 tracking-widest uppercase shrink-0">Soon</span>
+            <span class="live-badge">Live</span>
           </div>
           <p class="text-[12px] sm:text-[13px] text-white/40 leading-relaxed mb-5 sm:mb-6">
             Multi-slide carousel ads for Meta and LinkedIn. Claude structures the narrative arc
-            (hook → value → proof → CTA) then generates each slide as a cohesive visual series.
+            (hook, value, proof, CTA) then generates each slide as a cohesive visual series.
           </p>
-          <div class="border-t border-white/6 pt-4 sm:pt-5 space-y-2.5 sm:space-y-3">
-            <div class="pipeline-step">
-              <span class="pipeline-node">Brief node</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">Claude writes 5-8 slide scripts with hooks</span>
-            </div>
-            <div class="pipeline-step">
-              <span class="pipeline-node">Loop node</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">Iterates GPT Image-2 per slide with style lock</span>
-            </div>
-            <div class="pipeline-step">
-              <span class="pipeline-node">Canva API</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">Injects visuals into brand template per slide</span>
-            </div>
-            <div class="pipeline-step">
-              <span class="pipeline-node">Export node</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">PDF + individual PNGs + caption file delivered</span>
-            </div>
+          <div class="border-t border-white/6 pt-4 sm:pt-5 space-y-2 sm:space-y-2.5">
+            <div class="pipeline-step"><span class="pipeline-node">Brief node</span><span class="pipeline-label">Claude writes 5-8 slide scripts with hooks</span></div>
+            <div class="pipeline-step"><span class="pipeline-node">Loop node</span><span class="pipeline-label">Iterates GPT Image-2 per slide with style lock</span></div>
+            <div class="pipeline-step"><span class="pipeline-node">Canva API</span><span class="pipeline-label">Injects visuals into brand template per slide</span></div>
+            <div class="pipeline-step"><span class="pipeline-node">Export node</span><span class="pipeline-label">PDF + individual PNGs + caption file delivered</span></div>
           </div>
           <div class="flex items-center justify-between mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-white/5">
-            <span class="text-[9px] sm:text-[10px] text-white/20 uppercase tracking-widest">Target delivery</span>
-            <span class="text-[12px] sm:text-[13px] text-white/40 font-medium">under 8 min</span>
+            <span class="text-[9px] sm:text-[10px] text-white/20 uppercase tracking-widest">Delivery</span>
+            <span class="text-[12px] sm:text-[13px] text-white/60 font-medium">under 8 min</span>
           </div>
         </div>
 
         <!-- UGC Ads Pipeline -->
-        <div class="pipeline-card border border-white/8 rounded-2xl p-5 sm:p-7 bg-white/[0.02] hover:bg-white/[0.04] transition-colors duration-300">
+        <div class="pipeline-card border border-white/8 rounded-2xl p-5 sm:p-7 bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/14 transition-all duration-300">
           <div class="flex items-start justify-between mb-5 sm:mb-6">
             <div>
-              <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-3 sm:mb-4">
-                <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3" stroke="rgba(255,255,255,0.3)" stroke-width="1.4"/><path d="M4 17c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="rgba(255,255,255,0.3)" stroke-width="1.4" stroke-linecap="round"/></svg>
+              <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-brand-pink/10 border border-brand-pink/20 flex items-center justify-center mb-3 sm:mb-4">
+                <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3" stroke="#FF6B9D" stroke-width="1.4"/><path d="M4 17c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#FF6B9D" stroke-width="1.4" stroke-linecap="round"/></svg>
               </div>
               <h3 class="font-display text-lg sm:text-xl text-white mb-0.5">UGC-Style Ads</h3>
-              <p class="text-[10px] text-white/25 uppercase tracking-[0.15em]">In development</p>
+              <p class="text-[10px] text-brand-pink/60 uppercase tracking-[0.15em]">Active</p>
             </div>
-            <span class="text-[9px] sm:text-[10px] text-white/20 border border-white/10 rounded-full px-2.5 py-1 tracking-widest uppercase shrink-0">Soon</span>
+            <span class="live-badge">Live</span>
           </div>
           <p class="text-[12px] sm:text-[13px] text-white/40 leading-relaxed mb-5 sm:mb-6">
             Authentic-feeling UGC aesthetics with AI avatars and scripted testimonials.
             Agency-scale output without influencer budgets or UGC platform subscriptions.
           </p>
-          <div class="border-t border-white/6 pt-4 sm:pt-5 space-y-2.5 sm:space-y-3">
-            <div class="pipeline-step">
-              <span class="pipeline-node">Claude node</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">Writes first-person testimonial-style script</span>
-            </div>
-            <div class="pipeline-step">
-              <span class="pipeline-node">HeyGen node</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">AI avatar rendered with matched voice + emotion</span>
-            </div>
-            <div class="pipeline-step">
-              <span class="pipeline-node">B-roll node</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">Overlays sourced and composited automatically</span>
-            </div>
-            <div class="pipeline-step">
-              <span class="pipeline-node">Caption node</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">Captions burned-in, platform ratios exported</span>
-            </div>
+          <div class="border-t border-white/6 pt-4 sm:pt-5 space-y-2 sm:space-y-2.5">
+            <div class="pipeline-step"><span class="pipeline-node">Claude node</span><span class="pipeline-label">Writes first-person testimonial-style script</span></div>
+            <div class="pipeline-step"><span class="pipeline-node">HeyGen node</span><span class="pipeline-label">AI avatar rendered with matched voice and emotion</span></div>
+            <div class="pipeline-step"><span class="pipeline-node">B-roll node</span><span class="pipeline-label">Overlays sourced and composited automatically</span></div>
+            <div class="pipeline-step"><span class="pipeline-node">Caption node</span><span class="pipeline-label">Captions burned-in, platform ratios exported</span></div>
           </div>
           <div class="flex items-center justify-between mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-white/5">
-            <span class="text-[9px] sm:text-[10px] text-white/20 uppercase tracking-widest">Target delivery</span>
-            <span class="text-[12px] sm:text-[13px] text-white/40 font-medium">under 18 min</span>
+            <span class="text-[9px] sm:text-[10px] text-white/20 uppercase tracking-widest">Delivery</span>
+            <span class="text-[12px] sm:text-[13px] text-white/60 font-medium">under 18 min</span>
           </div>
         </div>
 
         <!-- Story / Reel Pipeline -->
-        <div class="pipeline-card border border-white/8 rounded-2xl p-5 sm:p-7 bg-white/[0.02] hover:bg-white/[0.04] transition-colors duration-300">
+        <div class="pipeline-card border border-white/8 rounded-2xl p-5 sm:p-7 bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/14 transition-all duration-300">
           <div class="flex items-start justify-between mb-5 sm:mb-6">
             <div>
-              <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-3 sm:mb-4">
-                <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><rect x="6" y="1" width="8" height="18" rx="2" stroke="rgba(255,255,255,0.3)" stroke-width="1.4"/><line x1="9" y1="15" x2="11" y2="15" stroke="rgba(255,255,255,0.3)" stroke-width="1.4" stroke-linecap="round"/></svg>
+              <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-brand-pink/10 border border-brand-pink/20 flex items-center justify-center mb-3 sm:mb-4">
+                <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><rect x="6" y="1" width="8" height="18" rx="2" stroke="#FF6B9D" stroke-width="1.4"/><line x1="9" y1="15" x2="11" y2="15" stroke="#FF6B9D" stroke-width="1.4" stroke-linecap="round"/></svg>
               </div>
               <h3 class="font-display text-lg sm:text-xl text-white mb-0.5">Story & Reel Covers</h3>
-              <p class="text-[10px] text-white/25 uppercase tracking-[0.15em]">In development</p>
+              <p class="text-[10px] text-brand-pink/60 uppercase tracking-[0.15em]">Active</p>
             </div>
-            <span class="text-[9px] sm:text-[10px] text-white/20 border border-white/10 rounded-full px-2.5 py-1 tracking-widests uppercase shrink-0">Soon</span>
+            <span class="live-badge">Live</span>
           </div>
           <p class="text-[12px] sm:text-[13px] text-white/40 leading-relaxed mb-5 sm:mb-6">
             Animated Story ads and static Reel covers for Instagram and TikTok.
             Attention-tested hook overlays and branded templates native to each platform format.
           </p>
-          <div class="border-t border-white/6 pt-4 sm:pt-5 space-y-2.5 sm:space-y-3">
-            <div class="pipeline-step">
-              <span class="pipeline-node">Claude node</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">Hook text scored and selected by CTR prediction</span>
-            </div>
-            <div class="pipeline-step">
-              <span class="pipeline-node">Image node</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">GPT Image-2 renders 9:16 with visual hierarchy</span>
-            </div>
-            <div class="pipeline-step">
-              <span class="pipeline-node">Overlay node</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">Text, CTA, and brand layer composited on canvas</span>
-            </div>
-            <div class="pipeline-step">
-              <span class="pipeline-node">Drive node</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">5 variants exported and organized for A/B testing</span>
-            </div>
+          <div class="border-t border-white/6 pt-4 sm:pt-5 space-y-2 sm:space-y-2.5">
+            <div class="pipeline-step"><span class="pipeline-node">Claude node</span><span class="pipeline-label">Hook text scored and selected by CTR prediction</span></div>
+            <div class="pipeline-step"><span class="pipeline-node">Image node</span><span class="pipeline-label">GPT Image-2 renders 9:16 with visual hierarchy</span></div>
+            <div class="pipeline-step"><span class="pipeline-node">Overlay node</span><span class="pipeline-label">Text, CTA, and brand layer composited on canvas</span></div>
+            <div class="pipeline-step"><span class="pipeline-node">Drive node</span><span class="pipeline-label">5 variants exported and organized for A/B testing</span></div>
           </div>
           <div class="flex items-center justify-between mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-white/5">
-            <span class="text-[9px] sm:text-[10px] text-white/20 uppercase tracking-widest">Target delivery</span>
-            <span class="text-[12px] sm:text-[13px] text-white/40 font-medium">under 6 min</span>
+            <span class="text-[9px] sm:text-[10px] text-white/20 uppercase tracking-widest">Delivery</span>
+            <span class="text-[12px] sm:text-[13px] text-white/60 font-medium">under 6 min</span>
           </div>
         </div>
 
         <!-- Full Campaign Bundle -->
-        <div class="pipeline-card border border-white/8 rounded-2xl p-5 sm:p-7 bg-white/[0.02] hover:bg-white/[0.04] transition-colors duration-300 relative overflow-hidden">
-          <div class="absolute inset-0 bg-gradient-to-br from-brand-pink/5 to-transparent pointer-events-none rounded-2xl"></div>
+        <div class="pipeline-card border border-brand-pink/20 rounded-2xl p-5 sm:p-7 bg-brand-pink/[0.04] hover:bg-brand-pink/[0.07] hover:border-brand-pink/30 transition-all duration-300 relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-br from-brand-pink/6 to-transparent pointer-events-none rounded-2xl"></div>
           <div class="flex items-start justify-between mb-5 sm:mb-6">
             <div>
-              <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-brand-pink/10 border border-brand-pink/20 flex items-center justify-center mb-3 sm:mb-4">
-                <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><path d="M3 10h14M10 3l7 7-7 7" stroke="#FF6B9D" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-brand-pink/15 border border-brand-pink/30 flex items-center justify-center mb-3 sm:mb-4">
+                <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><path d="M3 10h14M10 3l7 7-7 7" stroke="#FF6B9D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
               <h3 class="font-display text-lg sm:text-xl text-white mb-0.5">Full Campaign Bundle</h3>
-              <p class="text-[10px] text-brand-pink/70 uppercase tracking-[0.15em]">Master pipeline</p>
+              <p class="text-[10px] text-brand-pink/70 uppercase tracking-[0.15em]">Flagship pipeline</p>
             </div>
-            <span class="text-[9px] sm:text-[10px] text-brand-pink/60 border border-brand-pink/20 rounded-full px-2.5 py-1 tracking-widest uppercase bg-brand-pink/5 shrink-0">Flagship</span>
+            <span class="live-badge live-badge-pink">Live</span>
           </div>
           <p class="text-[12px] sm:text-[13px] text-white/40 leading-relaxed mb-5 sm:mb-6">
             One brief. One webhook. The master workflow fans out into every pipeline in parallel
             and delivers a complete campaign package — images, video, carousel, copy, and captions.
           </p>
-          <div class="border-t border-white/6 pt-4 sm:pt-5 space-y-2.5 sm:space-y-3">
-            <div class="pipeline-step">
-              <span class="pipeline-node">Trigger</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">Client brief parsed by Claude into structured JSON</span>
-            </div>
-            <div class="pipeline-step">
-              <span class="pipeline-node">Split node</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">Parallel branches: image / video / carousel / UGC</span>
-            </div>
-            <div class="pipeline-step">
-              <span class="pipeline-node">Merge node</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">All outputs aggregated and structured by platform</span>
-            </div>
-            <div class="pipeline-step">
-              <span class="pipeline-node">Notify node</span>
-              <span class="pipeline-arrow">→</span>
-              <span class="pipeline-label">Slack DM + Drive link sent to client automatically</span>
-            </div>
+          <div class="border-t border-white/6 pt-4 sm:pt-5 space-y-2 sm:space-y-2.5">
+            <div class="pipeline-step"><span class="pipeline-node">Trigger</span><span class="pipeline-label">Client brief parsed by Claude into structured JSON</span></div>
+            <div class="pipeline-step"><span class="pipeline-node">Split node</span><span class="pipeline-label">Parallel branches: image / video / carousel / UGC</span></div>
+            <div class="pipeline-step"><span class="pipeline-node">Merge node</span><span class="pipeline-label">All outputs aggregated and structured by platform</span></div>
+            <div class="pipeline-step"><span class="pipeline-node">Notify node</span><span class="pipeline-label">Slack DM and Drive link sent to client automatically</span></div>
           </div>
           <div class="flex items-center justify-between mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-white/5">
             <span class="text-[9px] sm:text-[10px] text-white/20 uppercase tracking-widest">Full bundle delivery</span>
-            <span class="text-[12px] sm:text-[13px] text-white/60 font-medium">under 25 min</span>
+            <span class="text-[12px] sm:text-[13px] text-white/70 font-medium">under 25 min</span>
           </div>
         </div>
 
@@ -838,12 +742,47 @@ const industries = [
     .lb-topbar { padding: 0 52px 0 16px; }
   }
 
+  /* Live badge */
+  .live-badge {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #FF6B9D;
+    border: 1px solid rgba(255,107,157,0.25);
+    background: rgba(255,107,157,0.08);
+    border-radius: 999px;
+    padding: 3px 10px 3px 8px;
+  }
+  .live-badge::before {
+    content: '';
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #FF6B9D;
+    box-shadow: 0 0 6px rgba(255,107,157,0.7);
+    animation: live-pulse 2s ease-in-out infinite;
+  }
+  .live-badge-pink {
+    color: #FF6B9D;
+    border-color: rgba(255,107,157,0.35);
+    background: rgba(255,107,157,0.12);
+  }
+  @keyframes live-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
   /* Pipeline cards */
   .pipeline-step {
     display: flex;
-    align-items: baseline;
-    gap: 8px;
-    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
   }
   .pipeline-node {
     flex-shrink: 0;
@@ -851,20 +790,17 @@ const industries = [
     font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.55);
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,107,157,0.7);
+    background: rgba(255,107,157,0.07);
+    border: 1px solid rgba(255,107,157,0.15);
     border-radius: 4px;
     padding: 2px 7px;
-  }
-  .pipeline-arrow {
-    font-size: 11px;
-    color: rgba(255,255,255,0.15);
-    flex-shrink: 0;
+    min-width: 72px;
+    text-align: center;
   }
   .pipeline-label {
     font-size: 11px;
-    color: rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.35);
     line-height: 1.4;
   }
 
