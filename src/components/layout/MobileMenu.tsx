@@ -49,6 +49,7 @@ const SECTIONS: Section[] = [
  {
    label: 'Discover',
    links: [
+     { name: 'Creative Gallery',  href: '/ads' },
      { name: 'About us',        href: '/pages/about-us' },
      { name: 'Our approach',    href: '/pages/impact' },
      { name: 'Get started',     href: '/pages/welcome' },
