@@ -65,6 +65,11 @@
     { "source": "/collections/merchandise", "destination": "/pages/add-ons", "permanent": true },
     { "source": "/products/foundation-pro", "destination": "/plans/automation-pro", "permanent": true },
     { "source": "/products/longevity-protocol", "destination": "/plans/ai-agent-deploy", "permanent": true },
-    { "source": "/products/founder-stack", "destination": "/plans/full-stack", "permanent": true }
+    { "source": "/products/founder-stack", "destination": "/plans/full-stack", "permanent": true },
+    { "source": "/mo", "destination": "/pages/pricing", "permanent": true },
+    { "source": "/quarter", "destination": "/pages/pricing", "permanent": true },
+    { "source": "/yr", "destination": "/pages/pricing", "permanent": true },
+    { "source": "/100", "destination": "/pages/pricing", "permanent": true },
+    { "source": "/pages/glossary/workflow", "destination": "/pages/glossary/automation-workflow", "permanent": true }
   ]
 }
