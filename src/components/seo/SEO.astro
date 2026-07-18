@@ -20,7 +20,8 @@ const {
 const fullTitle = title.includes('PURIST') ? title : `${title} · PURIST`;
 // canonicalURL uses the actual request origin (works on any deployment)
 const CANONICAL_BASE = 'https://www.purist.online';
-const canonicalURL = canonical || `${CANONICAL_BASE}${Astro.url.pathname}`;
+const rawPath = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/$/, '');
+const canonicalURL = canonical || `${CANONICAL_BASE}${rawPath}`;
 // ogImage always uses the canonical site domain so social crawlers get a stable URL
 const ogBase = (Astro.site?.toString() ?? Astro.url.origin).replace(/\/$/, '');
 const ogImage = image

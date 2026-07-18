@@ -22,6 +22,11 @@
   "installCommand": "npm ci --legacy-peer-deps",
   "redirects": [
     {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "permanent": true
+    },
+    {
       "source": "/pages/purist-vs-green-powders",
       "destination": "/pages/purist-vs-zapier",
       "permanent": true
