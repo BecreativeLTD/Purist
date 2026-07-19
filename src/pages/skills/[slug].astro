@@ -125,6 +125,7 @@ const schemaLd = {
 <ShopLayout
  title={`${skill.title} PURIST Automation Skill`}
  description={`${skill.benefit} ${skill.desc} Deployed in 7 days with 24/7 monitoring. From €${basePrice}.`}
+ noindex={!(skill as any).body}
 >
  <script type="application/ld+json" set:html={JSON.stringify(schemaLd)} slot="head" />
 

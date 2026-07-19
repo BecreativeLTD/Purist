@@ -9,7 +9,8 @@ const site = 'https://www.purist.online';
 
 const skillPages = [
   { url: '/skills', lastmod: '2026-06-18' },
-  ...skillsData.skills.map(s => ({
+  // Only include skills with body content — thin skills are noindex and shouldn't be in sitemap
+  ...skillsData.skills.filter(s => (s as any).body).map(s => ({
     url: `/skills/${s.slug}`,
     lastmod: '2026-06-18',
   })),
