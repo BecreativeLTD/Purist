@@ -90,7 +90,7 @@ function EmailGateModal({ profession, onClose }: { profession: Profession; onClo
           timestamp: new Date().toISOString(),
         }),
       });
-    } catch { /* silent — don't block the download */ }
+    } catch { /* silent, don't block the download */ }
     await buildGuidePdf(profession, color);
     submitting.value = false;
     submitted.value = true;
@@ -150,7 +150,7 @@ function EmailGateModal({ profession, onClose }: { profession: Profession; onClo
               Your PDF is downloading
             </h3>
             <p style={{ fontSize: 13, color: 'rgba(248,246,241,0.45)', lineHeight: 1.6, marginBottom: 20 }}>
-              Check your downloads folder — and your inbox, we've sent a copy along with a few next steps.
+              Check your downloads folder, and your inbox: we've sent a copy along with a few next steps.
             </p>
             <button onClick={onClose} style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(248,246,241,0.7)', border: '1px solid rgba(255,255,255,0.10)', borderRadius: 8, padding: '10px 18px', fontSize: 12.5, cursor: 'pointer' }}>
               Close
@@ -184,7 +184,7 @@ export default function FreeGuides() {
       <div style={{ marginBottom: 20 }}>
         <input
           type="text"
-          placeholder={`Search ${professions.length} industries — plumber, dentist, real estate agent…`}
+          placeholder={`Search ${professions.length} industries: plumber, dentist, real estate agent…`}
           value={query.value}
           onInput={(e) => (query.value = (e.target as HTMLInputElement).value)}
           style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.10)', borderRadius: 10, padding: '13px 16px', fontSize: 13.5, color: '#F8F6F1', outline: 'none', boxSizing: 'border-box' as const, marginBottom: 14 }}

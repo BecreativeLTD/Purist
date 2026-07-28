@@ -1,5 +1,5 @@
 // ============================================================
-// PURIST — Lead Nurture Email Templates
+// PURIST Lead Nurture Email Templates
 // Step 0: immediate (sent from lead-capture)
 // Step 2: J+2 follow-up
 // Step 5: J+5 case study
@@ -95,7 +95,7 @@ ${footer}
 </html>`;
 }
 
-// ── Step 0 — Immediate: personal audit offer ────────────────────────────────
+// Step 0: Immediate, personal audit offer
 export function buildJ0Email(email: string, source?: string): string {
   const isGuide = !!source && source.startsWith('free_guide_');
   const guideIndustry = isGuide
@@ -111,9 +111,9 @@ export function buildJ0Email(email: string, source?: string): string {
     : 'your visit to purist.online';
 
   const intro = isGuide
-    ? `I'm Steve, founder of PURIST. You just downloaded the ${guideIndustry} automation guide — that PDF covers our five highest-payback workflows for the industry in general terms. What it can't do is look at <em>your</em> specific stack and tell you exactly which one to build first. That's what the free audit below is for.`
+    ? `I'm Steve, founder of PURIST. You just downloaded the ${guideIndustry} automation guide. That PDF covers our five highest-payback workflows for the industry in general terms. What it can't do is look at <em>your</em> specific stack and tell you exactly which one to build first. That's what the free audit below is for.`
     : `I'm Steve, founder of PURIST. Every week I personally review new leads and map
-    their biggest automation opportunities. Yours is interesting — and there are
+    their biggest automation opportunities. Yours is interesting, and there are
     at least 3 workflows I'd tackle immediately.`;
 
   const body = `
@@ -148,7 +148,7 @@ export function buildJ0Email(email: string, source?: string): string {
     <tr><td style="padding:0 28px 8px;" bgcolor="#151515">
       ${[
         ['Map your top 3 manual bottlenecks', 'We look at where your team loses the most hours and what\'s actually automatable.'],
-        ['Calculate your real ROI', 'Not generic numbers — your tools, your team, your specific workflows.'],
+        ['Calculate your real ROI', 'Not generic numbers: your tools, your team, your specific workflows.'],
         ['Build your first automation live', 'We sketch the first workflow together. You leave with something tangible.'],
       ].map(([title, desc], i, arr) => `
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#151515">
@@ -207,7 +207,7 @@ export function buildJ0Email(email: string, source?: string): string {
       <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;
         color:#8a8a8a;font-weight:700;margin-bottom:14px;">Why founders book this call</div>
       ${[
-        'No slide deck, no sales script — we open your actual tools and look at your actual data.',
+        'No slide deck, no sales script. We open your actual tools and look at your actual data.',
         'You get a written action plan by email the same day, whether you become a client or not.',
         'If we don\'t find at least one workflow worth automating, we\'ll tell you plainly.',
       ].map((line) => `
@@ -244,7 +244,7 @@ export function buildJ0Email(email: string, source?: string): string {
 <tr><td style="padding:0 40px;" class="pad" bgcolor="#0A0A0A">
   <div style="border-top:1px solid #232323;padding-top:28px;">
     <p style="font-size:14px;color:#d0d0d0;line-height:1.8;margin:0;">
-      — Steve<br/>
+      Steve<br/>
       <span style="font-size:12px;color:#8a8a8a;">
         Founder, PURIST &middot; hello@purist.online
       </span>
@@ -253,13 +253,13 @@ export function buildJ0Email(email: string, source?: string): string {
 </td></tr>`;
 
   return htmlWrapper(
-    'You have at least 3 automation wins waiting. Let me show you exactly what they are — free.',
+    'You have at least 3 automation wins waiting. Let me show you exactly what they are, free.',
     body,
     email,
   );
 }
 
-// ── Step 2 — J+2: short human follow-up ────────────────────────────────────
+// Step 2: J+2 short human follow-up
 export function buildJ2Email(email: string): string {
   const body = `
 <tr><td style="padding:48px 40px 0;" class="pad">
@@ -269,14 +269,14 @@ export function buildJ2Email(email: string): string {
   </h1>
   <p style="font-size:15px;color:#c2c2c2;line-height:1.8;margin:0 0 20px;">
     I sent you a note a couple of days ago about a free automation audit.
-    Just wanted to check — did it land okay?
+    Just wanted to check: did it land okay?
   </p>
   <p style="font-size:15px;color:#c2c2c2;line-height:1.8;margin:0 0 20px;">
     I have <strong style="color:#F8F6F1;">2 slots left this week</strong> for free 45-minute
     workflow reviews. If the timing works, you can grab one below.
   </p>
   <p style="font-size:15px;color:#c2c2c2;line-height:1.8;margin:0 0 36px;">
-    And if you have questions before booking, just reply to this email — I read every one.
+    And if you have questions before booking, just reply to this email. I read every one.
   </p>
 </td></tr>
 
@@ -293,7 +293,7 @@ export function buildJ2Email(email: string): string {
 <tr><td style="padding:0 40px;" class="pad" bgcolor="#0A0A0A">
   <div style="border-top:1px solid rgba(248,246,241,0.06);padding-top:24px;">
     <p style="font-size:14px;color:#c2c2c2;line-height:1.8;margin:0;">
-      — Steve<br/>
+      Steve<br/>
       <span style="font-size:12px;color:#8a8a8a;">
         Founder, PURIST · hello@purist.online
       </span>
@@ -302,13 +302,13 @@ export function buildJ2Email(email: string): string {
 </td></tr>`;
 
   return htmlWrapper(
-    '2 free audit slots left this week — happy to answer questions first.',
+    '2 free audit slots left this week, happy to answer questions first.',
     body,
     email,
   );
 }
 
-// ── Step 5 — J+5: case study angle ─────────────────────────────────────────
+// Step 5: J+5 case study angle
 export function buildJ5Email(email: string): string {
   const body = `
 <tr><td style="padding:48px 40px 0;" class="pad">
@@ -318,7 +318,7 @@ export function buildJ5Email(email: string): string {
   </div>
   <h1 style="font-family:Georgia,'Times New Roman',serif;font-size:30px;color:#F8F6F1;
     margin:0 0 28px;font-weight:400;line-height:1.25;">
-    16 hours saved in week one — here's exactly how they did it.
+    16 hours saved in week one: here's exactly how they did it.
   </h1>
 </td></tr>
 
@@ -406,7 +406,7 @@ export function buildJ5Email(email: string): string {
 <tr><td style="padding:0 40px;" class="pad" bgcolor="#0A0A0A">
   <p style="font-size:15px;color:#c2c2c2;line-height:1.8;margin:0 0 28px;">
     I'd be curious to see what your equivalent of this looks like.
-    The free audit is still on the table — and it's the fastest way to find out.
+    The free audit is still on the table, and it's the fastest way to find out.
   </p>
 </td></tr>
 
@@ -423,7 +423,7 @@ export function buildJ5Email(email: string): string {
 <tr><td style="padding:0 40px;" class="pad" bgcolor="#0A0A0A">
   <div style="border-top:1px solid rgba(248,246,241,0.06);padding-top:24px;">
     <p style="font-size:14px;color:#c2c2c2;line-height:1.8;margin:0 0 12px;">
-      — Steve<br/>
+      Steve<br/>
       <span style="font-size:12px;color:#8a8a8a;">
         Founder, PURIST · hello@purist.online
       </span>
