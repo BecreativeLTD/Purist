@@ -1,90 +1,199 @@
 ---
-import BaseLayout from '~/layouts/BaseLayout.astro';
-import Header from '~/components/layout/Header.astro';
-import Footer from '~/components/layout/Footer.astro';
+import ShopLayout from '~/layouts/ShopLayout.astro';
 
-const PINK = '#c4847e';
-const PINK_BG = 'rgba(232,180,176,0.10)';
+const failureModes = [
+  { title: 'Built for the demo, not the tenth edge case', desc: 'A workflow gets built against three test records, shown once on a call, and shipped. The fourth real customer has a missing field, a duplicate webhook, or a name with an apostrophe in it, and the whole thing quietly stops.' },
+  { title: 'No one owns it once it is live', desc: 'The freelancer or agency that built it moves on to the next client. Six months later nobody remembers how it works, and the one person who touched the API keys left the company.' },
+  { title: 'Locked inside a platform, not a system', desc: 'The logic lives entirely inside a no-code canvas with no version history, no staging environment, and no way to test a change before it hits production data.' },
+];
 
 const principles = [
- { n: '01', title: 'Trigger-first design', desc: 'Every automation starts with a precise trigger a webhook, a schedule, a database event or a form submission. We define the exact condition before writing a single step. No ambiguous "when something happens" logic.' },
- { n: '02', title: 'Idempotent by default', desc: 'Every workflow we build handles duplicate events gracefully. If the same trigger fires twice, the result is the same no double-sends, no double-records, no corrupted data.' },
- { n: '03', title: 'Error-first architecture', desc: 'We design the failure path before the happy path. Every workflow has a dead-letter queue, an error branch and an alert. You never find out about a failure from a client.' },
- { n: '04', title: 'Self-hosted infrastructure', desc: 'Your automations run on a dedicated VPS not a shared SaaS cloud. Your data never touches a third-party automation platform. Full control, full ownership.' },
- { n: '05', title: 'AI at the decision layer', desc: 'Claude Opus handles classification, extraction, drafting and routing not as a bolt-on, but as a native step in the workflow. Latency under 80ms. Deterministic output with structured prompts.' },
- { n: '06', title: 'Observable and auditable', desc: 'Every workflow execution is logged with input, output and duration. You can audit any run. We can replay any failure. Nothing is a black box.' },
+  { n: '01', title: 'Trigger-first design', desc: 'Every automation starts with a precise trigger: a webhook, a schedule, a database event, a form submission. We define the exact condition before writing a single step. No ambiguous "when something happens" logic.', example: 'A missed-call workflow does not trigger on "phone activity." It triggers on the specific webhook payload your VoIP provider sends the instant a call ends unanswered, with the caller ID field validated before anything downstream runs.' },
+  { n: '02', title: 'Idempotent by default', desc: 'Every workflow we build handles duplicate events gracefully. If the same trigger fires twice, the result is the same: no double-sends, no double-records, no corrupted data.', example: 'Each execution is keyed to a hash of its trigger payload. If your CRM retries a webhook after a timeout, the second delivery is recognized and silently discarded instead of creating a second invoice.' },
+  { n: '03', title: 'Error-first architecture', desc: 'We design the failure path before the happy path. Every workflow has a dead-letter queue, an error branch, and an alert. You never find out about a failure from a client.', example: 'A failed API call does not fail silently. It retries with exponential backoff, and if it still fails after three attempts, it lands in a dead-letter queue that pages the workflow owner within 90 seconds.' },
+  { n: '04', title: 'Self-hosted infrastructure', desc: 'Your automations run on a dedicated VPS, not a shared SaaS cloud. Your data never touches a third-party automation platform. Full control, full ownership.', example: 'Client data flows between your own tools through an environment only your business controls, no vendor can suspend your account, change their pricing, or read your data in transit.' },
+  { n: '05', title: 'AI at the decision layer', desc: 'Claude handles classification, extraction, drafting, and routing, not as a bolt-on, but as a native step in the workflow. Structured output enforcement, not free-text parsing.', example: 'When the model classifies an inbound email, it returns a validated JSON object with a confidence score. Below a set threshold, the item routes to a human instead of auto-sending a guess.' },
+  { n: '06', title: 'Observable and auditable', desc: 'Every workflow execution is logged with input, output, and duration. You can audit any run. We can replay any failure. Nothing is a black box.', example: 'If a client asks "why did this invoice go out for the wrong amount," the answer is a logged execution trace, not a shrug. Any run can be replayed against the exact same input.' },
+];
+
+const architecture = [
+  { step: 'Trigger', desc: 'The exact event that starts the workflow: a webhook, a schedule, a form, a database change.' },
+  { step: 'n8n workflow', desc: 'Routes, transforms, and validates the data. Branches on business logic. Retries on failure.' },
+  { step: 'AI layer', desc: 'Only where judgment is required: classify, extract, draft, score confidence. Structured output only.' },
+  { step: 'Action', desc: 'The result lands in the tools your team already uses: CRM, inbox, invoicing, calendar.' },
+  { step: 'Confirmation', desc: 'Every step is logged. Success or failure, someone or something is notified.' },
+];
+
+const shipStages = [
+  { n: '01', title: 'Build against your real data', desc: 'Not sample records. We test against an export of your actual historical data, including the messy rows: missing fields, duplicate entries, inconsistent formatting.' },
+  { n: '02', title: 'Staging before production', desc: 'Every workflow runs in a staging environment wired to test endpoints first. Nothing touches your live CRM, live inbox, or live billing until it has run clean.' },
+  { n: '03', title: 'Load and edge-case testing', desc: 'We simulate the volume you actually see (peak hour, month-end, Black Friday) and the edge cases your team has hit before: the malformed webhook, the API rate limit, the duplicate submission.' },
+  { n: '04', title: 'Monitored go-live with a rollback plan', desc: 'Production deployment includes real-time monitoring from minute one and a tested rollback path. If something regresses, we revert in minutes, not after a client complaint.' },
 ];
 ---
 
-<BaseLayout
- title="The Science of Automation How PURIST Builds | PURIST Automation"
- description="The engineering principles behind PURIST automation deployments. Idempotent design, error-first architecture, self-hosted infrastructure and Claude AI at the decision layer."
+<ShopLayout
+  title="Engineering Methodology — How PURIST Builds Automation | PURIST"
+  description="The engineering methodology behind every PURIST deployment: trigger-first design, idempotency, error-first architecture, self-hosted infrastructure, AI at the decision layer, and full observability."
+  canonical="https://www.purist.online/pages/methodology"
 >
- <Header />
- <main id="main-content">
 
-   <div class="py-16 lg:py-20" style="background:#0A0A0A">
-     <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-       <p class="text-xs uppercase tracking-widest font-bold mb-4" style={`color:${PINK}`}>Engineering</p>
-       <h1 class="text-3xl lg:text-5xl font-bold text-white mb-5 leading-tight">The Science of Automation</h1>
-       <p class="text-base lg:text-lg text-gray-400 max-w-2xl mx-auto">
-         Most automations break because they were built for the happy path only. PURIST builds for production idempotent, error-aware, self-hosted and fully observable from day one.
-       </p>
-     </div>
-   </div>
+<!-- Hero -->
+<section class="bg-brand-black text-white pt-20 pb-14 lg:pt-28 relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(232,180,176,0.08) 0%,transparent 65%);"></div>
+  <div class="container-x relative z-10">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-6" style="border-color:rgba(232,180,176,0.3);background:rgba(232,180,176,0.07);">
+        <span class="text-[10px] uppercase tracking-[0.18em] font-semibold" style="color:rgba(232,180,176,0.85);">Engineering methodology · every deployment</span>
+      </div>
+      <h1 class="font-display text-[2.2rem] lg:text-[3rem] leading-[1.06] tracking-[-0.025em] text-white mb-5">
+        Built like infrastructure,<br/><em class="font-medium" style="color:#E8B4B0;">not like a demo.</em>
+      </h1>
+      <p class="text-[15px] leading-relaxed max-w-xl mx-auto" style="color:rgba(255,255,255,0.45);">
+        Most automation breaks in the first month because it was built for the happy path only. Every PURIST deployment is idempotent, error-aware, self-hosted, and fully observable from day one, not as an upsell, as the default.
+      </p>
+    </div>
+  </div>
+</section>
 
-   <div class="max-w-4xl mx-auto px-4 sm:px-6 py-14 lg:py-20">
+<!-- Why automations fail -->
+<section class="bg-white py-16 lg:py-20 border-b border-brand-gray-100">
+  <div class="container-x">
+    <div class="max-w-3xl mx-auto">
+      <p class="eyebrow mb-3 text-center">The industry problem</p>
+      <h2 class="font-display text-2xl lg:text-3xl mb-8 text-balance text-center">Why most automations don't survive contact with production.</h2>
+      <div class="space-y-5">
+        {failureModes.map((f) => (
+          <div class="flex gap-4 p-5 rounded-[16px] border border-brand-gray-100">
+            <svg class="w-5 h-5 shrink-0 mt-0.5" style="color:#c4847e;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div>
+              <h3 class="text-[15px] font-semibold text-brand-black mb-1.5">{f.title}</h3>
+              <p class="text-sm text-brand-gray-600 leading-relaxed">{f.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
 
-     <div class="space-y-6 mb-14">
-       {principles.map(p => (
-         <div class="flex gap-6 p-6 rounded-2xl border border-gray-100 bg-gray-50">
-           <span class="text-3xl font-bold text-gray-200 leading-none shrink-0 mt-1">{p.n}</span>
-           <div>
-             <h2 class="text-base font-bold text-gray-900 mb-2">{p.title}</h2>
-             <p class="text-sm text-gray-500 leading-relaxed">{p.desc}</p>
-           </div>
-         </div>
-       ))}
-     </div>
+<!-- Principles -->
+<section class="bg-brand-cream py-16 lg:py-20">
+  <div class="container-x">
+    <div class="max-w-3xl mx-auto text-center mb-12">
+      <p class="eyebrow mb-3">Our engineering principles</p>
+      <h2 class="font-display text-2xl lg:text-3xl text-balance">Six rules with no exceptions.</h2>
+    </div>
+    <div class="max-w-3xl mx-auto space-y-5">
+      {principles.map((p) => (
+        <div class="p-6 lg:p-7 rounded-[20px] bg-white border border-brand-gray-100">
+          <div class="flex gap-6">
+            <span class="font-display text-3xl leading-none shrink-0 mt-0.5" style="color:rgba(10,10,10,0.12);">{p.n}</span>
+            <div>
+              <h3 class="font-display text-lg text-brand-black mb-2 leading-snug">{p.title}</h3>
+              <p class="text-sm text-brand-gray-600 leading-relaxed mb-3">{p.desc}</p>
+              <div class="pl-3 border-l-2" style="border-color:#E8B4B0;">
+                <p class="text-[13px] text-brand-gray-500 leading-relaxed"><span class="font-semibold text-brand-black">In your workflow: </span>{p.example}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
 
-     <div class="grid sm:grid-cols-2 gap-6 mb-14">
-       <div class="rounded-2xl border border-gray-200 p-6">
-         <p class="text-xs font-semibold uppercase tracking-wider mb-4" style={`color:${PINK}`}>Stack</p>
-         <ul class="space-y-2 text-sm text-gray-600">
-           {['n8n v1.71 self-hosted on dedicated VPS', 'Claude Opus 4 AI inference at < 80ms', 'PostgreSQL workflow state and audit logs', 'Redis queue management and deduplication', 'Caddy reverse proxy with automatic TLS', 'Grafana uptime and performance dashboards'].map(item => (
-             <li class="flex items-center gap-2">
-               <span class="w-1.5 h-1.5 rounded-full shrink-0" style={`background:${PINK}`}></span>
-               {item}
-             </li>
-           ))}
-         </ul>
-       </div>
-       <div class="rounded-2xl border border-gray-200 p-6">
-         <p class="text-xs font-semibold uppercase tracking-wider mb-4" style={`color:${PINK}`}>SLA</p>
-         <ul class="space-y-3 text-sm text-gray-600">
-           {[
-             { label: 'Uptime', value: '99.97% guaranteed' },
-             { label: 'Error alert', value: '< 90 seconds' },
-             { label: 'Critical fix', value: '< 4 hours' },
-             { label: 'Standard fix', value: '< 24 hours' },
-             { label: 'Deployment', value: '< 7 business days' },
-           ].map(item => (
-             <li class="flex items-center justify-between">
-               <span class="text-gray-400">{item.label}</span>
-               <span class="font-semibold text-gray-900">{item.value}</span>
-             </li>
-           ))}
-         </ul>
-       </div>
-     </div>
+<!-- Architecture -->
+<section class="bg-white py-16 lg:py-20 border-b border-brand-gray-100">
+  <div class="container-x">
+    <div class="max-w-4xl mx-auto text-center mb-12">
+      <p class="eyebrow mb-3">The architecture</p>
+      <h2 class="font-display text-2xl lg:text-3xl mb-3 text-balance">The same five stages, every deployment.</h2>
+      <p class="text-sm text-brand-gray-600 max-w-lg mx-auto">Regardless of industry or workflow, the data always flows through the same five stages, which is exactly why it's reliable.</p>
+    </div>
+    <div class="max-w-4xl mx-auto grid grid-cols-2 lg:grid-cols-5 gap-3">
+      {architecture.map((a, i) => (
+        <div class="relative">
+          <div class={`rounded-[14px] p-4 h-full ${i === 2 ? 'text-white' : 'bg-brand-cream'}`} style={i === 2 ? 'background:#E8B4B0;' : ''}>
+            <p class="text-[10px] uppercase tracking-wider font-bold mb-2 opacity-50">{`0${i + 1}`}</p>
+            <p class="text-[13px] font-semibold mb-1.5">{a.step}</p>
+            <p class="text-[11px] leading-relaxed opacity-70">{a.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
 
-     <div class="rounded-2xl p-8 text-center" style={`background:${PINK_BG};border:1px solid rgba(196,132,126,0.20)`}>
-       <h2 class="text-xl font-bold text-gray-900 mb-3">See the stack in action.</h2>
-       <p class="text-sm text-gray-600 mb-6 max-w-lg mx-auto">Book a free audit and we walk through the exact architecture we would deploy for your business live on the call.</p>
-       <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style={`background:${PINK}`}>Get my free automation plan →</a>
-     </div>
-   </div>
+<!-- How a workflow ships -->
+<section class="bg-brand-black text-white py-16 lg:py-20">
+  <div class="container-x">
+    <div class="max-w-3xl mx-auto text-center mb-12">
+      <p class="eyebrow mb-3" style="color:rgba(232,180,176,0.8);">Quality gates</p>
+      <h2 class="font-display text-2xl lg:text-3xl mb-3 text-balance">How a workflow actually ships.</h2>
+      <p class="text-sm max-w-lg mx-auto" style="color:rgba(255,255,255,0.45);">Four gates, in order. None are skipped, regardless of deadline.</p>
+    </div>
+    <div class="max-w-3xl mx-auto grid sm:grid-cols-2 gap-5">
+      {shipStages.map((s) => (
+        <div class="p-6 rounded-[16px]" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);">
+          <span class="font-display text-2xl" style="color:rgba(232,180,176,0.4);">{s.n}</span>
+          <h3 class="text-[15px] font-semibold text-white mt-2 mb-2">{s.title}</h3>
+          <p class="text-[13px] leading-relaxed" style="color:rgba(255,255,255,0.45);">{s.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
 
- </main>
- <Footer />
-</BaseLayout>
+<!-- Stack & SLA -->
+<section class="bg-white py-16 lg:py-20 border-b border-brand-gray-100">
+  <div class="container-x">
+    <div class="max-w-3xl mx-auto grid sm:grid-cols-2 gap-6">
+      <div class="rounded-[18px] border border-brand-gray-100 p-6 lg:p-7">
+        <p class="text-xs font-semibold uppercase tracking-wider mb-4" style="color:#c4847e;">Stack</p>
+        <ul class="space-y-2.5 text-sm text-brand-gray-600">
+          {['n8n v1.71, self-hosted on a dedicated VPS', 'Claude Opus AI inference at under 80ms', 'PostgreSQL for workflow state and audit logs', 'Redis for queue management and deduplication', 'Caddy reverse proxy with automatic TLS', 'Grafana uptime and performance dashboards'].map((item) => (
+            <li class="flex items-start gap-2.5">
+              <span class="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style="background:#E8B4B0;"></span>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="rounded-[18px] border border-brand-gray-100 p-6 lg:p-7">
+        <p class="text-xs font-semibold uppercase tracking-wider mb-4" style="color:#c4847e;">SLA</p>
+        <ul class="space-y-3.5 text-sm">
+          {[
+            { label: 'Uptime', value: '99.97% guaranteed' },
+            { label: 'Error alert', value: 'Under 90 seconds' },
+            { label: 'Critical fix', value: 'Under 4 hours' },
+            { label: 'Standard fix', value: 'Under 24 hours' },
+            { label: 'Deployment', value: 'Under 7 business days' },
+          ].map((item) => (
+            <li class="flex items-center justify-between">
+              <span class="text-brand-gray-500">{item.label}</span>
+              <span class="font-semibold text-brand-black">{item.value}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-16 lg:py-20" style="background:#E8B4B0;">
+  <div class="container-x">
+    <div class="max-w-xl mx-auto text-center">
+      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-3 text-balance">See the stack in action.</h2>
+      <p class="text-sm mb-8" style="color:rgba(10,10,10,0.65);">Book a free audit and we walk through the exact architecture we would deploy for your business, live on the call.</p>
+      <a href="/pages/welcome" class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-button text-[14px] font-bold transition bg-brand-black text-white hover:opacity-90">
+        Get my free automation plan
+        <svg class="w-4 h-4" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+      </a>
+      <p class="text-[12px] mt-4" style="color:rgba(10,10,10,0.45);">No commitment · Reply within 1 business day · 30-day money-back guarantee</p>
+    </div>
+  </div>
+</section>
+
+</ShopLayout>

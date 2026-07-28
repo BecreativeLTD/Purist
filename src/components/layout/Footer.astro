@@ -198,13 +198,15 @@ const columns = [
      ))}
      <span class="w-px h-8 bg-white/10 hidden sm:block"></span>
      {[
-       { label: 'GDPR compliant', desc: 'EU/UK data protection', icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
-       { label: 'Stripe secure payments', desc: '256-bit SSL encryption', icon: null, logo: '/images/press/stripe.svg' },
+       { label: 'GDPR / CCPA compliant', desc: 'EU, UK, US & Canada data protection', icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
+       { label: 'Stripe secure payments', desc: '256-bit SSL encryption', icon: null },
      ].map((b) => (
        <div class="flex items-center gap-2.5 opacity-70 hover:opacity-100 transition-opacity" title={b.desc}>
-         {b.logo ? (
-           <div class="flex items-center justify-center w-9 h-9 rounded-full bg-white/95 shrink-0 p-1.5">
-             <img src={b.logo} alt={b.label} class="w-full h-full object-contain" loading="lazy" />
+         {b.label.startsWith('Stripe') ? (
+           <div class="flex items-center justify-center w-9 h-9 rounded-full bg-white/95 shrink-0 p-2">
+             <svg viewBox="0 0 24 24" class="w-full h-full">
+               <path fill="#1a1a1a" d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.594-7.305h.003z"/>
+             </svg>
            </div>
          ) : (
            <svg class="w-4 h-4 text-white/50 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d={b.icon}/></svg>
