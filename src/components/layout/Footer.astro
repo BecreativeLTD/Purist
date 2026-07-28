@@ -180,11 +180,11 @@ const columns = [
    </div>
 
    <!-- Certification & trust badges -->
-   <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-5 py-8 border-t border-white/10">
+   <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-items-center sm:justify-center gap-x-6 gap-y-6 sm:gap-x-10 sm:gap-y-5 py-8 border-t border-white/10">
      {[
-       { label: 'n8n certified', desc: 'Workflow automation', stat: '500+ workflows deployed', logo: '/images/press/n8n-hd.svg', ratio: '576/160' },
-       { label: 'Make certified', desc: 'Integration platform', stat: null, logo: '/images/press/make.svg', ratio: '1' },
-       { label: 'Zapier certified', desc: 'Integration platform', stat: null, logo: '/images/press/zapier.svg', ratio: '1' },
+       { label: 'n8n certified', desc: 'Workflow automation', stat: '500+ workflows deployed', logo: '/images/press/n8n-hd.svg' },
+       { label: 'Make certified', desc: 'Integration platform', stat: null, logo: '/images/press/make.svg' },
+       { label: 'Zapier certified', desc: 'Integration platform', stat: null, logo: '/images/press/zapier.svg' },
      ].map((b) => (
        <div class="flex items-center gap-3 opacity-80 hover:opacity-100 transition-opacity" title={b.desc}>
          <div class="flex items-center justify-center w-9 h-9 rounded-full bg-white/95 shrink-0 p-1.5">
@@ -196,12 +196,12 @@ const columns = [
          </div>
        </div>
      ))}
-     <span class="w-px h-8 bg-white/10 hidden sm:block"></span>
+     <span class="hidden sm:block w-px h-8 bg-white/10"></span>
      {[
        { label: 'GDPR / CCPA compliant', desc: 'EU, UK, US & Canada data protection', icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
        { label: 'Stripe secure payments', desc: '256-bit SSL encryption', icon: null },
      ].map((b) => (
-       <div class="flex items-center gap-2.5 opacity-70 hover:opacity-100 transition-opacity" title={b.desc}>
+       <div class={`flex items-center gap-2.5 opacity-70 hover:opacity-100 transition-opacity ${b.label.startsWith('Stripe') ? 'col-span-2 sm:col-span-1 justify-center sm:justify-start' : ''}`} title={b.desc}>
          {b.label.startsWith('Stripe') ? (
            <div class="flex items-center justify-center w-9 h-9 rounded-full bg-white/95 shrink-0 p-2">
              <svg viewBox="0 0 24 24" class="w-full h-full">
@@ -220,14 +220,14 @@ const columns = [
    </div>
 
    <!-- Bottom row: legal links -->
-   <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pt-8 border-t border-white/10 text-xs text-white/60">
-     <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+   <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 pt-8 border-t border-white/10 text-xs text-white/60">
+     <div class="flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 text-center lg:text-left">
        <span>© 2026 PURIST®</span>
        <a href="/pages/privacy-policy" class="hover:text-white transition">Privacy policy</a>
        <a href="/pages/terms-of-service" class="hover:text-white transition">Terms of service</a>
        <a href="/pages/accessibility" class="hover:text-white transition">Accessibility</a>
      </div>
-     <div class="flex items-center gap-4">
+     <div class="flex flex-wrap items-center justify-center lg:justify-end gap-4 pb-4 lg:pb-0">
        <!-- Clutch badge -->
        <a href="https://clutch.co/profile/purist" target="_blank" rel="noopener noreferrer"
           class="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity"
@@ -384,7 +384,7 @@ const columns = [
        </div>
 
        <!-- n8n Docs -->
-       <div class="bg-brand-black p-5 lg:p-6">
+       <div class="bg-brand-black p-5 lg:p-6 md:col-span-2 lg:col-span-1">
          <div class="flex items-center gap-2 mb-3">
            <span class="w-2 h-2 rounded-full shrink-0" style="background:#EA5455;"></span>
            <span class="text-[11px] font-semibold text-white/80 uppercase tracking-wide">n8n</span>

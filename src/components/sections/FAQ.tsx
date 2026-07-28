@@ -27,7 +27,7 @@ export default function FAQ({ items }: Props) {
              onClick={() => setOpen(isOpen ? null : item.id)}
              class="w-full flex items-center justify-between gap-6 py-6 text-left hover:opacity-70 transition"
            >
-             <span class="font-display text-lg lg:text-xl">{item.question}</span>
+             <span class="font-display text-lg lg:text-xl min-w-0 flex-1">{item.question}</span>
              <span
                class={`shrink-0 w-8 h-8 rounded-full border border-brand-black flex items-center justify-center transition-transform ${isOpen ? 'rotate-45' : ''}`}
                aria-hidden="true"
