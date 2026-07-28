@@ -26,6 +26,7 @@ const discoverGroups = [
   {
     heading: 'Resources',
     links: [
+      { name: 'Free Industry Guides', href: '/pages/free-guides',         badge: 'Free PDF',      desc: 'Instant download, by industry' },
       { name: 'Live Demo',            href: '/pages/demo',                badge: 'Interactive',   desc: 'Watch automation run live' },
       { name: 'Automation Playbooks', href: '/pages/automation-playbook', badge: '6 industries',  desc: 'Workflows, tools & ROI by sector' },
       { name: 'Workflow Library',     href: '/pages/workflow-library',    badge: '60+ templates', desc: 'Production-ready automations' },
@@ -50,7 +51,7 @@ const navLinks = [
 ---
 
 <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-brand-gray-100 overflow-visible">
- <div class="container-x flex items-center justify-between h-16">
+ <div class="container-x flex items-center justify-between gap-4 lg:gap-6 h-16">
    <button
      type="button"
      aria-label="Open menu"
@@ -66,12 +67,12 @@ const navLinks = [
      <span class="font-medium">PURIST</span>
    </a>
 
-   <nav class="hidden lg:flex items-stretch gap-7 xl:gap-8 h-16" aria-label="Primary">
+   <nav class="hidden lg:flex items-stretch gap-4 xl:gap-8 h-16" aria-label="Primary">
      {navLinks.map((l) => (
-       <div class="relative group flex items-stretch">
+       <div class="relative group flex items-stretch shrink-0">
          <a
            href={l.href}
-           class="flex items-center gap-1 text-sm hover:opacity-70 transition px-0 h-full"
+           class="flex items-center gap-1 text-[13px] xl:text-sm whitespace-nowrap hover:opacity-70 transition px-0 h-full"
          >
            {l.name}
            {(l.kind === 'mega' || l.kind === 'discover') && (
@@ -124,7 +125,7 @@ const navLinks = [
          <span class="absolute inline-flex w-full h-full rounded-full opacity-40 animate-ping" style="background:#E8B4B0;animation-duration:2s;"></span>
          <span class="relative w-2 h-2 rounded-full" style="background:#E8B4B0;"></span>
        </span>
-       <span class="tracking-wide">Workflow Skills</span>
+       <span class="tracking-wide whitespace-nowrap">Workflow Skills</span>
        <svg class="w-2.5 h-2.5 opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 5h6M5.5 2.5L8 5l-2.5 2.5"/></svg>
      </a>
      <button

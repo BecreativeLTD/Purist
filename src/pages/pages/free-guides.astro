@@ -1,0 +1,72 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import FreeGuides from '~/components/sections/FreeGuides.tsx';
+import { freeGuides } from '~/data/free-guides';
+---
+
+<ShopLayout
+  title="Free Automation Guides by Industry — Download PDF | PURIST"
+  description="Free downloadable automation guides for dental practices, agencies, e-commerce, real estate, SaaS and finance & legal firms. The exact workflows, tools and ROI numbers — no cost, no commitment."
+  canonical="https://www.purist.online/pages/free-guides"
+>
+
+<!-- Hero -->
+<section class="bg-brand-black text-white pt-20 pb-14 lg:pt-28 relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(232,180,176,0.07) 0%,transparent 60%);"></div>
+  <div class="container-x relative z-10">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-6" style="border-color:rgba(232,180,176,0.25);background:rgba(232,180,176,0.06);">
+        <span class="text-[10px] uppercase tracking-[0.18em] font-semibold" style="color:rgba(232,180,176,0.80);">100% free · No credit card · Instant PDF</span>
+      </div>
+      <h1 class="font-display text-[2.2rem] lg:text-[3rem] leading-[1.06] tracking-[-0.025em] text-white mb-4">
+        Free automation guides,<br/><em class="font-medium" style="color:#E8B4B0;">built for your industry.</em>
+      </h1>
+      <p class="text-[15px] leading-relaxed mb-2 max-w-xl mx-auto" style="color:rgba(255,255,255,0.45);">
+        Pick your industry below and get an instant PDF: the exact workflows we deploy first, the tools that connect them, and the real ROI numbers from live client deployments. Enter your email, download immediately — nothing to buy.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SEO intro copy -->
+<section class="bg-white py-12 lg:py-16 border-b border-brand-gray-100">
+  <div class="container-x">
+    <div class="max-w-3xl mx-auto text-[13.5px] leading-relaxed text-brand-gray-600 space-y-4">
+      <p>
+        Every automation guide below comes from the same playbooks PURIST uses to deploy production-grade workflows for
+        {' '}{freeGuides.map((g, i) => (
+          <>{i > 0 && (i === freeGuides.length - 1 ? ', and ' : ', ')}<strong class="text-brand-black font-medium">{g.metaLabel}</strong></>
+        ))}. Instead of generic automation advice, each guide lists the five workflows with the fastest payback for that industry, the specific tools required to connect them, and a short checklist to help you decide where to start.
+      </p>
+      <p>
+        These are free because most businesses don't need a consultant to identify what to automate first — they need a clear, prioritized list. If you'd rather have PURIST deploy it for you, every guide ends with a link to book a free 60-minute automation audit.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Guides grid -->
+<section class="bg-[#0C0C0A] py-14 lg:py-20">
+  <div class="container-x">
+    <div class="max-w-5xl mx-auto">
+      <FreeGuides client:idle />
+    </div>
+  </div>
+</section>
+
+<!-- Trust strip -->
+<section class="bg-white py-14 lg:py-16 border-t border-brand-gray-100">
+  <div class="container-x">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="eyebrow mb-3">Based on 312+ live deployments</p>
+      <h2 class="font-display text-2xl lg:text-3xl mb-4 text-balance">Not theory. Real workflows, running today.</h2>
+      <p class="text-sm text-brand-gray-600 mb-8">
+        Want the full interactive breakdown with step-by-step logic for every workflow? See the
+        <a href="/pages/automation-playbook" class="underline underline-offset-4">complete automation playbooks</a>,
+        or <a href="/pages/welcome" class="underline underline-offset-4">book a free audit</a> and we'll map your exact stack live on the call.
+      </p>
+    </div>
+  </div>
+</section>
+
+</ShopLayout>

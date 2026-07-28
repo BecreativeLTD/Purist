@@ -53,6 +53,7 @@ const pages = [
   { url: '/pages/automation-maturity',           lastmod: '2026-06-18' },
   { url: '/pages/true-cost',                     lastmod: '2026-06-18' },
   { url: '/pages/automation-playbook',           lastmod: '2026-06-18' },
+  { url: '/pages/free-guides',                   lastmod: '2026-07-28' },
   { url: '/pages/sop-converter',                 lastmod: '2026-06-18' },
   { url: '/pages/impact',                        lastmod: '2026-06-18' },
   { url: '/pages/glossary',                      lastmod: '2026-06-18' },
