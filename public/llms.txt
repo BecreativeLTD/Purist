@@ -1,212 +1,260 @@
-# PURIST — Business Automation & AI Agent Agency | UK, US & Europe
+# PURIST: Business Automation & AI Agent Agency | Worldwide
 
-> PURIST builds and deploys production-grade workflow automation and AI agents for SMBs and scaling companies worldwide. We specialise in n8n, Make, Zapier, and Claude AI agent deployments across dental practices, real estate property management, marketing agencies, DTC e-commerce, commercial law firms, and staffing agencies.
+> PURIST builds and deploys production-grade workflow automation and AI agents for SMBs and scaling companies worldwide. We specialise in n8n, Make, Zapier, and Claude AI agent deployments across 171+ professions in 13 industry categories: home services, healthcare, agencies & consulting, real estate, food & restaurant, e-commerce, education, travel, legal, automotive, beauty & wellness, creative, and B2B services.
 >
-> Founded in London. Serving clients across the United Kingdom, United States, Canada, Australia, France, Germany, Netherlands, Ireland, and across the European Union. 500+ production deployments globally. 99.97% uptime across all managed systems.
+> Founded in London. Serving clients across the United Kingdom, United States, Canada, Australia, France, Germany, Spain, Netherlands, Ireland, and across the European Union, Latin America, and beyond. 500+ production workflows deployed globally. 99.97% uptime across all managed systems.
 
 ## About
 
-PURIST is not a software platform. It is a specialist automation engineering firm that designs, builds, monitors, and maintains production-grade automation systems for businesses. Every deployment includes error handling, monitoring, retry logic, documentation, and an SLA. Deployments are fully remote — we work with clients across every timezone.
+PURIST is not a software platform. It is a specialist automation engineering firm that designs, builds, monitors, and maintains production-grade automation systems for businesses. Every deployment includes error handling, idempotency, monitoring, retry logic, documentation, and an SLA. Deployments are fully remote, and we work with clients across every timezone and industry.
 
-Primary services: workflow automation, AI agent deployment, operations stack design, CRM data quality automation.
+Primary services: workflow automation, AI agent deployment, operations stack design, CRM data quality automation, free industry-specific automation guides.
 
-PURIST serves clients as: automation agency (UK), business automation company (US), workflow automation agency (EU), n8n agency, AI agent agency, no-code automation consultant, Make.com agency, Zapier alternative agency.
+PURIST serves clients as: automation agency (UK), business automation company (US), workflow automation agency (EU/LatAm), n8n agency, AI agent agency, no-code automation consultant, Make.com agency, Zapier alternative agency, agence d'automatisation (FR), agencia de automatización (ES).
 
 ## Services
 
-- [Automation Pro](https://www.purist.online/plans/automation-pro) — 9 core production workflows covering lead capture, CRM sync, email sequences, invoicing, reporting, client onboarding, AI support routing, smart scheduling, and monitoring. From £497/mo.
-- [AI Agent Deploy](https://www.purist.online/plans/ai-agent-deploy) — Conversational AI agents trained on client business data. Handles scheduling, intake, lead qualification, support routing. From £897/mo.
-- [The Full Stack](https://www.purist.online/plans/full-stack) — Automation Pro + AI Agent Deploy. Full operational transformation. From £1,197/mo.
-- [Free AI Readiness Audit](https://www.purist.online/pages/welcome) — Free 48h audit of your current workflows and automation opportunities.
+- [Automation Pro](https://www.purist.online/plans/automation-pro): 12 core production workflows covering lead capture, CRM sync, email sequences, invoicing, reporting, client onboarding, AI support routing, smart scheduling, and monitoring. From €890/mo.
+- [AI Agent Deploy](https://www.purist.online/plans/ai-agent-deploy): Conversational AI agents trained on client business data. Handles scheduling, intake, lead qualification, support routing. From €1,090/mo.
+- [The Full Stack](https://www.purist.online/plans/full-stack): Automation Pro + AI Agent Deploy combined. From €1,650/mo.
+- [Free Automation Guides by Industry](https://www.purist.online/pages/free-guides): Free 12-page downloadable PDF guides for 171+ professions: priority workflows, tool stack, ROI math, and a 90-day deployment roadmap. No cost, instant download.
+- [Free Automation Audit](https://www.purist.online/pages/welcome): Free 45-60 minute audit of current workflows and automation opportunities, delivered live on a call.
 
-## Blog — Full Article Index (76 articles)
+## Blog: Full Article Index (107 articles)
 
 All articles are written by PURIST's engineering team from real production deployments.
 
 ### Tools & Platforms
-- [The Future of Automation: How Our Engineering Team Is Shaping the Next Era](https://www.purist.online/pages/blog/future-of-automation-engineering-team) — Architecture patterns, orchestrated agent systems, shared state, error handling at scale.
-- [n8n Tutorial: Build Your First Production Workflow in Under an Hour (2026)](https://www.purist.online/pages/blog/n8n-tutorial-build-first-production-workflow-2026) — Step-by-step guide to deploying your first production n8n workflow.
-- [n8n vs Make vs Zapier: The Honest Comparison](https://www.purist.online/pages/blog/n8n-vs-make-vs-zapier-honest-comparison) — Platform comparison for simple vs complex vs high-volume automation needs.
-- [n8n vs Make vs Zapier: 500 Production Deployments](https://www.purist.online/pages/blog/n8n-vs-make-vs-zapier-500-production-deployments) — Data-driven comparison from real deployments: error rates, cost at scale, debugging.
-- [The 9 Best Zapier Alternatives in 2026](https://www.purist.online/pages/blog/best-zapier-alternatives-2026-honest-review) — Ranked after 500 real deployments: n8n, Make, Pipedream, Activepieces and more.
-- [Make.com Tutorial: Build Powerful Automations Without Code in 2026](https://www.purist.online/pages/blog/make-com-tutorial-automation-beginners-guide-2026) — Complete guide to Make.com from first workflow to production deployment.
-- [Webhook vs Polling: The Automation Architecture Decision That Matters](https://www.purist.online/pages/blog/webhook-vs-polling-automation-architecture-decision) — When to use webhooks vs polling and how to build reliable webhook receivers.
-- [Building a 24/7 Error Handling System for Automations](https://www.purist.online/pages/blog/building-24-7-error-handling-system-for-automations) — Node-level error routing, centralised logging, health monitoring, recovery runbooks.
-- [Automation Consultant vs DIY: How to Decide](https://www.purist.online/pages/blog/automation-consultant-vs-diy-how-to-decide-2026) — Five criteria for deciding whether to build yourself or hire an expert.
-- [n8n Self-Hosted vs Cloud: The Complete Decision Guide](https://www.purist.online/pages/blog/n8n-self-hosted-vs-cloud-complete-guide-2026) — Cost, security, compliance and scaling comparison from 500+ real deployments.
-- [5 Zapier Free Alternatives That Handle Real Production Workloads](https://www.purist.online/pages/blog/zapier-free-alternatives-2026) — n8n, Make, Pipedream, Activepieces, Albato: honest limits and ceiling comparison.
+- [The Future of Automation: How Our Engineering Team Is Shaping the Next Era](https://www.purist.online/pages/blog/future-of-automation-engineering-team): Architecture patterns, orchestrated agent systems, shared state, error handling at scale.
+- [n8n Tutorial: Build Your First Production Workflow in Under an Hour (2026)](https://www.purist.online/pages/blog/n8n-tutorial-build-first-production-workflow-2026): Step-by-step guide to deploying your first production n8n workflow.
+- [n8n vs Make vs Zapier: The Honest Comparison](https://www.purist.online/pages/blog/n8n-vs-make-vs-zapier-honest-comparison): Platform comparison for simple vs complex vs high-volume automation needs.
+- [n8n vs Make vs Zapier: 500 Production Deployments](https://www.purist.online/pages/blog/n8n-vs-make-vs-zapier-500-production-deployments): Data-driven comparison from real deployments: error rates, cost at scale, debugging.
+- [The 9 Best Zapier Alternatives in 2026](https://www.purist.online/pages/blog/best-zapier-alternatives-2026-honest-review): Ranked after 500 real deployments: n8n, Make, Pipedream, Activepieces and more.
+- [Make.com Tutorial: Build Powerful Automations Without Code in 2026](https://www.purist.online/pages/blog/make-com-tutorial-automation-beginners-guide-2026): Complete guide to Make.com from first workflow to production deployment.
+- [Webhook vs Polling: The Automation Architecture Decision That Matters](https://www.purist.online/pages/blog/webhook-vs-polling-automation-architecture-decision): When to use webhooks vs polling and how to build reliable webhook receivers.
+- [Building a 24/7 Error Handling System for Automations](https://www.purist.online/pages/blog/building-24-7-error-handling-system-for-automations): Node-level error routing, centralised logging, health monitoring, recovery runbooks.
+- [Automation Consultant vs DIY: How to Decide](https://www.purist.online/pages/blog/automation-consultant-vs-diy-how-to-decide-2026): Five criteria for deciding whether to build yourself or hire an expert.
+- [n8n Self-Hosted vs Cloud: The Complete Decision Guide](https://www.purist.online/pages/blog/n8n-self-hosted-vs-cloud-complete-guide-2026): Cost, security, compliance and scaling comparison from 500+ real deployments.
+- [5 Zapier Free Alternatives That Handle Real Production Workloads](https://www.purist.online/pages/blog/zapier-free-alternatives-2026): n8n, Make, Pipedream, Activepieces, Albato: honest limits and ceiling comparison.
+- [n8n HTTP Request Node: Complete Documentation and Examples](https://www.purist.online/pages/blog/n8n-http-request-node-documentation): Full reference for n8n's HTTP Request node with real-world configuration examples.
+- [n8n LinkedIn Job Automation: Auto-Apply, Track, and Follow Up on Jobs](https://www.purist.online/pages/blog/n8n-linkedin-job-automation): Building a job application pipeline in n8n from search to follow-up.
+
+### Integrations & Connectors
+- [Stripe to QuickBooks Integration: The Automation That Eliminates Manual Bookkeeping](https://www.purist.online/pages/blog/stripe-quickbooks-integration-automation-2026): Automated reconciliation between payment processing and accounting.
+- [Facebook Lead Ads to CRM Automation](https://www.purist.online/pages/blog/facebook-lead-ads-crm-automation-2026): Zero-lag lead capture from Meta ads directly into your CRM.
+- [Calendly + HubSpot Automation](https://www.purist.online/pages/blog/calendly-hubspot-automation-workflows-2026): From booked meeting to closed deal without touching a keyboard.
+- [Salesforce to HubSpot Sync](https://www.purist.online/pages/blog/salesforce-hubspot-sync-automation-2026): The integration that keeps both CRMs clean and current.
+- [WhatsApp Business Automation With n8n](https://www.purist.online/pages/blog/whatsapp-business-automation-n8n-workflows-2026): Build a 24/7 customer inbox that runs itself.
+- [Google Workspace Automation](https://www.purist.online/pages/blog/google-workspace-automation-sheets-drive-gmail-2026): 15 workflows for Sheets, Drive, Gmail and Calendar.
+- [Airtable Automation With n8n](https://www.purist.online/pages/blog/airtable-automation-workflows-n8n-integration-2026): 10 workflows that make your Airtable base actually work.
+- [Connect Airtable, Slack and Typeform](https://www.purist.online/pages/blog/connect-airtable-slack-typeform-automation-2026): The complete cross-tool automation guide.
 
 ### CRM & Sales Automation
-- [CRM Automation: The Complete 2026 Guide to a Self-Running Sales Pipeline](https://www.purist.online/pages/blog/crm-automation-complete-guide-self-running-sales-pipeline-2026) — How to build a CRM that qualifies, nurtures and closes leads automatically.
-- [Your CRM Is Lying to You: Data Quality Automation](https://www.purist.online/pages/blog/your-crm-is-lying-to-you-data-quality-automation) — How to automate CRM hygiene: validation, deduplication, enrichment at entry and in bulk.
-- [Email Automation in 2026: Build Sequences That Convert](https://www.purist.online/pages/blog/email-automation-complete-guide-sequences-that-convert-2026) — Behaviour-triggered sequences that convert while you sleep.
-- [Slack Automation: 15 Workflows That Save Your Team 10 Hours a Week](https://www.purist.online/pages/blog/slack-automation-workflows-save-time-team-2026) — Turn Slack from a distraction into an automation hub.
-- [HubSpot Automation: 10 Workflows That Turn Your CRM Into a Revenue Machine](https://www.purist.online/pages/blog/hubspot-automation-workflows-crm-revenue-2026) — Advanced HubSpot sequences most businesses never configure.
-- [Notion Automation: Connect Your Workspace to Every Tool You Use](https://www.purist.online/pages/blog/notion-automation-connect-workspace-every-tool-2026) — How to make Notion the living nerve centre of your operations.
-- [Lead Generation Automation: Build a 24/7 Prospecting Machine](https://www.purist.online/pages/blog/lead-generation-automation-prospecting-machine-2026) — Automated lead capture, enrichment, scoring and outreach.
-- [Pipedrive Automation: 9 Workflows That Close Deals on Autopilot](https://www.purist.online/pages/blog/pipedrive-automation-workflows-close-deals-autopilot-2026) — Turn Pipedrive into a self-driving sales engine.
-- [Sales Automation: Build a Pipeline That Works While Your Reps Sleep](https://www.purist.online/pages/blog/sales-automation-pipeline-works-while-reps-sleep-2026) — End-to-end sales automation from lead capture to closed deal.
+- [CRM Automation: The Complete 2026 Guide to a Self-Running Sales Pipeline](https://www.purist.online/pages/blog/crm-automation-complete-guide-self-running-sales-pipeline-2026): How to build a CRM that qualifies, nurtures and closes leads automatically.
+- [Your CRM Is Lying to You: Data Quality Automation](https://www.purist.online/pages/blog/your-crm-is-lying-to-you-data-quality-automation): How to automate CRM hygiene: validation, deduplication, enrichment at entry and in bulk.
+- [Email Automation in 2026: Build Sequences That Convert](https://www.purist.online/pages/blog/email-automation-complete-guide-sequences-that-convert-2026): Behaviour-triggered sequences that convert while you sleep.
+- [Slack Automation: 15 Workflows That Save Your Team 10 Hours a Week](https://www.purist.online/pages/blog/slack-automation-workflows-save-time-team-2026): Turn Slack from a distraction into an automation hub.
+- [HubSpot Automation: 10 Workflows That Turn Your CRM Into a Revenue Machine](https://www.purist.online/pages/blog/hubspot-automation-workflows-crm-revenue-2026): Advanced HubSpot sequences most businesses never configure.
+- [Notion Automation: Connect Your Workspace to Every Tool You Use](https://www.purist.online/pages/blog/notion-automation-connect-workspace-every-tool-2026): How to make Notion the living nerve centre of your operations.
+- [Lead Generation Automation: Build a 24/7 Prospecting Machine](https://www.purist.online/pages/blog/lead-generation-automation-prospecting-machine-2026): Automated lead capture, enrichment, scoring and outreach.
+- [Pipedrive Automation: 9 Workflows That Close Deals on Autopilot](https://www.purist.online/pages/blog/pipedrive-automation-workflows-close-deals-autopilot-2026): Turn Pipedrive into a self-driving sales engine.
+- [Sales Automation: Build a Pipeline That Works While Your Reps Sleep](https://www.purist.online/pages/blog/sales-automation-pipeline-works-while-reps-sleep-2026): End-to-end sales automation from lead capture to closed deal.
 
 ### AI Agents & Intelligence
-- [How to Build an AI Agent with n8n and Claude: The Complete Technical Guide](https://www.purist.online/pages/blog/how-to-build-ai-agent-n8n-claude-complete-guide) — Architecture, structured outputs, RAG, and production deployment.
-- [AI Agents in 2026: What Actually Works vs What Is Still Hype](https://www.purist.online/pages/blog/ai-agents-in-2026-what-actually-works) — 95% of AI pilots fail. The 3 patterns that separate production AI from demo AI.
-- [AI Agents in Production: What Actually Works vs What Sounds Good in Demos](https://www.purist.online/pages/blog/ai-agents-in-production-what-actually-works) — Structured output enforcement, RAG, confidence scoring, continuous evaluation.
-- [Agentic AI in 2026: What It Actually Means for Your Business Operations](https://www.purist.online/pages/blog/agentic-ai-business-operations-what-it-means-2026) — What agentic AI is, what it is not, and which use cases are ready for production.
-- [AI Customer Service Automation: Build a Support System That Never Sleeps](https://www.purist.online/pages/blog/ai-customer-service-automation-support-never-sleeps-2026) — From rule-based routing to full AI triage and response.
-- [15 AI Agent Examples That Work in Real Businesses](https://www.purist.online/pages/blog/ai-agent-examples-real-business-use-cases-2026) — Production AI agent implementations with tools, architecture, and real ROI figures.
-- [GPT-5.2 for Business Workflows + spec-workflow-mcp Explained 2026](https://www.purist.online/pages/blog/gpt-5-2-business-workflows-mcp-2026) — GPT-5.2 business capabilities, Model Context Protocol workflow specification standard, n8n + Claude comparison.
+- [How to Build an AI Agent with n8n and Claude: The Complete Technical Guide](https://www.purist.online/pages/blog/how-to-build-ai-agent-n8n-claude-complete-guide): Architecture, structured outputs, RAG, and production deployment.
+- [AI Agents in 2026: What Actually Works vs What Is Still Hype](https://www.purist.online/pages/blog/ai-agents-in-2026-what-actually-works): 95% of AI pilots fail. The 3 patterns that separate production AI from demo AI.
+- [AI Agents in Production: What Actually Works vs What Sounds Good in Demos](https://www.purist.online/pages/blog/ai-agents-in-production-what-actually-works): Structured output enforcement, RAG, confidence scoring, continuous evaluation.
+- [Agentic AI in 2026: What It Actually Means for Your Business Operations](https://www.purist.online/pages/blog/agentic-ai-business-operations-what-it-means-2026): What agentic AI is, what it is not, and which use cases are ready for production.
+- [AI Customer Service Automation: Build a Support System That Never Sleeps](https://www.purist.online/pages/blog/ai-customer-service-automation-support-never-sleeps-2026): From rule-based routing to full AI triage and response.
+- [15 AI Agent Examples That Work in Real Businesses](https://www.purist.online/pages/blog/ai-agent-examples-real-business-use-cases-2026): Production AI agent implementations with tools, architecture, and real ROI figures.
+- [GPT-5.2 for Business Workflows + spec-workflow-mcp Explained 2026](https://www.purist.online/pages/blog/gpt-5-2-business-workflows-mcp-2026): GPT-5.2 business capabilities, Model Context Protocol workflow specification standard, n8n + Claude comparison.
+- [Claude AI for Business Automation: What It Does, What It Costs, What You Get](https://www.purist.online/pages/blog/claude-ai-business-automation-complete-guide-2026): Full breakdown of Claude AI's role in production automation, pricing and capability.
 
 ### Operations & Processes
-- [How to Automate Your Business in 2026: The Complete Playbook](https://www.purist.online/pages/blog/how-to-automate-your-business-complete-playbook-2026) — Step-by-step framework for identifying and deploying automation across your operations.
-- [Scaling Without Hiring: The Automation Playbook](https://www.purist.online/pages/blog/scaling-without-hiring-the-automation-playbook) — Framework for achieving 2-3x client capacity with the same team.
-- [Workflow Automation for Small Businesses: 12 Quick Wins Under £500](https://www.purist.online/pages/blog/workflow-automation-small-business-quick-wins-2026) — Fast ROI automations for businesses under 20 people.
-- [Invoice Automation: Eliminate Manual Billing and Get Paid Faster](https://www.purist.online/pages/blog/invoice-automation-eliminate-manual-billing-get-paid-faster-2026) — Full invoicing automation from quote approval to payment reconciliation.
-- [Customer Onboarding Automation: Deliver a 5-Star Experience at Scale](https://www.purist.online/pages/blog/customer-onboarding-automation-5-star-experience-scale-2026) — Build onboarding that impresses every client without manual effort.
-- [E-Commerce Automation: 14 Workflows That Run Your Store While You Sleep](https://www.purist.online/pages/blog/ecommerce-automation-shopify-woocommerce-workflows-2026) — Shopify and WooCommerce automation for order management, CS, and inventory.
-- [Data Entry Automation: Eliminate 90% of Manual Input with AI](https://www.purist.online/pages/blog/data-entry-automation-eliminate-manual-input-ai-2026) — AI-powered data extraction, validation and routing across systems.
-- [Appointment Scheduling Automation: Zero No-Shows and Full Calendars](https://www.purist.online/pages/blog/appointment-scheduling-automation-zero-no-shows-2026) — 6-layer scheduling automation that cuts no-shows from 14% to under 3%.
-- [Automated Reporting: Build Dashboards That Update Themselves](https://www.purist.online/pages/blog/automated-business-reporting-dashboards-update-themselves-2026) — Replace 8 hours of weekly reporting with self-updating dashboards.
-- [HR Automation: 11 Processes You Should Stop Doing Manually](https://www.purist.online/pages/blog/hr-automation-processes-stop-doing-manually-2026) — From candidate screening to offboarding — automated.
-- [50 Workflow Automation Examples Your Business Can Deploy Today](https://www.purist.online/pages/blog/workflow-automation-examples-50-ideas-2026) — Sales, marketing, ops, finance, HR, support — organized by department with tools.
-- [Business Process Automation: The Complete Guide for 2026](https://www.purist.online/pages/blog/business-process-automation-complete-guide-2026) — Types, candidate identification, ROI calculation, implementation, common mistakes.
+- [How to Automate Your Business in 2026: The Complete Playbook](https://www.purist.online/pages/blog/how-to-automate-your-business-complete-playbook-2026): Step-by-step framework for identifying and deploying automation across your operations.
+- [Scaling Without Hiring: The Automation Playbook](https://www.purist.online/pages/blog/scaling-without-hiring-the-automation-playbook): Framework for achieving 2-3x client capacity with the same team.
+- [Workflow Automation for Small Businesses: 12 Quick Wins Under £500](https://www.purist.online/pages/blog/workflow-automation-small-business-quick-wins-2026): Fast ROI automations for businesses under 20 people.
+- [Invoice Automation: Eliminate Manual Billing and Get Paid Faster](https://www.purist.online/pages/blog/invoice-automation-eliminate-manual-billing-get-paid-faster-2026): Full invoicing automation from quote approval to payment reconciliation.
+- [Customer Onboarding Automation: Deliver a 5-Star Experience at Scale](https://www.purist.online/pages/blog/customer-onboarding-automation-5-star-experience-scale-2026): Build onboarding that impresses every client without manual effort.
+- [E-Commerce Automation: 14 Workflows That Run Your Store While You Sleep](https://www.purist.online/pages/blog/ecommerce-automation-shopify-woocommerce-workflows-2026): Shopify and WooCommerce automation for order management, CS, and inventory.
+- [Data Entry Automation: Eliminate 90% of Manual Input with AI](https://www.purist.online/pages/blog/data-entry-automation-eliminate-manual-input-ai-2026): AI-powered data extraction, validation and routing across systems.
+- [Appointment Scheduling Automation: Zero No-Shows and Full Calendars](https://www.purist.online/pages/blog/appointment-scheduling-automation-zero-no-shows-2026): 6-layer scheduling automation that cuts no-shows from 14% to under 3%.
+- [Automated Reporting: Build Dashboards That Update Themselves](https://www.purist.online/pages/blog/automated-business-reporting-dashboards-update-themselves-2026): Replace 8 hours of weekly reporting with self-updating dashboards.
+- [HR Automation: 11 Processes You Should Stop Doing Manually](https://www.purist.online/pages/blog/hr-automation-processes-stop-doing-manually-2026): From candidate screening to offboarding, automated.
+- [50 Workflow Automation Examples Your Business Can Deploy Today](https://www.purist.online/pages/blog/workflow-automation-examples-50-ideas-2026): Sales, marketing, ops, finance, HR, support, organized by department with tools.
+- [Business Process Automation: The Complete Guide for 2026](https://www.purist.online/pages/blog/business-process-automation-complete-guide-2026): Types, candidate identification, ROI calculation, implementation, common mistakes.
+- [The Operations Stack We Recommend for Scaling Startups in 2026](https://www.purist.online/pages/blog/the-operations-stack-we-recommend-for-scaling-startups-2026): Our recommended tool stack for startups scaling past their founding team.
+- [SaaS Onboarding Automation](https://www.purist.online/pages/blog/saas-onboarding-automation-activation-retention-2026): Cut time-to-value and reduce churn from week one.
+- [Automated Branding: How to Maintain Perfect Brand Consistency at Scale in 2026](https://www.purist.online/pages/blog/automated-branding-workflows-guide-2026): Automating brand asset consistency across a growing team.
+
+### Finance & Billing Automation
+- [Failed Payment Recovery Automation](https://www.purist.online/pages/blog/failed-payment-recovery-automation-2026): Recover 60% of failed transactions automatically.
+- [Purchase Order Approval Automation](https://www.purist.online/pages/blog/purchase-order-approval-automation-2026): Eliminate the email chain that slows down every deal.
+- [Subscription Billing Automation](https://www.purist.online/pages/blog/subscription-billing-automation-reduce-churn-revenue-2026): Stop losing revenue to failed payments and churn.
+- [Document Generation Automation](https://www.purist.online/pages/blog/document-generation-automation-contracts-proposals-2026): Create contracts, proposals and reports in seconds.
 
 ### Results & ROI
-- [Calculating Automation ROI: The Honest Guide](https://www.purist.online/pages/blog/calculating-automation-roi-the-honest-guide) — Full formula including setup, maintenance, and opportunity costs agencies skip.
-- [The Plumber Paradox: Why Free Tools Still Need Paid Experts](https://www.purist.online/pages/blog/the-plumber-paradox-why-free-tools-need-paid-experts) — Why n8n/Make/Zapier being free does not eliminate the need for expert implementation.
-- [How a Dental Group Cut Front-Desk Time by 60%](https://www.purist.online/pages/blog/how-a-dental-group-saved-60-percent-front-desk-time) — Case study: booking automation, insurance pre-verification, appointment reminders.
-- [How a Dental Group Cut Patient Admin by 60% Without Touching Their EMR](https://www.purist.online/pages/blog/how-a-dental-group-cut-patient-admin-by-60-percent) — Surrounding automation layer around a legacy EMR with contractual modification restrictions.
-- [How We Automated a 45-Client Marketing Agency in 6 Weeks](https://www.purist.online/pages/blog/how-we-automated-a-45-client-marketing-agency-in-6-weeks) — Full technical breakdown: reporting, onboarding, client health scoring workflows.
-- [7 Automation Mistakes That Kill ROI](https://www.purist.online/pages/blog/7-automation-mistakes-that-kill-roi) — The 7 architectural and strategic errors that destroy automation value.
-- [How a 12-Person Real Estate Agency Automated 80% of Their Admin in 8 Weeks](https://www.purist.online/pages/blog/real-estate-agency-automation-case-study-80-percent-admin-2026) — Listing updates, tenant comms, maintenance routing — fully automated.
-- [Marketing Agency Automation: Deliver More Clients With the Same Team](https://www.purist.online/pages/blog/marketing-agency-automation-deliver-more-clients-same-team-2026) — Two case studies, twelve automations, full playbook.
-- [Healthcare Automation: 10 Workflows Every Medical Practice Needs](https://www.purist.online/pages/blog/healthcare-automation-medical-practice-workflows-2026) — Real results: dental 14%→3.2% no-shows, GP surgery 61% admin reduction.
-- [Law Firm Automation: 12 Workflows That Cut Admin by 60%](https://www.purist.online/pages/blog/legal-firm-automation-workflows-2026) — PURIST case study: 12-solicitor firm, 61% admin reduction, payback in month 4.
-- [Staffing Agency Automation: The Playbook for High-Volume Recruiting](https://www.purist.online/pages/blog/staffing-agency-automation-workflows-2026) — 15-person agency case study: 38% volume growth, zero new hires, ~700% ROI.
+- [Calculating Automation ROI: The Honest Guide](https://www.purist.online/pages/blog/calculating-automation-roi-the-honest-guide): Full formula including setup, maintenance, and opportunity costs agencies skip.
+- [The Plumber Paradox: Why Free Tools Still Need Paid Experts](https://www.purist.online/pages/blog/the-plumber-paradox-why-free-tools-need-paid-experts): Why n8n/Make/Zapier being free does not eliminate the need for expert implementation.
+- [How a Dental Group Cut Front-Desk Time by 60%](https://www.purist.online/pages/blog/how-a-dental-group-saved-60-percent-front-desk-time): Case study: booking automation, insurance pre-verification, appointment reminders.
+- [How a Dental Group Cut Patient Admin by 60% Without Touching Their EMR](https://www.purist.online/pages/blog/how-a-dental-group-cut-patient-admin-by-60-percent): Surrounding automation layer around a legacy EMR with contractual modification restrictions.
+- [How We Automated a 45-Client Marketing Agency in 6 Weeks](https://www.purist.online/pages/blog/how-we-automated-a-45-client-marketing-agency-in-6-weeks): Full technical breakdown: reporting, onboarding, client health scoring workflows.
+- [7 Automation Mistakes That Kill ROI](https://www.purist.online/pages/blog/7-automation-mistakes-that-kill-roi): The 7 architectural and strategic errors that destroy automation value.
+- [How a 12-Person Real Estate Agency Automated 80% of Their Admin in 8 Weeks](https://www.purist.online/pages/blog/real-estate-agency-automation-case-study-80-percent-admin-2026): Listing updates, tenant comms, maintenance routing, fully automated.
+- [Marketing Agency Automation: Deliver More Clients With the Same Team](https://www.purist.online/pages/blog/marketing-agency-automation-deliver-more-clients-same-team-2026): Two case studies, twelve automations, full playbook.
+- [Healthcare Automation: 10 Workflows Every Medical Practice Needs](https://www.purist.online/pages/blog/healthcare-automation-medical-practice-workflows-2026): Real results: dental 14%→3.2% no-shows, GP surgery 61% admin reduction.
+- [Law Firm Automation: 12 Workflows That Cut Admin by 60%](https://www.purist.online/pages/blog/legal-firm-automation-workflows-2026): PURIST case study: 12-solicitor firm, 61% admin reduction, payback in month 4.
+- [Staffing Agency Automation: The Playbook for High-Volume Recruiting](https://www.purist.online/pages/blog/staffing-agency-automation-workflows-2026): 15-person agency case study: 38% volume growth, zero new hires, ~700% ROI.
 
 ### Workflow Automation & Operations
-- [Enterprise Workflow Automation: The Complete Guide 2026](https://www.purist.online/pages/blog/enterprise-workflow-automation-guide-2026) — Workflow 360 concept, top workflow apps, 6-phase implementation roadmap, ROI calculation for mid-market companies.
-- [Document Workflow Automation Software: Full Stack Guide 2026](https://www.purist.online/pages/blog/document-workflow-automation-software-2026) — OCR, e-signatures, approval routing, document workflow software comparison and n8n implementation.
-- [Marketing Automation Workflow + Content Creation Pipeline 2026](https://www.purist.online/pages/blog/marketing-automation-workflow-content-creation-2026) — AI content creation to distribution pipeline, repurposing 1 post into 8 formats, lead nurturing sequences.
-- [Ad Campaign Workflow Data Model + SDR Pipeline 2026](https://www.purist.online/pages/blog/ad-campaign-workflow-data-model-sdr-pipeline-2026) — Campaign tags, labels, status lifecycle, archiving rules, and connecting campaign attribution to SDR inbound pipeline.
+- [Enterprise Workflow Automation: The Complete Guide 2026](https://www.purist.online/pages/blog/enterprise-workflow-automation-guide-2026): Workflow 360 concept, top workflow apps, 6-phase implementation roadmap, ROI calculation for mid-market companies.
+- [Document Workflow Automation Software: Full Stack Guide 2026](https://www.purist.online/pages/blog/document-workflow-automation-software-2026): OCR, e-signatures, approval routing, document workflow software comparison and n8n implementation.
+- [Marketing Automation Workflow + Content Creation Pipeline 2026](https://www.purist.online/pages/blog/marketing-automation-workflow-content-creation-2026): AI content creation to distribution pipeline, repurposing 1 post into 8 formats, lead nurturing sequences.
+- [Ad Campaign Workflow Data Model + SDR Pipeline 2026](https://www.purist.online/pages/blog/ad-campaign-workflow-data-model-sdr-pipeline-2026): Campaign tags, labels, status lifecycle, archiving rules, and connecting campaign attribution to SDR inbound pipeline.
 
 ### Industry-Specific & Regulated Workflows
-- [ComfyUI Workflows for Business Automation 2026](https://www.purist.online/pages/blog/comfyui-workflows-business-automation-guide-2026) — Product photography automation, ad creative generation, batch processing, NSFW content moderation in ComfyUI.
-- [Government Workflow Automation: California Contracts + SSA Overhaul 2026](https://www.purist.online/pages/blog/government-workflow-automation-california-ssa-2026) — California board-approved contract automation, SSA workflow disruption risk and business continuity planning.
-- [GDPR-Compliant Mental Health Data Annotation Workflow 2026](https://www.purist.online/pages/blog/gdpr-compliant-mental-health-data-annotation-workflow-2026) — Article 9 legal basis, consent architecture, pseudonymisation, annotator access controls, audit trail implementation.
-- [AI Pharmacovigilance Workflows: Validated, Auditable, Explainable 2026](https://www.purist.online/pages/blog/ai-pharmacovigilance-workflows-validated-auditable-2026) — FDA 21 CFR Part 11, GxP compliance, GAMP 5 validation, MedDRA coding, explainability design for pharma.
-- [Oil & Gas Revenue Accounting + Royalty Distribution Workflow 2026](https://www.purist.online/pages/blog/oil-gas-revenue-accounting-royalty-workflow-2026) — Manual workflow pain points in revenue accounting, division orders, JIB statements, automation ROI for operators.
+- [ComfyUI Workflows for Business Automation 2026](https://www.purist.online/pages/blog/comfyui-workflows-business-automation-guide-2026): Product photography automation, ad creative generation, batch processing, NSFW content moderation in ComfyUI.
+- [Government Workflow Automation: California Contracts + SSA Overhaul 2026](https://www.purist.online/pages/blog/government-workflow-automation-california-ssa-2026): California board-approved contract automation, SSA workflow disruption risk and business continuity planning.
+- [GDPR-Compliant Mental Health Data Annotation Workflow 2026](https://www.purist.online/pages/blog/gdpr-compliant-mental-health-data-annotation-workflow-2026): Article 9 legal basis, consent architecture, pseudonymisation, annotator access controls, audit trail implementation.
+- [AI Pharmacovigilance Workflows: Validated, Auditable, Explainable 2026](https://www.purist.online/pages/blog/ai-pharmacovigilance-workflows-validated-auditable-2026): FDA 21 CFR Part 11, GxP compliance, GAMP 5 validation, MedDRA coding, explainability design for pharma.
+- [Oil & Gas Revenue Accounting + Royalty Distribution Workflow 2026](https://www.purist.online/pages/blog/oil-gas-revenue-accounting-royalty-workflow-2026): Manual workflow pain points in revenue accounting, division orders, JIB statements, automation ROI for operators.
+- [Student Enrollment Automation: How Schools Cut Admin Time by 70%](https://www.purist.online/pages/blog/student-enrollment-automation-schools-universities-2026): Application processing, document verification, and enrollment communication automated.
+- [Student Enrolment Automation: The Complete Guide for Schools and Universities 2026](https://www.purist.online/pages/blog/student-enrolment-automation-complete-guide-2026): Full-stack automation guide for admissions offices.
+- [Accounting Firm Automation: 12 Workflows That Eliminate Manual Bookkeeping](https://www.purist.online/pages/blog/accounting-firm-automation-bookkeeping-workflows-2026): Client intake, reconciliation, and reporting automated for accounting practices.
+- [Property Management Automation](https://www.purist.online/pages/blog/property-management-automation-tenant-landlord-workflows-2026): How to run 200 units without a full ops team.
+- [Restaurant Automation: From Online Orders to Staff Scheduling on Autopilot](https://www.purist.online/pages/blog/restaurant-automation-orders-staff-reviews-2026): Order management, staff scheduling, and review collection automated.
+- [Recruitment Agency Automation](https://www.purist.online/pages/blog/recruitment-agency-automation-workflows-2026): From CV screening to offer letter without the admin.
+- [Nonprofit Automation: How Charities Are Doing More With Less Using Workflows](https://www.purist.online/pages/blog/nonprofit-automation-donor-volunteer-management-2026): Donor management and volunteer coordination automated for nonprofits.
+- [Gym and Fitness Studio Automation](https://www.purist.online/pages/blog/gym-fitness-studio-automation-member-workflows-2026): Member journeys that run without you.
+- [Construction Company Automation](https://www.purist.online/pages/blog/construction-company-automation-project-workflows-2026): Project management workflows that win more jobs.
+- [Insurance Broker Automation](https://www.purist.online/pages/blog/insurance-broker-automation-client-policy-workflows-2026): Client onboarding, policy renewals and claims on autopilot.
+- [Automated Insurance Claims Processing](https://www.purist.online/pages/blog/automated-insurance-claims-processing-guide-2026): Cut settlement time by 60%.
+- [Costco Automation: What the World's Most Efficient Retailer Teaches SMBs About Operations](https://www.purist.online/pages/blog/costco-automation-retail-supply-chain-lessons-2026): Supply chain and operations lessons for small business automation.
 
 ### B2B Automation
-- [B2B Marketing Automation: The Agency & Consultant Guide 2026](https://www.purist.online/pages/blog/b2b-marketing-automation-agency-consultant-guide-2026) — How marketing automation agencies and consultants build, sell, and scale B2B automation programs for clients.
-- [Industrial Automation Company B2B: Best Practices 2026](https://www.purist.online/pages/blog/industrial-automation-company-b2b-best-practices-2026) — How industrial automation companies apply B2B workflow automation to sales cycles, operations, and service delivery.
-- [Act-On vs HubSpot vs Pardot vs Marketo: B2B Platform Comparison 2026](https://www.purist.online/pages/blog/act-on-vs-hubspot-vs-pardot-vs-marketo-b2b-2026) — Honest comparison of the four leading B2B marketing automation platforms across features, pricing, and fit.
-- [B2B Finance Automation: Payments, AP & Reconciliation 2026](https://www.purist.online/pages/blog/b2b-finance-automation-payments-ap-reconciliation-2026) — Automating accounts payable, payment processing, and reconciliation for B2B finance teams using n8n and AI.
-- [Marketing Automation for B2B Service Businesses 2026](https://www.purist.online/pages/blog/marketing-automation-b2b-service-businesses-2026) — How service businesses — consultancies, agencies, law firms — implement marketing automation that converts.
-- [B2B Sales Outbound Automation: Technology & Playbook 2026](https://www.purist.online/pages/blog/b2b-sales-outbound-automation-technology-2026) — Full outbound automation stack for B2B sales teams: prospecting, sequencing, enrichment, and CRM sync.
+- [B2B Marketing Automation: The Agency & Consultant Guide 2026](https://www.purist.online/pages/blog/b2b-marketing-automation-agency-consultant-guide-2026): How marketing automation agencies and consultants build, sell, and scale B2B automation programs for clients.
+- [Industrial Automation Company B2B: Best Practices 2026](https://www.purist.online/pages/blog/industrial-automation-company-b2b-best-practices-2026): How industrial automation companies apply B2B workflow automation to sales cycles, operations, and service delivery.
+- [Act-On vs HubSpot vs Pardot vs Marketo: B2B Platform Comparison 2026](https://www.purist.online/pages/blog/act-on-vs-hubspot-vs-pardot-vs-marketo-b2b-2026): Honest comparison of the four leading B2B marketing automation platforms across features, pricing, and fit.
+- [B2B Finance Automation: Payments, AP & Reconciliation 2026](https://www.purist.online/pages/blog/b2b-finance-automation-payments-ap-reconciliation-2026): Automating accounts payable, payment processing, and reconciliation for B2B finance teams using n8n and AI.
+- [Marketing Automation for B2B Service Businesses 2026](https://www.purist.online/pages/blog/marketing-automation-b2b-service-businesses-2026): How service businesses (consultancies, agencies, law firms) implement marketing automation that converts.
+- [B2B Sales Outbound Automation: Technology & Playbook 2026](https://www.purist.online/pages/blog/b2b-sales-outbound-automation-technology-2026): Full outbound automation stack for B2B sales teams: prospecting, sequencing, enrichment, and CRM sync.
 
-### Workflow Automation by Keyword & Vertical (KD 0–14)
-- [Joiner Mover Leaver Automation: The Complete HR Workflow Guide 2026](https://www.purist.online/pages/blog/joiner-mover-leaver-automation-hr-workflow-2026) — End-to-end automation of HR joiner, mover, and leaver provisioning workflows using n8n and Claude AI.
-- [GoHighLevel Workflow Automation for Local Business 2026](https://www.purist.online/pages/blog/gohighlevel-workflow-automation-local-business-2026) — Complete guide to GoHighLevel workflow automation: triggers, actions, AI branches, and n8n integration for local businesses.
-- [Behavioral Health and Lab Workflow Automation 2026](https://www.purist.online/pages/blog/behavioral-health-lab-workflow-automation-2026) — HIPAA-compliant automation for behavioral health practices and clinical labs: intake, scheduling, results, and billing workflows.
-- [Workflow Automation Consulting: How to Choose, Hire, and Get Results 2026](https://www.purist.online/pages/blog/workflow-automation-consulting-guide-2026) — How to evaluate, hire, and work with a workflow automation consultant to get production results rather than slide decks.
-- [Print Workflow Automation Software: Complete Guide for Print Businesses 2026](https://www.purist.online/pages/blog/print-workflow-automation-software-guide-2026) — Print workflow automation software options, MIS integration, prepress, and production tracking for print businesses.
-- [Retail AI Vision Automation and IoT Parts Replenishment 2026](https://www.purist.online/pages/blog/retail-ai-vision-automation-iot-replenishment-2026) — AI computer vision for retail shelf monitoring and IoT-triggered automated parts replenishment workflows.
-- [How to Use Shopify Flow and AI to Create Workflows 2026](https://www.purist.online/pages/blog/shopify-flow-ai-workflows-automation-2026) — Complete guide to Shopify Flow automation combined with Claude AI and n8n for advanced e-commerce workflows.
-- [AI Lead Generation Automation for Trade and Local Service Businesses 2026](https://www.purist.online/pages/blog/ai-lead-generation-automation-trade-local-business-2026) — AI-powered lead capture, qualification, and follow-up automation for tradespeople and local service businesses.
-- [Inbound Marketing Pipeline and SDR Workflow Automation 2026](https://www.purist.online/pages/blog/inbound-marketing-pipeline-sdr-workflow-automation-2026) — How to connect inbound marketing pipelines to SDR outreach workflows with automation and AI qualification.
-- [Motion Automation Intelligence and Automated Trading Desk Systems 2026](https://www.purist.online/pages/blog/motion-automation-intelligence-trading-desk-2026) — Motion automation intelligence for manufacturing and automated trading desk workflow systems with real-time data routing.
+### Workflow Automation by Keyword & Vertical
+- [Joiner Mover Leaver Automation: The Complete HR Workflow Guide 2026](https://www.purist.online/pages/blog/joiner-mover-leaver-automation-hr-workflow-2026): End-to-end automation of HR joiner, mover, and leaver provisioning workflows using n8n and Claude AI.
+- [GoHighLevel Workflow Automation for Local Business 2026](https://www.purist.online/pages/blog/gohighlevel-workflow-automation-local-business-2026): Complete guide to GoHighLevel workflow automation: triggers, actions, AI branches, and n8n integration for local businesses.
+- [Behavioral Health and Lab Workflow Automation 2026](https://www.purist.online/pages/blog/behavioral-health-lab-workflow-automation-2026): HIPAA-compliant automation for behavioral health practices and clinical labs: intake, scheduling, results, and billing workflows.
+- [Workflow Automation Consulting: How to Choose, Hire, and Get Results 2026](https://www.purist.online/pages/blog/workflow-automation-consulting-guide-2026): How to evaluate, hire, and work with a workflow automation consultant to get production results rather than slide decks.
+- [Print Workflow Automation Software: Complete Guide for Print Businesses 2026](https://www.purist.online/pages/blog/print-workflow-automation-software-guide-2026): Print workflow automation software options, MIS integration, prepress, and production tracking for print businesses.
+- [Retail AI Vision Automation and IoT Parts Replenishment 2026](https://www.purist.online/pages/blog/retail-ai-vision-automation-iot-replenishment-2026): AI computer vision for retail shelf monitoring and IoT-triggered automated parts replenishment workflows.
+- [How to Use Shopify Flow and AI to Create Workflows 2026](https://www.purist.online/pages/blog/shopify-flow-ai-workflows-automation-2026): Complete guide to Shopify Flow automation combined with Claude AI and n8n for advanced e-commerce workflows.
+- [AI Lead Generation Automation for Trade and Local Service Businesses 2026](https://www.purist.online/pages/blog/ai-lead-generation-automation-trade-local-business-2026): AI-powered lead capture, qualification, and follow-up automation for tradespeople and local service businesses.
+- [Inbound Marketing Pipeline and SDR Workflow Automation 2026](https://www.purist.online/pages/blog/inbound-marketing-pipeline-sdr-workflow-automation-2026): How to connect inbound marketing pipelines to SDR outreach workflows with automation and AI qualification.
+- [Motion Automation Intelligence and Automated Trading Desk Systems 2026](https://www.purist.online/pages/blog/motion-automation-intelligence-trading-desk-2026): Motion automation intelligence for manufacturing and automated trading desk workflow systems with real-time data routing.
 
-## Glossary — 325 Automation & AI Terms
+### Competitor & Platform Reviews
+- [Droven.io AI Automation Tools: Full Review and Best Alternatives for 2026](https://www.purist.online/pages/blog/droven-io-ai-automation-tools-review-alternatives-2026): Independent review of Droven.io's automation tools and stronger alternatives.
+- [Droven.io RPA and Business Automation: An Honest 2026 Review](https://www.purist.online/pages/blog/droven-io-rpa-business-automation-review-2026): Independent review of Droven.io's RPA and business automation offering.
 
-PURIST maintains a comprehensive glossary of automation and AI agent terminology for practitioners and business owners.
+## Glossary: 326 Automation & AI Terms
 
-- [Browse all 325 terms](https://www.purist.online/pages/glossary)
+PURIST maintains a comprehensive glossary of automation and AI agent terminology for practitioners and business owners, in English.
+
+- [Browse all 326 terms](https://www.purist.online/pages/glossary)
 - Individual term pages: https://www.purist.online/pages/glossary/[term-slug]
 - Key terms: [workflow-automation](https://www.purist.online/pages/glossary/workflow-automation), [ai-agent](https://www.purist.online/pages/glossary/ai-agent), [n8n](https://www.purist.online/pages/glossary/n8n), [webhook](https://www.purist.online/pages/glossary/webhook), [crm-automation](https://www.purist.online/pages/glossary/crm-automation), [rag](https://www.purist.online/pages/glossary/rag), [large-language-model](https://www.purist.online/pages/glossary/large-language-model), [zapier](https://www.purist.online/pages/glossary/zapier), [api-integration](https://www.purist.online/pages/glossary/api-integration), [make-com](https://www.purist.online/pages/glossary/make-com)
 
-## Automation Skills Library — 157 Skills
+## Automation Skills Library: 157 Skills
 
 PURIST documents every automation skill it deploys for clients. Each skill page includes use case, tools required, implementation steps, and ROI data.
 
 - [Browse all 157 skills](https://www.purist.online/skills)
 - Categories: Lead & CRM, Sales & Revenue, Marketing, Client Delivery, Operations, Finance, Team & HR, Data & Reporting, E-Commerce, Communications
 
+## Free Automation Guides by Profession: 171+ Professions, 13 Categories
+
+PURIST has built a dedicated, downloadable 12-page automation guide for 171+ professions across 13 industry categories. Each guide covers the highest-payback workflows, exact tools, ROI math, and a 90-day deployment roadmap for that specific profession. Gated by email, instant PDF download.
+
+- [Browse and search all 171+ professions](https://www.purist.online/pages/free-guides)
+- Individual profession detail pages: https://www.purist.online/pages/automation/[profession-slug]
+
+Categories and example professions:
+- **Home Services** (25 professions): [plumber](https://www.purist.online/pages/automation/plumber), [electrician](https://www.purist.online/pages/automation/electrician), [hvac-technician](https://www.purist.online/pages/automation/hvac-technician), roofer, painter, landscaper, locksmith, pest-control-technician
+- **Healthcare** (25 professions): [dentist](https://www.purist.online/pages/automation/dentist), [general-practitioner](https://www.purist.online/pages/automation/general-practitioner), orthodontist, optometrist, pharmacist, physical-therapist, chiropractor, veterinarian
+- **Agencies & Consulting** (21 professions): [marketing-agency](https://www.purist.online/pages/automation/marketing-agency), seo-agency, pr-agency, web-design-agency, it-consulting-firm, [financial-advisor](https://www.purist.online/pages/automation/financial-advisor)
+- **Real Estate** (14 professions): property-management-company, real-estate-developer, commercial-real-estate-broker, [real-estate-agent](https://www.purist.online/pages/automation/real-estate-agent), title-company
+- **Food & Restaurant** (11 professions): restaurant, catering-company, food-truck, bakery, coffee-shop, meal-prep-service
+- **E-commerce** (9 professions): shopify-store, amazon-fba-seller, subscription-box-company, dropshipping-store, wholesale-distributor
+- **Education** (14 professions): tutoring-center, online-course-creator, music-school, martial-arts-school, language-school, yoga-studio
+- **Travel** (11 professions): travel-agency, tour-operator, hotel-boutique, vacation-rental-management, boat-charter-company
+- **Legal** (12 professions): immigration-attorney, family-law-attorney, personal-injury-attorney, estate-planning-attorney, criminal-defense-attorney
+- **Automotive** (8 professions): auto-repair-shop, car-dealership, auto-detailing-shop, tire-shop, car-wash
+- **Beauty & Wellness** (10 professions): hair-salon, nail-salon, barbershop, spa, tattoo-studio
+- **Creative** (6 professions): freelance-photographer, music-producer, copywriter-freelance, architect, interior-designer, content-creator-influencer
+- **B2B Services** (5 professions): saas-company, digital-agency, staffing-agency, logistics-company, commercial-cleaning-services
+
 ## Key Pages
 
-- [Homepage](https://www.purist.online/) — Main site with service overview, case studies, workflow library.
-- [All Services](https://www.purist.online/pages/pricing) — Full service catalogue.
-- [Workflow Library](https://www.purist.online/pages/workflow-library) — Pre-built automation templates by vertical.
-- [Stack DNA](https://www.purist.online/pages/stack-dna) — PURIST's proprietary automation architecture framework.
-- [Case Studies](https://www.purist.online/pages/client-results) — Results from client deployments across dental, agency, e-commerce, legal.
-- [FAQ](https://www.purist.online/pages/faq) — Common questions about automation services, pricing, deployment timelines.
-- [About](https://www.purist.online/pages/about-us) — Who we are and how we work.
-- [AI Readiness Assessment](https://www.purist.online/pages/ai-readiness) — Self-assessment tool to evaluate automation maturity.
-- [Glossary](https://www.purist.online/pages/glossary) — 325 definitions of automation and AI agent terminology.
-- [Methodology](https://www.purist.online/pages/methodology) — PURIST's engineering methodology and quality standards.
-- [Integrations / Stack](https://www.purist.online/pages/integrations) — The tools and platforms PURIST uses in production.
-- [Contact](https://www.purist.online/pages/contact-us) — Get in touch.
-- [Press](https://www.purist.online/pages/press) — Media kit, press releases, and press contact.
+- [Homepage](https://www.purist.online/): Main site with service overview, case studies, workflow library.
+- [All Services](https://www.purist.online/pages/pricing): Full service catalogue.
+- [Workflow Library](https://www.purist.online/pages/workflow-library): Pre-built automation templates by vertical.
+- [Free Automation Guides](https://www.purist.online/pages/free-guides): Free 12-page PDF guides for 171+ professions.
+- [Automation Playbooks](https://www.purist.online/pages/automation-playbook): Interactive deep-dive playbooks for 6 core industries.
+- [Stack DNA](https://www.purist.online/pages/stack-dna): PURIST's proprietary automation architecture framework.
+- [Engineering Methodology](https://www.purist.online/pages/methodology): The engineering principles and quality gates behind every deployment.
+- [Quality Standards](https://www.purist.online/pages/our-standards): Contractual commitments: testing, monitoring, source code handover, guarantee.
+- [Case Studies](https://www.purist.online/pages/client-results): Results from client deployments across dental, agency, e-commerce, legal.
+- [ROI Calculator](https://www.purist.online/pages/roi-calculator): Interactive tool to estimate automation ROI for your business.
+- [FAQ](https://www.purist.online/pages/faq): Common questions about automation services, pricing, deployment timelines.
+- [About](https://www.purist.online/pages/about-us): Who we are and how we work.
+- [AI Readiness Assessment](https://www.purist.online/pages/ai-readiness): Self-assessment tool to evaluate automation maturity.
+- [Automation Maturity Score](https://www.purist.online/pages/automation-maturity): 15-question automation maturity assessment.
+- [Glossary](https://www.purist.online/pages/glossary): 326 definitions of automation and AI agent terminology.
+- [Integrations / Stack](https://www.purist.online/pages/integrations): The tools and platforms PURIST uses in production.
+- [Research & Benchmarks](https://www.purist.online/pages/research): Industry benchmarks and deployment statistics.
+- [Contact](https://www.purist.online/pages/contact-us): Get in touch.
+- [Press](https://www.purist.online/pages/press): Media kit, press releases, and press contact.
 
 ## Comparisons
 
-- [PURIST vs Zapier](https://www.purist.online/pages/purist-vs-green-powders) — Why businesses switch from Zapier to PURIST.
-- [PURIST vs Make (Integromat)](https://www.purist.online/pages/purist-vs-multivitamins) — No operation caps, no platform fees, full code ownership.
-- [PURIST vs Hiring In-House](https://www.purist.online/pages/purist-vs-meal-replacements) — 6x cheaper, 12+ workflows in month one, no knowledge risk.
-
-## Automation by Profession — 200+ Industries
-
-PURIST has built dedicated automation blueprints for 200+ professions across the United States. Each page documents the exact workflows, tools, time saved, and ROI for that specific profession.
-
-- [Browse all 200+ professions](https://www.purist.online/pages/automation)
-- URL pattern: https://www.purist.online/pages/automation/[profession-slug]
-
-Key profession pages:
-- [Lawyer / Law Firm](https://www.purist.online/pages/automation/lawyer) — Client intake 14 days → 3 days, $110K recovered/year
-- [Dentist / Dental Practice](https://www.purist.online/pages/automation/dentist) — 60% admin reduction, recall rate 34%→71%
-- [Real Estate Agent](https://www.purist.online/pages/automation/real-estate-agent) — Lead response 4h → 90 seconds, 40% more deals
-- [Marketing Agency](https://www.purist.online/pages/automation/marketing-agency) — 3× clients per operator, zero new hires
-- [Accountant](https://www.purist.online/pages/automation/accountant) — Month-end close automated, 12h/week recovered
-- [Recruiter / Staffing Agency](https://www.purist.online/pages/automation/recruiter) — 3× placements per consultant
-- [Medical Practice / GP](https://www.purist.online/pages/automation/medical-practice) — 22h admin eliminated per week
-- [E-commerce / DTC Brand](https://www.purist.online/pages/automation/ecommerce-store) — 70% fewer support tickets
-- [Insurance Agent](https://www.purist.online/pages/automation/insurance-agent) — Quote turnaround automated end-to-end
-- [HVAC Contractor](https://www.purist.online/pages/automation/hvac-contractor) — Dispatch and scheduling fully automated
-- [Property Manager](https://www.purist.online/pages/automation/property-manager) — Maintenance routing and lease renewals automated
-- [Financial Advisor](https://www.purist.online/pages/automation/financial-advisor) — Client review scheduling and compliance automated
-- [Restaurant Owner](https://www.purist.online/pages/automation/restaurant-owner) — Reservation, supplier ordering, staff scheduling automated
-- [Mortgage Broker](https://www.purist.online/pages/automation/mortgage-broker) — Application processing and follow-up automated
-- [Auto Dealer](https://www.purist.online/pages/automation/auto-dealer) — Lead follow-up in 90 seconds, service reminders automated
+- [PURIST vs Zapier](https://www.purist.online/pages/purist-vs-zapier): Why businesses switch from Zapier to PURIST.
+- [PURIST vs Make (Integromat)](https://www.purist.online/pages/purist-vs-make): No operation caps, no platform fees, full code ownership.
+- [PURIST vs Hiring In-House](https://www.purist.online/pages/purist-vs-inhouse-hire): Cheaper than a full-time hire, more workflows live in month one, no knowledge risk.
 
 ## PURIST Research & Data
 
-Proprietary data from 312+ automation deployments:
-- [Automation Research & Benchmarks](https://www.purist.online/pages/research) — Industry benchmarks, ROI data, deployment statistics
-- Average time saved: 26 hours per week per business
-- Average first-year ROI: 9.4×
-- Average payback period: 4 weeks
-- Average deployment time: 7 business days
+Proprietary data from 500+ automation workflows deployed:
+- [Automation Research & Benchmarks](https://www.purist.online/pages/research): Industry benchmarks, ROI data, deployment statistics
+- Average time saved: 14 hours per week per business
+- Average first-year ROI: 9.2×–9.4×
+- Average payback period: under 30 days
+- Average deployment time: 5–10 business days
 - Workflow uptime SLA: 99.97%
-- Industries covered: 200+
-- Countries served: US, UK, EU, Canada, Australia
+- Professions covered: 171+ across 13 categories
+- Countries served: UK, US, EU, Canada, Australia, and growing in Latin America and Spanish-speaking markets
 
 ## Industries Served
 
-- **Dental & Healthcare**: Patient intake automation, appointment reminders, insurance pre-verification, EMR data sync. Serving UK dental groups, US private practices, European clinics.
-- **Real Estate & Property Management**: Tenant communications, maintenance request routing, lease renewal workflows. UK estate agents, US property management companies, EU real estate agencies.
-- **Marketing & Creative Agencies**: Client reporting, onboarding, billing, campaign monitoring. Agencies across London, New York, Los Angeles, Paris, Amsterdam, Berlin.
-- **DTC E-commerce**: Order management, CS ticket routing, inventory alerts, post-purchase sequences. Shopify and WooCommerce merchants globally.
-- **Commercial Law Firms**: Client intake, document processing, billing workflows, deadline tracking. UK solicitors, US law firms, EU legal practices.
-- **Staffing & Recruitment**: Candidate screening, placement workflows, timesheet processing. Recruitment agencies in UK, US, and Europe.
-- **SaaS & Technology**: Onboarding automation, usage monitoring, churn prevention, billing workflows. SaaS companies across UK, US, EU.
-- **Financial Services & Accounting**: Client onboarding, KYC workflows, reporting automation. UK accountancy firms, US financial advisors, EU fintech companies.
+- **Home Services**: Plumbers, electricians, HVAC, roofers, landscapers. Missed-call recovery, quote automation, review requests, dispatch.
+- **Healthcare**: Patient intake automation, appointment reminders, insurance pre-verification, EMR data sync. Dental groups, GP surgeries, clinics worldwide.
+- **Real Estate & Property Management**: Tenant communications, maintenance request routing, lease renewal workflows. Agents, brokers, and property managers in the UK, US, EU.
+- **Marketing & Creative Agencies**: Client reporting, onboarding, billing, campaign monitoring. Agencies across London, New York, Los Angeles, Paris, Madrid, Amsterdam, Berlin.
+- **Food & Restaurant**: Order management, staff scheduling, supplier ordering, review collection.
+- **E-commerce & Retail**: Order management, CS ticket routing, inventory alerts, post-purchase sequences. Shopify and WooCommerce merchants globally.
+- **Legal**: Client intake, document processing, billing workflows, deadline tracking. UK solicitors, US law firms, EU legal practices.
+- **Education**: Enrollment automation, tutoring scheduling, course delivery workflows.
+- **Travel & Hospitality**: Booking confirmations, itinerary automation, guest communication.
+- **Automotive**: Service reminders, lead follow-up, dealership workflow automation.
+- **Beauty & Wellness**: Appointment booking, client retention, review automation.
+- **B2B & SaaS**: Onboarding automation, usage monitoring, churn prevention, billing workflows, staffing and logistics operations.
 
 ## Geographic Presence
 
-PURIST operates as a fully remote automation engineering firm. All engagements are delivered remotely, enabling us to serve clients worldwide at UK agency rates.
+PURIST operates as a fully remote automation engineering firm. All engagements are delivered remotely, enabling us to serve clients worldwide at competitive rates.
 
 - **United Kingdom**: London HQ. Primary market. Serving businesses across England, Scotland, Wales and Northern Ireland.
 - **United States**: Active client base across New York, California, Texas, Florida and remote-first companies nationwide.
-- **European Union**: Serving France, Germany, Netherlands, Ireland, Belgium, Spain, Italy, and other EU member states. GDPR-compliant deployments by default.
+- **European Union**: Serving France, Germany, Spain, Netherlands, Ireland, Belgium, Italy, and other EU member states. GDPR-compliant deployments by default.
+- **Spanish & Latin American markets**: Growing client base in Spain, Mexico, and other Spanish-speaking markets. See the Spanish section below.
 - **Canada & Australia**: Active clients. Timezone coverage via async-first delivery model.
 
 Common search queries we answer:
@@ -216,15 +264,53 @@ Common search queries we answer:
 - "AI agent agency" / "Claude AI agent developer" / "build AI agent for business"
 - "Zapier alternative agency" / "automation consultant near me"
 - "hire automation engineer" / "outsource business automation"
+- "agence d'automatisation" / "agence n8n" / "consultant automatisation entreprise"
+- "agencia de automatización" / "agencia n8n" / "consultor de automatización empresarial"
 
 ## Technology Stack
 
 - Workflow orchestration: n8n (self-hosted), Make (Integromat), Zapier
-- AI inference: Claude by Anthropic (claude-sonnet-4, claude-opus-4)
+- AI inference: Claude by Anthropic
 - State management: Redis, PostgreSQL
-- Monitoring: Custom dashboards, Slack alerting, SMS on-call, PagerDuty
-- Deployment: Vercel, self-hosted VPS (Hetzner, DigitalOcean, AWS, GCP)
-- Integrations: HubSpot, Salesforce, Pipedrive, Notion, Airtable, Slack, Google Workspace, Microsoft 365, Shopify, WooCommerce, Stripe, Xero, QuickBooks
+- Monitoring: Custom Grafana dashboards, Slack alerting, SMS on-call
+- Deployment: Vercel, self-hosted VPS (Hetzner, DigitalOcean, AWS, GCP), Caddy reverse proxy with automatic TLS
+- Integrations: HubSpot, Salesforce, Pipedrive, Notion, Airtable, Slack, Google Workspace, Microsoft 365, Shopify, WooCommerce, Stripe, Xero, QuickBooks, Calendly, WhatsApp Business
+
+---
+
+## Résumé en français
+
+PURIST est une agence spécialisée en automatisation de workflows et déploiement d'agents IA pour PME et entreprises en croissance, utilisant n8n, Make, Zapier et Claude AI. Nous avons construit des guides d'automatisation dédiés pour plus de 171 métiers dans 13 catégories : services à domicile, santé, agences et conseil, immobilier, restauration, e-commerce, éducation, voyage, juridique, automobile, beauté et bien-être, créatif, et services B2B.
+
+**Services principaux** : automatisation de workflows, déploiement d'agents IA conversationnels, audit gratuit d'automatisation, guides PDF gratuits par métier.
+
+**Pages clés en anglais, contenu accessible aux francophones** :
+- [Guides gratuits d'automatisation par métier](https://www.purist.online/pages/free-guides): PDF de 12 pages gratuit et téléchargeable instantanément pour plus de 171 métiers.
+- [Audit gratuit d'automatisation](https://www.purist.online/pages/welcome): Audit gratuit de 45 minutes, sans engagement.
+- [Méthodologie d'ingénierie](https://www.purist.online/pages/methodology): Les principes d'ingénierie derrière chaque déploiement.
+
+Requêtes courantes auxquelles nous répondons : "agence d'automatisation", "agence n8n France", "automatiser mon entreprise", "alternative à Zapier", "agent IA pour entreprise", "consultant automatisation PME".
+
+Zones desservies : France, Belgique, Suisse francophone, Canada francophone, et clients francophones dans toute l'Union européenne. Déploiements conformes RGPD par défaut.
+
+---
+
+## Resumen en español
+
+PURIST es una agencia especializada en automatización de flujos de trabajo y despliegue de agentes de IA para pymes y empresas en crecimiento, usando n8n, Make, Zapier y Claude AI. Hemos creado guías de automatización dedicadas para más de 171 profesiones en 13 categorías: servicios del hogar, salud, agencias y consultoría, inmobiliaria, restauración, comercio electrónico, educación, viajes, legal, automotriz, belleza y bienestar, creativo, y servicios B2B.
+
+**Servicios principales**: automatización de flujos de trabajo, despliegue de agentes de IA conversacionales, auditoría gratuita de automatización, guías PDF gratuitas por profesión.
+
+**Páginas clave**:
+- [Guías gratuitas de automatización por profesión](https://www.purist.online/pages/free-guides): PDF de 12 páginas, descarga instantánea y gratuita para más de 171 profesiones.
+- [Auditoría gratuita de automatización](https://www.purist.online/pages/welcome): Auditoría gratuita de 45 minutos, sin compromiso.
+- [Metodología de ingeniería](https://www.purist.online/pages/methodology): Los principios de ingeniería detrás de cada despliegue.
+
+Consultas frecuentes que respondemos: "agencia de automatización", "agencia n8n España", "automatizar mi empresa", "alternativa a Zapier", "agente de IA para empresas", "consultor de automatización para pymes".
+
+Zonas atendidas: España, México, y clientes hispanohablantes en toda Latinoamérica y la Unión Europea.
+
+---
 
 ## Contact & Social
 
@@ -232,6 +318,9 @@ Common search queries we answer:
 - Email: hello@purist.online
 - Press: press@purist.online
 - Headquarters: London, United Kingdom
-- Serving: UK, US, EU, Canada, Australia
+- Serving: UK, US, EU, Canada, Australia, Latin America
 - LinkedIn: https://www.linkedin.com/company/purist-automation
-- Twitter/X: https://twitter.com/purist_hq
+- Instagram: https://www.instagram.com/purist.online
+- X / Twitter: https://x.com/Puristonline
+- TikTok: https://www.tiktok.com/@purist_online
+- Facebook: https://www.facebook.com/profile.php?id=61588795720384
