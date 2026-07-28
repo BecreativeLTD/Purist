@@ -54,7 +54,10 @@ function parseHours(timeSaved: string): number {
 // Source dataset predates the "never use em-dashes" style rule; sanitize at render time
 // rather than hand-editing 170+ profession entries.
 function clean(text: string): string {
-  return text.replace(/\s*—\s*/g, ', ').replace(/\s*–\s*/g, ', ');
+  return text
+    .replace(/\s*→\s*/g, ' then ')
+    .replace(/\s*—\s*/g, ', ')
+    .replace(/\s*–\s*/g, ', ');
 }
 
 function cleanProfession(p: Profession): Profession {
@@ -195,51 +198,115 @@ export async function buildGuidePdf(rawProfession: Profession, accentColor: stri
   }
 
   // Horizontal bar chart: real per-workflow time-saved data
-  function drawBarChart(title: string, items: Array<{ label: string; value: number; suffix: string }>, height = 8) {
-    checkPage(items.length * (height + 6) + 16);
+  function drawBarChart(title: string, items: Array<{ label: string; value: number; suffix: string }>, height = 9) {
+    const sorted = [...items].sort((a, b) => b.value - a.value);
+    const total = sorted.reduce((s, i) => s + i.value, 0) || 1;
+    const rowH = height + 8;
+    checkPage(sorted.length * rowH + 20);
     subhead(title);
-    const maxVal = Math.max(...items.map((i) => i.value), 1);
-    const labelW = 46;
-    const valueW = 20;
-    const barMaxW = cw - labelW - valueW;
-    items.forEach((item) => {
-      checkPage(height + 6);
+    const maxVal = Math.max(...sorted.map((i) => i.value), 1);
+    const rankW = 12;
+    const labelW = 44;
+    const valueW = 26;
+    const barX = margin + rankW + labelW;
+    const barMaxW = cw - rankW - labelW - valueW;
+
+    checkPage(6);
+    doc.setFont('Inter', 'normal');
+    doc.setFontSize(6.8);
+    setText([170, 170, 170]);
+    doc.text('RANK', margin, y);
+    doc.text('WORKFLOW', margin + rankW, y);
+    doc.text('SHARE OF TOTAL TIME RECLAIMED', barX, y);
+    y += 9;
+
+    sorted.forEach((item, i) => {
+      checkPage(rowH);
+      if (i % 2 === 0) { setFill([250, 250, 250]); doc.rect(margin, y - 5, cw, rowH - 2, 'F'); }
+
+      const rankShade = mix(accent, [10, 10, 10], (i / Math.max(sorted.length - 1, 1)) * 0.4);
+      setFill(rankShade);
+      doc.circle(margin + 3.5, y - 1, 3.5, 'F');
+      doc.setFont('InterSemiBold', 'normal');
+      doc.setFontSize(7);
+      setText([255, 255, 255]);
+      doc.text(String(i + 1), margin + 3.5, y - 0.5, { align: 'center' });
+
       doc.setFont('Inter', 'normal');
       doc.setFontSize(8);
-      setText([70, 70, 70]);
+      setText([60, 60, 60]);
       const labelLines = doc.splitTextToSize(item.label, labelW - 3);
-      doc.text(labelLines[0], margin, y + height * 0.68);
+      doc.text(labelLines[0], margin + rankW, y);
+
       const barW = Math.max((item.value / maxVal) * barMaxW, 3);
-      setFill([238, 238, 238]);
-      doc.roundedRect(margin + labelW, y, barMaxW, height, 1.4, 1.4, 'F');
-      setFill(accent);
-      doc.roundedRect(margin + labelW, y, barW, height, 1.4, 1.4, 'F');
+      setFill([236, 236, 236]);
+      doc.roundedRect(barX, y - height * 0.72, barMaxW, height, 1.6, 1.6, 'F');
+      setFill(rankShade);
+      doc.roundedRect(barX, y - height * 0.72, barW, height, 1.6, 1.6, 'F');
+
+      const share = Math.round((item.value / total) * 100);
       doc.setFont('InterSemiBold', 'normal');
-      doc.setFontSize(8.2);
+      doc.setFontSize(8);
       setText(dark);
-      doc.text(`${item.value}${item.suffix}`, margin + labelW + barMaxW + 4, y + height * 0.68);
-      y += height + 5;
+      doc.text(`${item.value}${item.suffix}`, barX + barMaxW + valueW - 2, y - 1.5, { align: 'right' });
+      doc.setFont('Inter', 'normal');
+      doc.setFontSize(6.6);
+      setText([140, 140, 140]);
+      doc.text(`${share}% of total`, barX + barMaxW + valueW - 2, y + 3, { align: 'right' });
+
+      y += rowH;
     });
-    y += 5;
+    y += 3;
   }
 
   // Vertical bar chart: cumulative ROI growth projection from the real monthly figure
   function drawVerticalBarChart(title: string, items: Array<{ label: string; value: number }>, unitPrefix: string) {
-    const chartH = 62;
-    checkPage(chartH + 26);
+    const chartH = 66;
+    checkPage(chartH + 32);
     subhead(title);
+
+    const multiplier = items.length > 1 && items[0].value > 0 ? (items[items.length - 1].value / items[0].value) : 0;
+    if (multiplier > 1) {
+      const badgeText = `${multiplier.toFixed(1)}× growth, month ${1} to month ${items.length > 0 ? items[items.length - 1].label.replace(/\D/g, '') : ''}`;
+      doc.setFont('InterSemiBold', 'normal');
+      doc.setFontSize(7.2);
+      const bw = doc.getTextWidth(badgeText) + 12;
+      setFill(mix(accent, [255, 255, 255], 0.85));
+      doc.roundedRect(W - margin - bw, y - 8, bw, 7, 6, 6, 'F');
+      setText([Math.round(accent[0] * 0.45), Math.round(accent[1] * 0.45), Math.round(accent[2] * 0.45)]);
+      doc.text(badgeText, W - margin - bw / 2, y - 3.3, { align: 'center' });
+    }
+
     const maxVal = Math.max(...items.map((i) => i.value), 1);
     const gap = 6;
     const barW = (cw - gap * (items.length - 1)) / items.length;
     const baseY = y + chartH;
+
+    // Gridlines at 25/50/75/100% with axis value labels
+    [0.25, 0.5, 0.75, 1].forEach((frac) => {
+      const gy = baseY - frac * (chartH - 14);
+      setDraw([236, 236, 236]);
+      doc.setLineWidth(0.2);
+      doc.line(margin, gy, W - margin, gy);
+      doc.setFont('Inter', 'normal');
+      doc.setFontSize(6);
+      setText([180, 180, 180]);
+      doc.text(`${unitPrefix}${Math.round((maxVal * frac) / 1000)}k`, margin, gy - 1.5, { align: 'left' });
+    });
+
     setDraw([225, 225, 225]);
-    doc.setLineWidth(0.2);
+    doc.setLineWidth(0.3);
     doc.line(margin, baseY, W - margin, baseY);
+
     items.forEach((item, i) => {
       const bh = (item.value / maxVal) * (chartH - 14);
       const bx = margin + i * (barW + gap);
       const by = baseY - bh;
-      setFill(i === items.length - 1 ? accent : mix(accent, [255, 255, 255], 0.35));
+      const isLast = i === items.length - 1;
+      // subtle depth: offset shadow rect behind the bar
+      setFill(mix(accent, [255, 255, 255], 0.9));
+      doc.roundedRect(bx + 1, by + 1, barW, bh, 1.6, 1.6, 'F');
+      setFill(isLast ? accent : mix(accent, [255, 255, 255], 0.3 + (items.length - 1 - i) * 0.12));
       doc.roundedRect(bx, by, barW, bh, 1.6, 1.6, 'F');
       doc.setFont('InterSemiBold', 'normal');
       doc.setFontSize(7.6);
@@ -254,13 +321,27 @@ export async function buildGuidePdf(rawProfession: Profession, accentColor: stri
   }
 
   // Horizontal Gantt-style timeline for the deployment roadmap
-  function drawTimeline(phases: Array<{ label: string; startFrac: number; endFrac: number }>) {
+  function drawTimeline(phases: Array<{ label: string; startFrac: number; endFrac: number }>, totalDays: number) {
     const rowH = 11;
     const labelW = 26;
     const trackX = margin + labelW;
     const trackW = cw - labelW;
-    const chartH = phases.length * (rowH + 7) + 10;
+    const chartH = phases.length * (rowH + 7) + 20;
     checkPage(chartH + 10);
+
+    // Top day-scale axis: 0 -> totalDays
+    doc.setFont('Inter', 'normal');
+    doc.setFontSize(6.4);
+    setText([160, 160, 160]);
+    [0, 0.25, 0.5, 0.75, 1].forEach((frac) => {
+      const tx = trackX + frac * trackW;
+      doc.text(`D${Math.round(frac * totalDays)}`, tx, y, { align: frac === 0 ? 'left' : frac === 1 ? 'right' : 'center' });
+      setDraw([238, 238, 238]);
+      doc.setLineWidth(0.15);
+      doc.line(tx, y + 2, tx, y + chartH - 12);
+    });
+    y += 8;
+
     phases.forEach((p, i) => {
       checkPage(rowH + 10);
       doc.setFont('InterSemiBold', 'normal');
@@ -275,6 +356,13 @@ export async function buildGuidePdf(rawProfession: Profession, accentColor: stri
       const shade = mix(accent, [10, 10, 10], (i / Math.max(phases.length - 1, 1)) * 0.35);
       setFill(shade);
       doc.roundedRect(barX, y, barW, rowH, 2, 2, 'F');
+      const pctOfTotal = Math.round((p.endFrac - p.startFrac) * 100);
+      if (barW > 14) {
+        doc.setFont('InterSemiBold', 'normal');
+        doc.setFontSize(6.5);
+        setText([255, 255, 255]);
+        doc.text(`${pctOfTotal}%`, barX + barW - 3, y + rowH * 0.65, { align: 'right' });
+      }
       y += rowH + 7;
     });
     y += 4;
@@ -309,9 +397,6 @@ export async function buildGuidePdf(rawProfession: Profession, accentColor: stri
   // ══════════════════════════ COVER ══════════════════════════
   doc.setFillColor(...dark);
   doc.rect(0, 0, W, H, 'F');
-  setDraw(mix(accent, dark, 0.7));
-  doc.setLineWidth(0.3);
-  for (let i = 0; i < 3; i++) doc.line(0, 40 + i * 3, W, 40 + i * 3 - 14);
 
   doc.setFont('FrauncesMedium', 'normal');
   doc.setFontSize(24);
@@ -519,25 +604,29 @@ export async function buildGuidePdf(rawProfession: Profession, accentColor: stri
     heading(wf.name, 16);
 
     const share = Math.round((parseHours(wf.timeSaved) / totalWorkflowHours) * 100);
-    checkPage(11);
+    checkPage(14);
     const tagLabel = i === 0 ? 'Highest priority' : i === profession.workflows.length - 1 ? 'Lowest lift' : 'Priority';
     doc.setFont('InterSemiBold', 'normal');
     doc.setFontSize(7.5);
-    const tagText = `${tagLabel.toUpperCase()} · ${share}% OF TOTAL TIME RECLAIMED`;
-    const tagW = doc.getTextWidth(tagText) + 10;
+    const tagText = `${tagLabel.toUpperCase()}  ·  ${share}% OF TOTAL TIME RECLAIMED`;
+    const tagPadX = 8;
+    const tagH = 8.5;
+    const tagW = doc.getTextWidth(tagText) + tagPadX * 2;
     setFill(paleAccent);
-    doc.roundedRect(margin, y - 5, tagW, 7.5, 10, 10, 'F');
+    doc.roundedRect(margin, y - tagH + 2.5, tagW, tagH, tagH / 2, tagH / 2, 'F');
     setText([Math.round(accent[0] * 0.5), Math.round(accent[1] * 0.5), Math.round(accent[2] * 0.5)]);
-    doc.text(tagText, margin + 5, y);
-    y += 11;
+    doc.text(tagText, margin + tagPadX, y - 0.2);
+    y += 12;
 
     paragraph(wf.description, 9.8, [50, 50, 50]);
 
     const halfW = cw / 2;
     doc.setFont('FrauncesMedium', 'normal');
     doc.setFontSize(11.5);
-    const impactLines = doc.splitTextToSize(wf.impact, halfW - 16);
-    const boxH = Math.max(20, 10 + impactLines.length * 5.5);
+    const impactLines = doc.splitTextToSize(wf.impact, halfW - 16).slice(0, 2);
+    const impactTextH = impactLines.length * 5.2;
+    const labelY = 9 + impactTextH + 5;
+    const boxH = Math.max(24, labelY + 5);
     checkPage(boxH + 8);
     const boxTop = y;
     setFill([250, 250, 250]);
@@ -551,35 +640,44 @@ export async function buildGuidePdf(rawProfession: Profession, accentColor: stri
     doc.setFont('Inter', 'normal');
     doc.setFontSize(6.8);
     setText([140, 140, 140]);
-    doc.text('TIME RECLAIMED', margin + 8, boxTop + boxH - 5);
-    doc.text('BUSINESS IMPACT', margin + halfW + 8, boxTop + boxH - 5);
+    doc.text('TIME RECLAIMED', margin + 8, boxTop + labelY);
+    doc.text('BUSINESS IMPACT', margin + halfW + 8, boxTop + labelY);
     y = boxTop + boxH + 7;
 
     divider();
     subhead('Manual today, versus automated');
-    checkPage(18);
-    const cmpW = (cw - 8) / 2;
-    setFill([252, 240, 238]);
-    doc.roundedRect(margin, y, cmpW, 16, 2.5, 2.5, 'F');
+    const cmpBoxH = 22;
+    checkPage(cmpBoxH + 6);
+    const cmpGap = 8;
+    const cmpW = (cw - cmpGap) / 2;
+    const cmpPad = 8;
+
+    setFill([253, 245, 244]);
+    setDraw([240, 210, 206]);
+    doc.setLineWidth(0.3);
+    doc.roundedRect(margin, y, cmpW, cmpBoxH, 3, 3, 'FD');
     doc.setFont('InterSemiBold', 'normal');
     doc.setFontSize(7.3);
-    setText([160, 70, 60]);
-    doc.text('MANUAL TODAY', margin + 5, y + 6);
+    setText([175, 75, 65]);
+    doc.text('×  MANUAL TODAY', margin + cmpPad, y + 7);
     doc.setFont('Inter', 'normal');
     doc.setFontSize(8);
-    setText([90, 60, 55]);
-    doc.text(doc.splitTextToSize('Someone has to remember, track, and execute this by hand, every time.', cmpW - 10), margin + 5, y + 11.5);
+    setText([100, 70, 65]);
+    doc.text(doc.splitTextToSize('Someone has to remember, track, and execute this by hand, every time.', cmpW - cmpPad * 2), margin + cmpPad, y + 13.5);
+
+    const cmpX2 = margin + cmpW + cmpGap;
     setFill(paleAccent);
-    doc.roundedRect(margin + cmpW + 8, y, cmpW, 16, 2.5, 2.5, 'F');
+    setDraw(mix(accent, [255, 255, 255], 0.6));
+    doc.roundedRect(cmpX2, y, cmpW, cmpBoxH, 3, 3, 'FD');
     doc.setFont('InterSemiBold', 'normal');
     doc.setFontSize(7.3);
-    setText([Math.round(accent[0] * 0.5), Math.round(accent[1] * 0.5), Math.round(accent[2] * 0.5)]);
-    doc.text('AUTOMATED WITH PURIST', margin + cmpW + 13, y + 6);
+    setText([Math.round(accent[0] * 0.45), Math.round(accent[1] * 0.45), Math.round(accent[2] * 0.45)]);
+    doc.text('✓  AUTOMATED WITH PURIST', cmpX2 + cmpPad, y + 7);
     doc.setFont('Inter', 'normal');
     doc.setFontSize(8);
     setText([60, 60, 60]);
-    doc.text(doc.splitTextToSize(`Runs on its own: ${wf.timeSaved.toLowerCase()} back, every week, with zero manual steps.`, cmpW - 10), margin + cmpW + 13, y + 11.5);
-    y += 24;
+    doc.text(doc.splitTextToSize(`Runs on its own: ${wf.timeSaved.toLowerCase()} back, every week, with zero manual steps.`, cmpW - cmpPad * 2), cmpX2 + cmpPad, y + 13.5);
+    y += cmpBoxH + 8;
 
     divider();
     subhead('How this gets built');
@@ -623,7 +721,7 @@ export async function buildGuidePdf(rawProfession: Profession, accentColor: stri
     ['Day 3-5', 'Build & test', 'Workflows are built and tested with real data in sandbox; edge cases handled.', 0.32, 0.75],
     [`Day 6-${profession.stats.deploymentDays}`, 'Go live + handover', 'Deploy to production, team walkthrough, monitoring set up, 30-day support included.', 0.75, 1],
   ];
-  drawTimeline(roadmap.map(([label, , , s, e]) => ({ label, startFrac: s, endFrac: e })));
+  drawTimeline(roadmap.map(([label, , , s, e]) => ({ label, startFrac: s, endFrac: e })), profession.stats.deploymentDays);
   roadmap.forEach(([day, title, desc]) => {
     checkPage(20);
     doc.setFont('InterSemiBold', 'normal');
