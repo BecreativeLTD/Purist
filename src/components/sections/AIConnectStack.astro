@@ -1,0 +1,42 @@
+---
+const providers = [
+  { name: 'n8n', desc: 'Workflow engine running every automation', logo: '/images/press/n8n-hd.svg', accent: '#EA5455', bg: '#fff' },
+  { name: 'Claude', desc: 'Anthropic AI at the decision layer', logo: '/images/press/claude-3.svg', accent: '#CC9560', bg: '#fff' },
+  { name: 'Gemini', desc: 'Google AI for multimodal workflows', logo: '/images/press/gemini.svg', accent: '#60A5FA', bg: '#fff' },
+  { name: 'ChatGPT', desc: 'OpenAI models where you need them', logo: '/images/press/openai.svg', accent: '#4ADE80', bg: '#fff' },
+];
+---
+
+<section class="bg-brand-black py-20 lg:py-28 text-white">
+  <div class="container-x">
+    <div class="max-w-2xl mb-12">
+      <p class="eyebrow mb-4" style="color:rgba(232,180,176,0.8);">Bring your own stack</p>
+      <h2 class="font-display text-h1 mb-4 text-balance text-white">
+        Connect <em class="font-medium" style="color:#E8B4B0;">the AI you already use.</em>
+      </h2>
+      <p class="text-sm text-white/45 max-w-lg leading-relaxed">
+        PURIST workflows run on n8n and plug into whichever model your team already has an account with. Nothing is locked to one provider.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {providers.map((p) => (
+        <div class="rounded-[18px] p-6 flex flex-col" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);">
+          <div class="flex items-center justify-center w-12 h-12 rounded-full mb-5" style={`background:${p.bg};`}>
+            <img src={p.logo} alt={`${p.name} logo`} class="w-6 h-6 object-contain" loading="lazy" />
+          </div>
+          <h3 class="text-base font-semibold text-white mb-1.5">{p.name}</h3>
+          <p class="text-[13px] leading-relaxed mb-6 flex-1" style="color:rgba(255,255,255,0.4);">{p.desc}</p>
+          <a
+            href="/pages/welcome"
+            class="inline-flex items-center justify-between gap-2 text-[13px] font-semibold px-4 py-2.5 rounded-full transition hover:opacity-80"
+            style={`background:${p.accent}1A;color:${p.accent};border:1px solid ${p.accent}40;`}
+          >
+            Connect your {p.name} account
+            <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
