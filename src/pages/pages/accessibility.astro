@@ -1,55 +1,101 @@
 ---
 import ShopLayout from '~/layouts/ShopLayout.astro';
+
+const commitments = [
+  { title: 'Semantic structure', desc: 'Semantic HTML with a logical heading hierarchy on every page, so screen readers and assistive technology can navigate the content correctly.' },
+  { title: 'Colour contrast', desc: 'Body text and interactive elements meet WCAG 2.1 AA contrast ratios in both light and dark sections of the site.' },
+  { title: 'Keyboard navigation', desc: 'Every interactive element is reachable and operable by keyboard alone, with visible focus indicators throughout.' },
+  { title: 'Screen reader support', desc: 'ARIA labels on icon-only controls, a skip-to-content link on every page, and meaningful alt text on images that carry information.' },
+  { title: 'Reduced motion', desc: 'Animations and transitions respect the operating system\'s prefers-reduced-motion setting and are disabled when requested.' },
+  { title: 'Accessible forms', desc: 'Every form label is associated with its input, required fields are marked clearly, and error messages are announced to assistive technology.' },
+];
 ---
 
 <ShopLayout
- title="Accessibility statement – PURIST"
- description="Our commitment to making PURIST accessible to everyone."
+  title="Accessibility Statement | PURIST"
+  description="PURIST's accessibility commitment: built and tested against WCAG 2.1 Level AA, with semantic structure, keyboard navigation, screen reader support, and a direct line to report barriers."
+  canonical="https://www.purist.online/pages/accessibility"
 >
- <section class="container-x py-16 lg:py-20 max-w-3xl mx-auto">
-   <p class="eyebrow mb-4">Accessibility statement</p>
-   <h1 class="font-display text-4xl lg:text-5xl leading-tight tracking-tight mb-8 text-balance">
-     Built to be used by <em class="font-medium">everyone.</em>
-   </h1>
 
-   <div class="prose prose-neutral max-w-none text-brand-gray-900/90 leading-relaxed">
-     <p>
-       PURIST is committed to making this site usable for people of all abilities. We
-       design and develop against the Web Content Accessibility Guidelines (WCAG) 2.1
-       at Level AA as our minimum standard.
-     </p>
+<!-- Hero -->
+<section class="bg-brand-black text-white pt-20 pb-14 lg:pt-28 relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(232,180,176,0.08) 0%,transparent 65%);"></div>
+  <div class="container-x relative z-10">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-6" style="border-color:rgba(232,180,176,0.3);background:rgba(232,180,176,0.07);">
+        <span class="text-[10px] uppercase tracking-[0.18em] font-semibold" style="color:rgba(232,180,176,0.85);">WCAG 2.1 Level AA · Minimum standard</span>
+      </div>
+      <h1 class="font-display text-[2.2rem] lg:text-[3rem] leading-[1.06] tracking-[-0.025em] text-white mb-5">
+        Built to be used by<br/><em class="font-medium" style="color:#E8B4B0;">everyone.</em>
+      </h1>
+      <p class="text-[15px] leading-relaxed max-w-xl mx-auto" style="color:rgba(255,255,255,0.45);">
+        Accessibility is not a checkbox we tick once. It is a standard we design and build against on every page, and a commitment we keep reviewing as the site grows.
+      </p>
+    </div>
+  </div>
+</section>
 
-     <h2 class="font-display text-2xl mt-10 mb-4">What we do</h2>
-     <ul class="list-disc pl-6 space-y-2 text-sm">
-       <li>Semantic HTML with a logical heading hierarchy on every page.</li>
-       <li>Sufficient colour contrast for body text and interactive elements.</li>
-       <li>Visible focus indicators for keyboard navigation.</li>
-       <li>ARIA labels on icon-only controls and a skip-to-content link at the top of each page.</li>
-       <li>Respect for the operating system's <code>prefers-reduced-motion</code> preference.</li>
-       <li>Form labels associated with their inputs; required fields marked accordingly.</li>
-       <li>Image alt text describing meaningful visual content; decorative images marked as such.</li>
-     </ul>
+<!-- What we do -->
+<section class="bg-white py-16 lg:py-20 border-b border-brand-gray-100">
+  <div class="container-x">
+    <div class="max-w-3xl mx-auto">
+      <p class="eyebrow mb-3 text-center">What we do</p>
+      <h2 class="font-display text-2xl lg:text-3xl mb-10 text-balance text-center">Six commitments, on every page.</h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+        {commitments.map((c) => (
+          <div class="p-5 rounded-[16px] border border-brand-gray-100">
+            <h3 class="text-[15px] font-semibold text-brand-black mb-1.5">{c.title}</h3>
+            <p class="text-sm text-brand-gray-600 leading-relaxed">{c.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
 
-     <h2 class="font-display text-2xl mt-10 mb-4">What we are still working on</h2>
-     <p class="text-sm">
-       Accessibility is an ongoing practice, not a finished state. If you encounter a
-       barrier on this site, we want to hear about it. Email
-       <a href="mailto:accessibility@purist.online" class="underline underline-offset-4">accessibility@purist.online</a>
-       with a description of the issue and the page where you saw it. We commit to
-       responding within five business days.
-     </p>
+<!-- What we're working on -->
+<section class="bg-brand-cream py-16 lg:py-20 border-b border-brand-gray-100">
+  <div class="container-x">
+    <div class="max-w-3xl mx-auto">
+      <p class="eyebrow mb-3">Still in progress</p>
+      <h2 class="font-display text-2xl lg:text-3xl mb-5 text-balance">Accessibility is a practice, not a finished state.</h2>
+      <p class="text-sm text-brand-gray-600 leading-relaxed mb-6">
+        We audit new pages against WCAG 2.1 AA before launch, but a site this size will always have edges we haven't found yet. If you hit one, we want to know about it, and we treat every report as a real bug, not feedback that sits in a backlog.
+      </p>
+      <div class="p-6 rounded-[16px] bg-white border border-brand-gray-100">
+        <p class="text-sm text-brand-gray-700 leading-relaxed">
+          Found a barrier on this site? Email <a href="mailto:hello@purist.online" class="underline underline-offset-4 font-medium text-brand-black">hello@purist.online</a> with a description of the issue and the page where you saw it. We reply within one business day and treat accessibility reports as priority fixes, not general feedback.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
-     <h2 class="font-display text-2xl mt-10 mb-4">Third-party content</h2>
-     <p class="text-sm">
-       Where this site embeds content from third parties (video, social feeds, payment
-       processors), we ask those providers to meet the same accessibility standards.
-       We cannot guarantee third-party accessibility but we will work with you to find
-       an alternative way to access the same information on request.
-     </p>
+<!-- Third-party content -->
+<section class="bg-white py-16 lg:py-20 border-b border-brand-gray-100">
+  <div class="container-x">
+    <div class="max-w-3xl mx-auto">
+      <p class="eyebrow mb-3">Third-party content</p>
+      <h2 class="font-display text-2xl lg:text-3xl mb-5 text-balance">What we can and can't control.</h2>
+      <p class="text-sm text-brand-gray-600 leading-relaxed">
+        Where this site embeds content from third parties (payment processors, embedded video, social widgets), we choose providers that meet comparable accessibility standards, but we can't guarantee accessibility we don't build ourselves. If a third-party embed is blocking you from getting something done, email us and we'll find you a direct, accessible path to the same information.
+      </p>
+    </div>
+  </div>
+</section>
 
-     <p class="text-xs text-brand-gray-600 mt-12 pt-6 border-t border-brand-gray-200">
-       Last reviewed: May 2026. We review this statement at least annually.
-     </p>
-   </div>
- </section>
+<!-- CTA -->
+<section class="py-16 lg:py-20" style="background:#E8B4B0;">
+  <div class="container-x">
+    <div class="max-w-xl mx-auto text-center">
+      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-3 text-balance">Hit a barrier? Tell us directly.</h2>
+      <p class="text-sm mb-8" style="color:rgba(10,10,10,0.65);">No form, no ticket queue. Just email and a real person reads it the same day.</p>
+      <a href="mailto:hello@purist.online" class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-button text-[14px] font-bold transition bg-brand-black text-white hover:opacity-90">
+        Email hello@purist.online
+      </a>
+      <p class="text-[12px] mt-4" style="color:rgba(10,10,10,0.45);">We review this statement regularly as the site changes.</p>
+    </div>
+  </div>
+</section>
+
 </ShopLayout>

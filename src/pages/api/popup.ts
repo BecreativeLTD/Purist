@@ -5,32 +5,8 @@ export const prerender = false;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-export const POST: APIRoute = async ({ request }) => {
-  try {
-    const { email } = await request.json();
-    if (!email || !EMAIL_RE.test(email)) {
-      return new Response(JSON.stringify({ error: 'Invalid email address' }), { status: 400 });
-    }
-
-    const resendKey = import.meta.env.Resend || import.meta.env.RESEND_API_KEY;
-    if (!resendKey) {
-      return new Response(JSON.stringify({ error: 'Email service not configured' }), { status: 500 });
-    }
-    const resend = new Resend(resendKey);
-    const notifyEmail = import.meta.env.notifymail || import.meta.env.NOTIFY_EMAIL || 'hello@purist.online';
-
-    await resend.emails.send({
-      from: 'PURIST Leads <hello@purist.online>',
-      to: [notifyEmail],
-      subject: `New popup lead — ${email}`,
-      html: `<div style="font-family:-apple-system,sans-serif;background:#f5f5f5;padding:20px;"><div style="background:#fff;border-radius:12px;padding:28px;max-width:480px;margin:0 auto;border:1px solid #e8e8e8;"><h2 style="font-size:16px;margin:0 0 6px;color:#0a0a0a;">New popup lead</h2><p style="font-size:12px;color:#aaa;margin:0 0 20px;">Submitted via the exit-intent popup</p><div style="background:#f9f9f9;border-radius:8px;padding:12px 14px;margin-bottom:20px;"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:#aaa;margin-bottom:3px;">Email</div><div style="font-size:14px;color:#0a0a0a;font-weight:600;">${email}</div></div><a href="mailto:${email}" style="display:inline-block;background:#E8B4B0;color:#0a0a0a;padding:10px 20px;border-radius:7px;font-size:12px;font-weight:600;text-decoration:none;">Reply to lead →</a></div></div>`,
-    });
-
-    await resend.emails.send({
-      from: 'PURIST <hello@purist.online>',
-      to: [email],
-      subject: `Your free automation audit — here's what happens next`,
-      html: `<!DOCTYPE html>
+function wrapper(bodyHtml: string, footerNote: string): string {
+  return `<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
 <body style="margin:0;padding:0;background:#f5f5f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
@@ -38,9 +14,38 @@ export const POST: APIRoute = async ({ request }) => {
 <tr><td align="center" style="padding:24px 12px;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:640px;margin:0 auto;">
 
-<tr><td style="background:#0A0A0A;border-radius:20px 20px 0 0;padding:48px 40px 36px;text-align:center;">
-<div style="font-family:Georgia,'Times New Roman',serif;font-size:72px;font-weight:700;letter-spacing:-0.03em;line-height:0.85;color:#E8B4B0;margin-bottom:32px;">PURIST<span style="font-size:18px;vertical-align:super;font-weight:500;">&reg;</span></div>
+<tr><td style="background:#0A0A0A;border-radius:20px 20px 0 0;padding:48px 40px 8px;text-align:center;">
+<div style="font-family:Georgia,'Times New Roman',serif;font-size:56px;font-weight:700;letter-spacing:-0.03em;line-height:0.85;color:#E8B4B0;margin-bottom:24px;">PURIST<span style="font-size:14px;vertical-align:super;font-weight:500;">&reg;</span></div>
 <div style="width:60px;height:1px;background:rgba(232,180,176,0.3);margin:0 auto 24px;"></div>
+</td></tr>
+
+${bodyHtml}
+
+<tr><td style="background:#0A0A0A;border-radius:0 0 20px 20px;padding:0 40px 36px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid rgba(248,246,241,0.06);">
+<tr><td style="padding-top:28px;text-align:center;">
+<div style="font-family:Georgia,serif;font-size:28px;font-weight:700;letter-spacing:-0.02em;color:rgba(232,180,176,0.25);margin-bottom:16px;">PURIST<span style="font-size:8px;vertical-align:super;">&reg;</span></div>
+<div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(248,246,241,0.18);margin-bottom:14px;">Becreative LTD &middot; Registered in England &amp; Wales</div>
+<div style="margin-bottom:14px;">
+<a href="https://www.purist.online" style="font-size:11px;color:rgba(248,246,241,0.35);text-decoration:none;margin:0 10px;">Website</a>
+<a href="https://www.linkedin.com/company/purist-automation" style="font-size:11px;color:rgba(248,246,241,0.35);text-decoration:none;margin:0 10px;">LinkedIn</a>
+<a href="https://x.com/Puristonline" style="font-size:11px;color:rgba(248,246,241,0.35);text-decoration:none;margin:0 10px;">X / Twitter</a>
+</div>
+<p style="font-size:10px;color:rgba(248,246,241,0.15);line-height:1.6;margin:0;">${footerNote}</p>
+</td></tr>
+</table>
+</td></tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>`;
+}
+
+function buildConfirmationEmail(): string {
+  const body = `
+<tr><td style="background:#0A0A0A;padding:0 40px 36px;text-align:center;">
 <h1 style="font-family:Georgia,'Times New Roman',serif;font-size:30px;color:#F8F6F1;margin:0 0 14px;font-weight:300;line-height:1.2;">Your free audit is<br/>being prepared.</h1>
 <p style="font-size:14px;color:rgba(248,246,241,0.45);line-height:1.7;margin:0;max-width:400px;display:inline-block;">A PURIST engineer will reach out within <span style="color:#E8B4B0;font-weight:600;">1 business day</span> to schedule your 45-minute automation audit.</p>
 </td></tr>
@@ -57,10 +62,10 @@ ${[
   ['45-minute audit call', 'We map your manual processes together and identify the top 3 automations that will save you the most time and money.'],
   ['You receive a deployment plan', 'Within 48 hours, you get a detailed plan with estimated hours saved, tools needed, and a fixed-price quote. No obligation.'],
 ].map(([title, desc], i, arr) => `<tr>
-<td style="padding:14px 0;${i < arr.length-1 ? 'border-bottom:1px solid rgba(248,246,241,0.06);' : ''}vertical-align:top;width:40px;">
-<div style="width:28px;height:28px;background:rgba(232,180,176,0.15);border-radius:8px;text-align:center;line-height:28px;font-size:12px;color:#E8B4B0;font-weight:700;">${i+1}</div>
+<td style="padding:14px 0;${i < arr.length - 1 ? 'border-bottom:1px solid rgba(248,246,241,0.06);' : ''}vertical-align:top;width:40px;">
+<div style="width:28px;height:28px;background:rgba(232,180,176,0.15);border-radius:8px;text-align:center;line-height:28px;font-size:12px;color:#E8B4B0;font-weight:700;">${i + 1}</div>
 </td>
-<td style="padding:14px 0 14px 14px;${i < arr.length-1 ? 'border-bottom:1px solid rgba(248,246,241,0.06);' : ''}">
+<td style="padding:14px 0 14px 14px;${i < arr.length - 1 ? 'border-bottom:1px solid rgba(248,246,241,0.06);' : ''}">
 <div style="font-size:14px;color:#F8F6F1;font-weight:600;margin-bottom:4px;">${title}</div>
 <div style="font-size:12px;color:rgba(248,246,241,0.42);line-height:1.6;">${desc}</div>
 </td>
@@ -92,30 +97,137 @@ ${[
 <tr><td style="background:#0A0A0A;padding:0 40px 36px;text-align:center;">
 <p style="font-family:Georgia,serif;font-size:18px;color:#F8F6F1;margin:0 0 8px;font-weight:400;">Want to speed things up?</p>
 <p style="font-size:13px;color:rgba(248,246,241,0.42);margin:0 0 24px;line-height:1.7;">Tell us more about your business so we can prepare a more targeted audit.</p>
-<a href="https://www.purist.online/pages/welcome" style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:16px 40px;border-radius:12px;font-size:14px;font-weight:700;text-decoration:none;">Complete your audit request →</a>
+<a href="https://www.purist.online/pages/welcome" style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:16px 40px;border-radius:12px;font-size:14px;font-weight:700;text-decoration:none;">Complete your audit request &rarr;</a>
+</td></tr>`;
+
+  return wrapper(body, 'You received this because you requested an automation audit at purist.online.');
+}
+
+function buildFollowUp1Email(): string {
+  // Sent J+2: most leads at this point simply forgot, or weren't sure what to expect on the call.
+  const body = `
+<tr><td style="background:#0A0A0A;padding:0 40px 36px;text-align:center;">
+<h1 style="font-family:Georgia,'Times New Roman',serif;font-size:28px;color:#F8F6F1;margin:0 0 14px;font-weight:300;line-height:1.25;">Still want that<br/>automation audit?</h1>
+<p style="font-size:14px;color:rgba(248,246,241,0.45);line-height:1.75;margin:0;max-width:420px;display:inline-block;">You requested a free audit a couple of days ago. If the timing still works, here is exactly what the 45 minutes covers, so there are no surprises.</p>
 </td></tr>
 
-<tr><td style="background:#0A0A0A;border-radius:0 0 20px 20px;padding:0 40px 36px;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid rgba(248,246,241,0.06);">
-<tr><td style="padding-top:28px;text-align:center;">
-<div style="font-family:Georgia,serif;font-size:28px;font-weight:700;letter-spacing:-0.02em;color:rgba(232,180,176,0.25);margin-bottom:16px;">PURIST<span style="font-size:8px;vertical-align:super;">&reg;</span></div>
-<div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(248,246,241,0.18);margin-bottom:14px;">Becreative LTD &middot; Registered in England &amp; Wales</div>
-<div style="margin-bottom:14px;">
-<a href="https://www.purist.online" style="font-size:11px;color:rgba(248,246,241,0.35);text-decoration:none;margin:0 10px;">Website</a>
-<a href="https://www.linkedin.com/company/purist-automation" style="font-size:11px;color:rgba(248,246,241,0.35);text-decoration:none;margin:0 10px;">LinkedIn</a>
-<a href="https://twitter.com/purist_hq" style="font-size:11px;color:rgba(248,246,241,0.35);text-decoration:none;margin:0 10px;">Twitter</a>
+<tr><td style="background:#0A0A0A;padding:0 40px 36px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:rgba(248,246,241,0.04);border:1px solid rgba(248,246,241,0.08);border-radius:14px;">
+<tr><td style="padding:26px 28px;">
+${[
+  'We look at the 3-5 tasks your team repeats every single week.',
+  'We tell you, on the call, which ones are worth automating and which are not, even if the answer is "none of these."',
+  'You leave with a written plan and a fixed price. Nothing is signed on the call.',
+].map((line, i, arr) => `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="${i < arr.length - 1 ? 'margin-bottom:14px;' : ''}">
+<tr>
+<td style="vertical-align:top;width:22px;padding-top:2px;">
+<div style="width:16px;height:16px;background:rgba(74,222,128,0.12);border-radius:50%;text-align:center;line-height:16px;font-size:9px;color:#4ADE80;font-weight:700;">&#10003;</div>
+</td>
+<td style="padding-left:10px;">
+<div style="font-size:13px;color:rgba(248,246,241,0.62);line-height:1.65;">${line}</div>
+</td>
+</tr>
+</table>`).join('')}
+</td></tr>
+</table>
+</td></tr>
+
+<tr><td style="background:#0A0A0A;padding:0 40px 36px;text-align:center;">
+<a href="https://www.purist.online/pages/welcome" style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:16px 40px;border-radius:12px;font-size:14px;font-weight:700;text-decoration:none;">Confirm my audit details &rarr;</a>
+<p style="font-size:12px;color:rgba(248,246,241,0.3);margin:16px 0 0;">Or just reply to this email. A real person reads it.</p>
+</td></tr>
+
+<tr><td style="background:#0A0A0A;padding:0 40px 40px;">
+<div style="border-top:1px solid rgba(248,246,241,0.06);padding-top:24px;text-align:center;">
+<p style="font-size:13px;color:rgba(248,246,241,0.4);line-height:1.8;margin:0;">Steve<br/>
+<span style="font-size:11px;color:rgba(248,246,241,0.22);">Founder, PURIST</span></p>
 </div>
-<p style="font-size:10px;color:rgba(248,246,241,0.15);line-height:1.6;margin:0;">You received this because you requested an automation audit at purist.online.</p>
+</td></tr>`;
+
+  return wrapper(body, 'You received this as a follow-up to your automation audit request at purist.online.');
+}
+
+function buildFollowUp2Email(): string {
+  // Sent J+5: last touch in the sequence, a concrete result rather than another reminder.
+  const body = `
+<tr><td style="background:#0A0A0A;padding:0 40px 8px;text-align:center;">
+<div style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(248,246,241,0.3);font-weight:700;margin-bottom:16px;">Real result</div>
+<h1 style="font-family:Georgia,'Times New Roman',serif;font-size:26px;color:#F8F6F1;margin:0 0 14px;font-weight:300;line-height:1.3;">14 hours a week back,<br/>in the first month.</h1>
+<p style="font-size:14px;color:rgba(248,246,241,0.45);line-height:1.75;margin:0;max-width:420px;display:inline-block;">That is the average across 312+ PURIST clients. Here is what one of them looked like before the call you have not booked yet.</p>
+</td></tr>
+
+<tr><td style="background:#0A0A0A;padding:24px 40px 36px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:rgba(232,180,176,0.05);border:1px solid rgba(232,180,176,0.14);border-radius:14px;">
+<tr><td style="padding:26px 28px;">
+<div style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#E8B4B0;font-weight:700;margin-bottom:14px;">Before the audit call</div>
+<p style="font-size:13px;color:rgba(248,246,241,0.55);line-height:1.75;margin:0 0 18px;">Lead follow-up was manual, invoices went out whenever someone remembered, and reporting meant a Friday afternoon copy-pasting between four tools.</p>
+<div style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#E8B4B0;font-weight:700;margin-bottom:14px;">Six weeks later</div>
+<p style="font-size:13px;color:rgba(248,246,241,0.55);line-height:1.75;margin:0;">Every lead gets a reply within 90 seconds. Invoices go out on a fixed schedule. The Friday report writes itself before anyone is at their desk.</p>
 </td></tr>
 </table>
 </td></tr>
 
-</table>
+<tr><td style="background:#0A0A0A;padding:0 40px 36px;text-align:center;">
+<p style="font-size:14px;color:rgba(248,246,241,0.5);line-height:1.75;margin:0 0 24px;">This is the last email in this sequence. The offer does not expire, but if now is not the right time, that is fine, just come back to <a href="https://www.purist.online/pages/welcome" style="color:#E8B4B0;text-decoration:none;">purist.online/pages/welcome</a> whenever it is.</p>
+<a href="https://www.purist.online/pages/welcome" style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:16px 40px;border-radius:12px;font-size:14px;font-weight:700;text-decoration:none;">See if this applies to my business &rarr;</a>
 </td></tr>
-</table>
-</body>
-</html>`,
+
+<tr><td style="background:#0A0A0A;padding:0 40px 40px;">
+<div style="border-top:1px solid rgba(248,246,241,0.06);padding-top:24px;text-align:center;">
+<p style="font-size:13px;color:rgba(248,246,241,0.4);line-height:1.8;margin:0;">Steve<br/>
+<span style="font-size:11px;color:rgba(248,246,241,0.22);">Founder, PURIST</span></p>
+</div>
+</td></tr>`;
+
+  return wrapper(body, 'This is the final email in this sequence, sent because you requested an automation audit at purist.online.');
+}
+
+export const POST: APIRoute = async ({ request }) => {
+  try {
+    const { email } = await request.json();
+    if (!email || !EMAIL_RE.test(email)) {
+      return new Response(JSON.stringify({ error: 'Invalid email address' }), { status: 400 });
+    }
+
+    const resendKey = import.meta.env.Resend || import.meta.env.RESEND_API_KEY;
+    if (!resendKey) {
+      return new Response(JSON.stringify({ error: 'Email service not configured' }), { status: 500 });
+    }
+    const resend = new Resend(resendKey);
+    const notifyEmail = import.meta.env.notifymail || import.meta.env.NOTIFY_EMAIL || 'hello@purist.online';
+
+    await resend.emails.send({
+      from: 'PURIST Leads <hello@purist.online>',
+      to: [notifyEmail],
+      subject: `New popup lead: ${email}`,
+      html: `<div style="font-family:-apple-system,sans-serif;background:#f5f5f5;padding:20px;"><div style="background:#fff;border-radius:12px;padding:28px;max-width:480px;margin:0 auto;border:1px solid #e8e8e8;"><h2 style="font-size:16px;margin:0 0 6px;color:#0a0a0a;">New popup lead</h2><p style="font-size:12px;color:#aaa;margin:0 0 20px;">Submitted via the exit-intent popup</p><div style="background:#f9f9f9;border-radius:8px;padding:12px 14px;margin-bottom:20px;"><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:#aaa;margin-bottom:3px;">Email</div><div style="font-size:14px;color:#0a0a0a;font-weight:600;">${email}</div></div><a href="mailto:${email}" style="display:inline-block;background:#E8B4B0;color:#0a0a0a;padding:10px 20px;border-radius:7px;font-size:12px;font-weight:600;text-decoration:none;">Reply to lead →</a></div></div>`,
     });
+
+    const inTwoDays = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString();
+    const inFiveDays = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString();
+
+    await Promise.all([
+      resend.emails.send({
+        from: 'PURIST <hello@purist.online>',
+        to: [email],
+        subject: `Your free automation audit: here's what happens next`,
+        html: buildConfirmationEmail(),
+      }),
+      resend.emails.send({
+        from: 'PURIST <hello@purist.online>',
+        to: [email],
+        subject: `Still want that automation audit?`,
+        html: buildFollowUp1Email(),
+        scheduledAt: inTwoDays,
+      }),
+      resend.emails.send({
+        from: 'Steve at PURIST <hello@purist.online>',
+        to: [email],
+        subject: `14 hours a week back: how it actually looks`,
+        html: buildFollowUp2Email(),
+        scheduledAt: inFiveDays,
+      }),
+    ]);
 
     return new Response(JSON.stringify({ success: true }), {
       headers: { 'Content-Type': 'application/json' },
