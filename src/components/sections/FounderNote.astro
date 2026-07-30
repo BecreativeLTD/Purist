@@ -34,10 +34,15 @@ Thank you for trusting us with that.`;
          width="480"
          height="640"
          class="w-full h-full object-cover"
-         style="object-position: center 22%;"
+         style="object-position: center 22%; filter: brightness(0.88) contrast(1.08) saturate(1.05);"
          loading="lazy"
        />
-       <div class="absolute inset-0 pointer-events-none" style="background:linear-gradient(to bottom, rgba(10,10,10,0.18) 0%, transparent 22%, transparent 55%, rgba(10,10,10,0.88) 100%);"></div>
+       <!-- Vignette: darkened corners for a studio-lit feel -->
+       <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 80% 75% at 50% 40%, transparent 45%, rgba(10,10,10,0.45) 100%);"></div>
+       <!-- Soft key-light accent from top-left -->
+       <div class="absolute inset-0 pointer-events-none" style="background:linear-gradient(135deg, rgba(232,180,176,0.14) 0%, transparent 35%);"></div>
+       <!-- Top and bottom fade -->
+       <div class="absolute inset-0 pointer-events-none" style="background:linear-gradient(to bottom, rgba(10,10,10,0.3) 0%, transparent 24%, transparent 52%, rgba(10,10,10,0.94) 100%);"></div>
      </div>
    </div>
  </div>
