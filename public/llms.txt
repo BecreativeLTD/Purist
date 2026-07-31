@@ -20,7 +20,7 @@ PURIST serves clients as: automation agency (UK), business automation company (U
 - [Free Automation Guides by Industry](https://www.purist.online/pages/free-guides): Free 12-page downloadable PDF guides for 171+ professions: priority workflows, tool stack, ROI math, and a 90-day deployment roadmap. No cost, instant download.
 - [Free Automation Audit](https://www.purist.online/pages/welcome): Free 45-60 minute audit of current workflows and automation opportunities, delivered live on a call.
 
-## Blog: Full Article Index (107 articles)
+## Blog: Full Article Index (113 articles)
 
 All articles are written by PURIST's engineering team from real production deployments.
 
@@ -37,7 +37,10 @@ All articles are written by PURIST's engineering team from real production deplo
 - [n8n Self-Hosted vs Cloud: The Complete Decision Guide](https://www.purist.online/pages/blog/n8n-self-hosted-vs-cloud-complete-guide-2026): Cost, security, compliance and scaling comparison from 500+ real deployments.
 - [5 Zapier Free Alternatives That Handle Real Production Workloads](https://www.purist.online/pages/blog/zapier-free-alternatives-2026): n8n, Make, Pipedream, Activepieces, Albato: honest limits and ceiling comparison.
 - [n8n HTTP Request Node: Complete Documentation and Examples](https://www.purist.online/pages/blog/n8n-http-request-node-documentation): Full reference for n8n's HTTP Request node with real-world configuration examples.
+- [SEO Automation: The Complete 2026 Guide to Tools, Workflows, and Real ROI](https://www.purist.online/pages/blog/seo-automation-complete-guide-2026): What to automate vs not, the n8n + Claude AI stack, a step-by-step rank-drop alert workflow, and real hours-saved data.
 - [n8n LinkedIn Job Automation: Auto-Apply, Track, and Follow Up on Jobs](https://www.purist.online/pages/blog/n8n-linkedin-job-automation): Building a job application pipeline in n8n from search to follow-up.
+- [n8n LinkedIn Recruiter Automation: Sourcing, Scoring, and Outreach at Scale](https://www.purist.online/pages/blog/n8n-linkedin-recruiter-sourcing-automation-2026): Recruiter-side sourcing automation: candidate scoring rubrics, personalized outreach drafting, and a real sourcing funnel breakdown.
+- [n8n Social Media Automation: Beyond Cross-Posting to a Real Content Engine](https://www.purist.online/pages/blog/n8n-social-media-automation-2026): Platform-native content transformation, review workflows, and a real hook-performance feedback loop.
 
 ### Integrations & Connectors
 - [Stripe to QuickBooks Integration: The Automation That Eliminates Manual Bookkeeping](https://www.purist.online/pages/blog/stripe-quickbooks-integration-automation-2026): Automated reconciliation between payment processing and accounting.
@@ -84,6 +87,7 @@ All articles are written by PURIST's engineering team from real production deplo
 - [50 Workflow Automation Examples Your Business Can Deploy Today](https://www.purist.online/pages/blog/workflow-automation-examples-50-ideas-2026): Sales, marketing, ops, finance, HR, support, organized by department with tools.
 - [Business Process Automation: The Complete Guide for 2026](https://www.purist.online/pages/blog/business-process-automation-complete-guide-2026): Types, candidate identification, ROI calculation, implementation, common mistakes.
 - [The Operations Stack We Recommend for Scaling Startups in 2026](https://www.purist.online/pages/blog/the-operations-stack-we-recommend-for-scaling-startups-2026): Our recommended tool stack for startups scaling past their founding team.
+- [The Automation Maturity Model: A Complete Framework for 2026](https://www.purist.online/pages/blog/automation-maturity-model-framework-2026): The 5-stage automation maturity model, why most businesses misjudge their own stage, and what to fix first at each level.
 - [SaaS Onboarding Automation](https://www.purist.online/pages/blog/saas-onboarding-automation-activation-retention-2026): Cut time-to-value and reduce churn from week one.
 - [Automated Branding: How to Maintain Perfect Brand Consistency at Scale in 2026](https://www.purist.online/pages/blog/automated-branding-workflows-guide-2026): Automating brand asset consistency across a growing team.
 
@@ -135,12 +139,14 @@ All articles are written by PURIST's engineering team from real production deplo
 - [B2B Marketing Automation: The Agency & Consultant Guide 2026](https://www.purist.online/pages/blog/b2b-marketing-automation-agency-consultant-guide-2026): How marketing automation agencies and consultants build, sell, and scale B2B automation programs for clients.
 - [Industrial Automation Company B2B: Best Practices 2026](https://www.purist.online/pages/blog/industrial-automation-company-b2b-best-practices-2026): How industrial automation companies apply B2B workflow automation to sales cycles, operations, and service delivery.
 - [Act-On vs HubSpot vs Pardot vs Marketo: B2B Platform Comparison 2026](https://www.purist.online/pages/blog/act-on-vs-hubspot-vs-pardot-vs-marketo-b2b-2026): Honest comparison of the four leading B2B marketing automation platforms across features, pricing, and fit.
+- [10 Marketing Automation Platforms Compared: The 2026 PURIST Fit Score](https://www.purist.online/pages/blog/marketing-automation-platforms-comparison-2026): 10 platforms scored on setup-to-value, integration depth, true cost at scale, and automation depth, plus the real per-contact pricing curve.
 - [B2B Finance Automation: Payments, AP & Reconciliation 2026](https://www.purist.online/pages/blog/b2b-finance-automation-payments-ap-reconciliation-2026): Automating accounts payable, payment processing, and reconciliation for B2B finance teams using n8n and AI.
 - [Marketing Automation for B2B Service Businesses 2026](https://www.purist.online/pages/blog/marketing-automation-b2b-service-businesses-2026): How service businesses (consultancies, agencies, law firms) implement marketing automation that converts.
 - [B2B Sales Outbound Automation: Technology & Playbook 2026](https://www.purist.online/pages/blog/b2b-sales-outbound-automation-technology-2026): Full outbound automation stack for B2B sales teams: prospecting, sequencing, enrichment, and CRM sync.
 
 ### Workflow Automation by Keyword & Vertical
 - [Joiner Mover Leaver Automation: The Complete HR Workflow Guide 2026](https://www.purist.online/pages/blog/joiner-mover-leaver-automation-hr-workflow-2026): End-to-end automation of HR joiner, mover, and leaver provisioning workflows using n8n and Claude AI.
+- [The Joiner Mover Leaver Policy Template: Ownership, SLAs, and Compliance](https://www.purist.online/pages/blog/joiner-mover-leaver-policy-template-2026): The written policy document itself: ownership matrix, SLA language by termination type, and real compliance audit gap data.
 - [GoHighLevel Workflow Automation for Local Business 2026](https://www.purist.online/pages/blog/gohighlevel-workflow-automation-local-business-2026): Complete guide to GoHighLevel workflow automation: triggers, actions, AI branches, and n8n integration for local businesses.
 - [Behavioral Health and Lab Workflow Automation 2026](https://www.purist.online/pages/blog/behavioral-health-lab-workflow-automation-2026): HIPAA-compliant automation for behavioral health practices and clinical labs: intake, scheduling, results, and billing workflows.
 - [Workflow Automation Consulting: How to Choose, Hire, and Get Results 2026](https://www.purist.online/pages/blog/workflow-automation-consulting-guide-2026): How to evaluate, hire, and work with a workflow automation consultant to get production results rather than slide decks.

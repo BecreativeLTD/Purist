@@ -21,9 +21,19 @@ const glossaryTermPages = terms.map(t => ({
   lastmod: '2026-06-18',
 }));
 
+const newOrUpdatedBlogSlugs = new Set([
+  'automation-maturity-model-framework-2026',
+  'marketing-automation-platforms-comparison-2026',
+  'n8n-social-media-automation-2026',
+  'n8n-linkedin-recruiter-sourcing-automation-2026',
+  'joiner-mover-leaver-policy-template-2026',
+  'workflow-automation-consulting-guide-2026',
+  'joiner-mover-leaver-automation-hr-workflow-2026',
+]);
+
 const blogPages = blogData.articles.map(a => ({
   url: `/pages/blog/${a.slug}`,
-  lastmod: '2026-07-11',
+  lastmod: newOrUpdatedBlogSlugs.has(a.slug) ? '2026-07-31' : '2026-07-11',
 }));
 
 const pages = [
