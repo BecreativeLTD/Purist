@@ -20,7 +20,7 @@ PURIST serves clients as: automation agency (UK), business automation company (U
 - [Free Automation Guides by Industry](https://www.purist.online/pages/free-guides): Free 12-page downloadable PDF guides for 171+ professions: priority workflows, tool stack, ROI math, and a 90-day deployment roadmap. No cost, instant download.
 - [Free Automation Audit](https://www.purist.online/pages/welcome): Free 45-60 minute audit of current workflows and automation opportunities, delivered live on a call.
 
-## Blog: Full Article Index (113 articles)
+## Blog: Full Article Index (124 articles)
 
 All articles are written by PURIST's engineering team from real production deployments.
 
@@ -41,6 +41,11 @@ All articles are written by PURIST's engineering team from real production deplo
 - [n8n LinkedIn Job Automation: Auto-Apply, Track, and Follow Up on Jobs](https://www.purist.online/pages/blog/n8n-linkedin-job-automation): Building a job application pipeline in n8n from search to follow-up.
 - [n8n LinkedIn Recruiter Automation: Sourcing, Scoring, and Outreach at Scale](https://www.purist.online/pages/blog/n8n-linkedin-recruiter-sourcing-automation-2026): Recruiter-side sourcing automation: candidate scoring rubrics, personalized outreach drafting, and a real sourcing funnel breakdown.
 - [n8n Social Media Automation: Beyond Cross-Posting to a Real Content Engine](https://www.purist.online/pages/blog/n8n-social-media-automation-2026): Platform-native content transformation, review workflows, and a real hook-performance feedback loop.
+- [What Is RPA (Robotic Process Automation), Explained Simply](https://www.purist.online/pages/blog/what-is-rpa-robotic-process-automation-explained-2026): How RPA differs from workflow automation like n8n, and a simple way to decide which one a process actually needs.
+- [Logic Apps vs Power Automate for Moving SharePoint Files](https://www.purist.online/pages/blog/logic-apps-vs-power-automate-sharepoint-2026): A direct comparison, where both struggle with large files, and where n8n wins on cost and flexibility.
+- [Power Automate Premium License Cost for Nonprofits](https://www.purist.online/pages/blog/power-automate-premium-nonprofit-pricing-2026): Why nonprofits hit a licensing ceiling, and how self-hosted n8n compares on pricing.
+- [How to Use Claude Code for QA Automation](https://www.purist.online/pages/blog/claude-code-qa-automation-guide-2026): Writing test suites, triaging failures, and fixing bugs directly in your codebase.
+- [Automation System Upgrade Services](https://www.purist.online/pages/blog/automation-system-upgrade-services-2026): The signs an existing automation system needs upgrading, and what an upgrade engagement actually costs.
 
 ### Integrations & Connectors
 - [Stripe to QuickBooks Integration: The Automation That Eliminates Manual Bookkeeping](https://www.purist.online/pages/blog/stripe-quickbooks-integration-automation-2026): Automated reconciliation between payment processing and accounting.
@@ -108,6 +113,8 @@ All articles are written by PURIST's engineering team from real production deplo
 - [Marketing Agency Automation: Deliver More Clients With the Same Team](https://www.purist.online/pages/blog/marketing-agency-automation-deliver-more-clients-same-team-2026): Two case studies, twelve automations, full playbook.
 - [Healthcare Automation: 10 Workflows Every Medical Practice Needs](https://www.purist.online/pages/blog/healthcare-automation-medical-practice-workflows-2026): Real results: dental 14%→3.2% no-shows, GP surgery 61% admin reduction.
 - [Law Firm Automation: 12 Workflows That Cut Admin by 60%](https://www.purist.online/pages/blog/legal-firm-automation-workflows-2026): PURIST case study: 12-solicitor firm, 61% admin reduction, payback in month 4.
+- [Online Marketing and Automation Solutions for Attorneys](https://www.purist.online/pages/blog/attorney-marketing-automation-solutions-2026): What to automate first in a law firm's intake and marketing process, and what must stay manual for bar compliance.
+- [Actuarial Reserving Process Automation](https://www.purist.online/pages/blog/actuarial-reserving-process-automation-2026): The two layers of actuarial reserving, data assembly versus actuarial judgment, and why automating only the first one works.
 - [Staffing Agency Automation: The Playbook for High-Volume Recruiting](https://www.purist.online/pages/blog/staffing-agency-automation-workflows-2026): 15-person agency case study: 38% volume growth, zero new hires, ~700% ROI.
 
 ### Workflow Automation & Operations
@@ -119,6 +126,7 @@ All articles are written by PURIST's engineering team from real production deplo
 ### Industry-Specific & Regulated Workflows
 - [ComfyUI Workflows for Business Automation 2026](https://www.purist.online/pages/blog/comfyui-workflows-business-automation-guide-2026): Product photography automation, ad creative generation, batch processing, NSFW content moderation in ComfyUI.
 - [Government Workflow Automation: California Contracts + SSA Overhaul 2026](https://www.purist.online/pages/blog/government-workflow-automation-california-ssa-2026): California board-approved contract automation, SSA workflow disruption risk and business continuity planning.
+- [Automated Incident Response in California: What Funding and Compliance Actually Require](https://www.purist.online/pages/blog/california-automated-incident-response-funding-2026): The detection-to-documentation workflow behind California cybersecurity funding and compliance conditions.
 - [GDPR-Compliant Mental Health Data Annotation Workflow 2026](https://www.purist.online/pages/blog/gdpr-compliant-mental-health-data-annotation-workflow-2026): Article 9 legal basis, consent architecture, pseudonymisation, annotator access controls, audit trail implementation.
 - [AI Pharmacovigilance Workflows: Validated, Auditable, Explainable 2026](https://www.purist.online/pages/blog/ai-pharmacovigilance-workflows-validated-auditable-2026): FDA 21 CFR Part 11, GxP compliance, GAMP 5 validation, MedDRA coding, explainability design for pharma.
 - [Oil & Gas Revenue Accounting + Royalty Distribution Workflow 2026](https://www.purist.online/pages/blog/oil-gas-revenue-accounting-royalty-workflow-2026): Manual workflow pain points in revenue accounting, division orders, JIB statements, automation ROI for operators.
@@ -140,6 +148,9 @@ All articles are written by PURIST's engineering team from real production deplo
 - [Industrial Automation Company B2B: Best Practices 2026](https://www.purist.online/pages/blog/industrial-automation-company-b2b-best-practices-2026): How industrial automation companies apply B2B workflow automation to sales cycles, operations, and service delivery.
 - [Act-On vs HubSpot vs Pardot vs Marketo: B2B Platform Comparison 2026](https://www.purist.online/pages/blog/act-on-vs-hubspot-vs-pardot-vs-marketo-b2b-2026): Honest comparison of the four leading B2B marketing automation platforms across features, pricing, and fit.
 - [10 Marketing Automation Platforms Compared: The 2026 PURIST Fit Score](https://www.purist.online/pages/blog/marketing-automation-platforms-comparison-2026): 10 platforms scored on setup-to-value, integration depth, true cost at scale, and automation depth, plus the real per-contact pricing curve.
+- [Marketing Automation Consulting: What It Actually Includes and What It Costs](https://www.purist.online/pages/blog/marketing-automation-consulting-guide-2026): What a real marketing automation consulting engagement should deliver, real pricing by engagement type, and red flags.
+- [Which Marketing Processes to Automate First](https://www.purist.online/pages/blog/which-marketing-processes-to-automate-first-2026): A frequency versus judgment prioritization framework, the top 5 to automate first, and what to keep manual.
+- [AI Automation for Paid Advertising Budget Allocation](https://www.purist.online/pages/blog/ai-automation-paid-advertising-budget-allocation-2026): How AI-driven budget allocation continuously reallocates ad spend across platforms, with the guardrails that keep it from overreacting.
 - [B2B Finance Automation: Payments, AP & Reconciliation 2026](https://www.purist.online/pages/blog/b2b-finance-automation-payments-ap-reconciliation-2026): Automating accounts payable, payment processing, and reconciliation for B2B finance teams using n8n and AI.
 - [Marketing Automation for B2B Service Businesses 2026](https://www.purist.online/pages/blog/marketing-automation-b2b-service-businesses-2026): How service businesses (consultancies, agencies, law firms) implement marketing automation that converts.
 - [B2B Sales Outbound Automation: Technology & Playbook 2026](https://www.purist.online/pages/blog/b2b-sales-outbound-automation-technology-2026): Full outbound automation stack for B2B sales teams: prospecting, sequencing, enrichment, and CRM sync.

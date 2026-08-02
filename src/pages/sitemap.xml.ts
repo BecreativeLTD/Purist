@@ -31,10 +31,26 @@ const newOrUpdatedBlogSlugs = new Set([
   'joiner-mover-leaver-automation-hr-workflow-2026',
 ]);
 
-const blogPages = blogData.articles.map(a => ({
-  url: `/pages/blog/${a.slug}`,
-  lastmod: newOrUpdatedBlogSlugs.has(a.slug) ? '2026-07-31' : '2026-07-11',
-}));
+const latestBatchSlugs = new Set([
+  'attorney-marketing-automation-solutions-2026',
+  'logic-apps-vs-power-automate-sharepoint-2026',
+  'actuarial-reserving-process-automation-2026',
+  'what-is-rpa-robotic-process-automation-explained-2026',
+  'power-automate-premium-nonprofit-pricing-2026',
+  'marketing-automation-consulting-guide-2026',
+  'ai-automation-paid-advertising-budget-allocation-2026',
+  'automation-system-upgrade-services-2026',
+  'claude-code-qa-automation-guide-2026',
+  'which-marketing-processes-to-automate-first-2026',
+  'california-automated-incident-response-funding-2026',
+]);
+
+const blogPages = blogData.articles.map(a => {
+  let lastmod = '2026-07-11';
+  if (latestBatchSlugs.has(a.slug)) lastmod = '2026-08-02';
+  else if (newOrUpdatedBlogSlugs.has(a.slug)) lastmod = '2026-07-31';
+  return { url: `/pages/blog/${a.slug}`, lastmod };
+});
 
 const pages = [
   { url: '/',                                    lastmod: '2026-06-18' },
