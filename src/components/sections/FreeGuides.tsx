@@ -20,6 +20,75 @@ export const CATEGORY_COLORS: Record<string, string> = {
 
 const CATEGORIES = ['All', ...Array.from(new Set(professions.map((p) => p.category)))];
 
+function shareUrl(profession: Profession): string {
+  return `https://www.purist.online/pages/free-guides?industry=${profession.slug}`;
+}
+
+function ShareButton({ profession }: { profession: Profession }) {
+  const copied = useSignal(false);
+
+  async function share(e: Event) {
+    e.stopPropagation();
+    const url = shareUrl(profession);
+    track('free_guide_shared', { industry: profession.slug, category: profession.category });
+    const nav = navigator as Navigator & { share?: (data: { title?: string; text?: string; url?: string }) => Promise<void> };
+    if (nav.share) {
+      try {
+        await nav.share({
+          title: `${profession.name} automation guide`,
+          text: `Free automation guide for ${profession.name.toLowerCase()}s, built by PURIST.`,
+          url,
+        });
+        return;
+      } catch {
+        // user cancelled or share failed, fall through to clipboard
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      copied.value = true;
+      setTimeout(() => (copied.value = false), 1800);
+    } catch {
+      /* clipboard unavailable, silently no-op */
+    }
+  }
+
+  return (
+    <button
+      onClick={share}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 5,
+        width: '100%',
+        marginTop: 8,
+        background: 'transparent',
+        border: 'none',
+        color: 'rgba(248,246,241,0.32)',
+        fontSize: 10.5,
+        cursor: 'pointer',
+        padding: '4px 0',
+      }}
+    >
+      {copied.value ? (
+        <>
+          <svg width={11} height={11} viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" /></svg>
+          Link copied
+        </>
+      ) : (
+        <>
+          <svg width={11} height={11} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth={1.4}>
+            <circle cx="15" cy="5" r="2.4" /><circle cx="5" cy="10" r="2.4" /><circle cx="15" cy="15" r="2.4" />
+            <path d="M7.2 8.8l5.6-2.7M7.2 11.2l5.6 2.7" />
+          </svg>
+          Share this guide
+        </>
+      )}
+    </button>
+  );
+}
+
 function GuideCard({ profession, onOpen }: { profession: Profession; onOpen: (p: Profession) => void }) {
   const color = CATEGORY_COLORS[profession.category] ?? '#E8B4B0';
   return (
@@ -60,6 +129,7 @@ function GuideCard({ profession, onOpen }: { profession: Profession; onOpen: (p:
       >
         Get the free PDF guide ↓
       </button>
+      <ShareButton profession={profession} />
     </div>
   );
 }
@@ -91,7 +161,7 @@ function EmailGateModal({ profession, onClose }: { profession: Profession; onClo
         }),
       });
     } catch { /* silent, don't block the download */ }
-    await buildGuidePdf(profession, color);
+    await buildGuidePdf(profession, color, email.value);
     submitting.value = false;
     submitted.value = true;
   }
@@ -113,7 +183,7 @@ function EmailGateModal({ profession, onClose }: { profession: Profession; onClo
                 {profession.name} automation guide
               </h3>
               <p style={{ fontSize: 13, color: 'rgba(248,246,241,0.42)', lineHeight: 1.65 }}>
-                A 12-page PDF built specifically for {profession.name.toLowerCase()}s: every workflow, every tool, the full ROI math, and a 90-day deployment roadmap. Instant download.
+                A 15-page PDF built specifically for {profession.name.toLowerCase()}s: every workflow, every tool, the full ROI math, and a 90-day deployment roadmap. Instant download.
               </p>
             </div>
 
@@ -132,7 +202,7 @@ function EmailGateModal({ profession, onClose }: { profession: Profession; onClo
               disabled={submitting.value}
               style={{ width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: 6, background: color, color: '#0A0A0A', border: 'none', borderRadius: 8, padding: '13px 16px', fontSize: 13.5, fontWeight: 600, cursor: 'pointer', opacity: submitting.value ? 0.7 : 1 }}
             >
-              {submitting.value ? 'Building your 12-page PDF…' : 'Send me the guide →'}
+              {submitting.value ? 'Building your 15-page PDF…' : 'Send me the guide →'}
             </button>
 
             <p style={{ fontSize: 11, color: 'rgba(248,246,241,0.22)', textAlign: 'center', marginTop: 12 }}>
@@ -162,8 +232,20 @@ function EmailGateModal({ profession, onClose }: { profession: Profession; onClo
   );
 }
 
+let deepLinkChecked = false;
+
+function deepLinkedProfession(): Profession | null {
+  if (typeof window === 'undefined' || deepLinkChecked) return null;
+  deepLinkChecked = true;
+  const slug = new URLSearchParams(window.location.search).get('industry');
+  if (!slug) return null;
+  const match = professions.find((p) => p.slug === slug) ?? null;
+  if (match) track('free_guide_shared_link_opened', { industry: match.slug });
+  return match;
+}
+
 export default function FreeGuides() {
-  const active = useSignal<Profession | null>(null);
+  const active = useSignal<Profession | null>(deepLinkedProfession());
   const activeCategory = useSignal('All');
   const query = useSignal('');
 

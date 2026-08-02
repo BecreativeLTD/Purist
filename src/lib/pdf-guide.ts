@@ -1,4 +1,4 @@
-import type { Profession } from '~/data/automations';
+import { professions, type Profession } from '~/data/automations';
 
 const FONT_FILES: Array<[url: string, vfsName: string, alias: string]> = [
   ['/fonts/pdf/Fraunces-Regular.ttf', 'Fraunces-Regular.ttf', 'Fraunces'],
@@ -71,7 +71,7 @@ function cleanProfession(p: Profession): Profession {
   };
 }
 
-export async function buildGuidePdf(rawProfession: Profession, accentColor: string) {
+export async function buildGuidePdf(rawProfession: Profession, accentColor: string, recipientEmail?: string) {
   const profession = cleanProfession(rawProfession);
   const { jsPDF } = await import('jspdf');
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
@@ -464,7 +464,10 @@ export async function buildGuidePdf(rawProfession: Profession, accentColor: stri
   doc.setFont('Inter', 'normal');
   doc.setFontSize(8);
   setText([120, 120, 120]);
-  doc.text(`${profession.category} · Generated ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`, W / 2, H - 18, { align: 'center' });
+  const dateLine = recipientEmail
+    ? `Prepared for ${recipientEmail} · ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`
+    : `${profession.category} · Generated ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`;
+  doc.text(dateLine, W / 2, H - 18, { align: 'center' });
   doc.setFontSize(7);
   doc.text('purist.online', W / 2, H - 12, { align: 'center' });
 
@@ -560,6 +563,37 @@ export async function buildGuidePdf(rawProfession: Profession, accentColor: stri
   subhead('What good looks like after this is fixed');
   paragraph(
     `Picture the same week, minus the busywork: leads get a response in minutes instead of hours, nothing depends on someone remembering to follow up, and the numbers you need for a decision are already sitting in a dashboard instead of buried in a spreadsheet. That is not a hypothetical. It's the standard outcome across every ${profession.name.toLowerCase()} deployment in the PURIST client base, typically live within ${profession.stats.deploymentDays} days of the audit call.`,
+  );
+
+  // ══════════════════════════ IS THIS YOU? DIAGNOSTIC ══════════════════════════
+  newPage();
+  eyebrow('Quick self-check');
+  heading('Is this you right now?', 17);
+  paragraph(
+    `Score yourself against the ${profession.painPoints.length} patterns below. Most ${profession.name.toLowerCase()}s we deploy for check at least ${Math.max(2, Math.ceil(profession.painPoints.length * 0.6))} of these before we start.`,
+  );
+
+  profession.painPoints.forEach((p) => {
+    checkPage(18);
+    setDraw(mix(accent, [180, 180, 180], 0.4));
+    doc.setLineWidth(0.5);
+    doc.roundedRect(margin, y - 5.5, 6, 6, 1.2, 1.2, 'S');
+    doc.setFont('InterSemiBold', 'normal');
+    doc.setFontSize(6.5);
+    setText(accent);
+    doc.text('✓', margin + 3, y - 1.2, { align: 'center' });
+    doc.setFont('Inter', 'normal');
+    doc.setFontSize(9.4);
+    setText([55, 55, 55]);
+    const lines = doc.splitTextToSize(p, cw - 12);
+    doc.text(lines, margin + 10, y);
+    y += lines.length * 4.5 + 8;
+  });
+
+  calloutBox(
+    `Checked most of these?`,
+    `That is the exact profile of every ${profession.name.toLowerCase()} we've deployed this stack for. Nothing about your situation is unusual, it's the standard starting point, and the fix is the same one detailed over the next ${profession.workflows.length + 8} pages.`,
+    'dark',
   );
 
   // ══════════════════════════ THE STACK ══════════════════════════
@@ -783,6 +817,71 @@ export async function buildGuidePdf(rawProfession: Profession, accentColor: stri
   paragraph(
     'These figures come from live PURIST deployments in this category, not projections pulled from nowhere. Your exact numbers depend on team size, current tools, and how much of this is already partially automated. That is exactly what the free audit call establishes.',
     9,
+  );
+
+  // ══════════════════════════ CATEGORY BENCHMARK ══════════════════════════
+  newPage();
+  eyebrow('How you compare');
+  heading(`Where ${profession.name.toLowerCase()}s rank inside ${profession.category}`, 16);
+
+  const peers = professions.filter((p) => p.category === profession.category);
+  const peerHours = peers.map((p) => parseHours(p.stats.timeSaved));
+  const categoryAvgHours = peerHours.reduce((s, h) => s + h, 0) / (peerHours.length || 1);
+  const rankAmongPeers = [...peers]
+    .sort((a, b) => parseHours(b.stats.timeSaved) - parseHours(a.stats.timeSaved))
+    .findIndex((p) => p.slug === profession.slug) + 1;
+  const percentile = Math.max(1, Math.round((1 - (rankAmongPeers - 1) / Math.max(peers.length - 1, 1)) * 100));
+
+  paragraph(
+    `PURIST has mapped ${peers.length} distinct professions inside ${profession.category}. On weekly hours reclaimed, ${profession.name.toLowerCase()}s rank ${rankAmongPeers} of ${peers.length}, roughly the top ${percentile}% of the category.`,
+  );
+
+  const benchCompareH = 24;
+  checkPage(benchCompareH + 10);
+  subhead('This profession versus the category average');
+  const benchRows: Array<[string, string, string]> = [
+    ['Weekly hours reclaimed', profession.stats.timeSaved, `${categoryAvgHours.toFixed(1)}h avg`],
+    ['Days to deploy', `${profession.stats.deploymentDays}d`, `${(peers.reduce((s, p) => s + p.stats.deploymentDays, 0) / peers.length).toFixed(1)}d avg`],
+    ['Months to full ROI', `${profession.stats.roiMonths}mo`, `${(peers.reduce((s, p) => s + p.stats.roiMonths, 0) / peers.length).toFixed(1)}mo avg`],
+  ];
+  benchRows.forEach(([label, mine, avg], i) => {
+    checkPage(13);
+    if (i % 2 === 0) { setFill([250, 250, 250]); doc.rect(margin, y - 6, cw, 11, 'F'); }
+    doc.setFont('Inter', 'normal');
+    doc.setFontSize(9.3);
+    setText([90, 90, 90]);
+    doc.text(label, margin + 4, y);
+    doc.setFont('InterSemiBold', 'normal');
+    doc.setFontSize(9.3);
+    setText(accent);
+    doc.text(mine, W - margin - 4 - 40, y, { align: 'right' });
+    doc.setFont('Inter', 'normal');
+    doc.setFontSize(8.4);
+    setText([150, 150, 150]);
+    doc.text(avg, W - margin - 4, y, { align: 'right' });
+    y += 11;
+  });
+  y += 6;
+
+  divider();
+  subhead(`Other ${profession.category.toLowerCase()} professions PURIST has mapped`);
+  const otherPeers = peers.filter((p) => p.slug !== profession.slug).slice(0, 6);
+  otherPeers.forEach((p) => {
+    checkPage(11);
+    doc.setFont('Inter', 'normal');
+    doc.setFontSize(8.8);
+    setText([80, 80, 80]);
+    doc.text(p.name, margin + 4, y);
+    doc.setFont('InterSemiBold', 'normal');
+    doc.setFontSize(8.4);
+    setText([140, 140, 140]);
+    doc.text(p.stats.timeSaved, W - margin - 4, y, { align: 'right' });
+    y += 8.5;
+  });
+  y += 6;
+  calloutBox(
+    'Why this matters',
+    `The category pattern is consistent: businesses that wait longer to automate lose proportionally more time as they scale. Ranking ${rankAmongPeers} of ${peers.length} today does not mean staying there, it means the fix is well-documented for exactly your type of business.`,
   );
 
   // ══════════════════════════ COMMON MISTAKES ══════════════════════════
