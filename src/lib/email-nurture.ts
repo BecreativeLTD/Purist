@@ -5,14 +5,96 @@
 // Step 5: J+5 case study
 // ============================================================
 
-const FOOTER = `
+import { professions, type Profession } from '~/data/automations';
+
+const CATEGORY_ACCENT: Record<string, string> = {
+  'Home Services': '#E8B4B0',
+  'Agencies & Consulting': '#7B68EE',
+  'Real Estate': '#4ade80',
+  'Education': '#5B8BD4',
+  'Legal': '#C89840',
+  'Travel': '#E87040',
+  'Food & Restaurant': '#D97706',
+  'Beauty & Wellness': '#E8A0C4',
+  'E-commerce': '#F5A623',
+  'Automotive': '#9CA3AF',
+  'Creative': '#A78BFA',
+  'B2B Services': '#38BDF8',
+};
+
+// Real case studies, matched to the nearest category for the J+5 email
+const CASE_STUDIES: Array<{ categories: string[]; sector: string; team: string; hours: string; pain: string; workflows: Array<[string, string]>; savedHours: string; payback: string; annualSaving: string }> = [
+  {
+    categories: ['Healthcare', 'Beauty & Wellness'],
+    sector: 'Dental group, 4 locations', team: '18 people', hours: '~20h across front desk',
+    pain: 'Missed calls, manual scheduling, insurance pre-verification',
+    workflows: [
+      ['Appointment reminders + smart waitlist fill', 'Automated SMS/email reminders, cancellations auto-offered to the next patient. No-shows dropped sharply.'],
+      ['Insurance pre-verification', 'Coverage checked and confirmed before the patient walks in, not after.'],
+      ['Recall campaign automation', 'Patients overdue for a visit get re-engaged automatically by treatment type.'],
+    ],
+    savedHours: '60%', payback: '6 wk', annualSaving: '€38k',
+  },
+  {
+    categories: ['Real Estate'],
+    sector: '12-person estate agency, SW London', team: '12 people', hours: '~34h across listings + admin',
+    pain: 'Manual listing updates, lead routing, tenant follow-up',
+    workflows: [
+      ['Lead routing to the right agent', 'Every inbound lead is scored and routed automatically, no more manual triage.'],
+      ['Listing sync across portals', 'One update propagates everywhere, instead of five manual re-entries.'],
+      ['Maintenance ticket triage', 'Tenant requests are classified and routed without a person reading every email first.'],
+    ],
+    savedHours: '80%', payback: '8 wk', annualSaving: '€61k',
+  },
+  {
+    categories: ['Legal'],
+    sector: '12-solicitor commercial law firm', team: '12 people', hours: '~40% of fee-earner time',
+    pain: 'Client intake, document collection, court date tracking',
+    workflows: [
+      ['New client intake automation', 'Forms, conflict checks, and document requests run without a paralegal chasing signatures.'],
+      ['Document collection sequences', 'Case-specific checklists sent automatically, with reminders for anything outstanding.'],
+      ['Court date reminder system', 'Nothing depends on someone remembering to check a calendar.'],
+    ],
+    savedHours: '61%', payback: '4 mo', annualSaving: '€92k',
+  },
+  {
+    categories: ['Agencies & Consulting', 'B2B Services', 'Creative'],
+    sector: '6-person marketing agency, 45 clients', team: '6 people', hours: '~22h across ops + reporting',
+    pain: 'Lead follow-up falling through the cracks, manual client reporting',
+    workflows: [
+      ['New lead → CRM + personalised follow-up sequence', 'Every inbound lead gets a tailored sequence within 5 minutes. Reply rate went from 8% to 31%.'],
+      ['Weekly client reporting on autopilot', 'A branded summary pulls from 4 tools every Friday. 3h of manual work, gone.'],
+      ['Client health scoring', 'At-risk accounts get flagged automatically, before they churn, not after.'],
+    ],
+    savedHours: '16h/wk', payback: '6 wk', annualSaving: '€74k',
+  },
+];
+
+function findProfession(source?: string): Profession | undefined {
+  if (!source || !source.startsWith('free_guide_')) return undefined;
+  const slug = source.replace('free_guide_', '');
+  return professions.find((p) => p.slug === slug);
+}
+
+function accentFor(profession?: Profession): string {
+  if (!profession) return '#E8B4B0';
+  return CATEGORY_ACCENT[profession.category] ?? '#E8B4B0';
+}
+
+function caseStudyFor(profession?: Profession) {
+  if (!profession) return CASE_STUDIES[3];
+  return CASE_STUDIES.find((c) => c.categories.includes(profession.category)) ?? CASE_STUDIES[3];
+}
+
+function footerHtml(accent: string): string {
+  return `
 <tr><td style="height:48px;" bgcolor="#0A0A0A"></td></tr>
 <tr><td style="padding:0 40px;" class="pad" bgcolor="#0A0A0A">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#0A0A0A"
     style="border-top:1px solid #262626;">
     <tr><td style="padding:32px 0;text-align:center;" bgcolor="#0A0A0A">
       <div style="font-family:Georgia,'Times New Roman',serif;font-size:26px;font-weight:700;
-        letter-spacing:-0.03em;color:#E8B4B0;margin-bottom:18px;">
+        letter-spacing:-0.03em;color:${accent};margin-bottom:18px;">
         PURIST<span style="font-size:9px;vertical-align:super;">®</span>
       </div>
       <div style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;
@@ -38,9 +120,10 @@ const FOOTER = `
     </td></tr>
   </table>
 </td></tr>`;
+}
 
-function htmlWrapper(preheader: string, body: string, email: string): string {
-  const footer = FOOTER.replace('{{EMAIL}}', encodeURIComponent(email));
+function htmlWrapper(preheader: string, body: string, email: string, accent: string = '#E8B4B0'): string {
+  const footer = footerHtml(accent).replace('{{EMAIL}}', encodeURIComponent(email));
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,7 +160,7 @@ body,table,td{font-family:Arial,sans-serif!important;}
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#0A0A0A">
     <tr><td style="padding:16px 0;border-bottom:1px solid #262626;" bgcolor="#0A0A0A">
       <div style="font-family:Georgia,'Times New Roman',serif;font-size:18px;font-weight:700;
-        letter-spacing:-0.02em;color:#E8B4B0;">
+        letter-spacing:-0.02em;color:${accent};">
         PURIST<span style="font-size:9px;vertical-align:super;font-weight:500;">&reg;</span>
       </div>
     </td></tr>
@@ -97,13 +180,12 @@ ${footer}
 
 // Step 0: Immediate, personal audit offer
 export function buildJ0Email(email: string, source?: string): string {
-  const isGuide = !!source && source.startsWith('free_guide_');
-  const guideIndustry = isGuide
-    ? source!.replace('free_guide_', '').replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
-    : '';
+  const profession = findProfession(source);
+  const isGuide = !!profession;
+  const accent = accentFor(profession);
 
   const sourceLabel = isGuide
-    ? `your ${guideIndustry} automation guide`
+    ? `your ${profession.name.toLowerCase()} automation guide`
     : source === 'roi_calculator'
     ? 'your ROI calculation'
     : source === 'newsletter'
@@ -111,10 +193,56 @@ export function buildJ0Email(email: string, source?: string): string {
     : 'your visit to purist.online';
 
   const intro = isGuide
-    ? `I'm Steve, founder of PURIST. You just downloaded the ${guideIndustry} automation guide. That PDF covers our five highest-payback workflows for the industry in general terms. What it can't do is look at <em>your</em> specific stack and tell you exactly which one to build first. That's what the free audit below is for.`
+    ? `I'm Steve, founder of PURIST. You just downloaded the ${profession.name.toLowerCase()} automation guide. It covers ${profession.workflows.length} real workflows for the profession in general terms. What it can't do is look at <em>your</em> specific stack and tell you which one to build first. That's what the free audit below is for.`
     : `I'm Steve, founder of PURIST. Every week I personally review new leads and map
     their biggest automation opportunities. Yours is interesting, and there are
     at least 3 workflows I'd tackle immediately.`;
+
+  const topWorkflows = isGuide
+    ? [...profession.workflows]
+        .sort((a, b) => parseFloat(b.timeSaved) - parseFloat(a.timeSaved))
+        .slice(0, 3)
+    : [];
+
+  const statsBlock = isGuide
+    ? `
+<tr><td style="padding:0 40px;" class="pad" bgcolor="#0A0A0A">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#131313"
+    style="border:1px solid #262626;border-radius:14px;overflow:hidden;">
+    <tr>
+      <td style="padding:24px;text-align:center;border-right:1px solid #232323;width:33%;" bgcolor="#131313">
+        <div style="font-family:Georgia,serif;font-size:26px;color:${accent};
+          font-weight:600;line-height:1;margin-bottom:6px;">${profession.stats.timeSaved}</div>
+        <div style="font-size:9px;color:#9a9a9a;text-transform:uppercase;
+          letter-spacing:0.14em;font-weight:600;">Reclaimed weekly</div>
+      </td>
+      <td style="padding:24px;text-align:center;border-right:1px solid #232323;width:33%;" bgcolor="#131313">
+        <div style="font-family:Georgia,serif;font-size:26px;color:#F8F6F1;
+          font-weight:600;line-height:1;margin-bottom:6px;">${profession.stats.revenueImpact}</div>
+        <div style="font-size:9px;color:#9a9a9a;text-transform:uppercase;
+          letter-spacing:0.14em;font-weight:600;">Revenue impact</div>
+      </td>
+      <td style="padding:24px;text-align:center;width:33%;" bgcolor="#131313">
+        <div style="font-family:Georgia,serif;font-size:26px;color:#4ADE80;
+          font-weight:600;line-height:1;margin-bottom:6px;">${profession.stats.deploymentDays}d</div>
+        <div style="font-size:9px;color:#9a9a9a;text-transform:uppercase;
+          letter-spacing:0.14em;font-weight:600;">To deploy</div>
+      </td>
+    </tr>
+  </table>
+</td></tr>
+<tr><td style="height:32px;" bgcolor="#0A0A0A"></td></tr>`
+    : '';
+
+  const workflowsHeaderLabel = isGuide ? `Your top ${topWorkflows.length} workflows from the guide` : 'What we cover in your free audit';
+  const workflowsSubLabel = isGuide ? 'Ranked by time reclaimed, from your PDF' : '45 minutes &middot; No pitch &middot; Just your roadmap';
+  const listItems = isGuide
+    ? topWorkflows.map((wf) => [wf.name, `${wf.timeSaved} reclaimed. ${wf.impact}`] as [string, string])
+    : ([
+        ['Map your top 3 manual bottlenecks', 'We look at where your team loses the most hours and what’s actually automatable.'],
+        ['Calculate your real ROI', 'Not generic numbers: your tools, your team, your specific workflows.'],
+        ['Build your first automation live', 'We sketch the first workflow together. You leave with something tangible.'],
+      ] as [string, string][]);
 
   const body = `
 <tr><td style="padding:48px 40px 0;" class="pad" bgcolor="#0A0A0A">
@@ -137,26 +265,22 @@ export function buildJ0Email(email: string, source?: string): string {
     <tr><td style="background:#1c1712;padding:24px 28px 20px;
       border-bottom:1px solid #3a2e26;" bgcolor="#1c1712">
       <div style="font-size:9px;letter-spacing:0.22em;text-transform:uppercase;
-        color:#E8B4B0;font-weight:700;margin-bottom:6px;">
-        What we cover in your free audit
+        color:${accent};font-weight:700;margin-bottom:6px;">
+        ${workflowsHeaderLabel}
       </div>
       <div style="font-family:Georgia,serif;font-size:18px;color:#F8F6F1;
         font-weight:400;line-height:1.3;">
-        45 minutes &middot; No pitch &middot; Just your roadmap
+        ${workflowsSubLabel}
       </div>
     </td></tr>
     <tr><td style="padding:0 28px 8px;" bgcolor="#151515">
-      ${[
-        ['Map your top 3 manual bottlenecks', 'We look at where your team loses the most hours and what\'s actually automatable.'],
-        ['Calculate your real ROI', 'Not generic numbers: your tools, your team, your specific workflows.'],
-        ['Build your first automation live', 'We sketch the first workflow together. You leave with something tangible.'],
-      ].map(([title, desc], i, arr) => `
+      ${listItems.map(([title, desc], i, arr) => `
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#151515">
         <tr>
           <td style="padding:20px 0;${i < arr.length - 1 ? 'border-bottom:1px solid #262626;' : ''}vertical-align:top;width:40px;" bgcolor="#151515">
             <div style="width:28px;height:28px;background:#2a1f1c;
               border:1px solid #4a352e;border-radius:8px;text-align:center;
-              line-height:28px;font-family:Georgia,serif;font-size:12px;color:#E8B4B0;font-weight:600;">
+              line-height:28px;font-family:Georgia,serif;font-size:12px;color:${accent};font-weight:600;">
               ${i + 1}
             </div>
           </td>
@@ -172,33 +296,7 @@ export function buildJ0Email(email: string, source?: string): string {
 
 <tr><td style="height:32px;" bgcolor="#0A0A0A"></td></tr>
 
-<tr><td style="padding:0 40px;" class="pad" bgcolor="#0A0A0A">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#131313"
-    style="border:1px solid #262626;border-radius:14px;overflow:hidden;">
-    <tr>
-      <td style="padding:24px;text-align:center;border-right:1px solid #232323;width:33%;" bgcolor="#131313">
-        <div style="font-family:Georgia,serif;font-size:28px;color:#E8B4B0;
-          font-weight:600;line-height:1;margin-bottom:6px;">312+</div>
-        <div style="font-size:9px;color:#9a9a9a;text-transform:uppercase;
-          letter-spacing:0.14em;font-weight:600;">Deployments</div>
-      </td>
-      <td style="padding:24px;text-align:center;border-right:1px solid #232323;width:33%;" bgcolor="#131313">
-        <div style="font-family:Georgia,serif;font-size:28px;color:#F8F6F1;
-          font-weight:600;line-height:1;margin-bottom:6px;">14h</div>
-        <div style="font-size:9px;color:#9a9a9a;text-transform:uppercase;
-          letter-spacing:0.14em;font-weight:600;">Saved / week</div>
-      </td>
-      <td style="padding:24px;text-align:center;width:33%;" bgcolor="#131313">
-        <div style="font-family:Georgia,serif;font-size:28px;color:#4ADE80;
-          font-weight:600;line-height:1;margin-bottom:6px;">€185k</div>
-        <div style="font-size:9px;color:#9a9a9a;text-transform:uppercase;
-          letter-spacing:0.14em;font-weight:600;">Avg. annual ROI</div>
-      </td>
-    </tr>
-  </table>
-</td></tr>
-
-<tr><td style="height:32px;" bgcolor="#0A0A0A"></td></tr>
+${statsBlock}
 
 <tr><td style="padding:0 40px;" class="pad" bgcolor="#0A0A0A">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#0A0A0A"
@@ -209,7 +307,7 @@ export function buildJ0Email(email: string, source?: string): string {
       ${[
         'No slide deck, no sales script. We open your actual tools and look at your actual data.',
         'You get a written action plan by email the same day, whether you become a client or not.',
-        'If we don\'t find at least one workflow worth automating, we\'ll tell you plainly.',
+        'If we don’t find at least one workflow worth automating, we’ll tell you plainly.',
       ].map((line) => `
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#0A0A0A">
         <tr>
@@ -230,7 +328,7 @@ export function buildJ0Email(email: string, source?: string): string {
 
 <tr><td style="padding:0 40px;text-align:center;" class="pad" bgcolor="#0A0A0A">
   <a href="https://www.purist.online/pages/welcome"
-    style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:18px 48px;
+    style="display:inline-block;background:${accent};color:#0A0A0A;padding:18px 48px;
     border-radius:12px;font-size:15px;font-weight:700;text-decoration:none;letter-spacing:-0.01em;">
     Book your free audit &rarr;
   </a>
@@ -253,14 +351,31 @@ export function buildJ0Email(email: string, source?: string): string {
 </td></tr>`;
 
   return htmlWrapper(
-    'You have at least 3 automation wins waiting. Let me show you exactly what they are, free.',
+    isGuide
+      ? `Your ${profession.name.toLowerCase()} guide, ranked: which workflow to build first, free.`
+      : 'You have at least 3 automation wins waiting. Let me show you exactly what they are, free.',
     body,
     email,
+    accent,
   );
 }
 
 // Step 2: J+2 short human follow-up
-export function buildJ2Email(email: string): string {
+export function buildJ2Email(email: string, source?: string): string {
+  const profession = findProfession(source);
+  const accent = accentFor(profession);
+  const painPoint = profession?.painPoints?.[0];
+
+  const opener = profession
+    ? `I sent you the ${profession.name.toLowerCase()} automation guide a couple of days ago. Just wanted to check: did it land okay?`
+    : 'I sent you a note a couple of days ago about a free automation audit. Just wanted to check: did it land okay?';
+
+  const painLine = painPoint
+    ? `<p style="font-size:15px;color:#c2c2c2;line-height:1.8;margin:0 0 20px;">
+        One thing that guide can't do from a PDF: tell you whether "${painPoint}" is actually costing <em>your</em> business real money, or whether you're already past it. That's a 5-minute conversation, not a form.
+      </p>`
+    : '';
+
   const body = `
 <tr><td style="padding:48px 40px 0;" class="pad">
   <h1 style="font-family:Georgia,'Times New Roman',serif;font-size:28px;color:#F8F6F1;
@@ -268,9 +383,9 @@ export function buildJ2Email(email: string): string {
     Did you get a chance to look at this?
   </h1>
   <p style="font-size:15px;color:#c2c2c2;line-height:1.8;margin:0 0 20px;">
-    I sent you a note a couple of days ago about a free automation audit.
-    Just wanted to check: did it land okay?
+    ${opener}
   </p>
+  ${painLine}
   <p style="font-size:15px;color:#c2c2c2;line-height:1.8;margin:0 0 20px;">
     I have <strong style="color:#F8F6F1;">2 slots left this week</strong> for free 45-minute
     workflow reviews. If the timing works, you can grab one below.
@@ -282,9 +397,9 @@ export function buildJ2Email(email: string): string {
 
 <tr><td style="padding:0 40px;text-align:center;" class="pad" bgcolor="#0A0A0A">
   <a href="https://www.purist.online/pages/welcome"
-    style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:16px 44px;
+    style="display:inline-block;background:${accent};color:#0A0A0A;padding:16px 44px;
     border-radius:12px;font-size:14px;font-weight:700;text-decoration:none;">
-    Grab your slot →
+    Grab your slot &rarr;
   </a>
 </td></tr>
 
@@ -305,11 +420,19 @@ export function buildJ2Email(email: string): string {
     '2 free audit slots left this week, happy to answer questions first.',
     body,
     email,
+    accent,
   );
 }
 
 // Step 5: J+5 case study angle
-export function buildJ5Email(email: string): string {
+export function buildJ5Email(email: string, source?: string): string {
+  const profession = findProfession(source);
+  const accent = accentFor(profession);
+  const cs = caseStudyFor(profession);
+  const closenessLine = profession
+    ? `This is the closest real deployment we have to ${profession.name.toLowerCase()}s in ${profession.category.toLowerCase()}.`
+    : '';
+
   const body = `
 <tr><td style="padding:48px 40px 0;" class="pad">
   <div style="font-size:9px;letter-spacing:0.22em;text-transform:uppercase;
@@ -317,9 +440,10 @@ export function buildJ5Email(email: string): string {
     Case study
   </div>
   <h1 style="font-family:Georgia,'Times New Roman',serif;font-size:30px;color:#F8F6F1;
-    margin:0 0 28px;font-weight:400;line-height:1.25;">
-    16 hours saved in week one: here's exactly how they did it.
+    margin:0 0 12px;font-weight:400;line-height:1.25;">
+    ${cs.savedHours} saved in week one: here's exactly how they did it.
   </h1>
+  ${closenessLine ? `<p style="font-size:13px;color:#8a8a8a;line-height:1.6;margin:0 0 16px;">${closenessLine}</p>` : ''}
 </td></tr>
 
 <tr><td style="padding:0 40px;" class="pad" bgcolor="#0A0A0A">
@@ -328,13 +452,13 @@ export function buildJ5Email(email: string): string {
     background:rgba(232,180,176,0.04);">
     <tr><td style="padding:28px 28px 24px;">
       <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;
-        color:#E8B4B0;font-weight:700;margin-bottom:14px;">Client profile</div>
+        color:${accent};font-weight:700;margin-bottom:14px;">Client profile</div>
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
         ${[
-          ['Sector', 'SaaS / B2B'],
-          ['Team size', '11 people'],
-          ['Manual hours lost/week', '~22h across ops + sales'],
-          ['Main pain', 'Lead follow-up falling through the cracks, manual reporting'],
+          ['Sector', cs.sector],
+          ['Team size', cs.team],
+          ['Manual hours lost/week', cs.hours],
+          ['Main pain', cs.pain],
         ].map(([k, v]) => `<tr>
           <td style="padding:8px 0;font-size:12px;color:#9a9a9a;
             width:45%;vertical-align:top;">${k}</td>
@@ -350,13 +474,9 @@ export function buildJ5Email(email: string): string {
 
 <tr><td style="padding:0 40px;" class="pad" bgcolor="#0A0A0A">
   <p style="font-size:15px;color:#c2c2c2;line-height:1.8;margin:0 0 16px;">
-    In the first week, we deployed three workflows:
+    In the first weeks, we deployed three workflows:
   </p>
-  ${[
-    ['New lead → CRM + personalised follow-up sequence', 'Every inbound lead now gets a tailored 3-email sequence within 5 minutes of signing up. Reply rate went from 8% to 31%.'],
-    ['Weekly report on autopilot', 'Every Friday at 8am, a branded summary pulls from 4 tools and lands in the inbox. 3h of manual work → 0.'],
-    ['Invoice auto-generation on project close', 'When a Notion card moves to "Done", an invoice is generated and sent. No manual accounting.'],
-  ].map(([title, desc], i) => `
+  ${cs.workflows.map(([title, desc], i) => `
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
     style="margin-bottom:${i < 2 ? '16px' : '0'};">
     <tr>
@@ -381,19 +501,19 @@ export function buildJ5Email(email: string): string {
     <tr>
       <td style="padding:20px 24px;text-align:center;border-right:1px solid rgba(248,246,241,0.05);">
         <div style="font-family:Georgia,serif;font-size:30px;color:#4ADE80;
-          font-weight:600;margin-bottom:4px;">16h</div>
+          font-weight:600;margin-bottom:4px;">${cs.savedHours}</div>
         <div style="font-size:10px;color:#8a8a8a;text-transform:uppercase;
-          letter-spacing:0.12em;">saved / week</div>
+          letter-spacing:0.12em;">time reclaimed</div>
       </td>
       <td style="padding:20px 24px;text-align:center;border-right:1px solid rgba(248,246,241,0.05);">
-        <div style="font-family:Georgia,serif;font-size:30px;color:#E8B4B0;
-          font-weight:600;margin-bottom:4px;">6 wk</div>
+        <div style="font-family:Georgia,serif;font-size:30px;color:${accent};
+          font-weight:600;margin-bottom:4px;">${cs.payback}</div>
         <div style="font-size:10px;color:#8a8a8a;text-transform:uppercase;
           letter-spacing:0.12em;">to full payback</div>
       </td>
       <td style="padding:20px 24px;text-align:center;">
         <div style="font-family:Georgia,serif;font-size:30px;color:#F8F6F1;
-          font-weight:600;margin-bottom:4px;">€74k</div>
+          font-weight:600;margin-bottom:4px;">${cs.annualSaving}</div>
         <div style="font-size:10px;color:#8a8a8a;text-transform:uppercase;
           letter-spacing:0.12em;">annual saving</div>
       </td>
@@ -412,9 +532,9 @@ export function buildJ5Email(email: string): string {
 
 <tr><td style="padding:0 40px;text-align:center;" class="pad" bgcolor="#0A0A0A">
   <a href="https://www.purist.online/pages/welcome"
-    style="display:inline-block;background:#E8B4B0;color:#0A0A0A;padding:16px 44px;
+    style="display:inline-block;background:${accent};color:#0A0A0A;padding:16px 44px;
     border-radius:12px;font-size:14px;font-weight:700;text-decoration:none;">
-    See if this applies to you →
+    See if this applies to you &rarr;
   </a>
 </td></tr>
 
@@ -438,8 +558,9 @@ export function buildJ5Email(email: string): string {
 </td></tr>`;
 
   return htmlWrapper(
-    'How a B2B SaaS team cut 16 hours of manual work in their first week with us.',
+    `How ${cs.sector.toLowerCase()} cut ${cs.savedHours} of manual work in the first weeks with us.`,
     body,
     email,
+    accent,
   );
 }

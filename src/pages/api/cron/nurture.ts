@@ -34,7 +34,7 @@ export const GET: APIRoute = async ({ request }) => {
     .select(`
       id,
       step,
-      leads ( email, status )
+      leads ( email, status, source )
     `)
     .eq('status', 'pending')
     .lte('scheduled_at', new Date().toISOString())
@@ -51,6 +51,7 @@ export const GET: APIRoute = async ({ request }) => {
     const lead = Array.isArray(row.leads) ? row.leads[0] : row.leads;
     const email: string = lead?.email;
     const status: string = lead?.status;
+    const source: string | undefined = lead?.source;
 
     if (!email) {
       await db.from('email_sequences').update({ status: 'skipped' }).eq('id', row.id);
@@ -69,10 +70,10 @@ export const GET: APIRoute = async ({ request }) => {
 
     if (row.step === 2) {
       subject = 'Did you get a chance to look at this?';
-      html = buildJ2Email(email);
+      html = buildJ2Email(email, source);
     } else if (row.step === 5) {
-      subject = '16 hours saved in week one — how they did it';
-      html = buildJ5Email(email);
+      subject = 'What we deployed in week one, and what it saved';
+      html = buildJ5Email(email, source);
     } else {
       // Unknown step — skip
       await db.from('email_sequences').update({ status: 'skipped' }).eq('id', row.id);
