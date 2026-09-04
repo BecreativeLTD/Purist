@@ -45,9 +45,18 @@ const latestBatchSlugs = new Set([
   'california-automated-incident-response-funding-2026',
 ]);
 
+const september2026BatchSlugs = new Set([
+  'digital-workflow-automation-guide-2026',
+  'intelligent-workflow-automation-ai-decision-making-2026',
+  'llm-agents-workflow-automation-small-team-productivity-2026',
+  'workflow-management-system-small-business-buyers-guide-2026',
+  'business-process-management-bpm-workflow-automation-2026',
+]);
+
 const blogPages = blogData.articles.map(a => {
   let lastmod = '2026-07-11';
-  if (latestBatchSlugs.has(a.slug)) lastmod = '2026-08-02';
+  if (september2026BatchSlugs.has(a.slug)) lastmod = '2026-09-04';
+  else if (latestBatchSlugs.has(a.slug)) lastmod = '2026-08-02';
   else if (newOrUpdatedBlogSlugs.has(a.slug)) lastmod = '2026-07-31';
   return { url: `/pages/blog/${a.slug}`, lastmod };
 });
