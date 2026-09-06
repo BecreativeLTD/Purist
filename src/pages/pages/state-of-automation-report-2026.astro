@@ -57,6 +57,25 @@ const revenueRanked = byCategoryByRevenue.map((c, i) => ({ ...c, color: rampColo
 const maxHours = hoursRanked[0].avgHours;
 const maxRevenue = revenueRanked[0].avgRevenue;
 
+// ── Quadrant chart: hours saved vs revenue impact, split at the category medians ──
+function median(arr: number[]) {
+  const s = [...arr].sort((a, b) => a - b);
+  const mid = Math.floor(s.length / 2);
+  return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
+}
+const medHours = median(byCategory.map((c) => c.avgHours));
+const medRevenue = median(byCategory.map((c) => c.avgRevenue));
+const QW = 640, QH = 460, QPAD = 56;
+const qx = (h: number) => QPAD + (h / (maxHours * 1.08)) * (QW - QPAD * 1.4);
+const qy = (r: number) => QH - QPAD - (r / (maxRevenue * 1.08)) * (QH - QPAD * 1.6);
+const quadrantPoints = byCategory.map((c) => ({
+  ...c,
+  x: qx(c.avgHours),
+  y: qy(c.avgRevenue),
+  quadrant: c.avgHours >= medHours && c.avgRevenue >= medRevenue ? 'both' : c.avgHours >= medHours ? 'hours' : c.avgRevenue >= medRevenue ? 'revenue' : 'neither',
+}));
+const bothQuadrantCats = quadrantPoints.filter((p) => p.quadrant === 'both').map((p) => p.category);
+
 const fmtMoney = (n: number) => `$${Math.round(n).toLocaleString('en-US')}`;
 const fmtHours = (n: number) => `${n.toFixed(1)}h/wk`;
 
@@ -89,6 +108,10 @@ const skillsByCat: Record<string, any[]> = {};
 (skillsData.skills as any[]).forEach((s) => {
   (skillsByCat[s.cat] ||= []).push(s);
 });
+
+// ── Flagship use cases: 4 real profession models, shown as full workflow sequences ──
+const useCaseSlugs = ['plumber', 'dentist', 'marketing-agency', 'real-estate-wholesaler'];
+const useCases = useCaseSlugs.map((slug) => professions.find((p) => p.slug === slug)!);
 
 // ── Before / after by category, built from real painPoints + workflow impact ──
 const beforeAfter = byCategoryByRevenue.map((c) => {
@@ -137,6 +160,19 @@ const beforeAfter = byCategoryByRevenue.map((c) => {
   .soa-card { background: #fff; border: 1px solid rgba(10,10,10,0.08); border-radius: 16px; padding: 1.75rem; }
   .soa-card.accent { border: 2px solid #8B4038; background: #FBF3EA; }
   #soa-search, #soa-filter { font-size: 13.5px; padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(10,10,10,0.15); background: #fff; }
+  html { scroll-behavior: smooth; }
+  .soa-jumpnav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .soa-jumpnav a { font-size: 11.5px; font-weight: 600; padding: 7px 14px; border-radius: 999px; background: rgba(10,10,10,0.04); color: rgba(10,10,10,0.6); text-decoration: none; border: 1px solid rgba(10,10,10,0.08); white-space: nowrap; }
+  .soa-jumpnav a:hover { background: rgba(139,64,56,0.08); color: #8B4038; border-color: rgba(139,64,56,0.2); }
+  .soa-cap-section { background: #FBF3EA; }
+  .soa-cap-card { background: #fff; border: 1px solid rgba(139,64,56,0.14); border-radius: 16px; padding: 1.75rem; }
+  .soa-case-card { background: #17130F; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 1.75rem; }
+  .soa-case-step { border-left: 2px solid rgba(232,180,176,0.35); padding-left: 14px; margin-bottom: 14px; }
+  @media (max-width: 480px) {
+    .soa-bar-row { flex-direction: column; align-items: stretch; gap: 4px; }
+    .soa-bar-label { width: auto; }
+    .soa-bar-track { width: 100%; }
+  }
 </style>
 
 <section class="bg-brand-cream pt-16 pb-14 lg:pt-24 lg:pb-16">
@@ -148,7 +184,9 @@ const beforeAfter = byCategoryByRevenue.map((c) => {
     </p>
     <p class="text-[12.5px] mb-8" style="color:rgba(10,10,10,0.4);">Published September 2026 &middot; PURIST Research</p>
     <div class="flex flex-wrap items-center justify-center gap-3">
-      <DownloadReportButton client:idle />
+      <a href="#soa-exec" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-button text-[13.5px] font-semibold" style="background:#8B4038;color:#fff;">
+        Read the full report &darr;
+      </a>
       <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-button text-[13.5px] font-semibold" style="background:#0A0A0A;color:#fff;">
         Get my free automation plan &rarr;
       </a>
@@ -156,7 +194,20 @@ const beforeAfter = byCategoryByRevenue.map((c) => {
   </div>
 </section>
 
-<section class="bg-white py-14 lg:py-16 border-b border-brand-gray-100">
+<section class="bg-brand-cream py-5 border-b border-brand-gray-100">
+  <div class="soa-wrap soa-jumpnav">
+    <a href="#soa-exec">Executive Summary</a>
+    <a href="#soa-methodology">Methodology</a>
+    <a href="#soa-findings">Findings</a>
+    <a href="#soa-usecases">Use Cases</a>
+    <a href="#soa-before-after">Before / After</a>
+    <a href="#soa-n8n">n8n Library</a>
+    <a href="#soa-claude">Claude Skills</a>
+    <a href="#soa-appendix">Full Appendix</a>
+  </div>
+</section>
+
+<section id="soa-exec" class="bg-white py-14 lg:py-16 border-b border-brand-gray-100">
   <div class="soa-wrap">
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
       <div class="soa-stat-tile"><div class="soa-stat-num">{avgHours.toFixed(1)}h</div><div class="soa-stat-label">avg. hours recovered per week</div></div>
@@ -167,7 +218,38 @@ const beforeAfter = byCategoryByRevenue.map((c) => {
   </div>
 </section>
 
-<section class="bg-brand-cream py-14 lg:py-16 border-b border-brand-gray-100">
+<section id="soa-usecases" class="py-16 lg:py-24" style="background:#0A0A0A;">
+  <div class="soa-wrap">
+    <p class="soa-eyebrow mb-3" style="color:#E8B4B0;">Real Use Cases</p>
+    <h2 class="soa-h2 mb-3" style="color:#fff;">Four Businesses, Four Real Automation Builds</h2>
+    <p class="text-[14.5px] mb-10" style="color:rgba(255,255,255,0.55);max-width:680px;">
+      Four of the 171 documented profession models in this dataset, shown in full: the real pain points, all four real workflows deployed, and the measured outcome. These are profession models from PURIST's own dataset, not client testimonials or invented case studies.
+    </p>
+    <div class="grid md:grid-cols-2 gap-5">
+      {useCases.map((uc) => (
+        <div class="soa-case-card">
+          <div class="flex items-center justify-between mb-3">
+            <p class="text-[16px] font-bold" style="color:#fff;font-family:'Fraunces',Georgia,serif;">{uc.name}</p>
+            <span class="text-[10px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-full" style="background:rgba(232,180,176,0.12);color:#E8B4B0;">{uc.category}</span>
+          </div>
+          <p class="text-[13px] mb-5" style="color:rgba(255,255,255,0.5);line-height:1.6;">{uc.description}</p>
+          {uc.workflows.map((w, i) => (
+            <div class="soa-case-step">
+              <p class="text-[12.5px] font-bold mb-1" style="color:#fff;">{i + 1}. {w.name}</p>
+              <p class="text-[12px] mb-1" style="color:rgba(255,255,255,0.45);line-height:1.5;">{w.description}</p>
+              <p class="text-[12px] font-semibold" style="color:#8FBF8F;">{w.impact}</p>
+            </div>
+          ))}
+          <p class="text-[13px] font-bold mt-4 pt-4" style="color:#E8B4B0;border-top:1px solid rgba(255,255,255,0.08);">
+            {uc.stats.timeSaved} recovered &middot; {uc.stats.revenueImpact} revenue impact
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section id="soa-methodology" class="bg-brand-cream py-14 lg:py-16 border-b border-brand-gray-100">
   <div class="soa-wrap max-w-3xl">
     <p class="soa-eyebrow mb-3">Methodology</p>
     <h2 class="soa-h2 mb-5">Where this data comes from.</h2>
@@ -179,7 +261,7 @@ const beforeAfter = byCategoryByRevenue.map((c) => {
   </div>
 </section>
 
-<section class="bg-white py-14 lg:py-20 border-b border-brand-gray-100">
+<section id="soa-findings" class="bg-white py-14 lg:py-20 border-b border-brand-gray-100">
   <div class="soa-wrap">
     <p class="soa-eyebrow mb-3">Finding 01</p>
     <h2 class="soa-h2 mb-3">The {avgHours.toFixed(1)}-Hour Rule</h2>
@@ -236,6 +318,32 @@ const beforeAfter = byCategoryByRevenue.map((c) => {
         </tbody>
       </table>
     </div>
+
+    <div class="mt-12">
+      <p class="soa-eyebrow mb-3">Finding 02b</p>
+      <h2 class="soa-h2 mb-3">Where Time and Revenue Both Pay Off</h2>
+      <p class="text-[14.5px] mb-6" style="color:rgba(10,10,10,0.6);max-width:680px;">
+        Plotting hours saved against revenue impact for all 13 categories, split at the dataset's own medians, shows they are not the same axis. {bothQuadrantCats.length > 0 && (<>{bothQuadrantCats.join(' and ')} sit in the top-right quadrant: high on both hours saved and revenue impact.</>)}
+      </p>
+      <div class="soa-table-scroll" style="overflow-x:auto;">
+        <svg viewBox={`0 0 ${QW} ${QH}`} width="100%" style="min-width:520px;max-width:640px;display:block;margin:0 auto;">
+          <line x1={QPAD} y1={qy(medRevenue)} x2={QW - QPAD * 0.4} y2={qy(medRevenue)} stroke="rgba(10,10,10,0.12)" stroke-dasharray="4,4" />
+          <line x1={qx(medHours)} y1={QPAD * 0.5} x2={qx(medHours)} y2={QH - QPAD} stroke="rgba(10,10,10,0.12)" stroke-dasharray="4,4" />
+          <text x={QW - QPAD * 0.4} y={qy(medRevenue) - 8} text-anchor="end" font-size="10" fill="rgba(10,10,10,0.35)">median revenue</text>
+          <text x={qx(medHours) + 6} y={QPAD * 0.5 + 10} font-size="10" fill="rgba(10,10,10,0.35)">median hours</text>
+          <line x1={QPAD} y1={QH - QPAD} x2={QW - QPAD * 0.4} y2={QH - QPAD} stroke="rgba(10,10,10,0.2)" />
+          <line x1={QPAD} y1={QPAD * 0.5} x2={QPAD} y2={QH - QPAD} stroke="rgba(10,10,10,0.2)" />
+          <text x={QPAD} y={QH - QPAD + 22} font-size="10.5" fill="rgba(10,10,10,0.45)">Avg. hours saved / week &rarr;</text>
+          <text x={QPAD - 10} y={QPAD * 0.5 - 6} font-size="10.5" fill="rgba(10,10,10,0.45)">&uarr; Avg. monthly revenue impact</text>
+          {quadrantPoints.map((p) => (
+            <>
+              <circle cx={p.x} cy={p.y} r="7" fill={p.quadrant === 'both' ? '#8B4038' : '#E8B4B0'} stroke="#fff" stroke-width="1.5" />
+              <text x={p.x + 10} y={p.y + 4} font-size="10.5" fill="#0A0A0A" font-weight={p.quadrant === 'both' ? '700' : '400'}>{p.category}</text>
+            </>
+          ))}
+        </svg>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -288,7 +396,7 @@ const beforeAfter = byCategoryByRevenue.map((c) => {
   </div>
 </section>
 
-<section class="bg-white py-14 lg:py-20 border-b border-brand-gray-100">
+<section id="soa-before-after" class="bg-white py-14 lg:py-20 border-b border-brand-gray-100">
   <div class="soa-wrap">
     <p class="soa-eyebrow mb-3">Deep Dive</p>
     <h2 class="soa-h2 mb-3">Before and After, by Industry</h2>
@@ -311,7 +419,7 @@ const beforeAfter = byCategoryByRevenue.map((c) => {
   </div>
 </section>
 
-<section class="bg-brand-cream py-14 lg:py-20 border-b border-brand-gray-100">
+<section id="soa-n8n" class="soa-cap-section py-14 lg:py-20 border-b border-brand-gray-100">
   <div class="soa-wrap">
     <p class="soa-eyebrow mb-3">Capability Inventory</p>
     <h2 class="soa-h2 mb-3">The n8n Workflow Library Behind This Report</h2>
@@ -320,7 +428,7 @@ const beforeAfter = byCategoryByRevenue.map((c) => {
     </p>
     <div class="grid md:grid-cols-2 gap-5">
       {Object.entries(skillCatLabels).filter(([id]) => skillsByCat[id]?.length).map(([id, label]) => (
-        <div class="soa-card">
+        <div class="soa-cap-card">
           <div class="flex items-center justify-between mb-3">
             <p class="text-[13px] font-bold" style="color:#0A0A0A;">{label}</p>
             <span class="text-[11px] font-semibold" style="color:#8B4038;">{skillsByCat[id].length} patterns</span>
@@ -339,14 +447,14 @@ const beforeAfter = byCategoryByRevenue.map((c) => {
   </div>
 </section>
 
-<section class="bg-white py-14 lg:py-20 border-b border-brand-gray-100">
+<section id="soa-claude" class="soa-cap-section py-14 lg:py-20 border-b border-brand-gray-100">
   <div class="soa-wrap">
     <p class="soa-eyebrow mb-3">Capability Inventory</p>
     <h2 class="soa-h2 mb-3">{claudeSkillsData.totalSkills} Claude Agent Skills</h2>
     <p class="text-[14.5px] mb-8" style="color:rgba(10,10,10,0.6);max-width:680px;">Beyond fixed workflow automation, PURIST deploys Claude AI agent skills for judgment-based work: drafting, classification, research, and QA that fixed if-then logic cannot handle.</p>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {claudeSkillsData.categories.map((c: any) => (
-        <div class="soa-card" style="padding:1.25rem;">
+        <div class="soa-cap-card" style="padding:1.25rem;">
           <div class="flex items-center justify-between mb-2">
             <p class="text-[13px] font-bold" style="color:#0A0A0A;">{c.name}</p>
             <span class="text-[11px] font-semibold" style="color:#8B4038;">{c.count}</span>
@@ -358,7 +466,7 @@ const beforeAfter = byCategoryByRevenue.map((c) => {
   </div>
 </section>
 
-<section class="bg-brand-cream py-14 lg:py-20 border-b border-brand-gray-100">
+<section id="soa-appendix" class="bg-brand-cream py-14 lg:py-20 border-b border-brand-gray-100">
   <div class="soa-wrap">
     <p class="soa-eyebrow mb-3">Appendix</p>
     <h2 class="soa-h2 mb-3">Problems &amp; Solutions, by Profession</h2>
@@ -370,7 +478,7 @@ const beforeAfter = byCategoryByRevenue.map((c) => {
         {categories.sort().map((c) => <option value={c}>{c}</option>)}
       </select>
     </div>
-    <div id="soa-list" style="max-height:720px;overflow-y:auto;border:1px solid rgba(10,10,10,0.08);border-radius:14px;background:#fff;">
+    <div id="soa-list" style="border:1px solid rgba(10,10,10,0.08);border-radius:14px;background:#fff;">
       {appendixRows.map((r) => (
         <details class="soa-row" data-name={r.name.toLowerCase()} data-cat={r.category} style="border-bottom:1px solid rgba(10,10,10,0.06);">
           <summary style="cursor:pointer;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;list-style:none;">
@@ -420,6 +528,13 @@ const beforeAfter = byCategoryByRevenue.map((c) => {
 
 <section class="bg-white py-14 lg:py-16">
   <div class="soa-wrap max-w-2xl">
+    <div class="text-center mb-10">
+      <h2 class="soa-h2 mb-3">Want the full PDF?</h2>
+      <p class="text-[14px] mb-6" style="color:rgba(10,10,10,0.6);">All 171 profession breakdowns, the n8n workflow library, and the Claude Skills catalog, in one document. Enter your email and we will send it to you.</p>
+      <div class="flex justify-center">
+        <DownloadReportButton client:idle />
+      </div>
+    </div>
     <div class="rounded-[16px] border border-brand-gray-100 p-6 mb-8">
       <p class="text-[11px] uppercase tracking-wider font-bold mb-2" style="color:rgba(10,10,10,0.4);">How to cite this report</p>
       <p class="text-[13.5px]" style="color:rgba(10,10,10,0.65);font-family:'IBM Plex Mono',monospace;">PURIST. (2026). The State of Business Automation Report 2026. Retrieved from {pageUrl}</p>
