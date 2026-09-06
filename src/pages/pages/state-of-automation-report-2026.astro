@@ -65,16 +65,37 @@ function median(arr: number[]) {
 }
 const medHours = median(byCategory.map((c) => c.avgHours));
 const medRevenue = median(byCategory.map((c) => c.avgRevenue));
-const QW = 640, QH = 460, QPAD = 56;
+const QW = 700, QH = 520, QPAD = 56;
 const qx = (h: number) => QPAD + (h / (maxHours * 1.08)) * (QW - QPAD * 1.4);
 const qy = (r: number) => QH - QPAD - (r / (maxRevenue * 1.08)) * (QH - QPAD * 1.6);
-const quadrantPoints = byCategory.map((c) => ({
+const rawQuadrantPoints = byCategory.map((c) => ({
   ...c,
   x: qx(c.avgHours),
   y: qy(c.avgRevenue),
   quadrant: c.avgHours >= medHours && c.avgRevenue >= medRevenue ? 'both' : c.avgHours >= medHours ? 'hours' : c.avgRevenue >= medRevenue ? 'revenue' : 'neither',
 }));
-const bothQuadrantCats = quadrantPoints.filter((p) => p.quadrant === 'both').map((p) => p.category);
+const bothQuadrantCats = rawQuadrantPoints.filter((p) => p.quadrant === 'both').map((p) => p.category);
+
+// ── De-collide labels: several categories land within a few px of each
+// other, so naive point.x+10/point.y+4 label placement overlaps text.
+// Stack labels top-to-bottom with a minimum gap, flip to the left side
+// near the right edge, and draw a short leader line whenever a label is
+// nudged away from its true point. ──
+const LABEL_GAP = 15;
+const RIGHT_EDGE = QW - QPAD * 0.4;
+const sortedByY = [...rawQuadrantPoints].sort((a, b) => a.y - b.y);
+let lastLabelY = -Infinity;
+for (const p of sortedByY) {
+  (p as any).labelY = Math.max(p.y, lastLabelY + LABEL_GAP);
+  lastLabelY = (p as any).labelY;
+}
+const quadrantPoints = rawQuadrantPoints.map((p) => {
+  const labelY = (p as any).labelY as number;
+  const flip = p.x > RIGHT_EDGE - 95;
+  const labelX = flip ? p.x - 12 : p.x + 12;
+  const needsLeader = Math.abs(labelY - p.y) > 3;
+  return { ...p, labelX, labelY, flip, needsLeader };
+});
 
 const fmtMoney = (n: number) => `$${Math.round(n).toLocaleString('en-US')}`;
 const fmtHours = (n: number) => `${n.toFixed(1)}h/wk`;
@@ -159,6 +180,14 @@ const beforeAfter = byCategoryByRevenue.map((c) => {
   .soa-callout .num { font-family: 'Fraunces', Georgia, serif; font-size: clamp(2.5rem, 6vw, 4rem); color: #E8B4B0; line-height: 1; }
   .soa-card { background: #fff; border: 1px solid rgba(10,10,10,0.08); border-radius: 16px; padding: 1.75rem; }
   .soa-card.accent { border: 2px solid #8B4038; background: #FBF3EA; }
+  .soa-accordion { background: #fff; border: 1px solid rgba(10,10,10,0.08); border-radius: 14px; overflow: hidden; transition: box-shadow 0.15s; }
+  .soa-accordion[open] { box-shadow: 0 4px 20px rgba(10,10,10,0.06); border-color: rgba(139,64,56,0.25); }
+  .soa-accordion summary { list-style: none; cursor: pointer; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .soa-accordion summary::-webkit-details-marker { display: none; }
+  .soa-accordion summary:hover { background: rgba(139,64,56,0.03); }
+  .soa-accordion .soa-chevron { flex-shrink: 0; transition: transform 0.2s ease; color: rgba(10,10,10,0.35); }
+  .soa-accordion[open] .soa-chevron { transform: rotate(180deg); color: #8B4038; }
+  .soa-accordion .soa-accordion-body { padding: 0 20px 20px; border-top: 1px solid rgba(10,10,10,0.06); padding-top: 16px; }
   #soa-search, #soa-filter { font-size: 13.5px; padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(10,10,10,0.15); background: #fff; }
   html { scroll-behavior: smooth; }
   .soa-jumpnav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
@@ -337,8 +366,11 @@ const beforeAfter = byCategoryByRevenue.map((c) => {
           <text x={QPAD - 10} y={QPAD * 0.5 - 6} font-size="10.5" fill="rgba(10,10,10,0.45)">&uarr; Avg. monthly revenue impact</text>
           {quadrantPoints.map((p) => (
             <>
-              <circle cx={p.x} cy={p.y} r="7" fill={p.quadrant === 'both' ? '#8B4038' : '#E8B4B0'} stroke="#fff" stroke-width="1.5" />
-              <text x={p.x + 10} y={p.y + 4} font-size="10.5" fill="#0A0A0A" font-weight={p.quadrant === 'both' ? '700' : '400'}>{p.category}</text>
+              {p.needsLeader && (
+                <line x1={p.x} y1={p.y} x2={p.flip ? p.labelX + 4 : p.labelX - 4} y2={p.labelY} stroke="rgba(10,10,10,0.2)" stroke-width="0.75" />
+              )}
+              <circle cx={p.x} cy={p.y} r="6.5" fill={p.quadrant === 'both' ? '#8B4038' : '#E8B4B0'} stroke="#fff" stroke-width="1.5" />
+              <text x={p.labelX} y={p.labelY + 3.5} text-anchor={p.flip ? 'end' : 'start'} font-size="10.5" fill="#0A0A0A" font-weight={p.quadrant === 'both' ? '700' : '400'}>{p.category}</text>
             </>
           ))}
         </svg>
@@ -400,20 +432,28 @@ const beforeAfter = byCategoryByRevenue.map((c) => {
   <div class="soa-wrap">
     <p class="soa-eyebrow mb-3">Deep Dive</p>
     <h2 class="soa-h2 mb-3">Before and After, by Industry</h2>
-    <p class="text-[14.5px] mb-8" style="color:rgba(10,10,10,0.6);max-width:680px;">A representative before/after pattern per category, drawn directly from the documented pain points and workflow outcomes for the professions modeled in that category, not a single-client testimonial.</p>
-    <div class="grid md:grid-cols-2 gap-5">
+    <p class="text-[14.5px] mb-8" style="color:rgba(10,10,10,0.6);max-width:680px;">A representative before/after pattern per category, drawn directly from the documented pain points and workflow outcomes for the professions modeled in that category, not a single-client testimonial. Click a category to expand.</p>
+    <div class="grid md:grid-cols-2 gap-4">
       {beforeAfter.map((c) => (
-        <div class="soa-card">
-          <p class="text-[13px] font-bold mb-3" style="color:#0A0A0A;">{c.category}</p>
-          <p class="text-[10px] uppercase tracking-wider font-bold mb-1.5" style="color:#B3261E;">Before</p>
-          <ul class="text-[13px] mb-3" style="color:rgba(10,10,10,0.62);line-height:1.55;padding-left:1.1em;">
-            {c.before.map((b: string) => <li style="margin-bottom:4px;">{b}</li>)}
-          </ul>
-          <p class="text-[10px] uppercase tracking-wider font-bold mb-1.5" style="color:#2D5016;">After</p>
-          <p class="text-[13px]" style="color:rgba(10,10,10,0.62);line-height:1.55;">
-            <strong>{c.afterHours} recovered, {c.afterRevenue}/mo impact</strong>, via workflows such as "{c.exampleWorkflow}" ({c.exampleImpact}).
-          </p>
-        </div>
+        <details class="soa-accordion">
+          <summary>
+            <span style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;">
+              <span style="font-size:13.5px;font-weight:700;color:#0A0A0A;">{c.category}</span>
+              <span style="font-size:12px;color:#2D5016;font-weight:600;">{c.afterHours} &middot; {c.afterRevenue}/mo</span>
+            </span>
+            <svg class="soa-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l4 4 4-4"/></svg>
+          </summary>
+          <div class="soa-accordion-body">
+            <p class="text-[10px] uppercase tracking-wider font-bold mb-1.5" style="color:#B3261E;">Before</p>
+            <ul class="text-[13px] mb-3" style="color:rgba(10,10,10,0.62);line-height:1.55;padding-left:1.1em;">
+              {c.before.map((b: string) => <li style="margin-bottom:4px;">{b}</li>)}
+            </ul>
+            <p class="text-[10px] uppercase tracking-wider font-bold mb-1.5" style="color:#2D5016;">After</p>
+            <p class="text-[13px]" style="color:rgba(10,10,10,0.62);line-height:1.55;">
+              <strong>{c.afterHours} recovered, {c.afterRevenue}/mo impact</strong>, via workflows such as "{c.exampleWorkflow}" ({c.exampleImpact}).
+            </p>
+          </div>
+        </details>
       ))}
     </div>
   </div>
