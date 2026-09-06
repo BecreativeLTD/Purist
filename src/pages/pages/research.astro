@@ -9,7 +9,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
 >
 
 <!-- JSON-LD: Dataset -->
-<script type="application/ld+json" is:inline>{JSON.stringify({
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Dataset",
   "name": "PURIST Business Automation Benchmarks 2026",
@@ -20,10 +20,10 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
   "dateModified": "2026-06-27",
   "keywords": ["automation ROI", "workflow automation benchmarks", "business automation statistics", "n8n deployment data"],
   "license": "https://creativecommons.org/licenses/by/4.0/"
-})}</script>
+})} />
 
 <!-- JSON-LD: FAQPage -->
-<script type="application/ld+json" is:inline>{JSON.stringify({
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
@@ -53,7 +53,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
       "acceptedAnswer": { "@type": "Answer", "text": "Based on ROI data, the highest-performing industries are law firms (13.4× ROI), healthcare/dental (12.1×), staffing agencies (11.2×), marketing agencies (9.8×), real estate (8.3×), and e-commerce (7.6×)." }
     }
   ]
-})}</script>
+})} />
 
 <!-- Hero -->
 <section style="background:#0A0A0A;color:#F8F6F1;padding:5rem 0 4rem;position:relative;overflow:hidden;">
