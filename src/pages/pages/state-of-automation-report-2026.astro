@@ -43,7 +43,7 @@ const nonClaudeAvgHours = avg(nonClaudeProfs.map((p) => parseHours(p.stats.timeS
 const nonClaudeAvgRev = avg(nonClaudeProfs.map((p) => parseMoney(p.stats.revenueImpact)).filter((n): n is number => !!n));
 const claudePct = (claudeProfs.length / professions.length) * 100;
 
-const RAMP = ['#F5DFC9', '#E8B98D', '#D48B52', '#A0522D', '#723C1F'];
+const RAMP = ['#F7E4E1', '#EFC3BC', '#E8B4B0', '#C97A6E', '#8B4038'];
 function rampColor(rank: number, total: number) {
   // rank 0 = highest value → darkest stop
   const quintile = Math.min(RAMP.length - 1, Math.floor((rank / total) * RAMP.length));
@@ -85,7 +85,7 @@ const appendixRows = professions
 
 <style>
   .soa-wrap { max-width: 980px; margin: 0 auto; padding: 0 1.25rem; }
-  .soa-eyebrow { font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; font-weight: 600; color: #A0522D; }
+  .soa-eyebrow { font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; font-weight: 600; color: #8B4038; }
   .soa-h1 { font-family: 'Fraunces', Georgia, serif; font-size: clamp(2rem, 5vw, 3.1rem); line-height: 1.08; letter-spacing: -0.025em; color: #0A0A0A; }
   .soa-h2 { font-family: 'Fraunces', Georgia, serif; font-size: clamp(1.5rem, 3.2vw, 2rem); line-height: 1.15; letter-spacing: -0.02em; color: #0A0A0A; }
   .soa-stat-tile { background: #fff; border: 1px solid rgba(10,10,10,0.08); border-radius: 16px; padding: 1.5rem 1.25rem; }
@@ -104,7 +104,7 @@ const appendixRows = professions
   .soa-callout { background: #0A0A0A; color: #fff; border-radius: 20px; padding: 2.5rem; text-align: center; }
   .soa-callout .num { font-family: 'Fraunces', Georgia, serif; font-size: clamp(2.5rem, 6vw, 4rem); color: #E8B4B0; line-height: 1; }
   .soa-card { background: #fff; border: 1px solid rgba(10,10,10,0.08); border-radius: 16px; padding: 1.75rem; }
-  .soa-card.accent { border: 2px solid #A0522D; background: #FBF3EA; }
+  .soa-card.accent { border: 2px solid #8B4038; background: #FBF3EA; }
   #soa-search, #soa-filter { font-size: 13.5px; padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(10,10,10,0.15); background: #fff; }
 </style>
 
@@ -229,7 +229,7 @@ const appendixRows = professions
     </p>
     <div class="grid sm:grid-cols-2 gap-5">
       <div class="soa-card accent">
-        <p class="text-[11px] uppercase tracking-wider font-bold mb-3" style="color:#A0522D;">&#9679; Claude AI-powered deployments</p>
+        <p class="text-[11px] uppercase tracking-wider font-bold mb-3" style="color:#8B4038;">&#9679; Claude AI-powered deployments</p>
         <div class="flex gap-6">
           <div><div class="soa-stat-num" style="font-size:1.7rem;">{fmtHours(claudeAvgHours)}</div><div class="soa-stat-label">avg. hours/week</div></div>
           <div><div class="soa-stat-num" style="font-size:1.7rem;">{fmtMoney(claudeAvgRev)}</div><div class="soa-stat-label">avg. revenue/mo</div></div>
@@ -250,7 +250,7 @@ const appendixRows = professions
   <div class="soa-wrap max-w-2xl text-center">
     <p class="soa-eyebrow mb-3">Finding 05</p>
     <h2 class="soa-h2 mb-6">{Math.round(pctRoiUnder1)}% Break Even Within 30 Days</h2>
-    <div class="soa-callout" style="background:#A0522D;">
+    <div class="soa-callout" style="background:#8B4038;">
       <div class="num" style="color:#fff;">{Math.round(pctRoiUnder1)}%</div>
       <p class="text-sm mt-2" style="color:rgba(255,255,255,0.75);">of modeled deployments recover their cost within the first month of going live</p>
     </div>
@@ -275,7 +275,7 @@ const appendixRows = professions
         <tbody>
           {appendixRows.map((r) => (
             <tr data-name={r.name.toLowerCase()} data-cat={r.category}>
-              <td><a href={`/pages/automation/${r.slug}`} style="color:#A0522D;font-weight:600;text-decoration:none;">{r.name}</a></td>
+              <td><a href={`/pages/automation/${r.slug}`} style="color:#8B4038;font-weight:600;text-decoration:none;">{r.name}</a></td>
               <td>{r.category}</td>
               <td style="max-width:260px;">{r.painPoint}</td>
               <td style="font-weight:600;">{r.solution}</td>
@@ -334,6 +334,7 @@ const appendixRows = professions
   temporalCoverage: '2026',
   creator: { '@type': 'Organization', name: 'PURIST', url: 'https://www.purist.online' },
   variableMeasured: ['Average hours saved per week', 'Average monthly revenue impact', 'Average deployment days', 'Percentage achieving ROI within 30 days'],
+  license: 'https://www.purist.online/pages/terms-of-service',
   url: pageUrl,
 })} />
 
