@@ -5,13 +5,13 @@ export const professions3: Profession[] = [
     slug: 'marketing-agency',
     name: 'Marketing Agency',
     category: 'Agencies & Consulting',
-    tagline: 'Stop manually building reports, chasing client approvals, and onboarding new accounts one spreadsheet at a time — automate the operational work that eats your margin.',
+    tagline: 'Stop manually building reports, chasing client approvals, and onboarding new accounts one spreadsheet at a time, automate the operational work that eats your margin.',
     description: 'Marketing agencies sell creative and strategic value but spend 40-60% of account management time on operational tasks: reporting, approval collection, client updates, and onboarding. Automation eliminates the operational drag so your team delivers more billable output with the same headcount.',
     painPoints: [
-      'Monthly client reports take 4-6 hours each to compile across 5-10 platforms — a full week of team time every month',
-      'Creative approval cycles extend timelines by days when clients don\'t respond to emails — projects stall and deadlines slip',
-      'New client onboarding takes 3 weeks when it should take 3 days — access collection, strategy calls, and asset gathering are all manual',
-      'Client communication is reactive — account managers write the same updates dozens of times instead of automating status delivery'
+      'Monthly client reports take 4-6 hours each to compile across 5-10 platforms, a full week of team time every month',
+      'Creative approval cycles extend timelines by days when clients don\'t respond to emails, projects stall and deadlines slip',
+      'New client onboarding takes 3 weeks when it should take 3 days, access collection, strategy calls, and asset gathering are all manual',
+      'Client communication is reactive, account managers write the same updates dozens of times instead of automating status delivery'
     ],
     workflows: [
       { name: 'Automated Client Reporting', description: 'n8n pulls data from Google Analytics, Meta Ads, Google Ads, LinkedIn, and email platforms on a schedule → generates formatted report PDF → sends to client via email on a fixed date. What took 4-6 hours per report now takes zero team time.', timeSaved: '12h/week', impact: '6 client reports automated end-to-end' },
@@ -24,18 +24,18 @@ export const professions3: Profession[] = [
     faq: [
       { q: 'Can reporting automation connect to all the platforms we use?', a: 'n8n has native integrations with Google Analytics, Meta Ads Manager, Google Ads, LinkedIn Campaign Manager, HubSpot, Mailchimp, Klaviyo, and hundreds of other marketing platforms. If it has an API, we can pull from it.' },
       { q: 'What if a client uses a custom or proprietary reporting platform?', a: 'We build custom API connectors for non-standard platforms. If your client uses an unusual tool, we assess the API and build accordingly. Most platforms expose their data via REST API.' },
-      { q: 'Can this scale across different clients with different reporting needs?', a: 'Yes — each client has a separate workflow configuration. Client A gets a weekly paid media report; Client B gets a monthly SEO + content report. Everything runs independently on its own schedule.' }
+      { q: 'Can this scale across different clients with different reporting needs?', a: 'Yes, each client has a separate workflow configuration. Client A gets a weekly paid media report; Client B gets a monthly SEO + content report. Everything runs independently on its own schedule.' }
     ]
   },
   {
     slug: 'seo-agency',
     name: 'SEO Agency',
     category: 'Agencies & Consulting',
-    tagline: 'Automate rank tracking, technical audit delivery, and client reporting so your team focuses on strategy and link building — not data gathering.',
+    tagline: 'Automate rank tracking, technical audit delivery, and client reporting so your team focuses on strategy and link building, not data gathering.',
     description: 'SEO agencies are drowning in repetitive data work: pulling rankings, compiling crawl data, writing status updates. Automation handles all recurring data collection and client-facing reporting, freeing analysts for the high-leverage work that actually moves rankings.',
     painPoints: [
-      'Weekly rank tracking across hundreds of keywords for multiple clients is manually compiled — consuming 10+ hours that should go to strategy',
-      'Technical audit findings have to be reformatted and explained for each client separately — the same information written four different ways',
+      'Weekly rank tracking across hundreds of keywords for multiple clients is manually compiled, consuming 10+ hours that should go to strategy',
+      'Technical audit findings have to be reformatted and explained for each client separately, the same information written four different ways',
       'Content briefs and keyword research documents are built from scratch every time rather than from automated templates',
       'Lead qualification for new SEO prospects involves manual website audits that could be partially automated as part of the proposal process'
     ],
@@ -49,8 +49,8 @@ export const professions3: Profession[] = [
     stats: { timeSaved: '30h/week', revenueImpact: '$9,400/month', deploymentDays: 7, roiMonths: 1 },
     faq: [
       { q: 'What SEO tools does the automation integrate with?', a: 'We integrate with SEMrush, Ahrefs, Moz, Google Search Console, Google Analytics, Screaming Frog (via export), and DataForSEO. Most major SEO platforms have APIs we can connect to.' },
-      { q: 'Can rank tracking automation handle local SEO keyword sets?', a: 'Yes — local keyword sets with geo-modifiers are tracked separately. Reports can be segmented by location, device type, or campaign. Multi-location clients get location-specific ranking data.' },
-      { q: 'Can the system handle white-label reporting for client agencies?', a: 'Yes — reports are fully branded to your agency (or your client\'s brand for white-label). Logo, color scheme, and contact information are configured per client.' }
+      { q: 'Can rank tracking automation handle local SEO keyword sets?', a: 'Yes, local keyword sets with geo-modifiers are tracked separately. Reports can be segmented by location, device type, or campaign. Multi-location clients get location-specific ranking data.' },
+      { q: 'Can the system handle white-label reporting for client agencies?', a: 'Yes, reports are fully branded to your agency (or your client\'s brand for white-label). Logo, color scheme, and contact information are configured per client.' }
     ]
   },
   {
@@ -75,8 +75,8 @@ export const professions3: Profession[] = [
     stats: { timeSaved: '27h/week', revenueImpact: '$7,800/month', deploymentDays: 7, roiMonths: 1 },
     faq: [
       { q: 'What media monitoring tools does the automation integrate with?', a: 'We integrate with Google Alerts, Mention, Meltwater, Cision, and Brandwatch. If you use a specific monitoring tool, we assess the API and build accordingly.' },
-      { q: 'Can coverage reports automatically calculate earned media value?', a: 'Yes — EMV calculations can be built into the report workflow using CPM-based or publication-tier-based formulas. Configuration matches your agency\'s EMV methodology.' },
-      { q: 'Can the pitch tracking system integrate with our existing CRM or outreach tool?', a: 'Yes — we integrate with HubSpot, Salesforce, Cision, Muck Rack, and most major PR CRM and outreach platforms. Pitch data flows from your existing tool into the follow-up automation.' }
+      { q: 'Can coverage reports automatically calculate earned media value?', a: 'Yes, EMV calculations can be built into the report workflow using CPM-based or publication-tier-based formulas. Configuration matches your agency\'s EMV methodology.' },
+      { q: 'Can the pitch tracking system integrate with our existing CRM or outreach tool?', a: 'Yes, we integrate with HubSpot, Salesforce, Cision, Muck Rack, and most major PR CRM and outreach platforms. Pitch data flows from your existing tool into the follow-up automation.' }
     ]
   },
   {
@@ -86,8 +86,8 @@ export const professions3: Profession[] = [
     tagline: 'Automate client feedback collection, project status updates, and invoice follow-up so your designers spend more time designing and less time chasing.',
     description: 'Web design agencies lose billable hours to the operational infrastructure of running client projects: collecting feedback, chasing invoice payments, sending status updates, and onboarding new clients. Automation handles all of it systematically so your creative team stays in flow.',
     painPoints: [
-      'Client feedback on design rounds comes in through email, WhatsApp, phone calls, and Slack — consolidation is a full-time job',
-      'Invoice collection averages 47 days when payment terms are 30 days — cash flow suffers from inconsistent follow-up',
+      'Client feedback on design rounds comes in through email, WhatsApp, phone calls, and Slack, consolidation is a full-time job',
+      'Invoice collection averages 47 days when payment terms are 30 days, cash flow suffers from inconsistent follow-up',
       'Project status emails are written manually every week even when the status is the same as last week',
       'New website launches require a multi-step handoff (training, hosting setup, CMS access) that is always chaotic'
     ],
@@ -100,9 +100,9 @@ export const professions3: Profession[] = [
     tools: ['n8n', 'Stripe', 'Notion', 'Google Sheets'],
     stats: { timeSaved: '21h/week', revenueImpact: '$6,300/month', deploymentDays: 7, roiMonths: 1 },
     faq: [
-      { q: 'Can the feedback collection work with visual design tools like Figma?', a: 'Yes — we integrate with Figma via API to pull comment data. Alternatively, feedback collection can use tools like Loom screen recording links embedded in the feedback form for visual communication.' },
+      { q: 'Can the feedback collection work with visual design tools like Figma?', a: 'Yes, we integrate with Figma via API to pull comment data. Alternatively, feedback collection can use tools like Loom screen recording links embedded in the feedback form for visual communication.' },
       { q: 'What invoicing software does the payment follow-up integrate with?', a: 'We integrate with FreshBooks, QuickBooks, Xero, Stripe Invoicing, Wave, and most major accounting/invoicing tools. Payment status is pulled directly from the platform.' },
-      { q: 'Can client communication automation be paused for specific clients?', a: 'Yes — every client can have automation paused independently. If an account is in a sensitive phase, communication is handled manually. Pausing and resuming takes seconds in the workflow dashboard.' }
+      { q: 'Can client communication automation be paused for specific clients?', a: 'Yes, every client can have automation paused independently. If an account is in a sensitive phase, communication is handled manually. Pausing and resuming takes seconds in the workflow dashboard.' }
     ]
   },
   {
@@ -112,7 +112,7 @@ export const professions3: Profession[] = [
     tagline: 'Automate client ticket routing, infrastructure monitoring alerts, and monthly billing summaries so your engineers focus on solving problems, not managing communication.',
     description: 'IT consulting firms and MSPs are measured on response time and system uptime, but support coordinators spend enormous time on ticket routing, status updates, and billing reconciliation that could run automatically. Automation handles the operational layer while your engineers handle the technical challenges.',
     painPoints: [
-      'Support tickets arrive via email, phone, and client portal but are routed manually — leading to delays and occasional drops',
+      'Support tickets arrive via email, phone, and client portal but are routed manually, leading to delays and occasional drops',
       'Infrastructure monitoring alerts go to a shared inbox and require manual triage before escalation',
       'Monthly billing reconciliation across time tracking, materials, and SLA credits is assembled by hand each month',
       'Client IT asset inventories are never kept current because updates are entirely manual'
@@ -127,7 +127,7 @@ export const professions3: Profession[] = [
     stats: { timeSaved: '26h/week', revenueImpact: '$8,900/month', deploymentDays: 7, roiMonths: 1 },
     faq: [
       { q: 'What ticketing systems does the routing automation integrate with?', a: 'We integrate with Zendesk, Freshdesk, ServiceNow, ConnectWise, Autotask, Jira Service Management, and most major MSP and IT support platforms.' },
-      { q: 'Can the alert escalation logic be configured to our specific SLA tiers?', a: 'Yes — escalation timing and routing are configured per client SLA tier and service type. A P1 production outage escalates differently than a P3 software question, and a premium SLA client routes differently than a standard one.' },
+      { q: 'Can the alert escalation logic be configured to our specific SLA tiers?', a: 'Yes, escalation timing and routing are configured per client SLA tier and service type. A P1 production outage escalates differently than a P3 software question, and a premium SLA client routes differently than a standard one.' },
       { q: 'How does the billing automation handle complex project billing vs. retainer billing?', a: 'Both models are supported. Time-and-materials projects bill from time tracking data. Retainer clients bill automatically with over-hours tracked and billed separately. Hybrid arrangements are handled by custom workflow logic.' }
     ]
   },
@@ -136,12 +136,12 @@ export const professions3: Profession[] = [
     name: 'Financial Advisor / RIA',
     category: 'Agencies & Consulting',
     tagline: 'Automate client review scheduling, portfolio update communications, and compliance documentation so you serve more clients without growing your operations team.',
-    description: 'Registered Investment Advisors and independent financial advisors are capacity-constrained — every hour spent on scheduling, compliance documentation, and routine client communications is an hour not spent on planning or new client development. Automation handles the operational and communication layer that drives client satisfaction but doesn\'t require advisor judgment.',
+    description: 'Registered Investment Advisors and independent financial advisors are capacity-constrained, every hour spent on scheduling, compliance documentation, and routine client communications is an hour not spent on planning or new client development. Automation handles the operational and communication layer that drives client satisfaction but doesn\'t require advisor judgment.',
     painPoints: [
-      'Annual review scheduling is a weeks-long phone tag process — calendar coordination for a 1-hour meeting should not take 3 weeks',
+      'Annual review scheduling is a weeks-long phone tag process, calendar coordination for a 1-hour meeting should not take 3 weeks',
       'Client portfolio update communications are written manually by the advisor or operations staff for each client separately',
       'Compliance documentation (ADV updates, client acknowledgments, suitability reviews) is tracked in spreadsheets and often incomplete',
-      'Prospect follow-up after the first meeting is inconsistent — warm leads go cold because follow-up depends on advisor memory'
+      'Prospect follow-up after the first meeting is inconsistent, warm leads go cold because follow-up depends on advisor memory'
     ],
     workflows: [
       { name: 'Annual Review Scheduling Automation', description: 'Review due date approaches → automated scheduling sequence via email with self-booking link showing advisor\'s availability. One round-trip instead of 5. Annual review completion rate increases from 74% to 96% within the first year.', timeSaved: '8h/week', impact: 'Review completion rate: 74% → 96%' },
@@ -154,18 +154,18 @@ export const professions3: Profession[] = [
     faq: [
       { q: 'Is automated client communication compliant with SEC and FINRA regulations?', a: 'All automated communications are built to be reviewed and archived in your compliance system. We do not send unapproved investment-specific language. Compliance templates are designed with your Chief Compliance Officer before deployment.' },
       { q: 'What CRM and financial planning tools does this integrate with?', a: 'We integrate with Redtail, Wealthbox, Salesforce Financial Services Cloud, Orion, Black Diamond, and most major RIA technology platforms. Portfolio data and client records drive personalized communication.' },
-      { q: 'Can automation handle different service tiers of clients differently?', a: 'Yes — workflows are segmented by AUM tier or client service model. Platinum clients get different communication frequency, review depth, and personalization than standard clients. All configurable.' }
+      { q: 'Can automation handle different service tiers of clients differently?', a: 'Yes, workflows are segmented by AUM tier or client service model. Platinum clients get different communication frequency, review depth, and personalization than standard clients. All configurable.' }
     ]
   },
   {
     slug: 'accounting-firm',
     name: 'Accounting Firm / CPA',
     category: 'Agencies & Consulting',
-    tagline: 'Automate document collection, deadline reminders, and client billing so your team spends tax season doing tax work — not chasing paperwork.',
-    description: 'Accounting firms lose significant team capacity to document collection, deadline nagging, and administrative work that is entirely automatable. During tax season, the cost of manual processes compounds — every hour spent chasing documents is an hour not spent on returns. Automation systematizes the client communication layer so your CPAs do only what CPAs should do.',
+    tagline: 'Automate document collection, deadline reminders, and client billing so your team spends tax season doing tax work, not chasing paperwork.',
+    description: 'Accounting firms lose significant team capacity to document collection, deadline nagging, and administrative work that is entirely automatable. During tax season, the cost of manual processes compounds, every hour spent chasing documents is an hour not spent on returns. Automation systematizes the client communication layer so your CPAs do only what CPAs should do.',
     painPoints: [
       'Document collection before tax season requires weeks of back-and-forth calls and emails that could be replaced by automated request sequences',
-      'Tax deadline reminders are sent manually to hundreds of clients — or not sent at all, leading to extension requests that overwhelm capacity',
+      'Tax deadline reminders are sent manually to hundreds of clients, or not sent at all, leading to extension requests that overwhelm capacity',
       'Client billing follows inconsistent schedules because invoicing is manual and tied to whoever remembers to send it',
       'New client intake and engagement letter signing is a multi-week manual process'
     ],
@@ -179,8 +179,8 @@ export const professions3: Profession[] = [
     stats: { timeSaved: '27h/week', revenueImpact: '$8,200/month', deploymentDays: 7, roiMonths: 1 },
     faq: [
       { q: 'What accounting software does this integrate with?', a: 'We integrate with QuickBooks, Xero, Sage, CCH Axcess, Thomson Reuters UltraTax, and most major professional accounting platforms. Billing and client status data drives the automation workflows.' },
-      { q: 'Can the document collection portal handle sensitive financial documents securely?', a: 'Yes — document upload is handled via encrypted portals (ShareFile, TaxDome, or your existing secure portal). We integrate with your existing secure document system rather than creating a new one.' },
-      { q: 'Can this handle different client types — business clients vs. individual filers?', a: 'Completely — document checklists, deadline calendars, and communication sequences are fully configured per client type. An S-Corp client gets different documents requested than an individual W-2 filer.' }
+      { q: 'Can the document collection portal handle sensitive financial documents securely?', a: 'Yes, document upload is handled via encrypted portals (ShareFile, TaxDome, or your existing secure portal). We integrate with your existing secure document system rather than creating a new one.' },
+      { q: 'Can this handle different client types, business clients vs. individual filers?', a: 'Completely, document checklists, deadline calendars, and communication sequences are fully configured per client type. An S-Corp client gets different documents requested than an individual W-2 filer.' }
     ]
   },
   {
@@ -188,12 +188,12 @@ export const professions3: Profession[] = [
     name: 'Law Firm',
     category: 'Agencies & Consulting',
     tagline: 'Automate client intake, document request sequences, and billing reminders so your attorneys practice law instead of managing administrative processes.',
-    description: 'Law firms pay attorney rates for administrative work — intake coordination, document chasing, billing follow-up — that should be automated. Every hour an attorney spends on non-billable operational work represents a direct revenue loss. Automation creates the operational infrastructure that supports a professional client experience without consuming attorney time.',
+    description: 'Law firms pay attorney rates for administrative work, intake coordination, document chasing, billing follow-up, that should be automated. Every hour an attorney spends on non-billable operational work represents a direct revenue loss. Automation creates the operational infrastructure that supports a professional client experience without consuming attorney time.',
     painPoints: [
       'New client intake requires multiple phone calls, manual conflict checks, and paper-based engagement letter processes',
-      'Document collection from clients is a persistent bottleneck — matters stall waiting for records that were requested weeks ago',
+      'Document collection from clients is a persistent bottleneck, matters stall waiting for records that were requested weeks ago',
       'Billing realization rates suffer because invoice follow-up is sporadic and uncomfortable for attorneys to initiate',
-      'Case status updates to clients are reactive — clients call to ask for updates rather than receiving them proactively'
+      'Case status updates to clients are reactive, clients call to ask for updates rather than receiving them proactively'
     ],
     workflows: [
       { name: 'Client Intake Automation', description: 'Intake form submitted → conflict check triggered → engagement letter generated → e-signature link sent → retainer invoice initiated automatically. What took 5 days of back-and-forth now completes in under 24 hours without attorney involvement.', timeSaved: '8h/week', impact: 'Intake: 5 days → under 24 hours' },
@@ -206,18 +206,18 @@ export const professions3: Profession[] = [
     faq: [
       { q: 'What practice management systems does this integrate with?', a: 'We integrate with Clio, MyCase, PracticePanther, Filevine, and most major legal practice management platforms. Matter data and billing status drive all communication workflows.' },
       { q: 'How does automated intake handle conflicts of interest checks?', a: 'Intake data triggers a conflict check query against your existing conflicts database. If no conflict, intake proceeds automatically. If potential conflict flagged, workflow pauses and alerts the responsible attorney for manual review before proceeding.' },
-      { q: 'Is client communication from law firm automation appropriate from an ethics standpoint?', a: 'Automated communications are designed to handle administrative and status information only — not legal advice. All templates are reviewed for compliance with your state bar\'s ethics rules before deployment.' }
+      { q: 'Is client communication from law firm automation appropriate from an ethics standpoint?', a: 'Automated communications are designed to handle administrative and status information only, not legal advice. All templates are reviewed for compliance with your state bar\'s ethics rules before deployment.' }
     ]
   },
   {
     slug: 'recruitment-agency',
     name: 'Recruitment Agency',
     category: 'Agencies & Consulting',
-    tagline: 'Automate candidate screening, interview scheduling, and client update sequences so your recruiters spend time building relationships — not managing logistics.',
+    tagline: 'Automate candidate screening, interview scheduling, and client update sequences so your recruiters spend time building relationships, not managing logistics.',
     description: 'Recruitment agencies are relationship businesses buried under logistics. Resume screening, interview scheduling, feedback collection, and client updates consume the majority of recruiter time. Automation handles the logistics layer so your team focuses on the conversations that close placements.',
     painPoints: [
       'Recruiter spends 2-3 hours daily on interview scheduling back-and-forth between candidates and hiring managers',
-      'Candidate follow-up after each interview stage is inconsistent — candidates disappear from the pipeline because no one followed up',
+      'Candidate follow-up after each interview stage is inconsistent, candidates disappear from the pipeline because no one followed up',
       'Client reporting on pipeline status is reactive and manually assembled when clients call asking for updates',
       'Resume screening for high-volume roles requires reading 100+ applications to find 5 qualified candidates'
     ],
@@ -231,8 +231,8 @@ export const professions3: Profession[] = [
     stats: { timeSaved: '29h/week', revenueImpact: '$9,700/month', deploymentDays: 7, roiMonths: 1 },
     faq: [
       { q: 'What ATS systems does the automation integrate with?', a: 'We integrate with Bullhorn, JobAdder, Greenhouse, Lever, Workday, and most major ATS platforms. Candidate pipeline data drives all scheduling and communication workflows.' },
-      { q: 'How does the AI screening handle complex role requirements?', a: 'Role requirements are captured in a structured brief that the AI screens against. Screening is used for objective qualification matching (years of experience, required skills, location) — never for subjective personality or culture screening.' },
-      { q: 'Can this handle both retained and contingency search workflows?', a: 'Yes — retained and contingency searches have different communication protocols, reporting cadences, and client update frequencies. Both models are configured with appropriate workflows.' }
+      { q: 'How does the AI screening handle complex role requirements?', a: 'Role requirements are captured in a structured brief that the AI screens against. Screening is used for objective qualification matching (years of experience, required skills, location), never for subjective personality or culture screening.' },
+      { q: 'Can this handle both retained and contingency search workflows?', a: 'Yes, retained and contingency searches have different communication protocols, reporting cadences, and client update frequencies. Both models are configured with appropriate workflows.' }
     ]
   },
   {
@@ -244,7 +244,7 @@ export const professions3: Profession[] = [
     painPoints: [
       'Session scheduling and rescheduling is a recurring friction point that consumes time and creates awkwardness with clients',
       'Between-session accountability homework is submitted inconsistently because there\'s no systematic tracking or reminder',
-      'Program renewal conversations are avoided until the program expires — losing clients who would have renewed with a well-timed ask',
+      'Program renewal conversations are avoided until the program expires, losing clients who would have renewed with a well-timed ask',
       'New client onboarding requires manual delivery of workbooks, intake forms, and program materials that could be systematized'
     ],
     workflows: [
@@ -256,9 +256,9 @@ export const professions3: Profession[] = [
     tools: ['n8n', 'Twilio', 'Calendly', 'Stripe'],
     stats: { timeSaved: '17h/week', revenueImpact: '$5,200/month', deploymentDays: 7, roiMonths: 1 },
     faq: [
-      { q: 'Can the accountability check-in questions be customized per client?', a: 'Yes — each client has their own accountability protocol tied to their specific goals. A revenue-growth client gets different questions than a leadership-development client. Questions update automatically when program milestones change.' },
+      { q: 'Can the accountability check-in questions be customized per client?', a: 'Yes, each client has their own accountability protocol tied to their specific goals. A revenue-growth client gets different questions than a leadership-development client. Questions update automatically when program milestones change.' },
       { q: 'What happens if a client doesn\'t respond to accountability check-ins?', a: 'Non-response triggers an escalation flag after 48 hours. Coach receives an alert identifying the unresponsive client so they can reach out personally. Automation handles the volume; the coach handles exceptions.' },
-      { q: 'Can this handle group coaching programs in addition to 1:1 coaching?', a: 'Yes — group programs have their own workflow configuration with cohort-wide announcements, individual accountability tracking, and group session scheduling. Both delivery models are fully supported.' }
+      { q: 'Can this handle group coaching programs in addition to 1:1 coaching?', a: 'Yes, group programs have their own workflow configuration with cohort-wide announcements, individual accountability tracking, and group session scheduling. Both delivery models are fully supported.' }
     ]
   },
   {
@@ -268,7 +268,7 @@ export const professions3: Profession[] = [
     tagline: 'Automate project status reporting, stakeholder communication, and deliverable tracking so your consultants stay billable on strategic work, not project administration.',
     description: 'Management consultants and boutique strategy firms bill for intellectual output but lose significant consulting time to project administration: status reporting, stakeholder communication, data collection, and deliverable tracking. Automation handles the administrative layer so every billable hour is spent on the work clients actually pay for.',
     painPoints: [
-      'Weekly status reports to client steering committees are written manually — a 2-hour task that produces the same format every week',
+      'Weekly status reports to client steering committees are written manually, a 2-hour task that produces the same format every week',
       'Data collection from client teams requires repeated follow-up emails when a form-based automated system would achieve the same result',
       'Deliverable review and approval cycles extend timelines because there is no systematic tracking of who has reviewed what',
       'Project close-out and case study documentation is rushed and incomplete because no automated process captures outcomes'
@@ -283,7 +283,7 @@ export const professions3: Profession[] = [
     stats: { timeSaved: '19h/week', revenueImpact: '$8,600/month', deploymentDays: 7, roiMonths: 1 },
     faq: [
       { q: 'What project management tools does the status report automation connect to?', a: 'We integrate with Asana, Notion, Monday.com, ClickUp, Jira, and most major PM platforms. Project milestone and task data pulls automatically without manual data entry.' },
-      { q: 'Can automated status reports be formatted to match client expectations?', a: 'Yes — status report templates are fully configured to your client\'s preferred format, branding, and information hierarchy. Multiple templates can exist for different clients or project types.' },
+      { q: 'Can automated status reports be formatted to match client expectations?', a: 'Yes, status report templates are fully configured to your client\'s preferred format, branding, and information hierarchy. Multiple templates can exist for different clients or project types.' },
       { q: 'How does the system handle confidential client data in automated workflows?', a: 'All automations run on secure infrastructure with client data isolated per project. No data crosses between client workflows. We work within your existing NDAs and data handling agreements.' }
     ]
   },
@@ -295,8 +295,8 @@ export const professions3: Profession[] = [
     description: 'Insurance brokers lose clients at renewal because manual processes can\'t maintain consistent contact across a large book of business. Automation creates the systematic communication infrastructure that prevents lapses, catches renewal opportunities, and nurtures new business prospects through the long sales cycles of commercial insurance.',
     painPoints: [
       'Policy renewal lapses occur because 90-day advance notice calls slip through the cracks in manual tracking systems',
-      'New business prospects require 8-12 touchpoints over 6-12 months — manual follow-up at that frequency is impossible to sustain',
-      'Claims follow-up with clients after a loss event is inconsistent — clients feel abandoned when they need support most',
+      'New business prospects require 8-12 touchpoints over 6-12 months, manual follow-up at that frequency is impossible to sustain',
+      'Claims follow-up with clients after a loss event is inconsistent, clients feel abandoned when they need support most',
       'Certificate of insurance requests come in frequently and require manual generation that could be partially automated'
     ],
     workflows: [
@@ -309,33 +309,33 @@ export const professions3: Profession[] = [
     stats: { timeSaved: '22h/week', revenueImpact: '$7,400/month', deploymentDays: 7, roiMonths: 1 },
     faq: [
       { q: 'What insurance agency management systems does this integrate with?', a: 'We integrate with Applied Epic, Hawksoft, AMS360, EZLynx, and most major insurance AMS platforms. Policy data and renewal dates drive all communication workflows.' },
-      { q: 'Can the renewal reminder system handle multiple policies per client?', a: 'Yes — each policy has its own renewal tracking workflow. A commercial client with property, liability, auto, and workers\' comp policies gets appropriately timed reminders for each, consolidated into a single annual review invitation.' },
-      { q: 'Is automated client communication compliant with state insurance regulations?', a: 'All templates are designed to be informational and administrative — not advice or solicitation in the regulated sense. Compliance review of templates against your state\'s requirements is part of our deployment process.' }
+      { q: 'Can the renewal reminder system handle multiple policies per client?', a: 'Yes, each policy has its own renewal tracking workflow. A commercial client with property, liability, auto, and workers\' comp policies gets appropriately timed reminders for each, consolidated into a single annual review invitation.' },
+      { q: 'Is automated client communication compliant with state insurance regulations?', a: 'All templates are designed to be informational and administrative, not advice or solicitation in the regulated sense. Compliance review of templates against your state\'s requirements is part of our deployment process.' }
     ]
   },
   {
     slug: 'real-estate-agent',
     name: 'Real Estate Agent',
     category: 'Agencies & Consulting',
-    tagline: 'Never lose a lead to slow follow-up again — automate lead response, listing updates, and past client re-engagement that compounds into referral revenue.',
+    tagline: 'Never lose a lead to slow follow-up again, automate lead response, listing updates, and past client re-engagement that compounds into referral revenue.',
     description: 'Real estate agents lose 78% of deals to the first agent who responds. Manual follow-up at the volume required to build a top-producer business is impossible without automation. The agents who consistently outperform their market have automated the communication infrastructure that turns cold leads into closings and past clients into a referral engine.',
     painPoints: [
       'Online leads from Zillow, Realtor.com, and websites go cold within hours when response time exceeds 5 minutes',
-      'Listing alert setup and property match notifications are manually configured per buyer — consuming hours and getting done inconsistently',
+      'Listing alert setup and property match notifications are manually configured per buyer, consuming hours and getting done inconsistently',
       'Past client database of 200-500 people sits unused because there is no systematic re-engagement process',
       'Transaction coordination requires daily client communication updates that take 30-45 minutes to write for each active transaction'
     ],
     workflows: [
       { name: 'Instant Lead Response System', description: 'Lead received from any source → immediate personalized SMS and email response within 60 seconds → appointment booking link included → 24h and 48h follow-ups if no response. Speed-to-lead improvement drives 340% more lead conversions.', timeSaved: '6h/week', impact: '340% more leads converted to appointments' },
       { name: 'Buyer Property Alert Automation', description: 'Buyer criteria entered once → weekly automated property match email with new listings meeting criteria. Keeps buyers engaged through long search processes without manual update emails. Active buyer pipeline stays warm automatically.', timeSaved: '4h/week', impact: 'Active buyer engagement maintained' },
-      { name: 'Past Client Re-Engagement', description: 'Quarterly home value update emails to your entire past client database. Annual anniversary congratulations. Market update at each rate change. Local market report monthly. Generates referrals from clients who forgot about you — the single highest-ROI communication in real estate.', timeSaved: '5h/week', impact: '2.4x referral rate from past clients' },
+      { name: 'Past Client Re-Engagement', description: 'Quarterly home value update emails to your entire past client database. Annual anniversary congratulations. Market update at each rate change. Local market report monthly. Generates referrals from clients who forgot about you, the single highest-ROI communication in real estate.', timeSaved: '5h/week', impact: '2.4x referral rate from past clients' },
       { name: 'Transaction Status Updates', description: 'Transaction milestone reached → automated update email to buyer/seller with clear language about what just happened, what comes next, and the expected timeline. Client anxiety reduced by 67%. Agent called with questions reduced by 54%.', timeSaved: '6h/week', impact: '54% fewer mid-transaction inquiry calls' }
     ],
     tools: ['n8n', 'Twilio', 'Follow Up Boss', 'Google Sheets'],
     stats: { timeSaved: '22h/week', revenueImpact: '$12,800/month', deploymentDays: 7, roiMonths: 1 },
     faq: [
       { q: 'What CRM systems does the lead response automation work with?', a: 'We integrate with Follow Up Boss, kvCORE, Lofty (Chime), BoomTown, LionDesk, and most major real estate CRM platforms. Lead source integrations include Zillow, Realtor.com, Homes.com, and website lead forms.' },
-      { q: 'Can the property alert system pull live MLS data?', a: 'Yes — we connect to MLS data feeds via IDX or RETS/RESO Web API. Property alerts pull new listings as they hit the market and match against saved buyer criteria automatically.' },
+      { q: 'Can the property alert system pull live MLS data?', a: 'Yes, we connect to MLS data feeds via IDX or RETS/RESO Web API. Property alerts pull new listings as they hit the market and match against saved buyer criteria automatically.' },
       { q: 'How does this work for a team vs. a solo agent?', a: 'Both configurations are fully supported. Teams get lead routing logic that distributes leads to appropriate agents based on geography, price range, or buyer type. Solo agents get a simpler configuration that routes everything to one pipeline.' }
     ]
   },
@@ -347,22 +347,22 @@ export const professions3: Profession[] = [
     description: 'Mortgage brokers win referrals from realtors and past clients by being the broker who communicates clearly and closes on time. Automation handles the repetitive communication and document-chasing that currently consumes loan officer time, freeing them to build more referral relationships and handle more loan volume.',
     painPoints: [
       'Borrowers call constantly for loan status updates that could be sent proactively via automated milestone notifications',
-      'Document collection is a persistent bottleneck — conditional approval documents sit outstanding for days because follow-up is manual',
+      'Document collection is a persistent bottleneck, conditional approval documents sit outstanding for days because follow-up is manual',
       'Rate alert systems for pre-approved borrowers are never maintained because setup is manual and time-consuming',
-      'Realtor referral partners receive inconsistent communication about their clients\' loan progress — weakening the relationship'
+      'Realtor referral partners receive inconsistent communication about their clients\' loan progress, weakening the relationship'
     ],
     workflows: [
       { name: 'Loan Milestone Status Updates', description: 'Each milestone in your LOS (application received, conditional approval, clear to close, closing scheduled) → automated email and SMS to borrower with plain-language explanation of what happened and what comes next. Borrower calls reduced by 71%.', timeSaved: '7h/week', impact: 'Borrower inquiry calls down 71%' },
       { name: 'Document Collection Sequences', description: 'Condition items required → automated sequence to borrower with specific document requests and secure upload links. Daily reminders if not submitted. Condition cleared → instant confirmation. Loan officer spends 0 minutes chasing documents.', timeSaved: '8h/week', impact: 'Document collection time eliminated' },
-      { name: 'Realtor Partner Updates', description: 'Every loan milestone → automated update to the referring realtor with the borrower\'s status (no financial details — just milestone progress). Realtors stop calling the loan officer to ask for updates. Relationship quality improves dramatically.', timeSaved: '4h/week', impact: '2x realtor referral repeat rate' },
+      { name: 'Realtor Partner Updates', description: 'Every loan milestone → automated update to the referring realtor with the borrower\'s status (no financial details, just milestone progress). Realtors stop calling the loan officer to ask for updates. Relationship quality improves dramatically.', timeSaved: '4h/week', impact: '2x realtor referral repeat rate' },
       { name: 'Rate Drop Alert System', description: 'Pre-approved borrowers who paused due to rates → automated alert when rates drop to their target threshold. Personalized with their specific loan amount and the new estimated payment. Reactivates pipeline without any manual monitoring.', timeSaved: '3h/week', impact: '$380K in pipeline reactivated' }
     ],
     tools: ['n8n', 'Twilio', 'Google Sheets', 'Encompass API'],
     stats: { timeSaved: '23h/week', revenueImpact: '$10,200/month', deploymentDays: 7, roiMonths: 1 },
     faq: [
       { q: 'What loan origination systems does this integrate with?', a: 'We integrate with Encompass, Calyx Point, Optimal Blue, Floify, and most major LOS platforms. Loan milestone data and condition items drive all automated communications.' },
-      { q: 'How are RESPA and compliance requirements handled in automated communications?', a: 'All communication templates are reviewed against RESPA, TRID, and applicable state regulations before deployment. We do not automate any disclosures that require timed delivery under federal regulation — those remain in your LOS workflow.' },
-      { q: 'Can the realtor update system be configured to share or withhold specific information?', a: 'Yes — realtor updates share milestone progress only. Financial details, credit information, and borrower-specific data are never included. The information shared is configurable within your compliance guidelines.' }
+      { q: 'How are RESPA and compliance requirements handled in automated communications?', a: 'All communication templates are reviewed against RESPA, TRID, and applicable state regulations before deployment. We do not automate any disclosures that require timed delivery under federal regulation, those remain in your LOS workflow.' },
+      { q: 'Can the realtor update system be configured to share or withhold specific information?', a: 'Yes, realtor updates share milestone progress only. Financial details, credit information, and borrower-specific data are never included. The information shared is configurable within your compliance guidelines.' }
     ]
   },
   {
@@ -370,7 +370,7 @@ export const professions3: Profession[] = [
     name: 'Event Planning Company',
     category: 'Agencies & Consulting',
     tagline: 'Automate vendor coordination, client approval workflows, and timeline reminders so your planners orchestrate flawless events without drowning in logistics.',
-    description: 'Event planning companies manage hundreds of moving parts per event — vendors, clients, timelines, budgets, and approvals — mostly through manual email threads. Automation creates the systematic coordination infrastructure that lets your team scale event complexity without scaling team size.',
+    description: 'Event planning companies manage hundreds of moving parts per event, vendors, clients, timelines, budgets, and approvals, mostly through manual email threads. Automation creates the systematic coordination infrastructure that lets your team scale event complexity without scaling team size.',
     painPoints: [
       'Vendor coordination for each event requires dozens of manual emails and follow-ups across caterers, venues, photographers, and florists',
       'Client approval on event designs, menus, and timelines requires repeated follow-up via email that stalls planning',
@@ -386,9 +386,9 @@ export const professions3: Profession[] = [
     tools: ['n8n', 'Google Sheets', 'Slack', 'Airtable'],
     stats: { timeSaved: '23h/week', revenueImpact: '$6,700/month', deploymentDays: 7, roiMonths: 1 },
     faq: [
-      { q: 'Can the vendor coordination system handle different vendor types with different requirement sets?', a: 'Yes — vendor category templates (venue, catering, photography, florals, entertainment) each have their own information requests, confirmation requirements, and timeline brief formats.' },
+      { q: 'Can the vendor coordination system handle different vendor types with different requirement sets?', a: 'Yes, vendor category templates (venue, catering, photography, florals, entertainment) each have their own information requests, confirmation requirements, and timeline brief formats.' },
       { q: 'How does the budget tracking work if clients make last-minute changes?', a: 'Change orders trigger an automatic budget impact calculation and client notification showing the revised total. Client approval is required before the change is confirmed with the vendor, creating a clean paper trail.' },
-      { q: 'Can automation handle both corporate events and social events in the same system?', a: 'Yes — corporate and social event types have separate workflow configurations reflecting their different vendor sets, client communication styles, and timeline structures.' }
+      { q: 'Can automation handle both corporate events and social events in the same system?', a: 'Yes, corporate and social event types have separate workflow configurations reflecting their different vendor sets, client communication styles, and timeline structures.' }
     ]
   },
   {
@@ -396,12 +396,12 @@ export const professions3: Profession[] = [
     name: 'Digital Marketing Consultant',
     category: 'Agencies & Consulting',
     tagline: 'Automate client reporting, proposal delivery, and lead nurturing so you can work with 3x more clients without tripling your working hours.',
-    description: 'Independent digital marketing consultants are capacity-constrained — there is a ceiling on how many clients one person can serve when reporting, communication, and administrative tasks are entirely manual. Automation removes that ceiling by handling everything except the strategic and creative work that only you can do.',
+    description: 'Independent digital marketing consultants are capacity-constrained, there is a ceiling on how many clients one person can serve when reporting, communication, and administrative tasks are entirely manual. Automation removes that ceiling by handling everything except the strategic and creative work that only you can do.',
     painPoints: [
       'Monthly reporting for 8-10 clients consumes 20-30 hours that should go to strategy and execution',
       'New client proposals require manual research and formatting that delays the sales process by days',
       'Inbound inquiries from the website and LinkedIn arrive at all hours and are not followed up within the critical first hour',
-      'Existing clients don\'t hear from you between deliverables — relationship warmth decays without systematic touchpoints'
+      'Existing clients don\'t hear from you between deliverables, relationship warmth decays without systematic touchpoints'
     ],
     workflows: [
       { name: 'Automated Monthly Client Reports', description: 'n8n pulls data from Google Analytics, Meta, Google Ads, and SEO tools on a schedule → builds formatted report with metrics, period comparison, and key findings template → sends to client with consultant\'s commentary section pre-filled. 2-hour reports become 20-minute reviews.', timeSaved: '12h/week', impact: 'Reporting: 2h per client → 20min' },
@@ -412,9 +412,9 @@ export const professions3: Profession[] = [
     tools: ['n8n', 'Google Sheets', 'Calendly', 'Claude AI'],
     stats: { timeSaved: '25h/week', revenueImpact: '$7,900/month', deploymentDays: 7, roiMonths: 1 },
     faq: [
-      { q: 'Can this handle reporting for clients on completely different platforms?', a: 'Yes — each client workflow pulls from their specific platform set. Client A reports from Google Analytics + Meta. Client B from LinkedIn Ads + HubSpot. Each is independently configured.' },
+      { q: 'Can this handle reporting for clients on completely different platforms?', a: 'Yes, each client workflow pulls from their specific platform set. Client A reports from Google Analytics + Meta. Client B from LinkedIn Ads + HubSpot. Each is independently configured.' },
       { q: 'What if I want to add personal commentary to each automated report?', a: 'The workflow generates the data section automatically and leaves a clearly marked "Commentary" section for you to complete. You spend your time on insight and strategy, not data pulling.' },
-      { q: 'Can automation help me handle the inquiry volume if my business grows significantly?', a: 'Yes — automation scales linearly. Whether you receive 3 inquiries or 30, the response quality and speed is identical. The system handles volume spikes without any additional effort from you.' }
+      { q: 'Can automation help me handle the inquiry volume if my business grows significantly?', a: 'Yes, automation scales linearly. Whether you receive 3 inquiries or 30, the response quality and speed is identical. The system handles volume spikes without any additional effort from you.' }
     ]
   },
   {
@@ -425,22 +425,22 @@ export const professions3: Profession[] = [
     description: 'Graphic design studios and freelance designers lose significant creative time to client communication overhead: brief collection, revision tracking, approval chasing, and invoice follow-up. Automation systematizes the business infrastructure so your creative team does creative work.',
     painPoints: [
       'Creative brief collection is an email chain that spans days and produces incomplete briefs that require multiple clarification calls',
-      'Revision requests arrive in scattered channels — email, WhatsApp, verbal on calls — with no consistent tracking system',
+      'Revision requests arrive in scattered channels, email, WhatsApp, verbal on calls, with no consistent tracking system',
       'Invoice collection is sporadic because designers are uncomfortable sending follow-up payment requests',
       'Project timelines slip because there is no systematic milestone tracking and client deadline reminder system'
     ],
     workflows: [
       { name: 'Automated Creative Brief Collection', description: 'New project confirmed → client receives structured creative brief form covering goals, audience, deliverables, reference examples, and timeline. Responses flow directly into project management. Brief quality improves; clarification calls drop by 64%.', timeSaved: '5h/week', impact: 'Brief clarification calls down 64%' },
-      { name: 'Revision Request Tracking', description: 'Design delivered → client receives structured revision request form (not a blank email). All revision notes compiled into a single organized document. Designer receives consolidated revision summary — not 7 emails and a voice note.', timeSaved: '4h/week', impact: 'Revision rounds 40% faster' },
+      { name: 'Revision Request Tracking', description: 'Design delivered → client receives structured revision request form (not a blank email). All revision notes compiled into a single organized document. Designer receives consolidated revision summary, not 7 emails and a voice note.', timeSaved: '4h/week', impact: 'Revision rounds 40% faster' },
       { name: 'Payment Follow-Up Automation', description: 'Invoice sent → 10-day reminder if unpaid. 20-day second notice. 30-day escalation with payment link prominently featured. Average collection time drops from 44 days to 18. Designer never has to send an uncomfortable payment email.', timeSaved: '3h/week', impact: 'Collection time: 44 days → 18 days' },
       { name: 'Project Milestone Reminders', description: 'Project kickoff → timeline entered once → n8n sends automated reminders to client before each milestone: "Your brand guide feedback is due in 3 days." Keeps projects on track without designer follow-up. Late projects reduced by 57%.', timeSaved: '3h/week', impact: 'Late projects reduced by 57%' }
     ],
     tools: ['n8n', 'Stripe', 'Typeform', 'Notion'],
     stats: { timeSaved: '16h/week', revenueImpact: '$4,100/month', deploymentDays: 7, roiMonths: 2 },
     faq: [
-      { q: 'Can the brief collection form be customized for different project types?', a: 'Yes — logo projects, brand identities, social media assets, and print design all have different brief templates. Each project type triggers the appropriate form automatically.' },
+      { q: 'Can the brief collection form be customized for different project types?', a: 'Yes, logo projects, brand identities, social media assets, and print design all have different brief templates. Each project type triggers the appropriate form automatically.' },
       { q: 'What project management tools does this integrate with?', a: 'We integrate with Notion, Asana, Monday.com, ClickUp, and Trello. Brief responses and revision notes flow directly into your existing project management setup.' },
-      { q: 'Can automated invoice follow-up be paused for specific VIP clients?', a: 'Yes — VIP or sensitive accounts can be excluded from automated follow-up. Manual communication continues for those relationships while automation handles the rest of the client portfolio.' }
+      { q: 'Can automated invoice follow-up be paused for specific VIP clients?', a: 'Yes, VIP or sensitive accounts can be excluded from automated follow-up. Manual communication continues for those relationships while automation handles the rest of the client portfolio.' }
     ]
   },
   {
@@ -448,25 +448,25 @@ export const professions3: Profession[] = [
     name: 'HR Consulting Firm',
     category: 'Agencies & Consulting',
     tagline: 'Automate employee onboarding programs, compliance reminder sequences, and HR audit deliveries so your consultants serve more clients at higher margin.',
-    description: 'HR consulting firms deliver enormous value in organizational design, compliance, and talent strategy — but spend significant consultant time on repeatable delivery tasks that should be systematized. Automation handles the delivery layer of consulting engagements so your team spends time on insight and relationships.',
+    description: 'HR consulting firms deliver enormous value in organizational design, compliance, and talent strategy, but spend significant consultant time on repeatable delivery tasks that should be systematized. Automation handles the delivery layer of consulting engagements so your team spends time on insight and relationships.',
     painPoints: [
-      'Employee onboarding program delivery is manual for every client engagement — the same materials delivered differently each time',
+      'Employee onboarding program delivery is manual for every client engagement, the same materials delivered differently each time',
       'Compliance deadline reminders (EEOC filings, I-9 reviews, benefits enrollment) require manual tracking across multiple client calendars',
-      'Assessment and survey data collection for HR audits is manual — consultants spending hours collecting what an automated form could gather in days',
+      'Assessment and survey data collection for HR audits is manual, consultants spending hours collecting what an automated form could gather in days',
       'Client engagement renewals are handled reactively when a better system would initiate the conversation at the right moment'
     ],
     workflows: [
       { name: 'Onboarding Program Delivery Automation', description: 'New hire started → automated day-1, week-1, and month-1 onboarding sequences delivered directly to employee. Manager receives parallel supervisor guide. HR consultant sees completion dashboard. Onboarding delivery becomes consistent across all client organizations.', timeSaved: '8h/week', impact: 'Onboarding delivery 100% consistent' },
       { name: 'Compliance Deadline Calendar', description: 'Client compliance calendar configured → automated reminders to each client 60, 30, and 14 days before each compliance deadline. Includes specific action items and documentation requirements. No compliance deadline slips under your watch.', timeSaved: '5h/week', impact: '100% compliance deadline compliance' },
-      { name: 'HR Audit Data Collection', description: 'Audit engagement started → automated survey sequences sent to relevant employees, managers, and executives. Responses aggregated and analyzed automatically. Consultant receives structured data package for analysis — not raw form submissions.', timeSaved: '7h/week', impact: 'Audit data collection time cut by 68%' },
+      { name: 'HR Audit Data Collection', description: 'Audit engagement started → automated survey sequences sent to relevant employees, managers, and executives. Responses aggregated and analyzed automatically. Consultant receives structured data package for analysis, not raw form submissions.', timeSaved: '7h/week', impact: 'Audit data collection time cut by 68%' },
       { name: 'Engagement Renewal Campaign', description: '60 days before engagement end → automated renewal sequence: results summary, next-phase recommendations, and renewal proposal offer. 71% of clients who engage with the renewal sequence renew vs. 38% of those who receive a reactive renewal email.', timeSaved: '3h/week', impact: '71% renewal rate on automated sequence' }
     ],
     tools: ['n8n', 'Typeform', 'Google Sheets', 'Slack'],
     stats: { timeSaved: '24h/week', revenueImpact: '$7,600/month', deploymentDays: 7, roiMonths: 1 },
     faq: [
-      { q: 'Can the onboarding delivery automation be configured per client company culture?', a: 'Yes — each client organization has its own onboarding template set reflecting their culture, policies, and role-specific requirements. The automation delivers the right program to the right employee at the right client.' },
+      { q: 'Can the onboarding delivery automation be configured per client company culture?', a: 'Yes, each client organization has its own onboarding template set reflecting their culture, policies, and role-specific requirements. The automation delivers the right program to the right employee at the right client.' },
       { q: 'How does the compliance calendar handle different compliance requirements by state and industry?', a: 'Compliance calendars are built per client based on their state(s) of operation and industry. A California tech company gets different compliance triggers than a Texas manufacturing client.' },
-      { q: 'Can the HR audit automation handle sensitive or confidential survey responses?', a: 'Yes — survey responses can be anonymized at the collection stage. Individual responses are never attributed in the aggregated consultant data package unless the client specifically requires attribution.' }
+      { q: 'Can the HR audit automation handle sensitive or confidential survey responses?', a: 'Yes, survey responses can be anonymized at the collection stage. Individual responses are never attributed in the aggregated consultant data package unless the client specifically requires attribution.' }
     ]
   },
   {
@@ -477,9 +477,9 @@ export const professions3: Profession[] = [
     description: 'Social media agencies spend a disproportionate amount of team time on scheduling, reporting, and approval management rather than creative strategy. Automation handles the operational infrastructure so your creative and strategy team stays focused on the work that actually builds client brands.',
     painPoints: [
       'Content approval cycles take 3-5 days because clients don\'t respond to approval requests promptly, delaying the posting schedule',
-      'Monthly performance reports require manually pulling metrics from 3-5 platforms per client — a day of work every month',
-      'Content scheduling is done manually across multiple clients and platforms — a time-consuming and error-prone process',
-      'Client communication between deliverable cycles is sporadic — accounts go quiet and clients question the value of the retainer'
+      'Monthly performance reports require manually pulling metrics from 3-5 platforms per client, a day of work every month',
+      'Content scheduling is done manually across multiple clients and platforms, a time-consuming and error-prone process',
+      'Client communication between deliverable cycles is sporadic, accounts go quiet and clients question the value of the retainer'
     ],
     workflows: [
       { name: 'Content Approval Automation', description: 'Content batch ready → client receives approval request email with preview links and 1-click approve/request changes. 24-hour reminder if no response. 48-hour escalation. Content approved → automatically queued for scheduling. Approval cycle: 5 days → 22 hours.', timeSaved: '7h/week', impact: 'Approval cycle: 5 days → 22 hours' },
@@ -491,7 +491,7 @@ export const professions3: Profession[] = [
     stats: { timeSaved: '27h/week', revenueImpact: '$8,400/month', deploymentDays: 7, roiMonths: 1 },
     faq: [
       { q: 'What social media platforms does the reporting automation cover?', a: 'We integrate with Meta (Instagram + Facebook), LinkedIn, TikTok, X (Twitter), Pinterest, and YouTube. Each platform\'s API has different data availability; we configure reports to include what each platform exposes.' },
-      { q: 'Can the scheduling automation post directly without a third-party tool like Buffer?', a: 'For some platforms, yes — n8n can post directly via platform APIs. For others (Instagram in particular), a scheduling tool is required due to API restrictions. We configure the most direct path available for each platform.' },
+      { q: 'Can the scheduling automation post directly without a third-party tool like Buffer?', a: 'For some platforms, yes, n8n can post directly via platform APIs. For others (Instagram in particular), a scheduling tool is required due to API restrictions. We configure the most direct path available for each platform.' },
       { q: 'How does the approval workflow handle content revisions vs. outright rejections?', a: 'Revision requests come with specific feedback captured in the approval form. Rejected content triggers a revision task in your project management tool. Approved with minor notes triggers automated revision request to the designer.' }
     ]
   },
@@ -503,7 +503,7 @@ export const professions3: Profession[] = [
     description: 'Video production companies lose billable hours to pre-production communication, revision management, and file delivery logistics. Automation handles the project communication layer so your team focuses on production quality rather than project coordination.',
     painPoints: [
       'Pre-production briefing calls are often redundant because the information could have been collected via a structured brief form',
-      'Video review and revision feedback arrives in scattered formats — email, verbal notes from calls, written comments — making revision lists inconsistent',
+      'Video review and revision feedback arrives in scattered formats, email, verbal notes from calls, written comments, making revision lists inconsistent',
       'File delivery to clients involves manual compression, upload, and notification steps that could be automated',
       'Invoice collection after delivery is often delayed because the production team is already on the next project'
     ],
@@ -516,9 +516,9 @@ export const professions3: Profession[] = [
     tools: ['n8n', 'Stripe', 'Typeform', 'Frame.io API'],
     stats: { timeSaved: '16h/week', revenueImpact: '$4,600/month', deploymentDays: 7, roiMonths: 2 },
     faq: [
-      { q: 'Can the brief automation handle different project types — corporate, wedding, commercial?', a: 'Yes — brief templates are configured per project type. A corporate brand video brief looks completely different from a wedding videography brief or a product commercial brief.' },
+      { q: 'Can the brief automation handle different project types, corporate, wedding, commercial?', a: 'Yes, brief templates are configured per project type. A corporate brand video brief looks completely different from a wedding videography brief or a product commercial brief.' },
       { q: 'What video review platforms does this integrate with?', a: 'We integrate with Frame.io, Vimeo Review, Wipster, and most major video collaboration platforms. Review links are sent automatically upon upload to your platform of choice.' },
-      { q: 'Can the delivery automation handle large file sets and multiple deliverable formats?', a: 'Yes — delivery notifications can include multiple links for different formats (social cuts, broadcast master, web version). Access permissions and watermarking are configured per deliverable type.' }
+      { q: 'Can the delivery automation handle large file sets and multiple deliverable formats?', a: 'Yes, delivery notifications can include multiple links for different formats (social cuts, broadcast master, web version). Access permissions and watermarking are configured per deliverable type.' }
     ]
   },
   {
@@ -528,9 +528,9 @@ export const professions3: Profession[] = [
     tagline: 'Automate client quality check-ins, staff scheduling confirmation, and service renewal sequences that reduce churn and make your operations run without constant oversight.',
     description: 'Commercial cleaning companies operate on thin margins with high staff turnover and recurring service contracts. Automation handles the client communication, service quality tracking, and staff scheduling confirmation that currently depends on supervisors and account managers juggling everything manually.',
     painPoints: [
-      'Service quality issues are discovered by clients before the company is aware — no proactive quality monitoring system exists',
+      'Service quality issues are discovered by clients before the company is aware, no proactive quality monitoring system exists',
       'Staff scheduling confirmation and no-show follow-up requires manual supervisor calls at the start of every shift',
-      'Contract renewal conversations are reactive — clients cancel before anyone initiates the renewal discussion',
+      'Contract renewal conversations are reactive, clients cancel before anyone initiates the renewal discussion',
       'New contract onboarding involves multiple manual steps: site walkthrough scheduling, supplies ordering, and access coordination'
     ],
     workflows: [
@@ -542,9 +542,9 @@ export const professions3: Profession[] = [
     tools: ['n8n', 'Twilio', 'Google Sheets', 'Jobber'],
     stats: { timeSaved: '20h/week', revenueImpact: '$4,800/month', deploymentDays: 7, roiMonths: 1 },
     faq: [
-      { q: 'Can the quality check-in work for multiple service locations under one client?', a: 'Yes — each service location has a separate quality check-in workflow. Aggregate satisfaction scores roll up to an account-level dashboard so supervisors can identify patterns across locations.' },
+      { q: 'Can the quality check-in work for multiple service locations under one client?', a: 'Yes, each service location has a separate quality check-in workflow. Aggregate satisfaction scores roll up to an account-level dashboard so supervisors can identify patterns across locations.' },
       { q: 'How does the staff confirmation system handle language barriers with non-English speaking staff?', a: 'Messages can be configured in multiple languages per staff member profile. Spanish and English are the most common configuration. Additional languages are supported.' },
-      { q: 'Can this integrate with our existing scheduling or field service software?', a: 'Yes — we integrate with Jobber, ServiceTitan, Swept, Janitorial Manager, and most major commercial cleaning management platforms.' }
+      { q: 'Can this integrate with our existing scheduling or field service software?', a: 'Yes, we integrate with Jobber, ServiceTitan, Swept, Janitorial Manager, and most major commercial cleaning management platforms.' }
     ]
   }
 ]

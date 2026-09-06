@@ -149,7 +149,7 @@ export default function AuditEngine() {
     } catch (e: any) {
       clearInterval(stepInterval);
       phase.value = 'error';
-      errorMsg.value = 'Network error — check your connection and try again.';
+      errorMsg.value = 'Network error, check your connection and try again.';
     }
   }
 
@@ -656,7 +656,7 @@ export default function AuditEngine() {
               ['Response', `${r.meta.responseTime}ms`],
               ['HTML', `${r.meta.htmlSize}KB`],
               ['Status', `${r.meta.statusCode}`],
-              ['Stack', r.meta.techStack?.join(', ') || '—'],
+              ['Stack', r.meta.techStack?.join(', ') || ', '],
               ['Tracking', r.meta.tracking?.join(', ') || 'None detected'],
             ].map(([l, v]) => (
               <div key={l as string}>

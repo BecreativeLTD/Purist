@@ -1,5 +1,5 @@
 ---
-// CurrencyWidget — auto-detects country, converts all € prices in the DOM
+// CurrencyWidget, auto-detects country, converts all € prices in the DOM
 // Currencies: USD, EUR, GBP, CAD, AUD, CHF, SGD, AED, NZD, MXN
 ---
 
@@ -176,7 +176,7 @@
     if (code === BASE) {
       // Restore originals
       originalTexts = new WeakMap();
-      // Re-walk is needed — simpler: just reload original via stored map
+      // Re-walk is needed, simpler: just reload original via stored map
       // Actually just walk with EUR rate = 1
     }
     walkAndConvert(document.body, code);

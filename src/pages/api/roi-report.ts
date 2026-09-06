@@ -16,7 +16,7 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    // Save lead to Supabase — isolated, never blocks email sending
+    // Save lead to Supabase, isolated, never blocks email sending
     try { await upsertLead(email, 'roi_calculator', '/pages/welcome'); } catch { /* silent */ }
 
     const resendKey =
@@ -38,7 +38,7 @@ export const POST: APIRoute = async ({ request }) => {
         await resend.emails.send({
           from: 'PURIST ROI Calculator <hello@purist.online>',
           to: [notifyEmail],
-          subject: `New ROI Report request — ${email}`,
+          subject: `New ROI Report request, ${email}`,
           html: `
 <!DOCTYPE html>
 <html>
@@ -59,19 +59,19 @@ export const POST: APIRoute = async ({ request }) => {
   <p class="sub">From the ROI Calculator</p>
   <div class="grid">
     <div class="field"><div class="field-label">Email</div><div class="field-value">${email}</div></div>
-    <div class="field"><div class="field-label">Employees</div><div class="field-value">${inputs.employees ?? '—'}</div></div>
-    <div class="field"><div class="field-label">Hours/week</div><div class="field-value">${inputs.hoursPerWeek ?? '—'}h</div></div>
-    <div class="field"><div class="field-label">Hourly rate</div><div class="field-value">€${inputs.hourlyRate ?? '—'}</div></div>
-    <div class="field"><div class="field-label">Annual savings</div><div class="field-value">€${result.automationSavings?.toLocaleString('fr-FR') ?? '—'}</div></div>
-    <div class="field"><div class="field-label">ROI months</div><div class="field-value">${result.roiMonths ?? '—'}</div></div>
+    <div class="field"><div class="field-label">Employees</div><div class="field-value">${inputs.employees ?? ', '}</div></div>
+    <div class="field"><div class="field-label">Hours/week</div><div class="field-value">${inputs.hoursPerWeek ?? ', '}h</div></div>
+    <div class="field"><div class="field-label">Hourly rate</div><div class="field-value">€${inputs.hourlyRate ?? ', '}</div></div>
+    <div class="field"><div class="field-label">Annual savings</div><div class="field-value">€${result.automationSavings?.toLocaleString('fr-FR') ?? ', '}</div></div>
+    <div class="field"><div class="field-label">ROI months</div><div class="field-value">${result.roiMonths ?? ', '}</div></div>
   </div>
   <div class="field" style="margin-bottom:10px;">
     <div class="field-label">Tools</div>
-    <div class="field-value">${(inputs.tools ?? []).join(', ') || '—'}</div>
+    <div class="field-value">${(inputs.tools ?? []).join(', ') || ', '}</div>
   </div>
   <div class="field">
     <div class="field-label">Tasks</div>
-    <div class="field-value">${(inputs.tasks ?? []).join(', ') || '—'}</div>
+    <div class="field-value">${(inputs.tasks ?? []).join(', ') || ', '}</div>
   </div>
   <a href="mailto:${email}" class="cta">Reply to lead →</a>
 </div>
@@ -83,13 +83,13 @@ export const POST: APIRoute = async ({ request }) => {
         await resend.emails.send({
           from: 'Steve at PURIST <hello@purist.online>',
           to: [email],
-          subject: "Your automation roadmap — here's where I'd start",
+          subject: "Your automation roadmap, here's where I'd start",
           replyTo: 'hello@purist.online',
           html: buildJ0Email(email, 'roi_calculator'),
         });
 
       } catch {
-        // best-effort — don't fail the request
+        // best-effort, don't fail the request
       }
     }
 

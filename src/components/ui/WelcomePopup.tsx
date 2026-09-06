@@ -56,7 +56,7 @@ export default function WelcomePopup() {
      setSubmitted(true);
      try { localStorage.setItem(STORAGE_KEY, 'submitted'); } catch {}
    } catch {
-     setError('Something went wrong — please try again.');
+     setError('Something went wrong, please try again.');
    } finally {
      setLoading(false);
    }
@@ -114,7 +114,7 @@ export default function WelcomePopup() {
                <em class="font-medium text-brand-pink">your time is leaking.</em>
              </h2>
              <p class="text-white/60 text-sm leading-relaxed">
-               Get your custom automation plan — we map your workflows and show you exactly where you're losing time and money.
+               Get your custom automation plan, we map your workflows and show you exactly where you're losing time and money.
              </p>
            </div>
 
@@ -178,7 +178,7 @@ export default function WelcomePopup() {
            </div>
            <h2 class="font-display text-2xl mb-2">You're booked in.</h2>
            <p class="text-sm text-brand-gray-600 mb-6 leading-relaxed max-w-xs">
-             Check your inbox — we'll send your custom automation plan and calendar link within 24 hours.
+             Check your inbox, we'll send your custom automation plan and calendar link within 24 hours.
            </p>
            <a
              href="/pages/welcome"

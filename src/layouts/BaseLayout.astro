@@ -78,7 +78,7 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
      import '~/scripts/currency.ts';
    </script>
 
-   <!-- Amplitude — loaded after idle to avoid blocking LCP (was 1870ms render-block) -->
+   <!-- Amplitude, loaded after idle to avoid blocking LCP (was 1870ms render-block) -->
    <script>
      function _loadAmp() {
        import('~/lib/amplitude').then(({ initAmplitude }) => initAmplitude());
@@ -95,7 +95,7 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
      });
    </script>
 
-   <!-- Microsoft Clarity — deferred after idle to avoid blocking LCP -->
+   <!-- Microsoft Clarity, deferred after idle to avoid blocking LCP -->
    <script is:inline>
    (function(){
      function _loadClarity(){
@@ -115,10 +115,10 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
    })();
    </script>
 
-   <!-- GTM + Conversion tracking — all deferred until after load to avoid TBT -->
+   <!-- GTM + Conversion tracking, all deferred until after load to avoid TBT -->
    <script is:inline>
    (function(){
-     // GTM setup — minimal inline, actual script loads 2s after load
+     // GTM setup, minimal inline, actual script loads 2s after load
      window.dataLayer = window.dataLayer || [];
      function gtag(){dataLayer.push(arguments);}
      window.gtag = gtag;
@@ -154,7 +154,7 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
          if (typeof gtag !== 'undefined') gtag('event', eventName, params);
        }
 
-       // CTA clicks — event delegation, safe to add once
+       // CTA clicks, event delegation, safe to add once
        if (!window._ctaTrackBound) {
          window._ctaTrackBound = true;
          document.addEventListener('click', function(e) {
@@ -180,7 +180,7 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
          });
        }
 
-       // Scroll depth + time on page — reset on each navigation
+       // Scroll depth + time on page, reset on each navigation
        function initPageTracking() {
          if (_scrollTrack) window.removeEventListener('scroll', _scrollTrack);
          var milestones = { 25: false, 50: false, 75: false, 90: false };

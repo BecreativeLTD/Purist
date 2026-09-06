@@ -462,7 +462,7 @@ function ResultsScreen({
           style={{ ...S.btn, width: '100%', justifyContent: 'center', fontSize: 15, padding: '16px 32px' }}
           onClick={onShowEmailModal}
         >
-          Get my full report — it's free
+          Get my full report, it's free
           <svg width={16} height={16} viewBox="0 0 16 16" fill="none">
             <path d="M3 8h10M9 4l4 4-4 4" stroke="#0A0A0A" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
@@ -789,11 +789,11 @@ export default function ROICalculator() {
       hoursSavedPerWeek,
       breakdown,
       topOpportunities: [
-        `Automate ${activeTks[0] ?? 'data sync'} — reclaim ~${Math.round(hrs * 0.3 * emp)}h/week across your team`,
+        `Automate ${activeTks[0] ?? 'data sync'}, reclaim ~${Math.round(hrs * 0.3 * emp)}h/week across your team`,
         `Auto-generate reports weekly (5 min vs. ${Math.round(hrs * 0.25 * emp)}h of manual work)`,
-        `Set up automated follow-up sequences — avg. 82% open rate, zero manual effort`,
+        `Set up automated follow-up sequences, avg. 82% open rate, zero manual effort`,
       ],
-      recommendation: `With ${emp} team member${emp > 1 ? 's' : ''} losing ${hrs}h/week to manual work, your potential is ${fmt(automationSavings)}/year. In ${industryLabel}, the biggest wins are typically ${activeTks.slice(0, 2).join(' and ').toLowerCase()}. Full ROI in ${roiMonths} months — we recommend starting with a free audit to identify your top 3 high-impact workflows.`,
+      recommendation: `With ${emp} team member${emp > 1 ? 's' : ''} losing ${hrs}h/week to manual work, your potential is ${fmt(automationSavings)}/year. In ${industryLabel}, the biggest wins are typically ${activeTks.slice(0, 2).join(' and ').toLowerCase()}. Full ROI in ${roiMonths} months, we recommend starting with a free audit to identify your top 3 high-impact workflows.`,
     };
   }
 
@@ -925,7 +925,7 @@ export default function ROICalculator() {
         <div style={innerStyle}>
           <StepIndicator current={step.value} total={TOTAL_STEPS} />
 
-          {/* Step 1 — Industry */}
+          {/* Step 1, Industry */}
           {step.value === 1 && (
             <div>
               <h2 style={S.heading}>What industry are you in?</h2>
@@ -952,7 +952,7 @@ export default function ROICalculator() {
             </div>
           )}
 
-          {/* Step 2 — Team size */}
+          {/* Step 2, Team size */}
           {step.value === 2 && (
             <div>
               <h2 style={S.heading}>How large is your team?</h2>
@@ -980,11 +980,11 @@ export default function ROICalculator() {
             </div>
           )}
 
-          {/* Step 3 — Hours & Rate */}
+          {/* Step 3, Hours & Rate */}
           {step.value === 3 && (
             <div>
               <h2 style={S.heading}>How much time is lost to manual work?</h2>
-              <p style={S.sub}>Per person, per week — copy-pasting, data entry, manual reporting, etc.</p>
+              <p style={S.sub}>Per person, per week, copy-pasting, data entry, manual reporting, etc.</p>
 
               <div style={{ marginBottom: 20 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 12 }}>
@@ -1047,11 +1047,11 @@ export default function ROICalculator() {
             </div>
           )}
 
-          {/* Step 4 — Tools */}
+          {/* Step 4, Tools */}
           {step.value === 4 && (
             <div>
               <h2 style={S.heading}>Which tools does your team use?</h2>
-              <p style={S.sub}>Select all that apply — we'll identify automation bridges between them.</p>
+              <p style={S.sub}>Select all that apply, we'll identify automation bridges between them.</p>
               <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 8, marginBottom: 32 }}>
                 {TOOL_OPTIONS.map(t => (
                   <button
@@ -1071,7 +1071,7 @@ export default function ROICalculator() {
             </div>
           )}
 
-          {/* Step 5 — Pain points */}
+          {/* Step 5, Pain points */}
           {step.value === 5 && (
             <div>
               <h2 style={S.heading}>Where does manual work hurt most?</h2>

@@ -352,7 +352,7 @@
   }
   .lo-feed { overflow: hidden; flex: 1; }
 
-  /* ===== Event rows — :global() for cloneNode compat ===== */
+  /* ===== Event rows, :global() for cloneNode compat ===== */
   :global(.lo-row) {
     display: flex; align-items: center; gap: 0.6rem;
     padding: 0.5rem 1.15rem; border-bottom: 1px solid rgba(248,246,241,0.03);
@@ -473,12 +473,12 @@
       return arr.map(function(v) { return v + Math.floor((Math.random() - 0.5) * v * pct); });
     }
 
-    // Series 1: Events/hr (main, prominent) — business hours peak
+    // Series 1: Events/hr (main, prominent), business hours peak
     var eventsBase = [780,820,690,640,580,510,430,380,340,320,360,420,620,890,1240,1640,2080,2480,2840,3120,3280,3380,3410,3412,3390,3290,3180,3100,2960,2870,2750,2640,2510,2380,2260,2120,1990,1860,1720,1580,1440,1320,1200,1080,1000,940,880,860];
     var eventsData = addNoise(eventsBase, 0.05);
     var eventsMax = 4000;
 
-    // Series 2: Success rate % (high, stable with micro dips) — normalized to same scale
+    // Series 2: Success rate % (high, stable with micro dips), normalized to same scale
     var successBase = [99.2,99.4,99.6,99.8,99.9,99.9,99.8,99.7,99.5,99.3,99.4,99.6,99.8,99.9,99.7,99.5,99.3,99.1,99.0,99.2,99.4,99.6,99.8,99.9,99.9,99.8,99.6,99.4,99.3,99.5,99.7,99.9,99.8,99.7,99.5,99.4,99.6,99.8,99.9,99.9,99.8,99.7,99.6,99.8,99.9,99.9,99.8,99.7];
     var successNorm = successBase.map(function(v) { return ((v - 98) / 2) * eventsMax; });
 

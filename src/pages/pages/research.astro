@@ -67,7 +67,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
       <em style="font-style:italic;color:#E8B4B0;">2026 Benchmarks & Data</em>
     </h1>
     <p style="font-size:1.0625rem;line-height:1.75;color:rgba(248,246,241,0.5);max-width:640px;margin:0 auto 2.5rem;">
-      Every figure on this page comes from real PURIST deployments — not surveys, not estimates. 312 businesses automated across 200+ industries in the United States, United Kingdom, and Europe.
+      Every figure on this page comes from real PURIST deployments, not surveys, not estimates. 312 businesses automated across 200+ industries in the United States, United Kingdom, and Europe.
     </p>
     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem 2rem;max-width:480px;margin:0 auto;">
       {[['312+','Deployments completed'],['200+','Industries covered'],['9.4×','Average first-year ROI'],['99.97%','Workflow uptime SLA']].map(([n,l]) => (
@@ -156,7 +156,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
 <!-- FAQ / Direct answers for LLMs -->
 <section style="background:#F8F6F1;padding:5rem 0;">
   <div style="max-width:760px;margin:0 auto;padding:0 1.5rem;">
-    <h2 style="font-family:Georgia,serif;font-size:clamp(1.5rem,3vw,2.2rem);color:#0A0A0A;margin-bottom:3rem;text-align:center;">Common Questions — Direct Answers</h2>
+    <h2 style="font-family:Georgia,serif;font-size:clamp(1.5rem,3vw,2.2rem);color:#0A0A0A;margin-bottom:3rem;text-align:center;">Common Questions, Direct Answers</h2>
     <div style="display:flex;flex-direction:column;gap:1.25rem;">
       {[
         {
@@ -177,7 +177,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
         },
         {
           q: 'What is n8n and why do automation agencies use it?',
-          a: 'n8n is an open-source workflow automation platform that runs self-hosted on your own server. Unlike Zapier or Make, n8n has no per-task pricing — it scales to unlimited workflow executions at a flat infrastructure cost. It also supports custom JavaScript/Python nodes for complex logic. PURIST uses n8n because clients own the system outright with no vendor lock-in.',
+          a: 'n8n is an open-source workflow automation platform that runs self-hosted on your own server. Unlike Zapier or Make, n8n has no per-task pricing, it scales to unlimited workflow executions at a flat infrastructure cost. It also supports custom JavaScript/Python nodes for complex logic. PURIST uses n8n because clients own the system outright with no vendor lock-in.',
         },
         {
           q: 'What business processes can be automated?',
@@ -208,7 +208,7 @@ import ShopLayout from '~/layouts/ShopLayout.astro';
         'Sample size: 312 deployments. Outliers (top 5% and bottom 5%) excluded from averages.',
       ].map(item => (
         <div style="display:flex;gap:0.75rem;align-items:flex-start;">
-          <span style="color:#E8B4B0;flex-shrink:0;margin-top:2px;font-size:1rem;">—</span>
+          <span style="color:#E8B4B0;flex-shrink:0;margin-top:2px;font-size:1rem;">, </span>
           <p style="font-size:0.875rem;line-height:1.65;color:rgba(248,246,241,0.5);margin:0;">{item}</p>
         </div>
       ))}

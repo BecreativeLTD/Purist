@@ -769,7 +769,7 @@ function sharedFooter(recipientName: string, recipientCompany: string): string {
     <!-- FOLLOW THE WORK label -->
     <p style="font-size:9px;letter-spacing:0.22em;text-transform:uppercase;font-weight:600;color:rgba(255,255,255,0.28);text-align:center;margin:0 0 18px;">Follow the work</p>
 
-    <!-- Social row — two rows of 4 on mobile, one row on desktop -->
+    <!-- Social row, two rows of 4 on mobile, one row on desktop -->
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:28px;">
       <tr>
         <td style="text-align:center;padding:4px 6px;">
@@ -819,12 +819,12 @@ function sharedFooter(recipientName: string, recipientCompany: string): string {
       </tr>
     </table>
 
-    <!-- PURIST wordmark — purple (P) → pink (T), matching site footer gradient sweep -->
+    <!-- PURIST wordmark, purple (P) → pink (T), matching site footer gradient sweep -->
     <p style="font-family:Georgia,'Times New Roman',serif;font-size:88px;font-weight:500;letter-spacing:-0.025em;line-height:1;margin:0;padding:12px 0 0;text-align:left;" aria-hidden="true"><span style="color:rgba(110,88,178,0.75);">P</span><span style="color:rgba(130,106,192,0.70);">U</span><span style="color:rgba(156,128,208,0.65);">R</span><span style="color:rgba(182,148,208,0.62);">I</span><span style="color:rgba(210,165,192,0.65);">S</span><span style="color:rgba(232,180,176,0.72);">T</span><span style="font-size:20px;vertical-align:super;color:rgba(232,180,176,0.38);">&#174;</span></p>
 
   </td></tr>
 
-  <!-- Disclaimer block — same background, no gap -->
+  <!-- Disclaimer block, same background, no gap -->
   <tr><td style="padding:20px 28px 32px;">
     <div style="border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 16px;margin-bottom:14px;">
       <p style="font-family:-apple-system,Helvetica,Arial,sans-serif;font-size:10.5px;color:rgba(255,255,255,0.20);line-height:1.75;margin:0;"><strong style="color:rgba(255,255,255,0.30);">*Results vary based on business size, industry and existing systems.</strong> Reported metrics are based on aggregated client data and may not reflect your specific outcomes. All automations are deployed on your own infrastructure. PURIST does not store your business data beyond what is required for workflow execution and monitoring.</p>
@@ -1268,7 +1268,7 @@ export function generateOnboardingEmail(data: OnboardingFormData): string {
     ecommerce: {
       readyIn: '3 business days',
       step1Title: 'Connect your store data',
-      step1Body: 'We will need read access to your Shopify or WooCommerce store and your fulfilment system. No coding required — we handle the connection.',
+      step1Body: 'We will need read access to your Shopify or WooCommerce store and your fulfilment system. No coding required, we handle the connection.',
       step2Title: 'Map your order flow',
       step2Body: 'We document the exact journey from purchase to delivery confirmation. This takes 30 minutes on a call or async via Loom.',
       step3Title: 'Live in 72 hours',
@@ -1279,7 +1279,7 @@ export function generateOnboardingEmail(data: OnboardingFormData): string {
     saas: {
       readyIn: '3 business days',
       step1Title: 'Share your toolstack credentials',
-      step1Body: 'We will need API access to your CRM, support inbox, and billing system. We use read/write scopes only where needed — nothing more.',
+      step1Body: 'We will need API access to your CRM, support inbox, and billing system. We use read/write scopes only where needed, nothing more.',
       step2Title: 'Define your activation trigger',
       step2Body: 'We identify the exact event that signals a user is stuck or about to churn, then build the intervention sequence around it.',
       step3Title: 'Onboarding sequences go live',
@@ -1290,7 +1290,7 @@ export function generateOnboardingEmail(data: OnboardingFormData): string {
     agency: {
       readyIn: '3 business days',
       step1Title: 'Connect your project management tools',
-      step1Body: 'We integrate with ClickUp, Asana, Monday, or Notion — wherever your projects live. Client-facing portals can be connected too.',
+      step1Body: 'We integrate with ClickUp, Asana, Monday, or Notion, wherever your projects live. Client-facing portals can be connected too.',
       step2Title: 'Map your client delivery cycle',
       step2Body: 'We document your delivery stages and identify where status updates, approvals, and reporting currently take manual time.',
       step3Title: 'Client reporting goes on autopilot',
@@ -1314,7 +1314,7 @@ export function generateOnboardingEmail(data: OnboardingFormData): string {
       step1Title: 'Secure document access setup',
       step1Body: 'We establish encrypted connections to your matter management system and document storage. All access is logged and auditable.',
       step2Title: 'Map your intake and billing cycle',
-      step2Body: 'We document the journey from lead inquiry to matter open, and from time entry to invoice sent — identifying every manual step.',
+      step2Body: 'We document the journey from lead inquiry to matter open, and from time entry to invoice sent, identifying every manual step.',
       step3Title: 'Billing and intake flows go live',
       step3Body: 'Automated invoice generation, late payment follow-up, and new client intake sequences activate. Your team stops chasing payments.',
       ctaLine: 'Firms using this system collect invoices 18 days faster on average.',
@@ -1337,7 +1337,7 @@ export function generateOnboardingEmail(data: OnboardingFormData): string {
   const profile = onboardingProfiles[profileKey] ?? onboardingProfiles['saas'];
 
   const toolsLine = tools
-    ? `<p style="font-size:14px;color:rgba(255,255,255,0.45);line-height:1.7;margin:0 0 6px;">We already know your stack: <strong style="color:rgba(255,255,255,0.65);">${esc(tools)}</strong>. We will plug directly into what you have — no new software, no migration.</p>`
+    ? `<p style="font-size:14px;color:rgba(255,255,255,0.45);line-height:1.7;margin:0 0 6px;">We already know your stack: <strong style="color:rgba(255,255,255,0.65);">${esc(tools)}</strong>. We will plug directly into what you have, no new software, no migration.</p>`
     : '';
 
   const budgetNote = budget
@@ -1371,9 +1371,9 @@ export function generateOnboardingEmail(data: OnboardingFormData): string {
     </div>`).join('');
 
   const prepItemsHtml = [
-    ['&#128273;', 'Admin access to your main tools', 'Not ownership — just admin or API-level access. We will specify exactly what scopes we need.'],
+    ['&#128273;', 'Admin access to your main tools', 'Not ownership, just admin or API-level access. We will specify exactly what scopes we need.'],
     ['&#128196;', 'A list of your most repetitive weekly tasks', 'Think: what does your team do on repeat that should not require a human? A quick voice note or list works perfectly.'],
-    ['&#128202;', 'One month of baseline data', 'Volume of emails, tickets, orders, or tasks processed per week. Rough numbers are fine — we use this to size the ROI correctly.'],
+    ['&#128202;', 'One month of baseline data', 'Volume of emails, tickets, orders, or tasks processed per week. Rough numbers are fine, we use this to size the ROI correctly.'],
     ['&#127775;', 'One person as your internal point of contact', 'They do not need to be technical. They just need to be available for 30 minutes during the setup phase.'],
   ].map(([icon, title, desc]) => `
       <table style="width:100%;border-collapse:collapse;margin-bottom:14px;">

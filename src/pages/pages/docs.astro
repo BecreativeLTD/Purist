@@ -12,7 +12,7 @@ const sections = [
       {
         heading: 'Getting started',
         items: [
-          { title: 'What is PURIST?', body: 'PURIST is an automation-as-a-service company. We design, build, deploy, and maintain custom automation workflows for your business using n8n and Claude AI. You get a fully managed stack — no code to write, no servers to maintain, no tools to learn.' },
+          { title: 'What is PURIST?', body: 'PURIST is an automation-as-a-service company. We design, build, deploy, and maintain custom automation workflows for your business using n8n and Claude AI. You get a fully managed stack, no code to write, no servers to maintain, no tools to learn.' },
           { title: 'How the onboarding works', body: 'It starts with a free 45-minute automation audit where we map your manual processes. Within 5 business days, you receive a deployment plan. After approval, your first workflows go live within 10–15 days. You get a live dashboard from day one.' },
           { title: 'What industries we serve', body: 'Professional services, e-commerce, finance, healthcare admin, recruitment, marketing agencies, and SaaS companies. Any business with repetitive manual processes is a fit. We have deployed 312+ stacks across 14 industries.' },
           { title: 'Pricing structure', body: 'PURIST charges a one-time setup fee (based on complexity) plus a monthly retainer for monitoring, maintenance, and iteration. Setup fees typically range from €1,650–€5,500. Monthly retainers start at €890/month. No per-workflow charges, no usage caps.' },
@@ -21,7 +21,7 @@ const sections = [
       {
         heading: 'Platform & infrastructure',
         items: [
-          { title: 'Your stack, your servers', body: 'Every client gets a dedicated n8n instance running on isolated infrastructure. We do not commingle client data. Your workflows, credentials, and execution logs live on your own stack — we manage it, you own it.' },
+          { title: 'Your stack, your servers', body: 'Every client gets a dedicated n8n instance running on isolated infrastructure. We do not commingle client data. Your workflows, credentials, and execution logs live on your own stack, we manage it, you own it.' },
           { title: 'Uptime & reliability', body: '99.97% uptime across all client deployments, measured over a rolling 12-month window. Each stack includes automated health checks every 60 seconds, dead-man switches on critical workflows, and instant failover.' },
           { title: 'Security model', body: 'All credentials are encrypted at rest (AES-256) and in transit (TLS 1.3). We use scoped API tokens with rotation every 90 days. HMAC signature validation on all incoming webhooks. SOC 2 Type I compliance in progress.' },
           { title: 'Monitoring & alerting', body: 'Every workflow execution is logged with full input/output capture. Failures trigger instant Slack/email alerts. You get a real-time dashboard showing execution volume, success rates, latency, and error trends.' },
@@ -57,7 +57,7 @@ const sections = [
       {
         heading: 'Overview',
         items: [
-          { title: 'What are Claude Skills?', body: 'Claude Skills are structured prompt templates that give Claude domain-specific expertise. Each skill defines a role, methodology, output format, and quality standard. They transform Claude from a general assistant into a specialist — copywriter, code reviewer, financial modeller, or compliance auditor.' },
+          { title: 'What are Claude Skills?', body: 'Claude Skills are structured prompt templates that give Claude domain-specific expertise. Each skill defines a role, methodology, output format, and quality standard. They transform Claude from a general assistant into a specialist, copywriter, code reviewer, financial modeller, or compliance auditor.' },
           { title: 'How skills work', body: 'Each skill is a markdown file that you add to your Claude configuration. When activated with the @ prefix (e.g. @CopywriterAgent), Claude adopts the full persona: methods, frameworks, output structure, and quality bar. Skills persist across the conversation until changed.' },
           { title: 'Skill categories', body: '5 domains, 20 teams, 100 agent-level skills covering: Marketing & Growth (20 skills), Business & Strategy (20), Operations & Productivity (20), Tech & Product (20), and Intelligence & Research (20). Plus 229 utility skills for specific tasks.' },
           { title: 'Open source licence', body: 'All 329 skills are MIT-licensed and free to use, modify, and distribute. No attribution required for commercial use. The skills library is maintained by PURIST and accepts community contributions.' },
@@ -69,7 +69,7 @@ const sections = [
           { title: 'Claude Code setup', body: 'Add skills to your Claude Code configuration by placing the skill markdown files in your .claude/skills/ directory or referencing them in your CLAUDE.md file. Skills are loaded automatically at conversation start.' },
           { title: 'Claude.ai (web) setup', body: 'Copy the skill prompt into a Claude Project\'s custom instructions. Each Project can hold multiple skills. For the full 100-agent library, add the complete prompt to a single Project.' },
           { title: 'API usage', body: 'Include skill definitions in the system prompt when calling the Claude API. Skills work with all Claude models (Opus, Sonnet, Haiku). For production use, we recommend Sonnet for speed-sensitive workflows and Opus for complex reasoning tasks.' },
-          { title: 'Customising skills', body: 'Skills are plain markdown — edit them to match your brand voice, industry terminology, or specific frameworks. Fork a skill, modify the methodology section, and it becomes your own proprietary variant.' },
+          { title: 'Customising skills', body: 'Skills are plain markdown, edit them to match your brand voice, industry terminology, or specific frameworks. Fork a skill, modify the methodology section, and it becomes your own proprietary variant.' },
         ],
       },
       {
@@ -103,9 +103,9 @@ const sections = [
         heading: 'Core capabilities',
         items: [
           { title: 'Language understanding', body: 'Claude processes and generates text at near-human quality. In PURIST workflows, this means: reading and classifying inbound emails, drafting personalised responses, summarising documents, and extracting structured data from unstructured text.' },
-          { title: 'Tool use (function calling)', body: 'Claude can call external tools and APIs during a conversation or workflow. This powers automated actions: looking up a CRM record, creating a calendar event, updating a spreadsheet, or triggering a downstream workflow — all decided by Claude in real time.' },
+          { title: 'Tool use (function calling)', body: 'Claude can call external tools and APIs during a conversation or workflow. This powers automated actions: looking up a CRM record, creating a calendar event, updating a spreadsheet, or triggering a downstream workflow, all decided by Claude in real time.' },
           { title: 'Vision & multimodal', body: 'Claude can read images, screenshots, charts, and documents. In PURIST workflows, this enables: processing scanned invoices, reading receipts, analysing dashboard screenshots, and extracting data from PDFs with mixed text and images.' },
-          { title: 'Extended thinking', body: 'For complex decisions, Claude uses extended thinking — a chain-of-thought process that reasons through multi-step problems before responding. This powers: financial analysis, compliance reviews, and strategic recommendations.' },
+          { title: 'Extended thinking', body: 'For complex decisions, Claude uses extended thinking, a chain-of-thought process that reasons through multi-step problems before responding. This powers: financial analysis, compliance reviews, and strategic recommendations.' },
         ],
       },
       {
@@ -121,7 +121,7 @@ const sections = [
         heading: 'Using Claude in automation',
         items: [
           { title: 'Prompt engineering', body: 'PURIST writes production-grade prompts for every Claude node. We use structured output schemas, few-shot examples, and system prompts tuned for consistency. Every prompt is version-controlled and A/B tested against real workflow data.' },
-          { title: 'Structured outputs', body: 'Claude returns JSON, XML, or structured text that downstream nodes can parse reliably. We define output schemas per task — no free-form text that breaks your pipeline. Schema validation catches format errors before they propagate.' },
+          { title: 'Structured outputs', body: 'Claude returns JSON, XML, or structured text that downstream nodes can parse reliably. We define output schemas per task, no free-form text that breaks your pipeline. Schema validation catches format errors before they propagate.' },
           { title: 'Error handling & fallbacks', body: 'If Claude returns an unexpected result, the workflow retries with a clarified prompt. After 3 attempts, the task is flagged for human review. No silent failures, no broken data.' },
           { title: 'Cost management', body: 'We optimise token usage across your workflows: concise prompts, cached system messages, and model-appropriate task assignment. Average Claude cost per client: €47–140/month depending on volume.' },
         ],
@@ -139,7 +139,7 @@ const sections = [
         heading: 'Company & mission',
         items: [
           { title: 'About Anthropic', body: 'Founded in 2021 by former OpenAI researchers, Anthropic is an AI safety company building reliable, interpretable, and steerable AI systems. They are backed by Google, Spark Capital, and others, with over $7B in funding.' },
-          { title: 'Why PURIST uses Anthropic', body: 'Three reasons: (1) Claude is the most reliable model for structured business tasks — lowest hallucination rate in independent benchmarks. (2) Anthropic\'s safety-first approach means predictable, controllable outputs. (3) Enterprise-grade API with 99.9% uptime SLA.' },
+          { title: 'Why PURIST uses Anthropic', body: 'Three reasons: (1) Claude is the most reliable model for structured business tasks, lowest hallucination rate in independent benchmarks. (2) Anthropic\'s safety-first approach means predictable, controllable outputs. (3) Enterprise-grade API with 99.9% uptime SLA.' },
           { title: 'Constitutional AI', body: 'Anthropic\'s training approach, Constitutional AI, teaches Claude to be helpful, harmless, and honest through a set of principles rather than human feedback alone. This makes Claude more consistent and less likely to produce harmful or unreliable outputs.' },
           { title: 'Research & transparency', body: 'Anthropic publishes peer-reviewed research on model interpretability, scaling laws, and safety techniques. Their published papers inform how PURIST configures and deploys Claude for maximum reliability.' },
         ],
@@ -147,7 +147,7 @@ const sections = [
       {
         heading: 'API & platform',
         items: [
-          { title: 'API access', body: 'The Claude API is available at api.anthropic.com. PURIST manages all API access on your behalf — you never need to create an Anthropic account or manage API keys. We handle authentication, rate limiting, and billing.' },
+          { title: 'API access', body: 'The Claude API is available at api.anthropic.com. PURIST manages all API access on your behalf, you never need to create an Anthropic account or manage API keys. We handle authentication, rate limiting, and billing.' },
           { title: 'Rate limits & scaling', body: 'Anthropic provides tiered rate limits based on usage. PURIST maintains enterprise-tier access ensuring your workflows never hit rate limits. For high-volume deployments, we implement request queuing and load balancing.' },
           { title: 'Data privacy', body: 'Anthropic does not train on API inputs. Your business data sent through PURIST workflows is not used to improve Claude models. Anthropic retains API logs for 30 days for abuse monitoring, then deletes them.' },
           { title: 'Console & monitoring', body: 'The Anthropic Console (console.anthropic.com) provides usage dashboards, API key management, and billing. PURIST clients receive a monthly usage report with cost breakdowns per workflow.' },
@@ -158,7 +158,7 @@ const sections = [
         items: [
           { title: 'Official documentation', body: 'Anthropic\'s docs at docs.anthropic.com cover the full API reference, prompt engineering guides, tool use documentation, and model comparison tables. PURIST\'s deployment practices are built on these official guidelines.' },
           { title: 'System status', body: 'Check status.anthropic.com for real-time API availability. PURIST monitors this feed and proactively reroutes traffic during degradations. We maintain fallback configurations for all critical workflows.' },
-          { title: 'Model updates', body: 'Anthropic releases model updates regularly. PURIST tests all new model versions against your workflows before upgrading. We never auto-upgrade production deployments — every model change is validated and communicated.' },
+          { title: 'Model updates', body: 'Anthropic releases model updates regularly. PURIST tests all new model versions against your workflows before upgrading. We never auto-upgrade production deployments, every model change is validated and communicated.' },
           { title: 'Enterprise support', body: 'Anthropic offers enterprise plans with custom rate limits, dedicated support, and SLAs. PURIST manages the enterprise relationship on behalf of high-volume clients, simplifying procurement.' },
         ],
       },
@@ -174,7 +174,7 @@ const sections = [
       {
         heading: 'What is n8n?',
         items: [
-          { title: 'Overview', body: 'n8n is a source-available workflow automation platform with 500+ integrations, a visual workflow editor, and a powerful execution engine. Unlike Zapier or Make, n8n can be self-hosted — meaning your data stays on your infrastructure.' },
+          { title: 'Overview', body: 'n8n is a source-available workflow automation platform with 500+ integrations, a visual workflow editor, and a powerful execution engine. Unlike Zapier or Make, n8n can be self-hosted, meaning your data stays on your infrastructure.' },
           { title: 'Why PURIST chose n8n', body: 'Self-hosting means client data never leaves their infrastructure. 500+ native integrations cover 95% of use cases without custom code. The visual editor makes workflows auditable by non-technical stakeholders. And it scales to thousands of executions per hour.' },
           { title: 'n8n vs Zapier', body: 'n8n: self-hosted, no per-task pricing, full data control, complex branching, code nodes. Zapier: cloud-only, per-task billing (adds up fast), simpler but limited. For serious automation, n8n wins on cost, control, and capability.' },
           { title: 'n8n vs Make', body: 'n8n: open source, self-hosted, native code execution, better error handling. Make: proprietary, cloud-only, visual-first but limited debugging. PURIST uses n8n for its transparency and infrastructure control.' },
@@ -185,14 +185,14 @@ const sections = [
         items: [
           { title: 'Workflows', body: 'A workflow is a sequence of connected nodes that execute in order. Each node performs one action: fetch data, transform it, send it somewhere, or make a decision. Workflows can branch, loop, and handle errors at every step.' },
           { title: 'Nodes', body: 'Nodes are the building blocks. There are trigger nodes (start the workflow), action nodes (do something), and function nodes (run custom code). PURIST uses ~40 node types across typical deployments.' },
-          { title: 'Credentials', body: 'n8n stores API keys and OAuth tokens encrypted. PURIST manages credential rotation, scoping, and access control. Each workflow only has access to the credentials it needs — principle of least privilege.' },
+          { title: 'Credentials', body: 'n8n stores API keys and OAuth tokens encrypted. PURIST manages credential rotation, scoping, and access control. Each workflow only has access to the credentials it needs, principle of least privilege.' },
           { title: 'Executions', body: 'Every time a workflow runs, it creates an execution record with full input/output data for every node. PURIST retains execution data for 30 days and provides searchable logs through your monitoring dashboard.' },
         ],
       },
       {
         heading: 'Integrations',
         items: [
-          { title: 'CRM & Sales', body: 'HubSpot, Salesforce, Pipedrive, Close, Copper, Zoho CRM. Bi-directional sync, lead routing, deal updates, contact enrichment, and activity logging — all automated through native n8n nodes.' },
+          { title: 'CRM & Sales', body: 'HubSpot, Salesforce, Pipedrive, Close, Copper, Zoho CRM. Bi-directional sync, lead routing, deal updates, contact enrichment, and activity logging, all automated through native n8n nodes.' },
           { title: 'Finance & Accounting', body: 'Xero, QuickBooks, Stripe, PayPal, GoCardless, Wise. Invoice generation, payment reconciliation, expense categorisation, and financial reporting workflows.' },
           { title: 'Communication', body: 'Slack, Microsoft Teams, Gmail, Outlook, Twilio, SendGrid. Message routing, notification workflows, email sequences, and multi-channel alert systems.' },
           { title: 'Productivity & Data', body: 'Google Sheets, Airtable, Notion, Monday.com, Asana, Jira, Trello, PostgreSQL, MySQL, MongoDB. Data sync, task creation, project tracking, and database operations.' },
@@ -302,7 +302,7 @@ const sections = [
         Ready to automate?
       </h2>
       <p class="text-sm leading-relaxed mb-8 max-w-lg mx-auto" style="color:rgba(255,255,255,0.4);">
-        Book a free 45-minute automation audit. We'll map your manual processes and show you exactly what can be automated — and what it will save you.
+        Book a free 45-minute automation audit. We'll map your manual processes and show you exactly what can be automated, and what it will save you.
       </p>
       <div class="flex flex-wrap justify-center gap-3">
         <a href="/pages/welcome"
