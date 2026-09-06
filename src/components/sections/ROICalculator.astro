@@ -354,7 +354,7 @@
          onmouseover="this.style.background='#d9a09b'"
          onmouseout="this.style.background='#E8B4B0'"
        >
-         Get my free automation plan →
+         Get my personalized automation plan →
          <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
            <path d="M3 8h10M9 4l4 4-4 4"/>
          </svg>
@@ -366,16 +366,20 @@
    <!-- ── BENCHMARK STRIP ── -->
    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 pt-6 mb-4" style="border-top:1px solid rgba(255,255,255,0.07);">
      {[
-       { n: '40%',  l: 'of SMB time on manual tasks',           src: 'McKinsey 2024'    },
-       { n: '70–80%', l: 'of repetitive tasks automatable',       src: 'Gartner 2024'     },
-       { n: '€28/hr', l: 'avg. EU admin all-in hourly cost',      src: 'Eurostat 2024'  },
-       { n: '2.3h', l: 'daily rework from data errors',         src: 'Forrester 2023'   },
+       { n: '€38/hr', l: 'avg. EU hourly labour cost (2025)',    src: 'Eurostat', url: 'https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Hourly_labour_costs' },
+       { n: '70%+',   l: 'of SMB staff more productive with automation', src: 'Zapier', url: 'https://zapier.com/blog/business-automation-statistics/' },
+       { n: '$3.1T',  l: 'yearly cost of poor data quality (US)', src: 'IBM', url: 'https://www.ibm.com/think/insights/cost-of-poor-data-quality' },
+       { n: '91%',    l: 'of SMBs using AI report a revenue boost', src: 'Salesforce', url: 'https://www.salesforce.com/small-business/smb-trends/' },
        { n: '€185K', l: 'avg. first-year savings (PURIST)',      src: '500+ clients'     },
      ].map(b => (
        <div>
          <p class="font-display text-lg lg:text-xl font-medium mb-1 leading-none" style="color:rgba(255,255,255,0.78);">{b.n}</p>
          <p class="text-[10.5px] leading-snug mb-1" style="color:rgba(255,255,255,0.60);">{b.l}</p>
-         <p class="text-[8.5px] uppercase tracking-[0.12em]" style="color:rgba(255,255,255,0.50);">{b.src}</p>
+         {b.url ? (
+           <a href={b.url} target="_blank" rel="noopener" class="text-[8.5px] uppercase tracking-[0.12em] hover:underline" style="color:rgba(255,255,255,0.50);">{b.src} ↗</a>
+         ) : (
+           <p class="text-[8.5px] uppercase tracking-[0.12em]" style="color:rgba(255,255,255,0.50);">{b.src}</p>
+         )}
        </div>
      ))}
    </div>

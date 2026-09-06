@@ -8,7 +8,7 @@
     <div class="wc-left">
       <span class="wc-eyebrow">The cost of doing nothing</span>
       <h2 class="wc-headline">Every week without automation costs you more than you think.</h2>
-      <p class="wc-body">The research is clear: businesses that delay automation lose thousands in recoverable hours every year. These are industry-verified numbers, not estimates.</p>
+      <p class="wc-body">The research is clear: businesses that delay automation lose thousands in recoverable hours every year. Every figure below is sourced and linked, click through to the original research.</p>
       <a href="#roi-calc" class="wc-link">
         Calculate your exact cost
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -30,7 +30,7 @@
           <div class="wc-card-val">~5h</div>
           <div class="wc-card-name">Per employee, per week</div>
           <div class="wc-card-desc">Spent on tasks automation handles</div>
-          <div class="wc-card-src">Zapier, State of Automation 2023</div>
+          <a class="wc-card-src" href="https://zapier.com/blog/business-automation-statistics/" target="_blank" rel="noopener">Zapier, Business Automation Statistics ↗</a>
         </div>
 
         <div class="wc-card">
@@ -44,7 +44,7 @@
           <div class="wc-card-val">44%</div>
           <div class="wc-card-name">Give up after one follow-up</div>
           <div class="wc-card-desc">While 80% of sales need 5+ touches</div>
-          <div class="wc-card-src">HubSpot Sales Research</div>
+          <a class="wc-card-src" href="https://blog.hubspot.com/sales/sales-follow-up-infographic" target="_blank" rel="noopener">HubSpot Sales Research ↗</a>
         </div>
 
         <div class="wc-card">
@@ -55,10 +55,10 @@
         </div>
 
         <div class="wc-card">
-          <div class="wc-card-val">79%</div>
-          <div class="wc-card-name">Of high-growth firms automate</div>
-          <div class="wc-card-desc">Vs. 46% of stagnating businesses</div>
-          <div class="wc-card-src">Salesforce SMB Trends Report</div>
+          <div class="wc-card-val">83%</div>
+          <div class="wc-card-name">Of growing SMBs use AI/automation</div>
+          <div class="wc-card-desc">Vs. 55% of declining businesses</div>
+          <a class="wc-card-src" href="https://www.salesforce.com/small-business/smb-trends/" target="_blank" rel="noopener">Salesforce SMB Trends Report ↗</a>
         </div>
 
         <div class="wc-card wc-card--accent">
@@ -72,7 +72,7 @@
 
       <div class="wc-bottom-strip">
         <span>PURIST clients recover an average of 14 hours per week.</span>
-        <a href="/pages/welcome" class="wc-bottom-cta">Get my free automation plan</a>
+        <a href="/pages/welcome" class="wc-bottom-cta">See how much I could recover →</a>
       </div>
     </div>
 
@@ -231,12 +231,19 @@
   }
 
   .wc-card-src {
+    display: block;
     font-family: 'Inter Variable', sans-serif;
     font-size: 0.58rem;
     color: rgba(248,246,241,0.18);
     font-style: italic;
+    text-decoration: none;
     border-top: 1px solid rgba(248,246,241,0.05);
     padding-top: 0.4rem;
+    transition: color 0.15s;
+  }
+
+  a.wc-card-src:hover {
+    color: rgba(232,180,176,0.6);
   }
 
   .wc-bottom-strip {

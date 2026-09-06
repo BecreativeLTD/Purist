@@ -38,7 +38,7 @@ const accordionSections = [
      ? `Conversational AI agents, intelligent lead scoring, document processing, and predictive analytics. Custom-trained on your business data with human-in-the-loop safeguards.\n\nNo vendor lock-in. Full documentation and handoff included.`
      : product.id === 'founder-stack'
      ? `Automation Pro (9 core workflows) + AI Agent Deploy (4 AI capabilities). Both production-tested with 24/7 monitoring and 99.5% uptime SLA.\n\nFull workflow specifications available on the individual service pages.`
-     : `Nine core automated workflows across your entire operation: lead capture, CRM sync, email sequences, invoicing, reporting, client onboarding, AI support routing, smart scheduling, and backup & monitoring.\n\nNo vendor lock-in. No hidden fees. Full documentation included.`,
+     : `Nine core automated workflows across your entire operation: lead capture, CRM sync, email sequences, invoicing, reporting, client onboarding, AI support routing, smart scheduling, and automated backups.\n\n24/7 monitoring and error handling are included on every deployment, see "How it works" below.\n\nNo vendor lock-in. No hidden fees. Full documentation included.`,
  },
  {
    id: 'how-it-works',
@@ -102,9 +102,20 @@ const accordionSections = [
        )}
      </div>
 
-     <p class="text-base text-brand-gray-600 mb-8 leading-relaxed text-pretty">
+     <p class="text-base text-brand-gray-600 mb-6 leading-relaxed text-pretty">
        {product.shortDescription}
      </p>
+
+     {product.bullets && product.bullets.length > 0 && (
+       <ul class="mb-8 space-y-2">
+         {product.bullets.map((b: string) => (
+           <li class="flex items-start gap-2.5 text-[13.5px] text-brand-gray-700 leading-snug">
+             <svg class="w-4 h-4 mt-0.5 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#2F6B45;"><path d="M3 8l3.5 3.5L13 5"/></svg>
+             <span>{b}</span>
+           </li>
+         ))}
+       </ul>
+     )}
 
      <!-- Primary CTA B2B audit-first approach -->
      <div class="rounded-[18px] p-6 lg:p-7 mb-2" style="background:#0A0A0A;">
@@ -126,7 +137,7 @@ const accordionSections = [
          onmouseover="this.style.background='#d9a09b'"
          onmouseout="this.style.background='#E8B4B0'"
        >
-         Get my free automation plan — no commitment
+         Get my free automation plan, no commitment
        </a>
        <a
          href="/pages/pricing"
