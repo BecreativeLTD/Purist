@@ -2,6 +2,8 @@
 import ShopLayout from '~/layouts/ShopLayout.astro';
 import { professions } from '~/data/automations';
 import DownloadReportButton from '~/components/ui/DownloadReportButton.tsx';
+import skillsData from '~/data/skills.json';
+import claudeSkillsData from '~/data/claude-skills.json';
 
 function parseHours(s: string): number | null {
   const m = s.match(/([\d.]+)/);
@@ -69,8 +71,37 @@ const appendixRows = professions
     painPoint: p.painPoints[0],
     solution: p.workflows[0].name,
     impact: p.workflows[0].impact,
+    workflows: p.workflows,
   }))
   .sort((a, b) => a.name.localeCompare(b.name));
+
+// ── n8n workflow library (internal capability inventory) ──
+// NOTE: skills.json's own `n8n` field mostly points at fabricated/dead
+// n8n.io/workflows/NNNN IDs (verified: most 404). We do not surface those
+// as clickable per-item citations — only the verified top-level n8n.io
+// marketplace URL is used, the internal catalog itself is the real proof.
+const skillCatLabels: Record<string, string> = {
+  crm: 'CRM & Sales', finance: 'Finance', ops: 'Operations', support: 'Support & CS',
+  marketing: 'Marketing', reporting: 'Reporting & BI', hr: 'HR', ai: 'AI-Native',
+  integration: 'Integrations', security: 'Security',
+};
+const skillsByCat: Record<string, any[]> = {};
+(skillsData.skills as any[]).forEach((s) => {
+  (skillsByCat[s.cat] ||= []).push(s);
+});
+
+// ── Before / after by category, built from real painPoints + workflow impact ──
+const beforeAfter = byCategoryByRevenue.map((c) => {
+  const sample = professions.find((p) => p.category === c.category)!;
+  return {
+    category: c.category,
+    before: sample.painPoints.slice(0, 2),
+    afterHours: fmtHours(c.avgHours),
+    afterRevenue: fmtMoney(c.avgRevenue),
+    exampleWorkflow: sample.workflows[0].name,
+    exampleImpact: sample.workflows[0].impact,
+  };
+});
 ---
 
 <ShopLayout
@@ -257,11 +288,81 @@ const appendixRows = professions
   </div>
 </section>
 
+<section class="bg-white py-14 lg:py-20 border-b border-brand-gray-100">
+  <div class="soa-wrap">
+    <p class="soa-eyebrow mb-3">Deep Dive</p>
+    <h2 class="soa-h2 mb-3">Before and After, by Industry</h2>
+    <p class="text-[14.5px] mb-8" style="color:rgba(10,10,10,0.6);max-width:680px;">A representative before/after pattern per category, drawn directly from the documented pain points and workflow outcomes for the professions modeled in that category, not a single-client testimonial.</p>
+    <div class="grid md:grid-cols-2 gap-5">
+      {beforeAfter.map((c) => (
+        <div class="soa-card">
+          <p class="text-[13px] font-bold mb-3" style="color:#0A0A0A;">{c.category}</p>
+          <p class="text-[10px] uppercase tracking-wider font-bold mb-1.5" style="color:#B3261E;">Before</p>
+          <ul class="text-[13px] mb-3" style="color:rgba(10,10,10,0.62);line-height:1.55;padding-left:1.1em;">
+            {c.before.map((b: string) => <li style="margin-bottom:4px;">{b}</li>)}
+          </ul>
+          <p class="text-[10px] uppercase tracking-wider font-bold mb-1.5" style="color:#2D5016;">After</p>
+          <p class="text-[13px]" style="color:rgba(10,10,10,0.62);line-height:1.55;">
+            <strong>{c.afterHours} recovered, {c.afterRevenue}/mo impact</strong>, via workflows such as "{c.exampleWorkflow}" ({c.exampleImpact}).
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="bg-brand-cream py-14 lg:py-20 border-b border-brand-gray-100">
+  <div class="soa-wrap">
+    <p class="soa-eyebrow mb-3">Capability Inventory</p>
+    <h2 class="soa-h2 mb-3">The n8n Workflow Library Behind This Report</h2>
+    <p class="text-[14.5px] mb-8" style="color:rgba(10,10,10,0.6);max-width:680px;">
+      Every profession model draws on PURIST's own library of {skillsData.skills.length} pre-built n8n automation patterns across {Object.keys(skillsByCat).length} functional categories, built on the open <a href="https://n8n.io/workflows/" target="_blank" rel="noopener" style="color:#8B4038;text-decoration:underline;">n8n automation platform</a>. This is PURIST's internal capability inventory.
+    </p>
+    <div class="grid md:grid-cols-2 gap-5">
+      {Object.entries(skillCatLabels).filter(([id]) => skillsByCat[id]?.length).map(([id, label]) => (
+        <div class="soa-card">
+          <div class="flex items-center justify-between mb-3">
+            <p class="text-[13px] font-bold" style="color:#0A0A0A;">{label}</p>
+            <span class="text-[11px] font-semibold" style="color:#8B4038;">{skillsByCat[id].length} patterns</span>
+          </div>
+          <ul class="space-y-2.5">
+            {skillsByCat[id].slice(0, 4).map((s: any) => (
+              <li>
+                <p class="text-[12.5px] font-semibold" style="color:#0A0A0A;">{s.title} <span style="font-weight:400;color:rgba(10,10,10,0.4);">&middot; {s.time}</span></p>
+                <p class="text-[12px]" style="color:rgba(10,10,10,0.55);">{s.benefit}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="bg-white py-14 lg:py-20 border-b border-brand-gray-100">
+  <div class="soa-wrap">
+    <p class="soa-eyebrow mb-3">Capability Inventory</p>
+    <h2 class="soa-h2 mb-3">{claudeSkillsData.totalSkills} Claude Agent Skills</h2>
+    <p class="text-[14.5px] mb-8" style="color:rgba(10,10,10,0.6);max-width:680px;">Beyond fixed workflow automation, PURIST deploys Claude AI agent skills for judgment-based work: drafting, classification, research, and QA that fixed if-then logic cannot handle.</p>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {claudeSkillsData.categories.map((c: any) => (
+        <div class="soa-card" style="padding:1.25rem;">
+          <div class="flex items-center justify-between mb-2">
+            <p class="text-[13px] font-bold" style="color:#0A0A0A;">{c.name}</p>
+            <span class="text-[11px] font-semibold" style="color:#8B4038;">{c.count}</span>
+          </div>
+          <p class="text-[12px]" style="color:rgba(10,10,10,0.5);line-height:1.5;">{c.skills.slice(0, 6).join(' · ')}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
 <section class="bg-brand-cream py-14 lg:py-20 border-b border-brand-gray-100">
   <div class="soa-wrap">
     <p class="soa-eyebrow mb-3">Appendix</p>
     <h2 class="soa-h2 mb-3">Problems &amp; Solutions, by Profession</h2>
-    <p class="text-[14.5px] mb-6" style="color:rgba(10,10,10,0.6);max-width:640px;">The top documented pain point and the PURIST workflow that resolves it, for all 171 professions modeled.</p>
+    <p class="text-[14.5px] mb-6" style="color:rgba(10,10,10,0.6);max-width:640px;">All 4 documented workflows per profession, and which problem each one resolves. Click a profession to expand. 171 professions total.</p>
     <div class="flex flex-wrap gap-3 mb-5">
       <input id="soa-search" type="text" placeholder="Search profession or category..." style="flex:1;min-width:220px;" />
       <select id="soa-filter">
@@ -269,21 +370,27 @@ const appendixRows = professions
         {categories.sort().map((c) => <option value={c}>{c}</option>)}
       </select>
     </div>
-    <div class="soa-table-scroll" style="max-height:640px;overflow-y:auto;">
-      <table class="soa-table" id="soa-table">
-        <thead><tr><th>Profession</th><th>Category</th><th>Top pain point</th><th>PURIST solution</th><th>Impact</th></tr></thead>
-        <tbody>
-          {appendixRows.map((r) => (
-            <tr data-name={r.name.toLowerCase()} data-cat={r.category}>
-              <td><a href={`/pages/automation/${r.slug}`} style="color:#8B4038;font-weight:600;text-decoration:none;">{r.name}</a></td>
-              <td>{r.category}</td>
-              <td style="max-width:260px;">{r.painPoint}</td>
-              <td style="font-weight:600;">{r.solution}</td>
-              <td>{r.impact}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div id="soa-list" style="max-height:720px;overflow-y:auto;border:1px solid rgba(10,10,10,0.08);border-radius:14px;background:#fff;">
+      {appendixRows.map((r) => (
+        <details class="soa-row" data-name={r.name.toLowerCase()} data-cat={r.category} style="border-bottom:1px solid rgba(10,10,10,0.06);">
+          <summary style="cursor:pointer;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;list-style:none;">
+            <span style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;">
+              <a href={`/pages/automation/${r.slug}`} style="color:#8B4038;font-weight:700;font-size:14px;text-decoration:none;" onclick="event.stopPropagation()">{r.name}</a>
+              <span style="font-size:11.5px;color:rgba(10,10,10,0.4);">{r.category}</span>
+            </span>
+            <span style="font-size:11.5px;color:rgba(10,10,10,0.35);white-space:nowrap;">4 workflows &darr;</span>
+          </summary>
+          <div style="padding:0 18px 18px;display:grid;gap:10px;">
+            {r.workflows.map((w) => (
+              <div style="background:rgba(10,10,10,0.025);border-radius:10px;padding:12px 14px;">
+                <p style="font-size:13px;font-weight:700;color:#0A0A0A;margin-bottom:3px;">{w.name} <span style="font-weight:500;color:rgba(10,10,10,0.4);font-size:11.5px;">&middot; {w.timeSaved}</span></p>
+                <p style="font-size:12.5px;color:rgba(10,10,10,0.6);line-height:1.5;margin-bottom:3px;">{w.description}</p>
+                <p style="font-size:12px;color:#2D5016;font-weight:600;">{w.impact}</p>
+              </div>
+            ))}
+          </div>
+        </details>
+      ))}
     </div>
     <p id="soa-count" class="text-[12px] mt-3" style="color:rgba(10,10,10,0.4);">{appendixRows.length} professions</p>
   </div>
@@ -292,7 +399,7 @@ const appendixRows = professions
 <script>
   const search = document.getElementById('soa-search') as HTMLInputElement;
   const filter = document.getElementById('soa-filter') as HTMLSelectElement;
-  const rows = Array.from(document.querySelectorAll('#soa-table tbody tr')) as HTMLTableRowElement[];
+  const rows = Array.from(document.querySelectorAll('#soa-list .soa-row')) as HTMLElement[];
   const count = document.getElementById('soa-count');
   function apply() {
     const q = search.value.toLowerCase().trim();

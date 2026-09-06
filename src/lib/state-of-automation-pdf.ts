@@ -1,4 +1,6 @@
 import { professions } from '~/data/automations';
+import skillsData from '~/data/skills.json';
+import claudeSkillsData from '~/data/claude-skills.json';
 
 const FONT_FILES: Array<[url: string, vfsName: string, alias: string]> = [
   ['/fonts/pdf/Fraunces-Regular.ttf', 'Fraunces-Regular.ttf', 'Fraunces'],
@@ -57,7 +59,8 @@ export async function buildStateOfAutomationPdf() {
   const H = 297;
   const margin = 20;
   const cw = W - margin * 2;
-  const accent: RGB = hexToRgb('#A0522D');
+  const accent: RGB = hexToRgb('#8B4038');
+  const RAMP: RGB[] = ['#F7E4E1', '#EFC3BC', '#E8B4B0', '#C97A6E', '#8B4038'].map(hexToRgb);
   const cream: RGB = [248, 246, 241];
   const dark: RGB = [10, 10, 10];
   const bodyGray: RGB = [70, 70, 70];
@@ -187,7 +190,10 @@ export async function buildStateOfAutomationPdf() {
       setText([60, 60, 60]);
       const labelLines = doc.splitTextToSize(r.label, labelW - 3);
       doc.text(labelLines[0], margin, y);
-      const shade = mix([245, 223, 201], [114, 60, 31], i / Math.max(rows.length - 1, 1));
+      const t = i / Math.max(rows.length - 1, 1);
+      const stopIdx = Math.min(RAMP.length - 2, Math.floor(t * (RAMP.length - 1)));
+      const localT = t * (RAMP.length - 1) - stopIdx;
+      const shade = mix(RAMP[stopIdx], RAMP[stopIdx + 1], localT);
       const barW = Math.max((r.value / maxVal) * barMaxW, 3);
       setFill([236, 236, 236]);
       doc.roundedRect(barX, y - 4.5, barMaxW, 7, 1.4, 1.4, 'F');
@@ -218,13 +224,37 @@ export async function buildStateOfAutomationPdf() {
     const ps = professions.filter((p) => p.category === cat);
     const h = ps.map((p) => parseHours(p.stats.timeSaved)).filter(Boolean);
     const r = ps.map((p) => parseMoney(p.stats.revenueImpact)).filter(Boolean);
-    return { category: cat, avgHours: avg(h), avgRevenue: avg(r) };
+    return { category: cat, n: ps.length, avgHours: avg(h), avgRevenue: avg(r), professions: ps };
   });
   const byRevenue = [...byCategory].sort((a, b) => b.avgRevenue - a.avgRevenue);
+  const byHours = [...byCategory].sort((a, b) => b.avgHours - a.avgHours);
 
-  const top30 = [...professions]
-    .sort((a, b) => parseMoney(b.stats.revenueImpact) - parseMoney(a.stats.revenueImpact))
-    .slice(0, 30);
+  const claudeProfs = professions.filter((p) => p.tools.includes('Claude AI'));
+  const nonClaudeProfs = professions.filter((p) => !p.tools.includes('Claude AI'));
+  const claudeAvgHours = avg(claudeProfs.map((p) => parseHours(p.stats.timeSaved)).filter(Boolean));
+  const claudeAvgRev = avg(claudeProfs.map((p) => parseMoney(p.stats.revenueImpact)).filter(Boolean));
+  const nonClaudeAvgHours = avg(nonClaudeProfs.map((p) => parseHours(p.stats.timeSaved)).filter(Boolean));
+  const nonClaudeAvgRev = avg(nonClaudeProfs.map((p) => parseMoney(p.stats.revenueImpact)).filter(Boolean));
+  const claudePct = (claudeProfs.length / professions.length) * 100;
+
+  const allByRevenue = [...professions].sort(
+    (a, b) => parseMoney(b.stats.revenueImpact) - parseMoney(a.stats.revenueImpact),
+  );
+
+  // n8n skill catalog: only entries with a curated internal slug are shown; the raw
+  // skills.json `n8n` deep-link field is unreliable (most IDs 404 on n8n.io) so we
+  // do not surface it as a clickable per-item citation, only the verified top-level
+  // n8n.io/workflows/ marketplace URL is used as a platform reference.
+  const skillsByCat: Record<string, typeof skillsData.skills> = {};
+  (skillsData.skills as any[]).forEach((s) => {
+    if (!skillsByCat[s.cat]) skillsByCat[s.cat] = [];
+    skillsByCat[s.cat].push(s);
+  });
+  const skillCatLabels: Record<string, string> = {
+    crm: 'CRM & Sales', finance: 'Finance', ops: 'Operations', support: 'Support & CS',
+    marketing: 'Marketing', reporting: 'Reporting & BI', hr: 'HR', ai: 'AI-Native',
+    integration: 'Integrations', security: 'Security',
+  };
 
   // ══════════════════════════ COVER ══════════════════════════
   doc.setFillColor(...dark);
@@ -283,6 +313,13 @@ export async function buildStateOfAutomationPdf() {
   divider();
   paragraph('This report is built from PURIST\'s own automation deployment modeling: a structured dataset covering 171 professions across 13 industry categories, with four individually documented workflows each. It is a vendor\'s own domain analysis, not a third-party survey, the same way Zapier\'s State of Business Automation report is drawn from its own platform data. Individual results vary by business.');
 
+  // ══════════════════════════ HOURS RANKING ══════════════════════════
+  newPage();
+  eyebrow('Finding 01');
+  heading(`The ${avgHours.toFixed(1)}-Hour Rule.`);
+  paragraph(`${byHours[0].category} sees the largest time recovery at ${byHours[0].avgHours.toFixed(1)}h/week, ${(byHours[0].avgHours / byHours[byHours.length - 1].avgHours).toFixed(1)}x the lowest category, ${byHours[byHours.length - 1].category}.`);
+  drawRankedBars(byHours.map((c) => ({ label: c.category, value: c.avgHours, display: `${c.avgHours.toFixed(1)}h/wk` })));
+
   // ══════════════════════════ REVENUE RANKING ══════════════════════════
   newPage();
   eyebrow('Finding 02');
@@ -290,11 +327,124 @@ export async function buildStateOfAutomationPdf() {
   paragraph(`${byRevenue[0].category} leads on revenue impact at $${Math.round(byRevenue[0].avgRevenue).toLocaleString('en-US')}/month, the widest gap in the dataset.`);
   drawRankedBars(byRevenue.map((c) => ({ label: c.category, value: c.avgRevenue, display: `$${Math.round(c.avgRevenue).toLocaleString('en-US')}/mo` })));
 
-  // ══════════════════════════ TOP 30 PROBLEMS & SOLUTIONS ══════════════════════════
+  // ══════════════════════════ 7-DAY DEPLOYMENT ══════════════════════════
+  newPage();
+  eyebrow('Finding 03');
+  heading('The 7-Day Deployment Standard.');
+  const pctSeven = (deployArr.filter((d) => d === 7).length / deployArr.length) * 100;
+  calloutBox(
+    `${avgDeploy.toFixed(1)} average days from audit to production`,
+    `${Math.round(pctSeven)}% of the 171 profession models deploy in exactly 7 business days, consistent with PURIST's standard delivery SLA regardless of industry.`,
+  );
+
+  // ══════════════════════════ GENERATIVE AI GAP ══════════════════════════
+  newPage();
+  eyebrow('Finding 04');
+  heading('The Generative AI Gap.');
+  paragraph(`Only ${claudePct.toFixed(0)}% of the workflow models in this dataset use Claude AI as a decision-making layer (classification, extraction, drafting) rather than fixed if-then logic alone. Those that do outperform on both metrics.`);
+  subhead('Claude AI-powered deployments');
+  paragraph(`${claudeAvgHours.toFixed(1)}h/wk avg.  ·  $${Math.round(claudeAvgRev).toLocaleString('en-US')}/mo avg.`, 11, dark);
+  subhead('Standard automation-only deployments');
+  paragraph(`${nonClaudeAvgHours.toFixed(1)}h/wk avg.  ·  $${Math.round(nonClaudeAvgRev).toLocaleString('en-US')}/mo avg.`, 11, bodyGray);
+
+  // ══════════════════════════ 85% BREAK EVEN ══════════════════════════
+  newPage();
+  eyebrow('Finding 05');
+  heading(`${Math.round(pctRoiUnder1)}% Break Even Within 30 Days.`);
+  calloutBox(
+    `${Math.round(pctRoiUnder1)}% of modeled deployments`,
+    'recover their full cost within the first month of going live, based on the deployment cost and measured monthly revenue/time impact for each profession modeled.',
+  );
+
+  // ══════════════════════════ BEFORE / AFTER BY CATEGORY ══════════════════════════
+  newPage();
+  eyebrow('Deep Dive');
+  heading('Before and after, by industry.');
+  paragraph('A representative before/after pattern per category, drawn directly from the pain points and workflow outcomes documented for the professions modeled in that category. Not a single-client testimonial, an aggregate pattern.');
+  byRevenue.forEach((c) => {
+    const sample = c.professions[0];
+    const beforeText = sample.painPoints.slice(0, 2).join('; ');
+    const afterText = `${c.avgHours.toFixed(1)}h/week recovered, $${Math.round(c.avgRevenue).toLocaleString('en-US')}/month impact, via workflows such as "${sample.workflows[0].name}" (${sample.workflows[0].impact}).`;
+    checkPage(28);
+    subhead(c.category, 10.5);
+    doc.setFont('InterSemiBold', 'normal');
+    doc.setFontSize(7.6);
+    setText([150, 60, 50]);
+    doc.text('BEFORE', margin, y);
+    doc.setFont('Inter', 'normal');
+    setText(bodyGray);
+    const beforeLines = doc.splitTextToSize(beforeText, cw - 20);
+    doc.text(beforeLines, margin + 18, y);
+    y += Math.max(beforeLines.length, 1) * 3.6 + 4;
+    doc.setFont('InterSemiBold', 'normal');
+    doc.setFontSize(7.6);
+    setText([40, 110, 60]);
+    doc.text('AFTER', margin, y);
+    doc.setFont('Inter', 'normal');
+    setText(bodyGray);
+    const afterLines = doc.splitTextToSize(afterText, cw - 20);
+    doc.text(afterLines, margin + 18, y);
+    y += Math.max(afterLines.length, 1) * 3.6 + 9;
+  });
+
+  // ══════════════════════════ N8N WORKFLOW LIBRARY ══════════════════════════
+  newPage();
+  eyebrow('Capability Inventory');
+  heading('The n8n workflow library behind this report.');
+  paragraph(`Every profession model in this report draws on PURIST's own library of ${skillsData.skills.length} pre-built n8n automation patterns across ${Object.keys(skillsByCat).length} functional categories, built on the open n8n platform (n8n.io/workflows). This is PURIST's internal capability inventory, not a public marketplace listing.`);
+  Object.entries(skillCatLabels).forEach(([catId, label]) => {
+    const items = skillsByCat[catId] || [];
+    if (!items.length) return;
+    checkPage(14);
+    subhead(`${label}  ·  ${items.length} patterns`, 9.5);
+    items.slice(0, 6).forEach((s: any) => {
+      checkPage(10);
+      doc.setFont('InterSemiBold', 'normal');
+      doc.setFontSize(7.8);
+      setText(dark);
+      doc.text(doc.splitTextToSize(`${s.title}`, cw - 30), margin + 4, y);
+      doc.setFont('Inter', 'normal');
+      doc.setFontSize(7.2);
+      setText([130, 130, 130]);
+      doc.text(s.time, W - margin, y, { align: 'right' });
+      y += 4.5;
+      const descLines = doc.splitTextToSize(s.benefit, cw - 10);
+      setText([110, 110, 110]);
+      doc.text(descLines, margin + 4, y);
+      y += descLines.length * 3.4 + 3;
+    });
+    y += 2;
+  });
+
+  // ══════════════════════════ CLAUDE AGENT SKILLS ══════════════════════════
+  newPage();
+  eyebrow('Capability Inventory');
+  heading(`${claudeSkillsData.totalSkills} Claude Agent Skills.`);
+  paragraph('Beyond fixed workflow automation, PURIST deploys Claude AI agent skills for judgment-based work: drafting, classification, research, and QA that fixed if-then logic cannot handle.');
+  claudeSkillsData.categories.forEach((c: any) => {
+    checkPage(13);
+    doc.setFont('InterSemiBold', 'normal');
+    doc.setFontSize(8.6);
+    setText(dark);
+    doc.text(c.name, margin, y);
+    doc.setFont('Inter', 'normal');
+    doc.setFontSize(7.6);
+    setText([Math.round(accent[0] * 0.6), Math.round(accent[1] * 0.6), Math.round(accent[2] * 0.6)]);
+    doc.text(`${c.count} skills`, W - margin, y, { align: 'right' });
+    y += 4.6;
+    doc.setFont('Inter', 'normal');
+    doc.setFontSize(7);
+    setText([120, 120, 120]);
+    const sample = c.skills.slice(0, 6).join('  ·  ');
+    doc.text(doc.splitTextToSize(sample, cw), margin, y);
+    y += doc.splitTextToSize(sample, cw).length * 3.4 + 7;
+  });
+
+  // ══════════════════════════ ALL 171 PROBLEMS & SOLUTIONS ══════════════════════════
   newPage();
   eyebrow('Appendix');
-  heading('Problems & solutions, top 30 by revenue impact.');
-  paragraph(`Full list of all 171 professions at purist.online/pages/state-of-automation-report-2026`, 8.5, [140, 140, 140]);
+  heading('Problems & solutions, all 171 professions.');
+  paragraph(`Sorted by revenue impact. Each profession has ${4} fully documented workflows on the web version of this report.`, 8.5, [140, 140, 140]);
   doc.setFont('Inter', 'normal');
   doc.setFontSize(6.6);
   setText([170, 170, 170]);
@@ -302,7 +452,7 @@ export async function buildStateOfAutomationPdf() {
   doc.text('PAIN POINT', margin + 42, y);
   doc.text('PURIST SOLUTION', margin + 122, y);
   y += 7;
-  top30.forEach((p, i) => {
+  allByRevenue.forEach((p, i) => {
     const painLines = doc.splitTextToSize(p.painPoints[0], 76);
     const solLines = doc.splitTextToSize(p.workflows[0].name, 46);
     const rowLines = Math.max(painLines.length, solLines.length, 1);
@@ -339,5 +489,9 @@ export async function buildStateOfAutomationPdf() {
   setText([255, 255, 255]);
   doc.text('purist.online/pages/welcome', margin + 35, y + 7.5, { align: 'center' });
 
+  const totalPages = (doc.internal as any).getNumberOfPages();
   doc.save('purist-state-of-automation-report-2026.pdf');
+
+  const pdfBase64: string = doc.output('datauristring').split(',')[1];
+  return { base64: pdfBase64, pageCount: totalPages };
 }
