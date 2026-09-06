@@ -366,12 +366,12 @@ const complexityText: Record<string, string> = {
                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style={`background:${complexityColor[w.complexity]};color:${complexityText[w.complexity]};`}>{w.complexity}</span>
                <div class="flex items-center gap-2">
                  {w.n8n && (
-                   <a href={w.n8n} target="_blank" rel="noopener noreferrer"
+                   <a href="https://n8n.io/workflows/" target="_blank" rel="noopener noreferrer"
                      class="text-[9px] font-semibold px-2 py-0.5 rounded-full border transition-all"
                      style="background:rgba(232,180,176,0.10);color:#c4847e;border-color:rgba(232,180,176,0.20);"
                      onmouseover="this.style.background='rgba(232,180,176,0.22)'"
                      onmouseout="this.style.background='rgba(232,180,176,0.10)'"
-                     aria-label="View template on n8n.io">n8n template ↗</a>
+                     aria-label="Explore n8n workflow templates">n8n templates ↗</a>
                  )}
                  {w.badge && (
                    <span class="text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full"
