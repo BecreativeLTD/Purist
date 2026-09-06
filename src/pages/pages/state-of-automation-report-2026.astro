@@ -1,0 +1,364 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import { professions } from '~/data/automations';
+import DownloadReportButton from '~/components/ui/DownloadReportButton.tsx';
+
+function parseHours(s: string): number | null {
+  const m = s.match(/([\d.]+)/);
+  return m ? parseFloat(m[1]) : null;
+}
+function parseMoney(s: string): number | null {
+  const m = s.match(/\$([\d,]+)/);
+  return m ? parseFloat(m[1].replace(/,/g, '')) : null;
+}
+const avg = (arr: number[]) => arr.reduce((a, b) => a + b, 0) / arr.length;
+
+const hoursArr = professions.map((p) => parseHours(p.stats.timeSaved)).filter((n): n is number => !!n);
+const revArr = professions.map((p) => parseMoney(p.stats.revenueImpact)).filter((n): n is number => !!n);
+const deployArr = professions.map((p) => p.stats.deploymentDays).filter((n): n is number => !!n);
+const roiArr = professions.map((p) => p.stats.roiMonths).filter((n): n is number => !!n);
+
+const avgHours = avg(hoursArr);
+const avgRevenue = avg(revArr);
+const avgDeploy = avg(deployArr);
+const pctRoiUnder1 = (roiArr.filter((r) => r <= 1).length / roiArr.length) * 100;
+const pctDeploySeven = (deployArr.filter((d) => d === 7).length / deployArr.length) * 100;
+
+const categories = [...new Set(professions.map((p) => p.category))];
+const byCategory = categories.map((cat) => {
+  const ps = professions.filter((p) => p.category === cat);
+  const h = ps.map((p) => parseHours(p.stats.timeSaved)).filter((n): n is number => !!n);
+  const r = ps.map((p) => parseMoney(p.stats.revenueImpact)).filter((n): n is number => !!n);
+  const d = ps.map((p) => p.stats.deploymentDays).filter((n): n is number => !!n);
+  return { category: cat, n: ps.length, avgHours: avg(h), avgRevenue: avg(r), avgDeploy: avg(d) };
+});
+const byCategoryByHours = [...byCategory].sort((a, b) => b.avgHours - a.avgHours);
+const byCategoryByRevenue = [...byCategory].sort((a, b) => b.avgRevenue - a.avgRevenue);
+
+const claudeProfs = professions.filter((p) => p.tools.includes('Claude AI'));
+const nonClaudeProfs = professions.filter((p) => !p.tools.includes('Claude AI'));
+const claudeAvgHours = avg(claudeProfs.map((p) => parseHours(p.stats.timeSaved)).filter((n): n is number => !!n));
+const claudeAvgRev = avg(claudeProfs.map((p) => parseMoney(p.stats.revenueImpact)).filter((n): n is number => !!n));
+const nonClaudeAvgHours = avg(nonClaudeProfs.map((p) => parseHours(p.stats.timeSaved)).filter((n): n is number => !!n));
+const nonClaudeAvgRev = avg(nonClaudeProfs.map((p) => parseMoney(p.stats.revenueImpact)).filter((n): n is number => !!n));
+const claudePct = (claudeProfs.length / professions.length) * 100;
+
+const RAMP = ['#F5DFC9', '#E8B98D', '#D48B52', '#A0522D', '#723C1F'];
+function rampColor(rank: number, total: number) {
+  // rank 0 = highest value → darkest stop
+  const quintile = Math.min(RAMP.length - 1, Math.floor((rank / total) * RAMP.length));
+  return RAMP[RAMP.length - 1 - quintile];
+}
+
+const hoursRanked = byCategoryByHours.map((c, i) => ({ ...c, color: rampColor(i, byCategoryByHours.length) }));
+const revenueRanked = byCategoryByRevenue.map((c, i) => ({ ...c, color: rampColor(i, byCategoryByRevenue.length) }));
+const maxHours = hoursRanked[0].avgHours;
+const maxRevenue = revenueRanked[0].avgRevenue;
+
+const fmtMoney = (n: number) => `$${Math.round(n).toLocaleString('en-US')}`;
+const fmtHours = (n: number) => `${n.toFixed(1)}h/wk`;
+
+const totalWorkflows = professions.length * 4;
+const pageUrl = 'https://www.purist.online/pages/state-of-automation-report-2026';
+
+const appendixRows = professions
+  .map((p) => ({
+    slug: p.slug,
+    name: p.name,
+    category: p.category,
+    painPoint: p.painPoints[0],
+    solution: p.workflows[0].name,
+    impact: p.workflows[0].impact,
+  }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<ShopLayout
+  title="State of Automation Report 2026 | PURIST"
+  description={`171 professions, ${totalWorkflows} workflows analyzed. Avg. ${avgHours.toFixed(1)}h/week recovered, ${fmtMoney(avgRevenue)}/mo revenue impact. The 2026 state of business automation.`}
+  canonical={pageUrl}
+>
+
+<Fragment slot="head">
+  <meta name="keywords" content="state of automation report 2026, workflow automation statistics, automation ROI by industry, n8n statistics, business automation benchmarks" />
+</Fragment>
+
+<style>
+  .soa-wrap { max-width: 980px; margin: 0 auto; padding: 0 1.25rem; }
+  .soa-eyebrow { font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; font-weight: 600; color: #A0522D; }
+  .soa-h1 { font-family: 'Fraunces', Georgia, serif; font-size: clamp(2rem, 5vw, 3.1rem); line-height: 1.08; letter-spacing: -0.025em; color: #0A0A0A; }
+  .soa-h2 { font-family: 'Fraunces', Georgia, serif; font-size: clamp(1.5rem, 3.2vw, 2rem); line-height: 1.15; letter-spacing: -0.02em; color: #0A0A0A; }
+  .soa-stat-tile { background: #fff; border: 1px solid rgba(10,10,10,0.08); border-radius: 16px; padding: 1.5rem 1.25rem; }
+  .soa-stat-num { font-family: 'Fraunces', Georgia, serif; font-size: 2.2rem; font-variant-numeric: tabular-nums; color: #0A0A0A; line-height: 1; }
+  .soa-stat-label { font-size: 12px; color: rgba(10,10,10,0.5); margin-top: 6px; line-height: 1.4; }
+  .soa-bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .soa-bar-label { width: 150px; flex-shrink: 0; font-size: 13px; color: #0A0A0A; font-weight: 500; }
+  .soa-bar-track { flex: 1; background: rgba(10,10,10,0.05); border-radius: 6px; height: 26px; position: relative; overflow: hidden; }
+  .soa-bar-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; }
+  .soa-bar-val { font-size: 11.5px; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; text-shadow: 0 1px 2px rgba(0,0,0,0.25); white-space: nowrap; }
+  table.soa-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  table.soa-table th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(10,10,10,0.45); padding: 10px 12px; border-bottom: 2px solid rgba(10,10,10,0.1); }
+  table.soa-table td { padding: 10px 12px; border-bottom: 1px solid rgba(10,10,10,0.06); font-variant-numeric: tabular-nums; }
+  table.soa-table tbody tr:nth-child(even) { background: rgba(10,10,10,0.02); }
+  .soa-table-scroll { overflow-x: auto; border: 1px solid rgba(10,10,10,0.08); border-radius: 14px; }
+  .soa-callout { background: #0A0A0A; color: #fff; border-radius: 20px; padding: 2.5rem; text-align: center; }
+  .soa-callout .num { font-family: 'Fraunces', Georgia, serif; font-size: clamp(2.5rem, 6vw, 4rem); color: #E8B4B0; line-height: 1; }
+  .soa-card { background: #fff; border: 1px solid rgba(10,10,10,0.08); border-radius: 16px; padding: 1.75rem; }
+  .soa-card.accent { border: 2px solid #A0522D; background: #FBF3EA; }
+  #soa-search, #soa-filter { font-size: 13.5px; padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(10,10,10,0.15); background: #fff; }
+</style>
+
+<section class="bg-brand-cream pt-16 pb-14 lg:pt-24 lg:pb-16">
+  <div class="soa-wrap text-center">
+    <p class="soa-eyebrow mb-4">PURIST RESEARCH &middot; 2026 EDITION</p>
+    <h1 class="soa-h1 mb-5">The State of Business Automation, 2026</h1>
+    <p class="text-[15px] lg:text-[16px] max-w-2xl mx-auto mb-2" style="color:rgba(10,10,10,0.6);line-height:1.7;">
+      An analysis of 171 professions and {totalWorkflows} documented automation workflows: what gets automated, how much time and revenue it recovers, and where AI agents are still underused.
+    </p>
+    <p class="text-[12.5px] mb-8" style="color:rgba(10,10,10,0.4);">Published September 2026 &middot; PURIST Research</p>
+    <div class="flex flex-wrap items-center justify-center gap-3">
+      <DownloadReportButton client:idle />
+      <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-button text-[13.5px] font-semibold" style="background:#0A0A0A;color:#fff;">
+        Get my free automation plan &rarr;
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="bg-white py-14 lg:py-16 border-b border-brand-gray-100">
+  <div class="soa-wrap">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="soa-stat-tile"><div class="soa-stat-num">{avgHours.toFixed(1)}h</div><div class="soa-stat-label">avg. hours recovered per week</div></div>
+      <div class="soa-stat-tile"><div class="soa-stat-num">{fmtMoney(avgRevenue)}</div><div class="soa-stat-label">avg. monthly revenue impact</div></div>
+      <div class="soa-stat-tile"><div class="soa-stat-num">{avgDeploy.toFixed(1)}</div><div class="soa-stat-label">avg. days to production deployment</div></div>
+      <div class="soa-stat-tile"><div class="soa-stat-num">{Math.round(pctRoiUnder1)}%</div><div class="soa-stat-label">of deployments break even within 30 days</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-brand-cream py-14 lg:py-16 border-b border-brand-gray-100">
+  <div class="soa-wrap max-w-3xl">
+    <p class="soa-eyebrow mb-3">Methodology</p>
+    <h2 class="soa-h2 mb-5">Where this data comes from.</h2>
+    <div class="space-y-4 text-[14.5px] leading-relaxed" style="color:rgba(10,10,10,0.68);">
+      <p>This report is built entirely from PURIST's own automation deployment modeling: a structured dataset covering 171 professions across 13 industry categories, with {totalWorkflows} individually documented workflows (four per profession), each with a measured or modeled time-saved figure, revenue impact, deployment timeline, and payback period.</p>
+      <p>This is not a third-party survey of a random sample of businesses. It is a vendor's own domain analysis, the same way Zapier's State of Business Automation report or Gartner's automation research is drawn from each organization's own data and client work, not an independent audit. We are publishing it because the patterns are consistent and instructive even without third-party sampling, and because we believe the industry benefits from more transparency about what automation actually delivers, not just what it promises.</p>
+      <p>Individual results vary by business, data quality, and existing tooling. Figures here represent typical outcomes across the profession types modeled, not a guarantee for any single company.</p>
+    </div>
+  </div>
+</section>
+
+<section class="bg-white py-14 lg:py-20 border-b border-brand-gray-100">
+  <div class="soa-wrap">
+    <p class="soa-eyebrow mb-3">Finding 01</p>
+    <h2 class="soa-h2 mb-3">The {avgHours.toFixed(1)}-Hour Rule</h2>
+    <p class="text-[14.5px] mb-8" style="color:rgba(10,10,10,0.6);max-width:640px;">
+      {hoursRanked[0].category} sees the largest time recovery at {fmtHours(hoursRanked[0].avgHours)}, more than {(hoursRanked[0].avgHours / hoursRanked[hoursRanked.length-1].avgHours).toFixed(1)}&times; the lowest category, {hoursRanked[hoursRanked.length-1].category}, at {fmtHours(hoursRanked[hoursRanked.length-1].avgHours)}.
+    </p>
+    <div>
+      {hoursRanked.map((c) => (
+        <div class="soa-bar-row">
+          <div class="soa-bar-label">{c.category}</div>
+          <div class="soa-bar-track">
+            <div class="soa-bar-fill" style={`width:${(c.avgHours / maxHours) * 100}%;background:${c.color};`}>
+              <span class="soa-bar-val">{fmtHours(c.avgHours)}</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="bg-brand-cream py-14 lg:py-20 border-b border-brand-gray-100">
+  <div class="soa-wrap">
+    <p class="soa-eyebrow mb-3">Finding 02</p>
+    <h2 class="soa-h2 mb-3">Which Industries Benefit Most</h2>
+    <p class="text-[14.5px] mb-8" style="color:rgba(10,10,10,0.6);max-width:640px;">
+      {revenueRanked[0].category} leads on revenue impact at {fmtMoney(revenueRanked[0].avgRevenue)}/month, ahead of {revenueRanked[1].category} and {revenueRanked[2].category}. Revenue impact and time saved do not rank identically, a category can save fewer hours but convert them into disproportionately more revenue.
+    </p>
+    <div class="mb-10">
+      {revenueRanked.map((c) => (
+        <div class="soa-bar-row">
+          <div class="soa-bar-label">{c.category}</div>
+          <div class="soa-bar-track">
+            <div class="soa-bar-fill" style={`width:${(c.avgRevenue / maxRevenue) * 100}%;background:${c.color};`}>
+              <span class="soa-bar-val">{fmtMoney(c.avgRevenue)}/mo</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="soa-table-scroll">
+      <table class="soa-table">
+        <thead><tr><th>Category</th><th>Professions modeled</th><th>Avg. hours/week</th><th>Avg. monthly revenue</th><th>Avg. deployment days</th></tr></thead>
+        <tbody>
+          {revenueRanked.map((c) => (
+            <tr>
+              <td style="font-weight:600;">{c.category}</td>
+              <td>{c.n}</td>
+              <td>{fmtHours(c.avgHours)}</td>
+              <td>{fmtMoney(c.avgRevenue)}</td>
+              <td>{c.avgDeploy.toFixed(1)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="bg-white py-14 lg:py-20 border-b border-brand-gray-100">
+  <div class="soa-wrap max-w-2xl text-center">
+    <p class="soa-eyebrow mb-3">Finding 03</p>
+    <h2 class="soa-h2 mb-6">The 7-Day Deployment Standard</h2>
+    <div class="soa-callout">
+      <div class="num">{avgDeploy.toFixed(1)}</div>
+      <p class="text-sm mt-2" style="color:rgba(255,255,255,0.6);">average days from audit to production deployment</p>
+      <p class="text-[13px] mt-4" style="color:rgba(255,255,255,0.45);">{Math.round(pctDeploySeven)}% of the 171 profession models deploy in exactly 7 business days, consistent with PURIST's standard delivery SLA regardless of industry.</p>
+    </div>
+  </div>
+</section>
+
+<section class="bg-brand-cream py-14 lg:py-20 border-b border-brand-gray-100">
+  <div class="soa-wrap">
+    <p class="soa-eyebrow mb-3">Finding 04</p>
+    <h2 class="soa-h2 mb-3">The Generative AI Gap</h2>
+    <p class="text-[14.5px] mb-8" style="color:rgba(10,10,10,0.6);max-width:640px;">
+      Only {claudePct.toFixed(0)}% of the workflow models in this dataset use Claude AI as a decision-making layer (classification, extraction, drafting) rather than fixed if-then logic alone. Those that do outperform on both metrics.
+    </p>
+    <div class="grid sm:grid-cols-2 gap-5">
+      <div class="soa-card accent">
+        <p class="text-[11px] uppercase tracking-wider font-bold mb-3" style="color:#A0522D;">&#9679; Claude AI-powered deployments</p>
+        <div class="flex gap-6">
+          <div><div class="soa-stat-num" style="font-size:1.7rem;">{fmtHours(claudeAvgHours)}</div><div class="soa-stat-label">avg. hours/week</div></div>
+          <div><div class="soa-stat-num" style="font-size:1.7rem;">{fmtMoney(claudeAvgRev)}</div><div class="soa-stat-label">avg. revenue/mo</div></div>
+        </div>
+      </div>
+      <div class="soa-card">
+        <p class="text-[11px] uppercase tracking-wider font-bold mb-3" style="color:rgba(10,10,10,0.4);">&#9675; Standard automation-only deployments</p>
+        <div class="flex gap-6">
+          <div><div class="soa-stat-num" style="font-size:1.7rem;">{fmtHours(nonClaudeAvgHours)}</div><div class="soa-stat-label">avg. hours/week</div></div>
+          <div><div class="soa-stat-num" style="font-size:1.7rem;">{fmtMoney(nonClaudeAvgRev)}</div><div class="soa-stat-label">avg. revenue/mo</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-white py-14 lg:py-20 border-b border-brand-gray-100">
+  <div class="soa-wrap max-w-2xl text-center">
+    <p class="soa-eyebrow mb-3">Finding 05</p>
+    <h2 class="soa-h2 mb-6">{Math.round(pctRoiUnder1)}% Break Even Within 30 Days</h2>
+    <div class="soa-callout" style="background:#A0522D;">
+      <div class="num" style="color:#fff;">{Math.round(pctRoiUnder1)}%</div>
+      <p class="text-sm mt-2" style="color:rgba(255,255,255,0.75);">of modeled deployments recover their cost within the first month of going live</p>
+    </div>
+  </div>
+</section>
+
+<section class="bg-brand-cream py-14 lg:py-20 border-b border-brand-gray-100">
+  <div class="soa-wrap">
+    <p class="soa-eyebrow mb-3">Appendix</p>
+    <h2 class="soa-h2 mb-3">Problems &amp; Solutions, by Profession</h2>
+    <p class="text-[14.5px] mb-6" style="color:rgba(10,10,10,0.6);max-width:640px;">The top documented pain point and the PURIST workflow that resolves it, for all 171 professions modeled.</p>
+    <div class="flex flex-wrap gap-3 mb-5">
+      <input id="soa-search" type="text" placeholder="Search profession or category..." style="flex:1;min-width:220px;" />
+      <select id="soa-filter">
+        <option value="">All categories</option>
+        {categories.sort().map((c) => <option value={c}>{c}</option>)}
+      </select>
+    </div>
+    <div class="soa-table-scroll" style="max-height:640px;overflow-y:auto;">
+      <table class="soa-table" id="soa-table">
+        <thead><tr><th>Profession</th><th>Category</th><th>Top pain point</th><th>PURIST solution</th><th>Impact</th></tr></thead>
+        <tbody>
+          {appendixRows.map((r) => (
+            <tr data-name={r.name.toLowerCase()} data-cat={r.category}>
+              <td><a href={`/pages/automation/${r.slug}`} style="color:#A0522D;font-weight:600;text-decoration:none;">{r.name}</a></td>
+              <td>{r.category}</td>
+              <td style="max-width:260px;">{r.painPoint}</td>
+              <td style="font-weight:600;">{r.solution}</td>
+              <td>{r.impact}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p id="soa-count" class="text-[12px] mt-3" style="color:rgba(10,10,10,0.4);">{appendixRows.length} professions</p>
+  </div>
+</section>
+
+<script>
+  const search = document.getElementById('soa-search') as HTMLInputElement;
+  const filter = document.getElementById('soa-filter') as HTMLSelectElement;
+  const rows = Array.from(document.querySelectorAll('#soa-table tbody tr')) as HTMLTableRowElement[];
+  const count = document.getElementById('soa-count');
+  function apply() {
+    const q = search.value.toLowerCase().trim();
+    const cat = filter.value;
+    let visible = 0;
+    rows.forEach((row) => {
+      const name = row.dataset.name || '';
+      const rowCat = row.dataset.cat || '';
+      const matches = (!q || name.includes(q) || rowCat.toLowerCase().includes(q)) && (!cat || rowCat === cat);
+      row.style.display = matches ? '' : 'none';
+      if (matches) visible++;
+    });
+    if (count) count.textContent = `${visible} profession${visible === 1 ? '' : 's'}`;
+  }
+  search?.addEventListener('input', apply);
+  filter?.addEventListener('change', apply);
+</script>
+
+<section class="bg-white py-14 lg:py-16">
+  <div class="soa-wrap max-w-2xl">
+    <div class="rounded-[16px] border border-brand-gray-100 p-6 mb-8">
+      <p class="text-[11px] uppercase tracking-wider font-bold mb-2" style="color:rgba(10,10,10,0.4);">How to cite this report</p>
+      <p class="text-[13.5px]" style="color:rgba(10,10,10,0.65);font-family:'IBM Plex Mono',monospace;">PURIST. (2026). The State of Business Automation Report 2026. Retrieved from {pageUrl}</p>
+    </div>
+    <div class="text-center">
+      <h2 class="soa-h2 mb-3">See what this looks like for your business.</h2>
+      <a href="/pages/welcome" class="inline-flex items-center gap-2 px-8 py-4 rounded-button text-[14px] font-bold" style="background:#0A0A0A;color:#fff;">
+        Get my free automation plan &rarr;
+      </a>
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Dataset',
+  name: 'PURIST State of Automation Report 2026 Dataset',
+  description: `Analysis of 171 professions and ${totalWorkflows} automation workflows: time saved, revenue impact, deployment speed, and AI adoption.`,
+  temporalCoverage: '2026',
+  creator: { '@type': 'Organization', name: 'PURIST', url: 'https://www.purist.online' },
+  variableMeasured: ['Average hours saved per week', 'Average monthly revenue impact', 'Average deployment days', 'Percentage achieving ROI within 30 days'],
+  url: pageUrl,
+})} />
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Report',
+  '@id': `${pageUrl}#report`,
+  headline: 'The State of Business Automation, 2026',
+  description: `171 professions, ${totalWorkflows} workflows analyzed. Avg. ${avgHours.toFixed(1)}h/week recovered, ${fmtMoney(avgRevenue)}/mo revenue impact.`,
+  datePublished: '2026-09-01',
+  url: pageUrl,
+  publisher: {
+    '@type': 'Organization',
+    name: 'PURIST',
+    url: 'https://www.purist.online',
+    logo: { '@type': 'ImageObject', url: 'https://www.purist.online/favicon.svg' },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+  breadcrumb: {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.purist.online' },
+      { '@type': 'ListItem', position: 2, name: 'State of Automation Report 2026', item: pageUrl },
+    ],
+  },
+})} />
+
+</ShopLayout>

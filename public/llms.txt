@@ -20,6 +20,10 @@ PURIST serves clients as: automation agency (UK), business automation company (U
 - [Free Automation Guides by Industry](https://www.purist.online/pages/free-guides): Free 12-page downloadable PDF guides for 171+ professions: priority workflows, tool stack, ROI math, and a 90-day deployment roadmap. No cost, instant download.
 - [Free Automation Audit](https://www.purist.online/pages/welcome): Free 45-60 minute audit of current workflows and automation opportunities, delivered live on a call.
 
+## Research
+
+- [The State of Business Automation Report 2026](https://www.purist.online/pages/state-of-automation-report-2026): Original data analysis of 171 professions and 684 documented automation workflows. Avg. 15.9h/week recovered, $5,429/mo revenue impact, 6.9-day average deployment, 85% break even within 30 days. Includes a full problem/solution breakdown for every profession and a downloadable PDF.
+
 ## Blog: Full Article Index (124 articles)
 
 All articles are written by PURIST's engineering team from real production deployments.

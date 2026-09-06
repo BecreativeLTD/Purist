@@ -64,6 +64,7 @@ const blogPages = blogData.articles.map(a => {
 const pages = [
   { url: '/',                                    lastmod: '2026-06-18' },
   { url: '/ads',                                 lastmod: '2026-07-14' },
+  { url: '/pages/state-of-automation-report-2026', lastmod: '2026-09-07' },
   { url: '/pages/pricing',                        lastmod: '2026-06-18' },
   { url: '/pages/packages',                      lastmod: '2026-06-18' },
   { url: '/pages/add-ons',                       lastmod: '2026-06-18' },
