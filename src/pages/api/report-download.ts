@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
-import { upsertLead } from '../../lib/supabase-admin';
+import { recordLeadEvent } from '../../lib/lead-scoring';
 import { professions } from '../../data/automations';
 
 export const prerender = false;
@@ -91,8 +91,18 @@ export const POST: APIRoute = async ({ request }) => {
     const resend = new Resend(resendKey);
     const notifyEmail = import.meta.env.notifymail || import.meta.env.NOTIFY_EMAIL || 'hello@purist.online';
 
-    // 1. Save to Supabase — isolated, never blocks email sending
-    try { await upsertLead(email, 'state_of_automation_report', page || '/pages/state-of-automation-report-2026'); } catch { /* silent */ }
+    // 1. Save to Supabase, isolated, never blocks email sending.
+    // `category` was already collected to personalize the email below
+    // but was previously discarded instead of being persisted here.
+    try {
+      await recordLeadEvent({
+        email,
+        eventType: 'report_download',
+        source: 'state_of_automation_report',
+        page: page || '/pages/state-of-automation-report-2026',
+        category,
+      });
+    } catch { /* silent */ }
 
     // 2. Notify team (fire & forget)
     resend.emails.send({

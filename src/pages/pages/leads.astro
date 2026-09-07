@@ -1,0 +1,194 @@
+---
+export const prerender = false;
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { createSupabaseAdminClient } from '~/lib/supabase-admin';
+
+// This route is gated by src/middleware.ts (PROTECTED_ROUTES), a visitor
+// only reaches this code after a valid Supabase Auth session was
+// confirmed. Using the service-role client here is safe because of that
+// gate, it is never exposed to the browser.
+const db = createSupabaseAdminClient();
+
+const { data: leadsRaw, error } = await db
+  .from('leads')
+  .select('id, email, name, company, category, profession_slug, source, page, status, score, touch_count, created_at, last_seen_at')
+  .order('score', { ascending: false });
+
+const leads = leadsRaw ?? [];
+const totalLeads = leads.length;
+const avgScore = totalLeads ? Math.round(leads.reduce((sum, l) => sum + (l.score ?? 0), 0) / totalLeads) : 0;
+
+const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+const newThisWeek = leads.filter((l) => new Date(l.created_at) >= sevenDaysAgo).length;
+
+const categoryCounts: Record<string, number> = {};
+leads.forEach((l) => {
+  const c = l.category || 'Unspecified';
+  categoryCounts[c] = (categoryCounts[c] || 0) + 1;
+});
+const topCategoryEntry = Object.entries(categoryCounts).sort((a, b) => b[1] - a[1])[0];
+const topCategory = topCategoryEntry ? topCategoryEntry[0] : 'None yet';
+
+const categories = [...new Set(leads.map((l) => l.category).filter(Boolean))].sort();
+
+function fmtDate(d: string) {
+  return new Date(d).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+---
+
+<BaseLayout title="Leads | PURIST" description="Internal lead intelligence dashboard." noindex>
+
+<style>
+  .ld-wrap { max-width: 1180px; margin: 0 auto; padding: 40px 24px 100px; }
+  .ld-h1 { font-family: 'Fraunces', Georgia, serif; font-size: 28px; color: #0A0A0A; margin: 0; }
+  .ld-sub { color: rgba(10,10,10,0.5); font-size: 13.5px; margin: 6px 0 0; }
+  .ld-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(10,10,10,0.08); border: 1px solid rgba(10,10,10,0.08); margin-top: 28px; }
+  .ld-kpi { background: #fff; padding: 18px 16px; }
+  .ld-kpi .num { font-family: 'Fraunces', Georgia, serif; font-size: 26px; color: #8B4038; font-variant-numeric: tabular-nums; line-height: 1; }
+  .ld-kpi .label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(10,10,10,0.4); margin-top: 6px; }
+  @media (max-width: 700px) { .ld-kpis { grid-template-columns: 1fr 1fr; } }
+
+  .ld-controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 32px 0 14px; }
+  .ld-controls input, .ld-controls select { font-size: 13.5px; padding: 9px 13px; border-radius: 8px; border: 1px solid rgba(10,10,10,0.15); background: #fff; }
+  .ld-controls input { flex: 1; min-width: 200px; }
+
+  .ld-table-scroll { overflow-x: auto; border: 1px solid rgba(10,10,10,0.08); border-radius: 12px; }
+  table.ld-table { width: 100%; border-collapse: collapse; font-size: 13.5px; white-space: nowrap; }
+  table.ld-table th { text-align: left; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(10,10,10,0.45); padding: 11px 14px; border-bottom: 2px solid rgba(10,10,10,0.1); background: #FBF9F4; cursor: pointer; user-select: none; }
+  table.ld-table th:hover { color: #8B4038; }
+  table.ld-table td { padding: 10px 14px; border-bottom: 1px solid rgba(10,10,10,0.06); font-variant-numeric: tabular-nums; }
+  table.ld-table tbody tr:nth-child(even) { background: rgba(10,10,10,0.015); }
+  table.ld-table tbody tr:hover { background: rgba(139,64,56,0.04); }
+  .ld-score { font-weight: 700; color: #8B4038; }
+  .ld-status { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; padding: 2px 8px; border-radius: 3px; text-transform: uppercase; }
+  .ld-status.active { background: #E1EEE6; color: #2D6A4F; }
+  .ld-status.converted { background: #E3ECF7; color: #2D5DA0; }
+  .ld-status.unsubscribed { background: #F0EDE6; color: rgba(10,10,10,0.4); }
+
+  .ld-empty { text-align: center; padding: 60px 20px; color: rgba(10,10,10,0.5); border: 1px dashed rgba(10,10,10,0.15); border-radius: 12px; margin-top: 24px; }
+  .ld-empty h2 { font-family: 'Fraunces', Georgia, serif; font-size: 19px; color: #0A0A0A; margin: 0 0 8px; }
+</style>
+
+<div class="ld-wrap">
+  <h1 class="ld-h1">Lead Intelligence</h1>
+  <p class="ld-sub">Every capture point across the site, one scored profile per email. Internal use only.</p>
+
+  <div class="ld-kpis">
+    <div class="ld-kpi"><div class="num">{totalLeads}</div><div class="label">Total leads</div></div>
+    <div class="ld-kpi"><div class="num">{avgScore}</div><div class="label">Avg. score</div></div>
+    <div class="ld-kpi"><div class="num">{newThisWeek}</div><div class="label">New this week</div></div>
+    <div class="ld-kpi"><div class="num" style="font-size:17px;">{topCategory}</div><div class="label">Top category</div></div>
+  </div>
+
+  {error && <p style="color:#A6291B;margin-top:20px;">Could not load leads: {error.message}</p>}
+
+  {totalLeads === 0 ? (
+    <div class="ld-empty">
+      <h2>No leads recorded yet</h2>
+      <p>Once someone downloads a guide, uses the ROI calculator, requests an audit, or downloads the State of Automation report, they will appear here automatically.</p>
+    </div>
+  ) : (
+    <>
+      <div class="ld-controls">
+        <input id="ld-search" type="text" placeholder="Search email, name, or company..." />
+        <select id="ld-filter-cat">
+          <option value="">All categories</option>
+          {categories.map((c) => <option value={c as string}>{c}</option>)}
+        </select>
+        <select id="ld-filter-status">
+          <option value="">All statuses</option>
+          <option value="active">Active</option>
+          <option value="converted">Converted</option>
+          <option value="unsubscribed">Unsubscribed</option>
+        </select>
+      </div>
+
+      <div class="ld-table-scroll">
+        <table class="ld-table" id="ld-table">
+          <thead>
+            <tr>
+              <th data-sort="email">Email</th>
+              <th data-sort="company">Company</th>
+              <th data-sort="category">Category</th>
+              <th data-sort="score">Score</th>
+              <th data-sort="touch_count">Touches</th>
+              <th data-sort="status">Status</th>
+              <th data-sort="last_seen_at">Last seen</th>
+            </tr>
+          </thead>
+          <tbody>
+            {leads.map((l) => (
+              <tr data-email={l.email.toLowerCase()} data-name={(l.name || '').toLowerCase()} data-company={(l.company || '').toLowerCase()} data-category={l.category || ''} data-status={l.status} data-score={l.score} data-touches={l.touch_count} data-last-seen={l.last_seen_at}>
+                <td>{l.email}</td>
+                <td>{l.company || '-'}</td>
+                <td>{l.category || '-'}</td>
+                <td class="ld-score">{l.score}</td>
+                <td>{l.touch_count}</td>
+                <td><span class={`ld-status ${l.status}`}>{l.status}</span></td>
+                <td>{fmtDate(l.last_seen_at)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p id="ld-count" style="font-size:12px;color:rgba(10,10,10,0.4);margin-top:10px;">{totalLeads} leads</p>
+    </>
+  )}
+</div>
+
+<script>
+  const search = document.getElementById('ld-search') as HTMLInputElement | null;
+  const filterCat = document.getElementById('ld-filter-cat') as HTMLSelectElement | null;
+  const filterStatus = document.getElementById('ld-filter-status') as HTMLSelectElement | null;
+  const table = document.getElementById('ld-table') as HTMLTableElement | null;
+  const count = document.getElementById('ld-count');
+  if (table) {
+    const tbody = table.tBodies[0];
+    const rows = Array.from(tbody.rows);
+
+    function applyFilters() {
+      const q = (search?.value || '').toLowerCase().trim();
+      const cat = filterCat?.value || '';
+      const status = filterStatus?.value || '';
+      let visible = 0;
+      rows.forEach((row) => {
+        const email = row.dataset.email || '';
+        const name = row.dataset.name || '';
+        const company = row.dataset.company || '';
+        const rowCat = row.dataset.category || '';
+        const rowStatus = row.dataset.status || '';
+        const matches =
+          (!q || email.includes(q) || name.includes(q) || company.includes(q)) &&
+          (!cat || rowCat === cat) &&
+          (!status || rowStatus === status);
+        row.style.display = matches ? '' : 'none';
+        if (matches) visible++;
+      });
+      if (count) count.textContent = `${visible} lead${visible === 1 ? '' : 's'}`;
+    }
+    search?.addEventListener('input', applyFilters);
+    filterCat?.addEventListener('change', applyFilters);
+    filterStatus?.addEventListener('change', applyFilters);
+
+    let sortKey = 'score';
+    let sortDir = -1;
+    table.querySelectorAll('th[data-sort]').forEach((th) => {
+      th.addEventListener('click', () => {
+        const key = (th as HTMLElement).dataset.sort as string;
+        sortDir = key === sortKey ? -sortDir : -1;
+        sortKey = key;
+        const attrKey = key === 'touch_count' ? 'touches' : key === 'last_seen_at' ? 'lastSeen' : key;
+        rows.sort((a, b) => {
+          const av = (a.dataset as any)[attrKey] ?? '';
+          const bv = (b.dataset as any)[attrKey] ?? '';
+          const an = Number(av), bn = Number(bv);
+          if (!isNaN(an) && !isNaN(bn) && av !== '' && bv !== '') return (an - bn) * sortDir;
+          return String(av).localeCompare(String(bv)) * sortDir;
+        });
+        rows.forEach((r) => tbody.appendChild(r));
+      });
+    });
+  }
+</script>
+
+</BaseLayout>

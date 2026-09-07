@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 import { generateProposalEmail, generateOnboardingEmail } from '~/utils/proposal-email';
+import { recordLeadEvent } from '~/lib/lead-scoring';
 
 export const prerender = false;
 
@@ -28,6 +29,22 @@ export const POST: APIRoute = async ({ request }) => {
     }
     const resend = new Resend(resendKey);
     const notifyEmail = import.meta.env.notifymail || import.meta.env.NOTIFY_EMAIL || 'hello@purist.online';
+
+    // Save lead to Supabase, isolated, never blocks email sending. This
+    // is the richest capture form on the site (name, company, phone,
+    // budget, pain point) and previously was not persisted at all.
+    try {
+      await recordLeadEvent({
+        email,
+        eventType: 'audit_request',
+        source: 'welcome_audit_form',
+        page: '/pages/welcome',
+        category: business_type,
+        name,
+        company,
+        metadata: { phone, team_size, pain_point, tools, budget, message },
+      });
+    } catch { /* silent */ }
 
     // ── 1. AI lead qualification (best-effort) ──────────────────
     let qualification = '';

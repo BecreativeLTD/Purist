@@ -157,6 +157,8 @@ function EmailGateModal({ profession, onClose }: { profession: Profession; onClo
           email: email.value,
           page: '/pages/free-guides',
           source: `free_guide_${profession.slug}`,
+          category: profession.category,
+          professionSlug: profession.slug,
           timestamp: new Date().toISOString(),
         }),
       });

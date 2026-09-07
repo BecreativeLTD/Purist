@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
+import { recordLeadEvent } from '../../lib/lead-scoring';
 
 export const prerender = false;
 
@@ -195,6 +196,18 @@ export const POST: APIRoute = async ({ request }) => {
     }
     const resend = new Resend(resendKey);
     const notifyEmail = import.meta.env.notifymail || import.meta.env.NOTIFY_EMAIL || 'hello@purist.online';
+
+    // Save lead to Supabase, isolated, never blocks email sending. Same
+    // commercial ask as the full /pages/welcome form, just with only an
+    // email address on hand, was not persisted at all before.
+    try {
+      await recordLeadEvent({
+        email,
+        eventType: 'audit_request',
+        source: 'exit_intent_popup',
+        page: '/pages/welcome',
+      });
+    } catch { /* silent */ }
 
     await resend.emails.send({
       from: 'PURIST Leads <hello@purist.online>',

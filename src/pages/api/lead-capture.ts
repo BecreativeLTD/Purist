@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
-import { upsertLead } from '../../lib/supabase-admin';
+import { recordLeadEvent } from '../../lib/lead-scoring';
 import { buildJ0Email } from '../../lib/email-nurture';
 
 export const prerender = false;
@@ -10,7 +10,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
-    const { email, page, source, timestamp } = body;
+    const { email, page, source, timestamp, category, professionSlug } = body;
 
     if (!email || !EMAIL_RE.test(email)) {
       return new Response(JSON.stringify({ error: 'Invalid email address' }), { status: 400 });
@@ -26,8 +26,21 @@ export const POST: APIRoute = async ({ request }) => {
     const resend = new Resend(resendKey);
     const notifyEmail = import.meta.env.notifymail || import.meta.env.NOTIFY_EMAIL || 'hello@purist.online';
 
-    // 1. Save to Supabase — isolated, never blocks email sending
-    try { await upsertLead(email, source, page); } catch { /* silent */ }
+    // 1. Save to Supabase, isolated, never blocks email sending.
+    // A profession-guide download is a stronger signal than a bare
+    // newsletter signup, distinguish the two by whether a profession
+    // was provided rather than trusting the free-text `source` string.
+    try {
+      await recordLeadEvent({
+        email,
+        eventType: professionSlug ? 'guide_download' : 'newsletter_signup',
+        source,
+        page,
+        category,
+        professionSlug,
+        metadata: { timestamp },
+      });
+    } catch { /* silent */ }
 
     // 2. Notify team (fire & forget)
     resend.emails.send({

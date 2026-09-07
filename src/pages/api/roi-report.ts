@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { upsertLead } from '../../lib/supabase-admin';
+import { recordLeadEvent } from '../../lib/lead-scoring';
 import { buildJ0Email } from '../../lib/email-nurture';
 
 export const prerender = false;
@@ -16,8 +16,22 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    // Save lead to Supabase, isolated, never blocks email sending
-    try { await upsertLead(email, 'roi_calculator', '/pages/welcome'); } catch { /* silent */ }
+    // Save lead to Supabase, isolated, never blocks email sending.
+    // The calculator's industry tab and computed savings were already
+    // sent to this route for the email below, persist them too instead
+    // of discarding them once the email is out.
+    const roiInputs = body.inputs ?? {};
+    const roiResult = body.result ?? {};
+    try {
+      await recordLeadEvent({
+        email,
+        eventType: 'roi_calculator',
+        source: 'roi_calculator',
+        page: '/pages/welcome',
+        category: roiInputs.industry,
+        metadata: { inputs: roiInputs, result: roiResult },
+      });
+    } catch { /* silent */ }
 
     const resendKey =
       import.meta.env.Resend ||
