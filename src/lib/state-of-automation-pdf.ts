@@ -336,6 +336,15 @@ export async function buildStateOfAutomationPdf() {
     `${avgDeploy.toFixed(1)} average days from audit to production`,
     `${Math.round(pctSeven)}% of the 171 profession models deploy in exactly 7 business days, consistent with PURIST's standard delivery SLA regardless of industry.`,
   );
+  y += 8;
+  const fastTrack = professions.filter((p) => p.stats.deploymentDays < 7);
+  if (fastTrack.length) {
+    const fastCats = [...new Set(fastTrack.map((p) => p.category))];
+    subhead(`The ${fastTrack.length} exceptions: deployed in ${Math.min(...fastTrack.map((p) => p.stats.deploymentDays))} days`, 10.5);
+    paragraph(
+      `Every profession model that deploys faster than the 7-day standard is in ${fastCats.join(' and ')}: ${fastTrack.map((p) => p.name).join(', ')}. These are the simplest workflow patterns in the dataset, single-trigger automations with no multi-system integration, which is what buys back the extra 2 days.`,
+    );
+  }
 
   // ══════════════════════════ GENERATIVE AI GAP ══════════════════════════
   newPage();
@@ -355,6 +364,18 @@ export async function buildStateOfAutomationPdf() {
     `${Math.round(pctRoiUnder1)}% of modeled deployments`,
     'recover their full cost within the first month of going live, based on the deployment cost and measured monthly revenue/time impact for each profession modeled.',
   );
+  y += 8;
+  const slowerRoi = professions.filter((p) => p.stats.roiMonths > 1);
+  if (slowerRoi.length) {
+    const slowByCat: Record<string, number> = {};
+    slowerRoi.forEach((p) => { slowByCat[p.category] = (slowByCat[p.category] || 0) + 1; });
+    const slowRows = Object.entries(slowByCat).sort((a, b) => b[1] - a[1]);
+    subhead(`The other ${slowerRoi.length}: where payback takes 2 months instead of 1`, 10.5);
+    paragraph(
+      `${slowerRoi.length} profession models (${Math.round((slowerRoi.length / professions.length) * 100)}% of the dataset) take a second month to break even rather than the first, concentrated in ${slowRows[0][0]} (${slowRows[0][1]} of ${slowerRoi.length}) and ${slowRows[1][0]} (${slowRows[1][1]}). These tend to be workflows with a longer sales or booking cycle behind the automation, not a slower build.`,
+    );
+    drawRankedBars(slowRows.map(([cat, n]) => ({ label: cat, value: n, display: `${n} profession${n === 1 ? '' : 's'}` })));
+  }
 
   // ══════════════════════════ BEFORE / AFTER BY CATEGORY ══════════════════════════
   newPage();
