@@ -70,8 +70,15 @@ function fmtDate(d: string) {
 </style>
 
 <div class="ld-wrap">
-  <h1 class="ld-h1">Lead Intelligence</h1>
-  <p class="ld-sub">Every capture point across the site, one scored profile per email. Internal use only.</p>
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+    <div>
+      <h1 class="ld-h1">Lead Intelligence</h1>
+      <p class="ld-sub">Every capture point across the site, one scored profile per email. Internal use only.</p>
+    </div>
+    <a href="/pages/dashboard" style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:rgba(10,10,10,0.45);text-decoration:none;border:1px solid rgba(10,10,10,0.15);border-radius:8px;padding:8px 14px;white-space:nowrap;">
+      View client demo →
+    </a>
+  </div>
 
   <div class="ld-kpis">
     <div class="ld-kpi"><div class="num">{totalLeads}</div><div class="label">Total leads</div></div>

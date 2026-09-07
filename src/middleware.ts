@@ -46,7 +46,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
    }
 
    if (isAuthRoute && user) {
-     return withAuthHeaders(context.redirect('/pages/dashboard'));
+     return withAuthHeaders(context.redirect('/pages/leads'));
    }
 
    context.locals.user = user;

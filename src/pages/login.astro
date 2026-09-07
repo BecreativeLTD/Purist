@@ -41,7 +41,7 @@ if (Astro.request.method === 'POST') {
          errorMsg = error.message;
        } else if (data.session) {
          const redirect = new Headers();
-         redirect.set('Location', '/pages/dashboard');
+         redirect.set('Location', '/pages/leads');
          cookieHeaders.forEach((val, key) => redirect.append(key, val));
          return new Response(null, { status: 302, headers: redirect });
        }
