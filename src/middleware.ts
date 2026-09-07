@@ -25,21 +25,34 @@ export const onRequest = defineMiddleware(async (context, next) => {
    const supabase = createSupabaseServerClient(context.request, responseHeaders);
    const { data: { user } } = await supabase.auth.getUser();
 
+   // getUser() can rotate/refresh the session token under the hood (e.g. an
+   // expired access token with a still-valid refresh token), which queues a
+   // new Set-Cookie in responseHeaders. Previously that queue was only ever
+   // flushed on the success path below, redirects below returned early and
+   // silently dropped the refreshed cookie, so a request that needed a
+   // refresh but happened to also redirect (login <-> dashboard bounce) sent
+   // the browser off with a stale, already-rotated cookie, causing the next
+   // request to fail auth even though the user was, a moment earlier,
+   // genuinely signed in. Every return path now flushes responseHeaders.
+   function withAuthHeaders(response: Response): Response {
+     responseHeaders.forEach((value, key) => {
+       response.headers.append(key, value);
+     });
+     return response;
+   }
+
    if (isProtected && !user) {
-     return context.redirect('/login');
+     return withAuthHeaders(context.redirect('/login'));
    }
 
    if (isAuthRoute && user) {
-     return context.redirect('/pages/dashboard');
+     return withAuthHeaders(context.redirect('/pages/dashboard'));
    }
 
    context.locals.user = user;
 
    const response = await next();
-   responseHeaders.forEach((value, key) => {
-     response.headers.append(key, value);
-   });
-   return response;
+   return withAuthHeaders(response);
  } catch {
    if (isProtected) {
      return context.redirect('/login');
