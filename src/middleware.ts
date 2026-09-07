@@ -23,21 +23,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
  try {
    const responseHeaders = new Headers();
    const supabase = createSupabaseServerClient(context.request, responseHeaders);
-   const { data: { user }, error: getUserError } = await supabase.auth.getUser();
-
-   // TEMPORARY DIAGNOSTIC — remove once the leads/dashboard auth
-   // discrepancy is root-caused. Logs to Vercel runtime logs only,
-   // never sent to the browser.
-   console.log('[auth-debug]', JSON.stringify({
-     path: url.pathname,
-     hasCookieHeader: !!context.request.headers.get('cookie'),
-     cookieHeaderLength: (context.request.headers.get('cookie') || '').length,
-     cookieNames: (context.request.headers.get('cookie') || '')
-       .split(';').map(c => c.split('=')[0].trim()).filter(Boolean),
-     hasUser: !!user,
-     userId: user?.id ?? null,
-     getUserError: getUserError ? { message: getUserError.message, status: getUserError.status, name: getUserError.name } : null,
-   }));
+   const { data: { user } } = await supabase.auth.getUser();
 
    // getUser() can rotate/refresh the session token under the hood (e.g. an
    // expired access token with a still-valid refresh token), which queues a
@@ -68,7 +54,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
    const response = await next();
    return withAuthHeaders(response);
  } catch (e) {
-   console.log('[auth-debug] EXCEPTION', url.pathname, e instanceof Error ? e.message : String(e));
+   console.error('[middleware] unexpected error on', url.pathname, e instanceof Error ? e.message : String(e));
    if (isProtected) {
      return context.redirect('/login');
    }

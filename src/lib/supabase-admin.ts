@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import ws from 'ws';
 
 const SUPABASE_URL = 'https://xzcvpetgcqsjwrtskadb.supabase.co';
 // Fallback to anon key so it still works before you add the service role key.
@@ -10,6 +11,15 @@ export function createSupabaseAdminClient() {
   const key = import.meta.env.SUPABASE_SERVICE_ROLE_KEY ?? SUPABASE_ANON_KEY;
   return createClient(SUPABASE_URL, key, {
     auth: { persistSession: false },
+    // Vercel's Node 20 runtime has no native WebSocket. supabase-js sets up a
+    // Realtime client even when nothing subscribes to a channel, and without
+    // an explicit transport it throws synchronously on first use, crashing
+    // any page that calls createSupabaseAdminClient() (this took down
+    // /pages/leads: the exception propagated out of the page render, was
+    // swallowed by the auth middleware's catch-all, and silently redirected
+    // to /login instead of showing the real error). Same fix already used
+    // in src/lib/supabase.ts's SSR client.
+    realtime: { transport: ws as any },
   });
 }
 
