@@ -28,7 +28,7 @@ export function initAmplitude() {
         },
       },
     },
-    sessionReplay: { sampleRate: 1 },
+    sessionReplay: { sampleRate: 0.1 },
   });
 
   _initialized = true;
