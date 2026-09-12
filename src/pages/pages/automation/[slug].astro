@@ -49,6 +49,44 @@ const descriptionVariants = [
 const pageTitle = titleVariants[variant];
 const pageDescription = descriptionVariants[variant];
 
+// Same duplication problem existed in the on-page H1/H2 copy: every one of
+// the 171 pages used the identical "Why {X}s Lose Hours Every Week" / "The
+// {X} Automation System" phrasing with only the profession noun swapped,
+// which is what pushed measured page-to-page similarity to 95%+. Rotate
+// these too, off the same stable slug hash used for the meta title.
+const h1Variants = [
+  [`${p.name} Automation:`, `Save ${p.stats.timeSaved} Every Week`],
+  [`Automate Your ${p.name} Business`, `Live in ${p.stats.deploymentDays} Days`],
+  [`The ${p.name} Automation Blueprint`, `${p.stats.revenueImpact}/Month Impact`],
+  [`Stop Doing ${p.name} Admin By Hand`, `${p.stats.timeSaved} Back, Guaranteed`],
+];
+const [h1Line1, h1Line2] = h1Variants[variant];
+
+const painH2Variants = [
+  `Why ${p.name}s Lose Hours Every Week`,
+  `The Real Cost of Manual ${p.name} Work`,
+  `Where ${p.name} Businesses Bleed Time`,
+  `What's Actually Slowing Your ${p.name} Business Down`,
+];
+const systemH2Variants = [
+  `The ${p.name} Automation System`,
+  `How the ${p.name} Workflow Actually Works`,
+  `Inside a ${p.name} Automation Build`,
+  `What We Build for ${p.name} Businesses`,
+];
+const faqH2Variants = [
+  `${p.name} Automation, Common Questions`,
+  `Questions ${p.name} Owners Ask Before Automating`,
+  `${p.name} Automation: What You Need to Know`,
+  `Frequently Asked, By ${p.name} Businesses`,
+];
+const ctaH2Variants = [
+  `Free ${p.name} Automation Audit`,
+  `See What We'd Automate First`,
+  `Get Your ${p.name} Automation Plan`,
+  `Start With a Free ${p.name} Audit`,
+];
+
 const svgIcons: Record<string, string> = {
   workflow: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="19" cy="19" r="2"/><path d="M7 12h10M17 6.5l-10 4M17 17.5l-10-4"/></svg>`,
   clock: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
@@ -123,8 +161,8 @@ const svgIcons: Record<string, string> = {
         <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.16em;font-weight:600;color:rgba(232,180,176,0.85);">{p.category} · n8n + Claude AI Automation</span>
       </div>
       <h1 style="font-family:Georgia,serif;font-size:clamp(2rem,5vw,3.2rem);line-height:1.1;letter-spacing:-0.025em;color:#F8F6F1;margin-bottom:1.25rem;">
-        {p.name} Automation:<br/>
-        <em style="font-style:italic;color:#E8B4B0;">Save {p.stats.timeSaved} Every Week</em>
+        {h1Line1}<br/>
+        <em style="font-style:italic;color:#E8B4B0;">{h1Line2}</em>
       </h1>
       <p style="font-size:1.0625rem;line-height:1.75;color:rgba(248,246,241,0.55);max-width:640px;margin:0 auto 2.5rem;">{p.tagline}</p>
       <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:3rem;">
@@ -152,7 +190,7 @@ const svgIcons: Record<string, string> = {
 <section style="background:#F8F6F1;padding:4.5rem 0;">
   <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
     <div style="max-width:680px;margin:0 auto 3rem;text-align:center;">
-      <h2 style="font-family:Georgia,serif;font-size:clamp(1.5rem,3vw,2.2rem);color:#0A0A0A;margin-bottom:1rem;">Why {p.name}s Lose Hours Every Week</h2>
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.5rem,3vw,2.2rem);color:#0A0A0A;margin-bottom:1rem;">{painH2Variants[variant]}</h2>
       <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.55);">{p.description}</p>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;max-width:900px;margin:0 auto;">
@@ -170,7 +208,7 @@ const svgIcons: Record<string, string> = {
 <section style="background:#0A0A0A;padding:5rem 0;">
   <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
     <div style="max-width:660px;margin:0 auto 3rem;text-align:center;">
-      <h2 style="font-family:Georgia,serif;font-size:clamp(1.5rem,3vw,2.2rem);color:#F8F6F1;margin-bottom:1rem;">The {p.name} Automation System</h2>
+      <h2 style="font-family:Georgia,serif;font-size:clamp(1.5rem,3vw,2.2rem);color:#F8F6F1;margin-bottom:1rem;">{systemH2Variants[variant]}</h2>
       <p style="font-size:0.9375rem;line-height:1.75;color:rgba(248,246,241,0.45);">Production-grade n8n workflows built specifically for {p.name.toLowerCase()} businesses. Every workflow handles edge cases, retries on failure, and alerts you when something needs attention.</p>
     </div>
     <div style="display:flex;flex-direction:column;gap:1.25rem;">
@@ -254,7 +292,7 @@ const svgIcons: Record<string, string> = {
 <!-- FAQ -->
 <section style="background:#0A0A0A;padding:5rem 0;">
   <div style="max-width:760px;margin:0 auto;padding:0 1.5rem;">
-    <h2 style="font-family:Georgia,serif;font-size:clamp(1.5rem,3vw,2.2rem);color:#F8F6F1;margin-bottom:3rem;text-align:center;">{p.name} Automation, Common Questions</h2>
+    <h2 style="font-family:Georgia,serif;font-size:clamp(1.5rem,3vw,2.2rem);color:#F8F6F1;margin-bottom:3rem;text-align:center;">{faqH2Variants[variant]}</h2>
     <div style="display:flex;flex-direction:column;gap:1rem;">
       {p.faq.map(({ q, a }) => (
         <div style="border:1px solid rgba(232,180,176,0.12);border-radius:14px;padding:1.75rem;">
@@ -291,7 +329,7 @@ const svgIcons: Record<string, string> = {
 <!-- CTA -->
 <section style="background:#E8B4B0;padding:4rem 0;">
   <div style="max-width:700px;margin:0 auto;padding:0 1.5rem;text-align:center;">
-    <h2 style="font-family:Georgia,serif;font-size:clamp(1.5rem,3vw,2.2rem);color:#0A0A0A;margin-bottom:1rem;">Free {p.name} Automation Audit</h2>
+    <h2 style="font-family:Georgia,serif;font-size:clamp(1.5rem,3vw,2.2rem);color:#0A0A0A;margin-bottom:1rem;">{ctaH2Variants[variant]}</h2>
     <p style="font-size:0.9375rem;line-height:1.75;color:rgba(10,10,10,0.65);margin-bottom:2rem;">We map your current workflows, show you exactly what to automate first, and give you a written ROI estimate, before you spend a dollar. Delivered within 48 hours.</p>
     <a href="/pages/welcome" style="display:inline-block;background:#0A0A0A;color:#F8F6F1;padding:1.125rem 2.5rem;border-radius:10px;font-size:0.9375rem;font-weight:600;text-decoration:none;">Get my free automation plan →</a>
     <p style="font-size:0.75rem;color:rgba(10,10,10,0.45);margin-top:1rem;">No commitment · 48h delivery · 100% money-back guarantee</p>

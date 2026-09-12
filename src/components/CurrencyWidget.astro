@@ -4,7 +4,16 @@
 ---
 
 <!-- Floating currency selector -->
-<div id="cw-root" style="position:fixed;bottom:1.5rem;left:1.5rem;z-index:999;font-family:inherit;">
+<style>
+  /* On mobile, the fixed pill was overlapping page content near the
+     bottom of the viewport (e.g. the hero stat row). Shrink it to an
+     icon-only tap target so its footprint can't collide with content. */
+  @media (max-width: 640px) {
+    #cw-trigger { padding: 0.5rem !important; }
+    #cw-trigger #cw-code, #cw-trigger #cw-chevron { display: none; }
+  }
+</style>
+<div id="cw-root" style="position:fixed;bottom:max(1.5rem, env(safe-area-inset-bottom));left:1.5rem;z-index:999;font-family:inherit;">
 
   <!-- Trigger button -->
   <button id="cw-trigger"

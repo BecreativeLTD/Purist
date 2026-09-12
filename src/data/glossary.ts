@@ -81,6 +81,7 @@ export const terms: GlossaryTerm[] = [
 
  { letter:'B', term:'Batch processing', slug:'batch-processing', cat:'architecture', complexity:2,
    def:'Executing automation logic on a group of records at once rather than one at a time. Used for bulk email sends, report generation, and data migrations. More efficient than looping, but requires careful error isolation per record.',
+   insight:'Batch size matters more than it looks like it should. A batch of 1,000 records sent to an API in one call often hits a payload size limit or a timeout that a batch of 100 wouldn\'t. The right batch size is whatever the receiving system\'s documented limits allow, found by checking the docs, not by assuming bigger is always more efficient.',
    related:['Loop','Queue','Async'] },
 
  { letter:'B', term:'Business process automation (BPA)', slug:'business-process-automation', cat:'ops', complexity:1,
@@ -106,6 +107,7 @@ export const terms: GlossaryTerm[] = [
 
  { letter:'C', term:'Condition / branching', slug:'condition-branching', cat:'core', complexity:1,
    def:'Logic within a workflow that routes execution down different paths based on data values. "If the deal value is > £10,000, notify the senior account manager. Else, assign to junior." Essential for sophisticated automations.',
+   insight:'The mistake that causes the most silent failures is forgetting the "else" branch. A condition that only handles the case you expected leaves every other case (a null value, an unexpected status, a record that doesn\'t match any rule) falling through with no action taken and no error thrown. A workflow is only as reliable as its least-considered branch.',
    related:['Filter node','Router node','Workflow'] },
 
  { letter:'C', term:'CRM (Customer Relationship Management)', slug:'crm', cat:'platform', complexity:1,
@@ -116,6 +118,7 @@ export const terms: GlossaryTerm[] = [
 
  { letter:'C', term:'CRON / scheduled trigger', slug:'cron-scheduled-trigger', cat:'core', complexity:2,
    def:'A time-based trigger that fires an automation at fixed intervals every morning at 7 AM, every Monday, the 1st of each month. CRON syntax defines the schedule. Used for reports, digests, and maintenance tasks.',
+   insight:'Scheduled workflows have a failure mode webhook-triggered ones don\'t: nobody notices when they silently stop firing. A workflow triggered by a real event fails loudly when the event doesn\'t produce the expected result, but a CRON job that stops running just produces silence, no report shows up, no digest gets sent, and often nobody checks until a client asks where last week\'s report went. Scheduled workflows need their own separate monitoring, a check that confirms the job actually ran, not just that it works when tested manually.',
    related:['Trigger','Batch processing','Scheduled trigger'] },
 
  { letter:'C', term:'Custom code node', slug:'custom-code-node', cat:'core', complexity:3,
@@ -171,6 +174,7 @@ export const terms: GlossaryTerm[] = [
 
  { letter:'E', term:'Event-driven automation', slug:'event-driven-automation', cat:'core', complexity:1,
    def:'An automation triggered by a real-time event rather than a schedule. A new email arriving, a form submission, or a payment succeeding all "fire" event-driven workflows instantly, versus a scheduled job that runs every hour.',
+   insight:'Event-driven design is almost always the better default over polling on a schedule, it\'s faster (seconds instead of minutes), cheaper on API quota, and scales naturally with actual activity instead of running a fixed number of checks regardless of whether anything changed. The only reason to fall back to a scheduled/polling trigger is when the source system genuinely doesn\'t support webhooks.',
    related:['Webhook','Trigger','Async'] },
 
  { letter:'E', term:'Execution log', slug:'execution-log', cat:'ops', complexity:2,
@@ -180,10 +184,12 @@ export const terms: GlossaryTerm[] = [
  // ── F ─────────────────────────────────────────────────────────────────
  { letter:'F', term:'Filter node', slug:'filter-node', cat:'core', complexity:1,
    def:'A workflow step that stops execution if a condition is not met. Example: "Only continue if the deal value is greater than £5,000." Prevents unnecessary API calls and unwanted actions on irrelevant records.',
+   insight:'A filter is a dead end by design, records that don\'t pass simply stop, with no branch to send them down. That\'s the right behavior when you genuinely want to discard non-matching records, but if you actually need to do something different with the ones that don\'t match (log them, notify someone, route them elsewhere), a router node is the correct tool, not a filter.',
    related:['Condition','Router node','Workflow'] },
 
  { letter:'F', term:'Function node', slug:'function-node', cat:'core', complexity:3,
    def:'In n8n, a node that lets you write custom JavaScript to transform data, perform calculations, or call APIs. Equivalent to Make\'s "Tools > Execute JavaScript" module. Unlocks logic that visual nodes cannot handle.',
+   insight:'Reaching for a function node too early is a common mistake, if a built-in node can do it (a Set node for renaming fields, an IF node for a condition), use that instead. Code inside a function node is invisible to anyone skimming the workflow visually, harder to maintain, and the first place a non-technical team member gets stuck when they need to make a small change later.',
    related:['Custom code node','n8n','Data transformation'] },
 
  { letter:'F', term:'FTE (Full-Time Equivalent)', slug:'fte', cat:'ops', complexity:1,
@@ -213,6 +219,7 @@ export const terms: GlossaryTerm[] = [
 
  { letter:'H', term:'HTTP Request', slug:'http-request', cat:'core', complexity:2,
    def:'The mechanism by which most modern automations communicate with external services. A webhook sends an HTTP POST; an API call sends an HTTP GET or POST. Understanding this helps diagnose integration failures.',
+   insight:'When a workflow fails, the HTTP status code it got back tells you almost everything. A 401 or 403 means an auth problem (expired token, wrong API key), a 429 means you\'ve hit a rate limit, a 500 means the problem is on the other service\'s end, not yours. Building automations that log the actual status code and response body on failure, instead of just "step failed", turns a 30-minute debugging session into a 30-second one.',
    related:['API','Webhook','REST API'] },
 
  // ── I ─────────────────────────────────────────────────────────────────
@@ -252,15 +259,18 @@ export const terms: GlossaryTerm[] = [
  { letter:'L', term:'Latency', slug:'latency', cat:'architecture', complexity:2,
    def:'The time between a trigger firing and an automation completing. Production workflows should complete within seconds for real-time triggers. High latency (>30s) often indicates an upstream API issue or inefficient workflow design.',
    stat:{ value:'42ms', label:'average webhook latency on PURIST infrastructure', source:'PURIST infra' },
+   insight:'When latency creeps up over time rather than appearing suddenly, the usual culprit is a workflow doing more work per run than it used to, more records in a loop, more conditional branches evaluated, more downstream API calls added feature by feature without anyone re-measuring the total path. Latency should be checked after every meaningful change to a workflow, not just when someone first builds it.',
    related:['Performance','Monitoring','SLA'] },
 
  { letter:'L', term:'LLM (Large Language Model)', slug:'llm', cat:'ai', complexity:2,
    def:'An AI model trained on vast amounts of text, capable of understanding and generating human language. Claude, GPT-4, and Gemini are LLMs. In automation, LLMs handle tasks that require human-level language understanding.',
    stat:{ value:'1T+', label:'parameters in frontier LLMs like Claude 3.5', source:'Anthropic 2024' },
+   insight:'An LLM call inside a workflow is not deterministic the way an API call to a database is, the same prompt can produce slightly different phrasing or, occasionally, a different classification decision on two separate runs. Production workflows that use an LLM for something consequential (routing a support ticket, extracting a dollar amount from an invoice) need validation logic around the output, not blind trust that the model got it right every time.',
    related:['Claude AI','AI Agent','Prompt engineering'] },
 
  { letter:'L', term:'Loop / iterator', slug:'loop-iterator', cat:'core', complexity:2,
    def:'A workflow pattern that processes a list of items one by one. Example: for each overdue invoice in a list, send a personalised reminder email. Loops enable workflows to handle variable-length datasets.',
+   insight:'A loop that fails on item 47 of 200 shouldn\'t take the other 199 down with it. Well-built loops isolate errors per item, log which specific records failed, and keep processing the rest, then surface a summary at the end ("198 succeeded, 2 failed: see below") instead of one opaque failure message that tells you nothing about what actually went wrong.',
    related:['Batch processing','Array','Workflow'] },
 
  { letter:'L', term:'Low-code automation', slug:'low-code-automation', cat:'core', complexity:1,
@@ -271,10 +281,12 @@ export const terms: GlossaryTerm[] = [
  // ── M ─────────────────────────────────────────────────────────────────
  { letter:'M', term:'Make (formerly Integromat)', slug:'make', cat:'platform', complexity:1,
    def:'A visual automation platform an alternative to Zapier with more advanced logic, multi-step scenarios, and better data manipulation. PURIST is certified on Make for complex multi-system workflows.',
+   insight:'Make\'s pricing model (operations consumed per module executed, not per completed workflow run) catches teams off guard when a workflow with a loop over 500 records suddenly burns through a monthly quota in one run. Before building on Make at volume, model the operation count for your actual expected data volume, not just the happy-path single-record test.',
    related:['n8n','Zapier','iPaaS'] },
 
  { letter:'M', term:'Middleware', slug:'middleware', cat:'core', complexity:2,
    def:'Software that sits between two applications and translates data between them. n8n, Make, and Zapier all function as middleware they receive data from one system, process it, and pass it to another.',
+   insight:'Middleware becomes a single point of failure for every integration running through it, if n8n or Make goes down, every connected workflow stops simultaneously, not just one. That\'s a reasonable trade-off for the visibility and control it gives you, but it means the middleware platform itself needs uptime monitoring and a clear escalation plan, not just the individual workflows running on it.',
    related:['iPaaS','Integration','API'] },
 
  { letter:'M', term:'Monitoring', slug:'monitoring', cat:'architecture', complexity:2,
@@ -334,6 +346,7 @@ export const terms: GlossaryTerm[] = [
 
  { letter:'P', term:'Polling', slug:'polling', cat:'core', complexity:2,
    def:'Checking an external service for changes at regular intervals (e.g., "check for new emails every 5 minutes"). Less efficient and slower than webhooks, but necessary when a service does not support webhooks. Increases API usage and latency.',
+   insight:'Polling frequency is a direct trade-off between responsiveness and API budget: polling every minute means data is at most a minute stale but can burn through a rate limit fast on a busy account, polling every hour is gentle on quota but means a customer\'s action might not trigger a response for up to 59 minutes. Set the interval based on how time-sensitive the workflow actually is, not a default "every 5 minutes" copied from a template.',
    related:['Webhook','Trigger','Scheduled trigger'] },
 
  { letter:'P', term:'Process mapping', slug:'process-mapping', cat:'ops', complexity:1,
@@ -342,6 +355,7 @@ export const terms: GlossaryTerm[] = [
 
  { letter:'P', term:'Production environment', slug:'production-environment', cat:'architecture', complexity:2,
    def:'The live system your real clients and operations depend on. Contrast with staging (test) environment. PURIST always tests in staging before deploying to production, preventing untested automations from affecting live data.',
+   insight:'The most expensive automation mistakes happen when someone edits a live production workflow directly "just this once" to fix something quickly, without testing the change in staging first. A small tweak to a condition or a field mapping can silently break a downstream step that wasn\'t obviously connected to it. Treating production as edit-only-through-tested-staging, even for small fixes, is what actually prevents outages, not how sophisticated the workflow logic is.',
    related:['Staging environment','Deployment','Testing'] },
 
  { letter:'P', term:'Prompt engineering', slug:'prompt-engineering', cat:'ai', complexity:2,
@@ -364,6 +378,7 @@ export const terms: GlossaryTerm[] = [
 
  { letter:'R', term:'REST API', slug:'rest-api', cat:'core', complexity:2,
    def:'The most common API architecture. Uses standard HTTP methods (GET, POST, PUT, DELETE) and returns JSON. Almost every modern SaaS tool exposes a REST API, making it the primary integration mechanism for automation workflows.',
+   insight:'REST isn\'t the only API style you\'ll run into, GraphQL and SOAP still show up, especially in older enterprise systems, and each needs a different node or approach in n8n. The practical tell: if the vendor\'s docs show you a single endpoint you POST a query object to, it\'s GraphQL, not REST, and treating it like a REST resource will waste hours.',
    related:['API','HTTP Request','JSON'] },
 
  { letter:'R', term:'Retainer (automation)', slug:'retainer', cat:'ops', complexity:1,
@@ -374,6 +389,7 @@ export const terms: GlossaryTerm[] = [
 
  { letter:'R', term:'Retry logic', slug:'retry-logic', cat:'architecture', complexity:2,
    def:'Automatic re-execution of a failed automation step after a delay. Best practice is exponential backoff retry after 30s, then 2min, then 10min to avoid hammering an API that\'s temporarily down. PURIST includes this in every build.',
+   insight:'Retry logic without a cap is its own failure mode, a step that retries forever against a genuinely broken endpoint just burns API quota and delays the eventual failure notification. Every retry policy needs a maximum attempt count and a final "give up and alert a human" path, not just increasingly patient waiting.',
    related:['Error handling','Backoff','Dead-letter queue'] },
 
  { letter:'R', term:'ROI (Return on Investment)', slug:'roi', cat:'ops', complexity:1,
@@ -389,6 +405,7 @@ export const terms: GlossaryTerm[] = [
 
  { letter:'R', term:'Router node', slug:'router-node', cat:'core', complexity:2,
    def:'A workflow step that splits execution into multiple paths based on conditions. Unlike a filter (which stops), a router sends data down path A, B, or C simultaneously or conditionally. Enables sophisticated branching logic.',
+   insight:'Always give a router a default/fallback path, even if you think you\'ve covered every case. Business rules change ("we added a fourth deal tier last month") faster than workflows get updated, and a record that matches none of the defined paths should land somewhere visible, not vanish silently because every path had an explicit condition and none of them matched.',
    related:['Condition','Filter node','Parallel execution'] },
 
  // ── S ─────────────────────────────────────────────────────────────────
@@ -428,6 +445,7 @@ export const terms: GlossaryTerm[] = [
 
  { letter:'S', term:'Staging environment', slug:'staging-environment', cat:'architecture', complexity:2,
    def:'A test environment that mirrors production but uses test data. PURIST builds and tests every automation in staging before deploying live. Catches 95% of issues before they can impact real clients or operations.',
+   insight:'A staging environment only catches problems if it actually mirrors production, same API versions, same data shapes, same volume patterns. A staging setup that uses three sample records to test a workflow meant to process thousands won\'t surface the timeout and rate-limit issues that show up at real scale. Staging that\'s too clean is almost as risky as no staging at all.',
    related:['Production environment','Testing','Deployment'] },
 
  { letter:'S', term:'Stripe', slug:'stripe', cat:'platform', complexity:1,
@@ -447,6 +465,7 @@ export const terms: GlossaryTerm[] = [
  { letter:'T', term:'Trigger', slug:'trigger', cat:'core', complexity:1,
    def:'The event that starts an automation. Common triggers: form submission, email received, payment completed, calendar event, database row created. Getting the trigger right is the foundation of any reliable workflow.',
    stat:{ value:'12', label:'distinct trigger types in a typical PURIST client deployment', source:'PURIST 2025' },
+   insight:'The most common design mistake is choosing a trigger that fires too often or too rarely for what it feeds. A trigger that fires on every field update in a CRM (not just meaningful ones) can flood a workflow with noise; picking the narrowest trigger that genuinely captures the moment you care about, a specific status change rather than any change, saves far more debugging time than it costs to set up.',
    related:['Webhook','Event-driven automation','Polling'] },
 
  { letter:'T', term:'Typeform', slug:'typeform', cat:'platform', complexity:1,
@@ -479,6 +498,7 @@ export const terms: GlossaryTerm[] = [
 
  { letter:'W', term:'Workflow template', slug:'workflow-template', cat:'core', complexity:1,
    def:'A pre-built automation that can be imported and customised. PURIST\'s Workflow Library contains 60+ templates covering CRM, finance, operations, support, marketing, and reporting deployed in days, not weeks.',
+   insight:'A template gets you 70-80% of the way to a working automation, the connections, the general flow, the node structure. What it almost never gets right out of the box is your specific field names, your team\'s exact approval logic, and your error-handling preferences. Treat a template as a fast starting point to customize, not a finished deliverable to import and walk away from.',
    related:['Workflow Library','n8n','Done-for-you automation'] },
 
  // ── X ─────────────────────────────────────────────────────────────────
