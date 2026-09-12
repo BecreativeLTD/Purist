@@ -155,7 +155,7 @@ export default function WelcomePopup() {
                  disabled={loading}
                  class="w-full bg-brand-black text-white py-3.5 rounded-button text-sm font-medium hover:bg-brand-gray-900 transition disabled:opacity-60 disabled:cursor-not-allowed"
                >
-                 {loading ? 'Sending…' : 'Get my free automation plan →'}
+                 {loading ? 'Sending…' : 'Get my free automation plan&nbsp;→'}
                </button>
              </form>
 
