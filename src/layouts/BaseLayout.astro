@@ -29,8 +29,6 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
    <link rel="manifest" href="/manifest.json" />
    <link rel="alternate" type="text/plain" title="LLMs.txt" href="/llms.txt" />
-   <link rel="preconnect" href="https://cdn.amplitude.com" crossorigin />
-   <link rel="preconnect" href="https://js-client-cfg.amplitude.com" crossorigin />
    <link rel="preconnect" href="https://ipapi.co" crossorigin />
    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
    <SEO {title} {description} {image} {canonical} {noindex} {type} />
@@ -76,23 +74,6 @@ const { title, description, image, canonical, noindex, type } = Astro.props;
    <!-- Currency detection + conversion runs after DOM ready -->
    <script>
      import '~/scripts/currency.ts';
-   </script>
-
-   <!-- Amplitude, loaded after idle to avoid blocking LCP (was 1870ms render-block) -->
-   <script>
-     function _loadAmp() {
-       import('~/lib/amplitude').then(({ initAmplitude }) => initAmplitude());
-     }
-     if ('requestIdleCallback' in window) {
-       requestIdleCallback(_loadAmp, { timeout: 4000 });
-     } else {
-       setTimeout(_loadAmp, 3000);
-     }
-     document.addEventListener('astro:page-load', function() {
-       if ('requestIdleCallback' in window) {
-         requestIdleCallback(_loadAmp, { timeout: 4000 });
-       }
-     });
    </script>
 
    <!-- Microsoft Clarity, deferred after idle to avoid blocking LCP -->

@@ -70,6 +70,7 @@ export const terms: GlossaryTerm[] = [
  { letter:'A', term:'Automation workflow', slug:'automation-workflow', cat:'core', complexity:1,
    def:'A sequence of automated actions triggered by a specific event. Example: a new Typeform submission triggers a CRM entry, a welcome email, and a Slack notification all without human intervention.',
    stat:{ value:'14h', label:'average hours saved per week per PURIST client', source:'PURIST 2025' },
+   insight:'The trap most teams fall into is building one giant workflow that does everything. A workflow that handles intake, validation, routing, and notification in a single unbroken chain is fragile: one failed step at 2am kills the whole thing with no partial recovery. Splitting a process into smaller linked workflows (one per responsibility, connected by triggers or subworkflow calls) means a failure in one stage doesn\'t take down the ones before or after it, and makes the whole system far easier to debug when something breaks.',
    related:['Trigger','n8n','Make'] },
 
  // ── B ─────────────────────────────────────────────────────────────────
@@ -222,11 +223,13 @@ export const terms: GlossaryTerm[] = [
 
  { letter:'I', term:'Integration', slug:'integration', cat:'core', complexity:1,
    def:'A connection between two tools that allows data to flow between them. Can be native (built into both tools), via middleware (n8n, Make, Zapier), or custom-built via API. PURIST connects 500+ apps.',
+   insight:'Not all integrations are equal. A native integration (built and maintained by the vendor) is usually the most reliable, but only covers the vendor\'s most popular use cases. A middleware integration through n8n or Make covers far more tools and gives you control over the data mapping, but you inherit responsibility for handling that tool\'s API changes and rate limits. A custom API integration is the most flexible and the most fragile, it breaks silently when the third-party API changes its response format, so it needs monitoring that a native integration doesn\'t.',
    related:['API','n8n','Middleware'] },
 
  { letter:'I', term:'iPaaS (Integration Platform as a Service)', slug:'ipaas', cat:'platform', complexity:2,
    def:'A cloud-based platform that connects disparate applications and allows data to flow between them. n8n, Make, and Zapier are all iPaaS tools. Enterprise iPaaS examples include MuleSoft and Boomi.',
    stat:{ value:'£4.3B', label:'global iPaaS market size in 2024', source:'MarketsandMarkets' },
+   insight:'The iPaaS category splits into two very different buyer profiles. Consumer-grade tools like Zapier and Make are built for a single person to connect apps without writing code, and price by number of tasks executed. Developer-grade tools like n8n sit in between: still visual and no-code-friendly, but self-hostable and built to handle branching logic, error handling, and higher execution volume without the per-task pricing penalty. Enterprise iPaaS (MuleSoft, Boomi) targets a different problem entirely, integrating large internal systems, not connecting SaaS apps, and comes with an implementation timeline measured in months, not days.',
    related:['n8n','Make','Middleware'] },
 
  // ── J ─────────────────────────────────────────────────────────────────
@@ -262,6 +265,7 @@ export const terms: GlossaryTerm[] = [
 
  { letter:'L', term:'Low-code automation', slug:'low-code-automation', cat:'core', complexity:1,
    def:'Building automations using visual drag-and-drop interfaces with minimal traditional programming. n8n and Make are low-code platforms. PURIST uses them for most workflows, adding custom code nodes only where visual nodes fall short.',
+   insight:'Low-code is not the same as no-code, and the difference matters when a workflow gets complex. A pure no-code tool hides all logic behind pre-built blocks, which is fast to start with but hits a wall the moment you need custom data transformation or conditional logic the vendor didn\'t anticipate. Low-code platforms like n8n let you drop into a real code node (JavaScript or Python) for exactly the 5% of a workflow that needs it, while keeping the other 95% visual and maintainable by someone who isn\'t a developer.',
    related:['n8n','Make','No-code'] },
 
  // ── M ─────────────────────────────────────────────────────────────────
@@ -280,6 +284,7 @@ export const terms: GlossaryTerm[] = [
 
  { letter:'M', term:'Multi-step workflow', slug:'multi-step-workflow', cat:'core', complexity:2,
    def:'An automation with more than two steps. Most production workflows are multi-step trigger → filter → transform → API call → conditional branch → notification. Complexity increases reliability risk, which is why error handling matters.',
+   insight:'Every step you add to a workflow is another point where it can fail, and the failure modes compound: a workflow with five steps at 98% reliability each is only about 90% reliable end to end. The fix isn\'t fewer steps, it\'s error handling at each one, retry logic on anything calling an external API, a dead-letter path for records that fail validation, and alerting that tells a human when something needs attention instead of failing silently at 3am.',
    related:['Workflow','Condition','Action'] },
 
  // ── N ─────────────────────────────────────────────────────────────────
@@ -295,6 +300,7 @@ export const terms: GlossaryTerm[] = [
 
  { letter:'N', term:'No-code automation', slug:'no-code-automation', cat:'core', complexity:1,
    def:'Building automations without writing any code, using purely visual interfaces. Zapier is the most popular no-code platform. Great for simple two-step automations; insufficient for complex multi-system workflows that require custom logic.',
+   insight:'No-code tools optimize for time-to-first-automation, not for what happens six months later when the business process changes. The trade-off shows up as pricing (per-task billing scales badly once volume grows) and as a ceiling on logic complexity, most no-code platforms make branching, looping, and custom data transformation awkward or impossible. It\'s the right tool for a single team automating a handful of simple, low-volume tasks, and the wrong tool once a workflow needs to handle edge cases, error recovery, or five-figure monthly execution counts.',
    related:['Low-code','Zapier','Make'] },
 
  { letter:'N', term:'Notification automation', slug:'notification-automation', cat:'ops', complexity:1,
@@ -378,6 +384,7 @@ export const terms: GlossaryTerm[] = [
  { letter:'R', term:'RPA (Robotic Process Automation)', slug:'rpa', cat:'core', complexity:2,
    def:'Software robots that mimic human actions in a UI clicking buttons, copying data between screens. RPA (e.g., UiPath) is used when no API exists. More fragile than API-based automation; breaks when the UI changes.',
    stat:{ value:'30–40%', label:'of RPA projects fail in the first year due to UI changes', source:'Gartner 2024' },
+   insight:'RPA should be treated as a last resort, not a default choice. It\'s the right call when a system genuinely has no API and no plan to build one (a legacy desktop application, a government portal, an internal tool nobody maintains). But because it simulates clicks and keystrokes against a UI, any redesign of that interface, a moved button, a renamed field, a new popup, breaks the bot with no warning. Before reaching for RPA, always check whether the target system exposes an API or even an unofficial one; an API-based integration is dramatically more stable to maintain long-term.',
    related:['API','Business process automation','Integration'] },
 
  { letter:'R', term:'Router node', slug:'router-node', cat:'core', complexity:2,

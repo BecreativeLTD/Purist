@@ -18,6 +18,37 @@ const related = professions
 
 const categoryAnchor = p.category.toLowerCase().replace(/[^a-z0-9]/g, '-');
 
+// 171 profession pages previously shared one identical title/description
+// template (only the profession noun changed), which a technical SEO audit
+// found reads as near-duplicate in the SERP and suppresses CTR even at good
+// rankings. Rotate across 4 distinct structures, keyed off the slug so the
+// assignment is stable across builds, and lead with the real per-profession
+// stat instead of generic copy.
+function hashSlug(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+  return h;
+}
+const variant = hashSlug(p.slug) % 4;
+const nameLower = p.name.toLowerCase();
+
+const titleVariants = [
+  `${p.stats.timeSaved} Back: ${p.name} Automation | PURIST`,
+  `${p.name} Automation, Live in ${p.stats.deploymentDays} Days | PURIST`,
+  `Automate Your ${p.name} Business — ROI in ${p.stats.roiMonths}mo | PURIST`,
+  `Stop Losing Time on ${p.name} Admin | PURIST`,
+];
+
+const descriptionVariants = [
+  `${p.name} businesses recover ${p.stats.timeSaved} and add ${p.stats.revenueImpact}/month with production n8n workflows and AI agents. Live in ${p.stats.deploymentDays} days.`,
+  `Real automation for ${nameLower} teams: ${p.stats.timeSaved} recovered weekly, deployed in ${p.stats.deploymentDays} days, ROI in ${p.stats.roiMonths} month${p.stats.roiMonths === 1 ? '' : 's'}.`,
+  `Tired of manual ${nameLower} admin? Automate the busywork: ${p.stats.timeSaved}/week saved, ${p.stats.revenueImpact}/month impact, live in ${p.stats.deploymentDays} days.`,
+  `${p.stats.timeSaved} saved per week, ${p.stats.revenueImpact}/month added. Production-grade n8n + AI automation for ${nameLower} businesses, deployed in ${p.stats.deploymentDays} days.`,
+];
+
+const pageTitle = titleVariants[variant];
+const pageDescription = descriptionVariants[variant];
+
 const svgIcons: Record<string, string> = {
   workflow: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="19" cy="19" r="2"/><path d="M7 12h10M17 6.5l-10 4M17 17.5l-10-4"/></svg>`,
   clock: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
@@ -29,8 +60,8 @@ const svgIcons: Record<string, string> = {
 ---
 
 <ShopLayout
-  title={`${p.name} Automation, n8n Workflows & AI Agents | PURIST`}
-  description={`Automate your ${p.name.toLowerCase()} business with production-grade n8n workflows and Claude AI agents. ${p.stats.timeSaved} saved per week. Deploy in ${p.stats.deploymentDays} days.`}
+  title={pageTitle}
+  description={pageDescription}
   canonical={`https://www.purist.online/pages/automation/${p.slug}`}
 >
 
@@ -39,7 +70,7 @@ const svgIcons: Record<string, string> = {
   "@context": "https://schema.org",
   "@type": "Service",
   "name": `${p.name} Automation, PURIST`,
-  "description": `Production-grade n8n workflow automation for ${p.name.toLowerCase()} businesses. ${p.stats.timeSaved} saved per week.`,
+  "description": pageDescription,
   "url": `https://www.purist.online/pages/automation/${p.slug}`,
   "provider": { "@type": "Organization", "name": "PURIST", "url": "https://www.purist.online" },
   "areaServed": "US",
