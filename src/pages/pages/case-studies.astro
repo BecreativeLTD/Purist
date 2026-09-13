@@ -814,6 +814,15 @@ const featured = [
   canonical="https://www.purist.online/pages/case-studies"
 >
 
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.purist.online" },
+    { "@type": "ListItem", "position": 2, "name": "Case Studies", "item": "https://www.purist.online/pages/case-studies" }
+  ]
+})}></script>
+
 <style>
   @keyframes card-up { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
 

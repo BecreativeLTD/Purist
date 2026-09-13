@@ -15,7 +15,7 @@ const items = [
  <div class="flex items-center justify-between overflow-hidden" style="height:34px;">
 
    <!-- LEFT: scrolling marquee -->
-   <div class="flex-1 overflow-hidden relative" style="mask-image:linear-gradient(to right,transparent 0%,black 4%,black 96%,transparent 100%);">
+   <div class="flex-1 overflow-hidden relative" style="-webkit-mask-image:linear-gradient(to right,transparent 0%,black 4%,black 96%,transparent 100%);mask-image:linear-gradient(to right,transparent 0%,black 4%,black 96%,transparent 100%);">
      <div class="flex items-center gap-0 whitespace-nowrap will-change-transform" style="animation:ab-scroll 70s linear infinite;">
        {[...items, ...items, ...items].map((t) => (
          <span class="opacity-80 tracking-wide px-8 shrink-0">{t}</span>

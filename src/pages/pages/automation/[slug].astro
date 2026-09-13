@@ -140,7 +140,16 @@ const svgIcons: Record<string, string> = {
 })}></script>
 
 <!-- Breadcrumb -->
-<div style="background:#F8F6F1;padding:0.75rem 0;border-bottom:1px solid rgba(10,10,10,0.06);">
+<!-- Extra top clearance on narrow screens: the header's floating "Ask
+     PURIST AI" pill hangs below the header via translate-y-full and
+     was overlapping this bar's tap targets on mobile (found by a visual
+     audit) since this bar's own padding is thinner than most pages. -->
+<style>
+  @media (max-width: 640px) {
+    .breadcrumb-clearance { padding-top: 2rem !important; }
+  }
+</style>
+<div class="breadcrumb-clearance" style="background:#F8F6F1;padding:0.75rem 0;border-bottom:1px solid rgba(10,10,10,0.06);">
   <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
     <p style="font-size:0.8125rem;color:rgba(10,10,10,0.4);margin:0;">
       <a href="/pages/automation" style="color:rgba(10,10,10,0.4);text-decoration:none;">All Industries</a>
