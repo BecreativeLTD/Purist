@@ -387,12 +387,21 @@ const clientData = {
   .pi-pipeline-board { display: grid; grid-template-columns: repeat(6, minmax(180px, 1fr)); gap: 12px; margin-top: 18px; overflow-x: auto; }
   @media (max-width: 1100px) { .pi-pipeline-board { grid-template-columns: repeat(3, minmax(200px, 1fr)); } }
   @media (max-width: 640px) { .pi-pipeline-board { grid-template-columns: 1fr; } }
-  .pi-pipeline-col { background: var(--bg-2); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .pi-pipeline-col { background: var(--bg-2); border-radius: 8px; padding: 12px; padding-top: 14px; display: flex; flex-direction: column; gap: 8px; min-width: 0; border-top: 3px solid var(--stage-color, var(--text-3)); }
+  .pi-pipeline-col[data-stage="new_lead"] { --stage-color: #6C5CE7; }
+  .pi-pipeline-col[data-stage="qualified"] { --stage-color: #8B5CF6; }
+  .pi-pipeline-col[data-stage="proposal_sent"] { --stage-color: #DB9B2E; }
+  .pi-pipeline-col[data-stage="negotiation"] { --stage-color: #F97316; }
+  .pi-pipeline-col[data-stage="closed_won"] { --stage-color: #22C55E; }
+  .pi-pipeline-col[data-stage="closed_lost"] { --stage-color: #EF4444; }
+  .pi-pipeline-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--stage-color, var(--text-3)); margin-right: 7px; vertical-align: middle; }
   .pi-pipeline-col-head { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; color: var(--text-1); }
-  .pi-pipeline-count { background: var(--surface); border-radius: 20px; padding: 1px 8px; font-size: 11px; color: var(--text-2); }
+  .pi-pipeline-count { background: var(--surface); border-radius: 20px; padding: 1px 9px; font-size: 11px; font-weight: 600; color: var(--stage-color, var(--text-2)); }
   .pi-pipeline-col-total { font-family: var(--font-num); font-size: 12px; color: var(--text-3); margin-top: -4px; }
   .pi-pipeline-cards { display: flex; flex-direction: column; gap: 8px; }
-  .pi-deal-card { background: var(--surface); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-soft); }
+  .pi-pipeline-empty { border: 1.5px dashed var(--border); border-radius: 8px; padding: 16px 8px; text-align: center; font-size: 11px; color: var(--text-3); margin: 0; }
+  .pi-deal-card { background: var(--surface); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-soft); border-left: 3px solid var(--stage-color, var(--border)); transition: box-shadow 0.2s ease, transform 0.2s ease; }
+  .pi-deal-card:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
   .pi-deal-title { font-size: 12px; font-weight: 600; color: var(--text-1); margin: 0 0 4px; }
   .pi-deal-lead { font-size: 11px; color: var(--text-2); margin: 0 0 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .pi-deal-value { font-family: var(--font-num); font-size: 13px; font-weight: 600; color: var(--text-1); margin: 0 0 4px; }
@@ -409,7 +418,10 @@ const clientData = {
   .pi-kpis-6 { grid-template-columns: repeat(6, 1fr); }
   @media (max-width: 1000px) { .pi-kpis-6 { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 560px) { .pi-kpis-6 { grid-template-columns: repeat(2, 1fr); } }
-  .pi-kpi { background: var(--surface); border: 1px solid var(--border-soft); border-radius: 8px; padding: 16px 18px; box-shadow: var(--shadow); transition: box-shadow 0.25s cubic-bezier(0.22,1,0.36,1), transform 0.25s cubic-bezier(0.22,1,0.36,1); }
+  .pi-kpi { background: var(--surface); border: 1px solid var(--border-soft); border-radius: 8px; padding: 16px 18px; box-shadow: var(--shadow); transition: box-shadow 0.25s cubic-bezier(0.22,1,0.36,1), transform 0.25s cubic-bezier(0.22,1,0.36,1); display: flex; align-items: flex-start; gap: 12px; }
+  .pi-kpi-icon { width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--icon-bg, var(--accent-soft)); color: var(--icon-fg, var(--accent)); }
+  .pi-kpi-icon svg { width: 18px; height: 18px; }
+  .pi-kpi-body { flex: 1; min-width: 0; }
   .pi-kpi:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
   .pi-kpi .num { font-family: var(--font-num); font-size: 24px; font-weight: 600; color: var(--text-1); font-variant-numeric: tabular-nums; line-height: 1.1; }
   .pi-kpi .label { font-size: 11.5px; color: var(--text-2); margin-top: 6px; display: flex; align-items: center; gap: 5px; }
@@ -487,7 +499,7 @@ const clientData = {
   table.pi-table thead { background: var(--bg-2); }
   table.pi-table th { text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-2); padding: 12px 24px; cursor: pointer; user-select: none; }
   table.pi-table th:hover { color: var(--accent); }
-  table.pi-table td { padding: 12px 24px; border-bottom: 1px solid var(--border-soft); font-variant-numeric: tabular-nums; color: var(--text-1); }
+  table.pi-table td { padding: 12px 24px; border-bottom: 1px solid var(--border-soft); font-variant-numeric: tabular-nums; color: var(--text-1); max-width: 320px; overflow: hidden; text-overflow: ellipsis; }
   table.pi-table tbody tr.pi-row { cursor: pointer; background: var(--surface); transition: background 0.15s ease; }
   table.pi-table tbody tr.pi-row:hover { background: var(--bg-2); }
   .pi-score { font-weight: 700; color: var(--accent); }
@@ -585,32 +597,50 @@ const clientData = {
   <section class="pi-panel-view active" data-panel="overview">
     <div class="pi-kpis">
       <div class="pi-kpi">
-        <div class="num" id="kpi-sessions">{traffic.available ? traffic.sessions.toLocaleString() : '—'}</div>
-        <div class="label"><span class="range-label">16mo</span> sessions</div>
-        <div id="kpi-sessions-delta">{sessionsDelta !== null && <span class={`pi-delta ${sessionsDelta > 0 ? 'up' : sessionsDelta < 0 ? 'down' : 'flat'}`}>{sessionsDelta > 0 ? '↑' : sessionsDelta < 0 ? '↓' : '–'} {fmtDelta(sessionsDelta)}</span>}</div>
+        <div class="pi-kpi-icon" style="--icon-bg:#EEF2FF;--icon-fg:#6C5CE7;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+        <div class="pi-kpi-body">
+          <div class="num" id="kpi-sessions">{traffic.available ? traffic.sessions.toLocaleString() : '—'}</div>
+          <div class="label"><span class="range-label">16mo</span> sessions</div>
+          <div id="kpi-sessions-delta">{sessionsDelta !== null && <span class={`pi-delta ${sessionsDelta > 0 ? 'up' : sessionsDelta < 0 ? 'down' : 'flat'}`}>{sessionsDelta > 0 ? '↑' : sessionsDelta < 0 ? '↓' : '–'} {fmtDelta(sessionsDelta)}</span>}</div>
+        </div>
       </div>
       <div class="pi-kpi">
-        <div class="num" id="kpi-users">{traffic.available ? traffic.users.toLocaleString() : '—'}</div>
-        <div class="label"><span class="range-label">16mo</span> users</div>
-        <div id="kpi-users-delta">{usersDelta !== null && <span class={`pi-delta ${usersDelta > 0 ? 'up' : usersDelta < 0 ? 'down' : 'flat'}`}>{usersDelta > 0 ? '↑' : usersDelta < 0 ? '↓' : '–'} {fmtDelta(usersDelta)}</span>}</div>
+        <div class="pi-kpi-icon" style="--icon-bg:#F3E8FF;--icon-fg:#7C3AED;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div class="pi-kpi-body">
+          <div class="num" id="kpi-users">{traffic.available ? traffic.users.toLocaleString() : '—'}</div>
+          <div class="label"><span class="range-label">16mo</span> users</div>
+          <div id="kpi-users-delta">{usersDelta !== null && <span class={`pi-delta ${usersDelta > 0 ? 'up' : usersDelta < 0 ? 'down' : 'flat'}`}>{usersDelta > 0 ? '↑' : usersDelta < 0 ? '↓' : '–'} {fmtDelta(usersDelta)}</span>}</div>
+        </div>
       </div>
       <div class="pi-kpi">
-        <div class="num" id="kpi-clicks">{search.available ? search.clicks.toLocaleString() : '—'}</div>
-        <div class="label"><span class="range-label">16mo</span> search clicks</div>
-        <div id="kpi-clicks-delta">{clicksDelta !== null && <span class={`pi-delta ${clicksDelta > 0 ? 'up' : clicksDelta < 0 ? 'down' : 'flat'}`}>{clicksDelta > 0 ? '↑' : clicksDelta < 0 ? '↓' : '–'} {fmtDelta(clicksDelta)}</span>}</div>
+        <div class="pi-kpi-icon" style="--icon-bg:#FCE7F3;--icon-fg:#BE185D;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div>
+        <div class="pi-kpi-body">
+          <div class="num" id="kpi-clicks">{search.available ? search.clicks.toLocaleString() : '—'}</div>
+          <div class="label"><span class="range-label">16mo</span> search clicks</div>
+          <div id="kpi-clicks-delta">{clicksDelta !== null && <span class={`pi-delta ${clicksDelta > 0 ? 'up' : clicksDelta < 0 ? 'down' : 'flat'}`}>{clicksDelta > 0 ? '↑' : clicksDelta < 0 ? '↓' : '–'} {fmtDelta(clicksDelta)}</span>}</div>
+        </div>
       </div>
       <div class="pi-kpi">
-        <div class="num" id="kpi-position">{search.available ? search.avgPosition.toFixed(1) : '—'}</div>
-        <div class="label">Avg. position</div>
-        <div id="kpi-position-delta">{positionDelta !== null && <span class={`pi-delta ${positionDelta > 0 ? 'up' : positionDelta < 0 ? 'down' : 'flat'}`}>{positionDelta > 0 ? '↑' : positionDelta < 0 ? '↓' : '–'} {Math.abs(positionDelta).toFixed(1)}</span>}</div>
+        <div class="pi-kpi-icon" style="--icon-bg:#FEF3C7;--icon-fg:#92400E;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+        <div class="pi-kpi-body">
+          <div class="num" id="kpi-position">{search.available ? search.avgPosition.toFixed(1) : '—'}</div>
+          <div class="label">Avg. position</div>
+          <div id="kpi-position-delta">{positionDelta !== null && <span class={`pi-delta ${positionDelta > 0 ? 'up' : positionDelta < 0 ? 'down' : 'flat'}`}>{positionDelta > 0 ? '↑' : positionDelta < 0 ? '↓' : '–'} {Math.abs(positionDelta).toFixed(1)}</span>}</div>
+        </div>
       </div>
       <div class="pi-kpi">
-        <div class="num">{totalLeads}</div>
-        <div class="label">Total leads</div>
+        <div class="pi-kpi-icon" style="--icon-bg:#DCFCE7;--icon-fg:#166534;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg></div>
+        <div class="pi-kpi-body">
+          <div class="num">{totalLeads}</div>
+          <div class="label">Total leads</div>
+        </div>
       </div>
       <div class="pi-kpi">
-        <div class="num">{hotLeads.length}</div>
-        <div class="label">Hot leads (50+)</div>
+        <div class="pi-kpi-icon" style="--icon-bg:#FEE2E2;--icon-fg:#991B1B;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div>
+        <div class="pi-kpi-body">
+          <div class="num">{hotLeads.length}</div>
+          <div class="label">Hot leads (50+)</div>
+        </div>
       </div>
     </div>
 
@@ -816,10 +846,10 @@ const clientData = {
         {!search.available ? <p class="pi-empty-panel">Not connected.</p> : (
           <div class="pi-table-scroll" style="box-shadow:none;">
             <table class="pi-table">
-              <thead><tr><th>Query</th><th>Clicks</th><th>Impr.</th><th>Pos.</th></tr></thead>
+              <thead><tr><th style="max-width:260px;">Query</th><th>Clicks</th><th>Impr.</th><th>Pos.</th></tr></thead>
               <tbody id="table-queries">
                 {search.topQueries.map((q) => (
-                  <tr><td>{q.query}</td><td>{q.clicks}</td><td>{q.impressions}</td><td>{q.position.toFixed(1)}</td></tr>
+                  <tr><td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;" title={q.query}>{q.query}</td><td>{q.clicks}</td><td>{q.impressions}</td><td>{q.position.toFixed(1)}</td></tr>
                 ))}
               </tbody>
             </table>
@@ -1195,14 +1225,14 @@ const clientData = {
 
         <div class="pi-pipeline-board">
           {STAGE_ORDER.map((stage) => (
-            <div class="pi-pipeline-col">
+            <div class="pi-pipeline-col" data-stage={stage}>
               <div class="pi-pipeline-col-head">
-                <span>{STAGE_LABELS[stage]}</span>
+                <span><span class="pi-pipeline-dot"></span>{STAGE_LABELS[stage]}</span>
                 <span class="pi-pipeline-count">{dealsByStage[stage].length}</span>
               </div>
               <div class="pi-pipeline-col-total">{fmtMoney(dealsByStage[stage].reduce((s, d) => s + Number(d.value || 0), 0))}</div>
               <div class="pi-pipeline-cards">
-                {dealsByStage[stage].length === 0 ? <p class="pi-empty-panel" style="font-size:11px;">No deals.</p> : dealsByStage[stage].map((d) => {
+                {dealsByStage[stage].length === 0 ? <p class="pi-pipeline-empty">No deals yet</p> : dealsByStage[stage].map((d) => {
                   const lead = leadsById[d.lead_id];
                   return (
                     <div class="pi-deal-card" data-deal-id={d.id}>
