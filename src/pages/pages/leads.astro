@@ -566,7 +566,7 @@ const clientData = {
               <div class="hero-num">{traffic.available ? traffic.sessions.toLocaleString() : '—'}</div>
             </div>
           </div>
-          <svg class="pi-hero-svg" id="hero-sessions" viewBox="0 0 300 68"></svg>
+          <canvas class="pi-hero-svg" id="hero-sessions"></canvas>
           <div class="pi-hero-stats" id="hero-sessions-stats"></div>
         </div>
       </div>
@@ -579,7 +579,7 @@ const clientData = {
               <div class="hero-num">{search.available ? search.clicks.toLocaleString() : '—'}</div>
             </div>
           </div>
-          <svg class="pi-hero-svg" id="hero-clicks" viewBox="0 0 300 68"></svg>
+          <canvas class="pi-hero-svg" id="hero-clicks"></canvas>
           <div class="pi-hero-stats" id="hero-clicks-stats"></div>
         </div>
       </div>
@@ -640,7 +640,7 @@ const clientData = {
           <button data-gran="hour">Hour of day</button>
         </div>
       </div>
-      <svg class="pi-chart-bars" id="traffic-chart" viewBox="0 0 600 130"></svg>
+      <canvas class="pi-chart-bars" id="traffic-chart"></canvas>
       <div class="pi-chart-labels" id="traffic-chart-labels"></div>
     </div>
 
@@ -719,7 +719,7 @@ const clientData = {
           <button data-gran="week">Week</button>
         </div>
       </div>
-      <svg class="pi-chart-bars" id="search-chart" viewBox="0 0 600 130"></svg>
+      <canvas class="pi-chart-bars" id="search-chart"></canvas>
       <div class="pi-chart-labels" id="search-chart-labels"></div>
     </div>
 
@@ -1101,6 +1101,8 @@ const clientData = {
 </div>
 
 <script define:vars={{ clientData }}>
+  import Chart from 'chart.js/auto';
+
   // ── Human-readable date labels. GA4 returns raw "YYYYMMDD" (date
   // dimension) or "YYYYWW" (yearWeek dimension); GSC returns "YYYY-MM-DD".
   // Hour-of-day labels ("00:00") are already human-readable and pass through.
@@ -1164,243 +1166,130 @@ const clientData = {
     });
   });
 
-  // ── Catmull-Rom → cubic Bezier: the real smoothing technique used by
-  // proper charting libraries (Highcharts "spline", Chart.js "monotone"),
-  // not a naive per-segment quadratic hack. Passes exactly through every
-  // point with natural, continuous curvature. ──
-  function smoothPath(coords) {
-    if (coords.length < 2) return '';
-    const p = coords;
-    let d = `M ${p[0][0].toFixed(2)},${p[0][1].toFixed(2)}`;
-    for (let i = 0; i < p.length - 1; i++) {
-      const p0 = p[i - 1] || p[i];
-      const p1 = p[i];
-      const p2 = p[i + 1];
-      const p3 = p[i + 2] || p2;
-      const c1x = p1[0] + (p2[0] - p0[0]) / 6;
-      const c1y = p1[1] + (p2[1] - p0[1]) / 6;
-      const c2x = p2[0] - (p3[0] - p1[0]) / 6;
-      const c2y = p2[1] - (p3[1] - p1[1]) / 6;
-      d += ` C ${c1x.toFixed(2)},${c1y.toFixed(2)} ${c2x.toFixed(2)},${c2y.toFixed(2)} ${p2[0].toFixed(2)},${p2[1].toFixed(2)}`;
-    }
-    return d;
+  // ── Real charting via Chart.js (chart.js/auto self-registers every
+  // controller/scale/plugin it needs). Replaces the earlier hand-rolled SVG
+  // renderer: native tooltips, correct scaling at any size, no more
+  // preserveAspectRatio distortion class of bug. ──
+  const chartInstances = new Map();
+
+  function destroyChart(canvasId) {
+    const existing = chartInstances.get(canvasId);
+    if (existing) { existing.destroy(); chartInstances.delete(canvasId); }
   }
 
-  function animateDraw(pathEl, duration = 900) {
-    const len = pathEl.getTotalLength();
-    pathEl.style.strokeDasharray = String(len);
-    pathEl.style.strokeDashoffset = String(len);
-    pathEl.getBoundingClientRect(); // force reflow so the transition actually runs
-    pathEl.style.transition = `stroke-dashoffset ${duration}ms cubic-bezier(0.22,1,0.36,1)`;
-    requestAnimationFrame(() => { pathEl.style.strokeDashoffset = '0'; });
-  }
-
-  // ── Main dashboard line chart: smooth curve, gradient fill, Y-axis scale,
-  // peak marker, and a hover crosshair + tooltip (per data-viz interaction
-  // guidance: line/area charts ship a crosshair+tooltip by default). ──
-  let chartGradId = 0;
-  function renderBars(containerId, labelsId, points, formatLabel) {
-    const svg = document.getElementById(containerId);
-    if (!svg) return;
-    // Match the viewBox to the SVG's actual rendered pixel size (height is
-    // fixed by CSS, width is responsive) so 1 SVG unit = 1 CSS pixel and
-    // nothing gets non-uniformly stretched. preserveAspectRatio="none" with
-    // a fixed viewBox distorted text/circles into ellipses at any width
-    // that didn't match the box's 600:130 ratio exactly.
-    const H = svg.clientHeight || 130;
-    const W = svg.clientWidth || 600;
-    const PADT = 14, PADB = 22, PADL = 40;
-    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    svg.innerHTML = '';
-    if (!points.length) return;
-    const max = Math.max(1, ...points.map((p) => p.value));
-    const peakIdx = points.reduce((best, p, i) => (p.value > points[best].value ? i : best), 0);
-    const n = points.length;
-    const plotW = W - PADL;
-    const x = (i) => (n <= 1 ? PADL + plotW / 2 : PADL + (i / (n - 1)) * plotW);
-    const y = (v) => PADT + (1 - v / max) * (H - PADT - PADB);
-    const coords = points.map((p, i) => [x(i), y(p.value)]);
-    const ns = 'http://www.w3.org/2000/svg';
-
-    // Faint horizontal gridlines + Y-axis value labels (0 / mid / max).
-    [0, 0.5, 1].forEach((f) => {
-      const yy = PADT + (1 - f) * (H - PADT - PADB);
-      const gl = document.createElementNS(ns, 'line');
-      gl.setAttribute('x1', String(PADL)); gl.setAttribute('x2', String(W));
-      gl.setAttribute('y1', String(yy)); gl.setAttribute('y2', String(yy));
-      gl.setAttribute('stroke', 'var(--border)');
-      gl.setAttribute('stroke-width', '1');
-      svg.appendChild(gl);
-      const label = document.createElementNS(ns, 'text');
-      label.setAttribute('x', '0'); label.setAttribute('y', String(yy + 3));
-      label.setAttribute('font-size', '9.5'); label.setAttribute('fill', 'var(--text-3)');
-      label.textContent = Math.round(max * f).toLocaleString();
-      svg.appendChild(label);
-    });
-
-    const linePath = smoothPath(coords);
-    const areaPath = `${linePath} L ${coords[coords.length - 1][0]},${H - PADB} L ${coords[0][0]},${H - PADB} Z`;
-
-    const gradId = `chartGrad${chartGradId++}`;
-    const defs = document.createElementNS(ns, 'defs');
-    defs.innerHTML = `<linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#1E4FD6" stop-opacity="0.24"/>
-      <stop offset="100%" stop-color="#1E4FD6" stop-opacity="0"/>
-    </linearGradient>`;
-    svg.appendChild(defs);
-
-    const area = document.createElementNS(ns, 'path');
-    area.setAttribute('d', areaPath);
-    area.setAttribute('fill', `url(#${gradId})`);
-    area.style.opacity = '0';
-    area.style.transition = 'opacity 700ms cubic-bezier(0.22,1,0.36,1) 200ms';
-    svg.appendChild(area);
-
-    const line = document.createElementNS(ns, 'path');
-    line.setAttribute('d', linePath);
-    line.setAttribute('fill', 'none');
-    line.setAttribute('stroke', '#1E4FD6');
-    line.setAttribute('stroke-width', '2.5');
-    line.setAttribute('stroke-linecap', 'round');
-    line.setAttribute('stroke-linejoin', 'round');
-    svg.appendChild(line);
-    requestAnimationFrame(() => { animateDraw(line); area.style.opacity = '1'; });
-
-    if (points[peakIdx].value > 0) {
-      const [px, py] = coords[peakIdx];
-      const dot = document.createElementNS(ns, 'circle');
-      dot.setAttribute('cx', px); dot.setAttribute('cy', py); dot.setAttribute('r', '4');
-      dot.setAttribute('fill', '#fff');
-      dot.setAttribute('stroke', '#1E4FD6');
-      dot.setAttribute('stroke-width', '2.5');
-      svg.appendChild(dot);
-      const label = document.createElementNS(ns, 'text');
-      label.setAttribute('x', String(Math.min(Math.max(px, PADL + 20), W - 20)));
-      label.setAttribute('y', String(Math.max(py - 10, 12)));
-      label.setAttribute('text-anchor', 'middle');
-      label.setAttribute('font-size', '11');
-      label.setAttribute('font-weight', '600');
-      label.setAttribute('fill', 'var(--text-1)');
-      label.textContent = points[peakIdx].value.toLocaleString();
-      svg.appendChild(label);
-    }
-
-    // Hover crosshair + tooltip, snaps to the nearest data point.
-    const cross = document.createElementNS(ns, 'line');
-    cross.setAttribute('y1', String(PADT)); cross.setAttribute('y2', String(H - PADB));
-    cross.setAttribute('stroke', 'var(--text-3)'); cross.setAttribute('stroke-width', '1'); cross.setAttribute('stroke-dasharray', '3,3');
-    cross.style.opacity = '0';
-    svg.appendChild(cross);
-    const hoverDot = document.createElementNS(ns, 'circle');
-    hoverDot.setAttribute('r', '4.5'); hoverDot.setAttribute('fill', '#1E4FD6'); hoverDot.setAttribute('stroke', '#fff'); hoverDot.setAttribute('stroke-width', '2');
-    hoverDot.style.opacity = '0';
-    svg.appendChild(hoverDot);
-
+  // Main dashboard line chart: gradient fill, native hover tooltip, peak
+  // annotated via a distinct point radius (Chart.js has no simple "biggest
+  // point" primitive, so the peak index just gets a bigger/white-ringed dot).
+  function renderBars(canvasId, labelsId, points, formatLabel) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas || !points.length) return;
+    destroyChart(canvasId);
     const tipLabel = formatLabel || ((l) => l);
-    const tooltip = document.createElement('div');
-    tooltip.className = 'pi-chart-tooltip';
-    svg.parentElement.style.position = 'relative';
-    svg.parentElement.appendChild(tooltip);
+    const peakIdx = points.reduce((best, p, i) => (p.value > points[best].value ? i : best), 0);
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.clientHeight || 130);
+    gradient.addColorStop(0, 'rgba(30,79,214,0.26)');
+    gradient.addColorStop(1, 'rgba(30,79,214,0)');
 
-    const overlay = document.createElementNS(ns, 'rect');
-    overlay.setAttribute('x', '0'); overlay.setAttribute('y', '0'); overlay.setAttribute('width', String(W)); overlay.setAttribute('height', String(H));
-    overlay.setAttribute('fill', 'transparent');
-    overlay.addEventListener('mousemove', (e) => {
-      const rect = svg.getBoundingClientRect();
-      const svgX = ((e.clientX - rect.left) / rect.width) * W;
-      let idx = 0, best = Infinity;
-      coords.forEach((c, i) => { const d = Math.abs(c[0] - svgX); if (d < best) { best = d; idx = i; } });
-      const [px, py] = coords[idx];
-      cross.setAttribute('x1', px); cross.setAttribute('x2', px);
-      cross.style.opacity = '1';
-      hoverDot.setAttribute('cx', px); hoverDot.setAttribute('cy', py);
-      hoverDot.style.opacity = '1';
-      tooltip.style.opacity = '1';
-      tooltip.style.left = `${(px / W) * 100}%`;
-      tooltip.style.top = `${(py / H) * 100}%`;
-      tooltip.innerHTML = `<b>${points[idx].value.toLocaleString()}</b><span>${tipLabel(points[idx].label)}</span>`;
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: points.map((p) => tipLabel(p.label)),
+        datasets: [{
+          data: points.map((p) => p.value),
+          borderColor: '#1E4FD6',
+          backgroundColor: gradient,
+          borderWidth: 2.5,
+          fill: true,
+          tension: 0.35,
+          pointRadius: points.map((_, i) => (i === peakIdx ? 5 : 0)),
+          pointBackgroundColor: '#fff',
+          pointBorderColor: '#1E4FD6',
+          pointBorderWidth: 2.5,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: '#1E4FD6',
+          pointHoverBorderWidth: 2.5,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 650, easing: 'easeOutQuart' },
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#10203F',
+            padding: 10,
+            cornerRadius: 8,
+            titleFont: { family: "'Fira Sans', sans-serif", size: 11.5 },
+            bodyFont: { family: "'Fira Code', monospace", size: 13, weight: '600' },
+            displayColors: false,
+            callbacks: { label: (item) => item.parsed.y.toLocaleString() },
+          },
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: '#96A5C2', font: { family: "'Fira Sans', sans-serif", size: 10.5 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 8 } },
+          y: { beginAtZero: true, grid: { color: 'rgba(30,79,214,0.08)' }, ticks: { color: '#96A5C2', font: { family: "'Fira Code', monospace", size: 10 }, maxTicksLimit: 4 } },
+        },
+      },
     });
-    overlay.addEventListener('mouseleave', () => {
-      cross.style.opacity = '0'; hoverDot.style.opacity = '0'; tooltip.style.opacity = '0';
-    });
-    svg.appendChild(overlay);
+    chartInstances.set(canvasId, chart);
 
-    if (labelsId) {
-      const labelsEl = document.getElementById(labelsId);
-      if (labelsEl && points.length) {
-        labelsEl.innerHTML = '';
-        [points[0], points[Math.floor(points.length / 2)], points[points.length - 1]].forEach((p) => {
-          const span = document.createElement('span');
-          span.textContent = formatLabel ? formatLabel(p.label) : p.label;
-          labelsEl.appendChild(span);
-        });
-      }
-    }
+    // The old separate three-label strip under the SVG is now redundant,
+    // Chart.js draws its own x-axis ticks.
+    if (labelsId) { const el = document.getElementById(labelsId); if (el) el.innerHTML = ''; }
   }
 
-  let heroGradId = 0;
-  function renderHero(containerId, statsId, points, unitLabel) {
-    const svg = document.getElementById(containerId);
-    if (!svg) return;
-    // Same fix as renderBars: match viewBox to real pixel size so nothing
-    // is non-uniformly stretched (was distorting the peak-value label text
-    // and turning the peak dot into an ellipse).
-    const H = svg.clientHeight || 68;
-    const W = svg.clientWidth || 300;
-    const PAD = 4;
-    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    svg.innerHTML = '';
-    if (!points.length) return;
-    const max = Math.max(1, ...points.map((p) => p.value));
+  // Hero card sparkline: no axes, no tooltip chrome, just the trend + a
+  // stats strip computed alongside it (avg/peak/total).
+  function renderHero(canvasId, statsId, points, unitLabel) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas || !points.length) return;
+    destroyChart(canvasId);
     const peakIdx = points.reduce((best, p, i) => (p.value > points[best].value ? i : best), 0);
-    const n = points.length;
-    const x = (i) => (n <= 1 ? W / 2 : (i / (n - 1)) * W);
-    const y = (v) => PAD + (1 - v / max) * (H - PAD * 2);
-    const coords = points.map((p, i) => [x(i), y(p.value)]);
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.clientHeight || 68);
+    gradient.addColorStop(0, 'rgba(255,255,255,0.4)');
+    gradient.addColorStop(1, 'rgba(255,255,255,0)');
 
-    // Smooth curve via quadratic mid-point interpolation (no external chart lib).
-    let linePath = `M ${coords[0][0]},${coords[0][1]}`;
-    for (let i = 1; i < coords.length; i++) {
-      const [x0, y0] = coords[i - 1];
-      const [x1, y1] = coords[i];
-      const mx = (x0 + x1) / 2;
-      linePath += ` Q ${x0},${y0} ${mx},${(y0 + y1) / 2}`;
-    }
-    linePath += ` T ${coords[coords.length - 1][0]},${coords[coords.length - 1][1]}`;
-    const areaPath = `${linePath} L ${W},${H} L 0,${H} Z`;
-
-    const gradId = `heroGrad${heroGradId++}`;
-    const ns = 'http://www.w3.org/2000/svg';
-    const defs = document.createElementNS(ns, 'defs');
-    defs.innerHTML = `<linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#fff" stop-opacity="0.38"/>
-      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
-    </linearGradient>`;
-    svg.appendChild(defs);
-
-    const area = document.createElementNS(ns, 'path');
-    area.setAttribute('d', areaPath);
-    area.setAttribute('fill', `url(#${gradId})`);
-    svg.appendChild(area);
-
-    const line = document.createElementNS(ns, 'path');
-    line.setAttribute('d', linePath);
-    line.setAttribute('fill', 'none');
-    line.setAttribute('stroke', '#fff');
-    line.setAttribute('stroke-width', '2');
-    line.setAttribute('stroke-linecap', 'round');
-    svg.appendChild(line);
-
-    if (points[peakIdx].value > 0) {
-      const [px, py] = coords[peakIdx];
-      const dot = document.createElementNS(ns, 'circle');
-      dot.setAttribute('cx', px); dot.setAttribute('cy', py); dot.setAttribute('r', '3.5');
-      dot.setAttribute('fill', '#fff');
-      svg.appendChild(dot);
-      const title = document.createElementNS(ns, 'title');
-      title.textContent = `${formatChartLabel(points[peakIdx].label)}: ${points[peakIdx].value}`;
-      dot.appendChild(title);
-    }
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: points.map((p) => formatChartLabel(p.label)),
+        datasets: [{
+          data: points.map((p) => p.value),
+          borderColor: '#fff',
+          backgroundColor: gradient,
+          borderWidth: 2,
+          fill: true,
+          tension: 0.35,
+          pointRadius: points.map((_, i) => (i === peakIdx ? 3.5 : 0)),
+          pointBackgroundColor: '#fff',
+          pointHoverRadius: 4,
+          pointHoverBackgroundColor: '#fff',
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 500 },
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: 'rgba(10,20,40,0.9)',
+            padding: 8,
+            cornerRadius: 6,
+            bodyFont: { family: "'Fira Code', monospace", size: 12 },
+            displayColors: false,
+          },
+        },
+        scales: { x: { display: false }, y: { display: false } },
+      },
+    });
+    chartInstances.set(canvasId, chart);
 
     const statsEl = document.getElementById(statsId);
     if (statsEl) {
@@ -1419,20 +1308,8 @@ const clientData = {
   renderHero('hero-clicks', 'hero-clicks-stats', searchDailyPoints, 'clicks');
   renderBars('traffic-chart', 'traffic-chart-labels', trafficChartPoints, formatChartLabel);
   renderBars('search-chart', 'search-chart-labels', searchChartPoints, formatChartLabel);
-
-  // Re-measure and redraw on resize (debounced) so the fixed-to-container
-  // viewBox fix above stays correct as the layout reflows, e.g. rotating a
-  // phone or resizing the browser window.
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      renderHero('hero-sessions', 'hero-sessions-stats', trafficDailyPoints, 'sessions');
-      renderHero('hero-clicks', 'hero-clicks-stats', searchDailyPoints, 'clicks');
-      renderBars('traffic-chart', 'traffic-chart-labels', trafficChartPoints);
-      renderBars('search-chart', 'search-chart-labels', searchChartPoints);
-    }, 200);
-  });
+  // No manual resize handling needed, Chart.js's `responsive: true` already
+  // observes its canvas's container size and redraws itself correctly.
 
   // ── Date range switching: re-fetches overview + charts, no page reload ──
   function renderBarRowsInto(containerId, items, labelKey, valueKey, altClass) {
