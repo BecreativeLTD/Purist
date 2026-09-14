@@ -51,6 +51,19 @@ const usersDelta = traffic.available ? pctChange(traffic.users, traffic.prevUser
 const clicksDelta = search.available ? pctChange(search.clicks, search.prevClicks) : null;
 const impressionsDelta = search.available ? pctChange(search.impressions, search.prevImpressions) : null;
 const positionDelta = search.available ? (search.prevAvgPosition ? search.prevAvgPosition - search.avgPosition : null) : null;
+const bounceDelta = traffic.available ? (traffic.bounceRate - traffic.prevBounceRate) * 100 : null; // pp change, lower is better
+const engagementDelta = traffic.available ? pctChange(traffic.avgEngagementSec, traffic.prevAvgEngagementSec) : null;
+const returningPct = traffic.available && traffic.users > 0 ? Math.round(((traffic.users - traffic.newUsers) / traffic.users) * 100) : 0;
+const newPct = 100 - returningPct;
+const brandTotal = search.brandClicks + search.nonBrandClicks;
+const brandPct = brandTotal > 0 ? Math.round((search.brandClicks / brandTotal) * 100) : 0;
+function fmtDuration(sec: number) {
+  const m = Math.floor(sec / 60);
+  const s = Math.round(sec % 60);
+  return `${m}:${String(s).padStart(2, '0')}`;
+}
+// Curated categorical palette (fixed order, never cycled by rank) for the leads-by-category breakdown.
+const CATEGORY_PALETTE = ['#1E4FD6', '#6FA0F5', '#16A672', '#D9820F', '#8B5CF6', '#E23F3F', '#0EA5B7', '#C2578A'];
 
 const leadsById: Record<string, (typeof leads)[number]> = {};
 leads.forEach((l) => (leadsById[l.id] = l));
@@ -123,6 +136,20 @@ const maxSourceCount = Math.max(1, ...topSources.map(([, c]) => c));
 const topProfessions = topN(leads.map((l) => l.profession_slug), 6);
 const maxProfessionCount = Math.max(1, ...topProfessions.map(([, c]) => c));
 
+// Real score distribution across all leads (no assumed dollar values, just the actual histogram).
+const SCORE_BUCKETS = [
+  { label: '0-9', min: 0, max: 9 },
+  { label: '10-24', min: 10, max: 24 },
+  { label: '25-49', min: 25, max: 49 },
+  { label: '50-74', min: 50, max: 74 },
+  { label: '75+', min: 75, max: Infinity },
+];
+const scoreDistribution = SCORE_BUCKETS.map((b) => ({
+  label: b.label,
+  count: leads.filter((l) => (l.score ?? 0) >= b.min && (l.score ?? 0) <= b.max).length,
+}));
+const maxScoreBucket = Math.max(1, ...scoreDistribution.map((b) => b.count));
+
 // ── 30-day activity chart (events per day) ──
 const DAYS = 30;
 const dayBuckets: { date: string; label: string; count: number }[] = [];
@@ -167,44 +194,87 @@ const clientData = {
 
 <BaseLayout title="PURIST Intelligence | PURIST" description="Internal analytics and lead intelligence center." noindex>
 
+<Fragment slot="head">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet" />
+</Fragment>
+
 <style>
   .pi {
-    --bg: #EEF4FC;
-    --bg-2: #E4EEFB;
+    --bg: #F1F6FD;
+    --bg-2: #E6EFFC;
     --surface: #FFFFFF;
-    --border: #DCE7F7;
-    --text-1: #0F1B33;
-    --text-2: #5A6B8C;
-    --text-3: #8B9BC0;
-    --accent: #2563EB;
-    --accent-2: #60A5FA;
-    --accent-soft: #E8F0FE;
-    --success: #17A673;
-    --success-bg: #E3F6EE;
-    --danger: #E0473F;
-    --danger-bg: #FCEAE9;
-    --warning: #D97F1E;
-    --warning-bg: #FDF1E2;
-    --shadow: 0 1px 2px rgba(15,27,51,0.04), 0 4px 16px rgba(15,27,51,0.05);
-    max-width: 1320px;
+    --surface-2: #FAFCFF;
+    --border: #DEE9FA;
+    --border-soft: #EAF1FC;
+    --text-1: #10203F;
+    --text-2: #5E6E8C;
+    --text-3: #96A5C2;
+    --accent: #1E4FD6;
+    --accent-2: #6FA0F5;
+    --accent-deep: #16309E;
+    --accent-soft: #E9F0FE;
+    --success: #16A672;
+    --success-bg: #E3F7EE;
+    --danger: #E23F3F;
+    --danger-bg: #FCEAEA;
+    --warning: #D9820F;
+    --warning-bg: #FDF2E1;
+    --shadow-sm: 0 1px 2px rgba(16,32,63,0.05);
+    --shadow: 0 1px 2px rgba(16,32,63,0.04), 0 8px 24px -8px rgba(16,60,150,0.10);
+    --shadow-lg: 0 4px 8px rgba(16,32,63,0.04), 0 16px 40px -12px rgba(16,60,150,0.16);
+    --ring: 0 0 0 1px rgba(255,255,255,0.6) inset;
+    --font-num: 'Fira Code', 'SF Mono', ui-monospace, monospace;
+    max-width: 1360px;
     margin: 0 auto;
     padding: 28px 24px 100px;
     background: var(--bg);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Fira Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
     color: var(--text-1);
+  }
+  .pi * { box-sizing: border-box; }
+  .pi svg { display: block; }
+  .pi .icon { width: 15px; height: 15px; flex-shrink: 0; }
+  .pi button, .pi input, .pi select, .pi textarea { font-family: inherit; }
+  .pi-panel-view.active .pi-kpi,
+  .pi-panel-view.active .pi-panel,
+  .pi-panel-view.active .pi-hero,
+  .pi-panel-view.active .pi-chart { animation: pi-rise 0.55s cubic-bezier(0.22,1,0.36,1) both; }
+  .pi-panel-view.active .pi-kpi:nth-child(1) { animation-delay: 0.02s; }
+  .pi-panel-view.active .pi-kpi:nth-child(2) { animation-delay: 0.05s; }
+  .pi-panel-view.active .pi-kpi:nth-child(3) { animation-delay: 0.08s; }
+  .pi-panel-view.active .pi-kpi:nth-child(4) { animation-delay: 0.11s; }
+  .pi-panel-view.active .pi-kpi:nth-child(5) { animation-delay: 0.14s; }
+  .pi-panel-view.active .pi-kpi:nth-child(6) { animation-delay: 0.17s; }
+  .pi-panel-view.active .pi-panel:nth-child(2) { animation-delay: 0.06s; }
+  .pi-panel-view.active .pi-panel:nth-child(3) { animation-delay: 0.12s; }
+
+  @keyframes pi-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @media (prefers-reduced-motion: reduce) {
+    .pi-panel-view.active .pi-kpi, .pi-panel-view.active .pi-panel, .pi-panel-view.active .pi-hero, .pi-panel-view.active .pi-chart { animation: none; }
   }
 
   .pi-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-  .pi-h1 { font-size: 24px; font-weight: 600; color: var(--text-1); margin: 0; letter-spacing: -0.01em; }
+  .pi-h1 { font-size: 25px; font-weight: 700; color: var(--text-1); margin: 0; letter-spacing: -0.015em; display: flex; align-items: center; gap: 10px; }
   .pi-sub { color: var(--text-2); font-size: 13.5px; margin: 4px 0 0; }
-  .pi-demo-link { font-size: 12.5px; font-weight: 500; color: var(--accent); text-decoration: none; border: 1px solid var(--border); border-radius: 10px; padding: 8px 16px; white-space: nowrap; background: var(--surface); box-shadow: var(--shadow); }
+  .pi-demo-link { font-size: 12.5px; font-weight: 500; color: var(--accent); text-decoration: none; border: 1px solid var(--border); border-radius: 12px; padding: 9px 17px; white-space: nowrap; background: var(--surface); box-shadow: var(--shadow-sm); transition: all 0.25s cubic-bezier(0.22,1,0.36,1); display: inline-flex; align-items: center; gap: 6px; }
+  .pi-demo-link:hover { background: var(--accent-soft); box-shadow: var(--shadow); transform: translateY(-1px); }
+
+  /* Realtime widget */
+  .pi-live { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border-radius: 20px; padding: 7px 14px 7px 10px; box-shadow: var(--shadow-sm); font-size: 12.5px; font-weight: 600; color: var(--text-1); }
+  .pi-live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); position: relative; }
+  .pi-live-dot::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; background: var(--success); opacity: 0.35; animation: pi-pulse 1.8s cubic-bezier(0.4,0,0.6,1) infinite; }
+  @keyframes pi-pulse { 0% { transform: scale(0.6); opacity: 0.5; } 70%, 100% { transform: scale(1.8); opacity: 0; } }
+  .pi-live span.n { font-family: var(--font-num); color: var(--accent-deep); }
   .pi-demo-link:hover { background: var(--accent-soft); }
 
   /* Pill tab navigation */
-  .pi-nav { display: flex; gap: 4px; background: var(--surface); border-radius: 14px; padding: 5px; margin-top: 20px; box-shadow: var(--shadow); width: fit-content; flex-wrap: wrap; }
-  .pi-tab { border: none; background: transparent; font-size: 13px; font-weight: 500; color: var(--text-2); padding: 9px 18px; border-radius: 10px; cursor: pointer; font-family: inherit; white-space: nowrap; }
-  .pi-tab.active { background: var(--text-1); color: #fff; }
+  .pi-nav { display: flex; gap: 3px; background: var(--surface); border-radius: 14px; padding: 5px; margin-top: 20px; box-shadow: var(--shadow); width: fit-content; flex-wrap: wrap; }
+  .pi-tab { border: none; background: transparent; font-size: 13px; font-weight: 500; color: var(--text-2); padding: 9px 16px; border-radius: 10px; cursor: pointer; font-family: inherit; white-space: nowrap; display: inline-flex; align-items: center; gap: 7px; transition: all 0.25s cubic-bezier(0.22,1,0.36,1); }
+  .pi-tab.active { background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%); color: #fff; box-shadow: 0 2px 8px rgba(30,79,214,0.35); }
   .pi-tab:not(.active):hover { background: var(--bg-2); color: var(--text-1); }
+  .pi-tab:active { transform: scale(0.97); }
   .pi-panel-view { display: none; margin-top: 20px; }
   .pi-panel-view.active { display: block; }
 
@@ -217,29 +287,32 @@ const clientData = {
   .pi-kpis { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-top: 14px; }
   @media (max-width: 1000px) { .pi-kpis { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 560px) { .pi-kpis { grid-template-columns: repeat(2, 1fr); } }
-  .pi-kpi { background: var(--surface); border-radius: 14px; padding: 16px 18px; box-shadow: var(--shadow); }
-  .pi-kpi .num { font-size: 25px; font-weight: 600; color: var(--text-1); font-variant-numeric: tabular-nums; line-height: 1.1; }
-  .pi-kpi .label { font-size: 11.5px; color: var(--text-2); margin-top: 5px; }
+  .pi-kpis-4 { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 1000px) { .pi-kpis-4 { grid-template-columns: repeat(2, 1fr); } }
+  .pi-kpi { background: var(--surface); border: 1px solid var(--border-soft); border-radius: 16px; padding: 16px 18px; box-shadow: var(--shadow); transition: box-shadow 0.25s cubic-bezier(0.22,1,0.36,1), transform 0.25s cubic-bezier(0.22,1,0.36,1); }
+  .pi-kpi:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+  .pi-kpi .num { font-family: var(--font-num); font-size: 24px; font-weight: 600; color: var(--text-1); font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .pi-kpi .label { font-size: 11.5px; color: var(--text-2); margin-top: 6px; display: flex; align-items: center; gap: 5px; }
   .pi-kpi .range-label { text-transform: none; }
   .pi-delta { font-size: 10.5px; font-weight: 600; margin-top: 7px; display: inline-flex; align-items: center; gap: 3px; padding: 2px 8px; border-radius: 20px; }
   .pi-delta.up { color: var(--success); background: var(--success-bg); }
   .pi-delta.down { color: var(--danger); background: var(--danger-bg); }
   .pi-delta.flat { color: var(--text-3); background: var(--bg-2); }
 
-  /* Hero gradient cards */
+  /* Hero gradient cards — double-bezel: outer shell (gradient) + inner core (chart) */
   .pi-hero-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
   @media (max-width: 900px) { .pi-hero-row { grid-template-columns: 1fr; } }
-  .pi-hero { border-radius: 18px; padding: 20px 22px; color: #fff; position: relative; overflow: hidden; box-shadow: var(--shadow); }
-  .pi-hero.blue { background: linear-gradient(135deg, #1E4FD6 0%, #3B7CF0 100%); }
-  .pi-hero.sky { background: linear-gradient(135deg, #2F6FE0 0%, #6FA8F5 100%); }
+  .pi-hero { border-radius: 20px; padding: 3px; color: #fff; position: relative; box-shadow: var(--shadow-lg); }
+  .pi-hero.blue { background: linear-gradient(150deg, #1B3FC4 0%, #2F6FE0 55%, #5F9AF2 100%); }
+  .pi-hero.sky { background: linear-gradient(150deg, #2657C9 0%, #4A82ED 55%, #86B4F7 100%); }
+  .pi-hero-core { padding: 19px 22px 16px; border-radius: 17px; background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0) 40%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.18); }
   .pi-hero-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .pi-hero-eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; opacity: 0.75; margin: 0 0 4px; }
   .pi-hero h3 { font-size: 12.5px; font-weight: 500; margin: 0; opacity: 0.85; }
-  .pi-hero .hero-num { font-size: 26px; font-weight: 700; margin-top: 2px; }
-  .pi-hero-chart { display: flex; align-items: flex-end; gap: 3px; height: 64px; margin-top: 16px; position: relative; }
-  .pi-hero-chart .bar { flex: 1; min-width: 2px; background: rgba(255,255,255,0.35); border-radius: 2px 2px 0 0; }
-  .pi-hero-chart .bar.peak { background: #fff; }
-  .pi-hero-stats { display: flex; gap: 18px; margin-top: 14px; font-size: 11px; opacity: 0.9; }
-  .pi-hero-stats b { display: block; font-size: 13px; font-weight: 600; }
+  .pi-hero .hero-num { font-family: var(--font-num); font-size: 27px; font-weight: 700; margin-top: 3px; letter-spacing: -0.01em; }
+  .pi-hero-svg { width: 100%; height: 68px; margin-top: 14px; display: block; overflow: visible; }
+  .pi-hero-stats { display: flex; gap: 18px; margin-top: 12px; font-size: 11px; opacity: 0.92; }
+  .pi-hero-stats b { display: block; font-family: var(--font-num); font-size: 13px; font-weight: 600; }
 
   /* Panels */
   .pi-panels { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 16px; }
@@ -270,7 +343,7 @@ const clientData = {
   .pi-chart { margin-top: 16px; background: var(--surface); border-radius: 14px; padding: 20px 20px 14px; box-shadow: var(--shadow); }
   .pi-chart-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
   .pi-chart h3 { font-size: 13px; font-weight: 600; color: var(--text-1); margin: 0; }
-  .pi-chart-bars { display: flex; align-items: flex-end; gap: 3px; height: 110px; overflow-x: auto; padding-bottom: 4px; position: relative; }
+  .pi-chart-bars { width: 100%; height: 110px; display: block; overflow: visible; }
   .pi-chart-bar { flex: 1 0 6px; min-width: 6px; background: var(--accent-2); border-radius: 3px 3px 0 0; opacity: 0.75; position: relative; }
   .pi-chart-bar:hover, .pi-chart-bar.peak { opacity: 1; background: var(--accent); }
   .pi-chart-bar[data-count="0"] { background: var(--bg-2); }
@@ -347,16 +420,22 @@ const clientData = {
       <h1 class="pi-h1">{greeting} — PURIST Intelligence</h1>
       <p class="pi-sub">Traffic, search performance, lead intelligence, and outreach, all in one place.</p>
     </div>
-    <a href="/pages/dashboard" class="pi-demo-link">View client demo →</a>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+      <div class="pi-live" id="pi-live" title="GA4 Realtime: active users right now">
+        <span class="pi-live-dot"></span>
+        <span class="n" id="pi-live-count">—</span> active now
+      </div>
+      <a href="/pages/dashboard" class="pi-demo-link">View client demo →</a>
+    </div>
   </div>
 
   <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
     <nav class="pi-nav" id="pi-nav">
-      <button class="pi-tab active" data-tab="overview">Overview</button>
-      <button class="pi-tab" data-tab="traffic">Traffic</button>
-      <button class="pi-tab" data-tab="search">Search</button>
-      <button class="pi-tab" data-tab="leads">Leads</button>
-      <button class="pi-tab" data-tab="emails">Emails</button>
+      <button class="pi-tab active" data-tab="overview"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="12" width="4" height="8"/><rect x="10" y="7" width="4" height="13"/><rect x="17" y="3" width="4" height="17"/></svg>Overview</button>
+      <button class="pi-tab" data-tab="traffic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>Traffic</button>
+      <button class="pi-tab" data-tab="search"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Search</button>
+      <button class="pi-tab" data-tab="leads"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c0-3.6 2.9-6.2 6.5-6.2s6.5 2.6 6.5 6.2"/><circle cx="17.5" cy="8.5" r="2.5"/><path d="M16 13.6c2.7.4 4.5 2.5 4.5 5.4"/></svg>Leads</button>
+      <button class="pi-tab" data-tab="emails"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Emails</button>
     </nav>
     <div class="pi-range" id="pi-range">
       <button data-days="7">7d</button>
@@ -407,26 +486,53 @@ const clientData = {
       </div>
     </div>
 
+    <div class="pi-kpis pi-kpis-4" style="margin-top:12px;">
+      <div class="pi-kpi">
+        <div class="num">{traffic.available ? `${(traffic.bounceRate * 100).toFixed(0)}%` : '—'}</div>
+        <div class="label">Bounce rate</div>
+        {bounceDelta !== null && <div class={`pi-delta ${bounceDelta < -0.5 ? 'up' : bounceDelta > 0.5 ? 'down' : 'flat'}`}>{bounceDelta > 0 ? '↑' : bounceDelta < 0 ? '↓' : '–'} {Math.abs(bounceDelta).toFixed(1)}pp</div>}
+      </div>
+      <div class="pi-kpi">
+        <div class="num">{traffic.available ? fmtDuration(traffic.avgEngagementSec) : '—'}</div>
+        <div class="label">Avg. engagement time</div>
+        {engagementDelta !== null && <div class={`pi-delta ${engagementDelta > 0 ? 'up' : engagementDelta < 0 ? 'down' : 'flat'}`}>{engagementDelta > 0 ? '↑' : '↓'} {fmtDelta(engagementDelta)}</div>}
+      </div>
+      <div class="pi-kpi">
+        <div class="num">{traffic.available ? `${newPct}% / ${returningPct}%` : '—'}</div>
+        <div class="label">New vs. returning users</div>
+      </div>
+      <div class="pi-kpi">
+        <div class="num">{search.available ? `${brandPct}%` : '—'}</div>
+        <div class="label">Brand-query share of clicks</div>
+      </div>
+    </div>
+
     <div class="pi-hero-row">
       <div class="pi-hero blue">
-        <div class="pi-hero-top">
-          <div>
-            <h3>Sessions, last 30 days</h3>
-            <div class="hero-num">{traffic.available ? traffic.sessions.toLocaleString() : '—'}</div>
+        <div class="pi-hero-core">
+          <p class="pi-hero-eyebrow">Traffic</p>
+          <div class="pi-hero-top">
+            <div>
+              <h3>Sessions</h3>
+              <div class="hero-num">{traffic.available ? traffic.sessions.toLocaleString() : '—'}</div>
+            </div>
           </div>
+          <svg class="pi-hero-svg" id="hero-sessions" viewBox="0 0 300 68" preserveAspectRatio="none"></svg>
+          <div class="pi-hero-stats" id="hero-sessions-stats"></div>
         </div>
-        <div class="pi-hero-chart" id="hero-sessions"></div>
-        <div class="pi-hero-stats" id="hero-sessions-stats"></div>
       </div>
       <div class="pi-hero sky">
-        <div class="pi-hero-top">
-          <div>
-            <h3>Search clicks, last 30 days</h3>
-            <div class="hero-num">{search.available ? search.clicks.toLocaleString() : '—'}</div>
+        <div class="pi-hero-core">
+          <p class="pi-hero-eyebrow">Search</p>
+          <div class="pi-hero-top">
+            <div>
+              <h3>Clicks</h3>
+              <div class="hero-num">{search.available ? search.clicks.toLocaleString() : '—'}</div>
+            </div>
           </div>
+          <svg class="pi-hero-svg" id="hero-clicks" viewBox="0 0 300 68" preserveAspectRatio="none"></svg>
+          <div class="pi-hero-stats" id="hero-clicks-stats"></div>
         </div>
-        <div class="pi-hero-chart" id="hero-clicks"></div>
-        <div class="pi-hero-stats" id="hero-clicks-stats"></div>
       </div>
     </div>
 
@@ -463,10 +569,10 @@ const clientData = {
       </div>
       <div class="pi-panel">
         <h3>Leads by category</h3>
-        {categoryBreakdown.length === 0 ? <p class="pi-empty-panel">No leads yet.</p> : categoryBreakdown.slice(0, 6).map((c) => (
+        {categoryBreakdown.length === 0 ? <p class="pi-empty-panel">No leads yet.</p> : categoryBreakdown.slice(0, 8).map((c, i) => (
           <div class="pi-bar-row">
-            <span class="lbl">{c.category}</span>
-            <span class="track"><span class="fill" style={`width:${(c.count / categoryBreakdown[0].count) * 100}%`}></span></span>
+            <span class="lbl"><span style={`display:inline-block;width:7px;height:7px;border-radius:50%;background:${CATEGORY_PALETTE[i % CATEGORY_PALETTE.length]};margin-right:6px;`}></span>{c.category}</span>
+            <span class="track"><span class="fill" style={`width:${(c.count / categoryBreakdown[0].count) * 100}%;background:${CATEGORY_PALETTE[i % CATEGORY_PALETTE.length]};`}></span></span>
             <span class="val">{c.count}</span>
           </div>
         ))}
@@ -485,7 +591,7 @@ const clientData = {
           <button data-gran="hour">Hour of day</button>
         </div>
       </div>
-      <div class="pi-chart-bars" id="traffic-chart"></div>
+      <svg class="pi-chart-bars" id="traffic-chart" viewBox="0 0 600 110" preserveAspectRatio="none"></svg>
       <div class="pi-chart-labels" id="traffic-chart-labels"></div>
     </div>
 
@@ -548,7 +654,7 @@ const clientData = {
           <button data-gran="week">Week</button>
         </div>
       </div>
-      <div class="pi-chart-bars" id="search-chart"></div>
+      <svg class="pi-chart-bars" id="search-chart" viewBox="0 0 600 110" preserveAspectRatio="none"></svg>
       <div class="pi-chart-labels" id="search-chart-labels"></div>
     </div>
 
@@ -634,6 +740,19 @@ const clientData = {
                 <span class="lbl">{prof}</span>
                 <span class="track"><span class="fill" style={`width:${(c / maxProfessionCount) * 100}%`}></span></span>
                 <span class="val">{c}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div class="pi-panel" style="margin-top:12px;">
+          <h3>Score distribution</h3>
+          <div style="display:flex;align-items:flex-end;gap:14px;height:80px;padding-top:10px;">
+            {scoreDistribution.map((b) => (
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;">
+                <span style="font-size:11px;font-weight:600;color:var(--text-2);">{b.count}</span>
+                <div style={`width:100%;max-width:56px;border-radius:6px 6px 2px 2px;background:${b.label === '75+' ? 'var(--danger)' : b.label === '50-74' ? 'var(--warning)' : 'var(--accent-2)'};height:${Math.max(4, (b.count / maxScoreBucket) * 46)}px;`}></div>
+                <span style="font-size:10.5px;color:var(--text-3);">{b.label}</span>
               </div>
             ))}
           </div>
@@ -784,6 +903,21 @@ const clientData = {
 </div>
 
 <script define:vars={{ clientData }}>
+  // ── Realtime active users (GA4 Realtime API), polled every 20s ──
+  async function pollRealtime() {
+    const countEl = document.getElementById('pi-live-count');
+    if (!countEl) return;
+    try {
+      const res = await fetch('/api/admin/realtime');
+      const data = await res.json();
+      countEl.textContent = data.available ? String(data.activeUsers) : '—';
+    } catch {
+      countEl.textContent = '—';
+    }
+  }
+  pollRealtime();
+  setInterval(pollRealtime, 20000);
+
   // ── Tab switching ──
   const tabs = document.querySelectorAll('.pi-tab');
   const panels = document.querySelectorAll('.pi-panel-view');
@@ -812,26 +946,82 @@ const clientData = {
   });
 
   // ── Simple bar chart renderer with a peak-value callout pill ──
+  let chartGradId = 0;
   function renderBars(containerId, labelsId, points, formatLabel) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    container.innerHTML = '';
+    const svg = document.getElementById(containerId);
+    if (!svg) return;
+    const W = 600, H = 110, PADT = 10, PADB = 4;
+    svg.innerHTML = '';
+    if (!points.length) return;
     const max = Math.max(1, ...points.map((p) => p.value));
     const peakIdx = points.reduce((best, p, i) => (p.value > points[best].value ? i : best), 0);
-    points.forEach((p, i) => {
-      const bar = document.createElement('div');
-      bar.className = 'pi-chart-bar' + (i === peakIdx && p.value > 0 ? ' peak' : '');
-      bar.dataset.count = String(p.value);
-      bar.style.height = Math.max(3, (p.value / max) * 100) + 'px';
-      bar.title = `${p.label}: ${p.value}`;
-      if (i === peakIdx && p.value > 0) {
-        const pill = document.createElement('span');
-        pill.className = 'pi-peak-pill';
-        pill.textContent = String(p.value);
-        bar.appendChild(pill);
-      }
-      container.appendChild(bar);
+    const n = points.length;
+    const x = (i) => (n <= 1 ? W / 2 : (i / (n - 1)) * W);
+    const y = (v) => PADT + (1 - v / max) * (H - PADT - PADB);
+    const coords = points.map((p, i) => [x(i), y(p.value)]);
+    const ns = 'http://www.w3.org/2000/svg';
+
+    // Faint horizontal gridlines (25/50/75%), recessive per data-viz convention.
+    [0.25, 0.5, 0.75].forEach((f) => {
+      const gl = document.createElementNS(ns, 'line');
+      gl.setAttribute('x1', '0'); gl.setAttribute('x2', String(W));
+      gl.setAttribute('y1', String(PADT + f * (H - PADT - PADB)));
+      gl.setAttribute('y2', String(PADT + f * (H - PADT - PADB)));
+      gl.setAttribute('stroke', 'var(--border)');
+      gl.setAttribute('stroke-width', '1');
+      svg.appendChild(gl);
     });
+
+    let linePath = `M ${coords[0][0]},${coords[0][1]}`;
+    for (let i = 1; i < coords.length; i++) {
+      const [x0, y0] = coords[i - 1];
+      const [x1, y1] = coords[i];
+      const mx = (x0 + x1) / 2;
+      linePath += ` Q ${x0},${y0} ${mx},${(y0 + y1) / 2}`;
+    }
+    linePath += ` T ${coords[coords.length - 1][0]},${coords[coords.length - 1][1]}`;
+    const areaPath = `${linePath} L ${W},${H - PADB} L 0,${H - PADB} Z`;
+
+    const gradId = `chartGrad${chartGradId++}`;
+    const defs = document.createElementNS(ns, 'defs');
+    defs.innerHTML = `<linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1E4FD6" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#1E4FD6" stop-opacity="0"/>
+    </linearGradient>`;
+    svg.appendChild(defs);
+
+    const area = document.createElementNS(ns, 'path');
+    area.setAttribute('d', areaPath);
+    area.setAttribute('fill', `url(#${gradId})`);
+    svg.appendChild(area);
+
+    const line = document.createElementNS(ns, 'path');
+    line.setAttribute('d', linePath);
+    line.setAttribute('fill', 'none');
+    line.setAttribute('stroke', '#1E4FD6');
+    line.setAttribute('stroke-width', '2.5');
+    line.setAttribute('stroke-linecap', 'round');
+    svg.appendChild(line);
+
+    if (points[peakIdx].value > 0) {
+      const [px, py] = coords[peakIdx];
+      const dot = document.createElementNS(ns, 'circle');
+      dot.setAttribute('cx', px); dot.setAttribute('cy', py); dot.setAttribute('r', '4');
+      dot.setAttribute('fill', '#fff');
+      dot.setAttribute('stroke', '#1E4FD6');
+      dot.setAttribute('stroke-width', '2.5');
+      svg.appendChild(dot);
+      const label = document.createElementNS(ns, 'text');
+      label.setAttribute('x', String(Math.min(Math.max(px, 24), W - 24)));
+      label.setAttribute('y', String(Math.max(py - 10, 12)));
+      label.setAttribute('text-anchor', 'middle');
+      label.setAttribute('font-size', '11');
+      label.setAttribute('font-weight', '600');
+      label.setAttribute('fill', 'var(--text-1)');
+      label.textContent = points[peakIdx].value.toLocaleString();
+      svg.appendChild(label);
+    }
+
     if (labelsId) {
       const labelsEl = document.getElementById(labelsId);
       if (labelsEl && points.length) {
@@ -845,19 +1035,64 @@ const clientData = {
     }
   }
 
+  let heroGradId = 0;
   function renderHero(containerId, statsId, points, unitLabel) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    container.innerHTML = '';
+    const svg = document.getElementById(containerId);
+    if (!svg) return;
+    const W = 300, H = 68, PAD = 4;
+    svg.innerHTML = '';
+    if (!points.length) return;
     const max = Math.max(1, ...points.map((p) => p.value));
     const peakIdx = points.reduce((best, p, i) => (p.value > points[best].value ? i : best), 0);
-    points.forEach((p, i) => {
-      const bar = document.createElement('div');
-      bar.className = 'bar' + (i === peakIdx && p.value > 0 ? ' peak' : '');
-      bar.style.height = Math.max(2, (p.value / max) * 64) + 'px';
-      bar.title = `${p.label}: ${p.value}`;
-      container.appendChild(bar);
-    });
+    const n = points.length;
+    const x = (i) => (n <= 1 ? W / 2 : (i / (n - 1)) * W);
+    const y = (v) => PAD + (1 - v / max) * (H - PAD * 2);
+    const coords = points.map((p, i) => [x(i), y(p.value)]);
+
+    // Smooth curve via quadratic mid-point interpolation (no external chart lib).
+    let linePath = `M ${coords[0][0]},${coords[0][1]}`;
+    for (let i = 1; i < coords.length; i++) {
+      const [x0, y0] = coords[i - 1];
+      const [x1, y1] = coords[i];
+      const mx = (x0 + x1) / 2;
+      linePath += ` Q ${x0},${y0} ${mx},${(y0 + y1) / 2}`;
+    }
+    linePath += ` T ${coords[coords.length - 1][0]},${coords[coords.length - 1][1]}`;
+    const areaPath = `${linePath} L ${W},${H} L 0,${H} Z`;
+
+    const gradId = `heroGrad${heroGradId++}`;
+    const ns = 'http://www.w3.org/2000/svg';
+    const defs = document.createElementNS(ns, 'defs');
+    defs.innerHTML = `<linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.38"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>`;
+    svg.appendChild(defs);
+
+    const area = document.createElementNS(ns, 'path');
+    area.setAttribute('d', areaPath);
+    area.setAttribute('fill', `url(#${gradId})`);
+    svg.appendChild(area);
+
+    const line = document.createElementNS(ns, 'path');
+    line.setAttribute('d', linePath);
+    line.setAttribute('fill', 'none');
+    line.setAttribute('stroke', '#fff');
+    line.setAttribute('stroke-width', '2');
+    line.setAttribute('stroke-linecap', 'round');
+    svg.appendChild(line);
+
+    if (points[peakIdx].value > 0) {
+      const [px, py] = coords[peakIdx];
+      const dot = document.createElementNS(ns, 'circle');
+      dot.setAttribute('cx', px); dot.setAttribute('cy', py); dot.setAttribute('r', '3.5');
+      dot.setAttribute('fill', '#fff');
+      svg.appendChild(dot);
+      const title = document.createElementNS(ns, 'title');
+      title.textContent = `${points[peakIdx].label}: ${points[peakIdx].value}`;
+      dot.appendChild(title);
+    }
+
     const statsEl = document.getElementById(statsId);
     if (statsEl) {
       const total = points.reduce((s, p) => s + p.value, 0);

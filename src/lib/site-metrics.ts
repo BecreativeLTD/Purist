@@ -10,13 +10,24 @@ export interface TrafficOverview {
   available: boolean;
   sessions: number;
   users: number;
+  newUsers: number;
+  bounceRate: number;
+  avgEngagementSec: number;
   prevSessions: number;
   prevUsers: number;
+  prevBounceRate: number;
+  prevAvgEngagementSec: number;
   channels: { channel: string; sessions: number }[];
   topPages: { page: string; sessions: number }[];
   daily: { date: string; sessions: number }[];
   devices: { device: string; sessions: number }[];
   countries: { country: string; sessions: number }[];
+}
+
+export interface RealtimeOverview {
+  available: boolean;
+  activeUsers: number;
+  topPages: { page: string; users: number }[];
 }
 
 export type Granularity = 'day' | 'week' | 'hour';
@@ -37,10 +48,50 @@ export interface SearchOverview {
   topQueries: { query: string; clicks: number; impressions: number; position: number }[];
   topPages: { page: string; clicks: number; impressions: number; position: number }[];
   daily: { date: string; clicks: number }[];
+  brandClicks: number;
+  nonBrandClicks: number;
 }
 
-const EMPTY_TRAFFIC: TrafficOverview = { available: false, sessions: 0, users: 0, prevSessions: 0, prevUsers: 0, channels: [], topPages: [], daily: [], devices: [], countries: [] };
-const EMPTY_SEARCH: SearchOverview = { available: false, clicks: 0, impressions: 0, avgPosition: 0, avgCtr: 0, prevClicks: 0, prevImpressions: 0, prevAvgPosition: 0, topQueries: [], topPages: [], daily: [] };
+const EMPTY_TRAFFIC: TrafficOverview = { available: false, sessions: 0, users: 0, newUsers: 0, bounceRate: 0, avgEngagementSec: 0, prevSessions: 0, prevUsers: 0, prevBounceRate: 0, prevAvgEngagementSec: 0, channels: [], topPages: [], daily: [], devices: [], countries: [] };
+const EMPTY_REALTIME: RealtimeOverview = { available: false, activeUsers: 0, topPages: [] };
+
+/** GA4 Realtime API: active users on the site right now (last ~30 min window GA4 itself defines). */
+export async function fetchRealtimeOverview(): Promise<RealtimeOverview> {
+  const token = await getGoogleAccessToken(['https://www.googleapis.com/auth/analytics.readonly']);
+  if (!token) return EMPTY_REALTIME;
+
+  try {
+    const [totalRes, pagesRes] = await Promise.all([
+      fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${GA4_PROPERTY_ID}:runRealtimeReport`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ metrics: [{ name: 'activeUsers' }] }),
+      }),
+      fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${GA4_PROPERTY_ID}:runRealtimeReport`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          dimensions: [{ name: 'unifiedScreenName' }],
+          metrics: [{ name: 'activeUsers' }],
+          orderBys: [{ metric: { metricName: 'activeUsers' }, desc: true }],
+          limit: 6,
+        }),
+      }),
+    ]);
+    if (!totalRes.ok) return EMPTY_REALTIME;
+    const total = await totalRes.json();
+    const pages = pagesRes.ok ? await pagesRes.json() : null;
+    return {
+      available: true,
+      activeUsers: Number(total.rows?.[0]?.metricValues?.[0]?.value ?? 0),
+      topPages: (pages?.rows ?? []).map((r: any) => ({ page: r.dimensionValues[0].value, users: Number(r.metricValues[0].value) })),
+    };
+  } catch (e) {
+    console.error('[site-metrics] GA4 realtime fetch failed', e instanceof Error ? e.message : String(e));
+    return EMPTY_REALTIME;
+  }
+}
+const EMPTY_SEARCH: SearchOverview = { available: false, clicks: 0, impressions: 0, avgPosition: 0, avgCtr: 0, prevClicks: 0, prevImpressions: 0, prevAvgPosition: 0, topQueries: [], topPages: [], daily: [], brandClicks: 0, nonBrandClicks: 0 };
 
 export function pctChange(current: number, previous: number): number | null {
   if (previous === 0) return current === 0 ? 0 : null;
@@ -63,8 +114,8 @@ export async function fetchTrafficOverview(days = 30): Promise<TrafficOverview> 
       });
 
     const [totalsRes, prevTotalsRes, channelRes, pagesRes, dailyRes, deviceRes, countryRes] = await Promise.all([
-      runReport({ dateRanges: [currentRange], metrics: [{ name: 'sessions' }, { name: 'totalUsers' }] }),
-      runReport({ dateRanges: [prevRange], metrics: [{ name: 'sessions' }, { name: 'totalUsers' }] }),
+      runReport({ dateRanges: [currentRange], metrics: [{ name: 'sessions' }, { name: 'totalUsers' }, { name: 'newUsers' }, { name: 'bounceRate' }, { name: 'averageSessionDuration' }] }),
+      runReport({ dateRanges: [prevRange], metrics: [{ name: 'sessions' }, { name: 'totalUsers' }, { name: 'newUsers' }, { name: 'bounceRate' }, { name: 'averageSessionDuration' }] }),
       runReport({
         dateRanges: [currentRange],
         dimensions: [{ name: 'sessionDefaultChannelGroup' }],
@@ -117,8 +168,13 @@ export async function fetchTrafficOverview(days = 30): Promise<TrafficOverview> 
       available: true,
       sessions: Number(totalsRow[0]?.value ?? 0),
       users: Number(totalsRow[1]?.value ?? 0),
+      newUsers: Number(totalsRow[2]?.value ?? 0),
+      bounceRate: Number(totalsRow[3]?.value ?? 0),
+      avgEngagementSec: Number(totalsRow[4]?.value ?? 0),
       prevSessions: Number(prevRow[0]?.value ?? 0),
       prevUsers: Number(prevRow[1]?.value ?? 0),
+      prevBounceRate: Number(prevRow[3]?.value ?? 0),
+      prevAvgEngagementSec: Number(prevRow[4]?.value ?? 0),
       channels: (channels.rows ?? []).map((r: any) => ({
         channel: r.dimensionValues[0].value,
         sessions: Number(r.metricValues[0].value),
@@ -214,10 +270,11 @@ export async function fetchSearchOverview(days = 30): Promise<SearchOverview> {
         body: JSON.stringify(body),
       });
 
-    const [totalsRes, prevTotalsRes, queriesRes, pagesRes, dailyRes] = await Promise.all([
+    const [totalsRes, prevTotalsRes, queriesRes, allQueriesRes, pagesRes, dailyRes] = await Promise.all([
       query({ startDate: fmt(start), endDate: fmt(end) }),
       query({ startDate: fmt(prevStart), endDate: fmt(prevEnd) }),
       query({ startDate: fmt(start), endDate: fmt(end), dimensions: ['query'], rowLimit: 10 }),
+      query({ startDate: fmt(start), endDate: fmt(end), dimensions: ['query'], rowLimit: 250 }),
       query({ startDate: fmt(start), endDate: fmt(end), dimensions: ['page'], rowLimit: 10 }),
       query({ startDate: fmt(start), endDate: fmt(end), dimensions: ['date'] }),
     ]);
@@ -227,10 +284,20 @@ export async function fetchSearchOverview(days = 30): Promise<SearchOverview> {
     const totals = await totalsRes.json();
     const prevTotals = prevTotalsRes.ok ? await prevTotalsRes.json() : null;
     const queries = await queriesRes.json();
+    const allQueries = allQueriesRes.ok ? await allQueriesRes.json() : null;
     const pages = pagesRes.ok ? await pagesRes.json() : null;
     const daily = dailyRes.ok ? await dailyRes.json() : null;
     const totalsRow = totals.rows?.[0];
     const prevRow = prevTotals?.rows?.[0];
+
+    // Brand = query contains "purist"; a simple, honest heuristic (no fabricated
+    // classification model), computed over up to 250 queries rather than just
+    // the top 10 so the split is representative, not dominated by a few rows.
+    let brandClicks = 0, nonBrandClicks = 0;
+    (allQueries?.rows ?? []).forEach((r: any) => {
+      if (String(r.keys[0]).toLowerCase().includes('purist')) brandClicks += r.clicks;
+      else nonBrandClicks += r.clicks;
+    });
 
     return {
       available: true,
@@ -257,6 +324,8 @@ export async function fetchSearchOverview(days = 30): Promise<SearchOverview> {
         date: r.keys[0],
         clicks: r.clicks,
       })),
+      brandClicks,
+      nonBrandClicks,
     };
   } catch (e) {
     console.error('[site-metrics] GSC fetch failed', e instanceof Error ? e.message : String(e));
