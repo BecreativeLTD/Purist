@@ -1,6 +1,7 @@
 ---
 export const prerender = false;
 import { createSupabaseServerClient } from '~/lib/supabase';
+import { isAdminEmail } from '~/lib/admin';
 
 let errorMsg = '';
 let successMsg = '';
@@ -41,7 +42,7 @@ if (Astro.request.method === 'POST') {
          errorMsg = error.message;
        } else if (data.session) {
          const redirect = new Headers();
-         redirect.set('Location', '/pages/leads');
+         redirect.set('Location', isAdminEmail(data.session.user.email) ? '/pages/leads' : '/pages/dashboard');
          cookieHeaders.forEach((val, key) => redirect.append(key, val));
          return new Response(null, { status: 302, headers: redirect });
        }

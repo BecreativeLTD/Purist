@@ -1,5 +1,6 @@
 import { defineMiddleware } from 'astro:middleware';
 import { createSupabaseServerClient } from '~/lib/supabase';
+import { isAdminEmail } from '~/lib/admin';
 
 const PROTECTED_ROUTES = ['/pages/dashboard', '/pages/leads'];
 const AUTH_ROUTES = ['/login'];
@@ -45,8 +46,16 @@ export const onRequest = defineMiddleware(async (context, next) => {
      return withAuthHeaders(context.redirect('/login'));
    }
 
+   // /pages/leads holds real client data (names, emails, scores) and is
+   // restricted to the admin allowlist. Any other authenticated account
+   // (e.g. a prospect who signed up to view the /pages/dashboard demo)
+   // gets sent to the demo instead, never to real data.
+   if (url.pathname.startsWith('/pages/leads') && user && !isAdminEmail(user.email)) {
+     return withAuthHeaders(context.redirect('/pages/dashboard'));
+   }
+
    if (isAuthRoute && user) {
-     return withAuthHeaders(context.redirect('/pages/leads'));
+     return withAuthHeaders(context.redirect(isAdminEmail(user.email) ? '/pages/leads' : '/pages/dashboard'));
    }
 
    context.locals.user = user;

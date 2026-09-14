@@ -15,11 +15,45 @@ const { data: leadsRaw, error } = await db
   .order('score', { ascending: false });
 
 const leads = leadsRaw ?? [];
+const leadIds = leads.map((l) => l.id);
+
+const { data: eventsRaw } = leadIds.length
+  ? await db
+      .from('lead_events')
+      .select('id, lead_id, event_type, source, page, metadata, points, created_at')
+      .in('lead_id', leadIds)
+      .order('created_at', { ascending: false })
+  : { data: [] as any[] };
+const events = eventsRaw ?? [];
+
+const { data: sequencesRaw } = leadIds.length
+  ? await db
+      .from('email_sequences')
+      .select('id, lead_id, step, scheduled_at, sent_at, status')
+      .in('lead_id', leadIds)
+      .order('step', { ascending: true })
+  : { data: [] as any[] };
+const sequences = sequencesRaw ?? [];
+
+// ── Group events and sequences per lead for the expandable detail row ──
+const eventsByLead: Record<string, typeof events> = {};
+events.forEach((e) => {
+  (eventsByLead[e.lead_id] ??= []).push(e);
+});
+const sequencesByLead: Record<string, typeof sequences> = {};
+sequences.forEach((s) => {
+  (sequencesByLead[s.lead_id] ??= []).push(s);
+});
+
+// ── KPIs ──
 const totalLeads = leads.length;
 const avgScore = totalLeads ? Math.round(leads.reduce((sum, l) => sum + (l.score ?? 0), 0) / totalLeads) : 0;
 
 const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 const newThisWeek = leads.filter((l) => new Date(l.created_at) >= sevenDaysAgo).length;
+
+const hotLeads = leads.filter((l) => (l.score ?? 0) >= 50);
+const auditRequests = events.filter((e) => e.event_type === 'audit_request').length;
 
 const categoryCounts: Record<string, number> = {};
 leads.forEach((l) => {
@@ -31,9 +65,62 @@ const topCategory = topCategoryEntry ? topCategoryEntry[0] : 'None yet';
 
 const categories = [...new Set(leads.map((l) => l.category).filter(Boolean))].sort();
 
+// ── Funnel: event type breakdown (ordered by intent, matches lead-scoring.ts) ──
+const EVENT_ORDER = ['newsletter_signup', 'guide_download', 'report_download', 'roi_calculator', 'audit_request'];
+const EVENT_LABELS: Record<string, string> = {
+  newsletter_signup: 'Newsletter signup',
+  guide_download: 'Guide download',
+  report_download: 'Report download',
+  roi_calculator: 'ROI calculator',
+  audit_request: 'Audit request',
+};
+const funnelCounts: Record<string, number> = {};
+EVENT_ORDER.forEach((k) => (funnelCounts[k] = 0));
+events.forEach((e) => {
+  if (funnelCounts[e.event_type] !== undefined) funnelCounts[e.event_type]++;
+});
+const maxFunnelCount = Math.max(1, ...Object.values(funnelCounts));
+
+// ── Top sources & pages ──
+function topN(items: (string | null | undefined)[], n: number) {
+  const counts: Record<string, number> = {};
+  items.forEach((v) => {
+    const key = v || 'Direct / unknown';
+    counts[key] = (counts[key] || 0) + 1;
+  });
+  return Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, n);
+}
+const topSources = topN(events.map((e) => e.source), 6);
+const maxSourceCount = Math.max(1, ...topSources.map(([, c]) => c));
+
+const topProfessions = topN(leads.map((l) => l.profession_slug), 6);
+const maxProfessionCount = Math.max(1, ...topProfessions.map(([, c]) => c));
+
+// ── 30-day activity chart (events per day) ──
+const DAYS = 30;
+const dayBuckets: { date: string; label: string; count: number }[] = [];
+for (let i = DAYS - 1; i >= 0; i--) {
+  const d = new Date();
+  d.setDate(d.getDate() - i);
+  const key = d.toISOString().slice(0, 10);
+  dayBuckets.push({ date: key, label: d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }), count: 0 });
+}
+const dayIndex: Record<string, number> = {};
+dayBuckets.forEach((b, i) => (dayIndex[b.date] = i));
+events.forEach((e) => {
+  const key = new Date(e.created_at).toISOString().slice(0, 10);
+  if (dayIndex[key] !== undefined) dayBuckets[dayIndex[key]].count++;
+});
+const maxDayCount = Math.max(1, ...dayBuckets.map((b) => b.count));
+
 function fmtDate(d: string) {
   return new Date(d).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 }
+function fmtDateTime(d: string) {
+  return new Date(d).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+}
+
+const SEQUENCE_LABELS: Record<number, string> = { 0: 'J0', 2: 'J2', 5: 'J5' };
 ---
 
 <BaseLayout title="Leads | PURIST" description="Internal lead intelligence dashboard." noindex>
@@ -42,28 +129,76 @@ function fmtDate(d: string) {
   .ld-wrap { max-width: 1180px; margin: 0 auto; padding: 40px 24px 100px; }
   .ld-h1 { font-family: 'Fraunces', Georgia, serif; font-size: 28px; color: #0A0A0A; margin: 0; }
   .ld-sub { color: rgba(10,10,10,0.5); font-size: 13.5px; margin: 6px 0 0; }
-  .ld-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(10,10,10,0.08); border: 1px solid rgba(10,10,10,0.08); margin-top: 28px; }
-  .ld-kpi { background: #fff; padding: 18px 16px; }
-  .ld-kpi .num { font-family: 'Fraunces', Georgia, serif; font-size: 26px; color: #8B4038; font-variant-numeric: tabular-nums; line-height: 1; }
-  .ld-kpi .label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(10,10,10,0.4); margin-top: 6px; }
-  @media (max-width: 700px) { .ld-kpis { grid-template-columns: 1fr 1fr; } }
+  .ld-kpis { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: rgba(10,10,10,0.08); border: 1px solid rgba(10,10,10,0.08); margin-top: 28px; }
+  .ld-kpi { background: #fff; padding: 16px 14px; }
+  .ld-kpi .num { font-family: 'Fraunces', Georgia, serif; font-size: 24px; color: #8B4038; font-variant-numeric: tabular-nums; line-height: 1; }
+  .ld-kpi .label { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(10,10,10,0.4); margin-top: 6px; }
+  @media (max-width: 900px) { .ld-kpis { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 500px) { .ld-kpis { grid-template-columns: repeat(2, 1fr); } }
 
-  .ld-controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 32px 0 14px; }
+  .ld-panels { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 32px; }
+  @media (max-width: 900px) { .ld-panels { grid-template-columns: 1fr; } }
+  .ld-panel { border: 1px solid rgba(10,10,10,0.08); border-radius: 12px; padding: 18px 20px; background: #fff; }
+  .ld-panel h3 { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(10,10,10,0.45); margin: 0 0 14px; }
+  .ld-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 9px; font-size: 12.5px; }
+  .ld-bar-row .lbl { flex: 0 0 128px; color: rgba(10,10,10,0.65); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ld-bar-row .track { flex: 1; height: 8px; border-radius: 4px; background: rgba(10,10,10,0.06); overflow: hidden; }
+  .ld-bar-row .fill { height: 100%; border-radius: 4px; background: #8B4038; }
+  .ld-bar-row .fill.alt { background: #C98A6A; }
+  .ld-bar-row .val { flex: 0 0 26px; text-align: right; font-variant-numeric: tabular-nums; color: rgba(10,10,10,0.5); font-size: 11.5px; }
+  .ld-empty-panel { color: rgba(10,10,10,0.35); font-size: 12.5px; }
+
+  .ld-chart { margin-top: 32px; border: 1px solid rgba(10,10,10,0.08); border-radius: 12px; padding: 20px 20px 14px; background: #fff; }
+  .ld-chart h3 { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(10,10,10,0.45); margin: 0 0 16px; }
+  .ld-chart-bars { display: flex; align-items: flex-end; gap: 3px; height: 90px; overflow-x: auto; padding-bottom: 4px; }
+  .ld-chart-bar { flex: 1 0 8px; min-width: 8px; background: #8B4038; border-radius: 2px 2px 0 0; opacity: 0.85; position: relative; }
+  .ld-chart-bar:hover { opacity: 1; }
+  .ld-chart-bar[data-count="0"] { background: rgba(10,10,10,0.06); }
+  .ld-chart-labels { display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; color: rgba(10,10,10,0.35); margin-top: 6px; }
+
+  .ld-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 32px 0 14px; }
   .ld-controls input, .ld-controls select { font-size: 13.5px; padding: 9px 13px; border-radius: 8px; border: 1px solid rgba(10,10,10,0.15); background: #fff; }
   .ld-controls input { flex: 1; min-width: 200px; }
+  .ld-controls label.chk { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: rgba(10,10,10,0.6); white-space: nowrap; }
+  .ld-export { font-family: 'IBM Plex Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #8B4038; text-decoration: none; border: 1px solid rgba(139,64,56,0.3); border-radius: 8px; padding: 9px 14px; white-space: nowrap; background: none; cursor: pointer; }
+  .ld-export:hover { background: rgba(139,64,56,0.06); }
 
   .ld-table-scroll { overflow-x: auto; border: 1px solid rgba(10,10,10,0.08); border-radius: 12px; }
   table.ld-table { width: 100%; border-collapse: collapse; font-size: 13.5px; white-space: nowrap; }
   table.ld-table th { text-align: left; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(10,10,10,0.45); padding: 11px 14px; border-bottom: 2px solid rgba(10,10,10,0.1); background: #FBF9F4; cursor: pointer; user-select: none; }
   table.ld-table th:hover { color: #8B4038; }
   table.ld-table td { padding: 10px 14px; border-bottom: 1px solid rgba(10,10,10,0.06); font-variant-numeric: tabular-nums; }
-  table.ld-table tbody tr:nth-child(even) { background: rgba(10,10,10,0.015); }
-  table.ld-table tbody tr:hover { background: rgba(139,64,56,0.04); }
+  table.ld-table tbody tr.ld-row:nth-child(4n+1) { background: rgba(10,10,10,0.015); }
+  table.ld-table tbody tr.ld-row { cursor: pointer; }
+  table.ld-table tbody tr.ld-row:hover { background: rgba(139,64,56,0.04); }
   .ld-score { font-weight: 700; color: #8B4038; }
   .ld-status { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; padding: 2px 8px; border-radius: 3px; text-transform: uppercase; }
   .ld-status.active { background: #E1EEE6; color: #2D6A4F; }
   .ld-status.converted { background: #E3ECF7; color: #2D5DA0; }
   .ld-status.unsubscribed { background: #F0EDE6; color: rgba(10,10,10,0.4); }
+  .ld-hot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #C0392B; margin-right: 6px; vertical-align: middle; }
+  .ld-caret { display: inline-block; transition: transform 0.15s; color: rgba(10,10,10,0.3); margin-right: 8px; font-size: 10px; }
+  tr.ld-row.open .ld-caret { transform: rotate(90deg); }
+
+  .ld-detail-cell { background: #FBF9F4; padding: 0 !important; }
+  .ld-detail-inner { padding: 18px 24px; display: none; white-space: normal; }
+  tr.ld-detail.open .ld-detail-inner { display: block; }
+  .ld-detail-grid { display: grid; grid-template-columns: 1fr 200px; gap: 24px; }
+  @media (max-width: 700px) { .ld-detail-grid { grid-template-columns: 1fr; } }
+  .ld-timeline { list-style: none; margin: 0; padding: 0; }
+  .ld-timeline li { display: flex; gap: 10px; padding: 7px 0; border-bottom: 1px solid rgba(10,10,10,0.05); font-size: 12.5px; }
+  .ld-timeline li:last-child { border-bottom: none; }
+  .ld-timeline .ev-type { font-weight: 600; color: #0A0A0A; flex: 0 0 150px; }
+  .ld-timeline .ev-meta { color: rgba(10,10,10,0.45); flex: 1; }
+  .ld-timeline .ev-pts { color: #8B4038; font-variant-numeric: tabular-nums; flex: 0 0 40px; text-align: right; }
+  .ld-seq { list-style: none; margin: 0; padding: 0; }
+  .ld-seq li { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 12px; }
+  .ld-seq-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; }
+  .ld-seq-badge.sent { background: #E1EEE6; color: #2D6A4F; }
+  .ld-seq-badge.pending { background: #F0EDE6; color: rgba(10,10,10,0.5); }
+  .ld-seq-badge.failed { background: #F7E1DE; color: #A6291B; }
+  .ld-seq-badge.skipped { background: #F0EDE6; color: rgba(10,10,10,0.35); }
+  .ld-detail-h { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(10,10,10,0.4); margin: 0 0 8px; }
 
   .ld-empty { text-align: center; padding: 60px 20px; color: rgba(10,10,10,0.5); border: 1px dashed rgba(10,10,10,0.15); border-radius: 12px; margin-top: 24px; }
   .ld-empty h2 { font-family: 'Fraunces', Georgia, serif; font-size: 19px; color: #0A0A0A; margin: 0 0 8px; }
@@ -73,7 +208,7 @@ function fmtDate(d: string) {
   <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;">
     <div>
       <h1 class="ld-h1">Lead Intelligence</h1>
-      <p class="ld-sub">Every capture point across the site, one scored profile per email. Internal use only.</p>
+      <p class="ld-sub">Every capture point across the site, one scored profile per email, with full event history. Internal use only.</p>
     </div>
     <a href="/pages/dashboard" style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:rgba(10,10,10,0.45);text-decoration:none;border:1px solid rgba(10,10,10,0.15);border-radius:8px;padding:8px 14px;white-space:nowrap;">
       View client demo →
@@ -84,7 +219,9 @@ function fmtDate(d: string) {
     <div class="ld-kpi"><div class="num">{totalLeads}</div><div class="label">Total leads</div></div>
     <div class="ld-kpi"><div class="num">{avgScore}</div><div class="label">Avg. score</div></div>
     <div class="ld-kpi"><div class="num">{newThisWeek}</div><div class="label">New this week</div></div>
-    <div class="ld-kpi"><div class="num" style="font-size:17px;">{topCategory}</div><div class="label">Top category</div></div>
+    <div class="ld-kpi"><div class="num">{hotLeads.length}</div><div class="label">Hot leads (50+)</div></div>
+    <div class="ld-kpi"><div class="num">{auditRequests}</div><div class="label">Audit requests</div></div>
+    <div class="ld-kpi"><div class="num" style="font-size:16px;">{topCategory}</div><div class="label">Top category</div></div>
   </div>
 
   {error && <p style="color:#A6291B;margin-top:20px;">Could not load leads: {error.message}</p>}
@@ -96,6 +233,53 @@ function fmtDate(d: string) {
     </div>
   ) : (
     <>
+      <div class="ld-panels">
+        <div class="ld-panel">
+          <h3>Funnel by action</h3>
+          {EVENT_ORDER.map((k) => (
+            <div class="ld-bar-row">
+              <span class="lbl">{EVENT_LABELS[k]}</span>
+              <span class="track"><span class="fill" style={`width:${(funnelCounts[k] / maxFunnelCount) * 100}%`}></span></span>
+              <span class="val">{funnelCounts[k]}</span>
+            </div>
+          ))}
+        </div>
+        <div class="ld-panel">
+          <h3>Top sources</h3>
+          {topSources.length === 0 ? <p class="ld-empty-panel">No event data yet.</p> : topSources.map(([src, c]) => (
+            <div class="ld-bar-row">
+              <span class="lbl">{src}</span>
+              <span class="track"><span class="fill alt" style={`width:${(c / maxSourceCount) * 100}%`}></span></span>
+              <span class="val">{c}</span>
+            </div>
+          ))}
+        </div>
+        <div class="ld-panel">
+          <h3>Top profession pages</h3>
+          {topProfessions.length === 0 ? <p class="ld-empty-panel">No profession data yet.</p> : topProfessions.map(([prof, c]) => (
+            <div class="ld-bar-row">
+              <span class="lbl">{prof}</span>
+              <span class="track"><span class="fill" style={`width:${(c / maxProfessionCount) * 100}%`}></span></span>
+              <span class="val">{c}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="ld-chart">
+        <h3>Activity, last 30 days ({events.length} total events)</h3>
+        <div class="ld-chart-bars">
+          {dayBuckets.map((b) => (
+            <div class="ld-chart-bar" data-count={b.count} title={`${b.label}: ${b.count}`} style={`height:${Math.max(3, (b.count / maxDayCount) * 90)}px`}></div>
+          ))}
+        </div>
+        <div class="ld-chart-labels">
+          <span>{dayBuckets[0].label}</span>
+          <span>{dayBuckets[Math.floor(dayBuckets.length / 2)].label}</span>
+          <span>{dayBuckets[dayBuckets.length - 1].label}</span>
+        </div>
+      </div>
+
       <div class="ld-controls">
         <input id="ld-search" type="text" placeholder="Search email, name, or company..." />
         <select id="ld-filter-cat">
@@ -108,12 +292,15 @@ function fmtDate(d: string) {
           <option value="converted">Converted</option>
           <option value="unsubscribed">Unsubscribed</option>
         </select>
+        <label class="chk"><input type="checkbox" id="ld-filter-hot" /> Hot leads only</label>
+        <button class="ld-export" id="ld-export">Export CSV ↓</button>
       </div>
 
       <div class="ld-table-scroll">
         <table class="ld-table" id="ld-table">
           <thead>
             <tr>
+              <th></th>
               <th data-sort="email">Email</th>
               <th data-sort="company">Company</th>
               <th data-sort="category">Category</th>
@@ -124,17 +311,60 @@ function fmtDate(d: string) {
             </tr>
           </thead>
           <tbody>
-            {leads.map((l) => (
-              <tr data-email={l.email.toLowerCase()} data-name={(l.name || '').toLowerCase()} data-company={(l.company || '').toLowerCase()} data-category={l.category || ''} data-status={l.status} data-score={l.score} data-touches={l.touch_count} data-last-seen={l.last_seen_at}>
-                <td>{l.email}</td>
-                <td>{l.company || '-'}</td>
-                <td>{l.category || '-'}</td>
-                <td class="ld-score">{l.score}</td>
-                <td>{l.touch_count}</td>
-                <td><span class={`ld-status ${l.status}`}>{l.status}</span></td>
-                <td>{fmtDate(l.last_seen_at)}</td>
-              </tr>
-            ))}
+            {leads.map((l) => {
+              const leadEvents = eventsByLead[l.id] ?? [];
+              const leadSeqs = sequencesByLead[l.id] ?? [];
+              const isHot = (l.score ?? 0) >= 50;
+              return (
+                <>
+                  <tr class="ld-row" data-lead-id={l.id} data-email={l.email.toLowerCase()} data-name={(l.name || '').toLowerCase()} data-company={(l.company || '').toLowerCase()} data-category={l.category || ''} data-status={l.status} data-score={l.score} data-touches={l.touch_count} data-last-seen={l.last_seen_at} data-hot={isHot ? '1' : '0'}>
+                    <td style="width:20px;"><span class="ld-caret">▶</span></td>
+                    <td>{isHot && <span class="ld-hot" title="Hot lead (score 50+)"></span>}{l.email}</td>
+                    <td>{l.company || '-'}</td>
+                    <td>{l.category || '-'}</td>
+                    <td class="ld-score">{l.score}</td>
+                    <td>{l.touch_count}</td>
+                    <td><span class={`ld-status ${l.status}`}>{l.status}</span></td>
+                    <td>{fmtDate(l.last_seen_at)}</td>
+                  </tr>
+                  <tr class="ld-detail" data-detail-for={l.id}>
+                    <td colspan="8" class="ld-detail-cell">
+                      <div class="ld-detail-inner">
+                        <div class="ld-detail-grid">
+                          <div>
+                            <p class="ld-detail-h">Event history ({leadEvents.length})</p>
+                            {leadEvents.length === 0 ? <p class="ld-empty-panel">No events recorded.</p> : (
+                              <ul class="ld-timeline">
+                                {leadEvents.map((e) => (
+                                  <li>
+                                    <span class="ev-type">{EVENT_LABELS[e.event_type] ?? e.event_type}</span>
+                                    <span class="ev-meta">{e.page || e.source || '—'} · {fmtDateTime(e.created_at)}</span>
+                                    <span class="ev-pts">+{e.points}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+                          <div>
+                            <p class="ld-detail-h">Nurture sequence</p>
+                            {leadSeqs.length === 0 ? <p class="ld-empty-panel">Not scheduled.</p> : (
+                              <ul class="ld-seq">
+                                {leadSeqs.map((s) => (
+                                  <li>
+                                    <span>{SEQUENCE_LABELS[s.step] ?? `Step ${s.step}`}</span>
+                                    <span class={`ld-seq-badge ${s.status}`}>{s.status}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </>
+              );
+            })}
           </tbody>
         </table>
       </div>
@@ -147,16 +377,34 @@ function fmtDate(d: string) {
   const search = document.getElementById('ld-search') as HTMLInputElement | null;
   const filterCat = document.getElementById('ld-filter-cat') as HTMLSelectElement | null;
   const filterStatus = document.getElementById('ld-filter-status') as HTMLSelectElement | null;
+  const filterHot = document.getElementById('ld-filter-hot') as HTMLInputElement | null;
   const table = document.getElementById('ld-table') as HTMLTableElement | null;
   const count = document.getElementById('ld-count');
+  const exportBtn = document.getElementById('ld-export');
+
   if (table) {
     const tbody = table.tBodies[0];
-    const rows = Array.from(tbody.rows);
+    const rows = Array.from(tbody.querySelectorAll('tr.ld-row')) as HTMLTableRowElement[];
+
+    function detailFor(row: HTMLTableRowElement) {
+      return tbody.querySelector(`tr.ld-detail[data-detail-for="${row.dataset.leadId}"]`) as HTMLTableRowElement | null;
+    }
+
+    rows.forEach((row) => {
+      row.addEventListener('click', () => {
+        const detail = detailFor(row);
+        if (!detail) return;
+        const willOpen = !row.classList.contains('open');
+        row.classList.toggle('open', willOpen);
+        detail.classList.toggle('open', willOpen);
+      });
+    });
 
     function applyFilters() {
       const q = (search?.value || '').toLowerCase().trim();
       const cat = filterCat?.value || '';
       const status = filterStatus?.value || '';
+      const hotOnly = filterHot?.checked || false;
       let visible = 0;
       rows.forEach((row) => {
         const email = row.dataset.email || '';
@@ -164,11 +412,19 @@ function fmtDate(d: string) {
         const company = row.dataset.company || '';
         const rowCat = row.dataset.category || '';
         const rowStatus = row.dataset.status || '';
+        const isHot = row.dataset.hot === '1';
         const matches =
           (!q || email.includes(q) || name.includes(q) || company.includes(q)) &&
           (!cat || rowCat === cat) &&
-          (!status || rowStatus === status);
+          (!status || rowStatus === status) &&
+          (!hotOnly || isHot);
         row.style.display = matches ? '' : 'none';
+        const detail = detailFor(row);
+        if (detail && !matches) {
+          detail.classList.remove('open');
+          row.classList.remove('open');
+        }
+        if (detail) detail.style.display = matches ? (detail.classList.contains('open') ? '' : '') : 'none';
         if (matches) visible++;
       });
       if (count) count.textContent = `${visible} lead${visible === 1 ? '' : 's'}`;
@@ -176,6 +432,7 @@ function fmtDate(d: string) {
     search?.addEventListener('input', applyFilters);
     filterCat?.addEventListener('change', applyFilters);
     filterStatus?.addEventListener('change', applyFilters);
+    filterHot?.addEventListener('change', applyFilters);
 
     let sortKey = 'score';
     let sortDir = -1;
@@ -192,8 +449,40 @@ function fmtDate(d: string) {
           if (!isNaN(an) && !isNaN(bn) && av !== '' && bv !== '') return (an - bn) * sortDir;
           return String(av).localeCompare(String(bv)) * sortDir;
         });
-        rows.forEach((r) => tbody.appendChild(r));
+        rows.forEach((r) => {
+          const detail = detailFor(r);
+          tbody.appendChild(r);
+          if (detail) tbody.appendChild(detail);
+        });
       });
+    });
+
+    exportBtn?.addEventListener('click', () => {
+      const header = ['Email', 'Company', 'Category', 'Score', 'Touches', 'Status', 'Last seen'];
+      const lines = [header.join(',')];
+      rows.forEach((row) => {
+        if (row.style.display === 'none') return;
+        const cells = row.querySelectorAll('td');
+        const vals = [
+          row.dataset.email || '',
+          row.dataset.company || '',
+          row.dataset.category || '',
+          row.dataset.score || '',
+          row.dataset.touches || '',
+          row.dataset.status || '',
+          row.dataset.lastSeen || '',
+        ].map((v) => `"${String(v).replace(/"/g, '""')}"`);
+        lines.push(vals.join(','));
+      });
+      const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `purist-leads-${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     });
   }
 </script>
