@@ -1100,9 +1100,19 @@ const clientData = {
   </section>
 </div>
 
-<script define:vars={{ clientData }}>
+<script>
+  // A `define:vars` script below is inlined as plain (non-module) JS, so it
+  // cannot use `import` itself, that throws a SyntaxError and silently kills
+  // the whole inline script. This separate script tag has no define:vars,
+  // so Astro bundles it as a real module: it loads Chart.js and hands it to
+  // the inline script via a global + event, order-independent either way.
   import Chart from 'chart.js/auto';
+  window.Chart = Chart;
+  window.dispatchEvent(new Event('chartjs-ready'));
+</script>
 
+<script define:vars={{ clientData }}>
+ function __piBoot() {
   // ── Human-readable date labels. GA4 returns raw "YYYYMMDD" (date
   // dimension) or "YYYYWW" (yearWeek dimension); GSC returns "YYYY-MM-DD".
   // Hour-of-day labels ("00:00") are already human-readable and pass through.
@@ -1767,6 +1777,8 @@ const clientData = {
       list.innerHTML = '<p class="pi-empty-panel">Failed to load duplicates.</p>';
     }
   }
+ }
+ if (window.Chart) { __piBoot(); } else { window.addEventListener('chartjs-ready', __piBoot, { once: true }); }
 </script>
 
 </BaseLayout>
