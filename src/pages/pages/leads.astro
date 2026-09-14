@@ -3,6 +3,7 @@ export const prerender = false;
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import { createSupabaseAdminClient } from '~/lib/supabase-admin';
 import { fetchTrafficOverview, fetchSearchOverview, pctChange } from '~/lib/site-metrics';
+import { fetchBingOverview } from '~/lib/bing-metrics';
 
 // This route is gated by src/middleware.ts (PROTECTED_ROUTES), a visitor
 // only reaches this code after a valid Supabase Auth session was
@@ -70,7 +71,9 @@ const allTags = [...new Set(leads.flatMap((l) => l.tags || []))].sort();
 // opens showing full available history rather than an arbitrary 30 days.
 // The range pills below can narrow this down.
 const DEFAULT_DAYS = 480;
-const [traffic, search] = await Promise.all([fetchTrafficOverview(DEFAULT_DAYS), fetchSearchOverview(DEFAULT_DAYS)]);
+const [traffic, search, bing] = await Promise.all([fetchTrafficOverview(DEFAULT_DAYS), fetchSearchOverview(DEFAULT_DAYS), fetchBingOverview(DEFAULT_DAYS)]);
+const bingClicksDelta = bing.available ? pctChange(bing.clicks, bing.prevClicks) : null;
+const bingImpressionsDelta = bing.available ? pctChange(bing.impressions, bing.prevImpressions) : null;
 const emailsSent = sequences.filter((s) => s.status === 'sent').length;
 const emailsPending = sequences.filter((s) => s.status === 'pending').length;
 const emailsFailed = sequences.filter((s) => s.status === 'failed').length;
@@ -82,8 +85,12 @@ const impressionsDelta = search.available ? pctChange(search.impressions, search
 const positionDelta = search.available ? (search.prevAvgPosition ? search.prevAvgPosition - search.avgPosition : null) : null;
 const bounceDelta = traffic.available ? (traffic.bounceRate - traffic.prevBounceRate) * 100 : null; // pp change, lower is better
 const engagementDelta = traffic.available ? pctChange(traffic.avgEngagementSec, traffic.prevAvgEngagementSec) : null;
-const returningPct = traffic.available && traffic.users > 0 ? Math.round(((traffic.users - traffic.newUsers) / traffic.users) * 100) : 0;
-const newPct = 100 - returningPct;
+// GA4's `newUsers` can exceed `users` in a given window (a known GA4 data
+// quirk from how new-user attribution is computed), which would otherwise
+// push this negative or over 100. Clamp both ends of the split.
+const rawNewPct = traffic.available && traffic.users > 0 ? Math.round((traffic.newUsers / traffic.users) * 100) : 0;
+const newPct = Math.max(0, Math.min(100, rawNewPct));
+const returningPct = 100 - newPct;
 const brandTotal = search.brandClicks + search.nonBrandClicks;
 const brandPct = brandTotal > 0 ? Math.round((search.brandClicks / brandTotal) * 100) : 0;
 function fmtDuration(sec: number) {
@@ -308,7 +315,7 @@ const clientData = {
   .pi-panel-view { display: none; margin-top: 20px; }
   .pi-panel-view.active { display: block; }
 
-  .pi-section-h { font-size: 14px; font-weight: 600; color: var(--text-1); margin: 28px 0 4px; }
+  .pi-section-h { font-family: 'Fraunces', 'Fira Sans', serif; font-size: 17px; font-weight: 500; color: var(--text-1); margin: 28px 0 4px; letter-spacing: -0.005em; }
   .pi-section-sub { font-size: 11px; color: var(--text-3); font-weight: 400; }
   .pi-notice { margin-top: 14px; padding: 12px 16px; border: 1px solid var(--warning-bg); border-radius: 12px; font-size: 12.5px; color: var(--text-2); background: var(--warning-bg); }
   .pi-notice code { background: rgba(15,27,51,0.06); padding: 1px 6px; border-radius: 4px; font-size: 11.5px; color: var(--text-1); }
@@ -375,7 +382,7 @@ const clientData = {
 
   .pi-chart { margin-top: 16px; background: var(--surface); border-radius: 14px; padding: 20px 20px 14px; box-shadow: var(--shadow); position: relative; }
   .pi-chart-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
-  .pi-chart h3 { font-size: 13px; font-weight: 600; color: var(--text-1); margin: 0; }
+  .pi-chart h3 { font-family: 'Fraunces', 'Fira Sans', serif; font-size: 16px; font-weight: 500; color: var(--text-1); margin: 0; }
   .pi-chart-bars { width: 100%; height: 130px; display: block; overflow: visible; cursor: crosshair; }
   .pi-chart-labels { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--text-3); margin-top: 8px; padding-left: 40px; }
   .pi-chart-tooltip { position: absolute; transform: translate(-50%,-115%); background: var(--text-1); color: #fff; padding: 6px 10px; border-radius: 8px; font-size: 11.5px; pointer-events: none; opacity: 0; transition: opacity 0.15s ease; white-space: nowrap; box-shadow: var(--shadow-lg); z-index: 5; }
@@ -450,7 +457,7 @@ const clientData = {
 <div class="pi">
   <div class="pi-header">
     <div>
-      <div class="pi-brand"><img src="/images/logo.svg" alt="PURIST" width="112" height="26" /></div>
+      <div class="pi-brand"><img src="/images/logo.svg" alt="PURIST" width="88" height="20" /></div>
       <h1 class="pi-h1">{greeting} — Intelligence</h1>
       <p class="pi-sub">Traffic, search performance, lead intelligence, and outreach, all in one place.</p>
     </div>
@@ -767,6 +774,41 @@ const clientData = {
       )}
       </div>
     </div>
+
+    <h2 class="pi-section-h" style="margin-top:20px;">Bing Webmaster Tools</h2>
+    {!bing.available ? (
+      <p class="pi-empty-panel">Not connected. Set BING_API_KEY in Vercel environment variables to enable.</p>
+    ) : (
+      <>
+        <div class="pi-kpis" style="margin-top:12px;">
+          <div class="pi-kpi">
+            <div class="num" id="kpi-bing-clicks">{bing.clicks.toLocaleString()}</div>
+            <div id="kpi-bing-clicks-delta">{bingClicksDelta !== null && <span class={`pi-delta ${bingClicksDelta > 0 ? 'up' : bingClicksDelta < 0 ? 'down' : 'flat'}`}>{bingClicksDelta > 0 ? '↑' : bingClicksDelta < 0 ? '↓' : '–'} {fmtDelta(bingClicksDelta)}</span>}</div>
+            <div class="label">Bing clicks</div>
+          </div>
+          <div class="pi-kpi">
+            <div class="num" id="kpi-bing-impressions">{bing.impressions.toLocaleString()}</div>
+            <div id="kpi-bing-impressions-delta">{bingImpressionsDelta !== null && <span class={`pi-delta ${bingImpressionsDelta > 0 ? 'up' : bingImpressionsDelta < 0 ? 'down' : 'flat'}`}>{bingImpressionsDelta > 0 ? '↑' : bingImpressionsDelta < 0 ? '↓' : '–'} {fmtDelta(bingImpressionsDelta)}</span>}</div>
+            <div class="label">Bing impressions</div>
+          </div>
+        </div>
+        <div class="pi-panel" style="margin-top:12px;">
+          <h3>Top queries on Bing</h3>
+          {bing.topQueries.length === 0 ? <p class="pi-empty-panel">No queries yet.</p> : (
+            <div class="pi-table-scroll" style="box-shadow:none;">
+              <table class="pi-table">
+                <thead><tr><th>Query</th><th>Clicks</th><th>Impr.</th><th>Avg. pos.</th></tr></thead>
+                <tbody id="table-bing-queries">
+                  {bing.topQueries.map((q) => (
+                    <tr><td title={q.query}>{q.query}</td><td>{q.clicks}</td><td>{q.impressions}</td><td>{q.position ? q.position.toFixed(1) : '—'}</td></tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </>
+    )}
   </section>
 
   <!-- ══════════════════ LEADS ══════════════════ -->
@@ -1059,6 +1101,27 @@ const clientData = {
 </div>
 
 <script define:vars={{ clientData }}>
+  // ── Human-readable date labels. GA4 returns raw "YYYYMMDD" (date
+  // dimension) or "YYYYWW" (yearWeek dimension); GSC returns "YYYY-MM-DD".
+  // Hour-of-day labels ("00:00") are already human-readable and pass through.
+  const MONTH_ABBR = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+  function formatChartLabel(label) {
+    if (typeof label !== 'string') return String(label);
+    if (/^\d{8}$/.test(label)) {
+      const y = label.slice(0, 4), m = Number(label.slice(4, 6)), d = Number(label.slice(6, 8));
+      return `${d} ${MONTH_ABBR[m - 1]}`;
+    }
+    if (/^\d{4}-\d{2}-\d{2}$/.test(label)) {
+      const [y, m, d] = label.split('-').map(Number);
+      return `${d} ${MONTH_ABBR[m - 1]}`;
+    }
+    if (/^\d{6}$/.test(label)) {
+      const y = label.slice(0, 4), w = Number(label.slice(4, 6));
+      return `Sem. ${w}`;
+    }
+    return label;
+  }
+
   // ── Realtime active users (GA4 Realtime API), polled every 20s ──
   async function pollRealtime() {
     const countEl = document.getElementById('pi-live-count');
@@ -1335,7 +1398,7 @@ const clientData = {
       dot.setAttribute('fill', '#fff');
       svg.appendChild(dot);
       const title = document.createElementNS(ns, 'title');
-      title.textContent = `${points[peakIdx].label}: ${points[peakIdx].value}`;
+      title.textContent = `${formatChartLabel(points[peakIdx].label)}: ${points[peakIdx].value}`;
       dot.appendChild(title);
     }
 
@@ -1354,8 +1417,8 @@ const clientData = {
   let searchChartPoints = searchDailyPoints;
   renderHero('hero-sessions', 'hero-sessions-stats', trafficDailyPoints, 'sessions');
   renderHero('hero-clicks', 'hero-clicks-stats', searchDailyPoints, 'clicks');
-  renderBars('traffic-chart', 'traffic-chart-labels', trafficChartPoints);
-  renderBars('search-chart', 'search-chart-labels', searchChartPoints);
+  renderBars('traffic-chart', 'traffic-chart-labels', trafficChartPoints, formatChartLabel);
+  renderBars('search-chart', 'search-chart-labels', searchChartPoints, formatChartLabel);
 
   // Re-measure and redraw on resize (debounced) so the fixed-to-container
   // viewBox fix above stays correct as the layout reflows, e.g. rotating a
@@ -1412,9 +1475,13 @@ const clientData = {
       btn.classList.add('active');
       rangeStatus.textContent = 'Loading…';
       try {
-        const res = await fetch(`/api/admin/overview?days=${days}`);
+        const [res, bingRes] = await Promise.all([
+          fetch(`/api/admin/overview?days=${days}`),
+          fetch(`/api/admin/bing?days=${days}`),
+        ]);
         const data = await res.json();
         const { traffic, search } = data;
+        const { bing } = await bingRes.json();
         const rangeText = days == 7 ? '7d' : days == 30 ? '30d' : days == 90 ? '90d' : days == 365 ? '12mo' : '16mo';
         document.querySelectorAll('.range-label').forEach((el) => (el.textContent = rangeText));
 
@@ -1430,8 +1497,9 @@ const clientData = {
         const engEl = document.getElementById('kpi-engagement'); if (engEl) engEl.textContent = traffic.available ? fmtDuration(traffic.avgEngagementSec) : '—';
         const newRetEl = document.getElementById('kpi-new-returning');
         if (newRetEl) {
-          const retPct = traffic.available && traffic.users > 0 ? Math.round(((traffic.users - traffic.newUsers) / traffic.users) * 100) : 0;
-          newRetEl.textContent = traffic.available ? `${100 - retPct}% / ${retPct}%` : '—';
+          const rawNewPct = traffic.available && traffic.users > 0 ? Math.round((traffic.newUsers / traffic.users) * 100) : 0;
+          const newPct = Math.max(0, Math.min(100, rawNewPct));
+          newRetEl.textContent = traffic.available ? `${newPct}% / ${100 - newPct}%` : '—';
         }
         const brandEl = document.getElementById('kpi-brand');
         if (brandEl) {
@@ -1440,6 +1508,20 @@ const clientData = {
         }
         const ppsEl = document.getElementById('kpi-pages-session'); if (ppsEl) ppsEl.textContent = traffic.available ? traffic.pagesPerSession.toFixed(1) : '—';
         const spuEl = document.getElementById('kpi-sessions-user'); if (spuEl) spuEl.textContent = traffic.available ? traffic.sessionsPerUser.toFixed(2) : '—';
+
+        const bingClicksEl = document.getElementById('kpi-bing-clicks');
+        if (bingClicksEl) {
+          bingClicksEl.textContent = bing.available ? bing.clicks.toLocaleString() : '—';
+          document.getElementById('kpi-bing-clicks-delta').innerHTML = bing.available ? deltaHtml(bing.clicks, bing.prevClicks, false) : '';
+          document.getElementById('kpi-bing-impressions').textContent = bing.available ? bing.impressions.toLocaleString() : '—';
+          document.getElementById('kpi-bing-impressions-delta').innerHTML = bing.available ? deltaHtml(bing.impressions, bing.prevImpressions, false) : '';
+          const bingQueriesEl = document.getElementById('table-bing-queries');
+          if (bingQueriesEl) {
+            bingQueriesEl.innerHTML = (bing.topQueries || []).map((q) => `
+              <tr><td title="${String(q.query).replace(/"/g, '')}">${q.query}</td><td>${q.clicks}</td><td>${q.impressions}</td><td>${q.position ? q.position.toFixed(1) : '—'}</td></tr>
+            `).join('') || '<tr><td colspan="4">No queries yet.</td></tr>';
+          }
+        }
         const qtEl = document.getElementById('queries-tracked-label'); if (qtEl) qtEl.textContent = search.available ? `(${search.queriesTracked} queries tracked)` : '';
 
         function fmtDuration(sec) { const m = Math.floor(sec / 60); const s = Math.round(sec % 60); return `${m}:${String(s).padStart(2, '0')}`; }
@@ -1500,7 +1582,7 @@ const clientData = {
           const data = await res.json();
           if (data.available) {
             if (type === 'traffic') trafficChartPoints = data.points; else searchChartPoints = data.points;
-            renderBars(chartId, labelsId, data.points);
+            renderBars(chartId, labelsId, data.points, formatChartLabel);
           } else {
             document.getElementById(chartId).innerHTML = '<p class="pi-empty-panel">No data for this view.</p>';
           }
