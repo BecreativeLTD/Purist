@@ -91,6 +91,11 @@ const weightedForecast = openDeals.reduce((s, d) => s + Number(d.value || 0) * (
 const mrr = deals.filter((d) => d.stage === 'closed_won' && d.recurring).reduce((s, d) => s + Number(d.value || 0), 0);
 const now = new Date();
 const dealsWonThisMonth = deals.filter((d) => d.stage === 'closed_won' && d.closed_at && new Date(d.closed_at).getMonth() === now.getMonth() && new Date(d.closed_at).getFullYear() === now.getFullYear());
+const wonCount = deals.filter((d) => d.stage === 'closed_won').length;
+const lostCount = deals.filter((d) => d.stage === 'closed_lost').length;
+const closedCount = wonCount + lostCount;
+const winRate = closedCount > 0 ? Math.round((wonCount / closedCount) * 100) : 0;
+const avgDealSize = wonCount > 0 ? deals.filter((d) => d.stage === 'closed_won').reduce((s, d) => s + Number(d.value || 0), 0) / wonCount : 0;
 function fmtMoney(n: number) {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
 }
@@ -128,7 +133,7 @@ function fmtDuration(sec: number) {
   return `${m}:${String(s).padStart(2, '0')}`;
 }
 // Curated categorical palette (fixed order, never cycled by rank) for the leads-by-category breakdown.
-const CATEGORY_PALETTE = ['#A0522D', '#2D5016', '#8B4A45', '#C9A227', '#6B8A4A', '#0A0A0A', '#C97B52', '#7A6A52'];
+const CATEGORY_PALETTE = ['#6C5CE7', '#22B07D', '#DB9B2E', '#E0554F', '#4FA3D1', '#8B7CF0', '#1E1B2E', '#C97BE0'];
 
 const leadsById: Record<string, (typeof leads)[number]> = {};
 leads.forEach((l) => (leadsById[l.id] = l));
@@ -267,39 +272,41 @@ const clientData = {
 
 <style>
   .pi {
-    /* Neutral white/grey, very stripped-back — accent color used sparingly
-       (a lighter terracotta from the PURIST charter, not the dark shade). */
-    --bg: #FAFAF8;
-    --bg-2: #F2F2EF;
+    /* Reference: light-lavender SaaS dashboard, white cards, indigo accent,
+       generous rounded corners, gradient bars, donut progress rings. */
+    --bg: #F5F4FB;
+    --bg-2: #ECEAF8;
     --surface: #FFFFFF;
-    --surface-2: #FDFDFC;
-    --border: #E7E6E2;
-    --border-soft: #F0F0ED;
-    --text-1: #1A1A18;
-    --text-2: #6E6D67;
-    --text-3: #A3A29A;
-    --accent: #C97B52;
-    --accent-2: #8CA868;
-    --accent-deep: #A0522D;
-    --accent-soft: #F7EAE1;
-    --success: #6B8A4A;
-    --success-bg: #EEF2E7;
-    --danger: #C0524A;
-    --danger-bg: #F7E9E6;
-    --warning: #C99245;
-    --warning-bg: #F7EEDD;
-    --shadow-sm: 0 1px 2px rgba(20,20,18,0.04);
-    --shadow: 0 1px 2px rgba(20,20,18,0.03), 0 8px 20px -10px rgba(20,20,18,0.08);
-    --shadow-lg: 0 4px 8px rgba(20,20,18,0.03), 0 16px 32px -12px rgba(20,20,18,0.10);
+    --surface-2: #FBFAFE;
+    --border: #E8E6F5;
+    --border-soft: #F0EEFA;
+    --text-1: #1E1B2E;
+    --text-2: #6F6C87;
+    --text-3: #A5A2BE;
+    --accent: #6C5CE7;
+    --accent-2: #8B7CF0;
+    --accent-deep: #5647C7;
+    --accent-soft: #EDEBFB;
+    --success: #22B07D;
+    --success-bg: #E4F7EF;
+    --danger: #E0554F;
+    --danger-bg: #FBEAEA;
+    --warning: #DB9B2E;
+    --warning-bg: #FBF1DD;
+    --shadow-sm: 0 1px 2px rgba(30,27,60,0.04);
+    --shadow: 0 1px 2px rgba(30,27,60,0.03), 0 10px 24px -10px rgba(76,60,180,0.12);
+    --shadow-lg: 0 4px 10px rgba(30,27,60,0.04), 0 20px 40px -16px rgba(76,60,180,0.18);
     --ring: 0 0 0 1px rgba(255,255,255,0.6) inset;
     --font-num: 'Fira Code', 'SF Mono', ui-monospace, monospace;
-    max-width: 1360px;
+    max-width: 1520px;
     margin: 0 auto;
-    padding: 28px 24px 100px;
+    display: flex;
+    align-items: flex-start;
     background: var(--bg);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
     color: var(--text-1);
   }
+  .pi-main { flex: 1; min-width: 0; padding: 28px 28px 100px; }
   .pi * { box-sizing: border-box; }
   .pi svg { display: block; }
   .pi .icon { width: 15px; height: 15px; flex-shrink: 0; }
@@ -322,33 +329,56 @@ const clientData = {
     .pi-panel-view.active .pi-kpi, .pi-panel-view.active .pi-panel, .pi-panel-view.active .pi-hero, .pi-panel-view.active .pi-chart { animation: none; }
   }
 
-  .pi-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-  .pi-brand { margin-bottom: 10px; opacity: 0.9; }
+  .pi-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
   .pi-h1 { font-family: 'Fraunces', 'Inter', serif; font-size: 26px; font-weight: 500; color: var(--text-1); margin: 0; letter-spacing: -0.01em; }
   .pi-sub { color: var(--text-2); font-size: 13.5px; margin: 4px 0 0; }
-  .pi-demo-link { font-size: 12.5px; font-weight: 500; color: var(--accent); text-decoration: none; border: 1px solid var(--border); border-radius: 12px; padding: 9px 17px; white-space: nowrap; background: var(--surface); box-shadow: var(--shadow-sm); transition: all 0.25s cubic-bezier(0.22,1,0.36,1); display: inline-flex; align-items: center; gap: 6px; }
-  .pi-demo-link:hover { background: var(--accent-soft); box-shadow: var(--shadow); transform: translateY(-1px); }
+  .pi-demo-link { font-size: 12px; font-weight: 500; color: var(--accent); text-decoration: none; border: 1px solid var(--border); border-radius: 12px; padding: 8px 14px; white-space: nowrap; background: var(--surface); transition: all 0.25s cubic-bezier(0.22,1,0.36,1); display: inline-flex; align-items: center; gap: 6px; justify-content: center; }
+  .pi-demo-link:hover { background: var(--accent-soft); }
+
+  /* Sidebar */
+  .pi-sidebar { width: 216px; flex-shrink: 0; min-height: 100vh; background: var(--surface); border-right: 1px solid var(--border-soft); padding: 24px 16px; display: flex; flex-direction: column; position: sticky; top: 0; }
+  .pi-sidebar-brand { padding: 0 8px; margin-bottom: 28px; opacity: 0.9; }
+  .pi-sidebar-nav { display: flex; flex-direction: column; gap: 3px; }
+  .pi-sidebar-foot { margin-top: auto; padding-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+  @media (max-width: 900px) {
+    .pi { flex-direction: column; }
+    .pi-sidebar { width: 100%; min-height: auto; position: static; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px; padding: 14px 16px; }
+    .pi-sidebar-brand { margin-bottom: 0; }
+    .pi-sidebar-nav { flex-direction: row; flex-wrap: wrap; }
+    .pi-sidebar-foot { margin-top: 0; flex-direction: row; margin-left: auto; }
+    .pi-main { padding: 20px 16px 80px; }
+  }
 
   /* Realtime widget */
-  .pi-live { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border-radius: 20px; padding: 7px 14px 7px 10px; box-shadow: var(--shadow-sm); font-size: 12.5px; font-weight: 600; color: var(--text-1); }
+  .pi-live { display: inline-flex; align-items: center; gap: 8px; background: var(--bg-2); border-radius: 20px; padding: 7px 14px 7px 10px; font-size: 12px; font-weight: 600; color: var(--text-1); }
   .pi-live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); position: relative; }
   .pi-live-dot::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; background: var(--success); opacity: 0.35; animation: pi-pulse 1.8s cubic-bezier(0.4,0,0.6,1) infinite; }
   @keyframes pi-pulse { 0% { transform: scale(0.6); opacity: 0.5; } 70%, 100% { transform: scale(1.8); opacity: 0; } }
   .pi-live span.n { font-family: var(--font-num); color: var(--accent-deep); }
-  .pi-demo-link:hover { background: var(--accent-soft); }
 
-  /* Pill tab navigation */
-  .pi-nav { display: flex; gap: 3px; background: var(--surface); border-radius: 14px; padding: 5px; margin-top: 20px; box-shadow: var(--shadow); width: fit-content; flex-wrap: wrap; }
-  .pi-tab { border: none; background: transparent; font-size: 13px; font-weight: 500; color: var(--text-2); padding: 9px 16px; border-radius: 10px; cursor: pointer; font-family: inherit; white-space: nowrap; display: inline-flex; align-items: center; gap: 7px; transition: all 0.25s cubic-bezier(0.22,1,0.36,1); }
-  .pi-tab.active { background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%); color: #fff; box-shadow: 0 2px 8px rgba(201,123,82,0.30); }
+  /* Sidebar tab navigation */
+  .pi-tab { border: none; background: transparent; font-size: 13.5px; font-weight: 500; color: var(--text-2); padding: 10px 14px; border-radius: 10px; cursor: pointer; font-family: inherit; white-space: nowrap; display: flex; align-items: center; gap: 10px; transition: all 0.2s cubic-bezier(0.22,1,0.36,1); text-align: left; width: 100%; }
+  .pi-tab.active { background: var(--accent-soft); color: var(--accent-deep); font-weight: 600; }
+  .pi-tab.active .icon { color: var(--accent); }
   .pi-tab:not(.active):hover { background: var(--bg-2); color: var(--text-1); }
-  .pi-tab:active { transform: scale(0.97); }
+  .pi-tab:active { transform: scale(0.98); }
   .pi-panel-view { display: none; margin-top: 20px; }
   .pi-panel-view.active { display: block; }
 
   .pi-section-h { font-family: 'Fraunces', 'Inter', serif; font-size: 17px; font-weight: 500; color: var(--text-1); margin: 28px 0 4px; letter-spacing: -0.005em; }
   .pi-section-sub { font-size: 11px; color: var(--text-3); font-weight: 400; }
   .pi-notice { margin-top: 14px; padding: 12px 16px; border: 1px solid var(--warning-bg); border-radius: 12px; font-size: 12.5px; color: var(--text-2); background: var(--warning-bg); }
+  .pi-ring-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+  .pi-ring-card { display: flex; align-items: center; gap: 20px; flex: 0 0 320px; }
+  .pi-ring-wrap { position: relative; width: 120px; height: 120px; flex-shrink: 0; }
+  .pi-ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .pi-ring-num { font-family: var(--font-num); font-size: 22px; font-weight: 700; color: var(--text-1); }
+  .pi-ring-label { font-size: 10.5px; color: var(--text-3); margin-top: 2px; }
+  .pi-ring-side-h { font-size: 11px; font-weight: 600; color: var(--text-2); margin: 0 0 8px; }
+  .pi-ring-side-stat { font-size: 12.5px; color: var(--text-1); margin: 0 0 6px; display: flex; align-items: center; gap: 8px; font-family: var(--font-num); }
+  .pi-ring-side-stat .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .pi-ring-side-stat .dot.won { background: var(--success); }
+  .pi-ring-side-stat .dot.lost { background: var(--danger); }
   .pi-pipeline-board { display: grid; grid-template-columns: repeat(6, minmax(180px, 1fr)); gap: 12px; margin-top: 18px; overflow-x: auto; }
   @media (max-width: 1100px) { .pi-pipeline-board { grid-template-columns: repeat(3, minmax(200px, 1fr)); } }
   @media (max-width: 640px) { .pi-pipeline-board { grid-template-columns: 1fr; } }
@@ -374,7 +404,7 @@ const clientData = {
   .pi-kpis-6 { grid-template-columns: repeat(6, 1fr); }
   @media (max-width: 1000px) { .pi-kpis-6 { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 560px) { .pi-kpis-6 { grid-template-columns: repeat(2, 1fr); } }
-  .pi-kpi { background: var(--surface); border: 1px solid var(--border-soft); border-radius: 16px; padding: 16px 18px; box-shadow: var(--shadow); transition: box-shadow 0.25s cubic-bezier(0.22,1,0.36,1), transform 0.25s cubic-bezier(0.22,1,0.36,1); }
+  .pi-kpi { background: var(--surface); border: 1px solid var(--border-soft); border-radius: 20px; padding: 16px 18px; box-shadow: var(--shadow); transition: box-shadow 0.25s cubic-bezier(0.22,1,0.36,1), transform 0.25s cubic-bezier(0.22,1,0.36,1); }
   .pi-kpi:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
   .pi-kpi .num { font-family: var(--font-num); font-size: 24px; font-weight: 600; color: var(--text-1); font-variant-numeric: tabular-nums; line-height: 1.1; }
   .pi-kpi .label { font-size: 11.5px; color: var(--text-2); margin-top: 6px; display: flex; align-items: center; gap: 5px; }
@@ -387,10 +417,10 @@ const clientData = {
   /* Hero gradient cards — double-bezel: outer shell (gradient) + inner core (chart) */
   .pi-hero-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
   @media (max-width: 900px) { .pi-hero-row { grid-template-columns: 1fr; } }
-  .pi-hero { border-radius: 16px; position: relative; background: var(--surface); border: 1px solid var(--border-soft); box-shadow: var(--shadow); }
+  .pi-hero { border-radius: 20px; position: relative; background: var(--surface); border: 1px solid var(--border-soft); box-shadow: var(--shadow); }
   .pi-hero.blue .pi-hero-eyebrow { color: var(--accent-deep); }
   .pi-hero.sky .pi-hero-eyebrow { color: var(--accent-2); }
-  .pi-hero-core { padding: 18px 20px 16px; border-radius: 16px; }
+  .pi-hero-core { padding: 18px 20px 16px; border-radius: 20px; }
   .pi-hero-top { display: flex; justify-content: space-between; align-items: flex-start; }
   .pi-hero-eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; margin: 0 0 4px; color: var(--text-3); }
   .pi-hero h3 { font-size: 12.5px; font-weight: 500; margin: 0; color: var(--text-2); }
@@ -403,7 +433,7 @@ const clientData = {
   /* Panels */
   .pi-panels { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 16px; }
   @media (max-width: 900px) { .pi-panels { grid-template-columns: 1fr; } }
-  .pi-panel { background: var(--surface); border-radius: 14px; padding: 18px 20px; box-shadow: var(--shadow); }
+  .pi-panel { background: var(--surface); border-radius: 18px; padding: 18px 20px; box-shadow: var(--shadow); }
   .pi-panel h3 { font-size: 12.5px; font-weight: 600; color: var(--text-1); margin: 0 0 14px; }
   .pi-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 12.5px; }
   .pi-bar-row .lbl { flex: 0 0 130px; color: var(--text-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -426,7 +456,7 @@ const clientData = {
   .pi-gran button { border: none; background: transparent; font-size: 11.5px; font-weight: 500; color: var(--text-2); padding: 6px 14px; border-radius: 8px; cursor: pointer; font-family: inherit; }
   .pi-gran button.active { background: var(--surface); color: var(--text-1); box-shadow: 0 1px 2px rgba(15,27,51,0.08); }
 
-  .pi-chart { margin-top: 16px; background: var(--surface); border-radius: 14px; padding: 20px 20px 14px; box-shadow: var(--shadow); position: relative; }
+  .pi-chart { margin-top: 16px; background: var(--surface); border-radius: 18px; padding: 20px 20px 14px; box-shadow: var(--shadow); position: relative; }
   .pi-chart-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
   .pi-chart h3 { font-family: 'Fraunces', 'Inter', serif; font-size: 16px; font-weight: 500; color: var(--text-1); margin: 0; }
   .pi-chart-canvas-wrap { position: relative; width: 100%; height: 130px; overflow: hidden; }
@@ -445,7 +475,7 @@ const clientData = {
   .pi-export { font-size: 12.5px; font-weight: 500; color: var(--accent); text-decoration: none; border: 1px solid var(--border); border-radius: 10px; padding: 8px 15px; white-space: nowrap; background: var(--surface); cursor: pointer; font-family: inherit; }
   .pi-export:hover { background: var(--accent-soft); }
 
-  .pi-table-scroll { overflow-x: auto; background: var(--surface); border-radius: 14px; box-shadow: var(--shadow); }
+  .pi-table-scroll { overflow-x: auto; background: var(--surface); border-radius: 18px; box-shadow: var(--shadow); }
   table.pi-table { width: 100%; border-collapse: collapse; font-size: 13px; white-space: nowrap; }
   table.pi-table th { text-align: left; font-size: 11px; font-weight: 600; color: var(--text-2); padding: 12px 16px; border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; }
   table.pi-table th:hover { color: var(--accent); }
@@ -481,11 +511,11 @@ const clientData = {
   .pi-seq-badge.skipped { background: var(--bg-2); color: var(--text-3); }
   .pi-detail-h { font-size: 11px; font-weight: 600; color: var(--text-2); margin: 0 0 8px; }
 
-  .pi-empty { text-align: center; padding: 60px 20px; color: var(--text-2); border-radius: 14px; margin-top: 24px; background: var(--surface); box-shadow: var(--shadow); }
+  .pi-empty { text-align: center; padding: 60px 20px; color: var(--text-2); border-radius: 18px; margin-top: 24px; background: var(--surface); box-shadow: var(--shadow); }
   .pi-empty h2 { font-size: 16px; font-weight: 600; color: var(--text-1); margin: 0 0 8px; }
 
   /* Emails tab */
-  .pi-compose { background: var(--surface); border-radius: 14px; padding: 20px 22px; box-shadow: var(--shadow); margin-top: 16px; }
+  .pi-compose { background: var(--surface); border-radius: 18px; padding: 20px 22px; box-shadow: var(--shadow); margin-top: 16px; }
   .pi-compose h3 { font-size: 13.5px; font-weight: 600; margin: 0 0 14px; }
   .pi-compose-grid { display: grid; gap: 12px; }
   .pi-compose select, .pi-compose input, .pi-compose textarea { width: 100%; font-size: 13px; padding: 10px 13px; border-radius: 10px; border: 1px solid var(--border); background: #fff; color: var(--text-1); font-family: inherit; }
@@ -502,30 +532,31 @@ const clientData = {
 </style>
 
 <div class="pi">
-  <div class="pi-header">
-    <div>
-      <div class="pi-brand"><img src="/images/logo.svg" alt="PURIST" width="88" height="20" /></div>
-      <h1 class="pi-h1">{greeting} — Intelligence</h1>
-      <p class="pi-sub">Traffic, search performance, lead intelligence, and outreach, all in one place.</p>
-    </div>
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-      <div class="pi-live" id="pi-live" title="GA4 Realtime: active users right now">
-        <span class="pi-live-dot"></span>
-        <span class="n" id="pi-live-count">—</span> active now
-      </div>
-      <a href="/pages/dashboard" class="pi-demo-link">View client demo →</a>
-    </div>
-  </div>
-
-  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
-    <nav class="pi-nav" id="pi-nav">
+  <nav class="pi-sidebar" id="pi-nav">
+    <div class="pi-sidebar-brand"><img src="/images/logo.svg" alt="PURIST" width="88" height="20" /></div>
+    <div class="pi-sidebar-nav">
       <button class="pi-tab active" data-tab="overview"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="12" width="4" height="8"/><rect x="10" y="7" width="4" height="13"/><rect x="17" y="3" width="4" height="17"/></svg>Overview</button>
       <button class="pi-tab" data-tab="traffic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>Traffic</button>
       <button class="pi-tab" data-tab="search"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Search</button>
       <button class="pi-tab" data-tab="leads"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c0-3.6 2.9-6.2 6.5-6.2s6.5 2.6 6.5 6.2"/><circle cx="17.5" cy="8.5" r="2.5"/><path d="M16 13.6c2.7.4 4.5 2.5 4.5 5.4"/></svg>Leads</button>
       <button class="pi-tab" data-tab="pipeline"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18l-6 8v6l-6-3v-3z"/></svg>Pipeline</button>
       <button class="pi-tab" data-tab="emails"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Emails</button>
-    </nav>
+    </div>
+    <div class="pi-sidebar-foot">
+      <div class="pi-live" id="pi-live" title="GA4 Realtime: active users right now">
+        <span class="pi-live-dot"></span>
+        <span class="n" id="pi-live-count">—</span> active now
+      </div>
+      <a href="/pages/dashboard" class="pi-demo-link">View client demo →</a>
+    </div>
+  </nav>
+
+  <div class="pi-main">
+  <div class="pi-header">
+    <div>
+      <h1 class="pi-h1">{greeting} — Intelligence</h1>
+      <p class="pi-sub">Traffic, search performance, lead intelligence, and outreach, all in one place.</p>
+    </div>
     <div class="pi-range" id="pi-range">
       <button data-days="7">7d</button>
       <button data-days="30">30d</button>
@@ -1106,12 +1137,29 @@ const clientData = {
       </div>
     ) : (
       <>
-        <div class="pi-kpis">
-          <div class="pi-kpi"><div class="num">{fmtMoney(openPipelineValue)}</div><div class="label">Open pipeline value</div></div>
-          <div class="pi-kpi"><div class="num">{fmtMoney(weightedForecast)}</div><div class="label">Weighted forecast</div></div>
-          <div class="pi-kpi"><div class="num">{fmtMoney(mrr)}</div><div class="label">MRR (recurring, closed won)</div></div>
-          <div class="pi-kpi"><div class="num">{openDeals.length}</div><div class="label">Open deals</div></div>
-          <div class="pi-kpi"><div class="num">{dealsWonThisMonth.length}</div><div class="label">Won this month</div></div>
+        <div class="pi-ring-row">
+          <div class="pi-panel pi-ring-card">
+            <div class="pi-ring-wrap">
+              <canvas id="pipeline-win-ring" data-won={wonCount} data-lost={lostCount}></canvas>
+              <div class="pi-ring-center">
+                <span class="pi-ring-num">{winRate}%</span>
+                <span class="pi-ring-label">Win rate</span>
+              </div>
+            </div>
+            <div class="pi-ring-side">
+              <p class="pi-ring-side-h">Closed deals</p>
+              <p class="pi-ring-side-stat"><span class="dot won"></span>{wonCount} won</p>
+              <p class="pi-ring-side-stat"><span class="dot lost"></span>{lostCount} lost</p>
+              <p class="pi-ring-side-stat">{fmtMoney(avgDealSize)} avg. deal size</p>
+            </div>
+          </div>
+          <div class="pi-kpis" style="flex:1;">
+            <div class="pi-kpi"><div class="num">{fmtMoney(openPipelineValue)}</div><div class="label">Open pipeline value</div></div>
+            <div class="pi-kpi"><div class="num">{fmtMoney(weightedForecast)}</div><div class="label">Weighted forecast</div></div>
+            <div class="pi-kpi"><div class="num">{fmtMoney(mrr)}</div><div class="label">MRR (recurring, closed won)</div></div>
+            <div class="pi-kpi"><div class="num">{openDeals.length}</div><div class="label">Open deals</div></div>
+            <div class="pi-kpi"><div class="num">{dealsWonThisMonth.length}</div><div class="label">Won this month</div></div>
+          </div>
         </div>
 
         <div class="pi-controls" style="margin-top:16px;">
@@ -1216,6 +1264,7 @@ const clientData = {
       </table>
     </div>
   </section>
+  </div>
 </div>
 
 <script>
@@ -1316,7 +1365,7 @@ const clientData = {
     const peakIdx = points.reduce((best, p, i) => (p.value > points[best].value ? i : best), 0);
     const ctx = canvas.getContext('2d');
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.clientHeight || 130);
-    gradient.addColorStop(0, 'rgba(201,123,82,0.20)');
+    gradient.addColorStop(0, 'rgba(108,92,231,0.20)');
     gradient.addColorStop(1, 'rgba(30,79,214,0)');
 
     const chart = new Chart(ctx, {
@@ -1325,18 +1374,18 @@ const clientData = {
         labels: points.map((p) => tipLabel(p.label)),
         datasets: [{
           data: points.map((p) => p.value),
-          borderColor: '#C97B52',
+          borderColor: '#6C5CE7',
           backgroundColor: gradient,
           borderWidth: 2.5,
           fill: true,
           tension: 0.35,
           pointRadius: points.map((_, i) => (i === peakIdx ? 5 : 0)),
           pointBackgroundColor: '#fff',
-          pointBorderColor: '#C97B52',
+          pointBorderColor: '#6C5CE7',
           pointBorderWidth: 2.5,
           pointHoverRadius: 5,
           pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: '#C97B52',
+          pointHoverBorderColor: '#6C5CE7',
           pointHoverBorderWidth: 2.5,
         }],
       },
@@ -1359,7 +1408,7 @@ const clientData = {
         },
         scales: {
           x: { grid: { display: false }, ticks: { color: '#A3A29A', font: { family: "'Inter', sans-serif", size: 10.5 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 8 } },
-          y: { beginAtZero: true, grid: { color: 'rgba(201,123,82,0.08)' }, ticks: { color: '#A3A29A', font: { family: "'Fira Code', monospace", size: 10 }, maxTicksLimit: 4 } },
+          y: { beginAtZero: true, grid: { color: 'rgba(108,92,231,0.08)' }, ticks: { color: '#A3A29A', font: { family: "'Fira Code', monospace", size: 10 }, maxTicksLimit: 4 } },
         },
       },
     });
@@ -1376,7 +1425,7 @@ const clientData = {
     const canvas = document.getElementById(canvasId);
     if (!canvas || !points.length) return;
     destroyChart(canvasId);
-    const lineColor = color || '#C97B52';
+    const lineColor = color || '#6C5CE7';
     const peakIdx = points.reduce((best, p, i) => (p.value > points[best].value ? i : best), 0);
     const ctx = canvas.getContext('2d');
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.clientHeight || 68);
@@ -1436,8 +1485,8 @@ const clientData = {
   let searchDailyPoints = (clientData.searchDaily || []).map((d) => ({ label: d.date, value: d.clicks }));
   let trafficChartPoints = trafficDailyPoints;
   let searchChartPoints = searchDailyPoints;
-  renderHero('hero-sessions', 'hero-sessions-stats', trafficDailyPoints, 'sessions', '#C97B52');
-  renderHero('hero-clicks', 'hero-clicks-stats', searchDailyPoints, 'clicks', '#8CA868');
+  renderHero('hero-sessions', 'hero-sessions-stats', trafficDailyPoints, 'sessions', '#6C5CE7');
+  renderHero('hero-clicks', 'hero-clicks-stats', searchDailyPoints, 'clicks', '#22B07D');
   renderBars('traffic-chart', 'traffic-chart-labels', trafficChartPoints, formatChartLabel);
   renderBars('search-chart', 'search-chart-labels', searchChartPoints, formatChartLabel);
   // No manual resize handling needed, Chart.js's `responsive: true` already
@@ -1539,8 +1588,8 @@ const clientData = {
         searchDailyPoints = (search.daily || []).map((d) => ({ label: d.date, value: d.clicks }));
         trafficChartPoints = trafficDailyPoints;
         searchChartPoints = searchDailyPoints;
-        renderHero('hero-sessions', 'hero-sessions-stats', trafficDailyPoints, 'sessions', '#C97B52');
-        renderHero('hero-clicks', 'hero-clicks-stats', searchDailyPoints, 'clicks', '#8CA868');
+        renderHero('hero-sessions', 'hero-sessions-stats', trafficDailyPoints, 'sessions', '#6C5CE7');
+        renderHero('hero-clicks', 'hero-clicks-stats', searchDailyPoints, 'clicks', '#22B07D');
         renderBars('traffic-chart', 'traffic-chart-labels', trafficChartPoints);
         renderBars('search-chart', 'search-chart-labels', searchChartPoints);
 
@@ -1778,6 +1827,32 @@ const clientData = {
   wireToggle('pi-toggle-import', 'import-panel');
   wireToggle('pi-toggle-duplicates', 'duplicates-panel');
   wireToggle('pi-toggle-new-deal', 'new-deal-panel');
+
+  // ── Pipeline: win-rate donut ring ──
+  const winRingCanvas = document.getElementById('pipeline-win-ring');
+  if (winRingCanvas) {
+    const won = Number(winRingCanvas.dataset.won || 0);
+    const lost = Number(winRingCanvas.dataset.lost || 0);
+    const total = won + lost;
+    new Chart(winRingCanvas.getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Won', 'Lost'],
+        datasets: [{
+          data: total > 0 ? [won, lost] : [1, 0],
+          backgroundColor: total > 0 ? ['#22B07D', '#E0554F'] : ['#EDECF5'],
+          borderWidth: 0,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '78%',
+        animation: { duration: 600 },
+        plugins: { legend: { display: false }, tooltip: { enabled: total > 0 } },
+      },
+    });
+  }
 
   // ── Pipeline: new deal ──
   document.getElementById('nd-submit')?.addEventListener('click', async () => {
