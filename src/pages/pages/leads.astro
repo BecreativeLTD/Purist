@@ -99,7 +99,7 @@ function fmtDuration(sec: number) {
   return `${m}:${String(s).padStart(2, '0')}`;
 }
 // Curated categorical palette (fixed order, never cycled by rank) for the leads-by-category breakdown.
-const CATEGORY_PALETTE = ['#1E4FD6', '#6FA0F5', '#16A672', '#D9820F', '#8B5CF6', '#E23F3F', '#0EA5B7', '#C2578A'];
+const CATEGORY_PALETTE = ['#A0522D', '#2D5016', '#8B4A45', '#C9A227', '#6B8A4A', '#0A0A0A', '#C97B52', '#7A6A52'];
 
 const leadsById: Record<string, (typeof leads)[number]> = {};
 leads.forEach((l) => (leadsById[l.id] = l));
@@ -233,40 +233,43 @@ const clientData = {
 <Fragment slot="head">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&family=Fraunces:opsz,wght@9..144,400;9..144,500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&family=Fraunces:opsz,wght@9..144,400;9..144,500&display=swap" rel="stylesheet" />
 </Fragment>
 
 <style>
   .pi {
-    --bg: #F1F6FD;
-    --bg-2: #E6EFFC;
+    /* PURIST brand charter (public/brand/charte-graphique.html): cream,
+       near-black, terracotta, olive, dusty pink. Fraunces for display,
+       Inter for body. No blue anywhere. */
+    --bg: #F8F6F1;
+    --bg-2: #F4EFE6;
     --surface: #FFFFFF;
-    --surface-2: #FAFCFF;
-    --border: #DEE9FA;
-    --border-soft: #EAF1FC;
-    --text-1: #10203F;
-    --text-2: #5E6E8C;
-    --text-3: #96A5C2;
-    --accent: #1E4FD6;
-    --accent-2: #6FA0F5;
-    --accent-deep: #16309E;
-    --accent-soft: #E9F0FE;
-    --success: #16A672;
-    --success-bg: #E3F7EE;
-    --danger: #E23F3F;
-    --danger-bg: #FCEAEA;
-    --warning: #D9820F;
-    --warning-bg: #FDF2E1;
-    --shadow-sm: 0 1px 2px rgba(16,32,63,0.05);
-    --shadow: 0 1px 2px rgba(16,32,63,0.04), 0 8px 24px -8px rgba(16,60,150,0.10);
-    --shadow-lg: 0 4px 8px rgba(16,32,63,0.04), 0 16px 40px -12px rgba(16,60,150,0.16);
+    --surface-2: #FBF9F5;
+    --border: #E8DFD0;
+    --border-soft: #F0E9DC;
+    --text-1: #0A0A0A;
+    --text-2: #6B6255;
+    --text-3: #A69C8B;
+    --accent: #A0522D;
+    --accent-2: #2D5016;
+    --accent-deep: #7A3D20;
+    --accent-soft: #F3E4DA;
+    --success: #2D5016;
+    --success-bg: #E9EEE0;
+    --danger: #A63A2E;
+    --danger-bg: #F5E4E0;
+    --warning: #B8763A;
+    --warning-bg: #F4E9D9;
+    --shadow-sm: 0 1px 2px rgba(40,30,20,0.06);
+    --shadow: 0 1px 2px rgba(40,30,20,0.05), 0 8px 24px -8px rgba(90,60,30,0.12);
+    --shadow-lg: 0 4px 8px rgba(40,30,20,0.05), 0 16px 40px -12px rgba(90,60,30,0.18);
     --ring: 0 0 0 1px rgba(255,255,255,0.6) inset;
     --font-num: 'Fira Code', 'SF Mono', ui-monospace, monospace;
     max-width: 1360px;
     margin: 0 auto;
     padding: 28px 24px 100px;
     background: var(--bg);
-    font-family: 'Fira Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
     color: var(--text-1);
   }
   .pi * { box-sizing: border-box; }
@@ -293,7 +296,7 @@ const clientData = {
 
   .pi-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
   .pi-brand { margin-bottom: 10px; opacity: 0.9; }
-  .pi-h1 { font-family: 'Fraunces', 'Fira Sans', serif; font-size: 26px; font-weight: 500; color: var(--text-1); margin: 0; letter-spacing: -0.01em; }
+  .pi-h1 { font-family: 'Fraunces', 'Inter', serif; font-size: 26px; font-weight: 500; color: var(--text-1); margin: 0; letter-spacing: -0.01em; }
   .pi-sub { color: var(--text-2); font-size: 13.5px; margin: 4px 0 0; }
   .pi-demo-link { font-size: 12.5px; font-weight: 500; color: var(--accent); text-decoration: none; border: 1px solid var(--border); border-radius: 12px; padding: 9px 17px; white-space: nowrap; background: var(--surface); box-shadow: var(--shadow-sm); transition: all 0.25s cubic-bezier(0.22,1,0.36,1); display: inline-flex; align-items: center; gap: 6px; }
   .pi-demo-link:hover { background: var(--accent-soft); box-shadow: var(--shadow); transform: translateY(-1px); }
@@ -309,13 +312,13 @@ const clientData = {
   /* Pill tab navigation */
   .pi-nav { display: flex; gap: 3px; background: var(--surface); border-radius: 14px; padding: 5px; margin-top: 20px; box-shadow: var(--shadow); width: fit-content; flex-wrap: wrap; }
   .pi-tab { border: none; background: transparent; font-size: 13px; font-weight: 500; color: var(--text-2); padding: 9px 16px; border-radius: 10px; cursor: pointer; font-family: inherit; white-space: nowrap; display: inline-flex; align-items: center; gap: 7px; transition: all 0.25s cubic-bezier(0.22,1,0.36,1); }
-  .pi-tab.active { background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%); color: #fff; box-shadow: 0 2px 8px rgba(30,79,214,0.35); }
+  .pi-tab.active { background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%); color: #fff; box-shadow: 0 2px 8px rgba(160,82,45,0.35); }
   .pi-tab:not(.active):hover { background: var(--bg-2); color: var(--text-1); }
   .pi-tab:active { transform: scale(0.97); }
   .pi-panel-view { display: none; margin-top: 20px; }
   .pi-panel-view.active { display: block; }
 
-  .pi-section-h { font-family: 'Fraunces', 'Fira Sans', serif; font-size: 17px; font-weight: 500; color: var(--text-1); margin: 28px 0 4px; letter-spacing: -0.005em; }
+  .pi-section-h { font-family: 'Fraunces', 'Inter', serif; font-size: 17px; font-weight: 500; color: var(--text-1); margin: 28px 0 4px; letter-spacing: -0.005em; }
   .pi-section-sub { font-size: 11px; color: var(--text-3); font-weight: 400; }
   .pi-notice { margin-top: 14px; padding: 12px 16px; border: 1px solid var(--warning-bg); border-radius: 12px; font-size: 12.5px; color: var(--text-2); background: var(--warning-bg); }
   .pi-notice code { background: rgba(15,27,51,0.06); padding: 1px 6px; border-radius: 4px; font-size: 11.5px; color: var(--text-1); }
@@ -343,8 +346,8 @@ const clientData = {
   .pi-hero-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
   @media (max-width: 900px) { .pi-hero-row { grid-template-columns: 1fr; } }
   .pi-hero { border-radius: 20px; padding: 3px; color: #fff; position: relative; box-shadow: var(--shadow-lg); }
-  .pi-hero.blue { background: linear-gradient(150deg, #1B3FC4 0%, #2F6FE0 55%, #5F9AF2 100%); }
-  .pi-hero.sky { background: linear-gradient(150deg, #2657C9 0%, #4A82ED 55%, #86B4F7 100%); }
+  .pi-hero.blue { background: linear-gradient(150deg, #7A3D20 0%, #A0522D 55%, #C97B52 100%); }
+  .pi-hero.sky { background: linear-gradient(150deg, #23400F 0%, #2D5016 55%, #6B8A4A 100%); }
   .pi-hero-core { padding: 19px 22px 16px; border-radius: 17px; background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0) 40%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.18); }
   .pi-hero-top { display: flex; justify-content: space-between; align-items: flex-start; }
   .pi-hero-eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; opacity: 0.75; margin: 0 0 4px; }
@@ -383,7 +386,7 @@ const clientData = {
 
   .pi-chart { margin-top: 16px; background: var(--surface); border-radius: 14px; padding: 20px 20px 14px; box-shadow: var(--shadow); position: relative; }
   .pi-chart-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
-  .pi-chart h3 { font-family: 'Fraunces', 'Fira Sans', serif; font-size: 16px; font-weight: 500; color: var(--text-1); margin: 0; }
+  .pi-chart h3 { font-family: 'Fraunces', 'Inter', serif; font-size: 16px; font-weight: 500; color: var(--text-1); margin: 0; }
   .pi-chart-canvas-wrap { position: relative; width: 100%; height: 130px; overflow: hidden; }
   .pi-chart-bars { display: block; width: 100%; height: 100%; cursor: crosshair; }
   .pi-chart-labels { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--text-3); margin-top: 8px; padding-left: 40px; }
@@ -446,7 +449,7 @@ const clientData = {
   .pi-compose select, .pi-compose input, .pi-compose textarea { width: 100%; font-size: 13px; padding: 10px 13px; border-radius: 10px; border: 1px solid var(--border); background: #fff; color: var(--text-1); font-family: inherit; }
   .pi-compose textarea { min-height: 110px; resize: vertical; }
   .pi-btn-primary { background: var(--accent); color: #fff; border: none; border-radius: 10px; padding: 10px 20px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; width: fit-content; }
-  .pi-btn-primary:hover { background: #1D4ED8; }
+  .pi-btn-primary:hover { background: #7A3D20; }
   .pi-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
   .pi-btn-small { background: var(--accent-soft); color: var(--accent); border: none; border-radius: 8px; padding: 5px 12px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: inherit; }
   .pi-btn-small:hover { background: var(--accent); color: #fff; }
@@ -1200,7 +1203,7 @@ const clientData = {
     const peakIdx = points.reduce((best, p, i) => (p.value > points[best].value ? i : best), 0);
     const ctx = canvas.getContext('2d');
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.clientHeight || 130);
-    gradient.addColorStop(0, 'rgba(30,79,214,0.26)');
+    gradient.addColorStop(0, 'rgba(160,82,45,0.24)');
     gradient.addColorStop(1, 'rgba(30,79,214,0)');
 
     const chart = new Chart(ctx, {
@@ -1209,18 +1212,18 @@ const clientData = {
         labels: points.map((p) => tipLabel(p.label)),
         datasets: [{
           data: points.map((p) => p.value),
-          borderColor: '#1E4FD6',
+          borderColor: '#A0522D',
           backgroundColor: gradient,
           borderWidth: 2.5,
           fill: true,
           tension: 0.35,
           pointRadius: points.map((_, i) => (i === peakIdx ? 5 : 0)),
           pointBackgroundColor: '#fff',
-          pointBorderColor: '#1E4FD6',
+          pointBorderColor: '#A0522D',
           pointBorderWidth: 2.5,
           pointHoverRadius: 5,
           pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: '#1E4FD6',
+          pointHoverBorderColor: '#A0522D',
           pointHoverBorderWidth: 2.5,
         }],
       },
@@ -1232,18 +1235,18 @@ const clientData = {
         plugins: {
           legend: { display: false },
           tooltip: {
-            backgroundColor: '#10203F',
+            backgroundColor: '#0A0A0A',
             padding: 10,
             cornerRadius: 8,
-            titleFont: { family: "'Fira Sans', sans-serif", size: 11.5 },
+            titleFont: { family: "'Inter', sans-serif", size: 11.5 },
             bodyFont: { family: "'Fira Code', monospace", size: 13, weight: '600' },
             displayColors: false,
             callbacks: { label: (item) => item.parsed.y.toLocaleString() },
           },
         },
         scales: {
-          x: { grid: { display: false }, ticks: { color: '#96A5C2', font: { family: "'Fira Sans', sans-serif", size: 10.5 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 8 } },
-          y: { beginAtZero: true, grid: { color: 'rgba(30,79,214,0.08)' }, ticks: { color: '#96A5C2', font: { family: "'Fira Code', monospace", size: 10 }, maxTicksLimit: 4 } },
+          x: { grid: { display: false }, ticks: { color: '#A69C8B', font: { family: "'Inter', sans-serif", size: 10.5 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 8 } },
+          y: { beginAtZero: true, grid: { color: 'rgba(160,82,45,0.10)' }, ticks: { color: '#A69C8B', font: { family: "'Fira Code', monospace", size: 10 }, maxTicksLimit: 4 } },
         },
       },
     });
@@ -1291,7 +1294,7 @@ const clientData = {
         plugins: {
           legend: { display: false },
           tooltip: {
-            backgroundColor: 'rgba(10,20,40,0.9)',
+            backgroundColor: 'rgba(10,10,10,0.9)',
             padding: 8,
             cornerRadius: 6,
             bodyFont: { family: "'Fira Code', monospace", size: 12 },
@@ -1738,6 +1741,9 @@ const clientData = {
   });
 
   // ── CRM: duplicate detection + merge ──
+  const MERGE_FIELDS = ['name', 'phone', 'company', 'category', 'company_size'];
+  function escapeAttr(v) { return String(v).replace(/"/g, '&quot;'); }
+
   async function loadDuplicates() {
     const list = document.getElementById('duplicates-list');
     try {
@@ -1748,16 +1754,31 @@ const clientData = {
         list.innerHTML = '<p class="pi-empty-panel">No duplicate phone numbers found.</p>';
         return;
       }
-      list.innerHTML = groups.map((group, gi) => `
-        <div style="border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:10px;">
+      list.innerHTML = groups.map((group, gi) => {
+        const fieldPickers = MERGE_FIELDS.map((f) => {
+          const values = [...new Set(group.map((l) => l[f]).filter((v) => v != null && v !== ''))];
+          if (values.length <= 1) return '';
+          return `<div style="margin:6px 0 0;">
+            <span style="font-size:10.5px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;">${f.replace('_', ' ')}</span><br/>
+            ${values.map((v, vi) => `<label style="margin-right:12px;font-size:12px;">
+              <input type="radio" name="dup-field-${gi}-${f}" value="${escapeAttr(v)}" ${vi === 0 ? 'checked' : ''}/> ${v}
+            </label>`).join('')}
+          </div>`;
+        }).join('');
+        return `<div style="border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:10px;">
           <p style="font-size:11px;color:var(--text-2);margin:0 0 8px;">Matching phone: ${group[0].phone}</p>
           ${group.map((l, li) => `
             <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;padding:4px 0;">
               <input type="radio" name="dup-keep-${gi}" value="${l.id}" ${li === 0 ? 'checked' : ''} />
               ${l.email} — ${l.name || 'no name'} — ${l.company || 'no company'} — score ${l.score}
             </label>`).join('')}
-          <button class="pi-btn-small dup-merge" data-group="${gi}" style="margin-top:8px;">Merge into selected</button>
-        </div>`).join('');
+          ${fieldPickers ? `<div style="margin-top:6px;padding-top:8px;border-top:1px solid var(--border-soft);">
+            <p style="font-size:10.5px;color:var(--text-3);margin:0 0 4px;">Fields differ, pick which value survives:</p>
+            ${fieldPickers}
+          </div>` : ''}
+          <button class="pi-btn-small dup-merge" data-group="${gi}" style="margin-top:10px;">Merge into selected</button>
+        </div>`;
+      }).join('');
 
       list.querySelectorAll('.dup-merge').forEach((btn) => {
         btn.addEventListener('click', async () => {
@@ -1765,11 +1786,17 @@ const clientData = {
           const group = groups[gi];
           const keepId = list.querySelector(`input[name="dup-keep-${gi}"]:checked`)?.value;
           const mergeIds = group.map((l) => l.id).filter((id) => id !== keepId);
+          const fields = {};
+          MERGE_FIELDS.forEach((f) => {
+            const picked = list.querySelector(`input[name="dup-field-${gi}-${f}"]:checked`);
+            if (picked) fields[f] = picked.value;
+          });
           btn.disabled = true;
+          btn.textContent = 'Merging…';
           for (const mergeId of mergeIds) {
             await fetch('/api/admin/merge-contacts', {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ keepId, mergeId, fields: {} }),
+              body: JSON.stringify({ keepId, mergeId, fields }),
             });
           }
           loadDuplicates();
