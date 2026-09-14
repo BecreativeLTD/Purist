@@ -497,16 +497,18 @@ const clientData = {
   .pi-table-scroll { overflow-x: auto; background: var(--surface); border: 1px solid var(--border-soft); border-radius: 8px; box-shadow: var(--shadow-sm); }
   table.pi-table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; color: var(--text-2); white-space: nowrap; }
   table.pi-table thead { background: var(--bg-2); }
-  table.pi-table th { text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-2); padding: 12px 24px; cursor: pointer; user-select: none; }
+  table.pi-table th { text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-2); padding: 16px; cursor: pointer; user-select: none; }
   table.pi-table th:hover { color: var(--accent); }
-  table.pi-table td { padding: 12px 24px; border-bottom: 1px solid var(--border-soft); font-variant-numeric: tabular-nums; color: var(--text-1); max-width: 320px; overflow: hidden; text-overflow: ellipsis; }
-  table.pi-table tbody tr.pi-row { cursor: pointer; background: var(--surface); transition: background 0.15s ease; }
-  table.pi-table tbody tr.pi-row:hover { background: var(--bg-2); }
+  table.pi-table td { padding: 16px; font-variant-numeric: tabular-nums; color: var(--text-1); max-width: 320px; overflow: hidden; text-overflow: ellipsis; }
+  table.pi-table tbody tr { background: var(--surface); }
+  table.pi-table tbody tr:nth-child(even) { background: var(--bg-2); }
+  table.pi-table tbody tr.pi-row { cursor: pointer; transition: background 0.15s ease; }
+  table.pi-table tbody tr.pi-row:hover { background: var(--accent-soft); }
   .pi-score { font-weight: 700; color: var(--accent); }
-  .pi-status { font-size: 10.5px; font-weight: 600; padding: 3px 10px; border-radius: 20px; text-transform: capitalize; }
-  .pi-status.active { background: var(--success-bg); color: var(--success); }
-  .pi-status.converted { background: var(--accent-soft); color: var(--accent); }
-  .pi-status.unsubscribed { background: var(--bg-2); color: var(--text-3); }
+  .pi-status { font-size: 10.5px; font-weight: 600; padding: 2px 10px; border-radius: 6px; text-transform: capitalize; border: 1px solid transparent; }
+  .pi-status.active { background: var(--success-bg); color: var(--success); border-color: var(--success-bg); }
+  .pi-status.converted { background: var(--accent-soft); color: var(--accent); border-color: var(--accent-soft); }
+  .pi-status.unsubscribed { background: var(--bg-2); color: var(--text-3); border-color: var(--border); }
   .pi-hot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--danger-vivid); margin-right: 6px; vertical-align: middle; }
   .pi-caret { display: inline-block; transition: transform 0.15s; color: var(--text-3); margin-right: 8px; font-size: 10px; }
   tr.pi-row.open .pi-caret { transform: rotate(90deg); }
@@ -524,11 +526,11 @@ const clientData = {
   .pi-timeline .ev-pts { color: var(--accent); font-variant-numeric: tabular-nums; flex: 0 0 40px; text-align: right; }
   .pi-seq { list-style: none; margin: 0; padding: 0; }
   .pi-seq li { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 12px; }
-  .pi-seq-badge { font-size: 10px; font-weight: 600; text-transform: capitalize; padding: 3px 9px; border-radius: 20px; }
-  .pi-seq-badge.sent { background: var(--success-bg); color: var(--success); }
-  .pi-seq-badge.pending { background: var(--bg-2); color: var(--text-2); }
-  .pi-seq-badge.failed { background: var(--danger-bg); color: var(--danger); }
-  .pi-seq-badge.skipped { background: var(--bg-2); color: var(--text-3); }
+  .pi-seq-badge { font-size: 10px; font-weight: 600; text-transform: capitalize; padding: 2px 9px; border-radius: 6px; border: 1px solid transparent; }
+  .pi-seq-badge.sent { background: var(--success-bg); color: var(--success); border-color: var(--success-bg); }
+  .pi-seq-badge.pending { background: var(--bg-2); color: var(--text-2); border-color: var(--border); }
+  .pi-seq-badge.failed { background: var(--danger-bg); color: var(--danger); border-color: var(--danger-bg); }
+  .pi-seq-badge.skipped { background: var(--bg-2); color: var(--text-3); border-color: var(--border); }
   .pi-detail-h { font-size: 11px; font-weight: 600; color: var(--text-2); margin: 0 0 8px; }
 
   .pi-empty { text-align: center; padding: 60px 20px; color: var(--text-2); border-radius: 8px; margin-top: 24px; background: var(--surface); box-shadow: var(--shadow); }
