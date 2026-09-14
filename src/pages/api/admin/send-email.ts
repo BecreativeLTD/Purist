@@ -16,7 +16,7 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(JSON.stringify({ error: 'leadId, subject, and message are required' }), { status: 400 });
   }
 
-  const resendKey = import.meta.env.RESEND_API_KEY;
+  const resendKey = import.meta.env.Resend || import.meta.env.RESEND_API_KEY;
   if (!resendKey) {
     return new Response(JSON.stringify({ error: 'Resend is not configured' }), { status: 500 });
   }

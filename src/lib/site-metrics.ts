@@ -17,8 +17,11 @@ export interface TrafficOverview {
   prevUsers: number;
   prevBounceRate: number;
   prevAvgEngagementSec: number;
+  pagesPerSession: number;
+  sessionsPerUser: number;
   channels: { channel: string; sessions: number }[];
   topPages: { page: string; sessions: number }[];
+  topLandingPages: { page: string; sessions: number }[];
   daily: { date: string; sessions: number }[];
   devices: { device: string; sessions: number }[];
   countries: { country: string; sessions: number }[];
@@ -50,9 +53,11 @@ export interface SearchOverview {
   daily: { date: string; clicks: number }[];
   brandClicks: number;
   nonBrandClicks: number;
+  positionBuckets: { label: string; queries: number }[];
+  queriesTracked: number;
 }
 
-const EMPTY_TRAFFIC: TrafficOverview = { available: false, sessions: 0, users: 0, newUsers: 0, bounceRate: 0, avgEngagementSec: 0, prevSessions: 0, prevUsers: 0, prevBounceRate: 0, prevAvgEngagementSec: 0, channels: [], topPages: [], daily: [], devices: [], countries: [] };
+const EMPTY_TRAFFIC: TrafficOverview = { available: false, sessions: 0, users: 0, newUsers: 0, bounceRate: 0, avgEngagementSec: 0, prevSessions: 0, prevUsers: 0, prevBounceRate: 0, prevAvgEngagementSec: 0, pagesPerSession: 0, sessionsPerUser: 0, channels: [], topPages: [], topLandingPages: [], daily: [], devices: [], countries: [] };
 const EMPTY_REALTIME: RealtimeOverview = { available: false, activeUsers: 0, topPages: [] };
 
 /** GA4 Realtime API: active users on the site right now (last ~30 min window GA4 itself defines). */
@@ -91,7 +96,7 @@ export async function fetchRealtimeOverview(): Promise<RealtimeOverview> {
     return EMPTY_REALTIME;
   }
 }
-const EMPTY_SEARCH: SearchOverview = { available: false, clicks: 0, impressions: 0, avgPosition: 0, avgCtr: 0, prevClicks: 0, prevImpressions: 0, prevAvgPosition: 0, topQueries: [], topPages: [], daily: [], brandClicks: 0, nonBrandClicks: 0 };
+const EMPTY_SEARCH: SearchOverview = { available: false, clicks: 0, impressions: 0, avgPosition: 0, avgCtr: 0, prevClicks: 0, prevImpressions: 0, prevAvgPosition: 0, topQueries: [], topPages: [], daily: [], brandClicks: 0, nonBrandClicks: 0, positionBuckets: [], queriesTracked: 0 };
 
 export function pctChange(current: number, previous: number): number | null {
   if (previous === 0) return current === 0 ? 0 : null;
@@ -113,8 +118,8 @@ export async function fetchTrafficOverview(days = 30): Promise<TrafficOverview> 
         body: JSON.stringify(body),
       });
 
-    const [totalsRes, prevTotalsRes, channelRes, pagesRes, dailyRes, deviceRes, countryRes] = await Promise.all([
-      runReport({ dateRanges: [currentRange], metrics: [{ name: 'sessions' }, { name: 'totalUsers' }, { name: 'newUsers' }, { name: 'bounceRate' }, { name: 'averageSessionDuration' }] }),
+    const [totalsRes, prevTotalsRes, channelRes, pagesRes, dailyRes, deviceRes, countryRes, landingRes] = await Promise.all([
+      runReport({ dateRanges: [currentRange], metrics: [{ name: 'sessions' }, { name: 'totalUsers' }, { name: 'newUsers' }, { name: 'bounceRate' }, { name: 'averageSessionDuration' }, { name: 'screenPageViewsPerSession' }, { name: 'sessionsPerUser' }] }),
       runReport({ dateRanges: [prevRange], metrics: [{ name: 'sessions' }, { name: 'totalUsers' }, { name: 'newUsers' }, { name: 'bounceRate' }, { name: 'averageSessionDuration' }] }),
       runReport({
         dateRanges: [currentRange],
@@ -149,6 +154,13 @@ export async function fetchTrafficOverview(days = 30): Promise<TrafficOverview> 
         orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
         limit: 8,
       }),
+      runReport({
+        dateRanges: [currentRange],
+        dimensions: [{ name: 'landingPagePlusQueryString' }],
+        metrics: [{ name: 'sessions' }],
+        orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
+        limit: 8,
+      }),
     ]);
 
     if (!totalsRes.ok || !channelRes.ok || !pagesRes.ok) return EMPTY_TRAFFIC;
@@ -160,6 +172,7 @@ export async function fetchTrafficOverview(days = 30): Promise<TrafficOverview> 
     const daily = dailyRes.ok ? await dailyRes.json() : null;
     const devices = deviceRes.ok ? await deviceRes.json() : null;
     const countries = countryRes.ok ? await countryRes.json() : null;
+    const landing = landingRes.ok ? await landingRes.json() : null;
 
     const totalsRow = totals.rows?.[0]?.metricValues ?? [];
     const prevRow = prevTotals?.rows?.[0]?.metricValues ?? [];
@@ -171,6 +184,8 @@ export async function fetchTrafficOverview(days = 30): Promise<TrafficOverview> 
       newUsers: Number(totalsRow[2]?.value ?? 0),
       bounceRate: Number(totalsRow[3]?.value ?? 0),
       avgEngagementSec: Number(totalsRow[4]?.value ?? 0),
+      pagesPerSession: Number(totalsRow[5]?.value ?? 0),
+      sessionsPerUser: Number(totalsRow[6]?.value ?? 0),
       prevSessions: Number(prevRow[0]?.value ?? 0),
       prevUsers: Number(prevRow[1]?.value ?? 0),
       prevBounceRate: Number(prevRow[3]?.value ?? 0),
@@ -180,6 +195,10 @@ export async function fetchTrafficOverview(days = 30): Promise<TrafficOverview> 
         sessions: Number(r.metricValues[0].value),
       })),
       topPages: (pages.rows ?? []).map((r: any) => ({
+        page: r.dimensionValues[0].value,
+        sessions: Number(r.metricValues[0].value),
+      })),
+      topLandingPages: (landing?.rows ?? []).map((r: any) => ({
         page: r.dimensionValues[0].value,
         sessions: Number(r.metricValues[0].value),
       })),
@@ -294,10 +313,18 @@ export async function fetchSearchOverview(days = 30): Promise<SearchOverview> {
     // classification model), computed over up to 250 queries rather than just
     // the top 10 so the split is representative, not dominated by a few rows.
     let brandClicks = 0, nonBrandClicks = 0;
+    const posBuckets = { 'Top 3': 0, '4-10': 0, '11-20': 0, '21+': 0 };
     (allQueries?.rows ?? []).forEach((r: any) => {
       if (String(r.keys[0]).toLowerCase().includes('purist')) brandClicks += r.clicks;
       else nonBrandClicks += r.clicks;
+      const pos = r.position;
+      if (pos <= 3) posBuckets['Top 3']++;
+      else if (pos <= 10) posBuckets['4-10']++;
+      else if (pos <= 20) posBuckets['11-20']++;
+      else posBuckets['21+']++;
     });
+    const positionBuckets = Object.entries(posBuckets).map(([label, queries]) => ({ label, queries }));
+    const queriesTracked = allQueries?.rows?.length ?? 0;
 
     return {
       available: true,
@@ -326,6 +353,8 @@ export async function fetchSearchOverview(days = 30): Promise<SearchOverview> {
       })),
       brandClicks,
       nonBrandClicks,
+      positionBuckets,
+      queriesTracked,
     };
   } catch (e) {
     console.error('[site-metrics] GSC fetch failed', e instanceof Error ? e.message : String(e));
