@@ -2,7 +2,7 @@
 export const prerender = false;
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import { createSupabaseAdminClient } from '~/lib/supabase-admin';
-import { fetchTrafficOverview, fetchSearchOverview } from '~/lib/site-metrics';
+import { fetchTrafficOverview, fetchSearchOverview, pctChange } from '~/lib/site-metrics';
 
 // This route is gated by src/middleware.ts (PROTECTED_ROUTES), a visitor
 // only reaches this code after a valid Supabase Auth session was
@@ -41,6 +41,12 @@ const emailsSent = sequences.filter((s) => s.status === 'sent').length;
 const emailsPending = sequences.filter((s) => s.status === 'pending').length;
 const emailsFailed = sequences.filter((s) => s.status === 'failed').length;
 
+const sessionsDelta = traffic.available ? pctChange(traffic.sessions, traffic.prevSessions) : null;
+const usersDelta = traffic.available ? pctChange(traffic.users, traffic.prevUsers) : null;
+const clicksDelta = search.available ? pctChange(search.clicks, search.prevClicks) : null;
+const impressionsDelta = search.available ? pctChange(search.impressions, search.prevImpressions) : null;
+const positionDelta = search.available ? (search.prevAvgPosition ? search.prevAvgPosition - search.avgPosition : null) : null; // lower position = better, so invert
+
 // ── Group events and sequences per lead for the expandable detail row ──
 const eventsByLead: Record<string, typeof events> = {};
 events.forEach((e) => {
@@ -62,12 +68,21 @@ const hotLeads = leads.filter((l) => (l.score ?? 0) >= 50);
 const auditRequests = events.filter((e) => e.event_type === 'audit_request').length;
 
 const categoryCounts: Record<string, number> = {};
+const categoryScores: Record<string, number[]> = {};
 leads.forEach((l) => {
   const c = l.category || 'Unspecified';
   categoryCounts[c] = (categoryCounts[c] || 0) + 1;
+  (categoryScores[c] ??= []).push(l.score ?? 0);
 });
 const topCategoryEntry = Object.entries(categoryCounts).sort((a, b) => b[1] - a[1])[0];
 const topCategory = topCategoryEntry ? topCategoryEntry[0] : 'None yet';
+const categoryBreakdown = Object.entries(categoryCounts)
+  .map(([cat, count]) => ({
+    category: cat,
+    count,
+    avgScore: Math.round(categoryScores[cat].reduce((s, v) => s + v, 0) / categoryScores[cat].length),
+  }))
+  .sort((a, b) => b.count - a.count);
 
 const categories = [...new Set(leads.map((l) => l.category).filter(Boolean))].sort();
 
@@ -119,136 +134,232 @@ events.forEach((e) => {
 });
 const maxDayCount = Math.max(1, ...dayBuckets.map((b) => b.count));
 
+const maxSessionsDay = Math.max(1, ...traffic.daily.map((d) => d.sessions));
+const maxClicksDay = Math.max(1, ...search.daily.map((d) => d.clicks));
+
 function fmtDate(d: string) {
   return new Date(d).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 }
 function fmtDateTime(d: string) {
   return new Date(d).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
 }
+function fmtDelta(v: number | null) {
+  if (v === null) return null;
+  const sign = v > 0 ? '+' : '';
+  return `${sign}${v.toFixed(0)}%`;
+}
 
 const SEQUENCE_LABELS: Record<number, string> = { 0: 'J0', 2: 'J2', 5: 'J5' };
 ---
 
-<BaseLayout title="Leads | PURIST" description="Internal lead intelligence dashboard." noindex>
+<BaseLayout title="Command Center | PURIST" description="Internal analytics and lead intelligence dashboard." noindex>
 
 <style>
-  .ld-wrap { max-width: 1180px; margin: 0 auto; padding: 40px 24px 100px; }
-  .ld-h1 { font-family: 'Fraunces', Georgia, serif; font-size: 28px; color: #0A0A0A; margin: 0; }
-  .ld-sub { color: rgba(10,10,10,0.5); font-size: 13.5px; margin: 6px 0 0; }
-  .ld-section-h { font-family: 'Fraunces', Georgia, serif; font-size: 18px; color: #0A0A0A; margin: 32px 0 0; display: flex; align-items: baseline; gap: 10px; }
-  .ld-section-sub { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(10,10,10,0.35); font-weight: 400; }
-  .ld-notice { margin-top: 16px; padding: 12px 16px; border: 1px dashed rgba(10,10,10,0.15); border-radius: 10px; font-size: 12.5px; color: rgba(10,10,10,0.55); background: #FBF9F4; }
-  .ld-notice code { background: rgba(10,10,10,0.06); padding: 1px 6px; border-radius: 4px; font-size: 11.5px; }
-  .ld-kpis { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: rgba(10,10,10,0.08); border: 1px solid rgba(10,10,10,0.08); margin-top: 16px; }
-  .ld-kpi { background: #fff; padding: 16px 14px; }
-  .ld-kpi .num { font-family: 'Fraunces', Georgia, serif; font-size: 24px; color: #8B4038; font-variant-numeric: tabular-nums; line-height: 1; }
-  .ld-kpi .label { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(10,10,10,0.4); margin-top: 6px; }
-  @media (max-width: 900px) { .ld-kpis { grid-template-columns: repeat(3, 1fr); } }
-  @media (max-width: 500px) { .ld-kpis { grid-template-columns: repeat(2, 1fr); } }
+  .cc-wrap {
+    --bg: #F8F9FA;
+    --surface: #FFFFFF;
+    --border: #DADCE0;
+    --border-light: #E8EAED;
+    --text-1: #202124;
+    --text-2: #5F6368;
+    --text-3: #80868B;
+    --accent: #1A73E8;
+    --accent-bg: #E8F0FE;
+    --accent-2: #669DF6;
+    --success: #188038;
+    --success-bg: #E6F4EA;
+    --danger: #D93025;
+    --danger-bg: #FCE8E6;
+    --warning: #E37400;
+    --warning-bg: #FEF7E0;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 32px 24px 100px;
+    background: var(--bg);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-1);
+  }
+  .cc-h1 { font-size: 22px; font-weight: 500; color: var(--text-1); margin: 0; letter-spacing: -0.01em; }
+  .cc-sub { color: var(--text-2); font-size: 13px; margin: 4px 0 0; }
+  .cc-demo-link { font-size: 12.5px; font-weight: 500; color: var(--accent); text-decoration: none; border: 1px solid var(--border); border-radius: 6px; padding: 7px 14px; white-space: nowrap; background: var(--surface); }
+  .cc-demo-link:hover { background: var(--accent-bg); border-color: var(--accent); }
 
-  .ld-panels { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 32px; }
-  @media (max-width: 900px) { .ld-panels { grid-template-columns: 1fr; } }
-  .ld-panel { border: 1px solid rgba(10,10,10,0.08); border-radius: 12px; padding: 18px 20px; background: #fff; }
-  .ld-panel h3 { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(10,10,10,0.45); margin: 0 0 14px; }
-  .ld-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 9px; font-size: 12.5px; }
-  .ld-bar-row .lbl { flex: 0 0 128px; color: rgba(10,10,10,0.65); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .ld-bar-row .track { flex: 1; height: 8px; border-radius: 4px; background: rgba(10,10,10,0.06); overflow: hidden; }
-  .ld-bar-row .fill { height: 100%; border-radius: 4px; background: #8B4038; }
-  .ld-bar-row .fill.alt { background: #C98A6A; }
-  .ld-bar-row .val { flex: 0 0 26px; text-align: right; font-variant-numeric: tabular-nums; color: rgba(10,10,10,0.5); font-size: 11.5px; }
-  .ld-empty-panel { color: rgba(10,10,10,0.35); font-size: 12.5px; }
+  .cc-section-h { font-size: 15px; font-weight: 500; color: var(--text-1); margin: 36px 0 4px; display: flex; align-items: baseline; gap: 8px; }
+  .cc-section-sub { font-size: 11px; color: var(--text-3); font-weight: 400; }
 
-  .ld-chart { margin-top: 32px; border: 1px solid rgba(10,10,10,0.08); border-radius: 12px; padding: 20px 20px 14px; background: #fff; }
-  .ld-chart h3 { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(10,10,10,0.45); margin: 0 0 16px; }
-  .ld-chart-bars { display: flex; align-items: flex-end; gap: 3px; height: 90px; overflow-x: auto; padding-bottom: 4px; }
-  .ld-chart-bar { flex: 1 0 8px; min-width: 8px; background: #8B4038; border-radius: 2px 2px 0 0; opacity: 0.85; position: relative; }
-  .ld-chart-bar:hover { opacity: 1; }
-  .ld-chart-bar[data-count="0"] { background: rgba(10,10,10,0.06); }
-  .ld-chart-labels { display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; color: rgba(10,10,10,0.35); margin-top: 6px; }
+  .cc-notice { margin-top: 14px; padding: 12px 16px; border: 1px solid var(--warning-bg); border-radius: 8px; font-size: 12.5px; color: var(--text-2); background: var(--warning-bg); }
+  .cc-notice code { background: rgba(0,0,0,0.06); padding: 1px 6px; border-radius: 4px; font-size: 11.5px; color: var(--text-1); }
 
-  .ld-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 32px 0 14px; }
-  .ld-controls input, .ld-controls select { font-size: 13.5px; padding: 9px 13px; border-radius: 8px; border: 1px solid rgba(10,10,10,0.15); background: #fff; }
-  .ld-controls input { flex: 1; min-width: 200px; }
-  .ld-controls label.chk { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: rgba(10,10,10,0.6); white-space: nowrap; }
-  .ld-export { font-family: 'IBM Plex Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #8B4038; text-decoration: none; border: 1px solid rgba(139,64,56,0.3); border-radius: 8px; padding: 9px 14px; white-space: nowrap; background: none; cursor: pointer; }
-  .ld-export:hover { background: rgba(139,64,56,0.06); }
+  .cc-kpis { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-top: 12px; }
+  @media (max-width: 900px) { .cc-kpis { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 500px) { .cc-kpis { grid-template-columns: repeat(2, 1fr); } }
+  .cc-kpi { background: var(--surface); border: 1px solid var(--border-light); border-radius: 8px; padding: 14px 16px; }
+  .cc-kpi .num { font-size: 24px; font-weight: 500; color: var(--text-1); font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .cc-kpi .label { font-size: 11px; color: var(--text-2); margin-top: 5px; }
+  .cc-delta { font-size: 11px; font-weight: 500; margin-top: 4px; display: inline-flex; align-items: center; gap: 2px; }
+  .cc-delta.up { color: var(--success); }
+  .cc-delta.down { color: var(--danger); }
+  .cc-delta.flat { color: var(--text-3); }
 
-  .ld-table-scroll { overflow-x: auto; border: 1px solid rgba(10,10,10,0.08); border-radius: 12px; }
-  table.ld-table { width: 100%; border-collapse: collapse; font-size: 13.5px; white-space: nowrap; }
-  table.ld-table th { text-align: left; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(10,10,10,0.45); padding: 11px 14px; border-bottom: 2px solid rgba(10,10,10,0.1); background: #FBF9F4; cursor: pointer; user-select: none; }
-  table.ld-table th:hover { color: #8B4038; }
-  table.ld-table td { padding: 10px 14px; border-bottom: 1px solid rgba(10,10,10,0.06); font-variant-numeric: tabular-nums; }
-  table.ld-table tbody tr.ld-row:nth-child(4n+1) { background: rgba(10,10,10,0.015); }
-  table.ld-table tbody tr.ld-row { cursor: pointer; }
-  table.ld-table tbody tr.ld-row:hover { background: rgba(139,64,56,0.04); }
-  .ld-score { font-weight: 700; color: #8B4038; }
-  .ld-status { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; padding: 2px 8px; border-radius: 3px; text-transform: uppercase; }
-  .ld-status.active { background: #E1EEE6; color: #2D6A4F; }
-  .ld-status.converted { background: #E3ECF7; color: #2D5DA0; }
-  .ld-status.unsubscribed { background: #F0EDE6; color: rgba(10,10,10,0.4); }
-  .ld-hot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #C0392B; margin-right: 6px; vertical-align: middle; }
-  .ld-caret { display: inline-block; transition: transform 0.15s; color: rgba(10,10,10,0.3); margin-right: 8px; font-size: 10px; }
-  tr.ld-row.open .ld-caret { transform: rotate(90deg); }
+  .cc-panels { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 16px; }
+  @media (max-width: 900px) { .cc-panels { grid-template-columns: 1fr; } }
+  .cc-panel { border: 1px solid var(--border-light); border-radius: 8px; padding: 16px 18px; background: var(--surface); }
+  .cc-panel h3 { font-size: 12px; font-weight: 500; color: var(--text-2); margin: 0 0 12px; text-transform: none; }
+  .cc-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 9px; font-size: 12.5px; }
+  .cc-bar-row .lbl { flex: 0 0 130px; color: var(--text-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cc-bar-row .track { flex: 1; height: 6px; border-radius: 3px; background: var(--border-light); overflow: hidden; }
+  .cc-bar-row .fill { height: 100%; border-radius: 3px; background: var(--accent); }
+  .cc-bar-row .fill.alt { background: var(--accent-2); }
+  .cc-bar-row .val { flex: 0 0 30px; text-align: right; font-variant-numeric: tabular-nums; color: var(--text-2); font-size: 11.5px; }
+  .cc-empty-panel { color: var(--text-3); font-size: 12.5px; }
 
-  .ld-detail-cell { background: #FBF9F4; padding: 0 !important; }
-  .ld-detail-inner { padding: 18px 24px; display: none; white-space: normal; }
-  tr.ld-detail.open .ld-detail-inner { display: block; }
-  .ld-detail-grid { display: grid; grid-template-columns: 1fr 200px; gap: 24px; }
-  @media (max-width: 700px) { .ld-detail-grid { grid-template-columns: 1fr; } }
-  .ld-timeline { list-style: none; margin: 0; padding: 0; }
-  .ld-timeline li { display: flex; gap: 10px; padding: 7px 0; border-bottom: 1px solid rgba(10,10,10,0.05); font-size: 12.5px; }
-  .ld-timeline li:last-child { border-bottom: none; }
-  .ld-timeline .ev-type { font-weight: 600; color: #0A0A0A; flex: 0 0 150px; }
-  .ld-timeline .ev-meta { color: rgba(10,10,10,0.45); flex: 1; }
-  .ld-timeline .ev-pts { color: #8B4038; font-variant-numeric: tabular-nums; flex: 0 0 40px; text-align: right; }
-  .ld-seq { list-style: none; margin: 0; padding: 0; }
-  .ld-seq li { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 12px; }
-  .ld-seq-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; }
-  .ld-seq-badge.sent { background: #E1EEE6; color: #2D6A4F; }
-  .ld-seq-badge.pending { background: #F0EDE6; color: rgba(10,10,10,0.5); }
-  .ld-seq-badge.failed { background: #F7E1DE; color: #A6291B; }
-  .ld-seq-badge.skipped { background: #F0EDE6; color: rgba(10,10,10,0.35); }
-  .ld-detail-h { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(10,10,10,0.4); margin: 0 0 8px; }
+  .cc-sparkline { display: flex; align-items: flex-end; gap: 2px; height: 56px; margin-top: 4px; }
+  .cc-sparkline .bar { flex: 1; min-width: 2px; background: var(--accent); border-radius: 1px 1px 0 0; opacity: 0.85; }
+  .cc-sparkline .bar[data-zero="1"] { background: var(--border-light); }
 
-  .ld-empty { text-align: center; padding: 60px 20px; color: rgba(10,10,10,0.5); border: 1px dashed rgba(10,10,10,0.15); border-radius: 12px; margin-top: 24px; }
-  .ld-empty h2 { font-family: 'Fraunces', Georgia, serif; font-size: 19px; color: #0A0A0A; margin: 0 0 8px; }
+  .cc-chart { margin-top: 16px; border: 1px solid var(--border-light); border-radius: 8px; padding: 18px 18px 12px; background: var(--surface); }
+  .cc-chart h3 { font-size: 12px; font-weight: 500; color: var(--text-2); margin: 0 0 14px; }
+  .cc-chart-bars { display: flex; align-items: flex-end; gap: 3px; height: 84px; overflow-x: auto; padding-bottom: 4px; }
+  .cc-chart-bar { flex: 1 0 8px; min-width: 8px; background: var(--accent); border-radius: 2px 2px 0 0; opacity: 0.85; }
+  .cc-chart-bar:hover { opacity: 1; }
+  .cc-chart-bar[data-count="0"] { background: var(--border-light); }
+  .cc-chart-labels { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--text-3); margin-top: 6px; }
+
+  .cc-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 28px 0 12px; }
+  .cc-controls input, .cc-controls select { font-size: 13px; padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface); color: var(--text-1); font-family: inherit; }
+  .cc-controls input:focus, .cc-controls select:focus { outline: 2px solid var(--accent-bg); border-color: var(--accent); }
+  .cc-controls input { flex: 1; min-width: 200px; }
+  .cc-controls label.chk { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--text-2); white-space: nowrap; }
+  .cc-export { font-size: 12.5px; font-weight: 500; color: var(--accent); text-decoration: none; border: 1px solid var(--border); border-radius: 6px; padding: 8px 14px; white-space: nowrap; background: var(--surface); cursor: pointer; font-family: inherit; }
+  .cc-export:hover { background: var(--accent-bg); border-color: var(--accent); }
+
+  .cc-table-scroll { overflow-x: auto; border: 1px solid var(--border-light); border-radius: 8px; }
+  table.cc-table { width: 100%; border-collapse: collapse; font-size: 13px; white-space: nowrap; }
+  table.cc-table th { text-align: left; font-size: 11px; font-weight: 500; color: var(--text-2); padding: 10px 14px; border-bottom: 1px solid var(--border); background: #FAFAFA; cursor: pointer; user-select: none; }
+  table.cc-table th:hover { color: var(--accent); }
+  table.cc-table td { padding: 10px 14px; border-bottom: 1px solid var(--border-light); font-variant-numeric: tabular-nums; color: var(--text-1); }
+  table.cc-table tbody tr.cc-row { cursor: pointer; }
+  table.cc-table tbody tr.cc-row:hover { background: var(--accent-bg); }
+  .cc-score { font-weight: 600; color: var(--accent); }
+  .cc-status { font-size: 10.5px; font-weight: 500; padding: 2px 8px; border-radius: 10px; text-transform: capitalize; }
+  .cc-status.active { background: var(--success-bg); color: var(--success); }
+  .cc-status.converted { background: var(--accent-bg); color: var(--accent); }
+  .cc-status.unsubscribed { background: var(--border-light); color: var(--text-3); }
+  .cc-hot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--danger); margin-right: 6px; vertical-align: middle; }
+  .cc-caret { display: inline-block; transition: transform 0.15s; color: var(--text-3); margin-right: 8px; font-size: 10px; }
+  tr.cc-row.open .cc-caret { transform: rotate(90deg); }
+
+  .cc-detail-cell { background: #FAFBFC; padding: 0 !important; }
+  .cc-detail-inner { padding: 16px 24px; display: none; white-space: normal; }
+  tr.cc-detail.open .cc-detail-inner { display: block; }
+  .cc-detail-grid { display: grid; grid-template-columns: 1fr 200px; gap: 24px; }
+  @media (max-width: 700px) { .cc-detail-grid { grid-template-columns: 1fr; } }
+  .cc-timeline { list-style: none; margin: 0; padding: 0; }
+  .cc-timeline li { display: flex; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--border-light); font-size: 12.5px; }
+  .cc-timeline li:last-child { border-bottom: none; }
+  .cc-timeline .ev-type { font-weight: 500; color: var(--text-1); flex: 0 0 150px; }
+  .cc-timeline .ev-meta { color: var(--text-3); flex: 1; }
+  .cc-timeline .ev-pts { color: var(--accent); font-variant-numeric: tabular-nums; flex: 0 0 40px; text-align: right; }
+  .cc-seq { list-style: none; margin: 0; padding: 0; }
+  .cc-seq li { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 12px; }
+  .cc-seq-badge { font-size: 10px; font-weight: 500; text-transform: capitalize; padding: 2px 8px; border-radius: 10px; }
+  .cc-seq-badge.sent { background: var(--success-bg); color: var(--success); }
+  .cc-seq-badge.pending { background: var(--border-light); color: var(--text-2); }
+  .cc-seq-badge.failed { background: var(--danger-bg); color: var(--danger); }
+  .cc-seq-badge.skipped { background: var(--border-light); color: var(--text-3); }
+  .cc-detail-h { font-size: 11px; font-weight: 500; color: var(--text-2); margin: 0 0 8px; }
+
+  .cc-empty { text-align: center; padding: 60px 20px; color: var(--text-2); border: 1px dashed var(--border); border-radius: 8px; margin-top: 24px; background: var(--surface); }
+  .cc-empty h2 { font-size: 16px; font-weight: 500; color: var(--text-1); margin: 0 0 8px; }
 </style>
 
-<div class="ld-wrap">
+<div class="cc-wrap">
   <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;">
     <div>
-      <h1 class="ld-h1">Command Center</h1>
-      <p class="ld-sub">Traffic, search performance, email delivery, and lead intelligence, one page. Internal use only.</p>
+      <h1 class="cc-h1">Command Center</h1>
+      <p class="cc-sub">Traffic, search performance, email delivery, and lead intelligence, one page. Internal use only.</p>
     </div>
-    <a href="/pages/dashboard" style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:rgba(10,10,10,0.45);text-decoration:none;border:1px solid rgba(10,10,10,0.15);border-radius:8px;padding:8px 14px;white-space:nowrap;">
-      View client demo →
-    </a>
+    <a href="/pages/dashboard" class="cc-demo-link">View client demo →</a>
   </div>
 
-  <h2 class="ld-section-h">Site Overview <span class="ld-section-sub">last 30 days</span></h2>
+  <h2 class="cc-section-h">Site Overview <span class="cc-section-sub">last 30 days vs. previous 30 days</span></h2>
 
-  <div class="ld-kpis" style="grid-template-columns:repeat(6,1fr);">
-    <div class="ld-kpi"><div class="num">{traffic.available ? traffic.sessions : '—'}</div><div class="label">Sessions (GA4)</div></div>
-    <div class="ld-kpi"><div class="num">{traffic.available ? traffic.users : '—'}</div><div class="label">Users (GA4)</div></div>
-    <div class="ld-kpi"><div class="num">{search.available ? search.clicks : '—'}</div><div class="label">Search clicks</div></div>
-    <div class="ld-kpi"><div class="num">{search.available ? search.impressions : '—'}</div><div class="label">Impressions</div></div>
-    <div class="ld-kpi"><div class="num">{search.available ? search.avgPosition.toFixed(1) : '—'}</div><div class="label">Avg. position</div></div>
-    <div class="ld-kpi"><div class="num">{emailsSent}</div><div class="label">Nurture emails sent</div></div>
+  <div class="cc-kpis">
+    <div class="cc-kpi">
+      <div class="num">{traffic.available ? traffic.sessions.toLocaleString() : '—'}</div>
+      <div class="label">Sessions (GA4)</div>
+      {sessionsDelta !== null && <div class={`cc-delta ${sessionsDelta > 0 ? 'up' : sessionsDelta < 0 ? 'down' : 'flat'}`}>{sessionsDelta > 0 ? '▲' : sessionsDelta < 0 ? '▼' : '–'} {fmtDelta(sessionsDelta)}</div>}
+    </div>
+    <div class="cc-kpi">
+      <div class="num">{traffic.available ? traffic.users.toLocaleString() : '—'}</div>
+      <div class="label">Users (GA4)</div>
+      {usersDelta !== null && <div class={`cc-delta ${usersDelta > 0 ? 'up' : usersDelta < 0 ? 'down' : 'flat'}`}>{usersDelta > 0 ? '▲' : usersDelta < 0 ? '▼' : '–'} {fmtDelta(usersDelta)}</div>}
+    </div>
+    <div class="cc-kpi">
+      <div class="num">{search.available ? search.clicks.toLocaleString() : '—'}</div>
+      <div class="label">Search clicks</div>
+      {clicksDelta !== null && <div class={`cc-delta ${clicksDelta > 0 ? 'up' : clicksDelta < 0 ? 'down' : 'flat'}`}>{clicksDelta > 0 ? '▲' : clicksDelta < 0 ? '▼' : '–'} {fmtDelta(clicksDelta)}</div>}
+    </div>
+    <div class="cc-kpi">
+      <div class="num">{search.available ? search.impressions.toLocaleString() : '—'}</div>
+      <div class="label">Impressions</div>
+      {impressionsDelta !== null && <div class={`cc-delta ${impressionsDelta > 0 ? 'up' : impressionsDelta < 0 ? 'down' : 'flat'}`}>{impressionsDelta > 0 ? '▲' : impressionsDelta < 0 ? '▼' : '–'} {fmtDelta(impressionsDelta)}</div>}
+    </div>
+    <div class="cc-kpi">
+      <div class="num">{search.available ? search.avgPosition.toFixed(1) : '—'}</div>
+      <div class="label">Avg. position</div>
+      {positionDelta !== null && <div class={`cc-delta ${positionDelta > 0 ? 'up' : positionDelta < 0 ? 'down' : 'flat'}`}>{positionDelta > 0 ? '▲' : positionDelta < 0 ? '▼' : '–'} {Math.abs(positionDelta).toFixed(1)}</div>}
+    </div>
+    <div class="cc-kpi">
+      <div class="num">{emailsSent}</div>
+      <div class="label">Nurture emails sent</div>
+    </div>
   </div>
 
   {!traffic.available && !search.available && (
-    <div class="ld-notice">
-      <strong>Traffic and Search Console data not connected yet.</strong> Set the <code>GOOGLE_SERVICE_ACCOUNT_JSON</code> environment variable in Vercel (Project Settings → Environment Variables) with the service account credentials, then redeploy. Lead intelligence below is unaffected, it runs on Supabase alone.
+    <div class="cc-notice">
+      <strong>Traffic and Search Console data not connected yet.</strong> Set the <code>GOOGLE_SERVICE_ACCOUNT_JSON</code> environment variable in Vercel, then redeploy. Lead intelligence below is unaffected, it runs on Supabase alone.
     </div>
   )}
 
-  <div class="ld-panels">
-    <div class="ld-panel">
+  <div class="cc-panels">
+    <div class="cc-panel">
+      <h3>Sessions, last 30 days</h3>
+      {!traffic.available ? <p class="cc-empty-panel">Not connected.</p> : (
+        <div class="cc-sparkline">
+          {traffic.daily.map((d) => (
+            <div class="bar" data-zero={d.sessions === 0 ? '1' : '0'} title={`${d.date}: ${d.sessions}`} style={`height:${Math.max(2, (d.sessions / maxSessionsDay) * 56)}px`}></div>
+          ))}
+        </div>
+      )}
+    </div>
+    <div class="cc-panel">
+      <h3>Search clicks, last 30 days</h3>
+      {!search.available ? <p class="cc-empty-panel">Not connected.</p> : (
+        <div class="cc-sparkline">
+          {search.daily.map((d) => (
+            <div class="bar" data-zero={d.clicks === 0 ? '1' : '0'} title={`${d.date}: ${d.clicks}`} style={`height:${Math.max(2, (d.clicks / maxClicksDay) * 56)}px`}></div>
+          ))}
+        </div>
+      )}
+    </div>
+    <div class="cc-panel" style="display:flex;flex-direction:column;justify-content:center;">
+      <h3 style="margin-bottom:10px;">Nurture email delivery</h3>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;justify-content:space-between;font-size:12.5px;"><span style="color:var(--text-2);">Sent</span><strong style="color:var(--success);">{emailsSent}</strong></div>
+        <div style="display:flex;justify-content:space-between;font-size:12.5px;"><span style="color:var(--text-2);">Pending</span><strong style="color:var(--text-2);">{emailsPending}</strong></div>
+        <div style="display:flex;justify-content:space-between;font-size:12.5px;"><span style="color:var(--text-2);">Failed</span><strong style="color:var(--danger);">{emailsFailed}</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cc-panels">
+    <div class="cc-panel">
       <h3>Traffic by channel (GA4)</h3>
-      {!traffic.available ? <p class="ld-empty-panel">Not connected.</p> : traffic.channels.length === 0 ? <p class="ld-empty-panel">No sessions in this window.</p> : (() => {
+      {!traffic.available ? <p class="cc-empty-panel">Not connected.</p> : traffic.channels.length === 0 ? <p class="cc-empty-panel">No sessions in this window.</p> : (() => {
         const maxCh = Math.max(1, ...traffic.channels.map((c) => c.sessions));
         return traffic.channels.map((c) => (
-          <div class="ld-bar-row">
+          <div class="cc-bar-row">
             <span class="lbl">{c.channel}</span>
             <span class="track"><span class="fill" style={`width:${(c.sessions / maxCh) * 100}%`}></span></span>
             <span class="val">{c.sessions}</span>
@@ -256,12 +367,12 @@ const SEQUENCE_LABELS: Record<number, string> = { 0: 'J0', 2: 'J2', 5: 'J5' };
         ));
       })()}
     </div>
-    <div class="ld-panel">
+    <div class="cc-panel">
       <h3>Top pages by sessions (GA4)</h3>
-      {!traffic.available ? <p class="ld-empty-panel">Not connected.</p> : traffic.topPages.length === 0 ? <p class="ld-empty-panel">No sessions in this window.</p> : (() => {
+      {!traffic.available ? <p class="cc-empty-panel">Not connected.</p> : traffic.topPages.length === 0 ? <p class="cc-empty-panel">No sessions in this window.</p> : (() => {
         const maxP = Math.max(1, ...traffic.topPages.map((p) => p.sessions));
         return traffic.topPages.map((p) => (
-          <div class="ld-bar-row">
+          <div class="cc-bar-row">
             <span class="lbl" title={p.page}>{p.page}</span>
             <span class="track"><span class="fill alt" style={`width:${(p.sessions / maxP) * 100}%`}></span></span>
             <span class="val">{p.sessions}</span>
@@ -269,10 +380,10 @@ const SEQUENCE_LABELS: Record<number, string> = { 0: 'J0', 2: 'J2', 5: 'J5' };
         ));
       })()}
     </div>
-    <div class="ld-panel">
+    <div class="cc-panel">
       <h3>Top search queries (GSC)</h3>
-      {!search.available ? <p class="ld-empty-panel">Not connected.</p> : search.topQueries.length === 0 ? <p class="ld-empty-panel">No queries in this window.</p> : (
-        <ul class="ld-timeline" style="margin-top:-4px;">
+      {!search.available ? <p class="cc-empty-panel">Not connected.</p> : search.topQueries.length === 0 ? <p class="cc-empty-panel">No queries in this window.</p> : (
+        <ul class="cc-timeline" style="margin-top:-4px;">
           {search.topQueries.map((q) => (
             <li>
               <span class="ev-type" style="flex:1;">{q.query}</span>
@@ -285,62 +396,51 @@ const SEQUENCE_LABELS: Record<number, string> = { 0: 'J0', 2: 'J2', 5: 'J5' };
     </div>
   </div>
 
-  <div class="ld-panels" style="grid-template-columns:1fr;margin-top:16px;">
-    <div class="ld-panel" style="display:flex;gap:28px;flex-wrap:wrap;align-items:center;">
-      <h3 style="margin:0;flex:0 0 auto;">Nurture email delivery</h3>
-      <div style="display:flex;gap:24px;flex-wrap:wrap;">
-        <span style="font-size:12.5px;"><strong style="color:#2D6A4F;">{emailsSent}</strong> sent</span>
-        <span style="font-size:12.5px;"><strong style="color:rgba(10,10,10,0.5);">{emailsPending}</strong> pending</span>
-        <span style="font-size:12.5px;"><strong style="color:#A6291B;">{emailsFailed}</strong> failed</span>
-      </div>
-    </div>
+  <h2 class="cc-section-h">Lead Intelligence</h2>
+
+  <div class="cc-kpis">
+    <div class="cc-kpi"><div class="num">{totalLeads}</div><div class="label">Total leads</div></div>
+    <div class="cc-kpi"><div class="num">{avgScore}</div><div class="label">Avg. score</div></div>
+    <div class="cc-kpi"><div class="num">{newThisWeek}</div><div class="label">New this week</div></div>
+    <div class="cc-kpi"><div class="num">{hotLeads.length}</div><div class="label">Hot leads (50+)</div></div>
+    <div class="cc-kpi"><div class="num">{auditRequests}</div><div class="label">Audit requests</div></div>
+    <div class="cc-kpi"><div class="num" style="font-size:16px;">{topCategory}</div><div class="label">Top category</div></div>
   </div>
 
-  <h2 class="ld-section-h" style="margin-top:40px;">Lead Intelligence</h2>
-
-  <div class="ld-kpis">
-    <div class="ld-kpi"><div class="num">{totalLeads}</div><div class="label">Total leads</div></div>
-    <div class="ld-kpi"><div class="num">{avgScore}</div><div class="label">Avg. score</div></div>
-    <div class="ld-kpi"><div class="num">{newThisWeek}</div><div class="label">New this week</div></div>
-    <div class="ld-kpi"><div class="num">{hotLeads.length}</div><div class="label">Hot leads (50+)</div></div>
-    <div class="ld-kpi"><div class="num">{auditRequests}</div><div class="label">Audit requests</div></div>
-    <div class="ld-kpi"><div class="num" style="font-size:16px;">{topCategory}</div><div class="label">Top category</div></div>
-  </div>
-
-  {error && <p style="color:#A6291B;margin-top:20px;">Could not load leads: {error.message}</p>}
+  {error && <p style="color:var(--danger);margin-top:20px;">Could not load leads: {error.message}</p>}
 
   {totalLeads === 0 ? (
-    <div class="ld-empty">
+    <div class="cc-empty">
       <h2>No leads recorded yet</h2>
       <p>Once someone downloads a guide, uses the ROI calculator, requests an audit, or downloads the State of Automation report, they will appear here automatically.</p>
     </div>
   ) : (
     <>
-      <div class="ld-panels">
-        <div class="ld-panel">
+      <div class="cc-panels">
+        <div class="cc-panel">
           <h3>Funnel by action</h3>
           {EVENT_ORDER.map((k) => (
-            <div class="ld-bar-row">
+            <div class="cc-bar-row">
               <span class="lbl">{EVENT_LABELS[k]}</span>
               <span class="track"><span class="fill" style={`width:${(funnelCounts[k] / maxFunnelCount) * 100}%`}></span></span>
               <span class="val">{funnelCounts[k]}</span>
             </div>
           ))}
         </div>
-        <div class="ld-panel">
+        <div class="cc-panel">
           <h3>Top sources</h3>
-          {topSources.length === 0 ? <p class="ld-empty-panel">No event data yet.</p> : topSources.map(([src, c]) => (
-            <div class="ld-bar-row">
+          {topSources.length === 0 ? <p class="cc-empty-panel">No event data yet.</p> : topSources.map(([src, c]) => (
+            <div class="cc-bar-row">
               <span class="lbl">{src}</span>
               <span class="track"><span class="fill alt" style={`width:${(c / maxSourceCount) * 100}%`}></span></span>
               <span class="val">{c}</span>
             </div>
           ))}
         </div>
-        <div class="ld-panel">
+        <div class="cc-panel">
           <h3>Top profession pages</h3>
-          {topProfessions.length === 0 ? <p class="ld-empty-panel">No profession data yet.</p> : topProfessions.map(([prof, c]) => (
-            <div class="ld-bar-row">
+          {topProfessions.length === 0 ? <p class="cc-empty-panel">No profession data yet.</p> : topProfessions.map(([prof, c]) => (
+            <div class="cc-bar-row">
               <span class="lbl">{prof}</span>
               <span class="track"><span class="fill" style={`width:${(c / maxProfessionCount) * 100}%`}></span></span>
               <span class="val">{c}</span>
@@ -349,38 +449,53 @@ const SEQUENCE_LABELS: Record<number, string> = { 0: 'J0', 2: 'J2', 5: 'J5' };
         </div>
       </div>
 
-      <div class="ld-chart">
-        <h3>Activity, last 30 days ({events.length} total events)</h3>
-        <div class="ld-chart-bars">
-          {dayBuckets.map((b) => (
-            <div class="ld-chart-bar" data-count={b.count} title={`${b.label}: ${b.count}`} style={`height:${Math.max(3, (b.count / maxDayCount) * 90)}px`}></div>
+      <div class="cc-panel" style="margin-top:16px;">
+        <h3>Leads by category</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;">
+          {categoryBreakdown.map((c) => (
+            <div style="border:1px solid var(--border-light);border-radius:6px;padding:10px 12px;">
+              <div style="font-size:12px;color:var(--text-2);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{c.category}</div>
+              <div style="display:flex;align-items:baseline;gap:8px;">
+                <span style="font-size:18px;font-weight:500;color:var(--text-1);">{c.count}</span>
+                <span style="font-size:11px;color:var(--text-3);">avg score {c.avgScore}</span>
+              </div>
+            </div>
           ))}
         </div>
-        <div class="ld-chart-labels">
+      </div>
+
+      <div class="cc-chart">
+        <h3>Activity, last 30 days ({events.length} total events)</h3>
+        <div class="cc-chart-bars">
+          {dayBuckets.map((b) => (
+            <div class="cc-chart-bar" data-count={b.count} title={`${b.label}: ${b.count}`} style={`height:${Math.max(3, (b.count / maxDayCount) * 84)}px`}></div>
+          ))}
+        </div>
+        <div class="cc-chart-labels">
           <span>{dayBuckets[0].label}</span>
           <span>{dayBuckets[Math.floor(dayBuckets.length / 2)].label}</span>
           <span>{dayBuckets[dayBuckets.length - 1].label}</span>
         </div>
       </div>
 
-      <div class="ld-controls">
-        <input id="ld-search" type="text" placeholder="Search email, name, or company..." />
-        <select id="ld-filter-cat">
+      <div class="cc-controls">
+        <input id="cc-search" type="text" placeholder="Search email, name, or company..." />
+        <select id="cc-filter-cat">
           <option value="">All categories</option>
           {categories.map((c) => <option value={c as string}>{c}</option>)}
         </select>
-        <select id="ld-filter-status">
+        <select id="cc-filter-status">
           <option value="">All statuses</option>
           <option value="active">Active</option>
           <option value="converted">Converted</option>
           <option value="unsubscribed">Unsubscribed</option>
         </select>
-        <label class="chk"><input type="checkbox" id="ld-filter-hot" /> Hot leads only</label>
-        <button class="ld-export" id="ld-export">Export CSV ↓</button>
+        <label class="chk"><input type="checkbox" id="cc-filter-hot" /> Hot leads only</label>
+        <button class="cc-export" id="cc-export">Export CSV ↓</button>
       </div>
 
-      <div class="ld-table-scroll">
-        <table class="ld-table" id="ld-table">
+      <div class="cc-table-scroll">
+        <table class="cc-table" id="cc-table">
           <thead>
             <tr>
               <th></th>
@@ -400,24 +515,24 @@ const SEQUENCE_LABELS: Record<number, string> = { 0: 'J0', 2: 'J2', 5: 'J5' };
               const isHot = (l.score ?? 0) >= 50;
               return (
                 <>
-                  <tr class="ld-row" data-lead-id={l.id} data-email={l.email.toLowerCase()} data-name={(l.name || '').toLowerCase()} data-company={(l.company || '').toLowerCase()} data-category={l.category || ''} data-status={l.status} data-score={l.score} data-touches={l.touch_count} data-last-seen={l.last_seen_at} data-hot={isHot ? '1' : '0'}>
-                    <td style="width:20px;"><span class="ld-caret">▶</span></td>
-                    <td>{isHot && <span class="ld-hot" title="Hot lead (score 50+)"></span>}{l.email}</td>
+                  <tr class="cc-row" data-lead-id={l.id} data-email={l.email.toLowerCase()} data-name={(l.name || '').toLowerCase()} data-company={(l.company || '').toLowerCase()} data-category={l.category || ''} data-status={l.status} data-score={l.score} data-touches={l.touch_count} data-last-seen={l.last_seen_at} data-hot={isHot ? '1' : '0'}>
+                    <td style="width:20px;"><span class="cc-caret">▶</span></td>
+                    <td>{isHot && <span class="cc-hot" title="Hot lead (score 50+)"></span>}{l.email}</td>
                     <td>{l.company || '-'}</td>
                     <td>{l.category || '-'}</td>
-                    <td class="ld-score">{l.score}</td>
+                    <td class="cc-score">{l.score}</td>
                     <td>{l.touch_count}</td>
-                    <td><span class={`ld-status ${l.status}`}>{l.status}</span></td>
+                    <td><span class={`cc-status ${l.status}`}>{l.status}</span></td>
                     <td>{fmtDate(l.last_seen_at)}</td>
                   </tr>
-                  <tr class="ld-detail" data-detail-for={l.id}>
-                    <td colspan="8" class="ld-detail-cell">
-                      <div class="ld-detail-inner">
-                        <div class="ld-detail-grid">
+                  <tr class="cc-detail" data-detail-for={l.id}>
+                    <td colspan="8" class="cc-detail-cell">
+                      <div class="cc-detail-inner">
+                        <div class="cc-detail-grid">
                           <div>
-                            <p class="ld-detail-h">Event history ({leadEvents.length})</p>
-                            {leadEvents.length === 0 ? <p class="ld-empty-panel">No events recorded.</p> : (
-                              <ul class="ld-timeline">
+                            <p class="cc-detail-h">Event history ({leadEvents.length})</p>
+                            {leadEvents.length === 0 ? <p class="cc-empty-panel">No events recorded.</p> : (
+                              <ul class="cc-timeline">
                                 {leadEvents.map((e) => (
                                   <li>
                                     <span class="ev-type">{EVENT_LABELS[e.event_type] ?? e.event_type}</span>
@@ -429,13 +544,13 @@ const SEQUENCE_LABELS: Record<number, string> = { 0: 'J0', 2: 'J2', 5: 'J5' };
                             )}
                           </div>
                           <div>
-                            <p class="ld-detail-h">Nurture sequence</p>
-                            {leadSeqs.length === 0 ? <p class="ld-empty-panel">Not scheduled.</p> : (
-                              <ul class="ld-seq">
+                            <p class="cc-detail-h">Nurture sequence</p>
+                            {leadSeqs.length === 0 ? <p class="cc-empty-panel">Not scheduled.</p> : (
+                              <ul class="cc-seq">
                                 {leadSeqs.map((s) => (
                                   <li>
                                     <span>{SEQUENCE_LABELS[s.step] ?? `Step ${s.step}`}</span>
-                                    <span class={`ld-seq-badge ${s.status}`}>{s.status}</span>
+                                    <span class={`cc-seq-badge ${s.status}`}>{s.status}</span>
                                   </li>
                                 ))}
                               </ul>
@@ -451,26 +566,26 @@ const SEQUENCE_LABELS: Record<number, string> = { 0: 'J0', 2: 'J2', 5: 'J5' };
           </tbody>
         </table>
       </div>
-      <p id="ld-count" style="font-size:12px;color:rgba(10,10,10,0.4);margin-top:10px;">{totalLeads} leads</p>
+      <p id="cc-count" style="font-size:12px;color:var(--text-3);margin-top:10px;">{totalLeads} leads</p>
     </>
   )}
 </div>
 
 <script>
-  const search = document.getElementById('ld-search') as HTMLInputElement | null;
-  const filterCat = document.getElementById('ld-filter-cat') as HTMLSelectElement | null;
-  const filterStatus = document.getElementById('ld-filter-status') as HTMLSelectElement | null;
-  const filterHot = document.getElementById('ld-filter-hot') as HTMLInputElement | null;
-  const table = document.getElementById('ld-table') as HTMLTableElement | null;
-  const count = document.getElementById('ld-count');
-  const exportBtn = document.getElementById('ld-export');
+  const search = document.getElementById('cc-search') as HTMLInputElement | null;
+  const filterCat = document.getElementById('cc-filter-cat') as HTMLSelectElement | null;
+  const filterStatus = document.getElementById('cc-filter-status') as HTMLSelectElement | null;
+  const filterHot = document.getElementById('cc-filter-hot') as HTMLInputElement | null;
+  const table = document.getElementById('cc-table') as HTMLTableElement | null;
+  const count = document.getElementById('cc-count');
+  const exportBtn = document.getElementById('cc-export');
 
   if (table) {
     const tbody = table.tBodies[0];
-    const rows = Array.from(tbody.querySelectorAll('tr.ld-row')) as HTMLTableRowElement[];
+    const rows = Array.from(tbody.querySelectorAll('tr.cc-row')) as HTMLTableRowElement[];
 
     function detailFor(row: HTMLTableRowElement) {
-      return tbody.querySelector(`tr.ld-detail[data-detail-for="${row.dataset.leadId}"]`) as HTMLTableRowElement | null;
+      return tbody.querySelector(`tr.cc-detail[data-detail-for="${row.dataset.leadId}"]`) as HTMLTableRowElement | null;
     }
 
     rows.forEach((row) => {
@@ -507,7 +622,7 @@ const SEQUENCE_LABELS: Record<number, string> = { 0: 'J0', 2: 'J2', 5: 'J5' };
           detail.classList.remove('open');
           row.classList.remove('open');
         }
-        if (detail) detail.style.display = matches ? (detail.classList.contains('open') ? '' : '') : 'none';
+        if (detail) detail.style.display = matches ? '' : 'none';
         if (matches) visible++;
       });
       if (count) count.textContent = `${visible} lead${visible === 1 ? '' : 's'}`;
@@ -545,7 +660,6 @@ const SEQUENCE_LABELS: Record<number, string> = { 0: 'J0', 2: 'J2', 5: 'J5' };
       const lines = [header.join(',')];
       rows.forEach((row) => {
         if (row.style.display === 'none') return;
-        const cells = row.querySelectorAll('td');
         const vals = [
           row.dataset.email || '',
           row.dataset.company || '',
