@@ -272,30 +272,34 @@ const clientData = {
 
 <style>
   .pi {
-    /* Reference: light-lavender SaaS dashboard, white cards, indigo accent,
-       generous rounded corners, gradient bars, donut progress rings. */
-    --bg: #F5F4FB;
-    --bg-2: #ECEAF8;
+    /* Flowbite's actual design tokens (flowbite-astro-admin-dashboard):
+       Tailwind's stock gray scale for every neutral, rounded-lg (8px) for
+       cards/tables/inputs, shadow-sm everywhere, indigo kept as our own
+       brand primary in place of Flowbite's default blue-600. */
+    --bg: #F9FAFB;
+    --bg-2: #F3F4F6;
     --surface: #FFFFFF;
-    --surface-2: #FBFAFE;
-    --border: #E8E6F5;
-    --border-soft: #F0EEFA;
-    --text-1: #1E1B2E;
-    --text-2: #6F6C87;
-    --text-3: #A5A2BE;
+    --surface-2: #F9FAFB;
+    --border: #E5E7EB;
+    --border-soft: #F3F4F6;
+    --text-1: #111827;
+    --text-2: #6B7280;
+    --text-3: #9CA3AF;
     --accent: #6C5CE7;
     --accent-2: #8B7CF0;
     --accent-deep: #5647C7;
-    --accent-soft: #EDEBFB;
-    --success: #22B07D;
-    --success-bg: #E4F7EF;
-    --danger: #E0554F;
-    --danger-bg: #FBEAEA;
-    --warning: #DB9B2E;
-    --warning-bg: #FBF1DD;
-    --shadow-sm: 0 1px 2px rgba(30,27,60,0.04);
-    --shadow: 0 1px 2px rgba(30,27,60,0.03), 0 10px 24px -10px rgba(76,60,180,0.12);
-    --shadow-lg: 0 4px 10px rgba(30,27,60,0.04), 0 20px 40px -16px rgba(76,60,180,0.18);
+    --accent-soft: #EEF2FF;
+    --success: #166534;
+    --success-bg: #DCFCE7;
+    --success-vivid: #22C55E;
+    --danger: #991B1B;
+    --danger-bg: #FEE2E2;
+    --danger-vivid: #EF4444;
+    --warning: #92400E;
+    --warning-bg: #FEF3C7;
+    --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
+    --shadow: 0 1px 3px 0 rgba(0,0,0,0.06), 0 1px 2px -1px rgba(0,0,0,0.06);
+    --shadow-lg: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
     --ring: 0 0 0 1px rgba(255,255,255,0.6) inset;
     --font-num: 'Fira Code', 'SF Mono', ui-monospace, monospace;
     max-width: 1520px;
@@ -309,7 +313,7 @@ const clientData = {
   .pi-main { flex: 1; min-width: 0; padding: 28px 28px 100px; }
   .pi * { box-sizing: border-box; }
   .pi svg { display: block; }
-  .pi .icon { width: 15px; height: 15px; flex-shrink: 0; }
+  .pi .icon { width: 18px; height: 18px; flex-shrink: 0; color: var(--text-3); transition: color 0.15s ease; }
   .pi button, .pi input, .pi select, .pi textarea { font-family: inherit; }
   .pi-panel-view.active .pi-kpi,
   .pi-panel-view.active .pi-panel,
@@ -332,7 +336,7 @@ const clientData = {
   .pi-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
   .pi-h1 { font-family: 'Fraunces', 'Inter', serif; font-size: 26px; font-weight: 500; color: var(--text-1); margin: 0; letter-spacing: -0.01em; }
   .pi-sub { color: var(--text-2); font-size: 13.5px; margin: 4px 0 0; }
-  .pi-demo-link { font-size: 12px; font-weight: 500; color: var(--accent); text-decoration: none; border: 1px solid var(--border); border-radius: 12px; padding: 8px 14px; white-space: nowrap; background: var(--surface); transition: all 0.25s cubic-bezier(0.22,1,0.36,1); display: inline-flex; align-items: center; gap: 6px; justify-content: center; }
+  .pi-demo-link { font-size: 12px; font-weight: 500; color: var(--accent); text-decoration: none; border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; white-space: nowrap; background: var(--surface); transition: all 0.25s cubic-bezier(0.22,1,0.36,1); display: inline-flex; align-items: center; gap: 6px; justify-content: center; }
   .pi-demo-link:hover { background: var(--accent-soft); }
 
   /* Sidebar */
@@ -351,8 +355,8 @@ const clientData = {
 
   /* Realtime widget */
   .pi-live { display: inline-flex; align-items: center; gap: 8px; background: var(--bg-2); border-radius: 20px; padding: 7px 14px 7px 10px; font-size: 12px; font-weight: 600; color: var(--text-1); }
-  .pi-live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); position: relative; }
-  .pi-live-dot::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; background: var(--success); opacity: 0.35; animation: pi-pulse 1.8s cubic-bezier(0.4,0,0.6,1) infinite; }
+  .pi-live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success-vivid); position: relative; }
+  .pi-live-dot::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; background: var(--success-vivid); opacity: 0.35; animation: pi-pulse 1.8s cubic-bezier(0.4,0,0.6,1) infinite; }
   @keyframes pi-pulse { 0% { transform: scale(0.6); opacity: 0.5; } 70%, 100% { transform: scale(1.8); opacity: 0; } }
   .pi-live span.n { font-family: var(--font-num); color: var(--accent-deep); }
 
@@ -361,13 +365,14 @@ const clientData = {
   .pi-tab.active { background: var(--accent-soft); color: var(--accent-deep); font-weight: 600; }
   .pi-tab.active .icon { color: var(--accent); }
   .pi-tab:not(.active):hover { background: var(--bg-2); color: var(--text-1); }
+  .pi-tab:not(.active):hover .icon { color: var(--text-1); }
   .pi-tab:active { transform: scale(0.98); }
   .pi-panel-view { display: none; margin-top: 20px; }
   .pi-panel-view.active { display: block; }
 
   .pi-section-h { font-family: 'Fraunces', 'Inter', serif; font-size: 17px; font-weight: 500; color: var(--text-1); margin: 28px 0 4px; letter-spacing: -0.005em; }
   .pi-section-sub { font-size: 11px; color: var(--text-3); font-weight: 400; }
-  .pi-notice { margin-top: 14px; padding: 12px 16px; border: 1px solid var(--warning-bg); border-radius: 12px; font-size: 12.5px; color: var(--text-2); background: var(--warning-bg); }
+  .pi-notice { margin-top: 14px; padding: 12px 16px; border: 1px solid var(--warning-bg); border-radius: 8px; font-size: 12.5px; color: var(--text-2); background: var(--warning-bg); }
   .pi-ring-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
   .pi-ring-card { display: flex; align-items: center; gap: 20px; flex: 0 0 320px; }
   .pi-ring-wrap { position: relative; width: 120px; height: 120px; flex-shrink: 0; }
@@ -377,17 +382,17 @@ const clientData = {
   .pi-ring-side-h { font-size: 11px; font-weight: 600; color: var(--text-2); margin: 0 0 8px; }
   .pi-ring-side-stat { font-size: 12.5px; color: var(--text-1); margin: 0 0 6px; display: flex; align-items: center; gap: 8px; font-family: var(--font-num); }
   .pi-ring-side-stat .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .pi-ring-side-stat .dot.won { background: var(--success); }
-  .pi-ring-side-stat .dot.lost { background: var(--danger); }
+  .pi-ring-side-stat .dot.won { background: var(--success-vivid); }
+  .pi-ring-side-stat .dot.lost { background: var(--danger-vivid); }
   .pi-pipeline-board { display: grid; grid-template-columns: repeat(6, minmax(180px, 1fr)); gap: 12px; margin-top: 18px; overflow-x: auto; }
   @media (max-width: 1100px) { .pi-pipeline-board { grid-template-columns: repeat(3, minmax(200px, 1fr)); } }
   @media (max-width: 640px) { .pi-pipeline-board { grid-template-columns: 1fr; } }
-  .pi-pipeline-col { background: var(--bg-2); border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .pi-pipeline-col { background: var(--bg-2); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
   .pi-pipeline-col-head { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; color: var(--text-1); }
   .pi-pipeline-count { background: var(--surface); border-radius: 20px; padding: 1px 8px; font-size: 11px; color: var(--text-2); }
   .pi-pipeline-col-total { font-family: var(--font-num); font-size: 12px; color: var(--text-3); margin-top: -4px; }
   .pi-pipeline-cards { display: flex; flex-direction: column; gap: 8px; }
-  .pi-deal-card { background: var(--surface); border-radius: 12px; padding: 10px 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-soft); }
+  .pi-deal-card { background: var(--surface); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-soft); }
   .pi-deal-title { font-size: 12px; font-weight: 600; color: var(--text-1); margin: 0 0 4px; }
   .pi-deal-lead { font-size: 11px; color: var(--text-2); margin: 0 0 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .pi-deal-value { font-family: var(--font-num); font-size: 13px; font-weight: 600; color: var(--text-1); margin: 0 0 4px; }
@@ -404,7 +409,7 @@ const clientData = {
   .pi-kpis-6 { grid-template-columns: repeat(6, 1fr); }
   @media (max-width: 1000px) { .pi-kpis-6 { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 560px) { .pi-kpis-6 { grid-template-columns: repeat(2, 1fr); } }
-  .pi-kpi { background: var(--surface); border: 1px solid var(--border-soft); border-radius: 20px; padding: 16px 18px; box-shadow: var(--shadow); transition: box-shadow 0.25s cubic-bezier(0.22,1,0.36,1), transform 0.25s cubic-bezier(0.22,1,0.36,1); }
+  .pi-kpi { background: var(--surface); border: 1px solid var(--border-soft); border-radius: 8px; padding: 16px 18px; box-shadow: var(--shadow); transition: box-shadow 0.25s cubic-bezier(0.22,1,0.36,1), transform 0.25s cubic-bezier(0.22,1,0.36,1); }
   .pi-kpi:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
   .pi-kpi .num { font-family: var(--font-num); font-size: 24px; font-weight: 600; color: var(--text-1); font-variant-numeric: tabular-nums; line-height: 1.1; }
   .pi-kpi .label { font-size: 11.5px; color: var(--text-2); margin-top: 6px; display: flex; align-items: center; gap: 5px; }
@@ -417,10 +422,10 @@ const clientData = {
   /* Hero gradient cards — double-bezel: outer shell (gradient) + inner core (chart) */
   .pi-hero-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
   @media (max-width: 900px) { .pi-hero-row { grid-template-columns: 1fr; } }
-  .pi-hero { border-radius: 20px; position: relative; background: var(--surface); border: 1px solid var(--border-soft); box-shadow: var(--shadow); }
+  .pi-hero { border-radius: 8px; position: relative; background: var(--surface); border: 1px solid var(--border-soft); box-shadow: var(--shadow); }
   .pi-hero.blue .pi-hero-eyebrow { color: var(--accent-deep); }
   .pi-hero.sky .pi-hero-eyebrow { color: var(--accent-2); }
-  .pi-hero-core { padding: 18px 20px 16px; border-radius: 20px; }
+  .pi-hero-core { padding: 18px 20px 16px; border-radius: 8px; }
   .pi-hero-top { display: flex; justify-content: space-between; align-items: flex-start; }
   .pi-hero-eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; margin: 0 0 4px; color: var(--text-3); }
   .pi-hero h3 { font-size: 12.5px; font-weight: 500; margin: 0; color: var(--text-2); }
@@ -433,7 +438,7 @@ const clientData = {
   /* Panels */
   .pi-panels { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 16px; }
   @media (max-width: 900px) { .pi-panels { grid-template-columns: 1fr; } }
-  .pi-panel { background: var(--surface); border-radius: 18px; padding: 18px 20px; box-shadow: var(--shadow); }
+  .pi-panel { background: var(--surface); border: 1px solid var(--border-soft); border-radius: 8px; padding: 18px 20px; box-shadow: var(--shadow); }
   .pi-panel h3 { font-size: 12.5px; font-weight: 600; color: var(--text-1); margin: 0 0 14px; }
   .pi-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 12.5px; }
   .pi-bar-row .lbl { flex: 0 0 130px; color: var(--text-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -444,7 +449,7 @@ const clientData = {
   .pi-empty-panel { color: var(--text-3); font-size: 12.5px; }
 
   /* Date range pills */
-  .pi-range { display: flex; align-items: center; gap: 3px; background: var(--surface); border-radius: 12px; padding: 5px; box-shadow: var(--shadow); }
+  .pi-range { display: flex; align-items: center; gap: 3px; background: var(--surface); border: 1px solid var(--border-soft); border-radius: 8px; padding: 5px; box-shadow: var(--shadow); }
   .pi-range button { border: none; background: transparent; font-size: 12px; font-weight: 500; color: var(--text-2); padding: 7px 13px; border-radius: 8px; cursor: pointer; font-family: inherit; }
   .pi-range button.active { background: var(--accent); color: #fff; }
   .pi-range button:not(.active):hover { background: var(--bg-2); color: var(--text-1); }
@@ -456,7 +461,7 @@ const clientData = {
   .pi-gran button { border: none; background: transparent; font-size: 11.5px; font-weight: 500; color: var(--text-2); padding: 6px 14px; border-radius: 8px; cursor: pointer; font-family: inherit; }
   .pi-gran button.active { background: var(--surface); color: var(--text-1); box-shadow: 0 1px 2px rgba(15,27,51,0.08); }
 
-  .pi-chart { margin-top: 16px; background: var(--surface); border-radius: 18px; padding: 20px 20px 14px; box-shadow: var(--shadow); position: relative; }
+  .pi-chart { margin-top: 16px; background: var(--surface); border: 1px solid var(--border-soft); border-radius: 8px; padding: 20px 20px 14px; box-shadow: var(--shadow); position: relative; }
   .pi-chart-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
   .pi-chart h3 { font-family: 'Fraunces', 'Inter', serif; font-size: 16px; font-weight: 500; color: var(--text-1); margin: 0; }
   .pi-chart-canvas-wrap { position: relative; width: 100%; height: 130px; overflow: hidden; }
@@ -468,26 +473,29 @@ const clientData = {
   @media (prefers-reduced-motion: reduce) { .pi-chart-bars path { transition: none !important; } }
 
   .pi-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 24px 0 12px; }
-  .pi-controls input, .pi-controls select { font-size: 13px; padding: 9px 13px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--text-1); font-family: inherit; }
+  .pi-controls input, .pi-controls select { font-size: 13px; padding: 9px 13px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text-1); font-family: inherit; }
   .pi-controls input:focus, .pi-controls select:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
   .pi-controls input { flex: 1; min-width: 200px; }
   .pi-controls label.chk { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--text-2); white-space: nowrap; }
-  .pi-export { font-size: 12.5px; font-weight: 500; color: var(--accent); text-decoration: none; border: 1px solid var(--border); border-radius: 10px; padding: 8px 15px; white-space: nowrap; background: var(--surface); cursor: pointer; font-family: inherit; }
+  .pi-export { font-size: 12.5px; font-weight: 500; color: var(--accent); text-decoration: none; border: 1px solid var(--border); border-radius: 8px; padding: 8px 15px; white-space: nowrap; background: var(--surface); cursor: pointer; font-family: inherit; }
   .pi-export:hover { background: var(--accent-soft); }
 
-  .pi-table-scroll { overflow-x: auto; background: var(--surface); border-radius: 18px; box-shadow: var(--shadow); }
-  table.pi-table { width: 100%; border-collapse: collapse; font-size: 13px; white-space: nowrap; }
-  table.pi-table th { text-align: left; font-size: 11px; font-weight: 600; color: var(--text-2); padding: 12px 16px; border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; }
+  /* Flowbite table convention: bg-gray-50 uppercase header, generous
+     px-6/py-3 cell padding, hover:bg-gray-50 rows, border-b dividers. */
+  .pi-table-scroll { overflow-x: auto; background: var(--surface); border: 1px solid var(--border-soft); border-radius: 8px; box-shadow: var(--shadow-sm); }
+  table.pi-table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; color: var(--text-2); white-space: nowrap; }
+  table.pi-table thead { background: var(--bg-2); }
+  table.pi-table th { text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-2); padding: 12px 24px; cursor: pointer; user-select: none; }
   table.pi-table th:hover { color: var(--accent); }
-  table.pi-table td { padding: 11px 16px; border-bottom: 1px solid var(--bg-2); font-variant-numeric: tabular-nums; color: var(--text-1); }
-  table.pi-table tbody tr.pi-row { cursor: pointer; }
-  table.pi-table tbody tr.pi-row:hover { background: var(--accent-soft); }
+  table.pi-table td { padding: 12px 24px; border-bottom: 1px solid var(--border-soft); font-variant-numeric: tabular-nums; color: var(--text-1); }
+  table.pi-table tbody tr.pi-row { cursor: pointer; background: var(--surface); transition: background 0.15s ease; }
+  table.pi-table tbody tr.pi-row:hover { background: var(--bg-2); }
   .pi-score { font-weight: 700; color: var(--accent); }
   .pi-status { font-size: 10.5px; font-weight: 600; padding: 3px 10px; border-radius: 20px; text-transform: capitalize; }
   .pi-status.active { background: var(--success-bg); color: var(--success); }
   .pi-status.converted { background: var(--accent-soft); color: var(--accent); }
   .pi-status.unsubscribed { background: var(--bg-2); color: var(--text-3); }
-  .pi-hot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--danger); margin-right: 6px; vertical-align: middle; }
+  .pi-hot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--danger-vivid); margin-right: 6px; vertical-align: middle; }
   .pi-caret { display: inline-block; transition: transform 0.15s; color: var(--text-3); margin-right: 8px; font-size: 10px; }
   tr.pi-row.open .pi-caret { transform: rotate(90deg); }
 
@@ -511,17 +519,17 @@ const clientData = {
   .pi-seq-badge.skipped { background: var(--bg-2); color: var(--text-3); }
   .pi-detail-h { font-size: 11px; font-weight: 600; color: var(--text-2); margin: 0 0 8px; }
 
-  .pi-empty { text-align: center; padding: 60px 20px; color: var(--text-2); border-radius: 18px; margin-top: 24px; background: var(--surface); box-shadow: var(--shadow); }
+  .pi-empty { text-align: center; padding: 60px 20px; color: var(--text-2); border-radius: 8px; margin-top: 24px; background: var(--surface); box-shadow: var(--shadow); }
   .pi-empty h2 { font-size: 16px; font-weight: 600; color: var(--text-1); margin: 0 0 8px; }
 
   /* Emails tab */
-  .pi-compose { background: var(--surface); border-radius: 18px; padding: 20px 22px; box-shadow: var(--shadow); margin-top: 16px; }
+  .pi-compose { background: var(--surface); border: 1px solid var(--border-soft); border-radius: 8px; padding: 20px 22px; box-shadow: var(--shadow); margin-top: 16px; }
   .pi-compose h3 { font-size: 13.5px; font-weight: 600; margin: 0 0 14px; }
   .pi-compose-grid { display: grid; gap: 12px; }
-  .pi-compose select, .pi-compose input, .pi-compose textarea { width: 100%; font-size: 13px; padding: 10px 13px; border-radius: 10px; border: 1px solid var(--border); background: #fff; color: var(--text-1); font-family: inherit; }
+  .pi-compose select, .pi-compose input, .pi-compose textarea { width: 100%; font-size: 13px; padding: 10px 13px; border-radius: 8px; border: 1px solid var(--border); background: #fff; color: var(--text-1); font-family: inherit; }
   .pi-compose textarea { min-height: 110px; resize: vertical; }
-  .pi-btn-primary { background: var(--accent); color: #fff; border: none; border-radius: 10px; padding: 10px 20px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; width: fit-content; }
-  .pi-btn-primary:hover { background: #7A3D20; }
+  .pi-btn-primary { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 10px 20px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; width: fit-content; }
+  .pi-btn-primary:hover { background: var(--accent-deep); }
   .pi-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
   .pi-btn-small { background: var(--accent-soft); color: var(--accent); border: none; border-radius: 8px; padding: 5px 12px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: inherit; }
   .pi-btn-small:hover { background: var(--accent); color: #fff; }
@@ -844,7 +852,7 @@ const clientData = {
             <div style="flex:1;">
               <div class="pi-bar-row" style="margin-bottom:4px;">
                 <span class="lbl" style="flex:0 0 60px;">{b.label}</span>
-                <span class="track"><span class="fill" style={`width:${(b.queries / Math.max(1, search.queriesTracked)) * 100}%;background:${b.label === 'Top 3' ? 'var(--success)' : b.label === '4-10' ? 'var(--accent)' : b.label === '11-20' ? 'var(--warning)' : 'var(--text-3)'};`}></span></span>
+                <span class="track"><span class="fill" style={`width:${(b.queries / Math.max(1, search.queriesTracked)) * 100}%;background:${b.label === 'Top 3' ? 'var(--success-vivid)' : b.label === '4-10' ? 'var(--accent)' : b.label === '11-20' ? 'var(--warning)' : 'var(--text-3)'};`}></span></span>
                 <span class="val">{b.queries}</span>
               </div>
             </div>
@@ -949,7 +957,7 @@ const clientData = {
             {scoreDistribution.map((b) => (
               <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;">
                 <span style="font-size:11px;font-weight:600;color:var(--text-2);">{b.count}</span>
-                <div style={`width:100%;max-width:56px;border-radius:6px 6px 2px 2px;background:${b.label === '75+' ? 'var(--danger)' : b.label === '50-74' ? 'var(--warning)' : 'var(--accent-2)'};height:${Math.max(4, (b.count / maxScoreBucket) * 46)}px;`}></div>
+                <div style={`width:100%;max-width:56px;border-radius:6px 6px 2px 2px;background:${b.label === '75+' ? 'var(--danger-vivid)' : b.label === '50-74' ? 'var(--warning)' : 'var(--accent-2)'};height:${Math.max(4, (b.count / maxScoreBucket) * 46)}px;`}></div>
                 <span style="font-size:10.5px;color:var(--text-3);">{b.label}</span>
               </div>
             ))}
@@ -1614,7 +1622,7 @@ const clientData = {
         const posEl = document.getElementById('panel-position-buckets');
         if (posEl && search.positionBuckets && search.positionBuckets.length) {
           const total = Math.max(1, search.queriesTracked);
-          const colorFor = (l) => l === 'Top 3' ? 'var(--success)' : l === '4-10' ? 'var(--accent)' : l === '11-20' ? 'var(--warning)' : 'var(--text-3)';
+          const colorFor = (l) => l === 'Top 3' ? 'var(--success-vivid)' : l === '4-10' ? 'var(--accent)' : l === '11-20' ? 'var(--warning)' : 'var(--text-3)';
           posEl.innerHTML = `<div style="display:flex;gap:14px;">${search.positionBuckets.map((b) => `
             <div style="flex:1;">
               <div class="pi-bar-row" style="margin-bottom:4px;">
@@ -1849,7 +1857,7 @@ const clientData = {
         labels: ['Won', 'Lost'],
         datasets: [{
           data: total > 0 ? [won, lost] : [1, 0],
-          backgroundColor: total > 0 ? ['#22B07D', '#E0554F'] : ['#EDECF5'],
+          backgroundColor: total > 0 ? ['#22C55E', '#EF4444'] : ['#F3F4F6'],
           borderWidth: 0,
         }],
       },
