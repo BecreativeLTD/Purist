@@ -301,7 +301,10 @@ const clientData = {
     --shadow: 0 1px 3px 0 rgba(0,0,0,0.06), 0 1px 2px -1px rgba(0,0,0,0.06);
     --shadow-lg: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
     --ring: 0 0 0 1px rgba(255,255,255,0.6) inset;
-    --font-num: 'Fira Code', 'SF Mono', ui-monospace, monospace;
+    /* Tabular-nums Inter instead of a monospace face — aligned digit
+       columns without the "terminal/engineering tool" look monospace
+       numerals read as on a KPI-heavy dashboard. */
+    --font-num: 'Inter', -apple-system, sans-serif;
     max-width: 1520px;
     margin: 0 auto;
     display: flex;
@@ -419,12 +422,12 @@ const clientData = {
   @media (max-width: 1000px) { .pi-kpis-6 { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 560px) { .pi-kpis-6 { grid-template-columns: repeat(2, 1fr); } }
   .pi-kpi { background: var(--surface); border: 1px solid var(--border-soft); border-radius: 8px; padding: 16px 18px; box-shadow: var(--shadow); transition: box-shadow 0.25s cubic-bezier(0.22,1,0.36,1), transform 0.25s cubic-bezier(0.22,1,0.36,1); display: flex; align-items: flex-start; gap: 12px; }
-  .pi-kpi-icon { width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--icon-bg, var(--accent-soft)); color: var(--icon-fg, var(--accent)); }
+  .pi-kpi-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: linear-gradient(155deg, color-mix(in srgb, var(--icon-bg, var(--accent-soft)) 100%, white 15%), var(--icon-bg, var(--accent-soft))); color: var(--icon-fg, var(--accent)); box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 1px 2px rgba(0,0,0,0.04); }
   .pi-kpi-icon svg { width: 18px; height: 18px; }
   .pi-kpi-body { flex: 1; min-width: 0; }
   .pi-kpi:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
-  .pi-kpi .num { font-family: var(--font-num); font-size: 24px; font-weight: 600; color: var(--text-1); font-variant-numeric: tabular-nums; line-height: 1.1; }
-  .pi-kpi .label { font-size: 11.5px; color: var(--text-2); margin-top: 6px; display: flex; align-items: center; gap: 5px; }
+  .pi-kpi .num { font-family: var(--font-num); font-size: 26px; font-weight: 700; color: var(--text-1); font-variant-numeric: tabular-nums; line-height: 1.1; letter-spacing: -0.02em; }
+  .pi-kpi .label { font-size: 11.5px; color: var(--text-2); margin-top: 5px; display: flex; align-items: center; gap: 5px; }
   .pi-kpi .range-label { text-transform: none; }
   .pi-delta { font-size: 10.5px; font-weight: 600; margin-top: 7px; display: inline-flex; align-items: center; gap: 3px; padding: 2px 8px; border-radius: 20px; }
   .pi-delta.up { color: var(--success); background: var(--success-bg); }
@@ -648,30 +651,48 @@ const clientData = {
 
     <div class="pi-kpis pi-kpis-6" style="margin-top:12px;">
       <div class="pi-kpi">
-        <div class="num" id="kpi-bounce">{traffic.available ? `${(traffic.bounceRate * 100).toFixed(0)}%` : '—'}</div>
-        <div class="label">Bounce rate</div>
-        {bounceDelta !== null && <div class={`pi-delta ${bounceDelta < -0.5 ? 'up' : bounceDelta > 0.5 ? 'down' : 'flat'}`}>{bounceDelta > 0 ? '↑' : bounceDelta < 0 ? '↓' : '–'} {Math.abs(bounceDelta).toFixed(1)}pp</div>}
+        <div class="pi-kpi-icon" style="--icon-bg:#FFEDD5;--icon-fg:#9A3412;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="pi-kpi-body">
+          <div class="num" id="kpi-bounce">{traffic.available ? `${(traffic.bounceRate * 100).toFixed(0)}%` : '—'}</div>
+          <div class="label">Bounce rate</div>
+          {bounceDelta !== null && <div class={`pi-delta ${bounceDelta < -0.5 ? 'up' : bounceDelta > 0.5 ? 'down' : 'flat'}`}>{bounceDelta > 0 ? '↑' : bounceDelta < 0 ? '↓' : '–'} {Math.abs(bounceDelta).toFixed(1)}pp</div>}
+        </div>
       </div>
       <div class="pi-kpi">
-        <div class="num" id="kpi-engagement">{traffic.available ? fmtDuration(traffic.avgEngagementSec) : '—'}</div>
-        <div class="label">Avg. engagement time</div>
-        {engagementDelta !== null && <div class={`pi-delta ${engagementDelta > 0 ? 'up' : engagementDelta < 0 ? 'down' : 'flat'}`}>{engagementDelta > 0 ? '↑' : '↓'} {fmtDelta(engagementDelta)}</div>}
+        <div class="pi-kpi-icon" style="--icon-bg:#D1FAE5;--icon-fg:#065F46;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="pi-kpi-body">
+          <div class="num" id="kpi-engagement">{traffic.available ? fmtDuration(traffic.avgEngagementSec) : '—'}</div>
+          <div class="label">Avg. engagement time</div>
+          {engagementDelta !== null && <div class={`pi-delta ${engagementDelta > 0 ? 'up' : engagementDelta < 0 ? 'down' : 'flat'}`}>{engagementDelta > 0 ? '↑' : '↓'} {fmtDelta(engagementDelta)}</div>}
+        </div>
       </div>
       <div class="pi-kpi">
-        <div class="num" id="kpi-new-returning">{traffic.available ? `${newPct}% / ${returningPct}%` : '—'}</div>
-        <div class="label">New vs. returning users</div>
+        <div class="pi-kpi-icon" style="--icon-bg:#FAE8FF;--icon-fg:#86198F;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg></div>
+        <div class="pi-kpi-body">
+          <div class="num" id="kpi-new-returning">{traffic.available ? `${newPct}% / ${returningPct}%` : '—'}</div>
+          <div class="label">New vs. returning users</div>
+        </div>
       </div>
       <div class="pi-kpi">
-        <div class="num" id="kpi-brand">{search.available ? `${brandPct}%` : '—'}</div>
-        <div class="label">Brand-query share of clicks</div>
+        <div class="pi-kpi-icon" style="--icon-bg:#ECFCCB;--icon-fg:#3F6212;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></svg></div>
+        <div class="pi-kpi-body">
+          <div class="num" id="kpi-brand">{search.available ? `${brandPct}%` : '—'}</div>
+          <div class="label">Brand-query share of clicks</div>
+        </div>
       </div>
       <div class="pi-kpi">
-        <div class="num" id="kpi-pages-session">{traffic.available ? traffic.pagesPerSession.toFixed(1) : '—'}</div>
-        <div class="label">Pages / session</div>
+        <div class="pi-kpi-icon" style="--icon-bg:#FFE4E6;--icon-fg:#9F1239;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg></div>
+        <div class="pi-kpi-body">
+          <div class="num" id="kpi-pages-session">{traffic.available ? traffic.pagesPerSession.toFixed(1) : '—'}</div>
+          <div class="label">Pages / session</div>
+        </div>
       </div>
       <div class="pi-kpi">
-        <div class="num" id="kpi-sessions-user">{traffic.available ? traffic.sessionsPerUser.toFixed(2) : '—'}</div>
-        <div class="label">Sessions / user</div>
+        <div class="pi-kpi-icon" style="--icon-bg:#F1F5F9;--icon-fg:#334155;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg></div>
+        <div class="pi-kpi-body">
+          <div class="num" id="kpi-sessions-user">{traffic.available ? traffic.sessionsPerUser.toFixed(2) : '—'}</div>
+          <div class="label">Sessions / user</div>
+        </div>
       </div>
     </div>
 
