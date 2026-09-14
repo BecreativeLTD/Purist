@@ -2,6 +2,7 @@
 export const prerender = false;
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import { createSupabaseAdminClient } from '~/lib/supabase-admin';
+import { fetchTrafficOverview, fetchSearchOverview } from '~/lib/site-metrics';
 
 // This route is gated by src/middleware.ts (PROTECTED_ROUTES), a visitor
 // only reaches this code after a valid Supabase Auth session was
@@ -34,6 +35,11 @@ const { data: sequencesRaw } = leadIds.length
       .order('step', { ascending: true })
   : { data: [] as any[] };
 const sequences = sequencesRaw ?? [];
+
+const [traffic, search] = await Promise.all([fetchTrafficOverview(30), fetchSearchOverview(30)]);
+const emailsSent = sequences.filter((s) => s.status === 'sent').length;
+const emailsPending = sequences.filter((s) => s.status === 'pending').length;
+const emailsFailed = sequences.filter((s) => s.status === 'failed').length;
 
 // ── Group events and sequences per lead for the expandable detail row ──
 const eventsByLead: Record<string, typeof events> = {};
@@ -129,7 +135,11 @@ const SEQUENCE_LABELS: Record<number, string> = { 0: 'J0', 2: 'J2', 5: 'J5' };
   .ld-wrap { max-width: 1180px; margin: 0 auto; padding: 40px 24px 100px; }
   .ld-h1 { font-family: 'Fraunces', Georgia, serif; font-size: 28px; color: #0A0A0A; margin: 0; }
   .ld-sub { color: rgba(10,10,10,0.5); font-size: 13.5px; margin: 6px 0 0; }
-  .ld-kpis { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: rgba(10,10,10,0.08); border: 1px solid rgba(10,10,10,0.08); margin-top: 28px; }
+  .ld-section-h { font-family: 'Fraunces', Georgia, serif; font-size: 18px; color: #0A0A0A; margin: 32px 0 0; display: flex; align-items: baseline; gap: 10px; }
+  .ld-section-sub { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(10,10,10,0.35); font-weight: 400; }
+  .ld-notice { margin-top: 16px; padding: 12px 16px; border: 1px dashed rgba(10,10,10,0.15); border-radius: 10px; font-size: 12.5px; color: rgba(10,10,10,0.55); background: #FBF9F4; }
+  .ld-notice code { background: rgba(10,10,10,0.06); padding: 1px 6px; border-radius: 4px; font-size: 11.5px; }
+  .ld-kpis { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: rgba(10,10,10,0.08); border: 1px solid rgba(10,10,10,0.08); margin-top: 16px; }
   .ld-kpi { background: #fff; padding: 16px 14px; }
   .ld-kpi .num { font-family: 'Fraunces', Georgia, serif; font-size: 24px; color: #8B4038; font-variant-numeric: tabular-nums; line-height: 1; }
   .ld-kpi .label { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(10,10,10,0.4); margin-top: 6px; }
@@ -207,13 +217,86 @@ const SEQUENCE_LABELS: Record<number, string> = { 0: 'J0', 2: 'J2', 5: 'J5' };
 <div class="ld-wrap">
   <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;">
     <div>
-      <h1 class="ld-h1">Lead Intelligence</h1>
-      <p class="ld-sub">Every capture point across the site, one scored profile per email, with full event history. Internal use only.</p>
+      <h1 class="ld-h1">Command Center</h1>
+      <p class="ld-sub">Traffic, search performance, email delivery, and lead intelligence, one page. Internal use only.</p>
     </div>
     <a href="/pages/dashboard" style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:rgba(10,10,10,0.45);text-decoration:none;border:1px solid rgba(10,10,10,0.15);border-radius:8px;padding:8px 14px;white-space:nowrap;">
       View client demo →
     </a>
   </div>
+
+  <h2 class="ld-section-h">Site Overview <span class="ld-section-sub">last 30 days</span></h2>
+
+  <div class="ld-kpis" style="grid-template-columns:repeat(6,1fr);">
+    <div class="ld-kpi"><div class="num">{traffic.available ? traffic.sessions : '—'}</div><div class="label">Sessions (GA4)</div></div>
+    <div class="ld-kpi"><div class="num">{traffic.available ? traffic.users : '—'}</div><div class="label">Users (GA4)</div></div>
+    <div class="ld-kpi"><div class="num">{search.available ? search.clicks : '—'}</div><div class="label">Search clicks</div></div>
+    <div class="ld-kpi"><div class="num">{search.available ? search.impressions : '—'}</div><div class="label">Impressions</div></div>
+    <div class="ld-kpi"><div class="num">{search.available ? search.avgPosition.toFixed(1) : '—'}</div><div class="label">Avg. position</div></div>
+    <div class="ld-kpi"><div class="num">{emailsSent}</div><div class="label">Nurture emails sent</div></div>
+  </div>
+
+  {!traffic.available && !search.available && (
+    <div class="ld-notice">
+      <strong>Traffic and Search Console data not connected yet.</strong> Set the <code>GOOGLE_SERVICE_ACCOUNT_JSON</code> environment variable in Vercel (Project Settings → Environment Variables) with the service account credentials, then redeploy. Lead intelligence below is unaffected, it runs on Supabase alone.
+    </div>
+  )}
+
+  <div class="ld-panels">
+    <div class="ld-panel">
+      <h3>Traffic by channel (GA4)</h3>
+      {!traffic.available ? <p class="ld-empty-panel">Not connected.</p> : traffic.channels.length === 0 ? <p class="ld-empty-panel">No sessions in this window.</p> : (() => {
+        const maxCh = Math.max(1, ...traffic.channels.map((c) => c.sessions));
+        return traffic.channels.map((c) => (
+          <div class="ld-bar-row">
+            <span class="lbl">{c.channel}</span>
+            <span class="track"><span class="fill" style={`width:${(c.sessions / maxCh) * 100}%`}></span></span>
+            <span class="val">{c.sessions}</span>
+          </div>
+        ));
+      })()}
+    </div>
+    <div class="ld-panel">
+      <h3>Top pages by sessions (GA4)</h3>
+      {!traffic.available ? <p class="ld-empty-panel">Not connected.</p> : traffic.topPages.length === 0 ? <p class="ld-empty-panel">No sessions in this window.</p> : (() => {
+        const maxP = Math.max(1, ...traffic.topPages.map((p) => p.sessions));
+        return traffic.topPages.map((p) => (
+          <div class="ld-bar-row">
+            <span class="lbl" title={p.page}>{p.page}</span>
+            <span class="track"><span class="fill alt" style={`width:${(p.sessions / maxP) * 100}%`}></span></span>
+            <span class="val">{p.sessions}</span>
+          </div>
+        ));
+      })()}
+    </div>
+    <div class="ld-panel">
+      <h3>Top search queries (GSC)</h3>
+      {!search.available ? <p class="ld-empty-panel">Not connected.</p> : search.topQueries.length === 0 ? <p class="ld-empty-panel">No queries in this window.</p> : (
+        <ul class="ld-timeline" style="margin-top:-4px;">
+          {search.topQueries.map((q) => (
+            <li>
+              <span class="ev-type" style="flex:1;">{q.query}</span>
+              <span class="ev-meta" style="flex:0 0 auto;">pos {q.position.toFixed(1)}</span>
+              <span class="ev-pts">{q.clicks}c</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </div>
+
+  <div class="ld-panels" style="grid-template-columns:1fr;margin-top:16px;">
+    <div class="ld-panel" style="display:flex;gap:28px;flex-wrap:wrap;align-items:center;">
+      <h3 style="margin:0;flex:0 0 auto;">Nurture email delivery</h3>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;">
+        <span style="font-size:12.5px;"><strong style="color:#2D6A4F;">{emailsSent}</strong> sent</span>
+        <span style="font-size:12.5px;"><strong style="color:rgba(10,10,10,0.5);">{emailsPending}</strong> pending</span>
+        <span style="font-size:12.5px;"><strong style="color:#A6291B;">{emailsFailed}</strong> failed</span>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="ld-section-h" style="margin-top:40px;">Lead Intelligence</h2>
 
   <div class="ld-kpis">
     <div class="ld-kpi"><div class="num">{totalLeads}</div><div class="label">Total leads</div></div>
