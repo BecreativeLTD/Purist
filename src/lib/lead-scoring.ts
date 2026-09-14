@@ -28,6 +28,8 @@ export const EVENT_TYPES = [
   'report_download',
   'roi_calculator',
   'audit_request',
+  'email_opened',
+  'manual_entry',
 ] as const;
 
 export type LeadEventType = (typeof EVENT_TYPES)[number];
@@ -38,7 +40,24 @@ const BASE_POINTS: Record<LeadEventType, number> = {
   report_download: 15,
   roi_calculator: 20,
   audit_request: 30,
+  // Opening an email is a real but weak signal, deliberately below every
+  // form-submission event since it requires far less intent than acting
+  // on the page. Repeat opens of the same email don't re-trigger this
+  // (recordLeadEvent's multi-touch bonus only fires on a new TYPE, not a
+  // new instance of the same type), so this rewards "opens email" as a
+  // trait, not raw open count.
+  email_opened: 3,
+  // Manually adding a contact carries no purchase-intent signal by
+  // itself, it's an origin marker so the contact shows up in the event
+  // timeline at all.
+  manual_entry: 0,
 };
+
+/** One-time score bonus for capturing a real firmographic signal (company
+ * size) that none of the existing capture forms collect. Applied directly
+ * to the lead's score, not through an event, since it's a profile fact,
+ * not an action. */
+export const COMPANY_SIZE_BONUS = 5;
 
 const MULTI_TOUCH_BONUS = 10;
 

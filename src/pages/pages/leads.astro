@@ -10,12 +10,28 @@ import { fetchTrafficOverview, fetchSearchOverview, pctChange } from '~/lib/site
 // gate, it is never exposed to the browser.
 const db = createSupabaseAdminClient();
 
-const { data: leadsRaw, error } = await db
+// The v3 CRM migration (supabase-schema-v3-crm.sql) adds phone/tags/
+// company_size/last_contacted_at. If it hasn't been run yet, selecting
+// those columns fails the whole query, so try the wide select first and
+// fall back to the original column list, degrading the CRM-specific UI
+// rather than breaking the page.
+let crmColumnsAvailable = true;
+let { data: leadsRaw, error } = await db
   .from('leads')
-  .select('id, email, name, company, category, profession_slug, source, page, status, score, touch_count, created_at, last_seen_at')
+  .select('id, email, name, company, phone, tags, company_size, last_contacted_at, category, profession_slug, source, page, status, score, touch_count, created_at, last_seen_at')
   .order('score', { ascending: false });
 
-const leads = leadsRaw ?? [];
+if (error) {
+  crmColumnsAvailable = false;
+  ({ data: leadsRaw, error } = await db
+    .from('leads')
+    .select('id, email, name, company, category, profession_slug, source, page, status, score, touch_count, created_at, last_seen_at')
+    .order('score', { ascending: false }));
+}
+
+const leads = (leadsRaw ?? []).map((l: any) => ({
+  phone: null, tags: [] as string[], company_size: null, last_contacted_at: null, ...l,
+}));
 const leadIds = leads.map((l) => l.id);
 
 const { data: eventsRaw } = leadIds.length
@@ -35,6 +51,19 @@ const { data: sequencesRaw } = leadIds.length
       .order('scheduled_at', { ascending: false })
   : { data: [] as any[] };
 const sequences = sequencesRaw ?? [];
+
+const { data: activitiesRaw } = crmColumnsAvailable && leadIds.length
+  ? await db
+      .from('contact_activities')
+      .select('id, lead_id, type, subject, body, created_at')
+      .in('lead_id', leadIds)
+      .order('created_at', { ascending: false })
+  : { data: [] as any[] };
+const activities = activitiesRaw ?? [];
+const activitiesByLead: Record<string, typeof activities> = {};
+activities.forEach((a) => { (activitiesByLead[a.lead_id] ??= []).push(a); });
+
+const allTags = [...new Set(leads.flatMap((l) => l.tags || []))].sort();
 
 // Defaults to the largest range Search Console's API actually retains
 // (~16 months, its own hard limit, not a choice made here) so the page
@@ -530,7 +559,7 @@ const clientData = {
               <div class="hero-num">{traffic.available ? traffic.sessions.toLocaleString() : '—'}</div>
             </div>
           </div>
-          <svg class="pi-hero-svg" id="hero-sessions" viewBox="0 0 300 68" preserveAspectRatio="none"></svg>
+          <svg class="pi-hero-svg" id="hero-sessions" viewBox="0 0 300 68"></svg>
           <div class="pi-hero-stats" id="hero-sessions-stats"></div>
         </div>
       </div>
@@ -543,7 +572,7 @@ const clientData = {
               <div class="hero-num">{search.available ? search.clicks.toLocaleString() : '—'}</div>
             </div>
           </div>
-          <svg class="pi-hero-svg" id="hero-clicks" viewBox="0 0 300 68" preserveAspectRatio="none"></svg>
+          <svg class="pi-hero-svg" id="hero-clicks" viewBox="0 0 300 68"></svg>
           <div class="pi-hero-stats" id="hero-clicks-stats"></div>
         </div>
       </div>
@@ -604,7 +633,7 @@ const clientData = {
           <button data-gran="hour">Hour of day</button>
         </div>
       </div>
-      <svg class="pi-chart-bars" id="traffic-chart" viewBox="0 0 600 130" preserveAspectRatio="none"></svg>
+      <svg class="pi-chart-bars" id="traffic-chart" viewBox="0 0 600 130"></svg>
       <div class="pi-chart-labels" id="traffic-chart-labels"></div>
     </div>
 
@@ -683,7 +712,7 @@ const clientData = {
           <button data-gran="week">Week</button>
         </div>
       </div>
-      <svg class="pi-chart-bars" id="search-chart" viewBox="0 0 600 130" preserveAspectRatio="none"></svg>
+      <svg class="pi-chart-bars" id="search-chart" viewBox="0 0 600 130"></svg>
       <div class="pi-chart-labels" id="search-chart-labels"></div>
     </div>
 
@@ -806,6 +835,12 @@ const clientData = {
           </div>
         </div>
 
+        {!crmColumnsAvailable && (
+          <div class="pi-notice">
+            <strong>CRM fields not set up yet.</strong> Run <code>supabase-schema-v3-crm.sql</code> in the Supabase SQL editor to enable phone, tags, company size, last-contacted date, the activity timeline, and duplicate detection.
+          </div>
+        )}
+
         <div class="pi-controls">
           <input id="pi-search" type="text" placeholder="Search email, name, or company..." />
           <select id="pi-filter-cat">
@@ -818,9 +853,51 @@ const clientData = {
             <option value="converted">Converted</option>
             <option value="unsubscribed">Unsubscribed</option>
           </select>
+          {crmColumnsAvailable && (
+            <select id="pi-filter-tag">
+              <option value="">All tags</option>
+              {allTags.map((t) => <option value={t as string}>{t}</option>)}
+            </select>
+          )}
           <label class="chk"><input type="checkbox" id="pi-filter-hot" /> Hot leads only</label>
           <button class="pi-export" id="pi-export">Export CSV ↓</button>
+          {crmColumnsAvailable && <button class="pi-export" id="pi-toggle-new-contact">+ New contact</button>}
+          {crmColumnsAvailable && <button class="pi-export" id="pi-toggle-import">Import CSV</button>}
+          {crmColumnsAvailable && <button class="pi-export" id="pi-toggle-duplicates">Find duplicates</button>}
         </div>
+
+        {crmColumnsAvailable && (
+          <div class="pi-compose" id="new-contact-panel" style="display:none;">
+            <h3>New contact</h3>
+            <div class="pi-compose-grid" style="grid-template-columns:1fr 1fr;">
+              <input id="nc-email" type="email" placeholder="Email *" />
+              <input id="nc-name" type="text" placeholder="Name" />
+              <input id="nc-phone" type="text" placeholder="Phone" />
+              <input id="nc-company" type="text" placeholder="Company" />
+              <input id="nc-company-size" type="text" placeholder="Company size (e.g. 1-10, 50-200)" />
+              <input id="nc-tags" type="text" placeholder="Tags, comma-separated" />
+            </div>
+            <button class="pi-btn-primary" id="nc-submit" style="margin-top:10px;">Save contact</button>
+            <div class="pi-feedback" id="nc-feedback"></div>
+          </div>
+        )}
+
+        {crmColumnsAvailable && (
+          <div class="pi-compose" id="import-panel" style="display:none;">
+            <h3>Import contacts from CSV</h3>
+            <p style="font-size:12px;color:var(--text-2);margin:0 0 10px;">Header row required: <code>email,name,phone,company,tags</code> (tags separated by <code>;</code>). Paste the CSV content below.</p>
+            <textarea id="import-csv" placeholder="email,name,phone,company,tags&#10;jane@acme.com,Jane Doe,+15551234567,Acme Inc,vip;webinar" style="min-height:140px;"></textarea>
+            <button class="pi-btn-primary" id="import-submit" style="margin-top:10px;">Import</button>
+            <div class="pi-feedback" id="import-feedback"></div>
+          </div>
+        )}
+
+        {crmColumnsAvailable && (
+          <div class="pi-panel" id="duplicates-panel" style="display:none;margin-bottom:16px;">
+            <h3>Possible duplicate contacts (matching phone number)</h3>
+            <div id="duplicates-list"><p class="pi-empty-panel">Loading…</p></div>
+          </div>
+        )}
 
         <div class="pi-table-scroll">
           <table class="pi-table" id="pi-table">
@@ -829,6 +906,8 @@ const clientData = {
                 <th></th>
                 <th data-sort="email">Email</th>
                 <th data-sort="company">Company</th>
+                {crmColumnsAvailable && <th>Phone</th>}
+                {crmColumnsAvailable && <th>Tags</th>}
                 <th data-sort="category">Category</th>
                 <th data-sort="score">Score</th>
                 <th data-sort="touch_count">Touches</th>
@@ -840,13 +919,22 @@ const clientData = {
               {leads.map((l) => {
                 const leadEvents = eventsByLead[l.id] ?? [];
                 const leadSeqs = sequencesByLead[l.id] ?? [];
+                const leadActivities = activitiesByLead[l.id] ?? [];
                 const isHot = (l.score ?? 0) >= 50;
+                // Merge every source into one reverse-chronological timeline.
+                const timeline = [
+                  ...leadEvents.map((e) => ({ kind: 'event' as const, at: e.created_at, e })),
+                  ...leadActivities.map((a) => ({ kind: 'activity' as const, at: a.created_at, a })),
+                ].sort((x, y) => new Date(y.at).getTime() - new Date(x.at).getTime());
+                const colCount = crmColumnsAvailable ? 10 : 8;
                 return (
                   <>
-                    <tr class="pi-row" data-lead-id={l.id} data-email={l.email.toLowerCase()} data-name={(l.name || '').toLowerCase()} data-company={(l.company || '').toLowerCase()} data-category={l.category || ''} data-status={l.status} data-score={l.score} data-touches={l.touch_count} data-last-seen={l.last_seen_at} data-hot={isHot ? '1' : '0'}>
+                    <tr class="pi-row" data-lead-id={l.id} data-email={l.email.toLowerCase()} data-name={(l.name || '').toLowerCase()} data-company={(l.company || '').toLowerCase()} data-category={l.category || ''} data-status={l.status} data-score={l.score} data-touches={l.touch_count} data-last-seen={l.last_seen_at} data-hot={isHot ? '1' : '0'} data-tags={(l.tags || []).join(',')}>
                       <td style="width:20px;"><span class="pi-caret">▶</span></td>
                       <td>{isHot && <span class="pi-hot" title="Hot lead (score 50+)"></span>}{l.email}</td>
                       <td>{l.company || '-'}</td>
+                      {crmColumnsAvailable && <td>{l.phone || '-'}</td>}
+                      {crmColumnsAvailable && <td>{(l.tags || []).length ? (l.tags || []).map((t: string) => <span class="pi-status active" style="margin-right:4px;">{t}</span>) : '-'}</td>}
                       <td>{l.category || '-'}</td>
                       <td class="pi-score">{l.score}</td>
                       <td>{l.touch_count}</td>
@@ -854,21 +942,38 @@ const clientData = {
                       <td>{fmtDate(l.last_seen_at)}</td>
                     </tr>
                     <tr class="pi-detail" data-detail-for={l.id}>
-                      <td colspan="8" class="pi-detail-cell">
+                      <td colspan={colCount} class="pi-detail-cell">
                         <div class="pi-detail-inner">
                           <div class="pi-detail-grid">
                             <div>
-                              <p class="pi-detail-h">Event history ({leadEvents.length})</p>
-                              {leadEvents.length === 0 ? <p class="pi-empty-panel">No events recorded.</p> : (
+                              <p class="pi-detail-h">Timeline ({timeline.length})</p>
+                              {timeline.length === 0 ? <p class="pi-empty-panel">No activity recorded.</p> : (
                                 <ul class="pi-timeline">
-                                  {leadEvents.map((e) => (
+                                  {timeline.map((t) => t.kind === 'event' ? (
                                     <li>
-                                      <span class="ev-type">{EVENT_LABELS[e.event_type] ?? e.event_type}</span>
-                                      <span class="ev-meta">{e.page || e.source || '—'} · {fmtDateTime(e.created_at)}</span>
-                                      <span class="ev-pts">+{e.points}</span>
+                                      <span class="ev-type">{EVENT_LABELS[t.e.event_type] ?? t.e.event_type}</span>
+                                      <span class="ev-meta">{t.e.page || t.e.source || '—'} · {fmtDateTime(t.e.created_at)}</span>
+                                      <span class="ev-pts">+{t.e.points}</span>
+                                    </li>
+                                  ) : (
+                                    <li>
+                                      <span class="ev-type" style="text-transform:capitalize;">{t.a.type}{t.a.subject ? `: ${t.a.subject}` : ''}</span>
+                                      <span class="ev-meta">{t.a.body || '—'} · {fmtDateTime(t.a.created_at)}</span>
+                                      <span class="ev-pts"></span>
                                     </li>
                                   ))}
                                 </ul>
+                              )}
+                              {crmColumnsAvailable && (
+                                <div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap;">
+                                  <select class="activity-type" style="font-size:11.5px;padding:6px 8px;border-radius:6px;border:1px solid var(--border);">
+                                    <option value="call">Call</option>
+                                    <option value="meeting">Meeting</option>
+                                    <option value="note">Note</option>
+                                  </select>
+                                  <input class="activity-text" type="text" placeholder="What happened..." style="flex:1;min-width:140px;font-size:11.5px;padding:6px 8px;border-radius:6px;border:1px solid var(--border);" />
+                                  <button class="pi-btn-small activity-add" data-lead-for-activity={l.id}>Log</button>
+                                </div>
                               )}
                             </div>
                             <div>
@@ -882,6 +987,9 @@ const clientData = {
                                     </li>
                                   ))}
                                 </ul>
+                              )}
+                              {crmColumnsAvailable && l.last_contacted_at && (
+                                <p style="font-size:11px;color:var(--text-3);margin-top:10px;">Last contacted: {fmtDate(l.last_contacted_at)}</p>
                               )}
                               <button class="pi-btn-small" style="margin-top:10px;" data-goto-email={l.id}>Compose email →</button>
                             </div>
@@ -1031,7 +1139,15 @@ const clientData = {
   function renderBars(containerId, labelsId, points, formatLabel) {
     const svg = document.getElementById(containerId);
     if (!svg) return;
-    const W = 600, H = 130, PADT = 14, PADB = 22, PADL = 40;
+    // Match the viewBox to the SVG's actual rendered pixel size (height is
+    // fixed by CSS, width is responsive) so 1 SVG unit = 1 CSS pixel and
+    // nothing gets non-uniformly stretched. preserveAspectRatio="none" with
+    // a fixed viewBox distorted text/circles into ellipses at any width
+    // that didn't match the box's 600:130 ratio exactly.
+    const H = svg.clientHeight || 130;
+    const W = svg.clientWidth || 600;
+    const PADT = 14, PADB = 22, PADL = 40;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     svg.innerHTML = '';
     if (!points.length) return;
     const max = Math.max(1, ...points.map((p) => p.value));
@@ -1163,7 +1279,13 @@ const clientData = {
   function renderHero(containerId, statsId, points, unitLabel) {
     const svg = document.getElementById(containerId);
     if (!svg) return;
-    const W = 300, H = 68, PAD = 4;
+    // Same fix as renderBars: match viewBox to real pixel size so nothing
+    // is non-uniformly stretched (was distorting the peak-value label text
+    // and turning the peak dot into an ellipse).
+    const H = svg.clientHeight || 68;
+    const W = svg.clientWidth || 300;
+    const PAD = 4;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     svg.innerHTML = '';
     if (!points.length) return;
     const max = Math.max(1, ...points.map((p) => p.value));
@@ -1226,12 +1348,28 @@ const clientData = {
     }
   }
 
-  const trafficDailyPoints = (clientData.trafficDaily || []).map((d) => ({ label: d.date, value: d.sessions }));
-  const searchDailyPoints = (clientData.searchDaily || []).map((d) => ({ label: d.date, value: d.clicks }));
+  let trafficDailyPoints = (clientData.trafficDaily || []).map((d) => ({ label: d.date, value: d.sessions }));
+  let searchDailyPoints = (clientData.searchDaily || []).map((d) => ({ label: d.date, value: d.clicks }));
+  let trafficChartPoints = trafficDailyPoints;
+  let searchChartPoints = searchDailyPoints;
   renderHero('hero-sessions', 'hero-sessions-stats', trafficDailyPoints, 'sessions');
   renderHero('hero-clicks', 'hero-clicks-stats', searchDailyPoints, 'clicks');
-  renderBars('traffic-chart', 'traffic-chart-labels', trafficDailyPoints);
-  renderBars('search-chart', 'search-chart-labels', searchDailyPoints);
+  renderBars('traffic-chart', 'traffic-chart-labels', trafficChartPoints);
+  renderBars('search-chart', 'search-chart-labels', searchChartPoints);
+
+  // Re-measure and redraw on resize (debounced) so the fixed-to-container
+  // viewBox fix above stays correct as the layout reflows, e.g. rotating a
+  // phone or resizing the browser window.
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      renderHero('hero-sessions', 'hero-sessions-stats', trafficDailyPoints, 'sessions');
+      renderHero('hero-clicks', 'hero-clicks-stats', searchDailyPoints, 'clicks');
+      renderBars('traffic-chart', 'traffic-chart-labels', trafficChartPoints);
+      renderBars('search-chart', 'search-chart-labels', searchChartPoints);
+    }, 200);
+  });
 
   // ── Date range switching: re-fetches overview + charts, no page reload ──
   function renderBarRowsInto(containerId, items, labelKey, valueKey, altClass) {
@@ -1306,12 +1444,14 @@ const clientData = {
 
         function fmtDuration(sec) { const m = Math.floor(sec / 60); const s = Math.round(sec % 60); return `${m}:${String(s).padStart(2, '0')}`; }
 
-        const newTrafficPoints = (traffic.daily || []).map((d) => ({ label: d.date, value: d.sessions }));
-        const newSearchPoints = (search.daily || []).map((d) => ({ label: d.date, value: d.clicks }));
-        renderHero('hero-sessions', 'hero-sessions-stats', newTrafficPoints, 'sessions');
-        renderHero('hero-clicks', 'hero-clicks-stats', newSearchPoints, 'clicks');
-        renderBars('traffic-chart', 'traffic-chart-labels', newTrafficPoints);
-        renderBars('search-chart', 'search-chart-labels', newSearchPoints);
+        trafficDailyPoints = (traffic.daily || []).map((d) => ({ label: d.date, value: d.sessions }));
+        searchDailyPoints = (search.daily || []).map((d) => ({ label: d.date, value: d.clicks }));
+        trafficChartPoints = trafficDailyPoints;
+        searchChartPoints = searchDailyPoints;
+        renderHero('hero-sessions', 'hero-sessions-stats', trafficDailyPoints, 'sessions');
+        renderHero('hero-clicks', 'hero-clicks-stats', searchDailyPoints, 'clicks');
+        renderBars('traffic-chart', 'traffic-chart-labels', trafficChartPoints);
+        renderBars('search-chart', 'search-chart-labels', searchChartPoints);
 
         renderBarRowsInto('panel-channels', traffic.channels, 'channel', 'sessions', false);
         renderBarRowsInto('panel-overview-queries', (search.topQueries || []).slice(0, 6), 'query', 'clicks', true);
@@ -1359,6 +1499,7 @@ const clientData = {
           const res = await fetch(`/api/admin/metrics?type=${type}&granularity=${granularity}`);
           const data = await res.json();
           if (data.available) {
+            if (type === 'traffic') trafficChartPoints = data.points; else searchChartPoints = data.points;
             renderBars(chartId, labelsId, data.points);
           } else {
             document.getElementById(chartId).innerHTML = '<p class="pi-empty-panel">No data for this view.</p>';
@@ -1396,18 +1537,22 @@ const clientData = {
       });
     });
 
+    const filterTagEl = document.getElementById('pi-filter-tag');
     function applyFilters() {
       const q = (search?.value || '').toLowerCase().trim();
       const cat = filterCat?.value || '';
       const status = filterStatus?.value || '';
       const hotOnly = filterHot?.checked || false;
+      const tag = filterTagEl?.value || '';
       let visible = 0;
       rows.forEach((row) => {
+        const rowTags = (row.dataset.tags || '').split(',').filter(Boolean);
         const matches =
           (!q || row.dataset.email.includes(q) || row.dataset.name.includes(q) || row.dataset.company.includes(q)) &&
           (!cat || row.dataset.category === cat) &&
           (!status || row.dataset.status === status) &&
-          (!hotOnly || row.dataset.hot === '1');
+          (!hotOnly || row.dataset.hot === '1') &&
+          (!tag || rowTags.includes(tag));
         row.style.display = matches ? '' : 'none';
         const detail = detailFor(row);
         if (detail && !matches) { detail.classList.remove('open'); row.classList.remove('open'); }
@@ -1419,6 +1564,7 @@ const clientData = {
     search?.addEventListener('input', applyFilters);
     filterCat?.addEventListener('change', applyFilters);
     filterStatus?.addEventListener('change', applyFilters);
+    filterTagEl?.addEventListener('change', applyFilters);
     filterHot?.addEventListener('change', applyFilters);
 
     let sortKey = 'score', sortDir = -1;
@@ -1526,6 +1672,142 @@ const clientData = {
       }
     });
   });
+
+  // ── CRM: toggle panels ──
+  function wireToggle(btnId, panelId) {
+    const btn = document.getElementById(btnId);
+    const panel = document.getElementById(panelId);
+    btn?.addEventListener('click', () => {
+      const willShow = panel.style.display === 'none';
+      panel.style.display = willShow ? 'block' : 'none';
+      if (willShow && panelId === 'duplicates-panel') loadDuplicates();
+    });
+  }
+  wireToggle('pi-toggle-new-contact', 'new-contact-panel');
+  wireToggle('pi-toggle-import', 'import-panel');
+  wireToggle('pi-toggle-duplicates', 'duplicates-panel');
+
+  // ── CRM: new contact ──
+  document.getElementById('nc-submit')?.addEventListener('click', async () => {
+    const feedback = document.getElementById('nc-feedback');
+    const email = document.getElementById('nc-email').value.trim();
+    if (!email) { feedback.textContent = 'Email is required.'; feedback.className = 'pi-feedback err'; return; }
+    try {
+      const res = await fetch('/api/admin/create-contact', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          name: document.getElementById('nc-name').value.trim(),
+          phone: document.getElementById('nc-phone').value.trim(),
+          company: document.getElementById('nc-company').value.trim(),
+          companySize: document.getElementById('nc-company-size').value.trim(),
+          tags: document.getElementById('nc-tags').value.trim(),
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        feedback.textContent = 'Saved. Reloading…';
+        feedback.className = 'pi-feedback ok';
+        setTimeout(() => location.reload(), 700);
+      } else {
+        feedback.textContent = data.error || 'Failed to save.';
+        feedback.className = 'pi-feedback err';
+      }
+    } catch {
+      feedback.textContent = 'Network error.';
+      feedback.className = 'pi-feedback err';
+    }
+  });
+
+  // ── CRM: CSV import ──
+  document.getElementById('import-submit')?.addEventListener('click', async () => {
+    const feedback = document.getElementById('import-feedback');
+    const csv = document.getElementById('import-csv').value;
+    if (!csv.trim()) { feedback.textContent = 'Paste CSV content first.'; feedback.className = 'pi-feedback err'; return; }
+    try {
+      const res = await fetch('/api/admin/import-contacts', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ csv }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        feedback.textContent = `Imported ${data.imported}, updated ${data.updated}, skipped ${data.skipped}. Reloading…`;
+        feedback.className = 'pi-feedback ok';
+        setTimeout(() => location.reload(), 1200);
+      } else {
+        feedback.textContent = data.error || 'Import failed.';
+        feedback.className = 'pi-feedback err';
+      }
+    } catch {
+      feedback.textContent = 'Network error.';
+      feedback.className = 'pi-feedback err';
+    }
+  });
+
+  // ── CRM: log a call/meeting/note from a lead's timeline ──
+  document.querySelectorAll('.activity-add').forEach((btn) => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const row = btn.closest('.pi-detail-inner');
+      const type = row.querySelector('.activity-type').value;
+      const text = row.querySelector('.activity-text').value.trim();
+      const leadId = btn.getAttribute('data-lead-for-activity');
+      if (!text) return;
+      btn.disabled = true;
+      try {
+        const res = await fetch('/api/admin/add-activity', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ leadId, type, activityBody: text }),
+        });
+        if (res.ok) location.reload();
+        else { btn.disabled = false; alert('Failed to log activity.'); }
+      } catch {
+        btn.disabled = false;
+      }
+    });
+  });
+
+  // ── CRM: duplicate detection + merge ──
+  async function loadDuplicates() {
+    const list = document.getElementById('duplicates-list');
+    try {
+      const res = await fetch('/api/admin/find-duplicates');
+      const data = await res.json();
+      const groups = data.groups || [];
+      if (groups.length === 0) {
+        list.innerHTML = '<p class="pi-empty-panel">No duplicate phone numbers found.</p>';
+        return;
+      }
+      list.innerHTML = groups.map((group, gi) => `
+        <div style="border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:10px;">
+          <p style="font-size:11px;color:var(--text-2);margin:0 0 8px;">Matching phone: ${group[0].phone}</p>
+          ${group.map((l, li) => `
+            <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;padding:4px 0;">
+              <input type="radio" name="dup-keep-${gi}" value="${l.id}" ${li === 0 ? 'checked' : ''} />
+              ${l.email} — ${l.name || 'no name'} — ${l.company || 'no company'} — score ${l.score}
+            </label>`).join('')}
+          <button class="pi-btn-small dup-merge" data-group="${gi}" style="margin-top:8px;">Merge into selected</button>
+        </div>`).join('');
+
+      list.querySelectorAll('.dup-merge').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const gi = btn.getAttribute('data-group');
+          const group = groups[gi];
+          const keepId = list.querySelector(`input[name="dup-keep-${gi}"]:checked`)?.value;
+          const mergeIds = group.map((l) => l.id).filter((id) => id !== keepId);
+          btn.disabled = true;
+          for (const mergeId of mergeIds) {
+            await fetch('/api/admin/merge-contacts', {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ keepId, mergeId, fields: {} }),
+            });
+          }
+          loadDuplicates();
+        });
+      });
+    } catch {
+      list.innerHTML = '<p class="pi-empty-panel">Failed to load duplicates.</p>';
+    }
+  }
 </script>
 
 </BaseLayout>
