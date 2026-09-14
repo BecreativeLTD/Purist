@@ -66,6 +66,35 @@ activities.forEach((a) => { (activitiesByLead[a.lead_id] ??= []).push(a); });
 
 const allTags = [...new Set(leads.flatMap((l) => l.tags || []))].sort();
 
+// The v4 pipeline migration (supabase-schema-v4-pipeline.sql) adds the
+// deals table. Degrade gracefully like the CRM columns above if it hasn't
+// been run yet, rather than breaking the whole page.
+let dealsAvailable = true;
+let { data: dealsRaw, error: dealsError } = leadIds.length
+  ? await db.from('deals').select('id, lead_id, title, value, stage, probability, recurring, expected_close_date, closed_at, created_at').in('lead_id', leadIds).order('created_at', { ascending: false })
+  : { data: [] as any[], error: null };
+if (dealsError) { dealsAvailable = false; dealsRaw = []; }
+const deals = dealsRaw ?? [];
+
+const STAGE_ORDER = ['new_lead', 'qualified', 'proposal_sent', 'negotiation', 'closed_won', 'closed_lost'] as const;
+const STAGE_LABELS: Record<string, string> = {
+  new_lead: 'New Lead', qualified: 'Qualified', proposal_sent: 'Proposal Sent',
+  negotiation: 'Negotiation', closed_won: 'Closed Won', closed_lost: 'Closed Lost',
+};
+const dealsByStage: Record<string, typeof deals> = {};
+STAGE_ORDER.forEach((s) => (dealsByStage[s] = []));
+deals.forEach((d) => { (dealsByStage[d.stage] ??= []).push(d); });
+
+const openDeals = deals.filter((d) => d.stage !== 'closed_won' && d.stage !== 'closed_lost');
+const openPipelineValue = openDeals.reduce((s, d) => s + Number(d.value || 0), 0);
+const weightedForecast = openDeals.reduce((s, d) => s + Number(d.value || 0) * (Number(d.probability || 0) / 100), 0);
+const mrr = deals.filter((d) => d.stage === 'closed_won' && d.recurring).reduce((s, d) => s + Number(d.value || 0), 0);
+const now = new Date();
+const dealsWonThisMonth = deals.filter((d) => d.stage === 'closed_won' && d.closed_at && new Date(d.closed_at).getMonth() === now.getMonth() && new Date(d.closed_at).getFullYear() === now.getFullYear());
+function fmtMoney(n: number) {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+}
+
 // Defaults to the largest range Search Console's API actually retains
 // (~16 months, its own hard limit, not a choice made here) so the page
 // opens showing full available history rather than an arbitrary 30 days.
@@ -238,31 +267,30 @@ const clientData = {
 
 <style>
   .pi {
-    /* PURIST brand charter (public/brand/charte-graphique.html): cream,
-       near-black, terracotta, olive, dusty pink. Fraunces for display,
-       Inter for body. No blue anywhere. */
-    --bg: #F8F6F1;
-    --bg-2: #F4EFE6;
+    /* Neutral white/grey, very stripped-back — accent color used sparingly
+       (a lighter terracotta from the PURIST charter, not the dark shade). */
+    --bg: #FAFAF8;
+    --bg-2: #F2F2EF;
     --surface: #FFFFFF;
-    --surface-2: #FBF9F5;
-    --border: #E8DFD0;
-    --border-soft: #F0E9DC;
-    --text-1: #0A0A0A;
-    --text-2: #6B6255;
-    --text-3: #A69C8B;
-    --accent: #A0522D;
-    --accent-2: #2D5016;
-    --accent-deep: #7A3D20;
-    --accent-soft: #F3E4DA;
-    --success: #2D5016;
-    --success-bg: #E9EEE0;
-    --danger: #A63A2E;
-    --danger-bg: #F5E4E0;
-    --warning: #B8763A;
-    --warning-bg: #F4E9D9;
-    --shadow-sm: 0 1px 2px rgba(40,30,20,0.06);
-    --shadow: 0 1px 2px rgba(40,30,20,0.05), 0 8px 24px -8px rgba(90,60,30,0.12);
-    --shadow-lg: 0 4px 8px rgba(40,30,20,0.05), 0 16px 40px -12px rgba(90,60,30,0.18);
+    --surface-2: #FDFDFC;
+    --border: #E7E6E2;
+    --border-soft: #F0F0ED;
+    --text-1: #1A1A18;
+    --text-2: #6E6D67;
+    --text-3: #A3A29A;
+    --accent: #C97B52;
+    --accent-2: #8CA868;
+    --accent-deep: #A0522D;
+    --accent-soft: #F7EAE1;
+    --success: #6B8A4A;
+    --success-bg: #EEF2E7;
+    --danger: #C0524A;
+    --danger-bg: #F7E9E6;
+    --warning: #C99245;
+    --warning-bg: #F7EEDD;
+    --shadow-sm: 0 1px 2px rgba(20,20,18,0.04);
+    --shadow: 0 1px 2px rgba(20,20,18,0.03), 0 8px 20px -10px rgba(20,20,18,0.08);
+    --shadow-lg: 0 4px 8px rgba(20,20,18,0.03), 0 16px 32px -12px rgba(20,20,18,0.10);
     --ring: 0 0 0 1px rgba(255,255,255,0.6) inset;
     --font-num: 'Fira Code', 'SF Mono', ui-monospace, monospace;
     max-width: 1360px;
@@ -312,7 +340,7 @@ const clientData = {
   /* Pill tab navigation */
   .pi-nav { display: flex; gap: 3px; background: var(--surface); border-radius: 14px; padding: 5px; margin-top: 20px; box-shadow: var(--shadow); width: fit-content; flex-wrap: wrap; }
   .pi-tab { border: none; background: transparent; font-size: 13px; font-weight: 500; color: var(--text-2); padding: 9px 16px; border-radius: 10px; cursor: pointer; font-family: inherit; white-space: nowrap; display: inline-flex; align-items: center; gap: 7px; transition: all 0.25s cubic-bezier(0.22,1,0.36,1); }
-  .pi-tab.active { background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%); color: #fff; box-shadow: 0 2px 8px rgba(160,82,45,0.35); }
+  .pi-tab.active { background: linear-gradient(180deg, var(--accent) 0%, var(--accent-deep) 100%); color: #fff; box-shadow: 0 2px 8px rgba(201,123,82,0.30); }
   .pi-tab:not(.active):hover { background: var(--bg-2); color: var(--text-1); }
   .pi-tab:active { transform: scale(0.97); }
   .pi-panel-view { display: none; margin-top: 20px; }
@@ -321,6 +349,20 @@ const clientData = {
   .pi-section-h { font-family: 'Fraunces', 'Inter', serif; font-size: 17px; font-weight: 500; color: var(--text-1); margin: 28px 0 4px; letter-spacing: -0.005em; }
   .pi-section-sub { font-size: 11px; color: var(--text-3); font-weight: 400; }
   .pi-notice { margin-top: 14px; padding: 12px 16px; border: 1px solid var(--warning-bg); border-radius: 12px; font-size: 12.5px; color: var(--text-2); background: var(--warning-bg); }
+  .pi-pipeline-board { display: grid; grid-template-columns: repeat(6, minmax(180px, 1fr)); gap: 12px; margin-top: 18px; overflow-x: auto; }
+  @media (max-width: 1100px) { .pi-pipeline-board { grid-template-columns: repeat(3, minmax(200px, 1fr)); } }
+  @media (max-width: 640px) { .pi-pipeline-board { grid-template-columns: 1fr; } }
+  .pi-pipeline-col { background: var(--bg-2); border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .pi-pipeline-col-head { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; color: var(--text-1); }
+  .pi-pipeline-count { background: var(--surface); border-radius: 20px; padding: 1px 8px; font-size: 11px; color: var(--text-2); }
+  .pi-pipeline-col-total { font-family: var(--font-num); font-size: 12px; color: var(--text-3); margin-top: -4px; }
+  .pi-pipeline-cards { display: flex; flex-direction: column; gap: 8px; }
+  .pi-deal-card { background: var(--surface); border-radius: 12px; padding: 10px 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-soft); }
+  .pi-deal-title { font-size: 12px; font-weight: 600; color: var(--text-1); margin: 0 0 4px; }
+  .pi-deal-lead { font-size: 11px; color: var(--text-2); margin: 0 0 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pi-deal-value { font-family: var(--font-num); font-size: 13px; font-weight: 600; color: var(--text-1); margin: 0 0 4px; }
+  .pi-deal-date { font-size: 10.5px; color: var(--text-3); margin: 0 0 8px; }
+  .pi-deal-stage-select { width: 100%; font-size: 11px; padding: 5px 6px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text-1); }
   .pi-notice code { background: rgba(15,27,51,0.06); padding: 1px 6px; border-radius: 4px; font-size: 11.5px; color: var(--text-1); }
 
   /* KPI grid */
@@ -345,18 +387,18 @@ const clientData = {
   /* Hero gradient cards — double-bezel: outer shell (gradient) + inner core (chart) */
   .pi-hero-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
   @media (max-width: 900px) { .pi-hero-row { grid-template-columns: 1fr; } }
-  .pi-hero { border-radius: 20px; padding: 3px; color: #fff; position: relative; box-shadow: var(--shadow-lg); }
-  .pi-hero.blue { background: linear-gradient(150deg, #7A3D20 0%, #A0522D 55%, #C97B52 100%); }
-  .pi-hero.sky { background: linear-gradient(150deg, #23400F 0%, #2D5016 55%, #6B8A4A 100%); }
-  .pi-hero-core { padding: 19px 22px 16px; border-radius: 17px; background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0) 40%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.18); }
+  .pi-hero { border-radius: 16px; position: relative; background: var(--surface); border: 1px solid var(--border-soft); box-shadow: var(--shadow); }
+  .pi-hero.blue .pi-hero-eyebrow { color: var(--accent-deep); }
+  .pi-hero.sky .pi-hero-eyebrow { color: var(--accent-2); }
+  .pi-hero-core { padding: 18px 20px 16px; border-radius: 16px; }
   .pi-hero-top { display: flex; justify-content: space-between; align-items: flex-start; }
-  .pi-hero-eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; opacity: 0.75; margin: 0 0 4px; }
-  .pi-hero h3 { font-size: 12.5px; font-weight: 500; margin: 0; opacity: 0.85; }
-  .pi-hero .hero-num { font-family: var(--font-num); font-size: 27px; font-weight: 700; margin-top: 3px; letter-spacing: -0.01em; }
+  .pi-hero-eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; margin: 0 0 4px; color: var(--text-3); }
+  .pi-hero h3 { font-size: 12.5px; font-weight: 500; margin: 0; color: var(--text-2); }
+  .pi-hero .hero-num { font-family: var(--font-num); font-size: 27px; font-weight: 700; margin-top: 3px; letter-spacing: -0.01em; color: var(--text-1); }
   .pi-hero-chart-wrap { position: relative; width: 100%; height: 68px; margin-top: 14px; overflow: hidden; }
   .pi-hero-svg { display: block; width: 100%; height: 100%; }
-  .pi-hero-stats { display: flex; gap: 18px; margin-top: 12px; font-size: 11px; opacity: 0.92; }
-  .pi-hero-stats b { display: block; font-family: var(--font-num); font-size: 13px; font-weight: 600; }
+  .pi-hero-stats { display: flex; gap: 18px; margin-top: 12px; font-size: 11px; color: var(--text-3); }
+  .pi-hero-stats b { display: block; font-family: var(--font-num); font-size: 13px; font-weight: 600; color: var(--text-1); }
 
   /* Panels */
   .pi-panels { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 16px; }
@@ -481,6 +523,7 @@ const clientData = {
       <button class="pi-tab" data-tab="traffic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>Traffic</button>
       <button class="pi-tab" data-tab="search"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Search</button>
       <button class="pi-tab" data-tab="leads"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c0-3.6 2.9-6.2 6.5-6.2s6.5 2.6 6.5 6.2"/><circle cx="17.5" cy="8.5" r="2.5"/><path d="M16 13.6c2.7.4 4.5 2.5 4.5 5.4"/></svg>Leads</button>
+      <button class="pi-tab" data-tab="pipeline"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18l-6 8v6l-6-3v-3z"/></svg>Pipeline</button>
       <button class="pi-tab" data-tab="emails"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Emails</button>
     </nav>
     <div class="pi-range" id="pi-range">
@@ -1055,6 +1098,76 @@ const clientData = {
     )}
   </section>
 
+  <!-- ══════════════════ PIPELINE ══════════════════ -->
+  <section class="pi-panel-view" data-panel="pipeline">
+    {!dealsAvailable ? (
+      <div class="pi-notice">
+        <strong>Pipeline not set up yet.</strong> Run <code>supabase-schema-v4-pipeline.sql</code> in the Supabase SQL editor to enable deals, stages, and forecasting.
+      </div>
+    ) : (
+      <>
+        <div class="pi-kpis">
+          <div class="pi-kpi"><div class="num">{fmtMoney(openPipelineValue)}</div><div class="label">Open pipeline value</div></div>
+          <div class="pi-kpi"><div class="num">{fmtMoney(weightedForecast)}</div><div class="label">Weighted forecast</div></div>
+          <div class="pi-kpi"><div class="num">{fmtMoney(mrr)}</div><div class="label">MRR (recurring, closed won)</div></div>
+          <div class="pi-kpi"><div class="num">{openDeals.length}</div><div class="label">Open deals</div></div>
+          <div class="pi-kpi"><div class="num">{dealsWonThisMonth.length}</div><div class="label">Won this month</div></div>
+        </div>
+
+        <div class="pi-controls" style="margin-top:16px;">
+          <button class="pi-export" id="pi-toggle-new-deal">+ New deal</button>
+        </div>
+
+        <div class="pi-compose" id="new-deal-panel" style="display:none;">
+          <h3>New deal</h3>
+          <div class="pi-compose-grid" style="grid-template-columns:1fr 1fr;">
+            <select id="nd-lead">
+              <option value="">Select a lead...</option>
+              {leads.map((l) => <option value={l.id}>{l.email}{l.company ? ` — ${l.company}` : ''}</option>)}
+            </select>
+            <input id="nd-title" type="text" placeholder="Deal title (e.g. Automation setup — Acme Inc)" />
+            <input id="nd-value" type="number" min="0" step="1" placeholder="Value (EUR)" />
+            <select id="nd-stage">
+              {STAGE_ORDER.filter((s) => s !== 'closed_won' && s !== 'closed_lost').map((s) => <option value={s}>{STAGE_LABELS[s]}</option>)}
+            </select>
+            <input id="nd-close-date" type="date" placeholder="Expected close date" />
+            <label class="chk"><input type="checkbox" id="nd-recurring" /> Recurring revenue</label>
+          </div>
+          <button class="pi-btn-primary" id="nd-submit" style="margin-top:10px;">Create deal</button>
+          <div class="pi-feedback" id="nd-feedback"></div>
+        </div>
+
+        <div class="pi-pipeline-board">
+          {STAGE_ORDER.map((stage) => (
+            <div class="pi-pipeline-col">
+              <div class="pi-pipeline-col-head">
+                <span>{STAGE_LABELS[stage]}</span>
+                <span class="pi-pipeline-count">{dealsByStage[stage].length}</span>
+              </div>
+              <div class="pi-pipeline-col-total">{fmtMoney(dealsByStage[stage].reduce((s, d) => s + Number(d.value || 0), 0))}</div>
+              <div class="pi-pipeline-cards">
+                {dealsByStage[stage].length === 0 ? <p class="pi-empty-panel" style="font-size:11px;">No deals.</p> : dealsByStage[stage].map((d) => {
+                  const lead = leadsById[d.lead_id];
+                  return (
+                    <div class="pi-deal-card" data-deal-id={d.id}>
+                      <p class="pi-deal-title">{d.title}</p>
+                      <p class="pi-deal-lead">{lead?.email ?? '—'}</p>
+                      <p class="pi-deal-value">{fmtMoney(Number(d.value || 0))}{d.recurring && <span class="pi-status active" style="margin-left:6px;">MRR</span>}</p>
+                      {d.expected_close_date && <p class="pi-deal-date">Close: {fmtDate(d.expected_close_date)}</p>}
+                      <select class="pi-deal-stage-select" data-deal-for-stage={d.id}>
+                        {STAGE_ORDER.map((s) => <option value={s} selected={s === stage}>{STAGE_LABELS[s]}</option>)}
+                      </select>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </>
+    )}
+  </section>
+
   <!-- ══════════════════ EMAILS ══════════════════ -->
   <section class="pi-panel-view" data-panel="emails">
     <div class="pi-kpis" style="grid-template-columns:repeat(3,1fr);">
@@ -1203,7 +1316,7 @@ const clientData = {
     const peakIdx = points.reduce((best, p, i) => (p.value > points[best].value ? i : best), 0);
     const ctx = canvas.getContext('2d');
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.clientHeight || 130);
-    gradient.addColorStop(0, 'rgba(160,82,45,0.24)');
+    gradient.addColorStop(0, 'rgba(201,123,82,0.20)');
     gradient.addColorStop(1, 'rgba(30,79,214,0)');
 
     const chart = new Chart(ctx, {
@@ -1212,18 +1325,18 @@ const clientData = {
         labels: points.map((p) => tipLabel(p.label)),
         datasets: [{
           data: points.map((p) => p.value),
-          borderColor: '#A0522D',
+          borderColor: '#C97B52',
           backgroundColor: gradient,
           borderWidth: 2.5,
           fill: true,
           tension: 0.35,
           pointRadius: points.map((_, i) => (i === peakIdx ? 5 : 0)),
           pointBackgroundColor: '#fff',
-          pointBorderColor: '#A0522D',
+          pointBorderColor: '#C97B52',
           pointBorderWidth: 2.5,
           pointHoverRadius: 5,
           pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: '#A0522D',
+          pointHoverBorderColor: '#C97B52',
           pointHoverBorderWidth: 2.5,
         }],
       },
@@ -1245,8 +1358,8 @@ const clientData = {
           },
         },
         scales: {
-          x: { grid: { display: false }, ticks: { color: '#A69C8B', font: { family: "'Inter', sans-serif", size: 10.5 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 8 } },
-          y: { beginAtZero: true, grid: { color: 'rgba(160,82,45,0.10)' }, ticks: { color: '#A69C8B', font: { family: "'Fira Code', monospace", size: 10 }, maxTicksLimit: 4 } },
+          x: { grid: { display: false }, ticks: { color: '#A3A29A', font: { family: "'Inter', sans-serif", size: 10.5 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 8 } },
+          y: { beginAtZero: true, grid: { color: 'rgba(201,123,82,0.08)' }, ticks: { color: '#A3A29A', font: { family: "'Fira Code', monospace", size: 10 }, maxTicksLimit: 4 } },
         },
       },
     });
@@ -1259,15 +1372,16 @@ const clientData = {
 
   // Hero card sparkline: no axes, no tooltip chrome, just the trend + a
   // stats strip computed alongside it (avg/peak/total).
-  function renderHero(canvasId, statsId, points, unitLabel) {
+  function renderHero(canvasId, statsId, points, unitLabel, color) {
     const canvas = document.getElementById(canvasId);
     if (!canvas || !points.length) return;
     destroyChart(canvasId);
+    const lineColor = color || '#C97B52';
     const peakIdx = points.reduce((best, p, i) => (p.value > points[best].value ? i : best), 0);
     const ctx = canvas.getContext('2d');
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.clientHeight || 68);
-    gradient.addColorStop(0, 'rgba(255,255,255,0.4)');
-    gradient.addColorStop(1, 'rgba(255,255,255,0)');
+    gradient.addColorStop(0, lineColor + '26');
+    gradient.addColorStop(1, lineColor + '00');
 
     const chart = new Chart(ctx, {
       type: 'line',
@@ -1275,15 +1389,18 @@ const clientData = {
         labels: points.map((p) => formatChartLabel(p.label)),
         datasets: [{
           data: points.map((p) => p.value),
-          borderColor: '#fff',
+          borderColor: lineColor,
           backgroundColor: gradient,
           borderWidth: 2,
           fill: true,
           tension: 0.35,
           pointRadius: points.map((_, i) => (i === peakIdx ? 3.5 : 0)),
           pointBackgroundColor: '#fff',
+          pointBorderColor: lineColor,
+          pointBorderWidth: 2,
           pointHoverRadius: 4,
           pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: lineColor,
         }],
       },
       options: {
@@ -1319,8 +1436,8 @@ const clientData = {
   let searchDailyPoints = (clientData.searchDaily || []).map((d) => ({ label: d.date, value: d.clicks }));
   let trafficChartPoints = trafficDailyPoints;
   let searchChartPoints = searchDailyPoints;
-  renderHero('hero-sessions', 'hero-sessions-stats', trafficDailyPoints, 'sessions');
-  renderHero('hero-clicks', 'hero-clicks-stats', searchDailyPoints, 'clicks');
+  renderHero('hero-sessions', 'hero-sessions-stats', trafficDailyPoints, 'sessions', '#C97B52');
+  renderHero('hero-clicks', 'hero-clicks-stats', searchDailyPoints, 'clicks', '#8CA868');
   renderBars('traffic-chart', 'traffic-chart-labels', trafficChartPoints, formatChartLabel);
   renderBars('search-chart', 'search-chart-labels', searchChartPoints, formatChartLabel);
   // No manual resize handling needed, Chart.js's `responsive: true` already
@@ -1422,8 +1539,8 @@ const clientData = {
         searchDailyPoints = (search.daily || []).map((d) => ({ label: d.date, value: d.clicks }));
         trafficChartPoints = trafficDailyPoints;
         searchChartPoints = searchDailyPoints;
-        renderHero('hero-sessions', 'hero-sessions-stats', trafficDailyPoints, 'sessions');
-        renderHero('hero-clicks', 'hero-clicks-stats', searchDailyPoints, 'clicks');
+        renderHero('hero-sessions', 'hero-sessions-stats', trafficDailyPoints, 'sessions', '#C97B52');
+        renderHero('hero-clicks', 'hero-clicks-stats', searchDailyPoints, 'clicks', '#8CA868');
         renderBars('traffic-chart', 'traffic-chart-labels', trafficChartPoints);
         renderBars('search-chart', 'search-chart-labels', searchChartPoints);
 
@@ -1660,6 +1777,54 @@ const clientData = {
   wireToggle('pi-toggle-new-contact', 'new-contact-panel');
   wireToggle('pi-toggle-import', 'import-panel');
   wireToggle('pi-toggle-duplicates', 'duplicates-panel');
+  wireToggle('pi-toggle-new-deal', 'new-deal-panel');
+
+  // ── Pipeline: new deal ──
+  document.getElementById('nd-submit')?.addEventListener('click', async () => {
+    const feedback = document.getElementById('nd-feedback');
+    const leadId = document.getElementById('nd-lead').value;
+    const title = document.getElementById('nd-title').value.trim();
+    const value = document.getElementById('nd-value').value;
+    const stage = document.getElementById('nd-stage').value;
+    const expectedCloseDate = document.getElementById('nd-close-date').value;
+    const recurring = document.getElementById('nd-recurring').checked;
+    if (!leadId || !title) {
+      feedback.textContent = 'Pick a lead and enter a title.';
+      feedback.className = 'pi-feedback error';
+      return;
+    }
+    feedback.textContent = 'Creating…';
+    feedback.className = 'pi-feedback';
+    try {
+      const res = await fetch('/api/admin/create-deal', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ leadId, title, value, stage, expectedCloseDate, recurring }),
+      });
+      if (!res.ok) throw new Error('failed');
+      feedback.textContent = 'Deal created. Reloading…';
+      feedback.className = 'pi-feedback success';
+      setTimeout(() => location.reload(), 500);
+    } catch {
+      feedback.textContent = 'Could not create the deal.';
+      feedback.className = 'pi-feedback error';
+    }
+  });
+
+  // ── Pipeline: change a deal's stage ──
+  document.querySelectorAll('.pi-deal-stage-select').forEach((sel) => {
+    sel.addEventListener('change', async () => {
+      const dealId = sel.getAttribute('data-deal-for-stage');
+      sel.disabled = true;
+      try {
+        await fetch('/api/admin/update-deal', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ dealId, stage: sel.value }),
+        });
+      } finally {
+        location.reload();
+      }
+    });
+  });
 
   // ── CRM: new contact ──
   document.getElementById('nc-submit')?.addEventListener('click', async () => {
