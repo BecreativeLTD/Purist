@@ -31,7 +31,7 @@ if (Astro.request.method === 'POST') {
          options: { data: { full_name: fullName, company, phone } }
        });
        if (error) {
-         errorMsg = error.message;
+         errorMsg = error.message && error.message.trim() !== '{}' ? error.message : 'Could not create the account. Please try again.';
        } else {
          successMsg = 'Account created! Check your email to confirm your address, then sign in.';
          activeTab = 'signin';
@@ -39,7 +39,7 @@ if (Astro.request.method === 'POST') {
      } else {
        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
        if (error) {
-         errorMsg = error.message;
+         errorMsg = error.message && error.message.trim() !== '{}' ? error.message : 'Could not sign in. Please check your credentials and try again.';
        } else if (data.session) {
          const redirect = new Headers();
          redirect.set('Location', isAdminEmail(data.session.user.email) ? '/pages/leads' : '/pages/dashboard');
@@ -49,7 +49,8 @@ if (Astro.request.method === 'POST') {
      }
    }
  } catch (e: any) {
-   errorMsg = e?.message ?? 'An error occurred.';
+   const msg = typeof e?.message === 'string' ? e.message.trim() : '';
+   errorMsg = msg && msg !== '{}' ? msg : 'Could not reach the sign-in service. Please try again.';
  }
 }
 ---
