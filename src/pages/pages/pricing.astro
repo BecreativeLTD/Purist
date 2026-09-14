@@ -72,6 +72,15 @@ const industries = [
  { id: 'ecommerce', label: 'E-commerce' },
 ];
 
+// Quick-glance specs per plan, surfaced directly on the pricing cards so
+// visitors don't have to scroll to the comparison table below to see how
+// many workflows/agents/integrations are actually included.
+const planSpecs: Record<string, { workflows: string; agents: string; integrations: string; sla: string }> = {
+  'automation-pro': { workflows: '12 workflows', agents: '—', integrations: '2 integrations', sla: '24h SLA' },
+  'ai-agent-deploy': { workflows: '—', agents: '5 AI agents', integrations: '2 integrations', sla: '24h SLA' },
+  'full-stack': { workflows: '12+ workflows', agents: '5+ AI agents', integrations: 'Unlimited', sla: '12h SLA' },
+};
+
 const faqs = [
  {
    q: 'Can I switch plans after signing up?',
@@ -210,6 +219,17 @@ const faqs = [
              </div>
              <p class="text-xs text-brand-gray-600">Or <span data-price={p.price.oneTime}>€{p.price.oneTime.toLocaleString('en')}</span> one-time deployment</p>
            </div>
+
+           {planSpecs[p.slug] && (
+             <div class="grid grid-cols-2 gap-2 mb-5 pb-5 border-b border-brand-gray-100">
+               {Object.values(planSpecs[p.slug]).filter((v) => v !== '—').map((v) => (
+                 <div class="flex items-center gap-1.5 text-[11.5px] text-brand-gray-700">
+                   <span class="w-1.5 h-1.5 rounded-full bg-brand-black/30 shrink-0"></span>
+                   <span class="font-medium">{v}</span>
+                 </div>
+               ))}
+             </div>
+           )}
 
            <ul class="space-y-2 mb-6 flex-1">
              {p.bullets.map((b) => (
