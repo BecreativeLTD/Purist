@@ -135,12 +135,152 @@ const projects: Project[] = [
     tags: ['OAuth', 'API sync', 'Self-hosted'],
     color: '#E8B4B0',
   },
+  {
+    id: 'cal-com',
+    name: 'Cal.com',
+    org: 'calcom',
+    repo: 'cal.com',
+    category: 'Scheduling',
+    tagline: 'Open-source scheduling infrastructure, the code behind a Calendly-style booking page.',
+    description: "Cal.com is a fully self-hostable scheduling platform: booking pages, availability rules, round-robin routing for teams, and calendar sync (Google, Outlook, CalDAV), released as open-source with an optional hosted version. Because it's built as infrastructure rather than a locked product, teams embed it directly into their own app instead of iframing a third-party widget. One of the most-starred scheduling projects on GitHub for a reason.",
+    replaces: 'Calendly team plans ($12–$20/seat/mo)',
+    tags: ['Next.js', 'Self-hosted', 'Calendar sync'],
+    color: '#7BAEA0',
+  },
+  {
+    id: 'chatwoot',
+    name: 'Chatwoot',
+    org: 'chatwoot',
+    repo: 'chatwoot',
+    category: 'Customer Support',
+    tagline: 'A self-hosted customer-support inbox that unifies live chat, email and social DMs.',
+    description: 'Chatwoot gives you one inbox for website live chat, email, WhatsApp, Instagram and Facebook messages, with team assignment, canned responses, and reporting, all running on your own infrastructure. It is the most mature open-source alternative to a hosted support suite, actively used in production by companies who do not want customer conversations sitting on a third-party server.',
+    replaces: 'Intercom or Zendesk seat pricing ($30–$70/agent/mo)',
+    tags: ['Ruby on Rails', 'Vue', 'Self-hosted'],
+    color: '#89A8C4',
+  },
+  {
+    id: 'twenty',
+    name: 'Twenty',
+    org: 'twentyhq',
+    repo: 'twenty',
+    category: 'CRM',
+    tagline: 'A modern, open-source CRM built to feel like the Notion/Linear generation of tools, not a 2010s form.',
+    description: "Twenty covers the core of what most teams actually use a CRM for, contacts, companies, deals, pipelines, custom fields, with a fast, keyboard-friendly interface and a real API. It's a serious attempt at an open-source CRM that doesn't feel like legacy enterprise software, and it's self-hostable if you'd rather not hand customer data to a platform vendor.",
+    replaces: 'Per-seat CRM pricing (Salesforce, HubSpot: $25–$150/seat/mo)',
+    tags: ['TypeScript', 'GraphQL', 'Self-hosted'],
+    color: '#A48BFA',
+  },
+  {
+    id: 'documenso',
+    name: 'Documenso',
+    org: 'documenso',
+    repo: 'documenso',
+    category: 'E-Signature',
+    tagline: 'Open-source, self-hostable document signing, the transparent alternative to a closed e-signature vendor.',
+    description: "Documenso covers the actual job of an e-signature tool: upload a document, place signature fields, send for signing, get a legally-recognisable, verifiable audit trail back. Being open-source means the signing logic and certificate handling are auditable rather than a black box, which matters more for a signature tool than almost any other SaaS category.",
+    replaces: 'DocuSign or PandaDoc plans ($10–$65/user/mo)',
+    tags: ['Next.js', 'PDF', 'Self-hosted'],
+    color: '#C4A870',
+  },
+  {
+    id: 'activepieces',
+    name: 'Activepieces',
+    org: 'activepieces',
+    repo: 'activepieces',
+    category: 'Automation',
+    tagline: 'An open-source, no-code automation builder with a growing library of app integrations.',
+    description: "Activepieces is a visual, drag-and-drop workflow builder in the same spirit as Zapier or Make, connect trigger to action across a growing catalogue of apps, but self-hostable and with pieces you can write yourself when an integration doesn't exist yet. It's a genuine option for teams who want no-code automation without a metered per-task pricing model.",
+    replaces: 'Per-task/per-zap pricing on Zapier or Make ($20–$600/mo)',
+    tags: ['No-code', 'TypeScript', 'Self-hosted'],
+    color: '#E8B4B0',
+  },
+  {
+    id: 'novu',
+    name: 'Novu',
+    org: 'novuhq',
+    repo: 'novu',
+    category: 'Notifications',
+    tagline: 'Open-source notification infrastructure: one API for email, SMS, push and in-app alerts.',
+    description: "Novu centralises multi-channel notifications, email, SMS, push, in-app, chat, behind a single API and a visual workflow editor, instead of you wiring up five separate provider SDKs and building your own retry/templating logic. Self-hosting it means your notification logic and delivery logs stay on infrastructure you control.",
+    replaces: 'Notification-platform usage fees (OneSignal, Courier)',
+    tags: ['TypeScript', 'Multi-channel', 'API'],
+    color: '#7BAEA0',
+  },
+  {
+    id: 'formbricks',
+    name: 'Formbricks',
+    org: 'formbricks',
+    repo: 'formbricks',
+    category: 'Forms · Surveys',
+    tagline: 'Open-source, privacy-first forms and in-product surveys.',
+    description: 'Formbricks covers standalone forms, NPS and CSAT surveys, and targeted in-app micro-surveys triggered by user behaviour, self-hostable so response data never has to leave your own database. A solid pick for teams that want proper survey logic and segmentation without sending customer feedback data to a third party.',
+    replaces: 'Typeform or SurveyMonkey response-based pricing',
+    tags: ['TypeScript', 'Privacy-first', 'Self-hosted'],
+    color: '#89A8C4',
+  },
+  {
+    id: 'plausible',
+    name: 'Plausible Analytics',
+    org: 'plausible',
+    repo: 'analytics',
+    category: 'Web Analytics',
+    tagline: 'Lightweight, open-source, privacy-first web analytics, no cookie banner required.',
+    description: "Plausible gives you the traffic, source and page-level metrics most teams actually check daily, without the invasive tracking or bloated script of a full marketing analytics suite. Because it doesn't use cookies or track personal data by default, sites running it often don't need a cookie consent banner at all, which is its own small conversion win.",
+    replaces: 'Analytics platform fees (GA4 is free but data-hungry; paid tools like Mixpanel scale with events)',
+    tags: ['Elixir', 'Privacy-first', 'Self-hosted'],
+    color: '#A48BFA',
+  },
+  {
+    id: 'supabase',
+    name: 'Supabase',
+    org: 'supabase',
+    repo: 'supabase',
+    category: 'Backend · Database',
+    tagline: 'The open-source Firebase alternative: Postgres, auth, storage and realtime, self-hostable.',
+    description: "Supabase wraps a real Postgres database with instant APIs, row-level-security auth, file storage and realtime subscriptions, giving small teams a production backend without writing one from scratch. It's fully open-source and self-hostable, or usable as a managed service, your choice, and it happens to be part of PURIST's own infrastructure for exactly this reason.",
+    replaces: 'Proprietary BaaS lock-in (Firebase pricing at scale)',
+    tags: ['Postgres', 'Auth', 'Realtime'],
+    color: '#7BAEA0',
+  },
+  {
+    id: 'ollama',
+    name: 'Ollama',
+    org: 'ollama',
+    repo: 'ollama',
+    category: 'AI · Local LLMs',
+    tagline: 'Run open-weight LLMs locally with a single command, no API key, no per-token bill.',
+    description: 'Ollama packages open-weight models (Llama, Mistral, Qwen and dozens more) behind a dead-simple local API, so you can prototype or run production inference on your own hardware with zero per-token cost and no data leaving your network. For anything that does not strictly need a frontier closed model, this removes the metered API bill entirely.',
+    replaces: 'Per-token cloud LLM API costs for non-frontier workloads',
+    tags: ['Local inference', 'Go', 'Open-weight models'],
+    color: '#C4A870',
+  },
 ];
+
+const faqs = [
+  {
+    q: 'Are these open-source tools actually free to use commercially?',
+    a: "Most of the projects on this list ship under permissive licences (MIT, Apache 2.0) that allow commercial use, but a few use AGPL or a source-available licence with restrictions once you resell the software itself. Always check the LICENSE file in the repo before deploying, licensing is the one thing worth reading before you build on any of these.",
+  },
+  {
+    q: 'Do I need to self-host all of these, or is there a hosted option?',
+    a: 'Several of them (Cal.com, Chatwoot, Documenso, Supabase, Nango) offer an official hosted/cloud version alongside the open-source code, so you can start on their managed plan and migrate to self-hosting later if you want full control. The rest are self-host only.',
+  },
+  {
+    q: "What's the real trade-off between self-hosting one of these and paying for a managed SaaS?",
+    a: 'Self-hosting removes the licence fee but adds infrastructure, security patching, uptime monitoring and upgrade maintenance, real ongoing work, not a one-time setup. That is exactly the gap PURIST fills for clients: we deploy and maintain tools like these as part of a managed automation stack, so you get the cost savings without becoming the person on call for the server.',
+  },
+  {
+    q: 'How often is this list updated?',
+    a: "We add projects as we find genuinely capable ones worth pointing people to, not on a fixed schedule. Check the 'last updated' date near the top of the page.",
+  },
+];
+const lastUpdated = 'September 2026';
 ---
 
 <ShopLayout
-  title="10 Open-Source Projects Worth Replacing Your SaaS Bill With | PURIST"
-  description="Ten serious, actively-maintained open-source projects, AI agents, voice cloning, video generation, integrations, OSINT, that can genuinely replace tools you're paying for monthly. Curated and described by PURIST."
+  title="20 Open-Source Projects Worth Replacing Your SaaS Bill With | PURIST"
+  description="20 serious, actively-maintained open-source projects, CRM, scheduling, support, e-signature, automation, analytics, AI agents, that can genuinely replace tools you're paying for monthly. Curated and described by PURIST."
   canonical="https://www.purist.online/pages/open-source-tools"
 >
 
@@ -166,11 +306,25 @@ const projects: Project[] = [
   })),
 })}></script>
 
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map((f) => ({
+    "@type": "Question",
+    "name": f.q,
+    "acceptedAnswer": { "@type": "Answer", "text": f.a },
+  })),
+})}></script>
+
 <!-- ════════════════════════════════════════════════════
      HERO
 ════════════════════════════════════════════════════ -->
 <header style="background:#0A0A0A;position:relative;overflow:hidden;">
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 15% 50%,rgba(232,180,176,0.055) 0%,transparent 65%),radial-gradient(ellipse 60% 80% at 85% 30%,rgba(164,139,250,0.045) 0%,transparent 60%);pointer-events:none;"></div>
+
+  <svg class="hidden lg:block" style="position:absolute;top:50%;right:-60px;transform:translateY(-50%);width:460px;height:460px;opacity:0.05;pointer-events:none;" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
+    <path d="M12 .5C5.73.5.5 5.74.5 12.02c0 5.03 3.26 9.29 7.79 10.8.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.11-3.17.69-3.84-1.36-3.84-1.36-.52-1.31-1.26-1.66-1.26-1.66-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.73 2.65 1.23 3.3.94.1-.73.4-1.23.72-1.51-2.53-.29-5.19-1.27-5.19-5.63 0-1.24.44-2.26 1.17-3.06-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.15 1.17a10.9 10.9 0 0 1 5.73 0c2.19-1.48 3.15-1.17 3.15-1.17.62 1.57.23 2.73.11 3.02.73.8 1.17 1.82 1.17 3.06 0 4.37-2.67 5.34-5.21 5.62.41.36.78 1.07.78 2.15 0 1.55-.01 2.8-.01 3.18 0 .3.2.66.79.55A10.53 10.53 0 0 0 23.5 12c0-6.27-5.23-11.5-11.5-11.5z"/>
+  </svg>
 
   <div class="container-x relative z-10" style="padding-top:80px;padding-bottom:56px;">
     <div style="max-width:720px;">
@@ -179,7 +333,7 @@ const projects: Project[] = [
         <span style="width:1px;height:10px;background:rgba(255,255,255,0.12);"></span>
         <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:100px;padding:3px 10px;">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="rgba(255,255,255,0.6)"><path d="M12 .5C5.73.5.5 5.74.5 12.02c0 5.03 3.26 9.29 7.79 10.8.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.11-3.17.69-3.84-1.36-3.84-1.36-.52-1.31-1.26-1.66-1.26-1.66-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.73 2.65 1.23 3.3.94.1-.73.4-1.23.72-1.51-2.53-.29-5.19-1.27-5.19-5.63 0-1.24.44-2.26 1.17-3.06-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.15 1.17a10.9 10.9 0 0 1 5.73 0c2.19-1.48 3.15-1.17 3.15-1.17.62 1.57.23 2.73.11 3.02.73.8 1.17 1.82 1.17 3.06 0 4.37-2.67 5.34-5.21 5.62.41.36.78 1.07.78 2.15 0 1.55-.01 2.8-.01 3.18 0 .3.2.66.79.55A10.53 10.53 0 0 0 23.5 12c0-6.27-5.23-11.5-11.5-11.5z"/></svg>
-          <span style="font-size:8.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.6);">10 projects, zero licence fees</span>
+          <span style="font-size:8.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.6);">{projects.length} projects, zero licence fees</span>
         </span>
       </div>
 
@@ -188,7 +342,11 @@ const projects: Project[] = [
       </h1>
 
       <p style="font-size:15px;line-height:1.8;color:rgba(255,255,255,0.38);max-width:580px;">
-        Ten actively-maintained, genuinely capable projects, AI trading agents, voice cloning, video generation, API integrations, OSINT, that already do most of what you're paying a SaaS tool for every month. We use tools like these ourselves and wanted a place to point people to the real repos instead of a marketing page.
+        {projects.length} actively-maintained, genuinely capable projects, AI agents, CRM, scheduling, support, e-signature, analytics, automation, that already do most of what you're paying a SaaS tool for every month. We use tools like these ourselves and wanted a place to point people to the real repos instead of a marketing page.
+      </p>
+
+      <p style="font-size:11px;color:rgba(255,255,255,0.24);margin-top:20px;">
+        Curated by the PURIST team · Last updated {lastUpdated}
       </p>
     </div>
   </div>
@@ -199,13 +357,22 @@ const projects: Project[] = [
 ════════════════════════════════════════════════════ -->
 <section class="bg-white py-16 lg:py-20">
   <div class="container-x">
+    <div class="flex flex-wrap gap-2 mb-10 pb-8 border-b border-brand-gray-100">
+      {projects.map((p) => (
+        <a href={`#${p.id}`} class="text-[11px] font-medium px-3 py-1.5 rounded-full bg-brand-gray-50 text-brand-gray-600 border border-brand-gray-100 hover:border-brand-gray-300 hover:text-brand-black transition-colors">
+          {p.name}
+        </a>
+      ))}
+    </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
       {projects.map((p, i) => (
         <a
+          id={p.id}
           href={`https://github.com/${p.org}/${p.repo}`}
           target="_blank"
           rel="noopener noreferrer"
-          class="group block rounded-card border border-brand-gray-100 hover:border-brand-gray-200 hover:shadow-lg transition-all p-6 lg:p-7"
+          class="group block rounded-card border border-brand-gray-100 hover:border-brand-gray-200 hover:shadow-lg transition-all p-6 lg:p-7 scroll-mt-24"
         >
           <div class="flex items-start justify-between gap-4 mb-4">
             <div class="flex items-center gap-3">
@@ -249,6 +416,22 @@ const projects: Project[] = [
     <div class="mt-10 flex items-center gap-3 text-[12px] text-brand-gray-500">
       <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
       <p>These are third-party open-source projects, not built or maintained by PURIST. We link out because we use tools like these ourselves. Always review a project's licence and security posture before running it in production.</p>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="container-x mt-16 max-w-2xl">
+    <h2 class="font-display text-xl lg:text-2xl mb-6">Frequently asked questions</h2>
+    <div class="space-y-5">
+      {faqs.map((f) => (
+        <details class="group border-b border-brand-gray-100 pb-5">
+          <summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-medium text-sm text-brand-black">
+            {f.q}
+            <svg class="w-4 h-4 shrink-0 text-brand-gray-400 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </summary>
+          <p class="text-[13px] leading-relaxed text-brand-gray-600 mt-3 text-pretty">{f.a}</p>
+        </details>
+      ))}
     </div>
   </div>
 
