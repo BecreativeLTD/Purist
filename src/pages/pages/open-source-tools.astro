@@ -1,0 +1,269 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+
+interface Project {
+  id: string;
+  name: string;
+  org: string;
+  repo: string;
+  category: string;
+  tagline: string;
+  description: string;
+  replaces: string;
+  tags: string[];
+  color: string;
+}
+
+const projects: Project[] = [
+  {
+    id: 'tradingagents',
+    name: 'TradingAgents',
+    org: 'TauricResearch',
+    repo: 'TradingAgents',
+    category: 'AI Agents · Finance',
+    tagline: 'A multi-agent trading desk, running as LLM agents that debate before they call a trade.',
+    description: "TradingAgents recreates an entire research desk as a graph of specialised LLM agents: fundamental analysts, sentiment analysts, technical analysts and a risk manager, each arguing their case before a trader agent commits to a position. Built on LangGraph, it pulls real market data (Yahoo Finance, FinnHub, social sentiment) and outputs the same buy/hold/sell memo a human desk would produce, with the full debate attached so you can see exactly why. It's the clearest public demonstration that structured multi-agent debate beats a single model prompted to 'be a trader'.",
+    replaces: 'Institutional research subscriptions ($500–$2,000/mo)',
+    tags: ['LangGraph', 'Multi-agent', 'Python'],
+    color: '#7BAEA0',
+  },
+  {
+    id: 'librechat',
+    name: 'LibreChat',
+    org: 'danny-avila',
+    repo: 'LibreChat',
+    category: 'AI Interface',
+    tagline: 'One self-hosted chat UI for every model you already pay for separately.',
+    description: 'LibreChat is a production-grade, self-hosted ChatGPT-style front end that talks to OpenAI, Anthropic, Google, Mistral and a dozen other providers through a single interface, with plugins, code interpreter, image generation, agents and multi-user accounts built in. Teams use it to standardise on one UI instead of juggling five separate chat subscriptions across departments, while keeping every conversation on infrastructure they control. It is one of the most actively maintained open-source LLM front ends and a genuine alternative to paying per-seat for a hosted chat product.',
+    replaces: 'Per-seat team pricing on hosted AI chat tools',
+    tags: ['Self-hosted', 'Multi-model', 'Docker'],
+    color: '#89A8C4',
+  },
+  {
+    id: 'hyperframes',
+    name: 'HyperFrames',
+    org: 'heygen-com',
+    repo: 'HyperFrames',
+    category: 'AI Video',
+    tagline: 'An open-source generative video engine released by the team behind HeyGen.',
+    description: "HyperFrames is HeyGen's open-source contribution to generative video: a pipeline covering the pieces that usually sit behind a paid API, frame synthesis, motion consistency, and rendering. It's aimed at teams who want to build or fine-tune their own video generation stack instead of routing every request through a metered third-party endpoint. Worth watching closely given who's behind it.",
+    replaces: 'Per-minute AI video generation APIs',
+    tags: ['Generative video', 'PyTorch'],
+    color: '#A48BFA',
+  },
+  {
+    id: 'fincept',
+    name: 'Fincept Terminal',
+    org: 'Fincept-Corporation',
+    repo: 'FinceptTerminal',
+    category: 'Finance · Data',
+    tagline: 'An open-source terminal built to do what Bloomberg Terminal does, without the six-figure licence.',
+    description: 'Fincept Terminal is a community-built financial data terminal: market data, charting, screening, portfolio tools and news feeds in a single desktop application. It will never replicate the full depth of a Bloomberg Terminal\'s data licensing, but for independent analysts, small funds and finance students it covers a huge share of the daily workflow for the cost of a laptop instead of a $24,000/year seat licence.',
+    replaces: 'Bloomberg Terminal seat licences (~$24,000/yr)',
+    tags: ['Python', 'Market data', 'Desktop app'],
+    color: '#C4A870',
+  },
+  {
+    id: 'moneyprinterturbo',
+    name: 'MoneyPrinterTurbo',
+    org: 'harry0703',
+    repo: 'MoneyPrinterTurbo',
+    category: 'AI Video · Content',
+    tagline: 'Give it a topic, get a fully-produced short-form video: script, voiceover, footage and captions.',
+    description: 'MoneyPrinterTurbo automates the entire short-form video pipeline: it writes the script with an LLM, generates or sources matching footage, adds AI voiceover and burns in captions, then exports a ready-to-post vertical video. It supports multiple LLM backends and TTS engines, so you are not locked into one vendor. For anyone running a content calendar of TikTok/Reels/Shorts, this replaces a genuinely painful manual pipeline.',
+    replaces: 'AI video-generation SaaS subscriptions ($30–$100/mo)',
+    tags: ['LLM scripting', 'TTS', 'FFmpeg'],
+    color: '#E8B4B0',
+  },
+  {
+    id: 'cloudflare-agents',
+    name: 'Agentic Inbox',
+    org: 'cloudflare',
+    repo: 'agents',
+    category: 'AI Agents · Email',
+    tagline: "Cloudflare's open-source framework for building AI agents that run on the edge, including inbox automation.",
+    description: "Built on Cloudflare's Agents SDK, this shows how to run a durable, stateful AI agent directly on Workers, triaging an inbox, drafting replies, and taking action, without a dedicated backend or a third-party agent-hosting fee. Because it runs on Cloudflare's edge network, it starts cold in milliseconds and scales without you provisioning anything. A strong reference implementation if you're evaluating build-vs-buy on an AI email assistant.",
+    replaces: 'AI inbox-assistant SaaS tools ($20–$50/mo per seat)',
+    tags: ['Cloudflare Workers', 'Edge', 'TypeScript'],
+    color: '#7BAEA0',
+  },
+  {
+    id: 'voxcpm',
+    name: 'VoxCPM',
+    org: 'OpenBMB',
+    repo: 'VoxCPM',
+    category: 'AI Voice',
+    tagline: 'Zero-shot voice cloning and text-to-speech from a research lab, not a subscription API.',
+    description: "VoxCPM is OpenBMB's open-weight voice model: feed it a few seconds of reference audio and it clones the voice for zero-shot text-to-speech, with natural prosody rather than the flat cadence typical of older open TTS models. Running it yourself means no per-character billing and no audio ever leaving your infrastructure, which matters a lot the moment you're cloning a real person's voice.",
+    replaces: 'Metered voice-cloning APIs (billed per character)',
+    tags: ['TTS', 'Voice cloning', 'PyTorch'],
+    color: '#A48BFA',
+  },
+  {
+    id: 'flowsint',
+    name: 'Flowsint',
+    org: 'reconurge',
+    repo: 'flowsint',
+    category: 'OSINT · Security',
+    tagline: 'A visual, node-based OSINT investigation tool for mapping people, domains and infrastructure.',
+    description: 'Flowsint gives you a canvas where you drag in a lead, an email, a domain, a username, and chain OSINT modules together to pivot from one data point to the next, watching the investigation graph build in real time. It is aimed at researchers and security teams who currently stitch together the same lookups by hand across ten browser tabs, and turns that into a repeatable, visual workflow.',
+    replaces: 'Commercial OSINT investigation platforms',
+    tags: ['OSINT', 'Graph UI', 'Security'],
+    color: '#C4A870',
+  },
+  {
+    id: 'agent-skills',
+    name: 'agent-skills',
+    org: 'addyosmani',
+    repo: 'agent-skills',
+    category: 'DevTools · Claude Code',
+    tagline: 'A curated library of reusable skills for Claude Code, from a well-known Chrome/DX engineer.',
+    description: "A growing collection of Claude Code skill definitions covering common engineering workflows: code review checklists, refactor patterns, testing conventions and more, packaged so you can drop them straight into a project instead of writing agent instructions from scratch. Useful as both a working toolkit and as a reference for how to structure your own skills well.",
+    replaces: 'Ad hoc, unversioned prompt engineering',
+    tags: ['Claude Code', 'Skills', 'DX'],
+    color: '#89A8C4',
+  },
+  {
+    id: 'nango',
+    name: 'Nango',
+    org: 'NangoHQ',
+    repo: 'nango',
+    category: 'Integrations · API',
+    tagline: 'Open-source infrastructure for shipping OAuth and API integrations without maintaining 400 API clients.',
+    description: "Nango handles the unglamorous, failure-prone part of building integrations: OAuth flows, token refresh, rate limiting and syncing data from 400+ APIs (Salesforce, HubSpot, Slack, QuickBooks and more), through one consistent interface. It's self-hostable, so your customers' credentials and data never have to pass through a third party's cloud. If you've ever shipped 'Connect your CRM' as a feature, this is the piece that usually takes a team months to get right.",
+    replaces: 'Integration-platform-as-a-service fees (usage-based, often $500+/mo)',
+    tags: ['OAuth', 'API sync', 'Self-hosted'],
+    color: '#E8B4B0',
+  },
+];
+---
+
+<ShopLayout
+  title="10 Open-Source Projects Worth Replacing Your SaaS Bill With | PURIST"
+  description="Ten serious, actively-maintained open-source projects, AI agents, voice cloning, video generation, integrations, OSINT, that can genuinely replace tools you're paying for monthly. Curated and described by PURIST."
+  canonical="https://www.purist.online/pages/open-source-tools"
+>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.purist.online" },
+    { "@type": "ListItem", "position": 2, "name": "Open-Source Tools", "item": "https://www.purist.online/pages/open-source-tools" }
+  ]
+})}></script>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Open-source projects worth replacing your SaaS bill with",
+  "itemListElement": projects.map((p, i) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "name": p.name,
+    "description": p.tagline,
+    "url": `https://github.com/${p.org}/${p.repo}`,
+  })),
+})}></script>
+
+<!-- ════════════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════════ -->
+<header style="background:#0A0A0A;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 15% 50%,rgba(232,180,176,0.055) 0%,transparent 65%),radial-gradient(ellipse 60% 80% at 85% 30%,rgba(164,139,250,0.045) 0%,transparent 60%);pointer-events:none;"></div>
+
+  <div class="container-x relative z-10" style="padding-top:80px;padding-bottom:56px;">
+    <div style="max-width:720px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:22px;flex-wrap:wrap;">
+        <span style="font-size:9px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:rgba(232,180,176,0.55);">Open Source</span>
+        <span style="width:1px;height:10px;background:rgba(255,255,255,0.12);"></span>
+        <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:100px;padding:3px 10px;">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="rgba(255,255,255,0.6)"><path d="M12 .5C5.73.5.5 5.74.5 12.02c0 5.03 3.26 9.29 7.79 10.8.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.11-3.17.69-3.84-1.36-3.84-1.36-.52-1.31-1.26-1.66-1.26-1.66-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.73 2.65 1.23 3.3.94.1-.73.4-1.23.72-1.51-2.53-.29-5.19-1.27-5.19-5.63 0-1.24.44-2.26 1.17-3.06-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.15 1.17a10.9 10.9 0 0 1 5.73 0c2.19-1.48 3.15-1.17 3.15-1.17.62 1.57.23 2.73.11 3.02.73.8 1.17 1.82 1.17 3.06 0 4.37-2.67 5.34-5.21 5.62.41.36.78 1.07.78 2.15 0 1.55-.01 2.8-.01 3.18 0 .3.2.66.79.55A10.53 10.53 0 0 0 23.5 12c0-6.27-5.23-11.5-11.5-11.5z"/></svg>
+          <span style="font-size:8.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.6);">10 projects, zero licence fees</span>
+        </span>
+      </div>
+
+      <h1 class="font-display" style="font-size:clamp(2rem,4vw,3.2rem);line-height:1.08;letter-spacing:-0.03em;color:#fff;margin-bottom:22px;">
+        Open-source tools that can <em style="color:#E8B4B0;font-style:italic;">replace what you're paying for.</em>
+      </h1>
+
+      <p style="font-size:15px;line-height:1.8;color:rgba(255,255,255,0.38);max-width:580px;">
+        Ten actively-maintained, genuinely capable projects, AI trading agents, voice cloning, video generation, API integrations, OSINT, that already do most of what you're paying a SaaS tool for every month. We use tools like these ourselves and wanted a place to point people to the real repos instead of a marketing page.
+      </p>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════
+     GRID
+════════════════════════════════════════════════════ -->
+<section class="bg-white py-16 lg:py-20">
+  <div class="container-x">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      {projects.map((p, i) => (
+        <a
+          href={`https://github.com/${p.org}/${p.repo}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group block rounded-card border border-brand-gray-100 hover:border-brand-gray-200 hover:shadow-lg transition-all p-6 lg:p-7"
+        >
+          <div class="flex items-start justify-between gap-4 mb-4">
+            <div class="flex items-center gap-3">
+              <span
+                class="flex items-center justify-center w-9 h-9 rounded-full shrink-0 font-display text-sm"
+                style={`background:${p.color}1A;color:${p.color};`}
+              >
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <div>
+                <h2 class="font-display text-lg leading-tight">{p.name}</h2>
+                <p class="text-[11px] uppercase tracking-wider text-brand-gray-500 mt-0.5">{p.category}</p>
+              </div>
+            </div>
+            <svg class="w-5 h-5 text-brand-gray-300 group-hover:text-brand-black shrink-0 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 17L17 7M17 7H9M17 7v8"/>
+            </svg>
+          </div>
+
+          <p class="text-sm font-medium text-brand-black/85 mb-3 text-pretty">{p.tagline}</p>
+          <p class="text-[13px] leading-relaxed text-brand-gray-600 mb-5 text-pretty">{p.description}</p>
+
+          <div class="flex flex-wrap gap-1.5 mb-4">
+            {p.tags.map((t) => (
+              <span class="text-[10px] font-medium px-2 py-1 rounded-full bg-brand-gray-50 text-brand-gray-600 border border-brand-gray-100">
+                {t}
+              </span>
+            ))}
+          </div>
+
+          <div class="flex items-center justify-between pt-4 border-t border-brand-gray-100">
+            <p class="text-[11px] text-brand-gray-500">
+              <span class="font-medium text-brand-black/70">Replaces:</span> {p.replaces}
+            </p>
+            <span class="text-[11px] font-mono text-brand-gray-400 shrink-0 ml-3">{p.org}/{p.repo}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-10 flex items-center gap-3 text-[12px] text-brand-gray-500">
+      <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <p>These are third-party open-source projects, not built or maintained by PURIST. We link out because we use tools like these ourselves. Always review a project's licence and security posture before running it in production.</p>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="container-x mt-16">
+    <div class="rounded-card border border-brand-gray-100 bg-brand-cream p-8 lg:p-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+      <div>
+        <h3 class="font-display text-xl lg:text-2xl mb-2">Prefer it deployed, maintained and supported?</h3>
+        <p class="text-sm text-brand-gray-600 max-w-lg">We wire tools like these, and dozens more, into production-ready automation stacks for real businesses. No self-hosting, no reading the docs at midnight.</p>
+      </div>
+      <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-button bg-brand-black text-white text-sm font-medium hover:opacity-85 transition shrink-0 whitespace-nowrap">
+        Get my free automation plan →
+      </a>
+    </div>
+  </div>
+</section>
+
+</ShopLayout>
