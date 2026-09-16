@@ -1243,4 +1243,318 @@ return [{
       { q: 'How are draws or guaranteed minimums handled?', a: 'Add a comparison step after Calculate Final Payout that pays the greater of the calculated commission or the guaranteed draw, then tracks any draw balance owed against future periods.' },
     ],
   },
+  {
+    slug: 'competitive-intelligence-monitoring',
+    name: 'Competitive Intelligence Monitoring',
+    file: '/n8n-templates/competitive-intelligence-monitoring.json',
+    nodeCount: 24,
+    complexity: 'Expert',
+    category: 'Strategy & Marketing',
+    tools: ['Diffbot', 'Greenhouse/Lever job boards', 'NewsAPI', 'Claude AI', 'Slack', 'Airtable'],
+    tagline: 'A 24-node daily pipeline tracking competitor pricing pages, public job postings, and news mentions, alerting only on genuine changes and routing each to the team that acts on it.',
+    intro: 'Most competitive intelligence programs are a shared folder nobody updates after the first week. This workflow pulls three real signal sources daily for every tracked competitor, pricing page content, public job postings, and news mentions, has AI diff each against the previous snapshot to filter out noise, and routes only genuine changes to the team positioned to act: pricing changes to pricing, hiring signals to strategy, news events to PR.',
+    sections: [
+      {
+        heading: 'Why hiring data is the most underused competitive signal',
+        paras: [
+          'Public job postings are one of the most reliable leading indicators of competitor strategy, and almost nobody systematically tracks them. A cluster of new senior engineering hires for a specific product area, or a sudden opening for a "VP of International Expansion," reliably precedes public announcements by months, because headcount planning happens long before a launch.',
+          'Fetch Job Postings pulls this directly from public ATS job board APIs (Greenhouse and Lever both expose these without authentication for public postings), and Alert Strategy Team fires specifically on hiring-classified changes so a hiring pattern gets noticed by the team that can act on the inference, not buried in a general newsletter nobody reads closely.',
+        ],
+      },
+      {
+        heading: 'Diffing against history is what makes this sustainable',
+        paras: [
+          'The naive version of this workflow re-summarizes the full pricing page and job board every day, which produces a flood of repetitive alerts and trains everyone to ignore the channel within two weeks. Get Previous Snapshot pulls yesterday\'s data before the AI does anything, and AI Diff & Summarize is explicitly instructed to report only what changed.',
+          'Change Detected? then gates the entire alerting path: most days, for most competitors, nothing meaningfully changed, and Store Snapshot Only logs the data with zero noise generated. This is the difference between a monitoring system people trust and one they mute.',
+        ],
+      },
+      {
+        heading: 'The weekly digest closes the loop for leadership',
+        paras: [
+          'Daily alerts serve the team that needs to react immediately. Leadership needs the pattern across a week, not a stream of individual events. The separate Weekly Digest Schedule branch compiles the week\'s logged changes across all competitors into one AI-summarized digest, giving executives the "so what" view without needing to follow the daily alert channel at all.',
+        ],
+      },
+    ],
+    diagram: `flowchart TD
+  A[Daily Schedule] --> B[Get Competitor List]
+  B --> C[Split In Batches]
+  C --> D[Scrape Pricing Page]
+  C --> E[Fetch Job Postings]
+  C --> F[Fetch News Mentions]
+  D --> G[Merge Sources]
+  E --> G
+  F --> G
+  G --> H[Get Previous Snapshot]
+  H --> I[AI Diff & Summarize]
+  I --> J{Change Detected?}
+  J -->|No| K[Store Snapshot Only]
+  J -->|Yes| L{Classify Change}
+  L -->|Pricing| M[Alert Pricing Team]
+  L -->|Hiring| N[Alert Strategy Team]
+  L -->|News| O[Alert PR/Marketing]
+  M --> P[Merge Alerts]
+  N --> P
+  O --> P
+  K --> P
+  P --> Q[Log Snapshot & Diff]
+  Q --> C
+
+  R[Weekly Schedule] --> S[Compile Week's Changes]
+  S --> T[AI Weekly Digest]
+  T --> U[Send To Leadership]`,
+    nodeTable: [
+      { n: 'Scrape Pricing Page / Fetch Job Postings / Fetch News Mentions', type: 'HTTP Request ×3', role: 'Three independent, genuinely predictive signal sources' },
+      { n: 'Get Previous Snapshot', type: 'HTTP Request', role: 'Pulled before analysis so the AI compares, not just describes' },
+      { n: 'AI Diff & Summarize', type: 'HTTP Request', role: 'Reports only what changed since the last run' },
+      { n: 'Change Detected?', type: 'IF', role: 'The noise filter that keeps this workflow sustainable long-term' },
+      { n: 'Classify Change Type', type: 'Switch', role: 'Routes each change to the team actually positioned to act on it' },
+      { n: 'Weekly Digest Schedule branch', type: 'Schedule Trigger + AI', role: 'Compiles the pattern across a week for leadership' },
+    ],
+    code: [
+      {
+        caption: 'Change classification logic (conceptual, inside AI Diff & Summarize response parsing)',
+        lang: 'javascript',
+        body: `const diff = $json.aiDiffResult;
+
+return [{
+  json: {
+    ...$json,
+    hasChange: diff.changes.length > 0,
+    changeType: diff.changes[0]?.category, // 'pricing' | 'hiring' | 'news'
+    changeSummary: diff.changes[0]?.summary,
+  }
+}];`,
+      },
+    ],
+    metrics: [
+      { metric: 'Signal sources tracked per competitor', before: '0-1, usually just news alerts', after: '3, cross-referenced daily' },
+      { metric: 'Alert noise', before: 'High if monitoring exists at all', after: 'Only genuine changes trigger alerts' },
+      { metric: 'Time to notice a pricing change', before: 'Whenever a customer mentions it', after: 'Within 24 hours' },
+      { metric: 'Leadership visibility', before: 'Ad hoc, reactive', after: 'Weekly synthesized digest' },
+    ],
+    prerequisites: [
+      'n8n v1.40+ with Split In Batches support',
+      'Diffbot or equivalent web content extraction API',
+      'Public ATS job board access (Greenhouse/Lever, no auth needed for public postings)',
+      'NewsAPI or equivalent news search API',
+      'Anthropic API key, Airtable PAT, Slack Bot Token',
+    ],
+    pitfalls: [
+      { title: 'Respect robots.txt and terms of service when scraping', body: 'Pricing page monitoring should only ever pull publicly published content, not bypass access controls or scrape at a rate that burdens the competitor\'s infrastructure.' },
+      { title: 'Tune the AI diff prompt to ignore cosmetic changes', body: 'A/B tested button colors and copy tweaks are not competitive intelligence. The prompt needs explicit instruction on what counts as a substantive change.' },
+      { title: 'Job posting signal needs interpretation, not just detection', body: 'A new posting alone is a data point, not a conclusion. Alert Strategy Team should include enough context (role, seniority, past hiring pattern) for a human to interpret it correctly.' },
+    ],
+    faqs: [
+      { q: 'Is scraping competitor pricing pages legal?', a: 'Publicly accessible pricing information can generally be monitored, but always check the specific site\'s terms of service and robots.txt, and avoid any scraping that requires bypassing authentication or rate limits.' },
+      { q: 'Can this track private/enterprise pricing that is not published?', a: 'No, this workflow only monitors publicly visible information. Enterprise pricing typically requires sales conversations and cannot be automated this way.' },
+      { q: 'How many competitors can this realistically track?', a: 'Split In Batches keeps this scalable to dozens of competitors; the practical limit is usually API rate limits on the news and job board sources, not n8n itself.' },
+    ],
+  },
+  {
+    slug: 'recruitment-pipeline-automation',
+    name: 'Recruitment Pipeline Automation',
+    file: '/n8n-templates/recruitment-pipeline-automation.json',
+    nodeCount: 28,
+    complexity: 'Expert',
+    category: 'HR & Talent Acquisition',
+    tools: ['Greenhouse', 'Affinda', 'Claude AI', 'Cal.com', 'CodeSignal', 'DocuSign', 'Airtable'],
+    tagline: 'A 28-node pipeline from application to signed offer, AI resume screening, role-aware technical vs panel routing, and a direct handoff into the onboarding workflow the moment an offer is accepted.',
+    intro: 'A recruitment pipeline touches more systems than almost any other HR process: an ATS, a resume parser, a calendar, an assessment platform, an e-signature tool, and eventually the onboarding system. This workflow connects all of them end to end, screening every application consistently, routing technical and non-technical roles down genuinely different evaluation paths, and handing off directly into onboarding the moment an offer is accepted rather than leaving that connection to someone\'s memory.',
+    sections: [
+      {
+        heading: 'Screening consistency without losing the human decision',
+        paras: [
+          'AI Score Against Requirements evaluates every application against the specific role\'s actual requirements, not a generic resume quality heuristic, and Screening Threshold Met? gates who gets an automatic screening call. This does not replace human judgement, it replaces the inconsistency of different recruiters applying different informal bars on different days.',
+          'Rejected candidates are not simply discarded. Tag For Future Roles logs them to a searchable candidate pool, since a candidate who is not right for this specific role today is frequently the right fit for a different opening in six months, and that connection is invisible without a system tracking it.',
+        ],
+      },
+      {
+        heading: 'Why technical and non-technical roles need genuinely different paths',
+        paras: [
+          'Role Type Router is not a cosmetic branch. A coding assessment is the correct next evaluation step for a technical role and actively counterproductive for most non-technical ones, where a structured panel interview evaluates the skills that actually matter. Forcing every candidate through the same generic pipeline is the single most common design mistake in recruitment automation.',
+          'Send Coding Assessment and Wait For Assessment Completion use webhook-resume so the workflow costs nothing while waiting, potentially days, for a candidate to complete an assessment, exactly the same pattern used for fulfillment waits in the order-to-cash template.',
+        ],
+      },
+      {
+        heading: 'The handoff into onboarding that most companies never automate',
+        paras: [
+          'Offer Accepted Webhook triggers Trigger Onboarding Workflow, which calls directly into the Employee Onboarding & Offboarding template with the new hire\'s details already populated. This single connection eliminates the most common gap in the entire hire lifecycle: the moment between "candidate said yes" and "IT knows a laptop needs ordering," which at most companies depends entirely on someone remembering to loop in HR operations manually.',
+        ],
+      },
+    ],
+    diagram: `flowchart TD
+  A[New Application] --> B[Parse Resume]
+  B --> C[AI Score]
+  C --> D{Threshold Met?}
+  D -->|Yes| E[Schedule Screening Call]
+  D -->|No| F[Polite Rejection] --> G[Tag For Future Roles]
+  E --> H[Confirmation Email]
+
+  I[Screening Complete] --> J[Collect Feedback]
+  J --> K{Advance?}
+  K -->|No| L[Log Rejection]
+  K -->|Yes| M{Role Type}
+  M -->|Technical| N[Coding Assessment] --> O[Wait Completion]
+  M -->|Non-Technical| P[Schedule Panel]
+  O --> Q[Merge]
+  P --> Q
+  Q --> R[Final Decision Gate]
+  R --> S{Hired?}
+  S -->|Yes| T[Generate Offer] --> U[Send via DocuSign] --> V[Offer Accepted]
+  V --> W[Trigger Onboarding]
+  W --> X[Log To Registry]
+  S -->|No| Y[Final Rejection]`,
+    nodeTable: [
+      { n: 'AI Score Against Requirements', type: 'HTTP Request', role: 'Consistent screening bar per role, not per recruiter' },
+      { n: 'Role Type Router', type: 'Switch', role: 'Technical vs non-technical get genuinely different evaluation paths' },
+      { n: 'Wait For Assessment Completion', type: 'Wait (webhook resume)', role: 'Zero-cost pause while a candidate completes a coding test' },
+      { n: 'Final Decision Gate', type: 'Wait (webhook resume)', role: 'Hiring manager makes the call with full history in view' },
+      { n: 'Offer Accepted Webhook → Trigger Onboarding Workflow', type: 'Webhook + HTTP Request', role: 'Direct handoff into the onboarding template, no manual handover' },
+    ],
+    code: [
+      {
+        caption: 'Handoff payload into the onboarding workflow',
+        lang: 'javascript',
+        body: `// Fires the same webhook shape the Employee Onboarding template expects
+return [{
+  json: {
+    startDate: $json.agreedStartDate,
+    role: $json.roleTitle,
+    department: $json.department,
+    email: $json.personalEmail,
+    githubHandle: $json.githubHandle || null,
+  }
+}];`,
+      },
+    ],
+    metrics: [
+      { metric: 'Screening consistency', before: 'Varies by recruiter and day', after: 'Same criteria applied every time' },
+      { metric: 'Time from application to screening call', before: 'Days, manual review queue', after: 'Same day for qualifying candidates' },
+      { metric: 'Rejected candidates retained for future roles', before: 'Effectively lost', after: 'Searchable candidate pool' },
+      { metric: 'Gap between offer acceptance and onboarding start', before: 'Depends on someone remembering to notify HR ops', after: 'Automatic, same-day trigger' },
+    ],
+    prerequisites: [
+      'n8n v1.40+ with webhook-resume Wait support',
+      'ATS with API access (Greenhouse or Lever)',
+      'Affinda or equivalent resume parsing API',
+      'Anthropic API key, Cal.com or Google Calendar, CodeSignal or equivalent assessment platform',
+      'PandaDoc, DocuSign, Airtable PAT',
+    ],
+    pitfalls: [
+      { title: 'AI screening scores need regular bias auditing', body: 'Any automated resume screening carries legal and ethical obligations to audit for disparate impact across protected characteristics. Review scoring outcomes by demographic segment periodically, not just once at launch.' },
+      { title: 'The threshold score is a floor, not a hiring decision', body: 'Screening Threshold Met? decides who gets a conversation, never who gets hired. Keep every substantive decision with a human interviewer.' },
+      { title: 'Test the onboarding handoff end to end before relying on it', body: 'A field-name mismatch between this workflow\'s output and the onboarding template\'s expected input fails silently unless you validate the full chain with a test candidate first.' },
+    ],
+    faqs: [
+      { q: 'Does AI resume screening create legal risk?', a: 'It can, if not implemented carefully. Ensure the scoring criteria are job-related and consistently applied, document the criteria, and audit outcomes for adverse impact. Consult employment counsel before deploying AI screening at scale.' },
+      { q: 'Can this handle multiple open roles simultaneously?', a: 'Yes, each application carries its own role ID, and AI Score Against Requirements pulls the specific requirements for that role, so multiple pipelines run independently through the same workflow.' },
+      { q: 'What if a candidate needs to skip the screening call and go straight to a panel?', a: 'Add a manual override path that a recruiter can trigger to bypass Screening Threshold Met? for referred or pre-vetted candidates, feeding directly into Role Type Router.' },
+    ],
+  },
+  {
+    slug: 'investor-relations-fundraising-crm',
+    name: 'Investor Relations & Fundraising CRM Automation',
+    file: '/n8n-templates/investor-relations-fundraising-crm.json',
+    nodeCount: 25,
+    complexity: 'Expert',
+    category: 'Strategy & Finance',
+    tools: ['Crunchbase', 'Claude AI', 'DocSend', 'Airtable', 'Slack', 'Resend'],
+    tagline: 'A 25-node pipeline that scores inbound investor contacts against your actual fund thesis, tracks data-room engagement as a real buying signal, and never sends investor communication without founder approval.',
+    intro: 'Fundraising is relationship-intensive work that most founders still track in a spreadsheet, discovering engagement signals (a partner who viewed the deck five times) too late to act on them. This workflow scores every investor contact against your specific raise criteria, tracks real data-room engagement instead of guessing at interest from email replies alone, and keeps every founder firmly in control of outbound communication.',
+    sections: [
+      {
+        heading: 'Fit scoring against your actual thesis, not a generic VC list',
+        paras: [
+          'AI Fit Scoring vs Fund Thesis evaluates each investor contact against your specific stage, sector, and check-size criteria, not a generic "is this a real investor" filter. A well-known fund that only writes Series B checks is a poor fit for a seed round regardless of its reputation, and this workflow scores accordingly rather than treating brand recognition as fit.',
+          'Fit Tier Router splits contacts three ways: high-fit gets an AI-drafted, founder-reviewed personalized intro; medium-fit enters a lower-touch nurture list; low-fit is simply logged, preserving the record without consuming outreach effort on a poor match.',
+        ],
+      },
+      {
+        heading: 'Data-room engagement is a far better signal than email replies',
+        paras: [
+          'High Engagement Signal? watches for the pattern that actually predicts investor interest: multiple views of the data room, or extended time spent in it, tracked via DocSend\'s webhook events. A partner who opens your deck once and never returns is a very different signal from one who has viewed it five times over three days, and most founders have no visibility into this distinction at all without deliberately tracking it.',
+          'Alert Founder To Follow Up fires specifically on the high-engagement pattern, meaning founder attention goes to the investors who are demonstrably reading closely, right when that attention matters most, rather than being spread evenly across every contact regardless of actual interest.',
+        ],
+      },
+      {
+        heading: 'Every outbound word passes through the founder',
+        paras: [
+          'Both Founder Review Gate (for intro emails) and Founder Approval Before Send (for the weekly investor update) are hard stops. This is the single principle that matters most in this template: fundraising communication is relationship-defining, and no automation should be trusted to send it unreviewed, regardless of how good the AI draft looks.',
+          'What the workflow automates is everything around that communication, enrichment, scoring, engagement tracking, pipeline stage updates, so the founder\'s limited time goes entirely into the judgement calls that actually require it.',
+        ],
+      },
+    ],
+    diagram: `flowchart TD
+  A[New Investor Contact] --> B[Enrich Firm Data]
+  B --> C[AI Fit Scoring]
+  C --> D{Fit Tier}
+  D -->|High| E[AI Draft Intro] --> F[Founder Review Gate] --> G[Send Intro Email]
+  D -->|Medium| H[Add To Nurture List]
+  D -->|Low| I[Log Only]
+  G --> J[Merge Fit Paths]
+  H --> J
+  I --> J
+  J --> K[Add To Pipeline CRM]
+
+  L[Data Room Viewed] --> M{High Engagement?}
+  M -->|Yes| N[Alert Founder]
+  M -->|No| O[Standard Cadence]
+
+  P[Meeting Scheduled] --> Q{Pipeline Stage}
+  Q -->|Met/Diligence/Term Sheet| R[Update Pipeline Stage]
+
+  S[Weekly Schedule] --> T[Compile Metrics]
+  T --> U[Generate Update Email]
+  U --> V[Founder Approval] --> W[Broadcast To Investors]`,
+    nodeTable: [
+      { n: 'AI Fit Scoring vs Fund Thesis', type: 'HTTP Request', role: 'Scores against your specific raise criteria, not generic VC recognition' },
+      { n: 'Founder Review Gate / Founder Approval Before Send', type: 'Wait (webhook resume) ×2', role: 'Hard stops on all outbound investor communication' },
+      { n: 'High Engagement Signal?', type: 'IF', role: 'Surfaces real buying signal from data-room behaviour, not email replies' },
+      { n: 'Pipeline Stage Router', type: 'Switch', role: 'Tracks deal progression: met, diligence, term sheet' },
+      { n: 'Weekly Investor Update Schedule branch', type: 'Schedule Trigger + AI', role: 'Automated draft, human-approved send, of the recurring update' },
+    ],
+    code: [
+      {
+        caption: 'Engagement signal threshold check',
+        lang: 'javascript',
+        body: `const viewCount = $json.viewCount || 0;
+const timeSpentSeconds = $json.timeSpentSeconds || 0;
+
+const highEngagement = viewCount > 3 || timeSpentSeconds > 300;
+
+return [{
+  json: {
+    ...$json,
+    highEngagement,
+    engagementNote: highEngagement
+      ? \`Viewed \${viewCount}x, \${Math.round(timeSpentSeconds/60)} min total\`
+      : null,
+  }
+}];`,
+      },
+    ],
+    metrics: [
+      { metric: 'Investor fit assessment', before: 'Gut feel, brand recognition', after: 'Scored against explicit thesis criteria' },
+      { metric: 'Engagement visibility', before: 'None beyond email replies', after: 'Data-room view count and duration tracked' },
+      { metric: 'Follow-up timing on hot investors', before: 'Whenever the founder happens to check', after: 'Alerted the moment high engagement is detected' },
+      { metric: 'Outbound communication control', before: 'Varies', after: '100% founder-approved before sending' },
+    ],
+    prerequisites: [
+      'n8n v1.40+ with webhook-resume Wait support',
+      'Crunchbase API or equivalent firm enrichment source',
+      'Anthropic API key',
+      'DocSend or equivalent data-room tool with webhook/event access',
+      'Airtable PAT, Slack Bot Token, Resend API key',
+    ],
+    pitfalls: [
+      { title: 'Never let the AI-drafted intro send without review', body: 'Investor outreach is the highest-stakes external communication a founder sends. The review gate is not friction to remove, it is the entire point of keeping this safe.' },
+      { title: 'Fit scores can miss context the AI has no way to know', body: 'A fund\'s public thesis and its actual current appetite can diverge (dry powder constraints, a recent related investment). Treat the score as a prioritisation aid, not a final verdict.' },
+      { title: 'Data-room engagement data has a lag', body: 'DocSend and similar tools batch webhook delivery in some configurations. Do not assume real-time delivery without confirming your specific plan\'s webhook latency.' },
+    ],
+    faqs: [
+      { q: 'Can this replace a fundraising CRM like Affinity?', a: 'For an early-stage raise with a few dozen to a few hundred contacts, yes, this covers the core workflow. At later stages with a large, complex investor network, a dedicated platform\'s relationship-graph features become more valuable.' },
+      { q: 'How does the weekly investor update avoid sounding generic?', a: 'Compile Company Metrics pulls your actual current numbers each week, so the AI draft reflects real, current data rather than a templated update, and the founder approval step catches anything that still reads generically.' },
+      { q: 'Is data-room view tracking something investors expect?', a: 'Yes, DocSend-style tracked sharing is now the market standard for fundraising decks specifically because both sides understand engagement data is being captured; it is not considered an invasive practice in this context.' },
+    ],
+  },
 ];

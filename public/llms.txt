@@ -265,6 +265,9 @@ Categories and example professions:
 - [Contract Lifecycle Management](https://www.purist.online/pages/n8n-templates/contract-lifecycle-management): 26 nodes, AI risk-clause flagging, signature reminder cascade, 90-day renewal tracking.
 - [Vendor Risk & Compliance Monitoring](https://www.purist.online/pages/n8n-templates/vendor-risk-compliance-monitoring): 24 nodes, AI risk-tiered vendor onboarding plus quarterly certification-expiry sweeps.
 - [Sales Commission Calculation & Payout](https://www.purist.online/pages/n8n-templates/sales-commission-calculation-payout): 25 nodes, accelerators, clawbacks, dispute holds, manager-gated payroll submission.
+- [Competitive Intelligence Monitoring](https://www.purist.online/pages/n8n-templates/competitive-intelligence-monitoring): 24 nodes, daily pricing/hiring/news tracking with AI diffing and a weekly digest.
+- [Recruitment Pipeline Automation](https://www.purist.online/pages/n8n-templates/recruitment-pipeline-automation): 28 nodes, AI resume screening, technical vs panel routing, direct handoff into onboarding.
+- [Investor Relations & Fundraising CRM Automation](https://www.purist.online/pages/n8n-templates/investor-relations-fundraising-crm): 25 nodes, fund-thesis fit scoring, data-room engagement tracking, founder-gated outreach.
 
 ## Integration Guides (11 guides, Simple to Complex)
 

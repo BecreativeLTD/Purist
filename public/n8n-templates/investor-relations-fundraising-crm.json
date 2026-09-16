@@ -1,0 +1,101 @@
+{
+  "name": "Investor Relations & Fundraising CRM Automation (25 nodes)",
+  "nodes": [
+    { "id": "1", "name": "New Investor Contact Webhook", "type": "n8n-nodes-base.webhook", "typeVersion": 2, "position": [0, 0],
+      "parameters": { "path": "new-investor-contact", "httpMethod": "POST" } },
+    { "id": "2", "name": "Enrich Investor Firm Data", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4, "position": [220, 0],
+      "parameters": { "method": "GET", "url": "https://api.crunchbase.com/v4/entities/organizations/{{$json.firmSlug}}" } },
+    { "id": "3", "name": "AI Fit Scoring vs Fund Thesis", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4, "position": [440, 0],
+      "parameters": { "method": "POST", "url": "https://api.anthropic.com/v1/messages" },
+      "notes": "Scores stage focus, sector focus, and typical check size against your actual raise, not a generic 'is this a VC' check." },
+    { "id": "4", "name": "Fit Tier Router", "type": "n8n-nodes-base.switch", "typeVersion": 3, "position": [660, 0],
+      "parameters": { "mode": "rules", "rules": { "values": [
+        { "outputKey": "high", "conditions": { "conditions": [ { "leftValue": "={{$json.fitScore}}", "rightValue": 75, "operator": { "type": "number", "operation": "gte" } } ] } },
+        { "outputKey": "medium", "conditions": { "conditions": [ { "leftValue": "={{$json.fitScore}}", "rightValue": 40, "operator": { "type": "number", "operation": "gte" } } ] } },
+        { "outputKey": "low", "conditions": { "conditions": [ { "leftValue": "={{$json.fitScore}}", "rightValue": 40, "operator": { "type": "number", "operation": "lt" } } ] } }
+      ] } } },
+    { "id": "5", "name": "AI Draft Personalized Intro", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4, "position": [880, -200],
+      "parameters": { "method": "POST", "url": "https://api.anthropic.com/v1/messages" } },
+    { "id": "6", "name": "Founder Review Gate", "type": "n8n-nodes-base.wait", "typeVersion": 1, "position": [1100, -200],
+      "parameters": { "resume": "webhook" },
+      "notes": "No investor outreach ever sends without the founder personally approving the draft first, this is relationship-critical communication." },
+    { "id": "7", "name": "Send Intro Email", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4, "position": [1320, -200],
+      "parameters": { "method": "POST", "url": "https://api.resend.com/emails" } },
+    { "id": "8", "name": "Add To Nurture List", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4, "position": [880, 0],
+      "parameters": { "method": "POST", "url": "https://api.airtable.com/v0/{{BASE_ID}}/investor_pipeline" } },
+    { "id": "9", "name": "Log Only", "type": "n8n-nodes-base.noOp", "typeVersion": 1, "position": [880, 200] },
+    { "id": "10", "name": "Merge Fit Paths", "type": "n8n-nodes-base.merge", "typeVersion": 3, "position": [1540, 0],
+      "parameters": { "mode": "combine", "numberInputs": 3 } },
+    { "id": "11", "name": "Add To Investor Pipeline CRM", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4, "position": [1760, 0],
+      "parameters": { "method": "POST", "url": "https://api.airtable.com/v0/{{BASE_ID}}/investor_pipeline" } },
+    { "id": "12", "name": "Data Room Viewed Webhook", "type": "n8n-nodes-base.webhook", "typeVersion": 2, "position": [220, 300],
+      "parameters": { "path": "docsend-view-event", "httpMethod": "POST" } },
+    { "id": "13", "name": "High Engagement Signal?", "type": "n8n-nodes-base.if", "typeVersion": 2, "position": [440, 300],
+      "parameters": { "conditions": { "combinator": "or", "conditions": [
+        { "leftValue": "={{$json.viewCount}}", "rightValue": 3, "operator": { "type": "number", "operation": "gt" } },
+        { "leftValue": "={{$json.timeSpentSeconds}}", "rightValue": 300, "operator": { "type": "number", "operation": "gt" } }
+      ] } },
+      "notes": "Multiple views or extended time on the deck is a far stronger buying signal than any email reply." },
+    { "id": "14", "name": "Alert Founder To Follow Up", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4, "position": [660, 250],
+      "parameters": { "method": "POST", "url": "https://slack.com/api/chat.postMessage" } },
+    { "id": "15", "name": "Continue Standard Cadence", "type": "n8n-nodes-base.noOp", "typeVersion": 1, "position": [660, 400] },
+    { "id": "16", "name": "Meeting Scheduled Webhook", "type": "n8n-nodes-base.webhook", "typeVersion": 2, "position": [220, 550],
+      "parameters": { "path": "investor-meeting-scheduled", "httpMethod": "POST" } },
+    { "id": "17", "name": "Pipeline Stage Router", "type": "n8n-nodes-base.switch", "typeVersion": 3, "position": [440, 550],
+      "parameters": { "mode": "rules", "rules": { "values": [
+        { "outputKey": "met", "conditions": { "conditions": [ { "leftValue": "={{$json.stage}}", "rightValue": "met", "operator": { "type": "string", "operation": "equals" } } ] } },
+        { "outputKey": "diligence", "conditions": { "conditions": [ { "leftValue": "={{$json.stage}}", "rightValue": "diligence", "operator": { "type": "string", "operation": "equals" } } ] } },
+        { "outputKey": "termsheet", "conditions": { "conditions": [ { "leftValue": "={{$json.stage}}", "rightValue": "term_sheet", "operator": { "type": "string", "operation": "equals" } } ] } }
+      ] } } },
+    { "id": "18", "name": "Update Pipeline Stage", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4, "position": [660, 550],
+      "parameters": { "method": "PATCH", "url": "https://api.airtable.com/v0/{{BASE_ID}}/investor_pipeline/{{$json.recordId}}" } },
+    { "id": "19", "name": "Weekly Investor Update Schedule", "type": "n8n-nodes-base.scheduleTrigger", "typeVersion": 1, "position": [220, 750],
+      "parameters": { "rule": { "interval": [{ "field": "cronExpression", "expression": "0 8 * * 5" }] } } },
+    { "id": "20", "name": "Compile Company Metrics", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4, "position": [440, 750],
+      "parameters": { "method": "GET", "url": "https://api.stripe.com/v1/subscriptions" } },
+    { "id": "21", "name": "Generate Update Email", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4, "position": [660, 750],
+      "parameters": { "method": "POST", "url": "https://api.anthropic.com/v1/messages" } },
+    { "id": "22", "name": "Founder Approval Before Send", "type": "n8n-nodes-base.wait", "typeVersion": 1, "position": [880, 750],
+      "parameters": { "resume": "webhook" } },
+    { "id": "23", "name": "Broadcast To Subscribed Investors", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4, "position": [1100, 750],
+      "parameters": { "method": "POST", "url": "https://api.resend.com/broadcasts" } },
+    { "id": "24", "name": "Setup Notes", "type": "n8n-nodes-base.stickyNote", "typeVersion": 1, "position": [0, -450],
+      "parameters": { "content": "## Setup\n1. Define your fund-thesis criteria (stage, sector, cheque size) in AI Fit Scoring.\n2. Every outbound investor communication routes through a founder approval gate, by design, do not remove this.\n3. Connect DocSend (or your data room tool) webhooks for engagement tracking.", "height": 210, "width": 420 } },
+    { "id": "25", "name": "Credential Requirements", "type": "n8n-nodes-base.stickyNote", "typeVersion": 1, "position": [0, -220],
+      "parameters": { "content": "## Credentials needed\n- Crunchbase API (or equivalent firm enrichment)\n- Anthropic API key\n- DocSend or equivalent data-room webhook access\n- Airtable PAT, Slack Bot Token, Resend API key", "height": 190, "width": 420 } }
+  ],
+  "connections": {
+    "New Investor Contact Webhook": { "main": [[{ "node": "Enrich Investor Firm Data", "type": "main", "index": 0 }]] },
+    "Enrich Investor Firm Data": { "main": [[{ "node": "AI Fit Scoring vs Fund Thesis", "type": "main", "index": 0 }]] },
+    "AI Fit Scoring vs Fund Thesis": { "main": [[{ "node": "Fit Tier Router", "type": "main", "index": 0 }]] },
+    "Fit Tier Router": { "main": [
+      [{ "node": "AI Draft Personalized Intro", "type": "main", "index": 0 }],
+      [{ "node": "Add To Nurture List", "type": "main", "index": 0 }],
+      [{ "node": "Log Only", "type": "main", "index": 0 }]
+    ] },
+    "AI Draft Personalized Intro": { "main": [[{ "node": "Founder Review Gate", "type": "main", "index": 0 }]] },
+    "Founder Review Gate": { "main": [[{ "node": "Send Intro Email", "type": "main", "index": 0 }]] },
+    "Send Intro Email": { "main": [[{ "node": "Merge Fit Paths", "type": "main", "index": 0 }]] },
+    "Add To Nurture List": { "main": [[{ "node": "Merge Fit Paths", "type": "main", "index": 1 }]] },
+    "Log Only": { "main": [[{ "node": "Merge Fit Paths", "type": "main", "index": 2 }]] },
+    "Merge Fit Paths": { "main": [[{ "node": "Add To Investor Pipeline CRM", "type": "main", "index": 0 }]] },
+    "Data Room Viewed Webhook": { "main": [[{ "node": "High Engagement Signal?", "type": "main", "index": 0 }]] },
+    "High Engagement Signal?": { "main": [
+      [{ "node": "Alert Founder To Follow Up", "type": "main", "index": 0 }],
+      [{ "node": "Continue Standard Cadence", "type": "main", "index": 0 }]
+    ] },
+    "Meeting Scheduled Webhook": { "main": [[{ "node": "Pipeline Stage Router", "type": "main", "index": 0 }]] },
+    "Pipeline Stage Router": { "main": [
+      [{ "node": "Update Pipeline Stage", "type": "main", "index": 0 }],
+      [{ "node": "Update Pipeline Stage", "type": "main", "index": 0 }],
+      [{ "node": "Update Pipeline Stage", "type": "main", "index": 0 }]
+    ] },
+    "Weekly Investor Update Schedule": { "main": [[{ "node": "Compile Company Metrics", "type": "main", "index": 0 }]] },
+    "Compile Company Metrics": { "main": [[{ "node": "Generate Update Email", "type": "main", "index": 0 }]] },
+    "Generate Update Email": { "main": [[{ "node": "Founder Approval Before Send", "type": "main", "index": 0 }]] },
+    "Founder Approval Before Send": { "main": [[{ "node": "Broadcast To Subscribed Investors", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "meta": { "templateCreatedBy": "PURIST", "instanceId": "purist-template-investor-relations-fundraising-crm" }
+}

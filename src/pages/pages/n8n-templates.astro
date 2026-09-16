@@ -5,7 +5,7 @@ import { n8nTemplates } from '~/data/n8n-templates';
 const totalNodes = n8nTemplates.reduce((s, t) => s + t.nodeCount, 0);
 
 const faqs = [
-  { q: 'Are these templates actually free?', a: 'Yes, every .json file is free to download and use, no email required. They are MIT-equivalent, use them, modify them, deploy them commercially, no attribution needed.' },
+  { q: 'Are these templates actually free?', a: 'Yes, there is no charge and no catch, we just ask for an email address before the download starts so we can send you the file and, occasionally, a new template when we publish one. Once downloaded, they are yours to use, modify, and deploy commercially, no attribution needed.' },
   { q: 'Why 20-30+ nodes instead of a simple 3-node example?', a: 'A 3-node "connect A to B" demo teaches you nothing about how production automation actually handles failure, branching or edge cases. Every template here includes real conditional logic, retry ladders, error escalation and audit logging, the parts that separate a working proof-of-concept from something that survives contact with real data.' },
   { q: 'Do I need to be an n8n expert to use these?', a: 'You need to be comfortable with n8n\'s canvas and credential system. Each template ships with setup and credential sticky-notes directly on the canvas, plus a full setup guide on its page. If you want it configured and monitored rather than self-deployed, that\'s what PURIST does.' },
   { q: 'Will these keep working if an API changes?', a: 'The templates are correct as published. APIs change over time, that is true of any integration, self-built or templated. PURIST clients get these maintained and patched as part of a managed plan; self-hosters should expect to revisit node configuration periodically.' },
