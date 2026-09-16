@@ -250,6 +250,35 @@ Categories and example professions:
 - [PURIST vs Zapier](https://www.purist.online/pages/purist-vs-zapier): Why businesses switch from Zapier to PURIST.
 - [PURIST vs Make (Integromat)](https://www.purist.online/pages/purist-vs-make): No operation caps, no platform fees, full code ownership.
 - [PURIST vs Hiring In-House](https://www.purist.online/pages/purist-vs-inhouse-hire): Cheaper than a full-time hire, more workflows live in month one, no knowledge risk.
+- [PURIST vs Freelancer](https://www.purist.online/pages/purist-vs-freelancer): Fixed cost, monitored, documented, no single point of failure.
+- [PURIST vs Power Automate](https://www.purist.online/pages/purist-vs-power-automate): Real pricing, non-Microsoft integrations, and 24/7 monitoring compared.
+
+## Free n8n Workflow Templates (6 downloadable, 24-32 nodes each)
+
+- [n8n Templates Library](https://www.purist.online/pages/n8n-templates): Hub for all templates, each a real production-grade workflow, not a 3-node demo.
+- [Stripe → Xero Reconciliation Pro](https://www.purist.online/pages/n8n-templates/stripe-xero-reconciliation): 24 nodes, webhook signature verification, 3-way event routing, fee separation, mismatch alerting.
+- [AI Lead Qualification & Routing](https://www.purist.online/pages/n8n-templates/ai-lead-qualification): 24 nodes, Typeform + Clearbit enrichment + Claude scoring with a confidence gate + 3-way routing.
+- [Order-to-Cash with Failure Recovery](https://www.purist.online/pages/n8n-templates/order-to-cash-recovery): 32 nodes, 2-stage payment retry, backorder branching, webhook-resume fulfillment wait.
+- [Board Reporting & KPI Consolidation](https://www.purist.online/pages/n8n-templates/board-reporting-kpi-consolidation): 26 nodes, Stripe/HubSpot/Xero consolidation, AI variance commentary, human approval gate.
+- [Employee Onboarding & Offboarding](https://www.purist.online/pages/n8n-templates/employee-onboarding-offboarding): 28 nodes, start-date-aware provisioning, involuntary vs voluntary revocation branching.
+- [Customer Health Score & Churn Prediction](https://www.purist.online/pages/n8n-templates/customer-health-churn-prediction): 27 nodes, weighted composite scoring across usage/support/billing/NPS signals.
+
+## Integration Guides (11 guides, Simple to Complex)
+
+- [Integration Guides Hub](https://www.purist.online/pages/integrations): All guides grouped by complexity tier with a concrete example workflow per tool category.
+- [Stripe + QuickBooks](https://www.purist.online/pages/integrations/stripe-quickbooks) / [Stripe + Xero](https://www.purist.online/pages/integrations/stripe-xero): Automated reconciliation with fee separation.
+- [HubSpot + Slack](https://www.purist.online/pages/integrations/hubspot-slack): Real-time deal alerts under 90 seconds.
+- [Shopify + Klaviyo](https://www.purist.online/pages/integrations/shopify-klaviyo): Behavioural email beyond default triggers.
+- [Google Calendar + Twilio](https://www.purist.online/pages/integrations/google-calendar-twilio): SMS reminders that measurably reduce no-shows.
+- [Salesforce + DocuSign](https://www.purist.online/pages/integrations/salesforce-docusign): Contracts generated the moment a deal closes.
+- [Typeform + Airtable](https://www.purist.online/pages/integrations/typeform-airtable): Structured, validated, deduplicated form data.
+- [WhatsApp Business + HubSpot](https://www.purist.online/pages/integrations/whatsapp-hubspot): Every WhatsApp lead becomes a tracked CRM contact.
+- [Typeform + Claude AI + HubSpot + Slack](https://www.purist.online/pages/integrations/typeform-ai-hubspot-slack): Intermediate, AI lead scoring with a real conditional branch.
+- [Shopify + Stripe + Warehouse + Xero + Klaviyo + Slack](https://www.purist.online/pages/integrations/shopify-stripe-inventory-xero-klaviyo-slack): Complex, full order-to-cash pipeline with failure recovery.
+
+## Free Open-Source Tools Resource
+
+- [28 Open-Source Tools Worth Replacing Your SaaS Bill With](https://www.purist.online/pages/open-source-tools): Curated, described alternatives across AI agents, browser automation, CRM, scheduling, analytics, plus a DIY-vs-managed comparison table.
 
 ## PURIST Research & Data
 
