@@ -158,6 +158,117 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
 </section>
 
 <!-- ═══════════════════════════════════════════════
+    60-SECOND DIAGNOSTIC, interactive, feeds the form
+════════════════════════════════════════════════ -->
+<section style="background:#0A0A0A;">
+ <div class="container-x py-14 lg:py-20">
+   <div class="max-w-2xl mx-auto text-center mb-9">
+     <p class="text-[9.5px] uppercase tracking-[0.22em] font-semibold mb-3" style="color:rgba(232,180,176,0.60);">Try it before you commit to anything</p>
+     <h2 class="font-display text-2xl lg:text-[1.9rem] leading-tight text-white text-balance">
+       Answer two questions.<br/>Get a real number back, right now.
+     </h2>
+   </div>
+
+   <div id="diag-widget" class="max-w-xl mx-auto rounded-[22px] overflow-hidden" style="background:#111;border:1px solid rgba(255,255,255,0.09);">
+
+     <!-- Step 1: team size -->
+     <div id="diag-step-1" class="p-6 lg:p-8">
+       <p class="text-[10px] font-bold uppercase tracking-[0.16em] mb-4" style="color:rgba(255,255,255,0.30);">Step 1 of 2 · Team size</p>
+       <div class="grid grid-cols-2 gap-2.5">
+         {[
+           { v: '1-5', l: '1–5 people' },
+           { v: '6-15', l: '6–15 people' },
+           { v: '16-50', l: '16–50 people' },
+           { v: '50+', l: '50+ people' },
+         ].map(o => (
+           <button type="button" class="diag-size-btn text-left px-4 py-3.5 rounded-[12px] text-[13px] font-medium transition-all duration-100" data-size={o.v} style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.10);color:rgba(255,255,255,0.75);">
+             {o.l}
+           </button>
+         ))}
+       </div>
+     </div>
+
+     <!-- Step 2: pain point -->
+     <div id="diag-step-2" class="hidden p-6 lg:p-8">
+       <p class="text-[10px] font-bold uppercase tracking-[0.16em] mb-4" style="color:rgba(255,255,255,0.30);">Step 2 of 2 · Biggest time-sink</p>
+       <div class="grid gap-2.5">
+         {[
+           { v: 'data-entry', l: 'Manual data entry & reporting' },
+           { v: 'client-comms', l: 'Client communication & follow-ups' },
+           { v: 'crm', l: 'Lead tracking & CRM updates' },
+           { v: 'billing', l: 'Invoice & billing workflows' },
+           { v: 'documents', l: 'Document generation & contracts' },
+           { v: 'scheduling', l: 'Scheduling & appointment management' },
+         ].map(o => (
+           <button type="button" class="diag-pain-btn text-left px-4 py-3.5 rounded-[12px] text-[13px] font-medium transition-all duration-100" data-pain={o.v} style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.10);color:rgba(255,255,255,0.75);">
+             {o.l}
+           </button>
+         ))}
+       </div>
+     </div>
+
+     <!-- Result -->
+     <div id="diag-result" class="hidden">
+       <div class="px-6 lg:px-8 py-6" style="background:rgba(232,180,176,0.07);border-bottom:1px solid rgba(255,255,255,0.08);">
+         <p class="text-[10px] font-bold uppercase tracking-[0.16em] mb-3" style="color:rgba(232,180,176,0.65);">Your instant estimate</p>
+         <div class="grid grid-cols-3 gap-3">
+           <div>
+             <p id="diag-hours" class="font-display text-2xl text-white leading-none">, </p>
+             <p class="text-[9.5px] mt-1.5" style="color:rgba(255,255,255,0.35);">hrs/week</p>
+           </div>
+           <div>
+             <p id="diag-annual" class="font-display text-2xl leading-none" style="color:#E8B4B0;">, </p>
+             <p class="text-[9.5px] mt-1.5" style="color:rgba(255,255,255,0.35);">per year</p>
+           </div>
+           <div>
+             <p id="diag-payback" class="font-display text-2xl text-white leading-none">, </p>
+             <p class="text-[9.5px] mt-1.5" style="color:rgba(255,255,255,0.35);">payback</p>
+           </div>
+         </div>
+       </div>
+       <div class="px-6 lg:px-8 py-5">
+         <p id="diag-insight" class="text-[12.5px] leading-relaxed mb-5" style="color:rgba(255,255,255,0.55);"></p>
+         <button type="button" id="diag-cta" class="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-[12px] text-[13px] font-semibold" style="background:#E8B4B0;color:#0A0A0A;">
+           See exactly where this comes from &rarr;
+         </button>
+         <p class="text-center text-[10px] mt-3" style="color:rgba(255,255,255,0.25);">Carries your answers straight into the form below, nothing to retype.</p>
+       </div>
+     </div>
+
+   </div>
+ </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+    OBJECTIONS, addressed head-on before the form
+════════════════════════════════════════════════ -->
+<section class="py-14 lg:py-16" style="background:#F8F6F1;border-top:1px solid rgba(10,10,10,0.06);">
+ <div class="container-x">
+   <p class="text-[9.5px] uppercase tracking-[0.22em] font-semibold mb-2" style="color:rgba(196,132,126,0.85);">Before you fill in the form</p>
+   <h2 class="font-display text-xl lg:text-2xl leading-tight mb-8 text-balance">The honest answers to what you're actually thinking.</h2>
+
+   <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+     {[
+       { q: 'Is this actually free, no catch?', a: 'Yes. The 45-minute audit and written ROI figure cost nothing and create no obligation. We make money when you approve the proposal that follows, not before, and some businesses walk away with just the report and never hire us. That\'s fine.' },
+       { q: 'Will this just be a sales pitch in disguise?', a: 'No pitch deck. We spend the call mapping your actual workflows and doing the ROI math live, on screen, with your numbers. If the math doesn\'t work in your favor, we\'ll tell you and end the call early.' },
+       { q: 'We tried automation before and it didn\'t stick.', a: 'That\'s the #1 reason clients come to us. Most failed automation projects die from vague scope and no owner. Your proposal has a fixed cost, a named point of contact, and a launch date before you sign anything.' },
+       { q: 'We\'re not technical, will we understand any of this?', a: 'The audit is conducted in plain language, not workflow diagrams or API talk. You\'ll walk away knowing exactly what changes, in your terms: fewer clicks, faster replies, less re-entry.' },
+       { q: 'What if we\'re too small for this?', a: 'Our smallest client audits are 1–5 person teams; see the team-size ROI table above. Automation math scales down, a solo operator recovering 8h/week is often the highest-ROI case we see.' },
+       { q: 'How is this different from hiring a freelancer?', a: 'A freelancer builds what you ask for. We diagnose what\'s actually costing you money first, then build only that. See the full comparison on our PURIST vs. freelancer page.' },
+     ].map(f => (
+       <div class="rounded-[16px] p-5" style="background:#fff;border:1px solid rgba(10,10,10,0.07);">
+         <p class="text-[13.5px] font-semibold text-brand-black mb-2 leading-snug">{f.q}</p>
+         <p class="text-[12.5px] leading-relaxed" style="color:rgba(10,10,10,0.52);">{f.a}</p>
+       </div>
+     ))}
+   </div>
+   <p class="text-[10.5px] mt-5 text-center">
+     <a href="/pages/purist-vs-freelancer" class="underline" style="color:rgba(10,10,10,0.32);">See the full PURIST vs. freelancer comparison &rarr;</a>
+   </p>
+ </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
     FORM + LEFT COPY
 ════════════════════════════════════════════════ -->
 <section class="py-16 lg:py-24" style="background:#F8F6F1;">
@@ -424,6 +535,28 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
            <textarea name="message" rows="3"
              placeholder="Describe your current workflow, specific bottlenecks, or the outcome you're aiming for…"
              class="f-input resize-none"></textarea>
+         </div>
+
+         <!-- ⑥.5 Live estimate, updates as you fill the form above -->
+         <div id="live-estimate" class="hidden mb-6 rounded-[14px] overflow-hidden" style="background:#0A0A0A;">
+           <div class="px-5 py-3.5 flex items-center gap-2" style="border-bottom:1px solid rgba(255,255,255,0.08);">
+             <span style="width:6px;height:6px;border-radius:50%;background:#4ADE80;display:inline-block;flex-shrink:0;" class="animate-pulse"></span>
+             <p class="text-[9px] font-bold uppercase tracking-[0.18em]" style="color:rgba(255,255,255,0.40);">Live, based on what you just entered</p>
+           </div>
+           <div class="px-5 py-4 grid grid-cols-3 gap-3">
+             <div>
+               <p id="live-hours" class="font-display text-lg" style="color:#fff;">, </p>
+               <p class="text-[9px] mt-0.5" style="color:rgba(255,255,255,0.32);">hrs/week recoverable</p>
+             </div>
+             <div>
+               <p id="live-annual" class="font-display text-lg" style="color:#E8B4B0;">, </p>
+               <p class="text-[9px] mt-0.5" style="color:rgba(255,255,255,0.32);">est. annual savings</p>
+             </div>
+             <div>
+               <p id="live-payback" class="font-display text-lg" style="color:#fff;">, </p>
+               <p class="text-[9px] mt-0.5" style="color:rgba(255,255,255,0.32);">avg. payback time</p>
+             </div>
+           </div>
          </div>
 
          <!-- ⑦ Submit -->
@@ -715,8 +848,66 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
    card.querySelector('input').addEventListener('change', function() {
      document.querySelectorAll('.biz-card').forEach(function(c) { c.classList.remove('is-selected'); });
      card.classList.add('is-selected');
+     updateLiveEstimate();
    });
  });
+
+ // Live estimate, updates the moment industry + team size are both picked
+ function updateLiveEstimate() {
+   var box = document.getElementById('live-estimate');
+   if (!box) return;
+   var teamSize = (document.querySelector('select[name="team_size"]') || {}).value;
+   var industry = (document.querySelector('input[name="business_type"]:checked') || {}).value;
+   if (!teamSize || !industry) { box.classList.add('hidden'); return; }
+   var roi = ROI_BY_SIZE[teamSize] || { hours: '10–60h', annual: '€26K–€305K', payback: '3–6 wks' };
+   document.getElementById('live-hours').textContent = roi.hours;
+   document.getElementById('live-annual').textContent = roi.annual;
+   document.getElementById('live-payback').textContent = roi.payback;
+   box.classList.remove('hidden');
+ }
+ var teamSizeSelect = document.querySelector('select[name="team_size"]');
+ if (teamSizeSelect) teamSizeSelect.addEventListener('change', updateLiveEstimate);
+
+ // ── 60-second diagnostic widget ─────────────────────────────────
+ (function() {
+   var diagSize = null, diagPain = null;
+   var step1 = document.getElementById('diag-step-1');
+   var step2 = document.getElementById('diag-step-2');
+   var result = document.getElementById('diag-result');
+   if (!step1) return;
+
+   document.querySelectorAll('.diag-size-btn').forEach(function(btn) {
+     btn.addEventListener('click', function() {
+       diagSize = btn.getAttribute('data-size');
+       step1.classList.add('hidden');
+       step2.classList.remove('hidden');
+     });
+   });
+
+   document.querySelectorAll('.diag-pain-btn').forEach(function(btn) {
+     btn.addEventListener('click', function() {
+       diagPain = btn.getAttribute('data-pain');
+       var roi = ROI_BY_SIZE[diagSize] || { hours: '10–60h', annual: '€26K–€305K', payback: '3–6 wks' };
+       document.getElementById('diag-hours').textContent = roi.hours;
+       document.getElementById('diag-annual').textContent = roi.annual;
+       document.getElementById('diag-payback').textContent = roi.payback;
+       document.getElementById('diag-insight').textContent = PAIN_INSIGHTS[diagPain] || PAIN_INSIGHTS['other'];
+       step2.classList.add('hidden');
+       result.classList.remove('hidden');
+     });
+   });
+
+   var cta = document.getElementById('diag-cta');
+   if (cta) cta.addEventListener('click', function() {
+     var sizeSel = document.querySelector('select[name="team_size"]');
+     if (sizeSel && diagSize) sizeSel.value = diagSize;
+     var painSel = document.querySelector('select[name="pain_point"]');
+     if (painSel && diagPain) painSel.value = diagPain;
+     updateLiveEstimate();
+     var formCard = document.getElementById('form-card');
+     if (formCard) formCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+   });
+ })();
 
  // Budget pill toggle
  document.querySelectorAll('.budget-pill').forEach(function(pill) {
