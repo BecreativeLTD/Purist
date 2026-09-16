@@ -240,6 +240,38 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
 </section>
 
 <!-- ═══════════════════════════════════════════════
+    REAL CASE, verified, not illustrative
+════════════════════════════════════════════════ -->
+<section class="py-12" style="background:#F8F6F1;border-top:1px solid rgba(10,10,10,0.06);">
+ <div class="container-x">
+   <div class="max-w-3xl mx-auto rounded-[18px] p-6 lg:p-8 flex flex-col sm:flex-row gap-6 items-start" style="background:#fff;border:1px solid rgba(10,10,10,0.08);">
+     <div class="flex-1">
+       <span class="inline-flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.16em] px-2.5 py-1 rounded-full mb-3" style="background:rgba(45,80,22,0.08);color:#2D5016;">
+         <svg class="w-2.5 h-2.5" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="2,6 5,9 10,3"/></svg>
+         Real client · Verified case study, not illustrative
+       </span>
+       <p class="text-[14px] lg:text-[15px] leading-relaxed italic mb-3" style="color:rgba(10,10,10,0.68);">
+         "First to call wins every time. Now we are always first. Enquiry-to-viewing conversion went from 18% to 31%."
+       </p>
+       <p class="text-[11.5px]" style="color:rgba(10,10,10,0.38);">Managing Director · Real Estate Agency &nbsp;·&nbsp; <a href="/pages/case-studies" class="underline">Read the full case study &rarr;</a></p>
+     </div>
+     <div class="grid grid-cols-3 gap-4 sm:gap-5 shrink-0 sm:border-l sm:pl-6" style="border-color:rgba(10,10,10,0.08);">
+       {[
+         { n: '9h', l: 'saved/week' },
+         { n: '€86K', l: 'yr 1 savings' },
+         { n: '18 days', l: 'payback' },
+       ].map(s => (
+         <div class="text-center sm:text-left">
+           <p class="font-display text-lg" style="color:#0A0A0A;">{s.n}</p>
+           <p class="text-[9px] uppercase tracking-[0.1em] mt-0.5" style="color:rgba(10,10,10,0.32);">{s.l}</p>
+         </div>
+       ))}
+     </div>
+   </div>
+ </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
     OBJECTIONS, addressed head-on before the form
 ════════════════════════════════════════════════ -->
 <section class="py-14 lg:py-16" style="background:#F8F6F1;border-top:1px solid rgba(10,10,10,0.06);">
