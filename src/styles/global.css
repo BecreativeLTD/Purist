@@ -29,13 +29,6 @@
     @apply font-display;
   }
 
-  /* @tailwindcss/typography forces bold (700) headings inside .prose blocks
-     by default — overridden here to match the site's regular-weight Fraunces
-     headings used everywhere outside .prose. */
-  .prose :where(h1, h2, h3, h4, h5, h6):not(:where([class~="not-prose"] *)) {
-    font-weight: 400;
-  }
-
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
@@ -99,5 +92,15 @@
   }
   .text-pretty {
     text-wrap: pretty;
+  }
+
+  /* @tailwindcss/typography registers its heading styles (font-weight:600/700)
+     in the `components` layer. Cascade layers resolve by layer order, not
+     source order or specificity, so an override in `base` (declared earlier)
+     always loses to `components` regardless of where it sits in the file.
+     Placing the override here, in `utilities` (the last layer), is what
+     actually wins. */
+  .prose :where(h1, h2, h3, h4, h5, h6):not(:where([class~="not-prose"] *)) {
+    font-weight: 400;
   }
 }
