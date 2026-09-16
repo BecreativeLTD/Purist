@@ -515,6 +515,87 @@ const lastUpdated = 'September 2026';
     </div>
   </div>
 
+  <!-- ════════════════════════════════════════════════════
+       DIY VS DONE-FOR-YOU
+  ════════════════════════════════════════════════════ -->
+  <div class="container-x mt-20">
+    <div class="max-w-2xl mb-10">
+      <p class="eyebrow mb-3">Self-host it, or let us handle it</p>
+      <h2 class="font-display text-2xl lg:text-3xl mb-3 text-balance">
+        These tools are free. Running them well <em class="font-medium">isn't a weekend project.</em>
+      </h2>
+      <p class="text-sm text-brand-gray-600 leading-relaxed max-w-xl">
+        Free software still needs a server, a security patch schedule, an upgrade plan, and someone to answer for it when it breaks at 2am. Here's the honest split between doing that yourself and having PURIST deploy and run it for you.
+      </p>
+    </div>
+
+    <div class="overflow-x-auto -mx-4 px-4 lg:mx-0 lg:px-0">
+      <div class="min-w-[640px] grid grid-cols-[1.3fr_1fr_1fr] rounded-card border border-brand-gray-100 overflow-hidden">
+        <div class="bg-brand-gray-50 p-4 lg:p-5"></div>
+        <div class="bg-brand-gray-50 p-4 lg:p-5 border-l border-brand-gray-100">
+          <p class="text-[11px] uppercase tracking-wider font-semibold text-brand-gray-500">Self-hosted (DIY)</p>
+        </div>
+        <div class="bg-brand-black p-4 lg:p-5 border-l border-brand-gray-100">
+          <p class="text-[11px] uppercase tracking-wider font-semibold text-white">Deployed by PURIST</p>
+        </div>
+
+        {[
+          {
+            label: 'Time to first working deployment',
+            diy: 'Typically 15–40 hours: server setup, env config, first-run bugs',
+            us: 'Live in days, not weeks, as part of your stack',
+          },
+          {
+            label: 'Security patches & CVEs',
+            diy: 'Your responsibility to track and apply, for every tool you run',
+            us: 'Monitored and patched for you across the stack',
+          },
+          {
+            label: 'Uptime & incident response',
+            diy: 'You get paged. You fix it. At any hour.',
+            us: '99.97% uptime SLA, monitored 24/7',
+          },
+          {
+            label: 'Version upgrades & breaking changes',
+            diy: 'You test and migrate manually, no rollback safety net',
+            us: 'Handled and tested before anything touches production',
+          },
+          {
+            label: 'Connecting it to your other tools',
+            diy: 'You wire the integrations yourself, tool by tool',
+            us: 'Integrated into one system with your CRM, calendar, billing',
+          },
+          {
+            label: 'Backups & disaster recovery',
+            diy: 'Only if you set it up, and remember to test restores',
+            us: 'Automated, tested, and part of the deployment by default',
+          },
+          {
+            label: 'Ongoing monthly time cost',
+            diy: 'A recurring, unpaid part-time job for whoever owns it',
+            us: 'Zero, we carry the maintenance',
+          },
+        ].map((row, i) => (
+          <>
+            <div class={`p-4 lg:p-5 text-sm font-medium text-brand-black ${i > 0 ? 'border-t border-brand-gray-100' : ''}`}>
+              {row.label}
+            </div>
+            <div class={`p-4 lg:p-5 border-l border-brand-gray-100 text-[13px] text-brand-gray-600 leading-snug ${i > 0 ? 'border-t' : ''}`}>
+              {row.diy}
+            </div>
+            <div class={`p-4 lg:p-5 border-l border-brand-gray-100 bg-brand-cream/40 text-[13px] text-brand-black/80 leading-snug font-medium ${i > 0 ? 'border-t border-brand-gray-100' : ''}`}>
+              {row.us}
+            </div>
+          </>
+        ))}
+      </div>
+    </div>
+
+    <p class="text-[11px] text-brand-gray-500 mt-4 max-w-xl">
+      Time and cost estimates are directional, based on typical self-hosted deployments of similar tools, not a quote for any specific project on this page.
+    </p>
+  </div>
+
   <!-- FAQ -->
   <div class="container-x mt-16 max-w-2xl">
     <h2 class="font-display text-xl lg:text-2xl mb-6">Frequently asked questions</h2>
