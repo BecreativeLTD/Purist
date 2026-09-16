@@ -29,6 +29,13 @@
     @apply font-display;
   }
 
+  /* @tailwindcss/typography forces bold (700) headings inside .prose blocks
+     by default — overridden here to match the site's regular-weight Fraunces
+     headings used everywhere outside .prose. */
+  .prose :where(h1, h2, h3, h4, h5, h6):not(:where([class~="not-prose"] *)) {
+    font-weight: 400;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;

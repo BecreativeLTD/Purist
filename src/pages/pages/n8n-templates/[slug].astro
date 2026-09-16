@@ -47,13 +47,131 @@ const wordCount = t.intro.split(/\s+/).length + t.sections.reduce((sum, s) => su
         ))}
       </div>
       <div class="flex flex-wrap gap-4">
-        <a href={t.file} download class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-brand-black transition" style="background:#E8B4B0;">
+        <button
+          type="button"
+          class="template-download-trigger inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-brand-black transition"
+          style="background:#E8B4B0;"
+          data-file={t.file}
+          data-slug={t.slug}
+          data-name={t.name}
+        >
           Download {t.file.split('/').pop()} →
-        </a>
+        </button>
         <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm border border-gray-700 text-gray-300 hover:border-gray-500 transition">We deploy it for you</a>
       </div>
+      <p class="text-[11px] mt-3" style="color:rgba(255,255,255,0.28);">Free download, just your email, no spam, unsubscribe anytime.</p>
     </div>
   </header>
+
+  <!-- Email-gate modal -->
+  <div id="dl-modal-backdrop" style="display:none;position:fixed;inset:0;z-index:70;background:rgba(10,10,10,0.75);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:1rem;">
+    <div style="background:#0A0A0A;border:1px solid rgba(255,255,255,0.1);border-radius:20px;max-width:420px;width:100%;padding:32px;position:relative;">
+      <button id="dl-modal-close" type="button" aria-label="Close" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.4);padding:4px;">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 2l12 12M14 2L2 14"/></svg>
+      </button>
+      <p style="font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#c4847e;margin-bottom:10px;">Free download</p>
+      <h3 style="font-family:'Fraunces',serif;font-weight:400;font-size:22px;color:#fff;margin-bottom:8px;" id="dl-modal-title">Get the workflow</h3>
+      <p style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;margin-bottom:20px;">Enter your email and the .json file downloads immediately, plus a copy sent to your inbox.</p>
+      <form id="dl-modal-form">
+        <input type="email" id="dl-modal-email" required placeholder="you@company.com"
+          style="width:100%;box-sizing:border-box;font-size:14px;padding:12px 14px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);color:#fff;outline:none;margin-bottom:12px;"/>
+        <button type="submit" id="dl-modal-submit" style="width:100%;padding:13px;border-radius:10px;background:#E8B4B0;color:#0A0A0A;font-weight:600;font-size:13.5px;border:none;cursor:pointer;">
+          Download now →
+        </button>
+        <p id="dl-modal-error" style="display:none;color:#f87171;font-size:11.5px;margin-top:8px;text-align:center;"></p>
+      </form>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ n8nTemplateApiPath: '/api/n8n-template-download' }}>
+  (function () {
+    var LS_KEY = 'purist_template_email';
+
+    function openModal(file, slug, name) {
+      var backdrop = document.getElementById('dl-modal-backdrop');
+      var title = document.getElementById('dl-modal-title');
+      var form = document.getElementById('dl-modal-form');
+      if (!backdrop) return;
+      title.textContent = 'Get ' + name;
+      form.dataset.file = file;
+      form.dataset.slug = slug;
+      form.dataset.name = name;
+      backdrop.style.display = 'flex';
+      setTimeout(function () { var i = document.getElementById('dl-modal-email'); if (i) i.focus(); }, 50);
+    }
+    function closeModal() {
+      var backdrop = document.getElementById('dl-modal-backdrop');
+      if (backdrop) backdrop.style.display = 'none';
+    }
+    function triggerFileDownload(file) {
+      var a = document.createElement('a');
+      a.href = file;
+      a.download = file.split('/').pop();
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    function init() {
+      document.querySelectorAll('.template-download-trigger').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var file = btn.getAttribute('data-file');
+          var slug = btn.getAttribute('data-slug');
+          var name = btn.getAttribute('data-name');
+          var savedEmail = localStorage.getItem(LS_KEY);
+          if (savedEmail) {
+            triggerFileDownload(file);
+            return;
+          }
+          openModal(file, slug, name);
+        });
+      });
+
+      var closeBtn = document.getElementById('dl-modal-close');
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      var backdrop = document.getElementById('dl-modal-backdrop');
+      if (backdrop) backdrop.addEventListener('click', function (e) { if (e.target === backdrop) closeModal(); });
+
+      var form = document.getElementById('dl-modal-form');
+      if (form) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var emailInput = document.getElementById('dl-modal-email');
+          var submitBtn = document.getElementById('dl-modal-submit');
+          var errorEl = document.getElementById('dl-modal-error');
+          var email = emailInput.value.trim();
+          errorEl.style.display = 'none';
+          submitBtn.textContent = 'Sending…';
+          submitBtn.disabled = true;
+
+          fetch(n8nTemplateApiPath, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, slug: form.dataset.slug, templateName: form.dataset.name, page: window.location.pathname }),
+          })
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+              if (data.error) throw new Error(data.error);
+              localStorage.setItem(LS_KEY, email);
+              triggerFileDownload(form.dataset.file);
+              closeModal();
+              submitBtn.textContent = 'Download now →';
+              submitBtn.disabled = false;
+            })
+            .catch(function () {
+              errorEl.textContent = 'Please enter a valid email address.';
+              errorEl.style.display = 'block';
+              submitBtn.textContent = 'Download now →';
+              submitBtn.disabled = false;
+            });
+        });
+      }
+    }
+
+    init();
+    document.addEventListener('astro:page-load', init);
+  })();
+  </script>
 
   <article class="container-x max-w-4xl mx-auto py-14 lg:py-20">
 
@@ -216,9 +334,26 @@ const wordCount = t.intro.split(/\s+/).length + t.sections.reduce((sum, s) => su
 
   <script is:inline src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script is:inline>
-    if (window.mermaid) {
-      mermaid.initialize({ startOnLoad: true, theme: 'neutral', securityLevel: 'strict' });
-    }
+    var __puristMermaidConfig = {
+      startOnLoad: true,
+      securityLevel: 'strict',
+      theme: 'base',
+      themeVariables: {
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '13.5px',
+        primaryColor: '#F8F6F1',
+        primaryTextColor: '#0A0A0A',
+        primaryBorderColor: '#c4847e',
+        lineColor: '#c4847e',
+        secondaryColor: '#0A0A0A',
+        tertiaryColor: '#fff',
+        clusterBkg: '#F8F6F1',
+        edgeLabelBackground: '#F8F6F1',
+        nodeTextColor: '#0A0A0A',
+      },
+      flowchart: { curve: 'basis', padding: 16, nodeSpacing: 36, rankSpacing: 48 },
+    };
+    if (window.mermaid) mermaid.initialize(__puristMermaidConfig);
     document.addEventListener('astro:page-load', () => {
       if (window.mermaid) mermaid.run();
     });
