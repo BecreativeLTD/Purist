@@ -255,6 +255,102 @@ const projects: Project[] = [
     tags: ['Local inference', 'Go', 'Open-weight models'],
     color: '#C4A870',
   },
+  {
+    id: 'openbb',
+    name: 'OpenBB',
+    org: 'OpenBB-finance',
+    repo: 'OpenBB',
+    category: 'Finance · Research',
+    tagline: "A genuinely serious open-source investment research platform, not a toy Bloomberg clone.",
+    description: "OpenBB started as a Bloomberg Terminal clone and grew into something more useful: a full investment research platform with equities, options, crypto, macro and fixed-income data, a Python interface for building your own models, and an extension ecosystem. Hedge funds and independent researchers actually use this in production, it's the rare open-source finance tool that isn't a hobby project.",
+    replaces: 'Bloomberg Terminal / Refinitiv Eikon research modules',
+    tags: ['Python', 'Financial data', 'Extensible'],
+    color: '#C4A870',
+  },
+  {
+    id: 'browser-use',
+    name: 'browser-use',
+    org: 'browser-use',
+    repo: 'browser-use',
+    category: 'AI Agents · Browser Automation',
+    tagline: 'The library that lets an LLM actually drive a real browser, click, type, read the page, decide what to do next.',
+    description: "browser-use gives an LLM agent eyes and hands on a real Chromium browser: it reads the DOM, decides what to click or type, and loops until the task is done, booking a flight, filling a form, scraping a site that has no API. It exploded in popularity because it's the rare project that makes 'AI agent browses the web for you' actually work reliably instead of being a demo that breaks on the second click.",
+    replaces: 'RPA tools billed per bot/run (UiPath, Automation Anywhere)',
+    tags: ['Playwright', 'LLM agents', 'Python'],
+    color: '#A48BFA',
+  },
+  {
+    id: 'crewai',
+    name: 'CrewAI',
+    org: 'crewAIInc',
+    repo: 'crewAI',
+    category: 'AI Agents · Orchestration',
+    tagline: 'A lean framework for making multiple AI agents collaborate on a task with defined roles, like a real team.',
+    description: "CrewAI lets you define agents with a role, a goal and a backstory, an analyst, a writer, a reviewer, then wires them into a crew that hands work off to each other in sequence or in parallel. It's noticeably lighter and easier to reason about than heavier agent-graph frameworks, which is exactly why it became one of the most-adopted multi-agent libraries in under two years.",
+    replaces: 'Hiring a junior analyst/researcher for repeatable multi-step research tasks',
+    tags: ['Multi-agent', 'Python', 'LLM orchestration'],
+    color: '#E8B4B0',
+  },
+  {
+    id: 'gpt-engineer',
+    name: 'gpt-engineer',
+    org: 'gpt-engineer-org',
+    repo: 'gpt-engineer',
+    category: 'AI · Code Generation',
+    tagline: 'Describe an app in plain English, get a full, runnable codebase back.',
+    description: 'gpt-engineer takes a project description and generates an entire working codebase, file structure, dependencies, implementation, then lets you iterate on it conversationally instead of file by file. One of the earliest and most influential "AI writes the whole app" projects, and still one of the cleanest implementations of the idea.',
+    replaces: 'Junior-developer hours spent on repetitive scaffolding and boilerplate',
+    tags: ['LLM codegen', 'Python', 'Scaffolding'],
+    color: '#7BAEA0',
+  },
+  {
+    id: 'autogen',
+    name: 'AutoGen',
+    org: 'microsoft',
+    repo: 'autogen',
+    category: 'AI Agents · Orchestration',
+    tagline: "Microsoft's own multi-agent conversation framework, the research behind a lot of what 'AI agents' means today.",
+    description: 'AutoGen models complex tasks as a conversation between multiple specialised agents (and optionally a human), handling code execution, tool use and multi-turn reasoning in one framework backed by an actual Microsoft Research team. Rare in that it combines serious academic rigor with a genuinely usable open-source library, most research code never gets this polished.',
+    replaces: 'Custom in-house agent orchestration built from scratch',
+    tags: ['Multi-agent', 'Microsoft Research', 'Python'],
+    color: '#89A8C4',
+  },
+  {
+    id: 'e2b',
+    name: 'E2B',
+    org: 'e2b-dev',
+    repo: 'e2b',
+    category: 'AI Infrastructure · Sandboxes',
+    tagline: 'Secure, disposable cloud sandboxes for letting an AI agent actually run the code it writes.',
+    description: "E2B solves the part of 'AI writes and runs code' that everyone glosses over: where does that code safely execute? It spins up isolated micro-VM sandboxes in seconds, lets an agent run arbitrary code, install packages, and read the output, then destroys the environment, so a hallucinated `rm -rf` never touches anything real. Increasingly the invisible infrastructure behind AI coding assistants you've already used.",
+    replaces: 'Building and securing your own container-based code-execution infra',
+    tags: ['Sandboxing', 'MicroVMs', 'AI infra'],
+    color: '#C4A870',
+  },
+  {
+    id: 'mem0',
+    name: 'Mem0',
+    org: 'mem0ai',
+    repo: 'mem0',
+    category: 'AI Infrastructure · Memory',
+    tagline: 'A persistent memory layer so your AI agent actually remembers the user between sessions.',
+    description: "Mem0 gives LLM applications long-term memory: it extracts, stores and retrieves relevant facts about a user or conversation across sessions, instead of the agent forgetting everything the moment the context window closes. A quietly essential piece of infrastructure that most teams building AI products end up needing and few build well themselves.",
+    replaces: 'Custom vector-DB memory pipelines built and maintained in-house',
+    tags: ['LLM memory', 'Vector search', 'Python'],
+    color: '#A48BFA',
+  },
+  {
+    id: 'skyvern',
+    name: 'Skyvern',
+    org: 'Skyvern-AI',
+    repo: 'skyvern',
+    category: 'AI Agents · RPA',
+    tagline: 'Vision-based browser automation that works even when a site redesign breaks every selector-based bot.',
+    description: "Skyvern automates browser workflows using computer vision and an LLM to understand a page visually, rather than brittle CSS/XPath selectors, so it keeps working when a site changes its layout, which is exactly when every traditional RPA bot breaks. A genuinely rare combination of vision models and browser automation, built by a team that has since productised it, with the core left open-source.",
+    replaces: 'Selector-based RPA tools that break on every UI change',
+    tags: ['Computer vision', 'RPA', 'Browser automation'],
+    color: '#E8B4B0',
+  },
 ];
 
 const faqs = [
@@ -279,8 +375,8 @@ const lastUpdated = 'September 2026';
 ---
 
 <ShopLayout
-  title="20 Open-Source Projects Worth Replacing Your SaaS Bill With | PURIST"
-  description="20 serious, actively-maintained open-source projects, CRM, scheduling, support, e-signature, automation, analytics, AI agents, that can genuinely replace tools you're paying for monthly. Curated and described by PURIST."
+  title="28 Rare Open-Source Projects Worth Replacing Your SaaS Bill With | PURIST"
+  description="28 serious, actively-maintained open-source projects, CRM, scheduling, support, e-signature, automation, analytics, browser-automation AI agents, that can genuinely replace tools you're paying for monthly. Curated and described by PURIST."
   canonical="https://www.purist.online/pages/open-source-tools"
 >
 
