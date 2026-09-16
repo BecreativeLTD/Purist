@@ -1,0 +1,156 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import { integrationPairs } from '~/data/integration-pairs';
+
+export function getStaticPaths() {
+  return integrationPairs.map((p) => ({
+    params: { slug: p.slug },
+    props: { pair: p },
+  }));
+}
+
+const { pair } = Astro.props;
+const pageUrl = `https://www.purist.online/pages/integrations/${pair.slug}`;
+const otherPairs = integrationPairs.filter((p) => p.slug !== pair.slug).slice(0, 3);
+const toolsLabel = pair.toolC ? `${pair.toolA} + ${pair.toolB} + ${pair.toolC}` : `${pair.toolA} + ${pair.toolB}`;
+---
+
+<ShopLayout
+  title={`${toolsLabel} Integration | Automated with n8n | PURIST`}
+  description={`${pair.intro} Deployed and maintained by PURIST in under 7 days.`}
+  canonical={pageUrl}
+>
+
+  <!-- Breadcrumb -->
+  <nav aria-label="Breadcrumb" class="container-x py-4 text-xs text-brand-gray-600">
+    <ol class="flex items-center gap-1.5 flex-wrap">
+      <li><a href="/" class="hover:text-brand-black transition">Home</a></li>
+      <li aria-hidden="true">/</li>
+      <li><a href="/pages/integrations" class="hover:text-brand-black transition">Integrations</a></li>
+      <li aria-hidden="true">/</li>
+      <li class="text-brand-black">{toolsLabel}</li>
+    </ol>
+  </nav>
+
+  <!-- Hero -->
+  <header class="py-16 lg:py-20" style="background:#0A0A0A;">
+    <div class="container-x max-w-3xl mx-auto text-center">
+      <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-4" style="color:#c4847e;">{pair.category} Integration</p>
+      <h1 class="font-display text-3xl lg:text-5xl text-white mb-5 leading-tight tracking-tight">{pair.headline}</h1>
+      <p class="text-base lg:text-lg max-w-2xl mx-auto mb-8 leading-relaxed" style="color:rgba(255,255,255,0.5);">{pair.intro}</p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-brand-black transition" style="background:#E8B4B0;">Get this built for me&nbsp;→</a>
+        <a href="/pages/integrations" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm border border-gray-700 text-gray-300 hover:border-gray-500 transition">Browse all integrations</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="container-x max-w-3xl mx-auto py-14 lg:py-20">
+
+    <!-- Benefits -->
+    <div class="grid sm:grid-cols-3 gap-6 mb-14">
+      {pair.benefits.map((b) => (
+        <div class="rounded-2xl border border-brand-gray-100 p-6 text-center">
+          <p class="font-display text-2xl mb-1" style="color:#c4847e;">{b.value}</p>
+          <p class="text-xs text-brand-gray-600 leading-relaxed">{b.label}</p>
+        </div>
+      ))}
+    </div>
+
+    <!-- Pain point -->
+    <div class="prose max-w-none mb-14">
+      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-5 tracking-tight">Why this needs automating</h2>
+      <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed">{pair.painPoint}</p>
+    </div>
+
+    <!-- How it works, steps -->
+    <div class="mb-14">
+      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-8 tracking-tight">How the workflow runs</h2>
+      <div class="space-y-0 border-y border-brand-gray-100 divide-y divide-brand-gray-100">
+        {pair.steps.map((s, i) => (
+          <div class="flex gap-5 py-5">
+            <span class="font-display text-sm font-semibold shrink-0 w-8 text-right pt-0.5" style="color:rgba(10,10,10,0.20);">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <p class="text-sm font-semibold text-brand-black mb-1">{s.title}</p>
+              <p class="text-sm text-brand-gray-600 leading-relaxed">{s.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="rounded-2xl p-8 text-center mb-14" style="background:rgba(232,180,176,0.09);border:1px solid rgba(196,132,126,0.20);">
+      <h2 class="font-display text-xl text-brand-black mb-3">Want {toolsLabel} connected like this?</h2>
+      <p class="text-sm text-brand-gray-600 mb-6 max-w-lg mx-auto">We map your exact setup on a free 45-minute audit and tell you precisely what this would look like for your business, no commitment.</p>
+      <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style="background:#c4847e;">Get my free automation plan&nbsp;→</a>
+    </div>
+
+    <!-- FAQ -->
+    <div>
+      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-8 tracking-tight">Frequently asked questions</h2>
+      <div class="divide-y divide-brand-gray-100 border-y border-brand-gray-100">
+        {pair.faqs.map((faq) => (
+          <details class="group py-5">
+            <summary class="flex items-start justify-between gap-4 cursor-pointer list-none">
+              <h3 class="text-sm font-semibold text-brand-black leading-snug">{faq.q}</h3>
+              <svg class="w-4 h-4 shrink-0 mt-0.5 transition-transform group-open:rotate-45 text-brand-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            </summary>
+            <p class="text-sm text-brand-gray-600 leading-relaxed mt-3 pr-8">{faq.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Other integrations -->
+  <section class="bg-brand-cream py-14 border-t border-brand-gray-100">
+    <div class="container-x max-w-3xl mx-auto">
+      <p class="eyebrow mb-3">More integration guides</p>
+      <h2 class="font-display text-2xl mb-8">Connect the rest of your stack</h2>
+      <div class="grid sm:grid-cols-3 gap-4">
+        {otherPairs.map((p) => (
+          <a href={`/pages/integrations/${p.slug}`} class="group bg-white border border-brand-gray-100 rounded-2xl p-4 hover:border-brand-gray-300 transition-colors">
+            <p class="text-[9px] uppercase tracking-wider text-brand-rust font-semibold mb-2">{p.category}</p>
+            <p class="text-sm font-semibold text-brand-black leading-snug group-hover:opacity-70 transition">{p.toolA} + {p.toolB} →</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.purist.online' },
+          { '@type': 'ListItem', position: 2, name: 'Integrations', item: 'https://www.purist.online/pages/integrations' },
+          { '@type': 'ListItem', position: 3, name: toolsLabel, item: pageUrl },
+        ],
+      },
+      {
+        '@type': 'HowTo',
+        name: pair.headline,
+        description: pair.intro,
+        step: pair.steps.map((s: { title: string; body: string }) => ({
+          '@type': 'HowToStep',
+          name: s.title,
+          text: s.body,
+        })),
+      },
+      {
+        '@type': 'FAQPage',
+        '@id': `${pageUrl}#faq`,
+        mainEntity: pair.faqs.map((faq: { q: string; a: string }) => ({
+          '@type': 'Question',
+          name: faq.q,
+          acceptedAnswer: { '@type': 'Answer', text: faq.a },
+        })),
+      },
+    ],
+  })}/>
+
+</ShopLayout>

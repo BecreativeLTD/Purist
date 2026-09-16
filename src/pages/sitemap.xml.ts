@@ -4,6 +4,7 @@ import skillsData from '~/data/skills.json';
 import { terms } from '~/data/glossary';
 import blogData from '~/data/blog.json';
 import { professions } from '~/data/automations';
+import { integrationPairs } from '~/data/integration-pairs';
 
 const site = 'https://www.purist.online';
 
@@ -131,7 +132,12 @@ const automationPages = [
   })),
 ];
 
-const allPages = [...pages, ...blogPages, ...skillPages, ...glossaryTermPages, ...automationPages];
+const integrationGuidePages = integrationPairs.map(p => ({
+  url: `/pages/integrations/${p.slug}`,
+  lastmod: '2026-09-16',
+}));
+
+const allPages = [...pages, ...blogPages, ...skillPages, ...glossaryTermPages, ...automationPages, ...integrationGuidePages];
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

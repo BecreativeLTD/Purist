@@ -1,17 +1,25 @@
 ---
 import ShopLayout from '~/layouts/ShopLayout.astro';
+import { integrationPairs } from '~/data/integration-pairs';
 
 const categories = [
-  { cat: 'CRM & Sales', tools: ['HubSpot', 'Salesforce', 'Pipedrive', 'Close', 'Zoho CRM', 'Copper'] },
-  { cat: 'Communication', tools: ['Slack', 'Gmail', 'Outlook', 'Twilio', 'WhatsApp Business', 'Intercom'] },
-  { cat: 'Finance & Billing', tools: ['Stripe', 'QuickBooks', 'Xero', 'FreeAgent', 'GoCardless', 'Chargebee'] },
-  { cat: 'E-commerce', tools: ['Shopify', 'WooCommerce', 'Magento', 'Klaviyo', 'Gorgias', 'Recharge'] },
-  { cat: 'Forms & Data', tools: ['Typeform', 'Jotform', 'Airtable', 'Google Sheets', 'Notion', 'Monday.com'] },
-  { cat: 'Documents', tools: ['DocuSign', 'PandaDoc', 'Google Docs', 'PDF generation', 'Dropbox', 'OneDrive'] },
-  { cat: 'HR & Recruiting', tools: ['BambooHR', 'Workable', 'Greenhouse', 'Lever', 'Personio', 'Rippling'] },
-  { cat: 'Marketing', tools: ['Mailchimp', 'ActiveCampaign', 'Brevo', 'Meta Ads', 'Google Ads', 'LinkedIn Ads'] },
-  { cat: 'AI & Intelligence', tools: ['Claude Opus', 'OpenAI GPT-4', 'Perplexity', 'Whisper', 'ElevenLabs', 'Mistral'] },
-  { cat: 'Infrastructure', tools: ['Webhooks', 'REST APIs', 'GraphQL', 'PostgreSQL', 'MySQL', 'Redis'] },
+  { cat: 'CRM & Sales', tools: ['HubSpot', 'Salesforce', 'Pipedrive', 'Close', 'Zoho CRM', 'Copper'], example: 'New deal hits €10K+ → Slack alert to the deal owner within 90 seconds, no more manually checking the pipeline.' },
+  { cat: 'Communication', tools: ['Slack', 'Gmail', 'Outlook', 'Twilio', 'WhatsApp Business', 'Intercom'], example: 'Inbound WhatsApp message → logged to the CRM contact timeline automatically, so it stops living on one phone.' },
+  { cat: 'Finance & Billing', tools: ['Stripe', 'QuickBooks', 'Xero', 'FreeAgent', 'GoCardless', 'Chargebee'], example: 'Stripe payout → matched and reconciled in QuickBooks or Xero same-day, fees broken out as their own line.' },
+  { cat: 'E-commerce', tools: ['Shopify', 'WooCommerce', 'Magento', 'Klaviyo', 'Gorgias', 'Recharge'], example: 'Cart abandoned → personalised Klaviyo sequence based on real order history, not a generic template.' },
+  { cat: 'Forms & Data', tools: ['Typeform', 'Jotform', 'Airtable', 'Google Sheets', 'Notion', 'Monday.com'], example: 'Form submitted → validated, deduplicated, and routed to the right Airtable view automatically.' },
+  { cat: 'Documents', tools: ['DocuSign', 'PandaDoc', 'Google Docs', 'PDF generation', 'Dropbox', 'OneDrive'], example: 'Deal marked Closed Won → contract pre-filled and sent for signature within minutes.' },
+  { cat: 'HR & Recruiting', tools: ['BambooHR', 'Workable', 'Greenhouse', 'Lever', 'Personio', 'Rippling'], example: 'Candidate reaches offer stage → onboarding checklist and IT provisioning triggered automatically.' },
+  { cat: 'Marketing', tools: ['Mailchimp', 'ActiveCampaign', 'Brevo', 'Meta Ads', 'Google Ads', 'LinkedIn Ads'], example: 'Lead form fills → synced to your ad platform as a conversion event within seconds, for accurate optimisation.' },
+  { cat: 'AI & Intelligence', tools: ['Claude Opus', 'OpenAI GPT-4', 'Perplexity', 'Whisper', 'ElevenLabs', 'Mistral'], example: 'Support ticket comes in → AI drafts a reply from your knowledge base, a human reviews before it sends.' },
+  { cat: 'Infrastructure', tools: ['Webhooks', 'REST APIs', 'GraphQL', 'PostgreSQL', 'MySQL', 'Redis'], example: 'Any system with an API becomes a trigger or an action, custom logic included, not just a one-way sync.' },
+];
+
+const faqs = [
+  { q: 'What if my tool isn\'t on this list?', a: 'If it has an API, we can almost certainly connect it. The list above covers the integrations we build most often, not the limit of what\'s possible. We confirm compatibility on the free audit call before you commit to anything.' },
+  { q: 'Do you replace our existing tools, or connect them?', a: 'We connect what you already use. PURIST is not a CRM, a billing platform, or an email tool, it\'s the automation layer that makes the tools you already pay for actually talk to each other.' },
+  { q: 'How long does a typical integration take to deploy?', a: 'Most single integrations (like the guides below) are live in under 7 days. A full stack connecting 4-6 tools with custom logic typically takes 5-10 business days end to end.' },
+  { q: 'Who maintains the integration once it\'s live?', a: 'PURIST does, with 24/7 monitoring and automated error alerts. When an API changes upstream (which happens more often than most teams expect), we fix it before it becomes your problem.' },
 ];
 ---
 
@@ -55,35 +63,66 @@ const categories = [
   <section style="background:#F8F6F1; padding:80px 24px;">
     <div style="max-width:860px; margin:0 auto;">
 
+      <!-- Popular integration guides, real dedicated pages, not just tags -->
+      <p style="font-family:'Inter',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:rgba(10,10,10,0.35); margin-bottom:16px;">
+        Popular integration guides
+      </p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px; margin-bottom:64px;">
+        {integrationPairs.map((p) => (
+          <a href={`/pages/integrations/${p.slug}`} style="display:block; background:#fff; border:1px solid #E5E7EB; border-radius:14px; padding:16px 18px; text-decoration:none; transition:border-color 0.15s;">
+            <p style="font-family:'Inter',sans-serif; font-size:9px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:rgba(196,132,126,0.90); margin-bottom:6px;">{p.category}</p>
+            <p style="font-family:'Inter',sans-serif; font-size:14px; font-weight:600; color:#0A0A0A; margin-bottom:6px;">{p.toolA} + {p.toolB}</p>
+            <p style="font-family:'Inter',sans-serif; font-size:11.5px; color:rgba(10,10,10,0.45); line-height:1.5;">{p.headline.split(', ')[1] || p.headline} →</p>
+          </a>
+        ))}
+      </div>
+
       <p style="font-family:'Inter',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:rgba(10,10,10,0.35); text-align:center; margin-bottom:56px;">
         Your entire stack, covered
       </p>
 
-      <div style="display:flex; flex-direction:column; gap:40px;">
+      <div style="display:flex; flex-direction:column; gap:16px;">
         {categories.map(c => (
-          <div>
-            <p style="font-family:'Inter',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(10,10,10,0.35); margin-bottom:14px;">
+          <div style="background:#fff; border:1px solid #E5E7EB; border-radius:16px; padding:20px 24px;">
+            <p style="font-family:'Inter',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(10,10,10,0.35); margin-bottom:12px;">
               {c.cat}
             </p>
-            <div style="display:flex; flex-wrap:wrap; gap:8px;">
+            <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px;">
               {c.tools.map(t => (
                 <span style="font-family:'Inter',sans-serif; font-size:13px; font-weight:500; padding:7px 16px; border-radius:9999px; background:rgba(232,180,176,0.10); border:1px solid rgba(196,132,126,0.20); color:#0A0A0A;">
                   {t}
                 </span>
               ))}
             </div>
+            <div style="display:flex; gap:8px; align-items:flex-start; padding-top:12px; border-top:1px solid #F3F0EA;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#c4847e" style="flex-shrink:0;margin-top:2px;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <p style="font-family:'Inter',sans-serif; font-size:12.5px; color:rgba(10,10,10,0.55); line-height:1.55;"><strong style="color:#0A0A0A;">Example:</strong> {c.example}</p>
+            </div>
           </div>
         ))}
       </div>
 
       <!-- Don't see your tool -->
-      <div style="margin-top:56px; background:#FFFFFF; border:1px solid #E5E7EB; border-radius:18px; padding:32px; text-align:center;">
+      <div style="margin-top:32px; background:#FFFFFF; border:1px solid #E5E7EB; border-radius:18px; padding:32px; text-align:center;">
         <p style="font-family:'Fraunces',serif; font-weight:400; font-size:22px; color:#0A0A0A; margin-bottom:10px;">
           Don't see your tool?
         </p>
         <p style="font-family:'Inter',sans-serif; font-size:14px; color:rgba(10,10,10,0.55); line-height:1.6;">
           If it has an API, we connect it. Book a free audit and we confirm compatibility on the call.
         </p>
+      </div>
+
+      <!-- FAQ -->
+      <div style="margin-top:64px;">
+        <h2 style="font-family:'Fraunces',serif; font-weight:400; font-size:28px; color:#0A0A0A; margin-bottom:24px;">Frequently asked questions</h2>
+        <div style="border-top:1px solid #E5E7EB;">
+          {faqs.map((faq) => (
+            <details style="border-bottom:1px solid #E5E7EB; padding:18px 0;">
+              <summary style="font-family:'Inter',sans-serif; font-size:14px; font-weight:600; color:#0A0A0A; cursor:pointer; list-style:none;">{faq.q}</summary>
+              <p style="font-family:'Inter',sans-serif; font-size:13px; color:rgba(10,10,10,0.55); line-height:1.6; margin-top:10px;">{faq.a}</p>
+            </details>
+          ))}
+        </div>
       </div>
 
     </div>
@@ -114,5 +153,38 @@ const categories = [
       </div>
     </div>
   </section>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.purist.online' },
+          { '@type': 'ListItem', position: 2, name: 'Integrations', item: 'https://www.purist.online/pages/integrations' },
+        ],
+      },
+      {
+        '@type': 'ItemList',
+        name: 'PURIST integration guides',
+        itemListElement: integrationPairs.map((p, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: `${p.toolA} + ${p.toolB}`,
+          url: `https://www.purist.online/pages/integrations/${p.slug}`,
+        })),
+      },
+      {
+        '@type': 'FAQPage',
+        '@id': 'https://www.purist.online/pages/integrations#faq',
+        mainEntity: faqs.map((faq) => ({
+          '@type': 'Question',
+          name: faq.q,
+          acceptedAnswer: { '@type': 'Answer', text: faq.a },
+        })),
+      },
+    ],
+  })}/>
 
 </ShopLayout>
