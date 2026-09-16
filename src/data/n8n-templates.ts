@@ -1557,4 +1557,329 @@ return [{
       { q: 'Is data-room view tracking something investors expect?', a: 'Yes, DocSend-style tracked sharing is now the market standard for fundraising decks specifically because both sides understand engagement data is being captured; it is not considered an invasive practice in this context.' },
     ],
   },
+  {
+    slug: 'ma-due-diligence-data-room',
+    name: 'M&A Due Diligence Data Room',
+    file: '/n8n-templates/ma-due-diligence-data-room.json',
+    nodeCount: 26,
+    complexity: 'Expert',
+    category: 'Strategy & Legal',
+    tools: ['DocuSign', 'Google Drive', 'Claude AI', 'Slack', 'Airtable'],
+    tagline: 'A 26-node pipeline from NDA to a fully tracked due diligence process: automated folder provisioning, AI document classification against your checklist, and real-time red-flag detection on every upload.',
+    intro: 'A due diligence process run through email and a shared Drive folder loses track of what has been reviewed, what is still outstanding, and whether anything concerning has surfaced, until someone manually audits the whole thing days before signing. This workflow gates access behind a signed NDA, classifies every uploaded document against your DD checklist automatically, and has AI flag concerning clauses the moment a document lands, not during a last-minute review sprint.',
+    sections: [
+      {
+        heading: 'Why the NDA gate is a hard stop, not a formality',
+        paras: [
+          'Wait For NDA Signature blocks Provision Data Room Folder Structure entirely until DocuSign confirms full execution. This sounds obvious, but the actual failure mode in real deals is a data room link shared informally "while the NDA is being finalized," which has caused real legal exposure in transactions that later fell through. The workflow makes the sequence structurally impossible to skip.',
+        ],
+      },
+      {
+        heading: 'Classification and checklist tracking as documents arrive, not at the end',
+        paras: [
+          'AI Classify Document Type reads each upload and routes it to the correct DD checklist category (financials, contracts, HR, IP, litigation) automatically, updating completion percentage in real time. This replaces the alternative most deal teams actually use: a spreadsheet someone updates manually, usually a day or more behind the actual data room state.',
+          'The Daily Checklist Check Schedule branch means the deal lead always knows current completion status without asking, and the counterparty gets a specific, current list of what remains outstanding rather than a generic reminder.',
+        ],
+      },
+      {
+        heading: 'Red-flag detection at the moment of upload, when it is still useful',
+        paras: [
+          'AI Scan For Red Flags checks each document for the specific things that actually change deal terms: change-of-control clauses that could trigger on the transaction itself, undisclosed litigation, unusual indemnification language. Alert Deal Team Immediately fires the moment something is found, while there is still time to investigate and factor it into negotiation, not during a final review when the timeline has no slack left.',
+          'Every access event is also logged via Store Access Log, giving a complete audit trail of who viewed what and when, which is both a security control and frequently a specific requirement from legal counsel on either side of the transaction.',
+        ],
+      },
+    ],
+    diagram: `flowchart TD
+  A[New DD Request] --> B[Send NDA]
+  B --> C[Wait Signature]
+  C --> D[Provision Data Room]
+  D --> E[Send Access + Checklist]
+  F[Document Uploaded] --> G[AI Classify Type]
+  G --> H{Checklist Category}
+  H -->|Financials| I[Update Financials]
+  H -->|Contracts| J[Update Contracts]
+  H -->|Other| K[Update Other]
+  I --> L[Merge Checklist]
+  J --> L
+  K --> L
+  L --> M[AI Scan Red Flags]
+  M --> N{Red Flag?}
+  N -->|Yes| O[Alert Deal Team]
+  N -->|No| P[Merge]
+  O --> P
+  P --> Q[Log Document & Summary]
+
+  R[Daily Schedule] --> S[Get Completion %]
+  S --> T{100% Complete?}
+  T -->|Yes| U[Notify Deal Lead]
+  T -->|No| V[Send Missing Items Reminder]
+
+  W[Access Event] --> X[Store Access Log]`,
+    nodeTable: [
+      { n: 'Wait For NDA Signature', type: 'Wait (webhook resume)', role: 'Structurally blocks data room access before NDA execution' },
+      { n: 'Provision Data Room Folder Structure', type: 'HTTP Request', role: 'Creates the standard DD folder tree automatically' },
+      { n: 'AI Classify Document Type', type: 'HTTP Request', role: 'Routes each upload to the correct checklist category in real time' },
+      { n: 'AI Scan For Red Flags', type: 'HTTP Request', role: 'Flags concerning clauses at upload time, not during final review' },
+      { n: 'Daily Checklist Check Schedule branch', type: 'Schedule Trigger + IF', role: 'Always-current completion status without manual tracking' },
+      { n: 'Store Access Log', type: 'Webhook + HTTP Request', role: 'Full audit trail of who viewed what and when' },
+    ],
+    code: [
+      {
+        caption: 'Checklist completion calculation',
+        lang: 'javascript',
+        body: `const totalRequiredDocs = $json.checklistItems.length;
+const uploadedDocs = $json.checklistItems.filter(i => i.status === 'uploaded').length;
+
+const completionPercent = Math.round((uploadedDocs / totalRequiredDocs) * 100);
+
+return [{
+  json: {
+    ...$json,
+    completionPercent,
+    missingItems: $json.checklistItems.filter(i => i.status !== 'uploaded').map(i => i.name),
+  }
+}];`,
+      },
+    ],
+    metrics: [
+      { metric: 'Checklist completion visibility', before: 'Manually updated spreadsheet, often stale', after: 'Real-time, updated on every upload' },
+      { metric: 'Time to flag a concerning clause', before: 'During final review, days before signing', after: 'Within minutes of upload' },
+      { metric: 'Access audit trail', before: 'Incomplete or nonexistent', after: 'Every view logged automatically' },
+      { metric: 'Data room access before NDA', before: 'A real, documented risk in informal processes', after: 'Structurally impossible' },
+    ],
+    prerequisites: [
+      'n8n v1.40+ with webhook-resume Wait support',
+      'DocuSign eSignature API access',
+      'Google Drive OAuth2 or a dedicated virtual data room API',
+      'Anthropic API key for classification and red-flag scanning',
+      'Airtable PAT, Slack Bot Token, Resend API key',
+    ],
+    pitfalls: [
+      { title: 'AI red-flag scanning supplements legal review, never replaces it', body: 'This surfaces things worth a lawyer\'s attention faster, it does not substitute for actual legal due diligence on flagged documents.' },
+      { title: 'Access logging requires the data room tool to support event webhooks', body: 'Confirm your specific VDR or Drive configuration actually fires access events before relying on Store Access Log for audit purposes.' },
+      { title: 'Checklist categories must match your actual DD framework', body: 'Generic categories (financials/contracts/other) are a starting point, tailor them to the specific deal type and industry before relying on completion percentage as a real signal.' },
+    ],
+    faqs: [
+      { q: 'Can this replace a dedicated virtual data room platform?', a: 'For smaller deals, this pattern built on Google Drive covers the core need. For large, multi-party transactions with complex permissioning, a dedicated VDR (Datasite, Intralinks) still offers permission granularity this template does not replicate.' },
+      { q: 'What happens if the AI misclassifies a document?', a: 'Misclassified documents still get logged and are visible in the checklist for manual correction, they are not silently lost, just temporarily filed under the wrong category until someone notices.' },
+      { q: 'Does this work for both buy-side and sell-side due diligence?', a: 'Yes, the same structure works for either side, whoever is uploading the checklist items in a given deal role.' },
+    ],
+  },
+  {
+    slug: 'financial-close-multi-entity-consolidation',
+    name: 'Financial Close & Multi-Entity Consolidation',
+    file: '/n8n-templates/financial-close-multi-entity-consolidation.json',
+    nodeCount: 28,
+    complexity: 'Expert',
+    category: 'Finance & Strategy',
+    tools: ['Xero/QuickBooks/NetSuite', 'Exchange Rate API', 'Claude AI', 'Google Slides', 'Airtable', 'Slack'],
+    tagline: 'A 28-node monthly close pipeline validating every entity\'s trial balance, converting foreign entities to group currency, applying intercompany eliminations, and gating the consolidated package behind CFO review before the period locks.',
+    intro: 'Multi-entity consolidation is where finance teams lose the most time in the monthly close: pulling trial balances from separate accounting systems, converting currencies, matching intercompany balances that never quite net to zero on the first pass, and building a group-level package by hand. This workflow validates and processes each entity independently, then consolidates, so problems surface at the entity level where they are cheap to fix rather than at the group level where they are expensive to untangle.',
+    sections: [
+      {
+        heading: 'Validate before you consolidate, not after',
+        paras: [
+          'Validate Debits Equal Credits checks each entity\'s trial balance independently before it ever touches the consolidation logic. An unbalanced entity ledger that enters consolidation produces a group-level discrepancy that could originate from any of a dozen entities, turning a five-minute entity-level fix into a multi-hour investigation.',
+          'Alert Entity Controller routes the problem to the person who can actually fix it, at their own ledger, immediately, rather than surfacing as an unexplained group-level variance days later.',
+        ],
+      },
+      {
+        heading: 'Currency conversion and eliminations, the two steps that eat the most manual time',
+        paras: [
+          'Is Foreign Entity? branches only foreign-currency entities through Convert To Group Currency, using the period-appropriate exchange rate rather than a stale or manually-entered rate, one of the more common sources of small consolidation errors that compound over a fiscal year.',
+          'Apply Intercompany Eliminations matches receivables and payables between entities that should net to zero. Elimination Mismatch? flags anything that does not, which in practice is almost always either a timing difference (one entity recorded a transaction a day before the other) or a genuine data entry error, both of which need a human to resolve rather than being silently ignored or force-balanced.',
+        ],
+      },
+      {
+        heading: 'The same review-gate principle as board reporting, applied to the close',
+        paras: [
+          'CFO Review Gate blocks Distribute Close Package the same way the Board Reporting template blocks board distribution: AI drafts the variance commentary, but a human confirms the consolidated numbers and narrative before anyone outside finance sees them.',
+          'Lock Accounting Period runs only after distribution, preventing a post-close edit in any entity\'s ledger from silently invalidating numbers that have already been reported and relied upon.',
+        ],
+      },
+    ],
+    diagram: `flowchart TD
+  A[Monthly Trigger] --> B[Get Entity List]
+  B --> C[Split By Entity]
+  C -->|done| P[Consolidate Group Financials]
+  C -->|entity| D[Pull Trial Balance]
+  D --> E[Validate Debits=Credits]
+  E --> F{Balanced?}
+  F -->|No| G[Alert Controller] --> H[Wait Correction]
+  F -->|Yes| I{Foreign Entity?}
+  I -->|Yes| J[Convert Currency]
+  I -->|No| K[Merge Currency]
+  J --> K
+  H --> L[Merge Validation]
+  K --> L
+  L --> M[Apply Eliminations]
+  M --> N{Mismatch?}
+  N -->|Yes| O[Flag Manual Reconciliation]
+  N -->|No| Q[Merge]
+  O --> Q
+  Q --> C
+  P --> R[Compare Prior Month/Budget]
+  R --> S[AI Variance Commentary]
+  S --> T[Generate Close Package]
+  T --> U[CFO Review Gate]
+  U --> V[Distribute Package]
+  V --> W[Lock Period]
+  W --> X[Log Cycle Metrics]`,
+    nodeTable: [
+      { n: 'Validate Debits Equal Credits', type: 'Code', role: 'Catches an unbalanced entity before it corrupts group-level numbers' },
+      { n: 'Is Foreign Entity? / Convert To Group Currency', type: 'IF + HTTP Request', role: 'Period-appropriate FX conversion, only where actually needed' },
+      { n: 'Apply Intercompany Eliminations', type: 'Code', role: 'Matches intercompany balances that should net to zero' },
+      { n: 'Elimination Mismatch?', type: 'IF', role: 'Flags genuine discrepancies for human reconciliation, never force-balances' },
+      { n: 'CFO Review Gate', type: 'Wait (webhook resume)', role: 'No consolidated package leaves finance without explicit sign-off' },
+      { n: 'Lock Accounting Period', type: 'HTTP Request', role: 'Prevents post-distribution edits from invalidating reported numbers' },
+    ],
+    code: [
+      {
+        caption: 'Trial balance validation',
+        lang: 'javascript',
+        body: `const totalDebits = $json.lineItems.reduce((sum, li) => sum + (li.debit || 0), 0);
+const totalCredits = $json.lineItems.reduce((sum, li) => sum + (li.credit || 0), 0);
+const imbalance = Math.abs(totalDebits - totalCredits);
+
+return [{
+  json: {
+    ...$json,
+    totalDebits,
+    totalCredits,
+    balanced: imbalance < 0.01,
+    imbalance,
+  }
+}];`,
+      },
+    ],
+    metrics: [
+      { metric: 'Time to identify an unbalanced entity', before: 'Discovered at group level, hard to trace', after: 'Caught at entity level, immediately' },
+      { metric: 'Intercompany reconciliation', before: 'Manual matching across entity ledgers', after: 'Automatic matching, exceptions flagged' },
+      { metric: 'Close cycle length', before: 'Days, dependent on manual consolidation', after: 'Hours of processing, review time only' },
+      { metric: 'Post-close data integrity', before: 'Vulnerable to edits after reporting', after: 'Period locked after distribution' },
+    ],
+    prerequisites: [
+      'n8n v1.40+ with Split In Batches and webhook-resume Wait support',
+      'Accounting API access per entity (Xero, QuickBooks, or NetSuite)',
+      'An exchange rate API for multi-currency groups',
+      'Anthropic API key, Google Slides OAuth2',
+      'Airtable PAT, Slack Bot Token, Resend API key',
+    ],
+    pitfalls: [
+      { title: 'Exchange rate timing must match your accounting policy', body: 'Using spot rate versus period-average rate produces different, both defensible, results. Confirm which your accounting policy requires before wiring the conversion logic.' },
+      { title: 'Intercompany chart-of-accounts mapping needs to be exact', body: 'Elimination logic depends on correctly identifying which accounts represent intercompany balances across entities using potentially different charts of accounts.' },
+      { title: 'Never let period locking happen before distribution is confirmed', body: 'Locking too early can block a legitimate last-minute correction; locking only after Distribute Close Package confirms the reported numbers are final.' },
+    ],
+    faqs: [
+      { q: 'Can this handle entities on different accounting platforms?', a: 'Yes, each entity\'s Pull Entity Trial Balance node points at that entity\'s specific accounting API, the workflow does not require a single unified system.' },
+      { q: 'How are elimination mismatches typically resolved?', a: 'Most are timing differences between when two entities recorded the same intercompany transaction. Flag For Manual Reconciliation routes these to the controller managing both entities to confirm and adjust.' },
+      { q: 'Does this replace a dedicated consolidation platform like OneStream?', a: 'For groups with a handful to a dozen entities, this covers the core need at a fraction of the cost. Large, complex groups with elaborate ownership structures and minority interests benefit from dedicated consolidation software\'s deeper functionality.' },
+    ],
+  },
+  {
+    slug: 'incident-response-postmortem',
+    name: 'Incident Response & Postmortem Automation',
+    file: '/n8n-templates/incident-response-postmortem.json',
+    nodeCount: 26,
+    complexity: 'Expert',
+    category: 'Operations & Engineering',
+    tools: ['PagerDuty', 'Statuspage', 'Claude AI', 'Linear', 'Slack', 'Airtable'],
+    tagline: 'A 26-node pipeline from alert to published postmortem: severity-based response, automatic timeline logging through resolution, AI-drafted postmortems, and action items that become tracked tickets, not forgotten bullet points.',
+    intro: 'Incident response tooling usually stops at "page someone and post in Slack." The harder, more valuable half, a timeline anyone can reconstruct, an MTTR number anyone can trust, and action items that actually get done, is what most teams still do manually or skip entirely. This workflow handles severity-based response automatically, builds the incident timeline as it happens rather than reconstructing it afterward, and turns postmortem action items directly into tracked tickets with owners.',
+    sections: [
+      {
+        heading: 'Severity-based response, not one-size-fits-all',
+        paras: [
+          'Severity Classification routes SEV1 incidents through the full response, dedicated Slack channel, PagerDuty page, immediate status page update, because customer-facing outages need visible, fast action. SEV2 gets team notification without the same public-facing machinery, and SEV3 simply logs a ticket for later triage. Running every alert through the same heavyweight process either wastes response effort on minor issues or, more commonly, causes teams to route everything through informal channels because the formal process is too heavy for routine problems.',
+        ],
+      },
+      {
+        heading: 'The timeline gets built during the incident, not reconstructed after',
+        paras: [
+          'Start Incident Timeline Log begins capturing updates the moment an incident opens, so by the time Wait 24 Hours completes and AI Draft Postmortem runs, there is an actual chronological record of what was tried, what was ruled out, and when the fix landed, not a reconstruction based on people\'s memory of a stressful few hours.',
+          'This is the single biggest quality difference between a useful postmortem and a generic one: specific timestamps and specific actions taken, versus a vague narrative written from memory days later.',
+        ],
+      },
+      {
+        heading: 'Action items that survive past the meeting',
+        paras: [
+          'AI Extract Action Items pulls concrete, ownable tasks from the finalized postmortem document, and Create Tickets For Action Items turns each into an actual tracked ticket in Linear or Jira immediately. The most common postmortem failure mode is not a bad analysis, it is a good analysis whose action items live only in a document that nobody revisits, so the same failure mode recurs six months later.',
+          'The Quarterly MTTR Trend Schedule branch closes the loop at the organizational level: a trend line of mean-time-to-resolution over time tells leadership whether the reliability investment is actually working, something a pile of individual postmortem documents cannot show on its own.',
+        ],
+      },
+    ],
+    diagram: `flowchart TD
+  A[Monitoring Alert] --> B{Severity}
+  B -->|SEV1| C[Create Channel] --> D[Page On-Call] --> E[Status Page: Investigating]
+  B -->|SEV2| F[Notify Team Channel]
+  B -->|SEV3| G[Log Only, Ticket]
+  E --> H[Merge]
+  F --> H
+  G --> H
+  H --> I[Start Timeline Log]
+
+  J[Resolution Webhook] --> K[Status Page: Resolved]
+  K --> L[Calculate MTTR]
+  L --> M[Wait 24 Hours]
+  M --> N[Get Full Timeline]
+  N --> O[AI Draft Postmortem]
+  O --> P[Schedule Review Meeting]
+
+  Q[Postmortem Finalized] --> R[AI Extract Action Items]
+  R --> S[Create Tickets]
+  S --> T[Log To Registry]
+  T --> U[Archive Channel]
+
+  V[Quarterly Schedule] --> W[Compile MTTR Trend]
+  W --> X[Send To Leadership]`,
+    nodeTable: [
+      { n: 'Severity Classification', type: 'Switch', role: 'Matches response intensity to actual incident severity' },
+      { n: 'Start Incident Timeline Log', type: 'HTTP Request', role: 'Captures the record as the incident unfolds, not afterward' },
+      { n: 'Calculate MTTR', type: 'Code', role: 'Objective time-to-resolution, not an estimate' },
+      { n: 'Wait 24 Hours', type: 'Wait', role: 'Deliberate delay before drafting, for perspective and to catch delayed effects' },
+      { n: 'AI Draft Postmortem', type: 'HTTP Request', role: 'Starting draft from the actual logged timeline' },
+      { n: 'Create Tickets For Action Items', type: 'HTTP Request', role: 'Action items become tracked work immediately, not a forgotten list' },
+    ],
+    code: [
+      {
+        caption: 'MTTR calculation',
+        lang: 'javascript',
+        body: `const detectedAt = new Date($json.detectedAt);
+const resolvedAt = new Date($json.resolvedAt);
+
+const mttrMinutes = Math.round((resolvedAt - detectedAt) / 60000);
+
+return [{
+  json: {
+    ...$json,
+    mttrMinutes,
+    mttrFormatted: \`\${Math.floor(mttrMinutes / 60)}h \${mttrMinutes % 60}m\`,
+  }
+}];`,
+      },
+    ],
+    metrics: [
+      { metric: 'Time to customer-facing status update', before: 'Minutes to hours, manual', after: 'Seconds after SEV1 classification' },
+      { metric: 'Postmortem accuracy', before: 'Reconstructed from memory', after: 'Built from a live-logged timeline' },
+      { metric: 'Action item completion rate', before: 'Low, tracked only in the document', after: 'Tracked as tickets with owners' },
+      { metric: 'Organizational MTTR visibility', before: 'Per-incident only', after: 'Quarterly trend reported to leadership' },
+    ],
+    prerequisites: [
+      'n8n v1.40+ with Wait support',
+      'PagerDuty API access',
+      'Statuspage.io API (optional but recommended for customer-facing incidents)',
+      'Anthropic API key',
+      'Linear or Jira API, Slack Bot Token with channel management scopes, Airtable PAT',
+    ],
+    pitfalls: [
+      { title: 'AI-drafted postmortems need team review before publishing', body: 'The draft is a starting point built from logged updates, which may be incomplete. The team that lived the incident should always review and correct before it is considered final.' },
+      { title: 'Timeline logging quality depends on team discipline during the incident', body: 'If updates are not posted to the incident channel during the response, there is nothing for Start Incident Timeline Log to capture. This works best paired with a lightweight team norm of narrating actions as they happen.' },
+      { title: 'Status page updates need a defined approval owner', body: 'For SEV1, decide in advance who can authorize customer-facing status page language, this template automates the mechanics, not the judgement call on what to say publicly.' },
+    ],
+    faqs: [
+      { q: 'Does this work with Datadog or Grafana instead of a generic monitoring webhook?', a: 'Yes, both support outbound webhooks on alert firing, only the trigger payload parsing needs adjusting to match their specific alert format.' },
+      { q: 'Is a blameless postmortem culture required for this to work?', a: 'It is strongly recommended. AI Draft Postmortem produces a factual timeline, but how a team uses that timeline, learning versus blame, is a cultural choice this workflow cannot enforce.' },
+      { q: 'Can lower-severity incidents skip the full postmortem process?', a: 'Yes, route SEV3 incidents to skip the 24-hour wait and postmortem generation entirely, reserving the full process for incidents where the learning investment is worth it.' },
+    ],
+  },
 ];

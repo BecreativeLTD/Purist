@@ -268,6 +268,9 @@ Categories and example professions:
 - [Competitive Intelligence Monitoring](https://www.purist.online/pages/n8n-templates/competitive-intelligence-monitoring): 24 nodes, daily pricing/hiring/news tracking with AI diffing and a weekly digest.
 - [Recruitment Pipeline Automation](https://www.purist.online/pages/n8n-templates/recruitment-pipeline-automation): 28 nodes, AI resume screening, technical vs panel routing, direct handoff into onboarding.
 - [Investor Relations & Fundraising CRM Automation](https://www.purist.online/pages/n8n-templates/investor-relations-fundraising-crm): 25 nodes, fund-thesis fit scoring, data-room engagement tracking, founder-gated outreach.
+- [M&A Due Diligence Data Room](https://www.purist.online/pages/n8n-templates/ma-due-diligence-data-room): 26 nodes, NDA-gated access, AI document classification, real-time red-flag detection.
+- [Financial Close & Multi-Entity Consolidation](https://www.purist.online/pages/n8n-templates/financial-close-multi-entity-consolidation): 28 nodes, per-entity validation, FX conversion, intercompany eliminations, CFO-gated distribution.
+- [Incident Response & Postmortem Automation](https://www.purist.online/pages/n8n-templates/incident-response-postmortem): 26 nodes, severity-based response, live timeline logging, AI-drafted postmortems, tracked action items.
 
 ## Integration Guides (11 guides, Simple to Complex)
 
