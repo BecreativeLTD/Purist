@@ -85,6 +85,8 @@ const pages = [
   { url: '/pages/purist-vs-zapier',               lastmod: '2026-06-18' },
   { url: '/pages/purist-vs-make',                lastmod: '2026-06-18' },
   { url: '/pages/purist-vs-inhouse-hire',        lastmod: '2026-06-18' },
+  { url: '/pages/purist-vs-freelancer',          lastmod: '2026-09-16' },
+  { url: '/pages/purist-vs-power-automate',      lastmod: '2026-09-16' },
   { url: '/pages/welcome',                        lastmod: '2026-06-18' },
   { url: '/pages/demo',                          lastmod: '2026-06-18' },
   { url: '/pages/automation-maturity',           lastmod: '2026-06-18' },

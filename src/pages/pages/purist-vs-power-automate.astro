@@ -1,0 +1,187 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+
+const PINK = '#E8B4B0';
+const PINK_DARK = '#c4847e';
+const PINK_BG = 'rgba(232,180,176,0.09)';
+
+const rows = [
+ { feature: 'Pricing model',            purist: 'Flat monthly, from €890/mo',        other: 'Per-user + per-flow + AI Builder credits, stacks fast' },
+ { feature: 'Who builds it',            purist: 'PURIST engineers, done for you',    other: 'Your team, as citizen developers' },
+ { feature: 'Time to first workflow',   purist: '< 7 days',                          other: 'Weeks, learning the platform + building' },
+ { feature: 'AI capabilities',          purist: 'Claude Opus agents, included',      other: 'AI Builder, metered credits, separate cost' },
+ { feature: 'Non-Microsoft integrations', purist: 'Anything with an API, native',    other: 'Weaker outside Microsoft 365' },
+ { feature: 'Error monitoring',         purist: '24/7 monitored, 90s alerts',        other: 'Flows fail silently, manual checking' },
+ { feature: 'Throttling / API limits',  purist: 'Not applicable, own infrastructure', other: 'Hits license-tier request limits' },
+ { feature: 'Ownership if you leave',   purist: '100% code you own',                 other: 'Flows tied to your M365 tenant/licence' },
+ { feature: 'Support',                  purist: 'Dedicated to your account',         other: 'Microsoft tiered support queue' },
+ { feature: 'Guarantee',                purist: '30-day money-back',                 other: 'None' },
+];
+
+const faqs = [
+ {
+   q: 'Is Microsoft Power Automate actually free?',
+   a: "A basic tier is bundled with many Microsoft 365 subscriptions, but it only covers simple flows using standard connectors. The moment you need a premium connector (most CRMs, most non-Microsoft SaaS tools) or AI Builder, you're pushed onto the Per User (~€15/user/month) or Per Flow (~€100+/month per flow) plans, and AI Builder credits are sold in separate packs on top of that. The real cost is rarely what the 'free with Microsoft 365' framing suggests."
+ },
+ {
+   q: 'Can PURIST replace an existing Power Automate setup?',
+   a: 'Yes. We regularly audit and migrate existing Power Automate flows into a more reliable, better-monitored setup, especially once a business has outgrown simple approval flows and needs integrations Power Automate handles poorly.'
+ },
+ {
+   q: 'Does PURIST work with Microsoft 365, SharePoint, and Teams?',
+   a: 'Yes, we integrate with Microsoft 365, SharePoint, Teams, and Dynamics the same way we integrate with any other platform, via API. You keep using the Microsoft tools your team already knows; the automation layer running underneath is what changes.'
+ },
+ {
+   q: 'Why not just have our internal IT team build flows in Power Automate?',
+   a: "For simple, low-stakes internal approvals (a form triggers a Teams notification), that's often fine, and we'd say so. Power Automate becomes expensive and fragile once workflows touch multiple systems, need real error handling, or require logic more complex than the visual builder handles gracefully, at that point, a citizen developer's time is usually better spent on their actual job."
+ },
+ {
+   q: 'What is the real cost of Power Automate at scale?',
+   a: 'Costs compound in ways that are easy to miss upfront: per-user licensing for everyone who needs to trigger a flow, per-flow charges once you exceed the basic tier, premium connector fees, AI Builder credit packs, and the internal time cost of your own staff building and maintaining flows instead of a dedicated team. Businesses running a dozen or more flows across several departments often find the all-in cost rivals or exceeds a managed alternative, without the reliability.'
+ },
+];
+
+const pageUrl = 'https://www.purist.online/pages/purist-vs-power-automate';
+---
+
+<ShopLayout
+ title="PURIST vs Microsoft Power Automate | PURIST Automation"
+ description="Compare PURIST's managed automation against Microsoft Power Automate: real pricing, AI capabilities, non-Microsoft integrations, monitoring, and ownership."
+ canonical={pageUrl}
+>
+ <!-- Breadcrumb -->
+ <nav aria-label="Breadcrumb" class="container-x py-4 text-xs text-brand-gray-600">
+   <ol class="flex items-center gap-1.5 flex-wrap">
+     <li><a href="/" class="hover:text-brand-black transition">Home</a></li>
+     <li aria-hidden="true">/</li>
+     <li><a href="/pages/pricing" class="hover:text-brand-black transition">Services</a></li>
+     <li aria-hidden="true">/</li>
+     <li class="text-brand-black">PURIST vs Power Automate</li>
+   </ol>
+ </nav>
+
+ <!-- Hero -->
+ <header class="py-16 lg:py-24" style="background:#0A0A0A;">
+   <div class="container-x max-w-4xl mx-auto text-center">
+     <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-4" style={`color:${PINK_DARK};`}>Comparison</p>
+     <h1 class="font-display text-3xl lg:text-5xl text-white mb-5 leading-tight tracking-tight">PURIST vs Power Automate</h1>
+     <p class="text-base lg:text-lg max-w-2xl mx-auto mb-8 leading-relaxed" style="color:rgba(255,255,255,0.5);">
+       Power Automate looks free until you need a premium connector, AI Builder, or a flow that talks to something outside Microsoft 365. Here's the real comparison.
+     </p>
+     <div class="flex flex-wrap gap-4 justify-center">
+       <a style="text-align:center" href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-brand-black transition" style={`background:${PINK};`}>Get my free automation plan&nbsp;→</a>
+       <a href="/pages/pricing" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm border border-gray-700 text-gray-300 hover:border-gray-500 transition">View plans</a>
+     </div>
+   </div>
+ </header>
+
+ <!-- Comparison table -->
+ <section class="container-x max-w-4xl mx-auto py-14 lg:py-20">
+
+   <div class="overflow-x-auto rounded-2xl border border-brand-gray-100 mb-14">
+     <table class="w-full text-sm">
+       <thead>
+         <tr class="border-b border-brand-gray-100 bg-brand-gray-50">
+           <th class="text-left px-5 py-4 font-semibold text-brand-gray-700 w-1/3">Factor</th>
+           <th class="text-center px-5 py-4 font-bold" style={`color:${PINK_DARK};`}>PURIST</th>
+           <th class="text-center px-5 py-4 font-semibold text-brand-gray-400">Power Automate</th>
+         </tr>
+       </thead>
+       <tbody class="divide-y divide-brand-gray-100">
+         {rows.map(r => (
+           <tr class="hover:bg-brand-gray-50 transition">
+             <td class="px-5 py-3.5 text-brand-gray-600 font-medium">{r.feature}</td>
+             <td class="px-5 py-3.5 text-center font-semibold text-brand-black">{r.purist}</td>
+             <td class="px-5 py-3.5 text-center text-brand-gray-400">{r.other}</td>
+           </tr>
+         ))}
+       </tbody>
+     </table>
+   </div>
+
+   <div class="prose max-w-none mb-14">
+     <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-5 tracking-tight">Where Power Automate genuinely works well</h2>
+     <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-4">
+       For a business fully inside the Microsoft ecosystem, simple internal approvals, a SharePoint list triggering a Teams notification, basic form-to-email routing, Power Automate's low tier is a reasonable, low-cost option, and your internal IT team likely already knows how to use it. If that describes your actual need, we'll say so honestly rather than sell you something bigger than you need.
+     </p>
+
+     <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-5 tracking-tight">Where the pricing model gets expensive fast</h2>
+     <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-4">
+       Power Automate's licensing is genuinely difficult to predict from the outside. The basic tier only covers standard connectors, most CRMs, invoicing tools, and non-Microsoft SaaS platforms are premium connectors, which push you onto per-user or per-flow paid plans. AI Builder, Microsoft's automation-AI layer, is billed separately in credit packs on top of that. A setup that looked "included with Microsoft 365" on day one can end up costing more per month than a managed alternative, once every flow, connector, and AI feature is licensed properly.
+     </p>
+
+     <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-5 tracking-tight">The reliability gap</h2>
+     <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-8">
+       Power Automate flows are typically built and owned by whichever employee had time to figure out the platform, not a dedicated automation team. When a flow fails, and API changes, throttling, and connector updates cause this more often than most teams expect, there's rarely a monitoring system watching for it. PURIST workflows are monitored 24/7 with automated alerts, maintained by people whose job is exactly this, not a side project for someone in finance or ops.
+     </p>
+   </div>
+
+   <!-- ROI CTA -->
+   <div class="rounded-2xl p-8 text-center mb-14" style={`background:${PINK_BG};border:1px solid rgba(196,132,126,0.20);`}>
+     <h2 class="font-display text-xl text-brand-black mb-3">Already running Power Automate flows?</h2>
+     <p class="text-sm text-brand-gray-600 mb-6 max-w-lg mx-auto">We'll audit what you have, tell you honestly what's worth keeping, and show you the real cost of migrating vs staying, free, in 45 minutes.</p>
+     <a style="text-align:center" href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style={`background:${PINK_DARK};`}>Get my free automation plan&nbsp;→</a>
+   </div>
+
+   <!-- FAQ -->
+   <div>
+     <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-8 tracking-tight">Frequently asked questions</h2>
+     <div class="divide-y divide-brand-gray-100 border-y border-brand-gray-100">
+       {faqs.map(faq => (
+         <details class="group py-5">
+           <summary class="flex items-start justify-between gap-4 cursor-pointer list-none">
+             <h3 class="text-sm font-semibold text-brand-black leading-snug">{faq.q}</h3>
+             <svg class="w-4 h-4 shrink-0 mt-0.5 transition-transform group-open:rotate-45 text-brand-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+           </summary>
+           <p class="text-sm text-brand-gray-600 leading-relaxed mt-3 pr-8">{faq.a}</p>
+         </details>
+       ))}
+     </div>
+   </div>
+ </section>
+
+ <!-- Related articles -->
+ <section class="bg-brand-cream py-14 border-t border-brand-gray-100">
+   <div class="container-x max-w-4xl mx-auto">
+     <p class="eyebrow mb-3">Related reading</p>
+     <h2 class="font-display text-2xl mb-8">Make a confident decision</h2>
+     <div class="grid sm:grid-cols-3 gap-4">
+       {[
+         { href: '/pages/purist-vs-zapier', label: 'PURIST vs Zapier', cat: 'Comparison' },
+         { href: '/pages/purist-vs-make', label: 'PURIST vs Make', cat: 'Comparison' },
+         { href: '/pages/blog/logic-apps-vs-power-automate-sharepoint-2026', label: 'Logic Apps vs Power Automate for SharePoint', cat: 'Microsoft stack' },
+       ].map(l => (
+         <a href={l.href} class="group bg-white border border-brand-gray-100 rounded-2xl p-4 hover:border-brand-gray-300 transition-colors">
+           <p class="text-[9px] uppercase tracking-wider text-brand-rust font-semibold mb-2">{l.cat}</p>
+           <p class="text-sm font-semibold text-brand-black leading-snug group-hover:opacity-70 transition">{l.label} →</p>
+         </a>
+       ))}
+     </div>
+   </div>
+ </section>
+
+ <!-- JSON-LD -->
+ <script type="application/ld+json" is:inline set:html={JSON.stringify({
+   '@context': 'https://schema.org',
+   '@graph': [
+     {
+       '@type': 'BreadcrumbList',
+       itemListElement: [
+         { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.purist.online' },
+         { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://www.purist.online/pages/pricing' },
+         { '@type': 'ListItem', position: 3, name: 'PURIST vs Power Automate', item: pageUrl },
+       ],
+     },
+     {
+       '@type': 'FAQPage',
+       '@id': `${pageUrl}#faq`,
+       mainEntity: faqs.map(faq => ({
+         '@type': 'Question',
+         name: faq.q,
+         acceptedAnswer: { '@type': 'Answer', text: faq.a },
+       })),
+     },
+   ],
+ })}/>
+
+</ShopLayout>

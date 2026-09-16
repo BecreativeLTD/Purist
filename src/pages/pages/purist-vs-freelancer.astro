@@ -1,0 +1,205 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+
+const PINK = '#E8B4B0';
+const PINK_DARK = '#c4847e';
+const PINK_BG = 'rgba(232,180,176,0.09)';
+
+const rows = [
+ { feature: 'Time to first result',     purist: '< 7 days',                       other: '2–6 weeks (sourcing + scoping)' },
+ { feature: 'Pricing model',            purist: 'Fixed monthly, from €890/mo',    other: 'Hourly (€40–€90/hr) or vague project quotes' },
+ { feature: 'Ongoing maintenance',      purist: 'Included',                        other: 'Usually billed separately, if offered at all' },
+ { feature: 'Availability if it breaks',purist: '24/7 monitored, 90s alerts',      other: 'Whenever they see your message' },
+ { feature: 'Backup if unavailable',    purist: 'Team, not a single person',       other: 'None, single point of failure' },
+ { feature: 'Documentation',            purist: 'Spec + runbook, every workflow',  other: 'Varies, often none' },
+ { feature: 'Vetting risk',             purist: '312+ completed audits, track record', other: 'Marketplace reviews, hit or miss' },
+ { feature: 'Scope creep',              purist: 'Fixed cost, agreed before you sign', other: 'Common with hourly billing' },
+ { feature: 'Guarantee',                purist: '30-day money-back',               other: 'Rarely offered' },
+ { feature: 'Risk if they disappear',   purist: 'Full refund, you keep the code',   other: 'Ghosting is a documented, common risk' },
+];
+
+const faqs = [
+ {
+   q: 'How much does a good n8n or automation freelancer actually cost?',
+   a: 'Rates on marketplaces like Upwork typically run €40–€90/hour for automation work, or a fixed quote of €800–€3,000 for a single workflow depending on complexity. That figure rarely includes ongoing maintenance, monitoring, or support after delivery, those are usually a new, separate negotiation.'
+ },
+ {
+   q: 'What is the real risk of hiring a freelancer for business-critical automation?',
+   a: 'The two risks that come up most often: a single point of failure (if they get sick, get a full-time offer, or simply stop responding, your automation has no backup), and undocumented work (many freelancers deliver a working flow with no specification, so if you ever need to modify it later, understanding it from scratch can take as long as rebuilding it).'
+ },
+ {
+   q: 'Can PURIST work alongside a freelancer we already use?',
+   a: "Yes. Some clients keep a freelancer for small, one-off tweaks and bring PURIST in for the core, business-critical workflows that need monitoring, documentation, and a guarantee. We're happy to audit existing freelancer-built workflows and tell you honestly whether they're solid or need rebuilding."
+ },
+ {
+   q: 'What if I only need one small workflow, not a full stack?',
+   a: "If it's genuinely a single, simple, low-stakes automation, a freelancer or even a no-code tool can be the right, cheaper call, we'll tell you that plainly on the audit call rather than sell you a plan you don't need. PURIST makes more sense once you have multiple workflows, need reliability, or the process touches money, compliance, or customer data."
+ },
+ {
+   q: 'Is PURIST more expensive than a freelancer per workflow?',
+   a: 'Per single workflow, a freelancer can look cheaper upfront. Once you count the maintenance freelancers rarely include, the risk of undocumented code, and the cost of a workflow silently failing with nobody monitoring it, PURIST\'s Automation Pro plan (12+ production workflows from €890/mo) is usually cheaper per working, maintained workflow within the first few months.'
+ },
+];
+
+const pageUrl = 'https://www.purist.online/pages/purist-vs-freelancer';
+---
+
+<ShopLayout
+ title="PURIST vs Hiring a Freelancer for Automation | PURIST"
+ description="Compare hiring a freelance n8n/automation developer vs deploying PURIST: cost, reliability, documentation, and what happens if a freelancer disappears."
+ canonical={pageUrl}
+>
+ <!-- Breadcrumb -->
+ <nav aria-label="Breadcrumb" class="container-x py-4 text-xs text-brand-gray-600">
+   <ol class="flex items-center gap-1.5 flex-wrap">
+     <li><a href="/" class="hover:text-brand-black transition">Home</a></li>
+     <li aria-hidden="true">/</li>
+     <li><a href="/pages/pricing" class="hover:text-brand-black transition">Services</a></li>
+     <li aria-hidden="true">/</li>
+     <li class="text-brand-black">PURIST vs Freelancer</li>
+   </ol>
+ </nav>
+
+ <!-- Hero -->
+ <header class="py-16 lg:py-24" style="background:#0A0A0A;">
+   <div class="container-x max-w-4xl mx-auto text-center">
+     <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-4" style={`color:${PINK_DARK};`}>Comparison</p>
+     <h1 class="font-display text-3xl lg:text-5xl text-white mb-5 leading-tight tracking-tight">PURIST vs Hiring a Freelancer</h1>
+     <p class="text-base lg:text-lg max-w-2xl mx-auto mb-8 leading-relaxed" style="color:rgba(255,255,255,0.5);">
+       A freelancer can be cheaper for one small workflow. For anything business-critical, the real cost shows up later: no monitoring, no documentation, and no backup if they disappear.
+     </p>
+     <div class="flex flex-wrap gap-4 justify-center">
+       <a style="text-align:center" href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-brand-black transition" style={`background:${PINK};`}>Get my free automation plan&nbsp;→</a>
+       <a href="/pages/pricing" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm border border-gray-700 text-gray-300 hover:border-gray-500 transition">View plans</a>
+     </div>
+   </div>
+ </header>
+
+ <!-- Comparison table -->
+ <section class="container-x max-w-4xl mx-auto py-14 lg:py-20">
+
+   <div class="overflow-x-auto rounded-2xl border border-brand-gray-100 mb-14">
+     <table class="w-full text-sm">
+       <thead>
+         <tr class="border-b border-brand-gray-100 bg-brand-gray-50">
+           <th class="text-left px-5 py-4 font-semibold text-brand-gray-700 w-1/3">Factor</th>
+           <th class="text-center px-5 py-4 font-bold" style={`color:${PINK_DARK};`}>PURIST</th>
+           <th class="text-center px-5 py-4 font-semibold text-brand-gray-400">Freelancer</th>
+         </tr>
+       </thead>
+       <tbody class="divide-y divide-brand-gray-100">
+         {rows.map(r => (
+           <tr class="hover:bg-brand-gray-50 transition">
+             <td class="px-5 py-3.5 text-brand-gray-600 font-medium">{r.feature}</td>
+             <td class="px-5 py-3.5 text-center font-semibold text-brand-black">{r.purist}</td>
+             <td class="px-5 py-3.5 text-center text-brand-gray-400">{r.other}</td>
+           </tr>
+         ))}
+       </tbody>
+     </table>
+   </div>
+
+   <!-- Stats -->
+   <div class="grid sm:grid-cols-3 gap-6 mb-14">
+     {[
+       { value: '312+', label: 'Completed audits', desc: 'A track record you can check, not a marketplace star rating.' },
+       { value: '24/7', label: 'Monitored, not "when they reply"', desc: 'Automated 90-second error alerts, backed by a team, not one inbox.' },
+       { value: '0', label: 'Ghosting risk', desc: 'You own the code and documentation from day one, regardless of what happens to the relationship.' },
+     ].map(s => (
+       <div class="rounded-2xl border border-brand-gray-100 p-6 text-center">
+         <p class="font-display text-3xl mb-1" style={`color:${PINK_DARK};`}>{s.value}</p>
+         <p class="text-sm font-semibold text-brand-black mb-2">{s.label}</p>
+         <p class="text-xs text-brand-gray-600 leading-relaxed">{s.desc}</p>
+       </div>
+     ))}
+   </div>
+
+   <div class="prose max-w-none mb-14">
+     <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-5 tracking-tight">Where freelancers genuinely make sense</h2>
+     <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-4">
+       A freelancer is often the right call for a single, low-stakes, one-off automation, connecting two tools that don't touch money or customer data, with no real cost if it breaks for a few days. If that's your situation, a freelancer or a no-code tool you build yourself is probably cheaper than PURIST, and we'll say so on the audit call rather than push you into a plan you don't need.
+     </p>
+
+     <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-5 tracking-tight">Where the freelancer model breaks down</h2>
+     <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-4">
+       The problem isn't skill, plenty of freelance automation developers are genuinely good. The problem is structural: a single freelancer is one person, with one inbox, one schedule, and no backup. When they go on holiday, take a full-time offer, or simply move on to the next project, your automation has nobody watching it. If it silently fails, and workflows do fail silently, nobody notices until a customer complains or an invoice doesn't get sent.
+     </p>
+     <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-4">
+       Documentation is the other recurring gap. A freelancer paid by the hour has little incentive to spend extra hours writing a spec nobody asked for. Most freelance-built automations exist only in the freelancer's head, which means the day you need to change something and they're unavailable, you're often better off rebuilding from scratch than trying to reverse-engineer what's there.
+     </p>
+
+     <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-5 tracking-tight">What PURIST does differently</h2>
+     <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-8">
+       Every PURIST workflow ships with a specification, error-handling documentation, and a runbook, whether or not you ever ask for it. Monitoring and maintenance are part of the plan, not a follow-up quote. And because it's a fixed monthly plan with a 30-day guarantee, there's no scope-creep negotiation if the project turns out more complex than the first estimate.
+     </p>
+   </div>
+
+   <!-- ROI CTA -->
+   <div class="rounded-2xl p-8 text-center mb-14" style={`background:${PINK_BG};border:1px solid rgba(196,132,126,0.20);`}>
+     <h2 class="font-display text-xl text-brand-black mb-3">Not sure if you need a freelancer or PURIST?</h2>
+     <p class="text-sm text-brand-gray-600 mb-6 max-w-lg mx-auto">The free 45-minute audit maps your actual workflows and tells you honestly which approach fits, no pressure either way.</p>
+     <a style="text-align:center" href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style={`background:${PINK_DARK};`}>Get my free automation plan&nbsp;→</a>
+   </div>
+
+   <!-- FAQ -->
+   <div>
+     <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-8 tracking-tight">Frequently asked questions</h2>
+     <div class="divide-y divide-brand-gray-100 border-y border-brand-gray-100">
+       {faqs.map(faq => (
+         <details class="group py-5">
+           <summary class="flex items-start justify-between gap-4 cursor-pointer list-none">
+             <h3 class="text-sm font-semibold text-brand-black leading-snug">{faq.q}</h3>
+             <svg class="w-4 h-4 shrink-0 mt-0.5 transition-transform group-open:rotate-45 text-brand-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+           </summary>
+           <p class="text-sm text-brand-gray-600 leading-relaxed mt-3 pr-8">{faq.a}</p>
+         </details>
+       ))}
+     </div>
+   </div>
+ </section>
+
+ <!-- Related articles -->
+ <section class="bg-brand-cream py-14 border-t border-brand-gray-100">
+   <div class="container-x max-w-4xl mx-auto">
+     <p class="eyebrow mb-3">Related reading</p>
+     <h2 class="font-display text-2xl mb-8">Make a confident decision</h2>
+     <div class="grid sm:grid-cols-3 gap-4">
+       {[
+         { href: '/pages/purist-vs-inhouse-hire', label: 'PURIST vs Hiring In-House', cat: 'Comparison' },
+         { href: '/pages/purist-vs-zapier', label: 'PURIST vs Zapier', cat: 'Comparison' },
+         { href: '/pages/blog/calculating-automation-roi-the-honest-guide', label: 'Calculating Automation ROI', cat: 'ROI' },
+       ].map(l => (
+         <a href={l.href} class="group bg-white border border-brand-gray-100 rounded-2xl p-4 hover:border-brand-gray-300 transition-colors">
+           <p class="text-[9px] uppercase tracking-wider text-brand-rust font-semibold mb-2">{l.cat}</p>
+           <p class="text-sm font-semibold text-brand-black leading-snug group-hover:opacity-70 transition">{l.label} →</p>
+         </a>
+       ))}
+     </div>
+   </div>
+ </section>
+
+ <!-- JSON-LD -->
+ <script type="application/ld+json" is:inline set:html={JSON.stringify({
+   '@context': 'https://schema.org',
+   '@graph': [
+     {
+       '@type': 'BreadcrumbList',
+       itemListElement: [
+         { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.purist.online' },
+         { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://www.purist.online/pages/pricing' },
+         { '@type': 'ListItem', position: 3, name: 'PURIST vs Freelancer', item: pageUrl },
+       ],
+     },
+     {
+       '@type': 'FAQPage',
+       '@id': `${pageUrl}#faq`,
+       mainEntity: faqs.map(faq => ({
+         '@type': 'Question',
+         name: faq.q,
+         acceptedAnswer: { '@type': 'Answer', text: faq.a },
+       })),
+     },
+   ],
+ })}/>
+
+</ShopLayout>
