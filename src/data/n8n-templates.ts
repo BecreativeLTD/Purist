@@ -572,4 +572,360 @@ return [{
       { q: 'Can the retry count be changed?', a: 'Yes. The ladder is explicit rather than a loop precisely so you can add, remove or re-time stages without rewriting logic. Each stage is a Wait plus an HTTP Request plus an IF.' },
     ],
   },
+  {
+    slug: 'board-reporting-kpi-consolidation',
+    name: 'Board Reporting & KPI Consolidation',
+    file: '/n8n-templates/board-reporting-kpi-consolidation.json',
+    nodeCount: 26,
+    complexity: 'Expert',
+    category: 'Finance & Strategy',
+    tools: ['Stripe', 'HubSpot', 'Xero', 'Google Slides', 'Slack', 'DocSend', 'Airtable'],
+    tagline: 'A 26-node monthly pipeline that pulls MRR, pipeline and P&L data from three systems, drafts a board deck with AI variance commentary, and gates everything behind a human sign-off before distribution.',
+    intro: 'Board reporting is the single most senior deliverable most finance and RevOps teams produce, and it is still assembled by hand in most companies, an analyst pulling exports from Stripe, HubSpot and Xero into a spreadsheet, then rebuilding the same slides every month. This workflow automates the assembly, the variance calculation, and even a first-draft explanation of what moved and why, while keeping a human firmly in control of what actually reaches the board.',
+    sections: [
+      {
+        heading: 'Why board decks are a bad place to save time carelessly',
+        paras: [
+          'Most back-office automation optimises for speed above all else. Board reporting is the exception: the audience is small, senior, and reads every number closely, so the workflow is designed around accuracy and reviewability first, speed second. That shows up in three deliberate choices: a data quality gate before any calculation happens, an explicit human approval gate before distribution, and a full audit log of what was sent to whom.',
+          'The monthly schedule trigger fires on the 1st at 06:00, early enough that a data problem discovered by the Data Quality Check node still leaves days to fix it before the board meeting, rather than finding out the afternoon before.',
+        ],
+      },
+      {
+        heading: 'Consolidating three systems that were never meant to talk',
+        paras: [
+          'Stripe knows recurring revenue. HubSpot knows the sales pipeline. Xero knows the actual profit and loss. None of the three has any concept of the other two, and a board wants all three synthesised into one coherent story: revenue, forward pipeline coverage, and whether the business is actually profitable doing it.',
+          'The three pulls run in parallel and rejoin at Merge Data Sources, then two Code nodes calculate the metrics a board actually asks about, MRR and net revenue retention from the Stripe side, win rate and pipeline coverage from HubSpot. Keeping these as separate, named calculation steps rather than one large script makes the model auditable, a finance team member can read exactly how NRR was derived without reverse-engineering a black box.',
+        ],
+      },
+      {
+        heading: 'Variance commentary: where AI earns its place carefully',
+        paras: [
+          'The Variance Exceeds Threshold? gate is deliberate: an AI-drafted explanation is generated only for line items that moved more than 10% against budget, not for every metric on every run. This keeps the AI\'s job narrow and checkable, explain this one specific, material movement, rather than narrating an entire business.',
+          'Every AI-drafted commentary still passes through the CEO Review Gate before the deck goes anywhere. This workflow never sends a board communication without a human confirming it, the Wait node pauses on a webhook that only fires when someone actually approves, and an Approved? branch routes rejected drafts back for revision rather than distributing a first draft under pressure of a deadline.',
+        ],
+      },
+    ],
+    diagram: `flowchart TD
+  A[Monthly Trigger] --> B[Pull Stripe MRR]
+  A --> C[Pull HubSpot Pipeline]
+  A --> D[Pull Xero P&L]
+  B --> E[Merge Data Sources]
+  C --> E
+  D --> E
+  E --> F[Calculate MRR & Growth]
+  F --> G[Calculate Pipeline Metrics]
+  G --> H{Data Quality OK?}
+  H -->|No| I[Flag Finance] --> J[Wait For Fix] --> K[Compare Prior Month]
+  H -->|Yes| K
+  K --> L[Compare Against Budget]
+  L --> M{Variance > 10%?}
+  M -->|Yes| N[AI Variance Commentary]
+  M -->|No| O[Merge Commentary]
+  N --> O
+  O --> P[Build KPI Table]
+  P --> Q[Generate Slides Deck]
+  Q --> R[Populate Charts]
+  R --> S[Export PDF]
+  S --> T[CEO Review Gate]
+  T --> U{Approved?}
+  U -->|Yes| V[Distribute To Board]
+  U -->|No| W[Request Revisions]
+  V --> X[Log Distribution]`,
+    nodeTable: [
+      { n: 'Monthly Schedule Trigger', type: 'Schedule Trigger', role: 'Fires day one of each month, early morning' },
+      { n: 'Pull Stripe / HubSpot / Xero', type: 'HTTP Request ×3', role: 'Parallel pulls of revenue, pipeline and P&L data' },
+      { n: 'Calculate MRR & Growth', type: 'Code', role: 'MRR, net revenue retention, month-over-month growth' },
+      { n: 'Data Quality Check', type: 'IF', role: 'Blocks calculation on missing fields rather than reporting bad numbers' },
+      { n: 'Compare Against Budget', type: 'Set', role: 'Computes variance percentage per line item' },
+      { n: 'Variance Exceeds Threshold?', type: 'IF', role: 'Gates AI commentary to genuinely material movements' },
+      { n: 'Generate Variance Commentary (AI)', type: 'HTTP Request', role: 'Claude drafts an explanation for flagged variances only' },
+      { n: 'Generate Board Deck', type: 'HTTP Request', role: 'Populates a Google Slides template programmatically' },
+      { n: 'CEO Review Gate', type: 'Wait (webhook resume)', role: 'Nothing ships without explicit human approval' },
+      { n: 'Distribute To Board Members', type: 'HTTP Request', role: 'Sent via a tracked data-room link, not a plain attachment' },
+    ],
+    code: [
+      {
+        caption: 'Net revenue retention calculation',
+        lang: 'javascript',
+        body: `const startingMrr  = $json.startingMrr;
+const expansion    = $json.expansionMrr;
+const contraction  = $json.contractionMrr;
+const churnedMrr   = $json.churnedMrr;
+
+const nrr = ((startingMrr + expansion - contraction - churnedMrr) / startingMrr) * 100;
+
+return [{
+  json: {
+    ...$json,
+    nrr: Number(nrr.toFixed(1)),
+    nrrHealthy: nrr >= 100,  // below 100% means existing customers are net-shrinking
+  }
+}];`,
+      },
+      {
+        caption: 'Budget variance gate',
+        lang: 'javascript',
+        body: `const actual = $json.actual;
+const budget = $json.budget;
+const variance = ((actual - budget) / budget) * 100;
+
+return [{
+  json: {
+    ...$json,
+    budgetVariance: Number(variance.toFixed(1)),
+    needsCommentary: Math.abs(variance) > 10,
+  }
+}];`,
+      },
+    ],
+    metrics: [
+      { metric: 'Time to assemble board pack', before: '2-3 days of analyst time', after: 'Under 2 hours, mostly review' },
+      { metric: 'Data consistency across sources', before: 'Manual copy-paste, error-prone', after: 'Pulled and calculated identically every month' },
+      { metric: 'Variance explanations', before: 'Written under deadline pressure', after: 'Drafted automatically, human-refined' },
+      { metric: 'Distribution tracking', before: 'None, email attachment', after: 'Per-board-member view analytics' },
+    ],
+    prerequisites: [
+      'n8n v1.40+ with Switch v3 and webhook-resume Wait support',
+      'Read-only Stripe, HubSpot and Xero API credentials',
+      'Anthropic API key for variance commentary',
+      'Google Slides/Docs OAuth2 with a board-deck template already built',
+      'DocSend or equivalent tracked document-sharing API, Slack bot token, Airtable PAT',
+    ],
+    pitfalls: [
+      { title: 'Never let this auto-send without the review gate', body: 'The CEO Review Gate is the entire safety mechanism. Removing it to "save time" turns a drafting tool into an uncontrolled board communication channel.' },
+      { title: 'Budget data must be current', body: 'A stale budget in Xero makes every variance calculation meaningless. Confirm the current fiscal year budget is loaded before the first run each year.' },
+      { title: 'AI commentary needs a fact-check pass', body: 'The model explains movements based on the data it is given, it cannot know about a one-off event nobody logged anywhere. Treat its output as a first draft, always.' },
+    ],
+    faqs: [
+      { q: 'Can this work with QuickBooks or NetSuite instead of Xero?', a: 'Yes, only the P&L pull node changes. The consolidation, variance and approval logic is accounting-system agnostic.' },
+      { q: 'How is the deck template customised?', a: 'Generate Board Deck duplicates a Google Slides template you control, so your existing branding, slide order and chart types carry over automatically.' },
+      { q: 'What happens if a board member never opens the deck?', a: 'DocSend-style tracking makes that visible in Log Distribution, letting IR or the CEO follow up specifically rather than assuming everyone read it.' },
+    ],
+  },
+  {
+    slug: 'employee-onboarding-offboarding',
+    name: 'Employee Onboarding & Offboarding',
+    file: '/n8n-templates/employee-onboarding-offboarding.json',
+    nodeCount: 28,
+    complexity: 'Expert',
+    category: 'HR & IT Operations',
+    tools: ['Google Workspace', 'Slack', 'GitHub', 'HubSpot', 'Asset Management API', 'Airtable'],
+    tagline: 'A 28-node workflow covering both directions of the employee lifecycle: role-aware provisioning timed to start date, and security-aware access revocation timed to departure type.',
+    intro: 'Onboarding and offboarding are usually built as two separate, ad hoc checklists maintained by whoever last got frustrated enough to write one down. This template treats them as one system with two entry points, because the underlying problem, keeping access, equipment and communication in sync with employment status, is the same problem in both directions.',
+    sections: [
+      {
+        heading: 'Timing provisioning to start date, not to when someone remembers',
+        paras: [
+          'New-hire provisioning has a narrow correct window. Too early wastes paid software licenses for someone who has not started, and occasionally exposes internal systems to an account nobody is watching yet. Too late means a new employee\'s first day is spent waiting for IT instead of working.',
+          'The Days Until Start calculation and the Start Date Within 5 Days? loop hold provisioning until exactly five business days before start, then fire the Google Workspace, Slack and role-specific access nodes together. Role-Specific Provisioning branches on department because an engineer and a sales rep need almost entirely different tool access, and hard-coding one generic checklist for both means either engineers get CRM access they do not need or sales reps wait on GitHub permissions nobody will use.',
+        ],
+      },
+      {
+        heading: 'Offboarding: the branch that actually matters for security',
+        paras: [
+          'The Involuntary Departure? branch is the most operationally important decision in this entire template. An involuntary departure revokes all system access immediately, before the conversation with the employee even happens in some security postures, because the risk of continued access after notice outweighs the inconvenience.',
+          'A voluntary departure instead schedules revocation for end of the employee\'s last working day, using n8n\'s specific-time Wait node. This lets a departing employee remain productive through their notice period while still guaranteeing access disappears automatically at the right moment, rather than depending on someone remembering to do it manually on a Friday afternoon.',
+        ],
+      },
+      {
+        heading: 'The step almost every offboarding checklist forgets',
+        paras: [
+          'Transfer File Ownership To Manager exists because of a specific, common failure: a departed employee\'s Google Drive files are owned by an account that no longer exists, and without an explicit ownership transfer, those files become effectively orphaned. Institutional knowledge, client documents, and project history simply vanish into an inaccessible account.',
+          'This step runs for every offboarding, voluntary or not, immediately after equipment retrieval, so file continuity is never dependent on someone remembering to ask for it during an already busy departure process.',
+        ],
+      },
+    ],
+    diagram: `flowchart TD
+  A[New Hire Webhook] --> B[Extract Details]
+  B --> C[Days Until Start]
+  C --> D{Within 5 Days?}
+  D -->|No| E[Wait 1 Day] --> D
+  D -->|Yes| F[Create Workspace Account]
+  D -->|Yes| G[Create Slack Account]
+  D -->|Yes| H{Role-Specific Provisioning}
+  H -->|Engineering| I[GitHub + AWS Access]
+  H -->|Sales| J[CRM + Dialer Access]
+  I --> K[Order Equipment]
+  J --> K
+  F --> L[Merge Provisioning]
+  G --> L
+  K --> L
+  L --> M[Schedule Day-1 Events]
+  M --> N[Assign Buddy]
+  N --> O[Welcome Email]
+
+  P[Termination Webhook] --> Q[Extract Details]
+  Q --> R{Involuntary?}
+  R -->|Yes| S[Revoke Access Immediately]
+  R -->|No| T[Schedule Revocation, Last Day] --> U[Revoke All Access]
+  S --> V[Retrieve Equipment]
+  U --> V
+  V --> W[Transfer File Ownership]`,
+    nodeTable: [
+      { n: 'HRIS New Hire / Termination Webhook', type: 'Webhook ×2', role: 'Two independent entry points for the two lifecycle directions' },
+      { n: 'Days Until Start', type: 'Code', role: 'Calculates the countdown to trigger provisioning at the right time' },
+      { n: 'Start Date Within 5 Days?', type: 'IF (looping)', role: 'Holds provisioning until the correct window, avoids early waste' },
+      { n: 'Role-Specific Provisioning', type: 'Switch', role: 'Department-aware branching, engineering vs sales access' },
+      { n: 'Involuntary Departure?', type: 'IF', role: 'The single most important security-relevant branch in the workflow' },
+      { n: 'Revoke Access Immediately', type: 'HTTP Request', role: 'Immediate revocation path for involuntary departures' },
+      { n: 'Schedule Revocation For Last Day', type: 'Wait (specific time)', role: 'Delayed revocation for voluntary departures' },
+      { n: 'Transfer File Ownership To Manager', type: 'HTTP Request', role: 'Prevents departed-employee files becoming inaccessible' },
+    ],
+    code: [
+      {
+        caption: 'Start-date countdown (Days Until Start node)',
+        lang: 'javascript',
+        body: `const startDate = new Date($json.startDate);
+const today = new Date();
+const msPerDay = 1000 * 60 * 60 * 24;
+const daysUntilStart = Math.ceil((startDate - today) / msPerDay);
+
+return [{ json: { ...$json, daysUntilStart } }];`,
+      },
+    ],
+    metrics: [
+      { metric: 'Day-1 readiness', before: 'Inconsistent, IT-ticket dependent', after: 'Provisioned automatically 5 days out' },
+      { metric: 'Access revoked after involuntary exit', before: 'Minutes to hours, manual', after: 'Immediate, automatic' },
+      { metric: 'Orphaned files after departure', before: 'Common', after: 'Explicit ownership transfer, every time' },
+      { metric: 'Equipment tracking', before: 'Spreadsheet, often stale', after: 'Logged automatically at order and return' },
+    ],
+    prerequisites: [
+      'n8n v1.40+ with specific-time Wait node support',
+      'Google Workspace Admin SDK access',
+      'Slack Enterprise Grid admin token (for account provisioning, not just messaging)',
+      'GitHub organisation admin token, HubSpot admin access',
+      'An asset-management API for equipment ordering and retrieval',
+    ],
+    pitfalls: [
+      { title: 'Test the involuntary-departure path deliberately', body: 'This is the highest-stakes branch in the template. Run it against a test account before your first real involuntary termination, not during one.' },
+      { title: 'Keep the department-provisioning map current', body: 'Role-Specific Provisioning only covers what you configure. A new department with no matching case falls through silently, add a default/fallback branch for anything unmapped.' },
+      { title: 'Coordinate offboarding timing with the people conversation', body: 'Immediate revocation for involuntary departures should be sequenced with HR and legal guidance on when the employee is actually notified, this is a policy decision, not just a technical one.' },
+    ],
+    faqs: [
+      { q: 'Can this integrate with BambooHR or Workday instead of a generic HRIS?', a: 'Yes, most HRIS platforms support outbound webhooks on hire and termination events, only the two trigger nodes need reconfiguring.' },
+      { q: 'What about contractors, not just full-time employees?', a: 'Add a worker-type field early in Extract New Hire Details and branch provisioning scope accordingly, contractors typically need a narrower access set.' },
+      { q: 'Does the buddy assignment logic need to be manual?', a: 'The template logs to Airtable for a human to assign; you can automate simple round-robin assignment in the same node if your team structure supports it.' },
+    ],
+  },
+  {
+    slug: 'customer-health-churn-prediction',
+    name: 'Customer Health Score & Churn Prediction',
+    file: '/n8n-templates/customer-health-churn-prediction.json',
+    nodeCount: 27,
+    complexity: 'Expert',
+    category: 'Customer Success & Strategy',
+    tools: ['HubSpot', 'Mixpanel', 'Zendesk', 'Stripe', 'Delighted', 'Slack', 'Airtable'],
+    tagline: 'A 27-node daily pipeline that combines usage, support, billing and NPS signals into one composite health score per account, triggering different playbooks for at-risk, stable and expansion-ready customers.',
+    intro: 'Most "customer health score" implementations are a single number pulled from one data source, usually product usage, which misses the accounts that are heavy users but about to churn over a billing dispute, or light users who are perfectly happy and simply do not need to log in often. This workflow combines four independent signals into one composite score and, critically, routes three genuinely different outcomes rather than just flagging risk.',
+    sections: [
+      {
+        heading: 'Why a single signal produces false positives and false negatives',
+        paras: [
+          'Product usage alone flags any account with declining logins as at-risk, including perfectly satisfied customers who simply configured the product once and now let it run unattended, exactly the outcome many B2B tools are designed to produce. Support ticket volume alone flags engaged customers who ask a lot of questions as risky, when frequent contact is often a sign of investment, not dissatisfaction.',
+          'The workflow pulls all four signals in parallel, usage trend, support ticket sentiment and volume, billing and payment health, and the latest NPS response, and combines them in Calculate Composite Health Score with configurable weights. The specific weighting in the template (40% usage, 25% support, 20% billing, 15% NPS) is a starting point, not a law, tuned by looking at which signal actually preceded real churn events historically.',
+        ],
+      },
+      {
+        heading: 'Batch processing and why it protects your other integrations',
+        paras: [
+          'Split In Batches processes customers 25 at a time rather than all at once. At meaningful scale, calling four different rate-limited APIs for every customer in one burst is the single most common way a health-scoring workflow gets throttled or banned outright by one of its own data sources.',
+          'The batching loop (Loop Next Batch feeding back into Split In Batches) also means a single customer\'s API failure does not halt scoring for the rest of the portfolio, each batch completes independently.',
+        ],
+      },
+      {
+        heading: 'Three-way routing: risk, stability, and expansion',
+        paras: [
+          'The Health Tier switch does not just separate healthy from at-risk. A score climbing alongside strong usage growth routes to Identify Expansion Opportunity, flagging the account for an upsell conversation rather than treating growth as a non-event. This is the detail most churn-prediction builds miss entirely: the same infrastructure that catches risk early should also catch opportunity early, using the same data.',
+          'Score Changed Significantly? gates action on movement greater than 15 points, not on the absolute score. Without this gate, a stable customer sitting at a permanently low-but-fine score of 45 would re-trigger the at-risk playbook every single day, training your CS team to ignore the alerts entirely.',
+        ],
+      },
+    ],
+    diagram: `flowchart TD
+  A[Daily Trigger] --> B[Get Active Customers]
+  B --> C[Split In Batches]
+  C -->|done| Z[All Batches Complete]
+  C -->|batch| D[Pull Usage Data]
+  C -->|batch| E[Pull Support History]
+  C -->|batch| F[Pull Billing History]
+  C -->|batch| G[Pull NPS Score]
+  D --> H[Merge All Signals]
+  E --> H
+  F --> H
+  G --> H
+  H --> I[Calculate Usage Trend]
+  I --> J[Calculate Composite Score]
+  J --> K{Score Changed >15pts?}
+  K -->|No| L[Update Dashboard]
+  K -->|Yes| M{Health Tier}
+  M -->|At Risk| N[Trigger Playbook] --> O[Alert CSM] --> P[Create Save Task]
+  M -->|Expansion Signal| Q{Usage Growth >20%?}
+  Q -->|Yes| R[Notify Account Manager]
+  Q -->|No| S[No Action]
+  M -->|Watch| T[Add To Watch List] --> U[Schedule Check-In]
+  P --> V[Merge Outcomes]
+  R --> V
+  S --> V
+  U --> V
+  V --> L
+  L --> W[Log Score History]
+  W --> C`,
+    nodeTable: [
+      { n: 'Split In Batches', type: 'Split In Batches', role: 'Processes 25 accounts at a time to protect rate limits' },
+      { n: 'Pull Usage / Support / Billing / NPS', type: 'HTTP Request ×4', role: 'Four independent signal sources per customer' },
+      { n: 'Calculate Composite Health Score', type: 'Code', role: 'Weighted 0-100 score across all four signals' },
+      { n: 'Score Changed Significantly?', type: 'IF', role: 'Gates action on movement, not absolute score, prevents alert fatigue' },
+      { n: 'Health Tier', type: 'Switch', role: 'Three-way split: at-risk, watch, healthy/expansion' },
+      { n: 'Identify Expansion Opportunity', type: 'IF', role: 'Catches growth signals, not just risk signals' },
+      { n: 'Log Score History', type: 'HTTP Request', role: 'Historical record used to re-validate the scoring weights over time' },
+    ],
+    code: [
+      {
+        caption: 'Composite health score calculation',
+        lang: 'javascript',
+        body: `const usageScore   = $json.usageTrendScore;    // 0-100
+const supportScore = $json.supportSentimentScore;
+const billingScore = $json.billingHealthScore;
+const npsScore      = $json.npsNormalizedScore;
+
+const WEIGHTS = { usage: 0.40, support: 0.25, billing: 0.20, nps: 0.15 };
+
+const composite =
+  usageScore   * WEIGHTS.usage   +
+  supportScore * WEIGHTS.support +
+  billingScore * WEIGHTS.billing +
+  npsScore     * WEIGHTS.nps;
+
+return [{
+  json: {
+    ...$json,
+    score: Math.round(composite),
+    scoreDelta: Math.round(composite) - $json.previousScore,
+  }
+}];`,
+      },
+    ],
+    metrics: [
+      { metric: 'Churn signals caught before renewal', before: 'Often discovered at cancellation', after: 'Flagged weeks earlier via composite score' },
+      { metric: 'False-positive risk alerts', before: 'High, single-signal (usage only)', after: 'Reduced, requires agreement across signals' },
+      { metric: 'Expansion opportunities identified', before: 'Ad hoc, rep-dependent', after: 'Systematically flagged alongside risk' },
+      { metric: 'CS team alert fatigue', before: 'Common with daily scoring', after: 'Mitigated by the 15-point movement gate' },
+    ],
+    prerequisites: [
+      'n8n v1.40+ with Split In Batches v3',
+      'CRM API access (HubSpot or equivalent) for the account list and task creation',
+      'Product analytics API (Mixpanel, Amplitude or similar)',
+      'Zendesk or equivalent support platform API',
+      'Stripe billing data access, an NPS tool API (Delighted or equivalent)',
+    ],
+    pitfalls: [
+      { title: 'Do not deploy the default weights unchanged', body: 'The 40/25/20/15 split is a reasonable starting point, not a validated model for your business. Revisit it against real churn outcomes after your first quarter of data.' },
+      { title: 'Batch size needs tuning to your API limits', body: '25 is conservative. Check each connected API\'s actual rate limit and adjust Split In Batches accordingly, too large a batch reintroduces the throttling problem this pattern exists to prevent.' },
+      { title: 'A score is a conversation starter, not a verdict', body: 'An automated save task or alert should trigger a human conversation, not an automated retention email. Customers can tell the difference, and it usually backfires.' },
+    ],
+    faqs: [
+      { q: 'How much historical data do I need before this is reliable?', a: 'Enough churn events to validate the weighting, typically a full quarter at minimum, longer for lower-churn businesses. Run it and log scores well before trusting the at-risk playbook automatically.' },
+      { q: 'Can this work for a PLG product with no assigned CSM?', a: 'Yes, route the at-risk alert to a shared Slack channel or trigger an automated in-app or email intervention instead of a named CSM task.' },
+      { q: 'What if we do not have an NPS program?', a: 'Drop the NPS input and redistribute its 15% weight across the remaining three signals, the model degrades gracefully with three signals instead of four.' },
+    ],
+  },
 ];
