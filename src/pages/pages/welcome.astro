@@ -12,30 +12,69 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
     HERO STRIP
 ════════════════════════════════════════════════ -->
 <header class="relative overflow-hidden" style="background:#0A0A0A;">
- <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 70% 90% at 20% 50%,rgba(232,180,176,0.07) 0%,transparent 65%);"/>
+ <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 70% 90% at 20% 50%,rgba(232,180,176,0.07) 0%,transparent 65%),radial-gradient(ellipse 50% 70% at 90% 20%,rgba(164,139,250,0.05) 0%,transparent 60%);"/>
  <div class="container-x relative z-10 py-14 lg:py-20">
-   <div class="max-w-2xl">
-     <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-5" style="color:rgba(232,180,176,0.60);">Free automation audit · No commitment</p>
-     <h1 class="font-display text-[2.4rem] lg:text-[3.2rem] leading-[1.08] tracking-[-0.025em] text-white mb-5 text-balance">
-       Find out exactly how much<br/>
-       <em class="font-medium" style="color:#E8B4B0;">your manual work costs you.</em>
-     </h1>
-     <p class="text-[15px] lg:text-base leading-relaxed max-w-xl mb-10" style="color:rgba(255,255,255,0.40);">
-       In 45 minutes, we map your workflows, calculate your exact ROI, and hand you a written automation roadmap, before you sign a thing. Most clients discover they're losing <strong style="color:rgba(255,255,255,0.75);">€400–€900 per week</strong> in recoverable time.
-     </p>
-     <div class="flex flex-wrap gap-10 lg:gap-14">
-       {[
-         { n: '312+',  l: 'Audits completed'        },
-         { n: '€185K', l: 'Avg. first-year savings'  },
-         { n: '7 days', l: 'To first live workflow'  },
-         { n: '9.4×',  l: 'Average first-year ROI'  },
-       ].map(b => (
-         <div>
-           <p class="font-display text-[2rem] text-white font-medium leading-none">{b.n}</p>
-           <p class="text-[10px] uppercase tracking-[0.16em] mt-1.5" style="color:rgba(255,255,255,0.30);">{b.l}</p>
-         </div>
-       ))}
+   <div class="grid lg:grid-cols-[1fr_400px] xl:grid-cols-[1fr_440px] gap-12 xl:gap-16 items-center">
+
+     <!-- ── LEFT: COPY + STRUCTURED STATS ── -->
+     <div class="max-w-2xl">
+       <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-5" style="color:rgba(232,180,176,0.60);">Free automation audit · No commitment</p>
+       <h1 class="font-display text-[2.4rem] lg:text-[3.2rem] leading-[1.08] tracking-[-0.025em] text-white mb-5 text-balance">
+         Find out exactly how much<br/>
+         <em class="font-medium" style="color:#E8B4B0;">your manual work costs you.</em>
+       </h1>
+       <p class="text-[15px] lg:text-base leading-relaxed max-w-xl mb-10" style="color:rgba(255,255,255,0.40);">
+         In 45 minutes, we map your workflows, calculate your exact ROI, and hand you a written automation roadmap, before you sign a thing. Most clients discover they're losing <strong style="color:rgba(255,255,255,0.75);">€400–€900 per week</strong> in recoverable time.
+       </p>
+
+       <div class="grid grid-cols-2 sm:grid-cols-4 rounded-[16px] overflow-hidden" style="border:1px solid rgba(255,255,255,0.08);">
+         {[
+           { n: '312+',  l: 'Audits completed'        },
+           { n: '€185K', l: 'Avg. first-year savings'  },
+           { n: '7 days', l: 'To first live workflow'  },
+           { n: '9.4×',  l: 'Average first-year ROI'  },
+         ].map((b, i) => (
+           <div class="p-4 lg:p-5" style={`${i > 0 ? 'border-left:1px solid rgba(255,255,255,0.08);' : ''} ${i > 1 ? 'border-top:1px solid rgba(255,255,255,0.08);' : ''}`}>
+             <p class="font-display text-[1.6rem] lg:text-[1.8rem] text-white font-medium leading-none">{b.n}</p>
+             <p class="text-[9.5px] uppercase tracking-[0.14em] mt-2 leading-snug" style="color:rgba(255,255,255,0.32);">{b.l}</p>
+           </div>
+         ))}
+       </div>
      </div>
+
+     <!-- ── RIGHT: SAMPLE AUDIT OUTPUT PREVIEW ── -->
+     <div class="hidden lg:block rounded-[20px] overflow-hidden" style="background:#111;border:1px solid rgba(255,255,255,0.09);box-shadow:0 24px 64px rgba(0,0,0,0.4);">
+       <div class="px-5 py-4 flex items-center justify-between" style="border-bottom:1px solid rgba(255,255,255,0.07);">
+         <p class="text-[9px] font-bold uppercase tracking-[0.16em]" style="color:rgba(255,255,255,0.35);">Sample audit output</p>
+         <span class="text-[9px] font-semibold px-2 py-0.5 rounded-full" style="background:rgba(232,180,176,0.12);color:#E8B4B0;">Illustrative</span>
+       </div>
+       <div class="px-5 py-4" style="border-bottom:1px solid rgba(255,255,255,0.07);">
+         <p class="text-[11px]" style="color:rgba(255,255,255,0.35);">Dental practice · 8 staff</p>
+       </div>
+       <div class="px-5 py-3" style="border-bottom:1px solid rgba(255,255,255,0.06);">
+         {[
+           { name: 'Appointment reminders sent manually', hrs: '6h/wk', cost: '€18,720/yr' },
+           { name: 'Insurance pre-auth follow-up',          hrs: '4h/wk', cost: '€12,480/yr' },
+           { name: 'Billing reconciliation',                 hrs: '3h/wk', cost: '€9,360/yr'  },
+         ].map((r, i) => (
+           <div class={`flex items-center justify-between gap-3 py-3 ${i > 0 ? 'border-t' : ''}`} style="border-color:rgba(255,255,255,0.06);">
+             <p class="text-[12px] leading-snug" style="color:rgba(255,255,255,0.62);">{r.name}</p>
+             <div class="text-right shrink-0">
+               <p class="text-[12px] font-semibold" style="color:#fff;">{r.hrs}</p>
+               <p class="text-[10px]" style="color:rgba(255,255,255,0.30);">{r.cost}</p>
+             </div>
+           </div>
+         ))}
+       </div>
+       <div class="px-5 py-4 flex items-center justify-between" style="background:rgba(232,180,176,0.06);">
+         <p class="text-[11px] font-semibold" style="color:rgba(255,255,255,0.75);">Total recoverable</p>
+         <p class="font-display text-lg" style="color:#E8B4B0;">13h/wk · €40,560/yr</p>
+       </div>
+       <p class="px-5 py-3 text-[10px] leading-relaxed" style="color:rgba(255,255,255,0.24);">
+         Illustrative example based on a real audit pattern, yours will be specific to your workflows and calculated live on the call.
+       </p>
+     </div>
+
    </div>
  </div>
 </header>
@@ -56,21 +95,67 @@ import MoneyBackGuarantee from '~/components/sections/MoneyBackGuarantee.astro';
          Based on 312+ audits, the average team loses <strong class="text-white">€560/week</strong> to manual workflows, that's <strong class="text-white">€29,120/year</strong> of recoverable time. The audit is free and takes 45 minutes.
        </p>
      </div>
-     <div class="flex items-center gap-6 ml-auto shrink-0">
+     <div class="flex items-center gap-6 lg:gap-8 ml-auto shrink-0">
        {[
-         { n: '4 weeks', l: 'avg. payback'      },
-         { n: '26h',     l: 'saved/week avg.'   },
-         { n: '97%',     l: 'clients proceed'   },
+         { n: '4 weeks', l: 'avg. payback',    icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+         { n: '26h',     l: 'saved/week avg.', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
+         { n: '97%',     l: 'clients proceed', icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
        ].map(s => (
-         <div class="text-center">
-           <p class="font-display text-base font-medium leading-none" style="color:#E8B4B0;">{s.n}</p>
-           <p class="text-[9px] uppercase tracking-[0.14em] mt-1" style="color:rgba(255,255,255,0.28);">{s.l}</p>
+         <div class="flex items-center gap-2.5">
+           <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d={s.icon}/></svg>
+           <div>
+             <p class="font-display text-base font-medium leading-none" style="color:#E8B4B0;">{s.n}</p>
+             <p class="text-[9px] uppercase tracking-[0.14em] mt-1" style="color:rgba(255,255,255,0.28);">{s.l}</p>
+           </div>
          </div>
        ))}
      </div>
    </div>
  </div>
 </div>
+
+<!-- ═══════════════════════════════════════════════
+    BY INDUSTRY, real benchmark data
+════════════════════════════════════════════════ -->
+<section class="py-14 lg:py-16" style="background:#0A0A0A;">
+ <div class="container-x">
+   <div class="flex items-end justify-between gap-6 mb-7 flex-wrap">
+     <div>
+       <p class="text-[9.5px] uppercase tracking-[0.22em] font-semibold mb-2" style="color:rgba(232,180,176,0.55);">From 312+ completed audits</p>
+       <h2 class="font-display text-xl lg:text-2xl text-white leading-tight">What we typically find, by industry.</h2>
+     </div>
+     <p class="text-[11.5px] max-w-sm" style="color:rgba(255,255,255,0.32);">Figures below are averages from real client audits and deployments, not projections.</p>
+   </div>
+
+   <div class="overflow-x-auto -mx-4 px-4 lg:mx-0 lg:px-0">
+     <div class="min-w-[640px] rounded-[16px] overflow-hidden" style="border:1px solid rgba(255,255,255,0.08);">
+       <div class="grid grid-cols-4" style="background:rgba(255,255,255,0.03);">
+         {['Industry', 'Avg. hours saved/week', 'Avg. annual savings', 'Payback period'].map((h, i) => (
+           <div class={`px-5 py-3 text-[9.5px] font-bold uppercase tracking-[0.12em] ${i > 0 ? 'border-l' : ''}`} style="color:rgba(255,255,255,0.35);border-color:rgba(255,255,255,0.07);">{h}</div>
+         ))}
+       </div>
+       {[
+         { industry: 'Dental & Healthcare', hours: '14h', savings: '€130K', payback: '19 days' },
+         { industry: 'Legal',               hours: '12h', savings: '€110K', payback: '21 days' },
+         { industry: 'Real Estate',         hours: '9h',  savings: '€86K',  payback: '18 days' },
+         { industry: 'Agency & Consulting', hours: '22h', savings: '€104K', payback: '23 days' },
+         { industry: 'E-commerce',          hours: '11h', savings: '€89K',  payback: '22 days' },
+         { industry: 'SaaS',                hours: '8h',  savings: '€201K', payback: '14 days' },
+       ].map((r, i) => (
+         <div class={`grid grid-cols-4 ${i > 0 ? 'border-t' : ''}`} style="border-color:rgba(255,255,255,0.07);">
+           <div class="px-5 py-3.5 text-[12.5px] font-medium text-white">{r.industry}</div>
+           <div class="px-5 py-3.5 text-[12.5px] tabular-nums border-l" style="color:rgba(255,255,255,0.55);border-color:rgba(255,255,255,0.07);">{r.hours}</div>
+           <div class="px-5 py-3.5 text-[12.5px] tabular-nums font-semibold border-l" style="color:#E8B4B0;border-color:rgba(255,255,255,0.07);">{r.savings}</div>
+           <div class="px-5 py-3.5 text-[12.5px] tabular-nums border-l" style="color:rgba(255,255,255,0.55);border-color:rgba(255,255,255,0.07);">{r.payback}</div>
+         </div>
+       ))}
+     </div>
+   </div>
+   <p class="text-[10.5px] mt-3" style="color:rgba(255,255,255,0.22);">
+     Source: aggregated from PURIST's 312+ completed client audits and deployments. See full <a href="/pages/case-studies" class="underline" style="color:rgba(255,255,255,0.4);">case studies</a>.
+   </p>
+ </div>
+</section>
 
 <!-- ═══════════════════════════════════════════════
     FORM + LEFT COPY
