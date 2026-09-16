@@ -1,6 +1,13 @@
 ---
 import ShopLayout from '~/layouts/ShopLayout.astro';
-import { integrationPairs } from '~/data/integration-pairs';
+import { integrationPairs, COMPLEXITY_META, type Complexity } from '~/data/integration-pairs';
+
+const complexityOrder: Complexity[] = ['simple', 'intermediate', 'complex'];
+const groupedGuides = complexityOrder.map((level) => ({
+  level,
+  meta: COMPLEXITY_META[level],
+  items: integrationPairs.filter((p) => p.complexity === level),
+}));
 
 const categories = [
   { cat: 'CRM & Sales', tools: ['HubSpot', 'Salesforce', 'Pipedrive', 'Close', 'Zoho CRM', 'Copper'], example: 'New deal hits €10K+ → Slack alert to the deal owner within 90 seconds, no more manually checking the pipeline.' },
@@ -63,21 +70,35 @@ const faqs = [
   <section style="background:#F8F6F1; padding:80px 24px;">
     <div style="max-width:860px; margin:0 auto;">
 
-      <!-- Popular integration guides, real dedicated pages, not just tags -->
-      <p style="font-family:'Inter',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:rgba(10,10,10,0.35); margin-bottom:16px;">
-        Popular integration guides
+      <!-- Integration guides, grouped by complexity, real dedicated pages -->
+      <p style="font-family:'Inter',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:rgba(10,10,10,0.35); margin-bottom:8px;">
+        Integration guides
       </p>
-      <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px; margin-bottom:64px;">
-        {integrationPairs.map((p) => (
-          <a href={`/pages/integrations/${p.slug}`} style="display:block; background:#fff; border:1px solid #E5E7EB; border-radius:14px; padding:16px 18px; text-decoration:none; transition:border-color 0.15s;">
-            <p style="font-family:'Inter',sans-serif; font-size:9px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:rgba(196,132,126,0.90); margin-bottom:6px;">{p.category}</p>
-            <p style="font-family:'Inter',sans-serif; font-size:14px; font-weight:600; color:#0A0A0A; margin-bottom:6px;">{p.toolA} + {p.toolB}</p>
-            <p style="font-family:'Inter',sans-serif; font-size:11.5px; color:rgba(10,10,10,0.45); line-height:1.5;">{p.headline.split(', ')[1] || p.headline} →</p>
-          </a>
-        ))}
-      </div>
+      <p style="font-family:'Inter',sans-serif; font-size:13px; color:rgba(10,10,10,0.45); margin-bottom:28px; max-width:520px;">
+        From a single two-tool sync to a full multi-system pipeline with branching logic. Pick the level that matches what you actually need.
+      </p>
 
-      <p style="font-family:'Inter',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:rgba(10,10,10,0.35); text-align:center; margin-bottom:56px;">
+      {groupedGuides.map((group) => (
+        <div style="margin-bottom:36px;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <span style={`display:inline-flex; align-items:center; gap:6px; font-family:'Inter',sans-serif; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; padding:5px 12px; border-radius:9999px; background:${group.meta.color}1F; color:${group.meta.color}; border:1px solid ${group.meta.color}44;`}>
+              {group.meta.label}
+            </span>
+            <p style="font-family:'Inter',sans-serif; font-size:12px; color:rgba(10,10,10,0.40);">{group.meta.blurb}</p>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px;">
+            {group.items.map((p) => (
+              <a href={`/pages/integrations/${p.slug}`} style="display:block; background:#fff; border:1px solid #E5E7EB; border-radius:14px; padding:16px 18px; text-decoration:none; transition:border-color 0.15s;">
+                <p style="font-family:'Inter',sans-serif; font-size:9px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:rgba(196,132,126,0.90); margin-bottom:6px;">{p.category}</p>
+                <p style="font-family:'Inter',sans-serif; font-size:14px; font-weight:600; color:#0A0A0A; margin-bottom:6px;">{p.tools.join(' + ')}</p>
+                <p style="font-family:'Inter',sans-serif; font-size:11.5px; color:rgba(10,10,10,0.45); line-height:1.5;">{p.headline.split(', ')[1] || p.headline} →</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <p style="font-family:'Inter',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:rgba(10,10,10,0.35); text-align:center; margin-top:56px; margin-bottom:56px;">
         Your entire stack, covered
       </p>
 
@@ -171,7 +192,7 @@ const faqs = [
         itemListElement: integrationPairs.map((p, i) => ({
           '@type': 'ListItem',
           position: i + 1,
-          name: `${p.toolA} + ${p.toolB}`,
+          name: p.tools.join(' + '),
           url: `https://www.purist.online/pages/integrations/${p.slug}`,
         })),
       },

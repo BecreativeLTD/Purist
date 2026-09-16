@@ -1,22 +1,41 @@
+export type Complexity = 'simple' | 'intermediate' | 'complex';
+
 export interface IntegrationPair {
   slug: string;
-  toolA: string;
-  toolB: string;
-  toolC?: string;
+  tools: string[];
+  complexity: Complexity;
   category: string;
   headline: string;
   intro: string;
   painPoint: string;
-  steps: { title: string; body: string }[];
+  steps: { title: string; body: string; branch?: string }[];
   benefits: { value: string; label: string }[];
   faqs: { q: string; a: string }[];
 }
 
+export const COMPLEXITY_META: Record<Complexity, { label: string; blurb: string; color: string }> = {
+  simple: {
+    label: 'Simple',
+    blurb: 'Two tools, one clear trigger, one clear action.',
+    color: '#7BAEA0',
+  },
+  intermediate: {
+    label: 'Intermediate',
+    blurb: 'Several tools with a conditional branch, an AI decision replaces manual triage.',
+    color: '#C4A870',
+  },
+  complex: {
+    label: 'Complex',
+    blurb: 'A full multi-system pipeline with branching logic, retries, and exception handling.',
+    color: '#c4847e',
+  },
+};
+
 export const integrationPairs: IntegrationPair[] = [
   {
     slug: 'stripe-quickbooks',
-    toolA: 'Stripe',
-    toolB: 'QuickBooks',
+    tools: ['Stripe', 'QuickBooks'],
+    complexity: 'simple',
     category: 'Finance & Billing',
     headline: 'Stripe + QuickBooks, automated reconciliation',
     intro: 'Every Stripe payment, refund, and payout automatically creates and matches the corresponding entry in QuickBooks, no exporting CSVs, no manual matching at month-end.',
@@ -40,8 +59,8 @@ export const integrationPairs: IntegrationPair[] = [
   },
   {
     slug: 'stripe-xero',
-    toolA: 'Stripe',
-    toolB: 'Xero',
+    tools: ['Stripe', 'Xero'],
+    complexity: 'simple',
     category: 'Finance & Billing',
     headline: 'Stripe + Xero, automated reconciliation',
     intro: 'Every Stripe transaction is automatically recorded and reconciled in Xero, with fees broken out as their own line item, so your books match your bank deposits exactly.',
@@ -64,8 +83,8 @@ export const integrationPairs: IntegrationPair[] = [
   },
   {
     slug: 'hubspot-slack',
-    toolA: 'HubSpot',
-    toolB: 'Slack',
+    tools: ['HubSpot', 'Slack'],
+    complexity: 'simple',
     category: 'CRM & Sales',
     headline: 'HubSpot + Slack, real-time deal alerts',
     intro: 'The moment a deal changes stage, a high-value lead comes in, or a deal goes cold, the right Slack channel gets notified instantly, no more sales reps checking HubSpot fifty times a day.',
@@ -88,8 +107,8 @@ export const integrationPairs: IntegrationPair[] = [
   },
   {
     slug: 'shopify-klaviyo',
-    toolA: 'Shopify',
-    toolB: 'Klaviyo',
+    tools: ['Shopify', 'Klaviyo'],
+    complexity: 'simple',
     category: 'E-commerce',
     headline: 'Shopify + Klaviyo, behavioural email that goes beyond templates',
     intro: 'Cart abandonment, post-purchase, win-back, and replenishment flows driven by real Shopify order and browsing data, not just Klaviyo\'s default triggers.',
@@ -112,8 +131,8 @@ export const integrationPairs: IntegrationPair[] = [
   },
   {
     slug: 'google-calendar-twilio',
-    toolA: 'Google Calendar',
-    toolB: 'Twilio',
+    tools: ['Google Calendar', 'Twilio'],
+    complexity: 'simple',
     category: 'Scheduling & Communication',
     headline: 'Google Calendar + Twilio, appointment reminders that actually reduce no-shows',
     intro: 'Automated SMS reminder cascades (48h, 2h before) tied directly to your calendar, plus instant waitlist-fill when a slot cancels.',
@@ -136,8 +155,8 @@ export const integrationPairs: IntegrationPair[] = [
   },
   {
     slug: 'salesforce-docusign',
-    toolA: 'Salesforce',
-    toolB: 'DocuSign',
+    tools: ['Salesforce', 'DocuSign'],
+    complexity: 'simple',
     category: 'CRM & Documents',
     headline: 'Salesforce + DocuSign, contracts generated the moment a deal closes',
     intro: 'When a Salesforce opportunity moves to Closed Won, a pre-filled contract is generated and sent for signature automatically, with the signed document synced back to the opportunity record.',
@@ -160,8 +179,8 @@ export const integrationPairs: IntegrationPair[] = [
   },
   {
     slug: 'typeform-airtable',
-    toolA: 'Typeform',
-    toolB: 'Airtable',
+    tools: ['Typeform', 'Airtable'],
+    complexity: 'simple',
     category: 'Forms & Data',
     headline: 'Typeform + Airtable, structured data without the manual cleanup',
     intro: 'Form responses land in Airtable already validated, deduplicated, and routed to the right table, view, and team member, not a raw CSV export waiting to be sorted.',
@@ -184,8 +203,8 @@ export const integrationPairs: IntegrationPair[] = [
   },
   {
     slug: 'whatsapp-hubspot',
-    toolA: 'WhatsApp Business',
-    toolB: 'HubSpot',
+    tools: ['WhatsApp Business', 'HubSpot'],
+    complexity: 'simple',
     category: 'Communication & CRM',
     headline: 'WhatsApp Business + HubSpot, every conversation becomes a tracked lead',
     intro: 'Inbound WhatsApp messages automatically create or update a HubSpot contact and log the full conversation thread, so WhatsApp leads stop disappearing into a phone nobody else can see.',
@@ -204,6 +223,66 @@ export const integrationPairs: IntegrationPair[] = [
     faqs: [
       { q: 'Does this need the official WhatsApp Business API?', a: 'Yes, this requires WhatsApp\'s official Business API (via a provider like Twilio or 360dialog), not a personal WhatsApp number.' },
       { q: 'Can it send automated replies too?', a: 'Yes, common questions can get an instant AI-drafted response, with a human reviewing before send if you prefer that safeguard.' },
+    ],
+  },
+
+  // ── INTERMEDIATE: multi-tool, one real conditional branch ────────────
+  {
+    slug: 'typeform-ai-hubspot-slack',
+    tools: ['Typeform', 'Claude AI', 'HubSpot', 'Slack'],
+    complexity: 'intermediate',
+    category: 'AI & Lead Qualification',
+    headline: 'AI lead qualification, leads scored and routed before a rep ever sees them',
+    intro: 'A lead fills out a form, AI scores it against your ideal customer profile in real time, and only genuine opportunities reach a rep, hot leads ping Slack in under 90 seconds, everyone else enters a nurture sequence automatically.',
+    painPoint: 'Reps waste hours triaging inbound leads by hand, most of which were never going to buy. By the time a manual review flags the one lead that mattered, it has often gone cold waiting in the queue.',
+    steps: [
+      { title: 'Trigger', body: 'A Typeform lead-gen form is submitted.' },
+      { title: 'Enrich', body: 'Company size, industry, and stated budget are pulled from the response plus a quick company lookup.' },
+      { title: 'AI score', body: 'Claude scores the lead 0–100 against your ideal customer profile and writes a one-line reason for the score.' },
+      { title: 'Branch: hot lead', body: 'Score of 70 or above creates a HubSpot MQL, assigns it to a rep, and posts a Slack alert within 90 seconds.', branch: 'IF score ≥ 70' },
+      { title: 'Branch: nurture', body: 'Score below 70 adds the lead to a HubSpot nurture list with an automated sequence, and re-scores it after each engagement.', branch: 'IF score < 70' },
+    ],
+    benefits: [
+      { value: '90 sec', label: 'time to hot-lead Slack alert' },
+      { value: '~60%', label: 'fewer leads manually triaged by reps' },
+      { value: 'Consistent', label: 'scoring criteria, not gut feel' },
+    ],
+    faqs: [
+      { q: 'Does the AI scoring replace human judgement?', a: 'No, it is a triage layer. Reps still make the final call on every lead, the scoring just makes sure they spend their time on the right ones first.' },
+      { q: 'Can we customise the ideal-customer-profile criteria?', a: 'Yes, the scoring model (industry, company size, budget signals, intent language in the response) is configured to your actual business, not a generic template.' },
+      { q: 'What happens with low-confidence responses?', a: 'A lead the AI cannot score confidently is flagged for manual review rather than silently routed either way.' },
+    ],
+  },
+
+  // ── COMPLEX: full multi-system pipeline with retries and exception handling ──
+  {
+    slug: 'shopify-stripe-inventory-xero-klaviyo-slack',
+    tools: ['Shopify', 'Stripe', 'Warehouse/3PL API', 'Xero', 'Klaviyo', 'Slack'],
+    complexity: 'complex',
+    category: 'Full Operations Pipeline',
+    headline: 'Order-to-cash, from checkout to cash in the bank, with automatic failure recovery',
+    intro: 'A single order triggers payment capture, inventory allocation, invoicing, fulfillment, and customer communication end to end, with automatic retries and a human only ever paged when something genuinely needs one.',
+    painPoint: 'A "simple" order actually touches five or more systems. Most businesses stitch this together with native app integrations that each work in isolation, so a failure in one step, a declined payment retry, a stock mismatch, does not automatically trigger the right correction elsewhere. It just becomes a silent, growing pile of manual exceptions nobody notices until a customer complains.',
+    steps: [
+      { title: 'Trigger', body: 'A Shopify order is placed.' },
+      { title: 'Payment capture', body: 'Stripe attempts to capture payment.' },
+      { title: 'Branch: payment fails', body: 'Automatic retry twice over 24 hours; if still failing, a Slack escalation is posted with full order context so a human can intervene with information, not guesswork.', branch: 'IF payment declines' },
+      { title: 'Inventory check', body: 'The warehouse/3PL system confirms stock allocation.' },
+      { title: 'Branch: backorder', body: 'The customer is notified via Klaviyo with an accurate updated ETA immediately, and the order is flagged, no silent delay.', branch: 'IF out of stock' },
+      { title: 'Invoice & reconcile', body: 'A Xero invoice is generated and matched to the Stripe payment, with fees broken out as their own line.' },
+      { title: 'Fulfillment', body: 'A pick/pack request is sent to the warehouse API and the tracking number is captured once available.' },
+      { title: 'Customer comms', body: 'Klaviyo sends order confirmation immediately, then shipping confirmation once tracking is live.' },
+      { title: 'Exception handling', body: 'Any step that fails twice posts full context, order ID, customer, failure reason, what has already been tried, to a Slack channel instead of failing silently.' },
+    ],
+    benefits: [
+      { value: '5–7 systems', label: 'coordinated from a single trigger' },
+      { value: '2× auto-retry', label: 'before any human is paged' },
+      { value: '0', label: 'silent failures, every exception is visible' },
+    ],
+    faqs: [
+      { q: 'What happens if two steps fail at the same time?', a: 'Each failure is tracked independently with its own retry and escalation logic, so a payment issue and a stock issue never get conflated into one confusing support ticket.' },
+      { q: 'Can this integrate with our specific warehouse or 3PL system?', a: 'Yes, if it exposes an API, which most modern WMS and 3PL platforms do, we build the connector as part of deployment.' },
+      { q: 'Is this overkill for a small store?', a: 'For under roughly 50 orders a day, the simpler Shopify + Klaviyo pattern is usually enough. This level of orchestration earns its cost once failed or exception orders start costing real staff time every week.' },
     ],
   },
 ];

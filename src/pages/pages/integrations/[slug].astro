@@ -1,6 +1,6 @@
 ---
 import ShopLayout from '~/layouts/ShopLayout.astro';
-import { integrationPairs } from '~/data/integration-pairs';
+import { integrationPairs, COMPLEXITY_META } from '~/data/integration-pairs';
 
 export function getStaticPaths() {
   return integrationPairs.map((p) => ({
@@ -12,7 +12,8 @@ export function getStaticPaths() {
 const { pair } = Astro.props;
 const pageUrl = `https://www.purist.online/pages/integrations/${pair.slug}`;
 const otherPairs = integrationPairs.filter((p) => p.slug !== pair.slug).slice(0, 3);
-const toolsLabel = pair.toolC ? `${pair.toolA} + ${pair.toolB} + ${pair.toolC}` : `${pair.toolA} + ${pair.toolB}`;
+const toolsLabel = pair.tools.join(' + ');
+const meta = COMPLEXITY_META[pair.complexity as keyof typeof COMPLEXITY_META];
 ---
 
 <ShopLayout
@@ -35,9 +36,16 @@ const toolsLabel = pair.toolC ? `${pair.toolA} + ${pair.toolB} + ${pair.toolC}` 
   <!-- Hero -->
   <header class="py-16 lg:py-20" style="background:#0A0A0A;">
     <div class="container-x max-w-3xl mx-auto text-center">
-      <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-4" style="color:#c4847e;">{pair.category} Integration</p>
+      <div class="flex items-center justify-center gap-2.5 mb-4 flex-wrap">
+        <p class="text-[9px] uppercase tracking-[0.28em] font-bold" style="color:#c4847e;">{pair.category}</p>
+        <span style="width:1px;height:10px;background:rgba(255,255,255,0.15);"></span>
+        <span class="inline-flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.14em] px-2.5 py-1 rounded-full" style={`background:${meta.color}22;color:${meta.color};border:1px solid ${meta.color}44;`}>
+          {meta.label}
+        </span>
+      </div>
       <h1 class="font-display text-3xl lg:text-5xl text-white mb-5 leading-tight tracking-tight">{pair.headline}</h1>
-      <p class="text-base lg:text-lg max-w-2xl mx-auto mb-8 leading-relaxed" style="color:rgba(255,255,255,0.5);">{pair.intro}</p>
+      <p class="text-base lg:text-lg max-w-2xl mx-auto mb-3 leading-relaxed" style="color:rgba(255,255,255,0.5);">{pair.intro}</p>
+      <p class="text-[12px] max-w-xl mx-auto mb-8" style="color:rgba(255,255,255,0.30);">{meta.blurb} Tools: {toolsLabel}.</p>
       <div class="flex flex-wrap gap-4 justify-center">
         <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-brand-black transition" style="background:#E8B4B0;">Get this built for me&nbsp;→</a>
         <a href="/pages/integrations" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm border border-gray-700 text-gray-300 hover:border-gray-500 transition">Browse all integrations</a>
@@ -49,7 +57,7 @@ const toolsLabel = pair.toolC ? `${pair.toolA} + ${pair.toolB} + ${pair.toolC}` 
 
     <!-- Benefits -->
     <div class="grid sm:grid-cols-3 gap-6 mb-14">
-      {pair.benefits.map((b) => (
+      {pair.benefits.map((b: { value: string; label: string }) => (
         <div class="rounded-2xl border border-brand-gray-100 p-6 text-center">
           <p class="font-display text-2xl mb-1" style="color:#c4847e;">{b.value}</p>
           <p class="text-xs text-brand-gray-600 leading-relaxed">{b.label}</p>
@@ -59,19 +67,24 @@ const toolsLabel = pair.toolC ? `${pair.toolA} + ${pair.toolB} + ${pair.toolC}` 
 
     <!-- Pain point -->
     <div class="prose max-w-none mb-14">
-      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-5 tracking-tight">Why this needs automating</h2>
+      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-5 tracking-tight">The problem this automation solves</h2>
       <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed">{pair.painPoint}</p>
     </div>
 
-    <!-- How it works, steps -->
+    <!-- How it works, steps with branches -->
     <div class="mb-14">
       <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-8 tracking-tight">How the workflow runs</h2>
       <div class="space-y-0 border-y border-brand-gray-100 divide-y divide-brand-gray-100">
-        {pair.steps.map((s, i) => (
+        {pair.steps.map((s: { title: string; body: string; branch?: string }, i: number) => (
           <div class="flex gap-5 py-5">
             <span class="font-display text-sm font-semibold shrink-0 w-8 text-right pt-0.5" style="color:rgba(10,10,10,0.20);">{String(i + 1).padStart(2, '0')}</span>
             <div>
-              <p class="text-sm font-semibold text-brand-black mb-1">{s.title}</p>
+              <div class="flex items-center gap-2 flex-wrap mb-1">
+                <p class="text-sm font-semibold text-brand-black">{s.title}</p>
+                {s.branch && (
+                  <span class="text-[9.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded" style="background:rgba(196,132,126,0.12);color:#c4847e;">{s.branch}</span>
+                )}
+              </div>
               <p class="text-sm text-brand-gray-600 leading-relaxed">{s.body}</p>
             </div>
           </div>
@@ -90,7 +103,7 @@ const toolsLabel = pair.toolC ? `${pair.toolA} + ${pair.toolB} + ${pair.toolC}` 
     <div>
       <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-8 tracking-tight">Frequently asked questions</h2>
       <div class="divide-y divide-brand-gray-100 border-y border-brand-gray-100">
-        {pair.faqs.map((faq) => (
+        {pair.faqs.map((faq: { q: string; a: string }) => (
           <details class="group py-5">
             <summary class="flex items-start justify-between gap-4 cursor-pointer list-none">
               <h3 class="text-sm font-semibold text-brand-black leading-snug">{faq.q}</h3>
@@ -112,7 +125,7 @@ const toolsLabel = pair.toolC ? `${pair.toolA} + ${pair.toolB} + ${pair.toolC}` 
         {otherPairs.map((p) => (
           <a href={`/pages/integrations/${p.slug}`} class="group bg-white border border-brand-gray-100 rounded-2xl p-4 hover:border-brand-gray-300 transition-colors">
             <p class="text-[9px] uppercase tracking-wider text-brand-rust font-semibold mb-2">{p.category}</p>
-            <p class="text-sm font-semibold text-brand-black leading-snug group-hover:opacity-70 transition">{p.toolA} + {p.toolB} →</p>
+            <p class="text-sm font-semibold text-brand-black leading-snug group-hover:opacity-70 transition">{p.tools.join(' + ')} →</p>
           </a>
         ))}
       </div>
