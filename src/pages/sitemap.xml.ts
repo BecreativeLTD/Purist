@@ -81,6 +81,7 @@ const pages = [
   { url: '/pages/our-standards',                 lastmod: '2026-06-18' },
   { url: '/pages/integrations',                  lastmod: '2026-06-18' },
   { url: '/pages/client-results',                lastmod: '2026-06-18' },
+  { url: '/pages/open-source-tools',             lastmod: '2026-09-16' },
   { url: '/pages/purist-vs-zapier',               lastmod: '2026-06-18' },
   { url: '/pages/purist-vs-make',                lastmod: '2026-06-18' },
   { url: '/pages/purist-vs-inhouse-hire',        lastmod: '2026-06-18' },

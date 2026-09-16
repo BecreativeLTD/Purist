@@ -371,7 +371,8 @@ const faqs = [
     a: "We add projects as we find genuinely capable ones worth pointing people to, not on a fixed schedule. Check the 'last updated' date near the top of the page.",
   },
 ];
-const lastUpdated = 'September 2026';
+const lastUpdated = 'September 16, 2026';
+const lastUpdatedISO = '2026-09-16';
 ---
 
 <ShopLayout
@@ -379,6 +380,21 @@ const lastUpdated = 'September 2026';
   description="28 serious, actively-maintained open-source projects, CRM, scheduling, support, e-signature, automation, analytics, browser-automation AI agents, that can genuinely replace tools you're paying for monthly. Curated and described by PURIST."
   canonical="https://www.purist.online/pages/open-source-tools"
 >
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": "https://www.purist.online/pages/open-source-tools#webpage",
+  "url": "https://www.purist.online/pages/open-source-tools",
+  "name": "28 Rare Open-Source Projects Worth Replacing Your SaaS Bill With",
+  "description": "28 serious, actively-maintained open-source projects, CRM, scheduling, support, e-signature, automation, analytics, browser-automation AI agents, that can genuinely replace tools you're paying for monthly.",
+  "datePublished": "2026-08-27",
+  "dateModified": lastUpdatedISO,
+  "inLanguage": "en",
+  "isPartOf": { "@id": "https://www.purist.online/#website" },
+  "publisher": { "@id": "https://www.purist.online/#organization" },
+  "about": projects.map((p) => p.name),
+})}></script>
 
 <script type="application/ld+json" set:html={JSON.stringify({
   "@context": "https://schema.org",
