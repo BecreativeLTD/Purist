@@ -262,6 +262,9 @@ Categories and example professions:
 - [Board Reporting & KPI Consolidation](https://www.purist.online/pages/n8n-templates/board-reporting-kpi-consolidation): 26 nodes, Stripe/HubSpot/Xero consolidation, AI variance commentary, human approval gate.
 - [Employee Onboarding & Offboarding](https://www.purist.online/pages/n8n-templates/employee-onboarding-offboarding): 28 nodes, start-date-aware provisioning, involuntary vs voluntary revocation branching.
 - [Customer Health Score & Churn Prediction](https://www.purist.online/pages/n8n-templates/customer-health-churn-prediction): 27 nodes, weighted composite scoring across usage/support/billing/NPS signals.
+- [Contract Lifecycle Management](https://www.purist.online/pages/n8n-templates/contract-lifecycle-management): 26 nodes, AI risk-clause flagging, signature reminder cascade, 90-day renewal tracking.
+- [Vendor Risk & Compliance Monitoring](https://www.purist.online/pages/n8n-templates/vendor-risk-compliance-monitoring): 24 nodes, AI risk-tiered vendor onboarding plus quarterly certification-expiry sweeps.
+- [Sales Commission Calculation & Payout](https://www.purist.online/pages/n8n-templates/sales-commission-calculation-payout): 25 nodes, accelerators, clawbacks, dispute holds, manager-gated payroll submission.
 
 ## Integration Guides (11 guides, Simple to Complex)
 

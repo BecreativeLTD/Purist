@@ -928,4 +928,319 @@ return [{
       { q: 'What if we do not have an NPS program?', a: 'Drop the NPS input and redistribute its 15% weight across the remaining three signals, the model degrades gracefully with three signals instead of four.' },
     ],
   },
+  {
+    slug: 'contract-lifecycle-management',
+    name: 'Contract Lifecycle Management',
+    file: '/n8n-templates/contract-lifecycle-management.json',
+    nodeCount: 26,
+    complexity: 'Expert',
+    category: 'Legal & Operations',
+    tools: ['PandaDoc', 'DocuSign', 'Claude AI', 'Slack', 'Google Drive', 'Airtable'],
+    tagline: 'A 26-node pipeline from contract request to signed, filed, and renewal-tracked, with AI risk-clause flagging and a reminder ladder before anything is chased manually.',
+    intro: 'Contract management fails in the same two places at almost every company: nobody notices a non-standard clause until it becomes a problem, and nobody notices a renewal date until it has already passed. This workflow generates the right template for the contract type, has AI flag anything that deviates from your standard terms before it goes out, and tracks the full signature and renewal lifecycle without anyone maintaining a spreadsheet of dates.',
+    sections: [
+      {
+        heading: 'Why AI review happens before legal review, not instead of it',
+        paras: [
+          'The AI Risk-Clause Extraction step is deliberately positioned as a triage layer, not a replacement for legal judgement. Most contracts generated from an approved template contain zero non-standard clauses, they are the same NDA or MSA language used dozens of times before. Routing every single one to a human reviewer wastes legal team time on documents that need no review at all.',
+          'The workflow only routes to Route To Legal Review when Parse Risk Flags finds something outside the template norm, an unusual liability cap, a missing termination clause, non-standard indemnification language. Legal sees exactly what was flagged and why, turning a full-document read into a two-minute check of a specific clause.',
+        ],
+      },
+      {
+        heading: 'The reminder ladder before anything becomes a human problem',
+        paras: [
+          'Contracts sitting unsigned in someone\'s inbox is one of the most common, least-noticed sources of deal delay. The Fully Executed? branch checks status after sending, and unsigned contracts get an automatic reminder every 3 days rather than waiting for someone to remember to follow up.',
+          'Escalate Unsigned Contract only fires after the reminder cycle has run its course, at that point it genuinely is a human relationship problem (the counterparty is stalling, has questions, or has gone quiet) rather than a process gap, and the person who needs to intervene has the full reminder history to reference.',
+        ],
+      },
+      {
+        heading: 'Renewal tracking that runs itself',
+        paras: [
+          'Extract Key Dates parses the effective date and term length from the executed document the moment it is filed, then Schedule Renewal Reminder holds until 90 days before expiry, real negotiation runway instead of a last-minute scramble that gives you no leverage to renegotiate terms.',
+          'Every contract enters the same registry regardless of type, so "which contracts expire in the next quarter" becomes a query, not an archaeology project through old email threads and a shared drive nobody has fully organised.',
+        ],
+      },
+    ],
+    diagram: `flowchart TD
+  A[New Contract Webhook] --> B[Extract Details]
+  B --> C{Contract Type}
+  C -->|NDA| D[Generate NDA]
+  C -->|MSA| E[Generate MSA]
+  C -->|SOW| F[Generate SOW]
+  D --> G[Merge Templates]
+  E --> G
+  F --> G
+  G --> H[AI Risk-Clause Extraction]
+  H --> I{Non-Standard Clauses?}
+  I -->|Yes| J[Route To Legal] --> K[Wait Approval]
+  I -->|No| L[Merge Review]
+  K --> L
+  L --> M[Send For Signature]
+  M --> N[Wait Signature Status]
+  N --> O{Fully Executed?}
+  O -->|No| P[Wait 3 Days] --> Q[Send Reminder] --> N
+  Q --> R[Escalate If Repeated]
+  O -->|Yes| S[File Contract]
+  S --> T[Extract Key Dates]
+  T --> U[Wait Until 90 Days Before Expiry]
+  U --> V[Notify Account Owner]
+  V --> W[Log To Registry]`,
+    nodeTable: [
+      { n: 'Contract Type Router', type: 'Switch', role: 'Selects the correct template for NDA/MSA/SOW' },
+      { n: 'AI Risk-Clause Extraction', type: 'HTTP Request', role: 'Flags non-standard clauses before signature, not after' },
+      { n: 'Non-Standard Clauses Found?', type: 'IF', role: 'Only routes genuinely unusual contracts to legal' },
+      { n: 'Wait For Signature Status', type: 'Wait (webhook resume)', role: 'Zero-cost pause until DocuSign reports status' },
+      { n: 'Fully Executed? / Wait 3 Days loop', type: 'IF + Wait', role: 'Automatic reminder cascade before human escalation' },
+      { n: 'Extract Key Dates', type: 'Code', role: 'Parses effective date and term length from the signed document' },
+      { n: 'Schedule Renewal Reminder', type: 'Wait (specific time)', role: 'Fires 90 days before expiry, not at the deadline' },
+    ],
+    code: [
+      {
+        caption: 'Renewal date calculation (Extract Key Dates node)',
+        lang: 'javascript',
+        body: `const effectiveDate = new Date($json.effectiveDate);
+const termMonths = $json.termLengthMonths;
+
+const expiryDate = new Date(effectiveDate);
+expiryDate.setMonth(expiryDate.getMonth() + termMonths);
+
+const reminderDate = new Date(expiryDate);
+reminderDate.setDate(reminderDate.getDate() - 90);
+
+return [{
+  json: {
+    ...$json,
+    expiryDate: expiryDate.toISOString(),
+    renewalReminderDate: reminderDate.toISOString(),
+  }
+}];`,
+      },
+    ],
+    metrics: [
+      { metric: 'Contracts reviewed by legal', before: '100%, full document each time', after: 'Only those with flagged non-standard clauses' },
+      { metric: 'Unsigned contracts followed up', before: 'Ad hoc, whoever remembers', after: 'Automatic 3-day reminder cadence' },
+      { metric: 'Renewal negotiation runway', before: 'Often discovered at or after expiry', after: '90 days, every time' },
+      { metric: 'Contract registry accuracy', before: 'Spreadsheet, manually updated', after: 'Populated automatically at execution' },
+    ],
+    prerequisites: [
+      'n8n v1.40+ with webhook-resume Wait and specific-time Wait support',
+      'PandaDoc or equivalent template-generation API',
+      'DocuSign eSignature API access',
+      'Anthropic API key for risk-clause extraction',
+      'Google Drive OAuth2, Airtable PAT, Slack Bot Token',
+    ],
+    pitfalls: [
+      { title: 'AI risk-clause flags need a human-reviewed baseline', body: 'Tune the extraction prompt against your actual standard templates first, otherwise it flags normal boilerplate as risky and legal starts ignoring the alerts.' },
+      { title: 'Reminder cascades need a hard stop', body: 'Without Escalate Unsigned Contract as a defined exit, a counterparty who never responds keeps generating reminders indefinitely instead of becoming a visible problem.' },
+      { title: 'Renewal dates depend on clean term-length data', body: 'If Extract Key Dates cannot confidently parse the term length, route to manual entry rather than silently defaulting, a wrong renewal date is worse than a missing one.' },
+    ],
+    faqs: [
+      { q: 'Can this handle contract types beyond NDA/MSA/SOW?', a: 'Yes, Contract Type Router is a Switch node, add a case and a template-generation branch for any additional contract type you use.' },
+      { q: 'What happens to contracts that get amended after signature?', a: 'Route amendments through the same workflow as a new request referencing the original contract ID, so the registry keeps the full version history linked.' },
+      { q: 'Does the AI review replace outside counsel for complex agreements?', a: 'No, it is a triage layer for standard contract types generated from your own templates. Complex, heavily negotiated agreements should go to legal review regardless of what the AI flags.' },
+    ],
+  },
+  {
+    slug: 'vendor-risk-compliance-monitoring',
+    name: 'Vendor Risk & Compliance Monitoring',
+    file: '/n8n-templates/vendor-risk-compliance-monitoring.json',
+    nodeCount: 24,
+    complexity: 'Expert',
+    category: 'Procurement & Legal',
+    tools: ['Typeform/HubSpot Forms', 'Claude AI', 'Airtable', 'Slack', 'Resend'],
+    tagline: 'A 24-node pipeline covering both vendor onboarding risk scoring and ongoing quarterly compliance monitoring, with automatic escalation when certifications lapse unrenewed.',
+    intro: 'Vendor risk management usually exists as a one-time checkbox at onboarding and nothing afterward, which means a vendor\'s insurance certificate or SOC 2 report can quietly expire years before anyone notices. This workflow handles both halves: AI-assisted risk scoring when a new vendor is onboarded, and an ongoing quarterly sweep that catches expiring documentation before it becomes a genuine compliance gap.',
+    sections: [
+      {
+        heading: 'Risk-tiered approval, not one-size-fits-all',
+        paras: [
+          'Not every vendor needs the same scrutiny. A software tool that never touches customer data is a different risk profile than a subprocessor handling regulated information. The Risk Tier Router splits new vendors into three paths based on the AI-generated risk score: high-risk vendors must supply insurance certificates and a current security certification before approval, medium-risk gets a standard human approval step, and low-risk auto-approves.',
+          'This matters operationally because routing every vendor through the same heavyweight review process either slows down genuinely low-risk procurement to a crawl, or, more commonly, causes teams to skip the review process entirely because it is too slow for routine purchases.',
+        ],
+      },
+      {
+        heading: 'The ongoing sweep most vendor programs skip entirely',
+        paras: [
+          'Onboarding risk assessment is the easy half. The Quarterly Review Schedule branch is the half that actually prevents compliance exposure: it pulls every vendor due for review, checks certification and insurance expiry dates, and for anything expiring within 30 days, automatically requests renewed documentation before the gap opens.',
+          'Escalate To Procurement only fires when a vendor has not responded within 14 days of the renewal request, at which point continuing to work with an uncertified vendor is a genuine decision someone needs to make deliberately, not a default that happens because nobody was tracking the date.',
+        ],
+      },
+    ],
+    diagram: `flowchart TD
+  A[New Vendor Webhook] --> B[Send Risk Questionnaire]
+  B --> C[Response Webhook]
+  C --> D[AI Risk Scoring]
+  D --> E{Risk Tier}
+  E -->|High| F[Request Additional Docs] --> G[Legal Review] --> H[Wait Sign-Off]
+  E -->|Medium| I[Standard Approval]
+  E -->|Low| J[Auto-Approve]
+  H --> K[Merge Approvals]
+  I --> K
+  J --> K
+  K --> L[Store Vendor Record]
+  L --> M[Set Next Review Date]
+
+  N[Quarterly Schedule] --> O[Get Vendors Due]
+  O --> P[Split In Batches]
+  P --> Q[Check Cert Expiry]
+  Q --> R{Expiring Within 30 Days?}
+  R -->|Yes| S[Request Renewal] --> T[Wait 14 Days] --> U{Received?}
+  U -->|No| V[Escalate To Procurement]
+  U -->|Yes| W[Update Registry]
+  R -->|No| W`,
+    nodeTable: [
+      { n: 'New Vendor Webhook / Quarterly Review Schedule', type: 'Webhook + Schedule Trigger', role: 'Two independent entry points: onboarding vs ongoing monitoring' },
+      { n: 'AI Risk Scoring', type: 'HTTP Request', role: 'Scores data handling, sub-processors, certifications from questionnaire answers' },
+      { n: 'Risk Tier Router', type: 'Switch', role: 'Three-way approval path matched to actual risk, not a single flat process' },
+      { n: 'Split In Batches', type: 'Split In Batches', role: 'Processes the vendor review queue without overloading downstream APIs' },
+      { n: 'Expiring Within 30 Days?', type: 'IF', role: 'Catches lapsing certifications before they actually lapse' },
+      { n: 'Documentation Received?', type: 'IF', role: 'Determines whether a 14-day silence becomes a procurement decision' },
+    ],
+    code: [
+      {
+        caption: 'Certificate expiry check',
+        lang: 'javascript',
+        body: `const expiryDate = new Date($json.certExpiryDate);
+const today = new Date();
+const daysToExpiry = Math.ceil((expiryDate - today) / 86400000);
+
+return [{
+  json: {
+    ...$json,
+    daysToExpiry,
+    expiringSoon: daysToExpiry <= 30 && daysToExpiry >= 0,
+    alreadyExpired: daysToExpiry < 0,
+  }
+}];`,
+      },
+    ],
+    metrics: [
+      { metric: 'Vendor review consistency', before: 'Ad hoc, whoever onboards the vendor', after: 'Same AI-scored criteria, every vendor' },
+      { metric: 'Expired certifications caught', before: 'Usually discovered during an audit', after: 'Flagged 30 days before expiry' },
+      { metric: 'Low-risk vendor approval time', before: 'Same review cycle as high-risk', after: 'Auto-approved, same day' },
+      { metric: 'Compliance audit trail', before: 'Scattered emails and file shares', after: 'Single registry with full review history' },
+    ],
+    prerequisites: [
+      'n8n v1.40+ with Split In Batches support',
+      'A risk questionnaire tool (Typeform or HubSpot Forms) with webhook delivery',
+      'Anthropic API key for risk scoring',
+      'Airtable PAT for the vendor registry, Slack Bot Token, Resend API key',
+    ],
+    pitfalls: [
+      { title: 'Risk thresholds need calibration to your actual risk appetite', body: 'The default 70/40 score cutoffs are a starting point. Review your first quarter of scored vendors against outcomes and adjust.' },
+      { title: 'Do not let auto-approval mean unreviewed forever', body: 'Low-risk auto-approved vendors still need to enter the quarterly review cycle. Confirm Set Next Review Date runs for every tier, including auto-approved.' },
+      { title: 'Track sub-processor changes, not just the primary vendor', body: 'A vendor\'s own risk profile can change when they add a new sub-processor. The questionnaire should be re-sent periodically, not treated as a one-time snapshot.' },
+    ],
+    faqs: [
+      { q: 'Can this integrate with a dedicated GRC or TPRM platform?', a: 'Yes, if it exposes an API (most modern GRC platforms do), replace the Airtable registry nodes with calls to that system while keeping the scoring and routing logic.' },
+      { q: 'How is the AI risk score kept consistent over time?', a: 'Log the full questionnaire response and score reasoning alongside the score itself, so you can audit and recalibrate the model periodically against real outcomes.' },
+      { q: 'What happens to a vendor that fails the high-risk review entirely?', a: 'Legal Review is a human decision point, not an automatic rejection. The workflow surfaces the concern with full context; a person decides whether to proceed, request mitigations, or decline the vendor.' },
+    ],
+  },
+  {
+    slug: 'sales-commission-calculation-payout',
+    name: 'Sales Commission Calculation & Payout',
+    file: '/n8n-templates/sales-commission-calculation-payout.json',
+    nodeCount: 25,
+    complexity: 'Expert',
+    category: 'Finance & Sales Operations',
+    tools: ['HubSpot', 'Airtable', 'Slack', 'Payroll API (Gusto)', 'Resend'],
+    tagline: 'A 25-node monthly pipeline that calculates commission per rep including accelerators and clawbacks, generates a line-item statement, and gates payroll submission behind manager approval.',
+    intro: 'Commission calculation is the finance process most likely to generate a heated dispute, because it directly affects take-home pay and the math (base rate, accelerator tiers, clawbacks for churned deals) is genuinely complex enough that manual spreadsheets diverge between reps without anyone noticing until someone compares notes. This workflow calculates every rep\'s payout with identical logic, flags disputes for review instead of guessing, and never submits to payroll without a human sign-off.',
+    sections: [
+      {
+        heading: 'Why the same calculation logic for every rep matters more than the formula itself',
+        paras: [
+          'Most commission disputes are not actually about the commission plan being unfair, they are about two reps discovering their accelerators were calculated differently because two different people built two different spreadsheets. Calculate Base Commission and Apply Accelerator Multiplier run identical logic for every rep in Split In Batches By Rep, so the plan is applied consistently even when a hundred reps are processed in one run.',
+          'This consistency is worth more than getting the underlying commission plan perfectly optimised. A slightly generous plan applied consistently generates far less friction than a precisely-tuned plan applied inconsistently.',
+        ],
+      },
+      {
+        heading: 'Clawbacks: the calculation nobody wants to do manually',
+        paras: [
+          'Check For Clawbacks looks back at deals from prior periods that were refunded or churned within the plan\'s clawback window, typically 90 to 180 days, and Apply Clawback Deductions reduces the current payout accordingly. This is the single most error-prone manual calculation in commission processing, because it requires cross-referencing the current period against several previous periods simultaneously.',
+          'Doing this automatically, consistently, every month, means a rep is never surprised months later by a large deduction for something that should have been caught and communicated immediately when the churn happened.',
+        ],
+      },
+      {
+        heading: 'Disputes get a review path instead of a guess',
+        paras: [
+          'Deal Attribution Disputed? checks for cases where a rep has flagged that a specific deal should not count toward their number, a common scenario when deals get reassigned mid-cycle or split between an SDR and an AE. Disputed calculations route to Hold For Manual Review rather than the workflow guessing at the correct attribution.',
+          'Every non-disputed statement still requires Manager Approval Gate before Submit To Payroll fires. This is not bureaucracy for its own sake, it is the same principle as the board-reporting template\'s review gate: a payroll submission is exactly the kind of action that should never happen without a human confirming the number first.',
+        ],
+      },
+    ],
+    diagram: `flowchart TD
+  A[Monthly Trigger] --> B[Pull Closed-Won Deals]
+  A --> C[Pull Commission Plans]
+  B --> D[Merge]
+  C --> D
+  D --> E[Split By Rep]
+  E --> F[Calculate Base Commission]
+  F --> G{Quota Exceeded?}
+  G -->|Yes| H[Apply Accelerator]
+  G -->|No| I[Merge Rate Paths]
+  H --> I
+  I --> J[Check Clawbacks]
+  J --> K[Apply Deductions]
+  K --> L[Calculate Final Payout]
+  L --> M{Disputed?}
+  M -->|Yes| N[Hold For Review]
+  M -->|No| O[Generate Statement]
+  O --> P[Send To Rep]
+  P --> Q[Manager Approval Gate]
+  Q --> R{Approved?}
+  R -->|Yes| S[Submit To Payroll]
+  R -->|No| T[Return For Correction]
+  S --> U[Log Payout]
+  U --> E`,
+    nodeTable: [
+      { n: 'Split In Batches By Rep', type: 'Split In Batches', role: 'Ensures identical calculation logic runs per rep, not a bulk approximation' },
+      { n: 'Quota Exceeded? / Apply Accelerator Multiplier', type: 'IF + Code', role: 'Accelerated rate applied consistently above quota' },
+      { n: 'Check For Clawbacks', type: 'HTTP Request', role: 'Looks back across the clawback window for refunded/churned deals' },
+      { n: 'Deal Attribution Disputed?', type: 'IF', role: 'Routes contested calculations to a human instead of guessing' },
+      { n: 'Manager Approval Gate', type: 'Wait (webhook resume)', role: 'No payroll submission without explicit human sign-off' },
+    ],
+    code: [
+      {
+        caption: 'Final payout calculation',
+        lang: 'javascript',
+        body: `const baseCommission = $json.baseCommission;
+const acceleratorBonus = $json.acceleratorBonus || 0;
+const clawbackDeduction = $json.clawbackDeduction || 0;
+
+const finalPayout = baseCommission + acceleratorBonus - clawbackDeduction;
+
+return [{
+  json: {
+    ...$json,
+    finalPayout: Number(finalPayout.toFixed(2)),
+    hasDispute: $json.disputedDealIds?.length > 0,
+  }
+}];`,
+      },
+    ],
+    metrics: [
+      { metric: 'Calculation consistency across reps', before: 'Varies by whoever built the spreadsheet', after: 'Identical logic applied to every rep' },
+      { metric: 'Clawback tracking', before: 'Manual cross-reference, often missed', after: 'Automatic, every payout cycle' },
+      { metric: 'Time to generate statements', before: 'Days for a sales team of 20+', after: 'Minutes, human review only' },
+      { metric: 'Payroll submission errors', before: 'Caught after the fact, if at all', after: 'Gated behind explicit manager approval' },
+    ],
+    prerequisites: [
+      'n8n v1.40+ with Split In Batches and webhook-resume Wait support',
+      'CRM API access (HubSpot or Salesforce) for closed-won and churn data',
+      'Airtable PAT for commission plans and payout logging',
+      'Payroll API access (Gusto, Rippling, or your provider)',
+    ],
+    pitfalls: [
+      { title: 'Clawback windows must match your actual contract terms', body: 'A clawback window that is shorter than your refund policy period will miss legitimate clawbacks; longer than necessary creates disputes over deals that should be settled.' },
+      { title: 'Never skip the manager approval gate to save time at month-end', body: 'A payroll submission error is far more expensive to unwind than the few minutes an approval step costs, this is the one place in a commission workflow where speed is not the priority.' },
+      { title: 'Deal reassignment history needs to be preserved, not just current state', body: 'If a deal changes owner mid-cycle, the commission calculation needs to know who owned it when, not just who owns it now, or attribution disputes become unresolvable.' },
+    ],
+    faqs: [
+      { q: 'Can this handle split commissions between an SDR and an AE?', a: 'Yes, add a split-percentage field to the deal record and adjust Calculate Base Commission to allocate accordingly, the same workflow structure supports any attribution model.' },
+      { q: 'What if a rep\'s plan changes mid-year?', a: 'Version your commission plans in Airtable with an effective date, and have Pull Rep Commission Plans select the plan version active during the period being calculated, not just the current plan.' },
+      { q: 'How are draws or guaranteed minimums handled?', a: 'Add a comparison step after Calculate Final Payout that pays the greater of the calculated commission or the guaranteed draw, then tracks any draw balance owed against future periods.' },
+    ],
+  },
 ];
