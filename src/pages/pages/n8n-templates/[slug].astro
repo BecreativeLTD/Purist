@@ -1,0 +1,267 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import { n8nTemplates } from '~/data/n8n-templates';
+
+export function getStaticPaths() {
+  return n8nTemplates.map((t) => ({
+    params: { slug: t.slug },
+    props: { template: t },
+  }));
+}
+
+const { template: t } = Astro.props;
+const pageUrl = `https://www.purist.online/pages/n8n-templates/${t.slug}`;
+const others = n8nTemplates.filter((x) => x.slug !== t.slug);
+const wordCount = t.intro.split(/\s+/).length + t.sections.reduce((sum, s) => sum + s.paras.join(' ').split(/\s+/).length, 0);
+---
+
+<ShopLayout
+  title={`${t.name} — Free n8n Template (${t.nodeCount} Nodes) | PURIST`}
+  description={`${t.tagline} Free downloadable n8n workflow JSON, ${t.nodeCount} nodes, ${t.complexity} complexity. Full documentation, diagram and setup guide.`}
+  canonical={pageUrl}
+>
+
+  <nav aria-label="Breadcrumb" class="container-x py-4 text-xs text-brand-gray-600">
+    <ol class="flex items-center gap-1.5 flex-wrap">
+      <li><a href="/" class="hover:text-brand-black transition">Home</a></li>
+      <li aria-hidden="true">/</li>
+      <li><a href="/pages/n8n-templates" class="hover:text-brand-black transition">n8n Templates</a></li>
+      <li aria-hidden="true">/</li>
+      <li class="text-brand-black">{t.name}</li>
+    </ol>
+  </nav>
+
+  <!-- Hero -->
+  <header class="py-16 lg:py-20" style="background:#0A0A0A;">
+    <div class="container-x max-w-4xl mx-auto">
+      <div class="flex items-center gap-2.5 mb-4 flex-wrap">
+        <p class="text-[9px] uppercase tracking-[0.28em] font-bold" style="color:#c4847e;">{t.category}</p>
+        <span style="width:1px;height:10px;background:rgba(255,255,255,0.15);"></span>
+        <span class="text-[9px] font-bold uppercase tracking-[0.14em] px-2.5 py-1 rounded-full" style="background:rgba(232,180,176,0.14);color:#E8B4B0;border:1px solid rgba(232,180,176,0.25);">{t.complexity} · {t.nodeCount} nodes</span>
+      </div>
+      <h1 class="font-display text-3xl lg:text-5xl text-white mb-5 leading-tight tracking-tight max-w-3xl">{t.name}</h1>
+      <p class="text-base lg:text-lg max-w-2xl mb-8 leading-relaxed" style="color:rgba(255,255,255,0.5);">{t.tagline}</p>
+      <div class="flex flex-wrap gap-3 mb-8">
+        {t.tools.map((tool) => (
+          <span class="text-[11px] font-medium px-3 py-1.5 rounded-full" style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.65);border:1px solid rgba(255,255,255,0.1);">{tool}</span>
+        ))}
+      </div>
+      <div class="flex flex-wrap gap-4">
+        <a href={t.file} download class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-brand-black transition" style="background:#E8B4B0;">
+          Download {t.file.split('/').pop()} →
+        </a>
+        <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm border border-gray-700 text-gray-300 hover:border-gray-500 transition">We deploy it for you</a>
+      </div>
+    </div>
+  </header>
+
+  <article class="container-x max-w-4xl mx-auto py-14 lg:py-20">
+
+    <!-- Intro -->
+    <div class="prose max-w-none mb-14">
+      <p class="text-brand-gray-700 text-base leading-relaxed">{t.intro}</p>
+    </div>
+
+    <!-- Workflow diagram -->
+    <div class="mb-14">
+      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-6 tracking-tight">Workflow diagram</h2>
+      <div class="rounded-2xl border border-brand-gray-100 bg-brand-gray-50 p-4 lg:p-6 overflow-x-auto">
+        <pre class="mermaid" style="min-width:640px;">{t.diagram}</pre>
+      </div>
+      <p class="text-[11px] text-brand-gray-500 mt-3">Every branch shown here (IF/Switch outcomes) exists as a real conditional in the downloadable JSON, not a simplification for this diagram.</p>
+    </div>
+
+    <!-- Long-form sections -->
+    {t.sections.map((s) => (
+      <div class="prose max-w-none mb-12">
+        <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-5 tracking-tight">{s.heading}</h2>
+        {s.paras.map((p) => (
+          <p class="text-brand-gray-600 text-sm lg:text-base leading-relaxed mb-4">{p}</p>
+        ))}
+      </div>
+    ))}
+
+    <!-- Node reference table -->
+    <div class="mb-14">
+      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-6 tracking-tight">Node-by-node reference</h2>
+      <div class="overflow-x-auto rounded-2xl border border-brand-gray-100">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-brand-gray-100 bg-brand-gray-50">
+              <th class="text-left px-4 py-3 font-semibold text-brand-gray-700">Node</th>
+              <th class="text-left px-4 py-3 font-semibold text-brand-gray-700">Type</th>
+              <th class="text-left px-4 py-3 font-semibold text-brand-gray-700">Role</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-brand-gray-100">
+            {t.nodeTable.map((n) => (
+              <tr class="hover:bg-brand-gray-50 transition">
+                <td class="px-4 py-3 font-medium text-brand-black whitespace-nowrap">{n.n}</td>
+                <td class="px-4 py-3 text-brand-gray-500 whitespace-nowrap">{n.type}</td>
+                <td class="px-4 py-3 text-brand-gray-600">{n.role}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="text-[11px] text-brand-gray-500 mt-3">{t.nodeCount} total nodes in the downloadable file, including sticky-note documentation embedded directly on the canvas.</p>
+    </div>
+
+    <!-- Code snippets -->
+    <div class="mb-14">
+      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-6 tracking-tight">Key logic, in code</h2>
+      <div class="space-y-8">
+        {t.code.map((c) => (
+          <div>
+            <p class="text-[11px] uppercase tracking-wider text-brand-gray-500 font-semibold mb-2">{c.caption}</p>
+            <pre class="rounded-2xl bg-brand-black text-white text-[12.5px] leading-relaxed p-5 overflow-x-auto"><code>{c.body}</code></pre>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Metrics -->
+    <div class="mb-14">
+      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-6 tracking-tight">Before / after</h2>
+      <div class="overflow-x-auto rounded-2xl border border-brand-gray-100">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-brand-gray-100 bg-brand-gray-50">
+              <th class="text-left px-4 py-3 font-semibold text-brand-gray-700">Metric</th>
+              <th class="text-left px-4 py-3 font-semibold text-brand-gray-400">Before</th>
+              <th class="text-left px-4 py-3 font-semibold" style="color:#c4847e;">After this workflow</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-brand-gray-100">
+            {t.metrics.map((m) => (
+              <tr>
+                <td class="px-4 py-3 font-medium text-brand-black">{m.metric}</td>
+                <td class="px-4 py-3 text-brand-gray-400">{m.before}</td>
+                <td class="px-4 py-3 font-semibold text-brand-black">{m.after}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Prerequisites -->
+    <div class="mb-14">
+      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-6 tracking-tight">Prerequisites</h2>
+      <ul class="space-y-2">
+        {t.prerequisites.map((p) => (
+          <li class="flex items-start gap-2.5 text-sm text-brand-gray-600">
+            <svg class="w-4 h-4 mt-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="#2D5016" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            {p}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Pitfalls -->
+    <div class="mb-14">
+      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-6 tracking-tight">Common pitfalls</h2>
+      <div class="space-y-4">
+        {t.pitfalls.map((p) => (
+          <div class="rounded-2xl border border-brand-gray-100 p-5">
+            <p class="text-sm font-semibold text-brand-black mb-1.5 flex items-center gap-2">
+              <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="#c4847e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              {p.title}
+            </p>
+            <p class="text-sm text-brand-gray-600 leading-relaxed pl-6">{p.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="rounded-2xl p-8 text-center mb-14" style="background:rgba(232,180,176,0.09);border:1px solid rgba(196,132,126,0.20);">
+      <h2 class="font-display text-xl text-brand-black mb-3">Want this deployed, configured and monitored?</h2>
+      <p class="text-sm text-brand-gray-600 mb-6 max-w-lg mx-auto">The template is free. Wiring in your real credentials, tuning the logic to your business, and keeping it running when an upstream API changes is what we do.</p>
+      <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition" style="background:#c4847e;">Get my free automation plan&nbsp;→</a>
+    </div>
+
+    <!-- FAQ -->
+    <div>
+      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-8 tracking-tight">Frequently asked questions</h2>
+      <div class="divide-y divide-brand-gray-100 border-y border-brand-gray-100">
+        {t.faqs.map((faq) => (
+          <details class="group py-5">
+            <summary class="flex items-start justify-between gap-4 cursor-pointer list-none">
+              <h3 class="text-sm font-semibold text-brand-black leading-snug">{faq.q}</h3>
+              <svg class="w-4 h-4 shrink-0 mt-0.5 transition-transform group-open:rotate-45 text-brand-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            </summary>
+            <p class="text-sm text-brand-gray-600 leading-relaxed mt-3 pr-8">{faq.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </article>
+
+  <!-- Other templates -->
+  <section class="bg-brand-cream py-14 border-t border-brand-gray-100">
+    <div class="container-x max-w-4xl mx-auto">
+      <p class="eyebrow mb-3">More templates</p>
+      <h2 class="font-display text-2xl mb-8">Browse the full library</h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+        {others.map((o) => (
+          <a href={`/pages/n8n-templates/${o.slug}`} class="group bg-white border border-brand-gray-100 rounded-2xl p-5 hover:border-brand-gray-300 transition-colors">
+            <p class="text-[9px] uppercase tracking-wider text-brand-rust font-semibold mb-2">{o.category} · {o.nodeCount} nodes</p>
+            <p class="text-sm font-semibold text-brand-black leading-snug group-hover:opacity-70 transition">{o.name} →</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <script is:inline src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script is:inline>
+    if (window.mermaid) {
+      mermaid.initialize({ startOnLoad: true, theme: 'neutral', securityLevel: 'strict' });
+    }
+    document.addEventListener('astro:page-load', () => {
+      if (window.mermaid) mermaid.run();
+    });
+  </script>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.purist.online' },
+          { '@type': 'ListItem', position: 2, name: 'n8n Templates', item: 'https://www.purist.online/pages/n8n-templates' },
+          { '@type': 'ListItem', position: 3, name: t.name, item: pageUrl },
+        ],
+      },
+      {
+        '@type': 'SoftwareSourceCode',
+        name: t.name,
+        description: t.tagline,
+        programmingLanguage: 'JSON',
+        codeRepository: `https://www.purist.online${t.file}`,
+        runtimePlatform: 'n8n',
+      },
+      {
+        '@type': 'TechArticle',
+        headline: t.name,
+        description: t.tagline,
+        wordCount,
+        proficiencyLevel: t.complexity,
+        about: t.tools,
+      },
+      {
+        '@type': 'FAQPage',
+        '@id': `${pageUrl}#faq`,
+        mainEntity: t.faqs.map((faq) => ({
+          '@type': 'Question',
+          name: faq.q,
+          acceptedAnswer: { '@type': 'Answer', text: faq.a },
+        })),
+      },
+    ],
+  })}/>
+
+</ShopLayout>

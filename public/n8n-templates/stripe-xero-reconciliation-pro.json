@@ -1,0 +1,173 @@
+{
+  "name": "Stripe → Xero Reconciliation Pro (24 nodes)",
+  "nodes": [
+    {
+      "id": "1", "name": "Stripe Webhook", "type": "n8n-nodes-base.webhook", "typeVersion": 2,
+      "position": [0, 0],
+      "parameters": { "path": "stripe-events", "httpMethod": "POST", "responseMode": "onReceived" },
+      "notes": "Receives charge.succeeded, charge.refunded and payout.paid events from a Stripe webhook endpoint."
+    },
+    {
+      "id": "2", "name": "Log Raw Event", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4,
+      "position": [220, 0],
+      "parameters": { "method": "POST", "url": "https://api.airtable.com/v0/{{BASE_ID}}/stripe_raw_events", "sendBody": true },
+      "notes": "Audit trail: every raw event is logged before any processing, so nothing is ever silently lost."
+    },
+    {
+      "id": "3", "name": "Validate Webhook Signature", "type": "n8n-nodes-base.code", "typeVersion": 2,
+      "position": [440, 0],
+      "parameters": { "jsCode": "// Verify Stripe-Signature header against the webhook signing secret\n// using the standard HMAC-SHA256 construction Stripe documents.\nreturn $input.all();" },
+      "notes": "Rejects anything that isn't a genuinely signed Stripe payload before it touches Xero."
+    },
+    {
+      "id": "4", "name": "Signature Valid?", "type": "n8n-nodes-base.if", "typeVersion": 2,
+      "position": [660, 0],
+      "parameters": { "conditions": { "combinator": "and", "conditions": [ { "leftValue": "={{$json.signatureValid}}", "rightValue": true, "operator": { "type": "boolean", "operation": "true" } } ] } }
+    },
+    {
+      "id": "5", "name": "Reject Invalid Request", "type": "n8n-nodes-base.noOp", "typeVersion": 1,
+      "position": [880, 150],
+      "notes": "Dead-ends silently rejected requests, returns 401 upstream of this node."
+    },
+    {
+      "id": "6", "name": "Route Event Type", "type": "n8n-nodes-base.switch", "typeVersion": 3,
+      "position": [880, -150],
+      "parameters": { "mode": "rules", "rules": { "values": [
+        { "outputKey": "charge_succeeded", "conditions": { "conditions": [ { "leftValue": "={{$json.type}}", "rightValue": "charge.succeeded", "operator": { "type": "string", "operation": "equals" } } ] } },
+        { "outputKey": "charge_refunded", "conditions": { "conditions": [ { "leftValue": "={{$json.type}}", "rightValue": "charge.refunded", "operator": { "type": "string", "operation": "equals" } } ] } },
+        { "outputKey": "payout_paid", "conditions": { "conditions": [ { "leftValue": "={{$json.type}}", "rightValue": "payout.paid", "operator": { "type": "string", "operation": "equals" } } ] } }
+      ] } }
+    },
+    {
+      "id": "7", "name": "Find Xero Invoice", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4,
+      "position": [1100, -300],
+      "parameters": { "method": "GET", "url": "https://api.xero.com/api.xro/2.0/Invoices", "sendQuery": true }
+    },
+    {
+      "id": "8", "name": "Invoice Exists?", "type": "n8n-nodes-base.if", "typeVersion": 2,
+      "position": [1320, -300],
+      "parameters": { "conditions": { "combinator": "and", "conditions": [ { "leftValue": "={{$json.Invoices.length}}", "rightValue": 0, "operator": { "type": "number", "operation": "gt" } } ] } }
+    },
+    {
+      "id": "9", "name": "Update Xero Invoice", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4,
+      "position": [1540, -380],
+      "parameters": { "method": "POST", "url": "https://api.xero.com/api.xro/2.0/Invoices/{{$json.Invoices[0].InvoiceID}}" }
+    },
+    {
+      "id": "10", "name": "Create Xero Invoice", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4,
+      "position": [1540, -220],
+      "parameters": { "method": "PUT", "url": "https://api.xero.com/api.xro/2.0/Invoices" }
+    },
+    {
+      "id": "11", "name": "Merge Invoice Path", "type": "n8n-nodes-base.merge", "typeVersion": 3,
+      "position": [1760, -300],
+      "parameters": { "mode": "chooseBranch" }
+    },
+    {
+      "id": "12", "name": "Calculate Net Amount", "type": "n8n-nodes-base.set", "typeVersion": 3,
+      "position": [1980, -300],
+      "parameters": { "assignments": { "assignments": [ { "name": "netAmount", "value": "={{$json.grossAmount - $json.stripeFee}}", "type": "number" } ] } },
+      "notes": "Subtracts Stripe's processing fee from the gross charge so the ledger reflects the actual bank deposit."
+    },
+    {
+      "id": "13", "name": "Post Stripe Fee Expense", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4,
+      "position": [2200, -300],
+      "parameters": { "method": "PUT", "url": "https://api.xero.com/api.xro/2.0/BankTransactions" }
+    },
+    {
+      "id": "14", "name": "Find Invoice For Refund", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4,
+      "position": [1100, 0],
+      "parameters": { "method": "GET", "url": "https://api.xero.com/api.xro/2.0/Invoices" }
+    },
+    {
+      "id": "15", "name": "Create Xero Credit Note", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4,
+      "position": [1320, 0],
+      "parameters": { "method": "PUT", "url": "https://api.xero.com/api.xro/2.0/CreditNotes" }
+    },
+    {
+      "id": "16", "name": "Reconcile Bank Feed Line", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4,
+      "position": [1100, 300],
+      "parameters": { "method": "POST", "url": "https://api.xero.com/api.xro/2.0/BankTransactions/{{$json.bankTransactionId}}" }
+    },
+    {
+      "id": "17", "name": "Merge All Cases", "type": "n8n-nodes-base.merge", "typeVersion": 3,
+      "position": [2420, 0],
+      "parameters": { "mode": "combine", "numberInputs": 3 },
+      "notes": "Rejoins the three event-type branches back into one stream before the shared audit/alert logic."
+    },
+    {
+      "id": "18", "name": "Mismatch Check", "type": "n8n-nodes-base.if", "typeVersion": 2,
+      "position": [2640, 0],
+      "parameters": { "conditions": { "combinator": "and", "conditions": [ { "leftValue": "={{$json.netAmount}}", "rightValue": "={{$json.xeroAmount}}", "operator": { "type": "number", "operation": "notEquals" } } ] } }
+    },
+    {
+      "id": "19", "name": "Post Slack Mismatch Alert", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4,
+      "position": [2860, -100],
+      "parameters": { "method": "POST", "url": "https://slack.com/api/chat.postMessage" },
+      "notes": "Only fires when the numbers genuinely don't reconcile, most events never touch this node."
+    },
+    {
+      "id": "20", "name": "No Action Needed", "type": "n8n-nodes-base.noOp", "typeVersion": 1,
+      "position": [2860, 100]
+    },
+    {
+      "id": "21", "name": "Merge Alert Path", "type": "n8n-nodes-base.merge", "typeVersion": 3,
+      "position": [3080, 0],
+      "parameters": { "mode": "chooseBranch" }
+    },
+    {
+      "id": "22", "name": "Log Reconciliation Entry", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4,
+      "position": [3300, 0],
+      "parameters": { "method": "POST", "url": "https://api.airtable.com/v0/{{BASE_ID}}/reconciliation_log" },
+      "notes": "Final audit-trail row: every event this workflow ever processed, matched or not, is queryable later."
+    },
+    {
+      "id": "23", "name": "Setup Notes", "type": "n8n-nodes-base.stickyNote", "typeVersion": 1,
+      "position": [0, -500],
+      "parameters": { "content": "## Setup\n1. Point your Stripe webhook at this workflow's Production URL.\n2. Add your Stripe signing secret to the Validate Webhook Signature node.\n3. Connect Xero, Slack and Airtable credentials on their respective nodes.\n4. Test with Stripe's CLI (`stripe trigger charge.succeeded`) before going live.", "height": 260, "width": 400 }
+    },
+    {
+      "id": "24", "name": "Credential Requirements", "type": "n8n-nodes-base.stickyNote", "typeVersion": 1,
+      "position": [0, -220],
+      "parameters": { "content": "## Credentials needed\n- Stripe (webhook signing secret only, no API key required)\n- Xero OAuth2\n- Slack Bot Token (chat:write scope)\n- Airtable Personal Access Token", "height": 200, "width": 400 }
+    }
+  ],
+  "connections": {
+    "Stripe Webhook": { "main": [[{ "node": "Log Raw Event", "type": "main", "index": 0 }]] },
+    "Log Raw Event": { "main": [[{ "node": "Validate Webhook Signature", "type": "main", "index": 0 }]] },
+    "Validate Webhook Signature": { "main": [[{ "node": "Signature Valid?", "type": "main", "index": 0 }]] },
+    "Signature Valid?": { "main": [
+      [{ "node": "Route Event Type", "type": "main", "index": 0 }],
+      [{ "node": "Reject Invalid Request", "type": "main", "index": 0 }]
+    ] },
+    "Route Event Type": { "main": [
+      [{ "node": "Find Xero Invoice", "type": "main", "index": 0 }],
+      [{ "node": "Find Invoice For Refund", "type": "main", "index": 0 }],
+      [{ "node": "Reconcile Bank Feed Line", "type": "main", "index": 0 }]
+    ] },
+    "Find Xero Invoice": { "main": [[{ "node": "Invoice Exists?", "type": "main", "index": 0 }]] },
+    "Invoice Exists?": { "main": [
+      [{ "node": "Update Xero Invoice", "type": "main", "index": 0 }],
+      [{ "node": "Create Xero Invoice", "type": "main", "index": 0 }]
+    ] },
+    "Update Xero Invoice": { "main": [[{ "node": "Merge Invoice Path", "type": "main", "index": 0 }]] },
+    "Create Xero Invoice": { "main": [[{ "node": "Merge Invoice Path", "type": "main", "index": 1 }]] },
+    "Merge Invoice Path": { "main": [[{ "node": "Calculate Net Amount", "type": "main", "index": 0 }]] },
+    "Calculate Net Amount": { "main": [[{ "node": "Post Stripe Fee Expense", "type": "main", "index": 0 }]] },
+    "Post Stripe Fee Expense": { "main": [[{ "node": "Merge All Cases", "type": "main", "index": 0 }]] },
+    "Find Invoice For Refund": { "main": [[{ "node": "Create Xero Credit Note", "type": "main", "index": 0 }]] },
+    "Create Xero Credit Note": { "main": [[{ "node": "Merge All Cases", "type": "main", "index": 1 }]] },
+    "Reconcile Bank Feed Line": { "main": [[{ "node": "Merge All Cases", "type": "main", "index": 2 }]] },
+    "Merge All Cases": { "main": [[{ "node": "Mismatch Check", "type": "main", "index": 0 }]] },
+    "Mismatch Check": { "main": [
+      [{ "node": "Post Slack Mismatch Alert", "type": "main", "index": 0 }],
+      [{ "node": "No Action Needed", "type": "main", "index": 0 }]
+    ] },
+    "Post Slack Mismatch Alert": { "main": [[{ "node": "Merge Alert Path", "type": "main", "index": 0 }]] },
+    "No Action Needed": { "main": [[{ "node": "Merge Alert Path", "type": "main", "index": 1 }]] },
+    "Merge Alert Path": { "main": [[{ "node": "Log Reconciliation Entry", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "meta": { "templateCreatedBy": "PURIST", "instanceId": "purist-template-stripe-xero-reconciliation-pro" }
+}

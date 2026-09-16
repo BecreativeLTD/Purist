@@ -5,6 +5,7 @@ import { terms } from '~/data/glossary';
 import blogData from '~/data/blog.json';
 import { professions } from '~/data/automations';
 import { integrationPairs } from '~/data/integration-pairs';
+import { n8nTemplates } from '~/data/n8n-templates';
 
 const site = 'https://www.purist.online';
 
@@ -137,7 +138,12 @@ const integrationGuidePages = integrationPairs.map(p => ({
   lastmod: '2026-09-16',
 }));
 
-const allPages = [...pages, ...blogPages, ...skillPages, ...glossaryTermPages, ...automationPages, ...integrationGuidePages];
+const n8nTemplatePages = [
+  { url: '/pages/n8n-templates', lastmod: '2026-09-16' },
+  ...n8nTemplates.map(t => ({ url: `/pages/n8n-templates/${t.slug}`, lastmod: '2026-09-16' })),
+];
+
+const allPages = [...pages, ...blogPages, ...skillPages, ...glossaryTermPages, ...automationPages, ...integrationGuidePages, ...n8nTemplatePages];
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

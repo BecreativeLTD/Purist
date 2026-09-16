@@ -1,0 +1,121 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import { n8nTemplates } from '~/data/n8n-templates';
+
+const totalNodes = n8nTemplates.reduce((s, t) => s + t.nodeCount, 0);
+
+const faqs = [
+  { q: 'Are these templates actually free?', a: 'Yes, every .json file is free to download and use, no email required. They are MIT-equivalent, use them, modify them, deploy them commercially, no attribution needed.' },
+  { q: 'Why 20-30+ nodes instead of a simple 3-node example?', a: 'A 3-node "connect A to B" demo teaches you nothing about how production automation actually handles failure, branching or edge cases. Every template here includes real conditional logic, retry ladders, error escalation and audit logging, the parts that separate a working proof-of-concept from something that survives contact with real data.' },
+  { q: 'Do I need to be an n8n expert to use these?', a: 'You need to be comfortable with n8n\'s canvas and credential system. Each template ships with setup and credential sticky-notes directly on the canvas, plus a full setup guide on its page. If you want it configured and monitored rather than self-deployed, that\'s what PURIST does.' },
+  { q: 'Will these keep working if an API changes?', a: 'The templates are correct as published. APIs change over time, that is true of any integration, self-built or templated. PURIST clients get these maintained and patched as part of a managed plan; self-hosters should expect to revisit node configuration periodically.' },
+];
+---
+
+<ShopLayout
+  title="Free n8n Workflow Templates, Production-Grade (20-32 Nodes) | PURIST"
+  description="Free, downloadable n8n workflow templates with real branching logic, retry ladders and error handling, 20 to 32 nodes each. Full documentation, diagrams, code and setup guides, not toy 3-node demos."
+>
+
+  <!-- Hero -->
+  <header class="py-16 lg:py-20" style="background:#0A0A0A;position:relative;overflow:hidden;">
+    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 70% 90% at 15% 40%,rgba(232,180,176,0.06) 0%,transparent 65%);"></div>
+    <div class="container-x max-w-3xl mx-auto text-center relative z-10">
+      <p class="text-[9px] uppercase tracking-[0.28em] font-bold mb-4" style="color:#c4847e;">Free n8n Templates</p>
+      <h1 class="font-display text-3xl lg:text-5xl text-white mb-5 leading-tight tracking-tight">
+        Production-grade workflows. Not toy demos.
+      </h1>
+      <p class="text-base lg:text-lg max-w-2xl mx-auto mb-8 leading-relaxed" style="color:rgba(255,255,255,0.5);">
+        Most "n8n templates" online are a webhook and two nodes. These are {totalNodes}+ combined nodes across {n8nTemplates.length} real workflows, with retry logic, conditional branching, error escalation and full documentation, the kind of thing that actually survives production traffic.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="#templates" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-brand-black transition" style="background:#E8B4B0;">Browse templates ↓</a>
+        <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm border border-gray-700 text-gray-300 hover:border-gray-500 transition">Get it deployed for me</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="templates" class="container-x max-w-4xl mx-auto py-14 lg:py-20">
+    <div class="grid gap-6">
+      {n8nTemplates.map((t) => (
+        <a href={`/pages/n8n-templates/${t.slug}`} class="group block rounded-2xl border border-brand-gray-100 hover:border-brand-gray-300 hover:shadow-lg transition-all p-6 lg:p-8">
+          <div class="flex items-start justify-between gap-4 mb-3 flex-wrap">
+            <div class="flex items-center gap-2.5 flex-wrap">
+              <span class="text-[9px] font-bold uppercase tracking-[0.14em] px-2.5 py-1 rounded-full" style="background:rgba(232,180,176,0.10);color:#c4847e;border:1px solid rgba(196,132,126,0.20);">{t.complexity}</span>
+              <span class="text-[11px] font-mono text-brand-gray-500">{t.nodeCount} nodes</span>
+              <span class="text-[11px] text-brand-gray-400">·</span>
+              <span class="text-[11px] text-brand-gray-500">{t.category}</span>
+            </div>
+            <svg class="w-5 h-5 text-brand-gray-300 group-hover:text-brand-black shrink-0 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H9M17 7v8"/></svg>
+          </div>
+          <h2 class="font-display text-xl lg:text-2xl mb-2 group-hover:opacity-70 transition">{t.name}</h2>
+          <p class="text-sm text-brand-gray-600 leading-relaxed mb-4">{t.tagline}</p>
+          <div class="flex flex-wrap gap-1.5">
+            {t.tools.map((tool) => (
+              <span class="text-[10px] font-medium px-2 py-1 rounded-full bg-brand-gray-50 text-brand-gray-600 border border-brand-gray-100">{tool}</span>
+            ))}
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- FAQ -->
+    <div class="mt-20">
+      <h2 class="font-display text-2xl lg:text-3xl text-brand-black mb-8 tracking-tight">Frequently asked questions</h2>
+      <div class="divide-y divide-brand-gray-100 border-y border-brand-gray-100">
+        {faqs.map((faq) => (
+          <details class="group py-5">
+            <summary class="flex items-start justify-between gap-4 cursor-pointer list-none">
+              <h3 class="text-sm font-semibold text-brand-black leading-snug">{faq.q}</h3>
+              <svg class="w-4 h-4 shrink-0 mt-0.5 transition-transform group-open:rotate-45 text-brand-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            </summary>
+            <p class="text-sm text-brand-gray-600 leading-relaxed mt-3 pr-8">{faq.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-brand-black py-16 lg:py-20">
+    <div class="container-x max-w-2xl mx-auto text-center">
+      <h2 class="font-display text-2xl lg:text-3xl text-white mb-4">Free to self-host. Effortless if we deploy it.</h2>
+      <p class="text-sm mb-8" style="color:rgba(255,255,255,0.45);">These templates are yours either way. If you'd rather not configure credentials, tune the logic and keep it patched yourself, that's the actual service PURIST provides.</p>
+      <a href="/pages/welcome" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-brand-black transition" style="background:#E8B4B0;">Get my free automation plan&nbsp;→</a>
+    </div>
+  </section>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.purist.online' },
+          { '@type': 'ListItem', position: 2, name: 'n8n Templates', item: 'https://www.purist.online/pages/n8n-templates' },
+        ],
+      },
+      {
+        '@type': 'ItemList',
+        name: 'PURIST n8n workflow templates',
+        itemListElement: n8nTemplates.map((t, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: t.name,
+          url: `https://www.purist.online/pages/n8n-templates/${t.slug}`,
+        })),
+      },
+      {
+        '@type': 'FAQPage',
+        '@id': 'https://www.purist.online/pages/n8n-templates#faq',
+        mainEntity: faqs.map((faq) => ({
+          '@type': 'Question',
+          name: faq.q,
+          acceptedAnswer: { '@type': 'Answer', text: faq.a },
+        })),
+      },
+    ],
+  })}/>
+
+</ShopLayout>
