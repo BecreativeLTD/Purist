@@ -1,0 +1,106 @@
+---
+import ToolPageShell from '~/components/tools/ToolPageShell.astro';
+
+const howItWorks = [
+  { title: 'Four operations, one input box', body: 'Encode to Base64, decode from Base64, encode for a URL, or decode a URL-encoded string, switch between them with the tabs, no page reload.' },
+  { title: 'Auto-detect on decode', body: 'When decoding, the tool tells you immediately if your input is not valid Base64 or is not URL-encoded, rather than silently returning garbage.' },
+  { title: 'UTF-8 safe', body: 'Handles accented characters and emoji correctly in both directions, unlike a naive atob()/btoa() call which breaks on non-ASCII text.' },
+];
+
+const faqs = [
+  { q: 'When do I need Base64 encoding in an automation workflow?', a: 'Most commonly for HTTP Basic Authentication headers (which require "username:password" Base64-encoded), for embedding small binary data like images in JSON payloads, and for some webhook signature schemes that expect a Base64-encoded HMAC.' },
+  { q: 'What is the difference between Base64 encoding and encryption?', a: 'Base64 is not encryption or security, it is a reversible encoding scheme with no secret key. Anyone can decode Base64 instantly, as this tool demonstrates. Never use Base64 alone to protect sensitive data.' },
+  { q: 'When do I need URL encoding instead of Base64?', a: 'URL encoding (percent-encoding) is for characters that are not safe inside a URL, like spaces, ampersands, or special symbols in a query string parameter. Base64 output itself often needs URL encoding too if you are passing it as a URL parameter, since Base64 can include characters like "+" and "/" that have special meaning in URLs.' },
+  { q: 'Why did my decode fail with an error?', a: 'Base64 decode fails if the input length is not a multiple of 4 (after removing valid padding) or contains characters outside the Base64 alphabet (A-Z, a-z, 0-9, +, /, =). URL decode fails on a malformed percent-sequence, like a "%" not followed by two hex digits.' },
+  { q: 'Is this safe to use for actual passwords or secrets?', a: 'The encoding/decoding happens entirely in your browser and nothing is transmitted, but as a general practice avoid pasting real production secrets into any browser tool when a local script or your terminal can do the same job just as fast.' },
+];
+---
+
+<ToolPageShell
+  slug="base64-url-encoder"
+  name="Base64 & URL Encoder / Decoder"
+  tagline="Encode or decode Base64 and URL-encoded strings instantly, in both directions, with UTF-8 handled correctly."
+  category="Development"
+  metaTitle="Base64 & URL Encoder/Decoder, Free Tool | PURIST"
+  metaDescription="Free Base64 and URL encoder/decoder. Convert text to and from Base64 or URL encoding instantly, with correct UTF-8 handling. Runs entirely in your browser."
+  howItWorks={howItWorks}
+  faqs={faqs}
+>
+  <div class="max-w-3xl mx-auto rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+    <div class="px-5 py-3.5 border-b flex gap-2 flex-wrap" style="border-color:rgba(255,255,255,0.06);">
+      <button class="b64-tab" data-mode="b64encode" style="background:#E8B4B0;color:#0a0a0a;">Base64 Encode</button>
+      <button class="b64-tab" data-mode="b64decode">Base64 Decode</button>
+      <button class="b64-tab" data-mode="urlencode">URL Encode</button>
+      <button class="b64-tab" data-mode="urldecode">URL Decode</button>
+    </div>
+    <div class="p-5 grid lg:grid-cols-2 gap-4">
+      <div>
+        <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Input</label>
+        <textarea id="b64-input" rows="8" class="w-full px-4 py-3 rounded-lg font-mono text-[13px] leading-relaxed outline-none resize-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;" placeholder="Type or paste text here...">Hello, PURIST!</textarea>
+      </div>
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <label class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(255,255,255,0.35);">Output</label>
+          <button id="b64-copy" class="text-[11px] px-3 py-1 rounded-full border" style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);">Copy</button>
+        </div>
+        <textarea id="b64-output" rows="8" readonly class="w-full px-4 py-3 rounded-lg font-mono text-[13px] leading-relaxed outline-none resize-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#E8B4B0;"></textarea>
+      </div>
+    </div>
+    <p id="b64-error" class="hidden px-5 pb-5 text-[12.5px]" style="color:#f87171;"></p>
+  </div>
+</ToolPageShell>
+
+<style>
+  .b64-tab { font-size: 12px; font-weight: 600; padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); cursor: pointer; }
+</style>
+
+<script is:inline>
+(function() {
+  var mode = 'b64encode';
+  var input = document.getElementById('b64-input');
+  var output = document.getElementById('b64-output');
+  var errorEl = document.getElementById('b64-error');
+
+  function utf8ToB64(str) { return btoa(unescape(encodeURIComponent(str))); }
+  function b64ToUtf8(str) { return decodeURIComponent(escape(atob(str))); }
+
+  function render() {
+    var val = input.value;
+    errorEl.classList.add('hidden');
+    try {
+      if (mode === 'b64encode') output.value = utf8ToB64(val);
+      else if (mode === 'b64decode') output.value = b64ToUtf8(val.trim());
+      else if (mode === 'urlencode') output.value = encodeURIComponent(val);
+      else if (mode === 'urldecode') output.value = decodeURIComponent(val);
+    } catch (e) {
+      output.value = '';
+      errorEl.textContent = 'Could not process: ' + e.message;
+      errorEl.classList.remove('hidden');
+    }
+  }
+
+  document.querySelectorAll('.b64-tab').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      mode = btn.getAttribute('data-mode');
+      document.querySelectorAll('.b64-tab').forEach(function(b) {
+        var active = b === btn;
+        b.style.background = active ? '#E8B4B0' : 'rgba(255,255,255,0.04)';
+        b.style.color = active ? '#0a0a0a' : 'rgba(255,255,255,0.5)';
+      });
+      render();
+    });
+  });
+
+  input.addEventListener('input', render);
+  render();
+
+  document.getElementById('b64-copy').addEventListener('click', function() {
+    if (!output.value) return;
+    navigator.clipboard.writeText(output.value);
+    var btn = document.getElementById('b64-copy');
+    var orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(function() { btn.textContent = orig; }, 1200);
+  });
+})();
+</script>

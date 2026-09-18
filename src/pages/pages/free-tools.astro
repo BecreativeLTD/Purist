@@ -4,6 +4,7 @@ import { freeTools } from '~/data/free-tools';
 
 const liveTools = freeTools.filter(t => t.status === 'live');
 const comingSoon = freeTools.filter(t => t.status === 'coming-soon');
+const categories = Array.from(new Set(freeTools.map(t => t.category)));
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -13,7 +14,7 @@ const jsonLd = {
       '@id': 'https://www.purist.online/pages/free-tools#collectionpage',
       url: 'https://www.purist.online/pages/free-tools',
       name: 'Free Automation Tools',
-      description: 'Free, no-signup tools for building and debugging automation: cron builder, n8n workflow validator, cost calculators, and more.',
+      description: 'Free, no-signup tools for building and debugging automation: cron builder, n8n workflow validator, cost calculators, JWT decoder, and more.',
       isPartOf: { '@id': 'https://www.purist.online/#website' },
       datePublished: '2026-09-19',
       dateModified: '2026-09-19',
@@ -40,8 +41,8 @@ const jsonLd = {
 ---
 
 <ShopLayout
-  title="Free Automation Tools, No Signup Required | PURIST"
-  description="Free tools for building and debugging automation: cron expression builder, n8n workflow validator, cost calculators, regex tester, JSON/CSV converter, and more. No account needed."
+  title={`${liveTools.length} Free Automation Tools, No Signup Required | PURIST`}
+  description="Free tools for building and debugging automation: cron expression builder, n8n workflow validator, JWT decoder, cost calculators, and more. No account needed."
   canonical="https://www.purist.online/pages/free-tools"
 >
 
@@ -50,50 +51,87 @@ const jsonLd = {
 <!-- Hero -->
 <header class="relative overflow-hidden" style="background:#0A0A0A;">
   <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 70% 90% at 20% 20%,rgba(232,180,176,0.07) 0%,transparent 65%);"/>
-  <div class="container-x relative z-10 py-16 lg:py-24 text-center">
-    <p class="text-[9.5px] uppercase tracking-[0.24em] font-bold mb-5" style="color:rgba(232,180,176,0.60);">Free · No signup · No email gate</p>
-    <h1 class="font-display text-[2.3rem] lg:text-[3.4rem] leading-[1.06] tracking-[-0.025em] text-white mb-5 text-balance max-w-3xl mx-auto">
-      The utilities we built for ourselves, <em class="font-medium" style="color:#E8B4B0;">now yours too.</em>
-    </h1>
-    <p class="text-[15px] lg:text-base leading-relaxed max-w-xl mx-auto" style="color:rgba(255,255,255,0.42);">
-      Nine focused tools for building, debugging and pricing out automation. Each one runs entirely in your browser, no account, no data stored, no catch.
-    </p>
+  <div class="container-x relative z-10 py-16 lg:py-20">
+    <div class="text-center max-w-3xl mx-auto mb-10">
+      <p class="text-[9.5px] uppercase tracking-[0.24em] font-bold mb-5" style="color:rgba(232,180,176,0.60);">Free · No signup · No email gate</p>
+      <h1 class="font-display text-[2.3rem] lg:text-[3.4rem] leading-[1.06] tracking-[-0.025em] text-white mb-5 text-balance">
+        The utilities we built for ourselves, <em class="font-medium" style="color:#E8B4B0;">now yours too.</em>
+      </h1>
+      <p class="text-[15px] lg:text-base leading-relaxed max-w-xl mx-auto" style="color:rgba(255,255,255,0.42);">
+        Focused tools for building, debugging and pricing out automation. Each one runs entirely in your browser, no account, no data stored, no catch.
+      </p>
+    </div>
+
+    <!-- Stats bar -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 rounded-[16px] overflow-hidden max-w-3xl mx-auto" style="border:1px solid rgba(255,255,255,0.08);">
+      {[
+        { n: String(liveTools.length),  l: 'Tools live now' },
+        { n: String(comingSoon.length), l: 'In development' },
+        { n: String(categories.length), l: 'Categories covered' },
+        { n: '0',    l: 'Data ever stored' },
+      ].map((s, i) => (
+        <div class="p-4 lg:p-5 text-center" style={`${i > 0 ? 'border-left:1px solid rgba(255,255,255,0.08);' : ''}`}>
+          <p class="font-display text-[1.6rem] lg:text-[1.8rem] text-white font-medium leading-none">{s.n}</p>
+          <p class="text-[9.5px] uppercase tracking-[0.12em] mt-2 leading-snug" style="color:rgba(255,255,255,0.32);">{s.l}</p>
+        </div>
+      ))}
+    </div>
   </div>
 </header>
 
-<!-- Tool grid -->
+<!-- Category filter + grid -->
 <section class="py-14 lg:py-20" style="background:#F8F6F1;">
   <div class="container-x">
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+    <div class="flex flex-wrap gap-2 mb-8" id="cat-filter">
+      <button class="cat-btn is-active" data-cat="all">All tools</button>
+      {categories.map(c => (
+        <button class="cat-btn" data-cat={c}>{c}</button>
+      ))}
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5" id="tool-grid">
       {liveTools.map(t => (
-        <a href={`/pages/free-tools/${t.slug}`} class="tool-card group rounded-[18px] p-6 flex flex-col" style="background:#fff;border:1px solid rgba(10,10,10,0.08);">
+        <a href={`/pages/free-tools/${t.slug}`} class="tool-card group rounded-[18px] p-6 flex flex-col" data-cat={t.category} style="background:#fff;border:1px solid rgba(10,10,10,0.08);">
           <div class="flex items-start justify-between mb-4">
-            <div class="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0" style="background:rgba(232,180,176,0.12);">
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="#c4847e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d={t.icon}/></svg>
+            <div class="icon-shell">
+              <div class="icon-core">
+                <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="#F8F6F1" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d={t.icon}/></svg>
+              </div>
             </div>
             <span class="text-[9px] font-bold uppercase tracking-[0.12em] px-2.5 py-1 rounded-full" style="background:rgba(45,80,22,0.08);color:#2D5016;">{t.badge}</span>
           </div>
           <p class="text-[9.5px] uppercase tracking-[0.14em] font-semibold mb-1.5" style="color:rgba(10,10,10,0.32);">{t.category}</p>
           <h2 class="text-[15.5px] font-semibold text-brand-black leading-snug mb-2 group-hover:underline">{t.name}</h2>
-          <p class="text-[12.5px] leading-relaxed flex-1" style="color:rgba(10,10,10,0.50);">{t.tagline}</p>
-          <span class="inline-flex items-center gap-1.5 text-[12px] font-semibold mt-4" style="color:#c4847e;">
-            Open tool
-            <svg class="w-3.5 h-3.5 transition-transform duration-150 group-hover:translate-x-0.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
-          </span>
+          <p class="text-[12.5px] leading-relaxed mb-3" style="color:rgba(10,10,10,0.50);">{t.tagline}</p>
+          <div class="rounded-[10px] px-3 py-2.5 mb-3" style="background:#F8F6F1;">
+            <p class="text-[8.5px] uppercase tracking-[0.1em] font-bold mb-1" style="color:rgba(196,132,126,0.85);">Use case</p>
+            <p class="text-[11.5px] leading-snug" style="color:rgba(10,10,10,0.55);">{t.useCase}</p>
+          </div>
+          <div class="flex items-center justify-between mt-auto">
+            <span class="text-[10.5px]" style="color:rgba(10,10,10,0.35);">Saves ~{t.timeSaved}</span>
+            <span class="inline-flex items-center gap-1.5 text-[12px] font-semibold" style="color:#c4847e;">
+              Open
+              <svg class="w-3.5 h-3.5 transition-transform duration-150 group-hover:translate-x-0.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+            </span>
+          </div>
         </a>
       ))}
     </div>
 
     {comingSoon.length > 0 && (
-      <div class="mt-10">
-        <p class="text-[9.5px] uppercase tracking-[0.2em] font-semibold mb-4" style="color:rgba(10,10,10,0.32);">Coming soon</p>
-        <div class="grid sm:grid-cols-2 gap-4">
+      <div class="mt-12">
+        <p class="text-[9.5px] uppercase tracking-[0.2em] font-semibold mb-4" style="color:rgba(10,10,10,0.32);">In development, {comingSoon.length} more on the way</p>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {comingSoon.map(t => (
             <div class="rounded-[16px] p-5 flex items-start gap-4 opacity-60" style="background:#fff;border:1px dashed rgba(10,10,10,0.15);">
-              <div class="w-9 h-9 rounded-[9px] flex items-center justify-center shrink-0" style="background:rgba(10,10,10,0.05);">
-                <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="rgba(10,10,10,0.4)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d={t.icon}/></svg>
+              <div class="icon-shell icon-shell-muted">
+                <div class="icon-core icon-core-muted">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="rgba(10,10,10,0.45)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d={t.icon}/></svg>
+                </div>
               </div>
               <div>
+                <p class="text-[9px] uppercase tracking-[0.1em] font-semibold mb-1" style="color:rgba(10,10,10,0.30);">{t.category}</p>
                 <h3 class="text-[13.5px] font-semibold text-brand-black mb-1">{t.name}</h3>
                 <p class="text-[12px] leading-relaxed" style="color:rgba(10,10,10,0.45);">{t.tagline}</p>
               </div>
@@ -120,4 +158,47 @@ const jsonLd = {
 <style>
   .tool-card { transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s; }
   .tool-card:hover { border-color: rgba(196,132,126,0.4); box-shadow: 0 8px 24px rgba(10,10,10,0.06); transform: translateY(-2px); }
+  .cat-btn { font-size: 12px; font-weight: 600; padding: 7px 16px; border-radius: 999px; border: 1px solid rgba(10,10,10,0.12); color: rgba(10,10,10,0.55); background: #fff; cursor: pointer; transition: all 0.12s; }
+  .cat-btn:hover { border-color: rgba(196,132,126,0.4); }
+  .cat-btn.is-active { background: #0A0A0A; border-color: #0A0A0A; color: #fff; }
+  .tool-card.is-hidden { display: none; }
+
+  /* Double-bezel icon treatment: outer shell + inner gradient core */
+  .icon-shell {
+    width: 44px; height: 44px; border-radius: 13px; padding: 3px; flex-shrink: 0;
+    background: linear-gradient(155deg, rgba(196,132,126,0.16), rgba(10,10,10,0.04));
+    box-shadow: 0 1px 2px rgba(10,10,10,0.06), inset 0 1px 0 rgba(255,255,255,0.5);
+  }
+  .icon-core {
+    width: 100%; height: 100%; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(155deg, #1a1210 0%, #0A0A0A 100%);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.08), inset 0 -1px 2px rgba(0,0,0,0.4);
+  }
+  .tool-card:hover .icon-shell {
+    background: linear-gradient(155deg, rgba(196,132,126,0.32), rgba(10,10,10,0.06));
+  }
+  .icon-shell-muted {
+    background: rgba(10,10,10,0.05); box-shadow: none; width: 40px; height: 40px; border-radius: 11px;
+  }
+  .icon-core-muted {
+    background: rgba(10,10,10,0.03); box-shadow: none;
+  }
 </style>
+
+<script is:inline>
+(function() {
+  var buttons = document.querySelectorAll('.cat-btn');
+  var cards = document.querySelectorAll('.tool-card');
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      buttons.forEach(function(b) { b.classList.remove('is-active'); });
+      btn.classList.add('is-active');
+      var cat = btn.getAttribute('data-cat');
+      cards.forEach(function(card) {
+        card.classList.toggle('is-hidden', cat !== 'all' && card.getAttribute('data-cat') !== cat);
+      });
+    });
+  });
+})();
+</script>

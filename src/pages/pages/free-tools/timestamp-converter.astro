@@ -1,0 +1,118 @@
+---
+import ToolPageShell from '~/components/tools/ToolPageShell.astro';
+
+const howItWorks = [
+  { title: 'Two-way conversion', body: 'Enter a Unix timestamp to see the human date, or pick a date and time to get the timestamp, in seconds and in milliseconds.' },
+  { title: 'Every timezone at once', body: 'The result shows your local time, UTC, and a handful of common business timezones side by side, so you never have to mentally convert again.' },
+  { title: 'Live "now" reference', body: 'A live-updating current timestamp is always visible, useful for sanity-checking whether a value you are debugging is in seconds or milliseconds.' },
+];
+
+const faqs = [
+  { q: 'Is a Unix timestamp in seconds or milliseconds?', a: 'It depends on the system. Unix/POSIX time is traditionally seconds since January 1, 1970 UTC. JavaScript\'s Date.now() and many web APIs use milliseconds instead. A 10-digit number is almost always seconds; a 13-digit number is almost always milliseconds. This tool auto-detects which one you pasted.' },
+  { q: 'Why do webhook payloads use Unix timestamps instead of readable dates?', a: 'Unix timestamps are timezone-independent, unambiguous, and trivially comparable as plain integers, which avoids the parsing and timezone bugs that plague human-readable date strings across different systems and locales.' },
+  { q: 'How do I convert a timestamp inside an n8n Code node?', a: 'new Date(timestampInSeconds * 1000) converts a seconds-based Unix timestamp to a JavaScript Date object; skip the *1000 if your value is already in milliseconds. This tool is useful for confirming which one you have before writing that line.' },
+  { q: 'What is the year 2038 problem?', a: 'Systems that store Unix time as a signed 32-bit integer will overflow on January 19, 2038. Nearly all modern systems now use 64-bit integers and are unaffected, but it remains a known edge case in older or embedded systems.' },
+  { q: 'Does this tool account for daylight saving time changes?', a: 'Yes, it uses your browser\'s built-in timezone database, which correctly handles daylight saving transitions for the timezones shown.' },
+];
+---
+
+<ToolPageShell
+  slug="timestamp-converter"
+  name="Timestamp & Timezone Converter"
+  tagline="Convert a Unix timestamp to a human date, or the reverse, and see it across your local time, UTC, and common business timezones at once."
+  category="Scheduling"
+  metaTitle="Unix Timestamp & Timezone Converter, Free Tool | PURIST"
+  metaDescription="Free Unix timestamp converter. Convert timestamps to human dates across multiple timezones, or the reverse. Auto-detects seconds vs milliseconds."
+  howItWorks={howItWorks}
+  faqs={faqs}
+>
+  <div class="max-w-3xl mx-auto space-y-6">
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b flex items-center justify-between" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Timestamp → Date</span>
+        <span class="text-[11px]" style="color:rgba(255,255,255,0.3);">Now: <span id="ts-now" class="font-mono" style="color:#E8B4B0;"></span></span>
+      </div>
+      <div class="p-5">
+        <input id="ts-input" type="text" placeholder="e.g. 1789660800 or 1789660800000"
+          class="w-full px-4 py-3 rounded-lg font-mono text-[14px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+        <div id="ts-error" class="hidden mt-3 text-[12.5px]" style="color:#f87171;"></div>
+        <div id="ts-results" class="grid sm:grid-cols-2 gap-3 mt-4"></div>
+      </div>
+    </div>
+
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Date → Timestamp</span>
+      </div>
+      <div class="p-5 grid sm:grid-cols-2 gap-4">
+        <div>
+          <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Local date & time</label>
+          <input id="dt-input" type="datetime-local" class="w-full px-4 py-3 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+        </div>
+        <div>
+          <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Result</label>
+          <div id="dt-output" class="px-4 py-3 rounded-lg font-mono text-[13px]" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#E8B4B0;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ToolPageShell>
+
+<script is:inline>
+(function() {
+  var TIMEZONES = [
+    { label: 'Your local time', zone: undefined },
+    { label: 'UTC', zone: 'UTC' },
+    { label: 'New York (ET)', zone: 'America/New_York' },
+    { label: 'London (UK)', zone: 'Europe/London' },
+    { label: 'Paris (CET)', zone: 'Europe/Paris' },
+    { label: 'Singapore', zone: 'Asia/Singapore' },
+  ];
+
+  function updateNow() {
+    document.getElementById('ts-now').textContent = Math.floor(Date.now()/1000);
+  }
+  updateNow();
+  setInterval(updateNow, 1000);
+
+  var input = document.getElementById('ts-input');
+  var errorEl = document.getElementById('ts-error');
+  var resultsEl = document.getElementById('ts-results');
+
+  function render() {
+    var raw = input.value.trim();
+    errorEl.classList.add('hidden');
+    resultsEl.innerHTML = '';
+    if (!raw) return;
+    if (!/^\d+$/.test(raw)) { errorEl.textContent = 'Enter digits only, a Unix timestamp in seconds or milliseconds.'; errorEl.classList.remove('hidden'); return; }
+
+    var num = parseInt(raw);
+    var ms = raw.length >= 13 ? num : num * 1000;
+    var date = new Date(ms);
+    if (isNaN(date.getTime())) { errorEl.textContent = 'That does not resolve to a valid date.'; errorEl.classList.remove('hidden'); return; }
+
+    resultsEl.innerHTML = TIMEZONES.map(function(tz) {
+      var formatted = tz.zone
+        ? date.toLocaleString('en-US', { timeZone: tz.zone, dateStyle: 'medium', timeStyle: 'medium' })
+        : date.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'medium' });
+      return '<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 14px;">'
+        + '<p style="font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.35);">' + tz.label + '</p>'
+        + '<p style="font-size:13px;color:#fff;margin-top:2px;">' + formatted + '</p></div>';
+    }).join('');
+  }
+  input.addEventListener('input', render);
+
+  var dtInput = document.getElementById('dt-input');
+  var dtOutput = document.getElementById('dt-output');
+  function renderDt() {
+    if (!dtInput.value) { dtOutput.textContent = ''; return; }
+    var d = new Date(dtInput.value);
+    dtOutput.innerHTML = 'Seconds: ' + Math.floor(d.getTime()/1000) + '<br/>Milliseconds: ' + d.getTime();
+  }
+  dtInput.addEventListener('input', renderDt);
+
+  // seed with example
+  input.value = Math.floor(Date.now()/1000);
+  render();
+})();
+</script>

@@ -1,0 +1,106 @@
+---
+import ToolPageShell from '~/components/tools/ToolPageShell.astro';
+
+const howItWorks = [
+  { title: 'Splits and decodes each segment', body: 'A JWT is three Base64URL-encoded segments separated by dots: header, payload, and signature. This tool splits on the dots and decodes the first two segments into readable JSON.' },
+  { title: 'Flags expiry automatically', body: 'If the payload contains an "exp" claim, the tool converts it to a real date and tells you immediately whether the token is expired, and by how much.' },
+  { title: 'The signature is never verified', body: 'This tool decodes and displays the signature segment as-is but does not and cannot verify it without your signing secret, which you should never paste into any third-party tool.' },
+];
+
+const faqs = [
+  { q: 'Is it safe to paste a real production JWT here?', a: 'The decoding happens entirely in your browser, nothing is transmitted anywhere. That said, treat any JWT as sensitive: it may contain user IDs, roles, or scopes. Prefer using an expired or test token when possible.' },
+  { q: 'Why can this tool read the payload without my secret key?', a: 'By design, JWT payloads are only Base64URL-encoded, not encrypted, meaning anyone who intercepts a token can read its contents. The signature is what prevents tampering, not the payload\'s readability. Never put sensitive data in a JWT payload for this reason.' },
+  { q: 'What does the "exp" claim actually mean?', a: '"exp" is a Unix timestamp (seconds since Jan 1, 1970) marking when the token expires. Most authentication failures with a valid-looking token are simply an expired "exp" claim, which this tool checks automatically.' },
+  { q: 'Why does my JWT show an error when decoding?', a: 'Usually because the pasted string is missing a segment (should have exactly 2 dots), has extra whitespace or line breaks, or is not actually a JWT (some APIs return opaque tokens that only look similar).' },
+  { q: 'Can I use this to build a JWT for testing, not just decode one?', a: 'No, this tool is read-only decoding. Constructing a valid signed JWT requires your actual signing secret and algorithm, which should happen server-side or in your own trusted tooling, never in a public browser tool.' },
+];
+---
+
+<ToolPageShell
+  slug="jwt-decoder"
+  name="JWT Decoder"
+  tagline="Paste a JWT to instantly see its header, payload, and expiry status, decoded and formatted, entirely in your browser."
+  category="Development"
+  metaTitle="JWT Decoder, Free & Instant | PURIST"
+  metaDescription="Free JWT decoder. Paste a JSON Web Token to see its decoded header and payload, plus automatic expiry checking. Runs entirely client-side, nothing is transmitted."
+  howItWorks={howItWorks}
+  faqs={faqs}
+>
+  <div class="max-w-3xl mx-auto rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+    <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+      <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Paste your JWT</span>
+    </div>
+    <div class="p-5">
+      <textarea id="jwt-input" rows="3" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        class="w-full px-4 py-3 rounded-lg font-mono text-[12px] leading-relaxed outline-none resize-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"></textarea>
+      <div id="jwt-status" class="hidden mt-3 px-4 py-2.5 rounded-lg text-[12.5px] font-medium"></div>
+      <div id="jwt-error" class="hidden mt-3 text-[12.5px]" style="color:#f87171;"></div>
+
+      <div id="jwt-output" class="hidden grid sm:grid-cols-2 gap-4 mt-5">
+        <div>
+          <p class="text-[10px] uppercase tracking-widest font-semibold mb-2" style="color:rgba(255,255,255,0.35);">Header</p>
+          <pre id="jwt-header" class="text-[12px] font-mono p-4 rounded-lg overflow-x-auto" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#E8B4B0;min-height:140px;"></pre>
+        </div>
+        <div>
+          <p class="text-[10px] uppercase tracking-widest font-semibold mb-2" style="color:rgba(255,255,255,0.35);">Payload</p>
+          <pre id="jwt-payload" class="text-[12px] font-mono p-4 rounded-lg overflow-x-auto" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#E8B4B0;min-height:140px;"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</ToolPageShell>
+
+<script is:inline>
+(function() {
+  function b64UrlDecode(str) {
+    str = str.replace(/-/g, '+').replace(/_/g, '/');
+    while (str.length % 4) str += '=';
+    return decodeURIComponent(atob(str).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+  }
+
+  var input = document.getElementById('jwt-input');
+  var statusEl = document.getElementById('jwt-status');
+  var errorEl = document.getElementById('jwt-error');
+  var outputEl = document.getElementById('jwt-output');
+
+  function render() {
+    var raw = input.value.trim();
+    statusEl.classList.add('hidden');
+    errorEl.classList.add('hidden');
+    outputEl.classList.add('hidden');
+    if (!raw) return;
+
+    var parts = raw.split('.');
+    if (parts.length !== 3) {
+      errorEl.textContent = 'A JWT must have exactly 3 dot-separated segments (header.payload.signature). Found ' + parts.length + '.';
+      errorEl.classList.remove('hidden');
+      return;
+    }
+
+    try {
+      var header = JSON.parse(b64UrlDecode(parts[0]));
+      var payload = JSON.parse(b64UrlDecode(parts[1]));
+      document.getElementById('jwt-header').textContent = JSON.stringify(header, null, 2);
+      document.getElementById('jwt-payload').textContent = JSON.stringify(payload, null, 2);
+      outputEl.classList.remove('hidden');
+
+      if (payload.exp) {
+        var expDate = new Date(payload.exp * 1000);
+        var now = new Date();
+        var expired = expDate < now;
+        statusEl.classList.remove('hidden');
+        statusEl.style.background = expired ? 'rgba(248,113,113,0.1)' : 'rgba(74,222,128,0.1)';
+        statusEl.style.border = '1px solid ' + (expired ? 'rgba(248,113,113,0.3)' : 'rgba(74,222,128,0.3)');
+        statusEl.style.color = expired ? '#f87171' : '#4ADE80';
+        statusEl.textContent = (expired ? 'Expired ' : 'Valid until ') + expDate.toLocaleString() + (expired ? ' (' + Math.round((now-expDate)/60000) + ' minutes ago)' : '');
+      }
+    } catch (e) {
+      errorEl.textContent = 'Could not decode: ' + e.message + '. Check the token has no extra whitespace or line breaks.';
+      errorEl.classList.remove('hidden');
+    }
+  }
+  input.addEventListener('input', render);
+})();
+</script>

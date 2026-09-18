@@ -1,0 +1,120 @@
+---
+import ToolPageShell from '~/components/tools/ToolPageShell.astro';
+
+const howItWorks = [
+  { title: 'Deep, key-by-key comparison', body: 'Recursively walks both JSON objects and reports every key that was added, removed, or changed in value, including inside nested objects and arrays.' },
+  { title: 'Type-aware', body: 'Flags a value that changed type (a string "490" versus a number 490) separately from a value that simply changed, since that distinction is often the actual bug in a broken workflow.' },
+  { title: 'No context needed', body: 'Works on any two JSON blobs, an API response before and after a vendor update, two executions of the same n8n node, or a config file diff.' },
+];
+
+const faqs = [
+  { q: 'Why did my n8n workflow start failing after an API update with no visible error?', a: 'This is the single most common use case for this tool: a third-party API silently renamed a field, changed a value from a number to a string, or nested a field one level deeper. A downstream node referencing the old path returns undefined instead of throwing a clear error.' },
+  { q: 'Does key order matter in the comparison?', a: 'No, keys are compared by name regardless of their order in the object, matching how JSON.parse and virtually every consumer of JSON treats objects (order-independent for object keys, though order does matter for arrays).' },
+  { q: 'How are arrays compared?', a: 'Arrays are compared index by index. If array lengths differ, the extra items in the longer array are reported as added or removed. This is a positional comparison, not a "did this item exist somewhere in the array" comparison.' },
+  { q: 'Can I compare more than two JSON blobs at once?', a: 'No, this tool compares exactly two inputs at a time. For comparing more than two versions, run the tool pairwise between consecutive versions.' },
+  { q: 'Does this tool store either JSON blob?', a: 'No, the comparison runs entirely in your browser. Neither input is transmitted or saved anywhere.' },
+];
+---
+
+<ToolPageShell
+  slug="json-diff-checker"
+  name="JSON Diff Checker"
+  tagline="Paste two JSON blobs to see exactly what was added, removed, or changed, including inside nested objects and arrays."
+  category="Development"
+  metaTitle="JSON Diff Checker, Free Tool | PURIST"
+  metaDescription="Free JSON diff checker. Compare two JSON objects and see every added, removed, or changed key, including nested values and type changes. Runs in your browser."
+  howItWorks={howItWorks}
+  faqs={faqs}
+>
+  <div class="grid lg:grid-cols-2 gap-6">
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Before</span>
+      </div>
+      <textarea id="diff-a" rows="12" class="w-full bg-transparent resize-none px-5 py-4 font-mono text-[12px] leading-relaxed outline-none" style="color:rgba(255,255,255,0.75);min-height:260px;"></textarea>
+    </div>
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">After</span>
+      </div>
+      <textarea id="diff-b" rows="12" class="w-full bg-transparent resize-none px-5 py-4 font-mono text-[12px] leading-relaxed outline-none" style="color:rgba(255,255,255,0.75);min-height:260px;"></textarea>
+    </div>
+  </div>
+  <div class="max-w-4xl mx-auto mt-6">
+    <button id="diff-run" class="w-full px-6 py-3 rounded-lg text-[13px] font-semibold" style="background:#E8B4B0;color:#0a0a0a;">Compare →</button>
+    <div id="diff-results" class="mt-5"></div>
+  </div>
+</ToolPageShell>
+
+<script is:inline>
+(function() {
+  function typeOf(v) { if (Array.isArray(v)) return 'array'; if (v === null) return 'null'; return typeof v; }
+
+  function diff(a, b, path) {
+    path = path || '';
+    var changes = [];
+    var allKeys = new Set(Object.keys(a || {}).concat(Object.keys(b || {})));
+    allKeys.forEach(function(key) {
+      var p = path ? path + '.' + key : key;
+      var inA = a && Object.prototype.hasOwnProperty.call(a, key);
+      var inB = b && Object.prototype.hasOwnProperty.call(b, key);
+      if (inA && !inB) { changes.push({ path: p, type: 'removed', before: a[key] }); return; }
+      if (!inA && inB) { changes.push({ path: p, type: 'added', after: b[key] }); return; }
+      var va = a[key], vb = b[key];
+      var ta = typeOf(va), tb = typeOf(vb);
+      if (ta !== tb) { changes.push({ path: p, type: 'type-changed', before: va, after: vb, beforeType: ta, afterType: tb }); return; }
+      if (ta === 'object') { changes = changes.concat(diff(va, vb, p)); return; }
+      if (ta === 'array') {
+        var maxLen = Math.max(va.length, vb.length);
+        for (var i = 0; i < maxLen; i++) {
+          if (i >= va.length) changes.push({ path: p + '[' + i + ']', type: 'added', after: vb[i] });
+          else if (i >= vb.length) changes.push({ path: p + '[' + i + ']', type: 'removed', before: va[i] });
+          else if (JSON.stringify(va[i]) !== JSON.stringify(vb[i])) changes.push({ path: p + '[' + i + ']', type: 'changed', before: va[i], after: vb[i] });
+        }
+        return;
+      }
+      if (va !== vb) changes.push({ path: p, type: 'changed', before: va, after: vb });
+    });
+    return changes;
+  }
+
+  function fmt(v) { return typeof v === 'object' ? JSON.stringify(v) : String(v); }
+
+  function render(changes, err) {
+    var el = document.getElementById('diff-results');
+    if (err) { el.innerHTML = '<p style="color:#f87171;font-size:13px;">' + err + '</p>'; return; }
+    if (changes.length === 0) { el.innerHTML = '<div style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.25);border-radius:10px;padding:14px;"><p style="color:#4ADE80;font-size:13px;font-weight:600;">No differences found. Both JSON objects are identical.</p></div>'; return; }
+
+    var colors = { added: '#4ADE80', removed: '#f87171', changed: '#E8B4B0', 'type-changed': '#facc15' };
+    var labels = { added: 'ADDED', removed: 'REMOVED', changed: 'CHANGED', 'type-changed': 'TYPE CHANGED' };
+
+    el.innerHTML = '<p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.35);margin-bottom:10px;">' + changes.length + ' difference(s)</p>'
+      + '<div style="display:flex;flex-direction:column;gap:8px;">' + changes.map(function(c) {
+        var color = colors[c.type];
+        var body = '';
+        if (c.type === 'added') body = '<span style="color:' + color + ';">' + fmt(c.after) + '</span>';
+        else if (c.type === 'removed') body = '<span style="color:' + color + ';text-decoration:line-through;opacity:0.7;">' + fmt(c.before) + '</span>';
+        else body = '<span style="opacity:0.6;text-decoration:line-through;">' + fmt(c.before) + '</span> → <span style="color:' + color + ';">' + fmt(c.after) + '</span>' + (c.type === 'type-changed' ? ' <span style="font-size:10px;opacity:0.5;">(' + c.beforeType + ' → ' + c.afterType + ')</span>' : '');
+        return '<div style="background:rgba(255,255,255,0.04);border-left:3px solid ' + color + ';border-radius:6px;padding:10px 14px;">'
+          + '<span style="font-size:9px;font-weight:700;letter-spacing:0.08em;color:' + color + ';">' + labels[c.type] + '</span> '
+          + '<span style="font-family:monospace;font-size:12.5px;color:#fff;">' + c.path + '</span>'
+          + '<div style="font-size:12.5px;font-family:monospace;margin-top:4px;color:rgba(255,255,255,0.75);">' + body + '</div>'
+          + '</div>';
+      }).join('') + '</div>';
+  }
+
+  document.getElementById('diff-a').value = JSON.stringify({ orderId: 'ORD-1001', status: 'pending', total: 490, customer: { email: 'james@acme.com' } }, null, 2);
+  document.getElementById('diff-b').value = JSON.stringify({ orderId: 'ORD-1001', status: 'confirmed', total: '490', customer: { email: 'james@acme.com', vip: true } }, null, 2);
+
+  document.getElementById('diff-run').addEventListener('click', function() {
+    try {
+      var a = JSON.parse(document.getElementById('diff-a').value);
+      var b = JSON.parse(document.getElementById('diff-b').value);
+      render(diff(a, b, ''), null);
+    } catch (e) {
+      render(null, 'Invalid JSON: ' + e.message);
+    }
+  });
+  document.getElementById('diff-run').click();
+})();
+</script>

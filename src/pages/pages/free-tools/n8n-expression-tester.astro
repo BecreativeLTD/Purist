@@ -1,0 +1,101 @@
+---
+import ToolPageShell from '~/components/tools/ToolPageShell.astro';
+
+const howItWorks = [
+  { title: 'Simulates n8n\'s $json context', body: 'Paste sample input data as JSON, it becomes available as $json inside your expression, exactly like the current item in a real n8n node.' },
+  { title: 'Supports common n8n expression syntax', body: 'Write {{$json.field}}, {{$json.nested.value}}, or a full JavaScript expression with $json in it, the same syntax n8n\'s expression editor accepts.' },
+  { title: 'Shows the exact resolved value', body: 'See precisely what n8n would substitute into that field, including type, so you can catch a silent string-vs-number mismatch before it breaks a downstream IF node.' },
+];
+
+const faqs = [
+  { q: 'Does this run the exact same engine as n8n?', a: 'It evaluates standard JavaScript expressions the same way the browser and Node.js do, which covers the overwhelming majority of n8n expressions. n8n-specific helper functions (like $now, $workflow, or $items() referencing other nodes) are not available here since they depend on live workflow context this tool cannot simulate.' },
+  { q: 'Why does my expression return undefined here but work in n8n?', a: 'Most commonly because your sample JSON does not match the real shape of the data at that point in your workflow, check the exact field names and nesting against a real execution\'s input data in n8n\'s UI.' },
+  { q: 'Can I test expressions that reference other nodes, like $node["NodeName"].json?', a: 'Not directly, since this tool only simulates a single item\'s $json context. For expressions referencing other nodes, test them inside n8n itself using the built-in expression preview, which has access to real workflow state.' },
+  { q: 'What is the difference between {{ }} and a plain JavaScript expression in n8n?', a: '{{ }} is n8n\'s expression syntax marking a field as dynamic rather than static text. Inside the braces, the content is evaluated as JavaScript. This tool accepts either the full {{$json.field}} syntax or the bare expression, both resolve the same way.' },
+  { q: 'Can I chain multiple expressions in one field like n8n allows?', a: 'Yes, paste multiple {{ }} blocks in your input and the tool resolves each one independently, then shows the final combined string, matching how n8n concatenates multiple expression blocks within one field.' },
+];
+---
+
+<ToolPageShell
+  slug="n8n-expression-tester"
+  name="n8n Expression Tester"
+  tagline="Paste sample data, write an n8n-style {{$json.field}} expression, and see exactly what it resolves to before pasting it into a real node."
+  category="n8n"
+  metaTitle="n8n Expression Tester, Free Tool | PURIST"
+  metaDescription="Free n8n expression tester. Simulate $json context with sample data and test {{$json.field}} expressions to see the exact resolved value before using them in a workflow."
+  howItWorks={howItWorks}
+  faqs={faqs}
+>
+  <div class="grid lg:grid-cols-2 gap-6">
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Sample input data ($json)</span>
+      </div>
+      <textarea id="ex-data" rows="10" class="w-full bg-transparent resize-none px-5 py-4 font-mono text-[12px] leading-relaxed outline-none" style="color:rgba(255,255,255,0.75);min-height:220px;"></textarea>
+    </div>
+
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Your expression</span>
+      </div>
+      <textarea id="ex-expr" rows="4" class="w-full bg-transparent resize-none px-5 py-3 font-mono text-[13px] leading-relaxed outline-none border-b" style="color:#E8B4B0;border-color:rgba(255,255,255,0.06);"></textarea>
+      <div class="p-5">
+        <p class="text-[10px] uppercase tracking-widest font-semibold mb-2" style="color:rgba(255,255,255,0.35);">Resolved result</p>
+        <div id="ex-result" class="px-4 py-3 rounded-lg text-[13.5px] leading-relaxed" style="background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.2);color:#fff;min-height:60px;"></div>
+        <div id="ex-error" class="hidden mt-3 text-[12.5px]" style="color:#f87171;"></div>
+      </div>
+    </div>
+  </div>
+</ToolPageShell>
+
+<script is:inline>
+(function() {
+  var dataInput = document.getElementById('ex-data');
+  var exprInput = document.getElementById('ex-expr');
+  var resultEl = document.getElementById('ex-result');
+  var errorEl = document.getElementById('ex-error');
+
+  function render() {
+    errorEl.classList.add('hidden');
+    var json;
+    try {
+      json = JSON.parse(dataInput.value);
+    } catch (e) {
+      resultEl.textContent = '';
+      errorEl.textContent = 'Sample data is not valid JSON: ' + e.message;
+      errorEl.classList.remove('hidden');
+      return;
+    }
+
+    var template = exprInput.value;
+    var hasError = false;
+    var errorMsg = '';
+
+    var resolved = template.replace(/\{\{(.*?)\}\}/g, function(_, expr) {
+      try {
+        // eslint-disable-next-line no-new-func
+        var fn = new Function('$json', 'return (' + expr + ');');
+        var val = fn(json);
+        return typeof val === 'object' ? JSON.stringify(val) : String(val);
+      } catch (e) {
+        hasError = true;
+        errorMsg = 'In expression "' + expr.trim() + '": ' + e.message;
+        return '⚠ ERROR';
+      }
+    });
+
+    resultEl.textContent = resolved;
+    if (hasError) {
+      errorEl.textContent = errorMsg;
+      errorEl.classList.remove('hidden');
+    }
+  }
+
+  dataInput.value = JSON.stringify({ customer: { name: 'James Whitfield', email: 'james@acme.com', plan: 'Pro' }, orderTotal: 490, items: ['Widget A', 'Widget B'] }, null, 2);
+  exprInput.value = 'Hello {{$json.customer.name}}, your {{$json.customer.plan}} order of $' + '{{$json.orderTotal}} is confirmed.';
+
+  dataInput.addEventListener('input', render);
+  exprInput.addEventListener('input', render);
+  render();
+})();
+</script>

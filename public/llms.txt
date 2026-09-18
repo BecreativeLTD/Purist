@@ -276,6 +276,12 @@ Categories and example professions:
 - [AI API Cost Estimator](https://www.purist.online/pages/free-tools/ai-api-cost-estimator): Monthly cost estimate across Claude, GPT and DeepSeek models based on request volume and token length.
 - [JSON ⇄ CSV Converter](https://www.purist.online/pages/free-tools/json-csv-converter): Auto-detecting bidirectional converter with nested-object flattening and proper CSV quoting.
 - [Regex Tester for Automation](https://www.purist.online/pages/free-tools/regex-tester): Live match highlighting, capture group breakdown, and plain-English pattern explanation.
+- [n8n Expression Tester](https://www.purist.online/pages/free-tools/n8n-expression-tester): Test {{$json.field}} expressions against sample data and see the exact resolved value.
+- [JWT Decoder](https://www.purist.online/pages/free-tools/jwt-decoder): Decode a JSON Web Token's header and payload with automatic expiry checking.
+- [Base64 & URL Encoder/Decoder](https://www.purist.online/pages/free-tools/base64-url-encoder): Encode or decode Base64 and URL-encoded strings, both directions, UTF-8 safe.
+- [Timestamp & Timezone Converter](https://www.purist.online/pages/free-tools/timestamp-converter): Convert Unix timestamps to human dates across multiple timezones and back.
+- [JSON Diff Checker](https://www.purist.online/pages/free-tools/json-diff-checker): Compare two JSON blobs and see every added, removed, or changed key including type changes.
+- [Business Hours & SLA Deadline Calculator](https://www.purist.online/pages/free-tools/business-hours-sla-calculator): Calculate a real SLA deadline that correctly skips weekends and after-hours time.
 
 ## Free n8n Workflow Templates (6 downloadable, 24-32 nodes each)
 

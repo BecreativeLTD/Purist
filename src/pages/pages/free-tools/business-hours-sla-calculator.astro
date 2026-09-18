@@ -1,0 +1,142 @@
+---
+import ToolPageShell from '~/components/tools/ToolPageShell.astro';
+
+const howItWorks = [
+  { title: 'Real business-hours math', body: 'Set your business hours and working days, then enter a start time and an SLA duration. The calculator counts only the hours that actually fall inside your working window.' },
+  { title: 'Skips weekends and after-hours correctly', body: 'A Friday 4pm ticket with a 4-hour SLA does not resolve at 8pm Friday, it correctly rolls into the next working day at the point your business hours start again.' },
+  { title: 'Shows the exact deadline, not an estimate', body: 'The result is a precise date and time you can put directly into a customer-facing SLA commitment or an automated escalation trigger.' },
+];
+
+const faqs = [
+  { q: 'Why is this different from just adding hours to a timestamp?', a: 'Adding raw hours ignores your business calendar entirely: a "+4 hours" SLA started at 4pm Friday would naively land at 8pm Friday, outside working hours and misleading to a customer or an automation expecting a next-business-day escalation.' },
+  { q: 'Can I use this for a workflow that escalates unresolved tickets automatically?', a: 'Yes, this is exactly the calculation an n8n workflow needs before scheduling a Wait node or a follow-up reminder for an SLA breach. Compute the deadline here first to sanity-check the logic before building it into a live workflow.' },
+  { q: 'Does this account for public holidays?', a: 'Not currently, only weekly working days and daily business hours. For a holiday-aware calculation, subtract or add full working days manually for any holiday that falls within the calculated window.' },
+  { q: 'What if the SLA duration is longer than the remaining hours today?', a: 'The calculator rolls the remaining duration into the next working day (or days), repeating the same time-window logic, correctly handling SLAs that span multiple working days.' },
+  { q: 'Can I use fractional hours, like 1.5 hours?', a: 'Yes, the SLA duration field accepts decimals, so a 90-minute SLA can be entered as 1.5.' },
+];
+---
+
+<ToolPageShell
+  slug="business-hours-sla-calculator"
+  name="Business Hours & SLA Deadline Calculator"
+  tagline="Enter a start time and an SLA duration, get the exact real deadline, correctly skipping weekends and hours outside your business calendar."
+  category="Strategy"
+  metaTitle="Business Hours & SLA Deadline Calculator, Free Tool | PURIST"
+  metaDescription="Free SLA deadline calculator that correctly accounts for business hours and working days, skipping weekends and after-hours time. No signup required."
+  howItWorks={howItWorks}
+  faqs={faqs}
+>
+  <div class="max-w-2xl mx-auto rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+    <div class="px-6 py-4 border-b" style="border-color:rgba(255,255,255,0.06);">
+      <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Your business calendar</span>
+    </div>
+    <div class="p-6 space-y-5">
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Business hours start</label>
+          <input id="bh-start" type="number" min="0" max="23" value="9" class="w-full px-4 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+        </div>
+        <div>
+          <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Business hours end</label>
+          <input id="bh-end" type="number" min="1" max="24" value="17" class="w-full px-4 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+        </div>
+      </div>
+      <div>
+        <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Working days</label>
+        <div class="grid grid-cols-7 gap-1.5" id="bh-days">
+          {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map((d, i) => (
+            <button type="button" class="bh-day" data-day={i} style={`background:${i>=1&&i<=5?'#E8B4B0':'rgba(255,255,255,0.04)'};color:${i>=1&&i<=5?'#0a0a0a':'rgba(255,255,255,0.4)'};`}>{d}</button>
+          ))}
+        </div>
+      </div>
+      <div class="field-divider" style="height:1px;background:rgba(255,255,255,0.06);"></div>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Ticket start</label>
+          <input id="bh-startdt" type="datetime-local" class="w-full px-4 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+        </div>
+        <div>
+          <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">SLA duration (business hours)</label>
+          <input id="bh-duration" type="number" min="0.5" step="0.5" value="4" class="w-full px-4 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+        </div>
+      </div>
+      <div id="bh-result" class="hidden rounded-xl p-5 text-center" style="background:rgba(232,180,176,0.08);border:1px solid rgba(232,180,176,0.2);">
+        <p class="text-[10px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Deadline</p>
+        <p id="bh-deadline" class="font-display text-xl mt-1" style="color:#fff;"></p>
+      </div>
+    </div>
+  </div>
+</ToolPageShell>
+
+<style>
+  .bh-day { padding: 8px 0; border-radius: 8px; font-size: 11px; font-weight: 600; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
+</style>
+
+<script is:inline>
+(function() {
+  var workingDays = [1,2,3,4,5];
+
+  document.querySelectorAll('.bh-day').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var day = parseInt(btn.getAttribute('data-day'));
+      var idx = workingDays.indexOf(day);
+      if (idx === -1) { workingDays.push(day); btn.style.background = '#E8B4B0'; btn.style.color = '#0a0a0a'; }
+      else { workingDays.splice(idx, 1); btn.style.background = 'rgba(255,255,255,0.04)'; btn.style.color = 'rgba(255,255,255,0.4)'; }
+      render();
+    });
+  });
+
+  function calcDeadline(start, hoursNeeded, bhStart, bhEnd, days) {
+    var cur = new Date(start);
+    var remaining = hoursNeeded;
+    var safety = 0;
+    // clamp start into business window
+    while (safety < 500) {
+      safety++;
+      var day = cur.getDay();
+      var hour = cur.getHours() + cur.getMinutes()/60;
+      if (days.indexOf(day) === -1) { cur.setDate(cur.getDate()+1); cur.setHours(bhStart,0,0,0); continue; }
+      if (hour < bhStart) { cur.setHours(bhStart,0,0,0); continue; }
+      if (hour >= bhEnd) { cur.setDate(cur.getDate()+1); cur.setHours(bhStart,0,0,0); continue; }
+      break;
+    }
+    while (remaining > 0 && safety < 1000) {
+      safety++;
+      var day2 = cur.getDay();
+      if (days.indexOf(day2) === -1) { cur.setDate(cur.getDate()+1); cur.setHours(bhStart,0,0,0); continue; }
+      var hoursLeftToday = bhEnd - (cur.getHours() + cur.getMinutes()/60);
+      if (remaining <= hoursLeftToday) {
+        cur.setTime(cur.getTime() + remaining * 3600000);
+        remaining = 0;
+      } else {
+        remaining -= hoursLeftToday;
+        cur.setDate(cur.getDate()+1);
+        cur.setHours(bhStart,0,0,0);
+      }
+    }
+    return cur;
+  }
+
+  function render() {
+    var startVal = document.getElementById('bh-startdt').value;
+    if (!startVal) return;
+    var bhStart = parseInt(document.getElementById('bh-start').value);
+    var bhEnd = parseInt(document.getElementById('bh-end').value);
+    var duration = parseFloat(document.getElementById('bh-duration').value) || 0;
+    if (duration <= 0 || workingDays.length === 0) return;
+
+    var deadline = calcDeadline(new Date(startVal), duration, bhStart, bhEnd, workingDays);
+    document.getElementById('bh-result').classList.remove('hidden');
+    document.getElementById('bh-deadline').textContent = deadline.toLocaleString('en-US', { weekday: 'long', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+  }
+
+  ['bh-start','bh-end','bh-startdt','bh-duration'].forEach(function(id) {
+    document.getElementById(id).addEventListener('input', render);
+  });
+
+  // seed with a sensible default: today at 16:00
+  var d = new Date(); d.setHours(16,0,0,0);
+  document.getElementById('bh-startdt').value = d.toISOString().slice(0,16);
+  render();
+})();
+</script>
