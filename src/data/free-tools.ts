@@ -204,9 +204,9 @@ export const freeTools: FreeTool[] = [
     tagline: 'Build a fully-tagged campaign URL and generate a scannable QR code for it in one step.',
     useCase: 'You are launching a print flyer and email campaign and need consistent, trackable links for both without hand-typing UTM parameters.',
     category: 'Marketing',
-    status: 'coming-soon',
+    status: 'live',
     icon: 'M13.828 10.172a4 4 0 010 5.656l-4 4a4 4 0 01-5.656-5.656l1.5-1.5m4.312 1.5a4 4 0 010-5.656l4-4a4 4 0 015.656 5.656l-1.5 1.5',
-    badge: 'Coming soon',
+    badge: 'Instant',
     timeSaved: '10-15 min',
   },
   {
@@ -215,9 +215,9 @@ export const freeTools: FreeTool[] = [
     tagline: 'Check any foreground/background color pair against WCAG AA and AAA contrast requirements instantly.',
     useCase: 'You are building a client-facing dashboard or form and need to confirm your brand colors are actually legible and accessible before shipping.',
     category: 'Design',
-    status: 'coming-soon',
+    status: 'live',
     icon: 'M12 3v18m0-18a9 9 0 019 9m-9-9a9 9 0 00-9 9m9 9a9 9 0 009-9m-9 9a9 9 0 01-9-9',
-    badge: 'Coming soon',
+    badge: 'Instant',
     timeSaved: '10-20 min',
   },
   {

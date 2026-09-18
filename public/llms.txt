@@ -282,6 +282,8 @@ Categories and example professions:
 - [Timestamp & Timezone Converter](https://www.purist.online/pages/free-tools/timestamp-converter): Convert Unix timestamps to human dates across multiple timezones and back.
 - [JSON Diff Checker](https://www.purist.online/pages/free-tools/json-diff-checker): Compare two JSON blobs and see every added, removed, or changed key including type changes.
 - [Business Hours & SLA Deadline Calculator](https://www.purist.online/pages/free-tools/business-hours-sla-calculator): Calculate a real SLA deadline that correctly skips weekends and after-hours time.
+- [UTM Campaign Link Builder & QR Code](https://www.purist.online/pages/free-tools/utm-link-builder): Build a tagged campaign URL and get an instant scannable QR code for it.
+- [Color Contrast Checker (WCAG)](https://www.purist.online/pages/free-tools/color-contrast-checker): Check any color pair against WCAG AA/AAA thresholds with an automatic accessible-fix suggestion.
 
 ## Free n8n Workflow Templates (6 downloadable, 24-32 nodes each)
 

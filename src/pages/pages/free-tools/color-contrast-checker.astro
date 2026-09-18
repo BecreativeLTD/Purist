@@ -1,0 +1,210 @@
+---
+import ToolPageShell from '~/components/tools/ToolPageShell.astro';
+
+const howItWorks = [
+  { title: 'Real WCAG contrast ratio math', body: 'Calculates the exact relative luminance and contrast ratio between your two colors using the same formula the WCAG 2.1 specification defines, not an approximation.' },
+  { title: 'Pass/fail against every threshold', body: 'Checks your ratio against AA and AAA requirements for both normal text and large text (18pt+ or 14pt+ bold), since the bar is different for each.' },
+  { title: 'Live preview', body: 'See actual sample text rendered in your chosen colors immediately, so you can judge legibility visually alongside the numeric ratio.' },
+];
+
+const faqs = [
+  { q: 'What contrast ratio do I actually need?', a: 'WCAG AA (the legal standard referenced by most accessibility regulations, including ADA-related web guidance) requires 4.5:1 for normal text and 3:1 for large text. AAA, a stricter voluntary standard, requires 7:1 and 4.5:1 respectively.' },
+  { q: 'What counts as "large text" for the lower threshold?', a: 'Text at 18pt (24px) or larger, or 14pt (18.66px) bold or larger, qualifies for the large-text thresholds, which are less strict than normal body text since larger text remains legible at lower contrast.' },
+  { q: 'Does this apply to button and icon colors too, not just text?', a: 'WCAG has a separate 3:1 minimum for UI components and graphical objects (like icon outlines or input borders), distinct from the text contrast requirements. This tool checks the text-contrast formula specifically; UI-component contrast uses the same ratio calculation against the 3:1 threshold.' },
+  { q: 'Why did my brand colors fail even though they look fine to me?', a: 'Perceived contrast and measured luminance contrast do not always match, especially with certain hue combinations (like some blue-on-white or brand pastel pairings) that look distinct to the eye but measure lower than expected mathematically. Trust the calculated ratio over visual impression when accessibility compliance matters.' },
+  { q: 'Is meeting AA enough, or should I aim for AAA?', a: 'AA is the standard most legal and regulatory accessibility requirements reference and is a reasonable target for most business websites. AAA is stricter and genuinely better for readability but can be difficult to achieve with a distinctive brand palette; treat it as an aspirational target rather than a hard requirement unless your specific use case demands it (e.g. content for visually impaired users specifically).' },
+];
+---
+
+<ToolPageShell
+  slug="color-contrast-checker"
+  name="Color Contrast Checker (WCAG)"
+  tagline="Check any foreground and background color pair against WCAG AA and AAA contrast requirements, with a live preview."
+  category="Design"
+  metaTitle="WCAG Color Contrast Checker, Free Tool | PURIST"
+  metaDescription="Free WCAG color contrast checker. Check any color pair against AA and AAA accessibility thresholds for normal and large text, with live preview."
+  howItWorks={howItWorks}
+  faqs={faqs}
+>
+  <div class="grid lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Colors</span>
+      </div>
+      <div class="p-5 space-y-4">
+        <div>
+          <label class="text-[11px] uppercase tracking-widest font-semibold block mb-1.5" style="color:rgba(255,255,255,0.35);">Text color</label>
+          <div class="flex gap-2">
+            <input id="cc-fg-swatch" type="color" value="#0A0A0A" class="w-12 h-11 rounded-lg cursor-pointer" style="border:1px solid rgba(255,255,255,0.12);background:transparent;"/>
+            <input id="cc-fg" type="text" value="#0A0A0A" class="flex-1 px-3 py-2.5 rounded-lg font-mono text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+          </div>
+        </div>
+        <div>
+          <label class="text-[11px] uppercase tracking-widest font-semibold block mb-1.5" style="color:rgba(255,255,255,0.35);">Background color</label>
+          <div class="flex gap-2">
+            <input id="cc-bg-swatch" type="color" value="#F8F6F1" class="w-12 h-11 rounded-lg cursor-pointer" style="border:1px solid rgba(255,255,255,0.12);background:transparent;"/>
+            <input id="cc-bg" type="text" value="#F8F6F1" class="flex-1 px-3 py-2.5 rounded-lg font-mono text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+          </div>
+        </div>
+        <div id="cc-preview" class="rounded-xl p-6 text-center">
+          <p style="font-size:20px;font-weight:600;" id="cc-preview-large">Large text sample</p>
+          <p style="font-size:14px;margin-top:6px;" id="cc-preview-normal">Normal body text sample, the kind used for most paragraph content.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Results</span>
+      </div>
+      <div class="p-5">
+        <div class="text-center mb-5">
+          <p id="cc-ratio" class="font-display text-[2.5rem]" style="color:#E8B4B0;line-height:1;"></p>
+          <p class="text-[10px] uppercase tracking-widest mt-1" style="color:rgba(255,255,255,0.3);">contrast ratio</p>
+        </div>
+        <div class="space-y-2" id="cc-checks"></div>
+        <div id="cc-suggestion" class="hidden mt-4 p-4 rounded-xl" style="background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.2);">
+          <p class="text-[10px] uppercase tracking-widest font-semibold mb-2" style="color:#4ADE80;">Suggested fix for AA</p>
+          <div class="flex items-center gap-3">
+            <div id="cc-suggestion-swatch" class="w-9 h-9 rounded-lg shrink-0" style="border:1px solid rgba(255,255,255,0.15);"></div>
+            <div>
+              <p id="cc-suggestion-hex" class="font-mono text-[13px]" style="color:#fff;"></p>
+              <p class="text-[10.5px]" style="color:rgba(255,255,255,0.4);">Same hue, adjusted lightness to pass 4.5:1</p>
+            </div>
+            <button id="cc-suggestion-apply" class="ml-auto text-[11px] px-3 py-1.5 rounded-full font-semibold" style="background:#4ADE80;color:#0a0a0a;">Use this</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ToolPageShell>
+
+<script is:inline>
+(function() {
+  function hexToRgb(hex) {
+    hex = hex.replace('#','');
+    if (hex.length === 3) hex = hex.split('').map(function(c){return c+c;}).join('');
+    var num = parseInt(hex, 16);
+    return { r: (num>>16)&255, g: (num>>8)&255, b: num&255 };
+  }
+  function luminance(rgb) {
+    var a = [rgb.r, rgb.g, rgb.b].map(function(v) {
+      v /= 255;
+      return v <= 0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055, 2.4);
+    });
+    return 0.2126*a[0] + 0.7152*a[1] + 0.0722*a[2];
+  }
+  function contrastRatio(hex1, hex2) {
+    var l1 = luminance(hexToRgb(hex1));
+    var l2 = luminance(hexToRgb(hex2));
+    var lighter = Math.max(l1, l2), darker = Math.min(l1, l2);
+    return (lighter + 0.05) / (darker + 0.05);
+  }
+  function isValidHex(hex) { return /^#?[0-9A-Fa-f]{3}$|^#?[0-9A-Fa-f]{6}$/.test(hex); }
+  function normalize(hex) { return hex.startsWith('#') ? hex : '#' + hex; }
+
+  function rgbToHsl(rgb) {
+    var r = rgb.r/255, g = rgb.g/255, b = rgb.b/255;
+    var max = Math.max(r,g,b), min = Math.min(r,g,b);
+    var h, s, l = (max+min)/2;
+    if (max === min) { h = s = 0; }
+    else {
+      var d = max - min;
+      s = l > 0.5 ? d/(2-max-min) : d/(max+min);
+      if (max === r) h = (g-b)/d + (g < b ? 6 : 0);
+      else if (max === g) h = (b-r)/d + 2;
+      else h = (r-g)/d + 4;
+      h /= 6;
+    }
+    return { h: h, s: s, l: l };
+  }
+  function hslToRgb(h, s, l) {
+    var r, g, b;
+    if (s === 0) { r = g = b = l; }
+    else {
+      var hue2rgb = function(p, q, t) {
+        if (t < 0) t += 1; if (t > 1) t -= 1;
+        if (t < 1/6) return p + (q-p)*6*t;
+        if (t < 1/2) return q;
+        if (t < 2/3) return p + (q-p)*(2/3-t)*6;
+        return p;
+      };
+      var q = l < 0.5 ? l*(1+s) : l+s-l*s;
+      var p = 2*l-q;
+      r = hue2rgb(p, q, h+1/3); g = hue2rgb(p, q, h); b = hue2rgb(p, q, h-1/3);
+    }
+    return { r: Math.round(r*255), g: Math.round(g*255), b: Math.round(b*255) };
+  }
+  function rgbToHex(rgb) {
+    return '#' + [rgb.r,rgb.g,rgb.b].map(function(v){ return v.toString(16).padStart(2,'0'); }).join('');
+  }
+
+  function suggestAccessible(fgHex, bgHex, targetRatio) {
+    var bgLum = luminance(hexToRgb(bgHex));
+    var hsl = rgbToHsl(hexToRgb(fgHex));
+    var bgIsLight = bgLum > 0.5;
+    // move lightness toward black (if bg light) or white (if bg dark) until ratio passes
+    for (var step = 0; step <= 100; step++) {
+      var l = bgIsLight ? Math.max(0, hsl.l - step/100) : Math.min(1, hsl.l + step/100);
+      var candidate = rgbToHex(hslToRgb(hsl.h, hsl.s, l));
+      if (contrastRatio(candidate, bgHex) >= targetRatio) return candidate;
+    }
+    return bgIsLight ? '#000000' : '#ffffff';
+  }
+
+  var fg = document.getElementById('cc-fg');
+  var bg = document.getElementById('cc-bg');
+  var fgSwatch = document.getElementById('cc-fg-swatch');
+  var bgSwatch = document.getElementById('cc-bg-swatch');
+
+  function render() {
+    var fgVal = normalize(fg.value.trim());
+    var bgVal = normalize(bg.value.trim());
+    if (!isValidHex(fgVal) || !isValidHex(bgVal)) return;
+
+    var ratio = contrastRatio(fgVal, bgVal);
+    document.getElementById('cc-ratio').textContent = ratio.toFixed(2) + ':1';
+
+    var preview = document.getElementById('cc-preview');
+    preview.style.background = bgVal;
+    document.getElementById('cc-preview-large').style.color = fgVal;
+    document.getElementById('cc-preview-normal').style.color = fgVal;
+
+    var checks = [
+      { label: 'AA · Normal text (4.5:1)', pass: ratio >= 4.5 },
+      { label: 'AA · Large text (3:1)', pass: ratio >= 3 },
+      { label: 'AAA · Normal text (7:1)', pass: ratio >= 7 },
+      { label: 'AAA · Large text (4.5:1)', pass: ratio >= 4.5 },
+    ];
+    document.getElementById('cc-checks').innerHTML = checks.map(function(c) {
+      var color = c.pass ? '#4ADE80' : '#f87171';
+      return '<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:rgba(255,255,255,0.04);border-radius:8px;">'
+        + '<span style="font-size:12.5px;color:rgba(255,255,255,0.7);">' + c.label + '</span>'
+        + '<span style="font-size:11px;font-weight:700;color:' + color + ';">' + (c.pass ? '✓ PASS' : '✗ FAIL') + '</span></div>';
+    }).join('');
+
+    var suggestionBox = document.getElementById('cc-suggestion');
+    if (ratio < 4.5) {
+      var suggested = suggestAccessible(fgVal, bgVal, 4.5);
+      suggestionBox.classList.remove('hidden');
+      document.getElementById('cc-suggestion-swatch').style.background = suggested;
+      document.getElementById('cc-suggestion-hex').textContent = suggested.toUpperCase() + ' → ' + contrastRatio(suggested, bgVal).toFixed(2) + ':1';
+      document.getElementById('cc-suggestion-apply').onclick = function() {
+        fg.value = suggested;
+        render();
+      };
+    } else {
+      suggestionBox.classList.add('hidden');
+    }
+
+    fgSwatch.value = fgVal.length === 4 ? fgVal : fgVal;
+    bgSwatch.value = bgVal.length === 4 ? bgVal : bgVal;
+  }
+
+  fg.addEventListener('input', render);
+  bg.addEventListener('input', render);
+  fgSwatch.addEventListener('input', function() { fg.value = fgSwatch.value; render(); });
+  bgSwatch.addEventListener('input', function() { bg.value = bgSwatch.value; render(); });
+  render();
+})();
+</script>

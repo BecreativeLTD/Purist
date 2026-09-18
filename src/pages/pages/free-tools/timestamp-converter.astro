@@ -36,6 +36,7 @@ const faqs = [
         <input id="ts-input" type="text" placeholder="e.g. 1789660800 or 1789660800000"
           class="w-full px-4 py-3 rounded-lg font-mono text-[14px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
         <div id="ts-error" class="hidden mt-3 text-[12.5px]" style="color:#f87171;"></div>
+        <div id="ts-relative" class="hidden mt-3 text-center text-[13px] font-semibold"></div>
         <div id="ts-results" class="grid sm:grid-cols-2 gap-3 mt-4"></div>
       </div>
     </div>
@@ -79,10 +80,26 @@ const faqs = [
   var errorEl = document.getElementById('ts-error');
   var resultsEl = document.getElementById('ts-results');
 
+  function relativeTime(ms) {
+    var diff = ms - Date.now();
+    var future = diff > 0;
+    var abs = Math.abs(diff);
+    var units = [
+      ['year', 31536000000], ['month', 2592000000], ['day', 86400000],
+      ['hour', 3600000], ['minute', 60000], ['second', 1000],
+    ];
+    for (var i = 0; i < units.length; i++) {
+      var val = Math.floor(abs / units[i][1]);
+      if (val >= 1) return (future ? 'in ' : '') + val + ' ' + units[i][0] + (val !== 1 ? 's' : '') + (future ? '' : ' ago');
+    }
+    return 'just now';
+  }
+
   function render() {
     var raw = input.value.trim();
     errorEl.classList.add('hidden');
     resultsEl.innerHTML = '';
+    document.getElementById('ts-relative').classList.add('hidden');
     if (!raw) return;
     if (!/^\d+$/.test(raw)) { errorEl.textContent = 'Enter digits only, a Unix timestamp in seconds or milliseconds.'; errorEl.classList.remove('hidden'); return; }
 
@@ -90,6 +107,11 @@ const faqs = [
     var ms = raw.length >= 13 ? num : num * 1000;
     var date = new Date(ms);
     if (isNaN(date.getTime())) { errorEl.textContent = 'That does not resolve to a valid date.'; errorEl.classList.remove('hidden'); return; }
+
+    var relEl = document.getElementById('ts-relative');
+    relEl.classList.remove('hidden');
+    relEl.style.color = ms > Date.now() ? '#4ADE80' : 'rgba(232,180,176,0.9)';
+    relEl.textContent = relativeTime(ms);
 
     resultsEl.innerHTML = TIMEZONES.map(function(tz) {
       var formatted = tz.zone

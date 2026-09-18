@@ -36,13 +36,20 @@ const faqs = [
       <div id="jwt-status" class="hidden mt-3 px-4 py-2.5 rounded-lg text-[12.5px] font-medium"></div>
       <div id="jwt-error" class="hidden mt-3 text-[12.5px]" style="color:#f87171;"></div>
 
-      <div id="jwt-output" class="hidden grid sm:grid-cols-2 gap-4 mt-5">
+      <div id="jwt-countdown" class="hidden mt-3 text-center text-[13px] font-semibold"></div>
+
+      <div id="jwt-claims-wrap" class="hidden mt-5">
+        <p class="text-[10px] uppercase tracking-widest font-semibold mb-2" style="color:rgba(255,255,255,0.35);">Known claims, decoded</p>
+        <div id="jwt-claims" class="space-y-1.5 mb-5"></div>
+      </div>
+
+      <div id="jwt-output" class="hidden grid sm:grid-cols-2 gap-4">
         <div>
           <p class="text-[10px] uppercase tracking-widest font-semibold mb-2" style="color:rgba(255,255,255,0.35);">Header</p>
           <pre id="jwt-header" class="text-[12px] font-mono p-4 rounded-lg overflow-x-auto" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#E8B4B0;min-height:140px;"></pre>
         </div>
         <div>
-          <p class="text-[10px] uppercase tracking-widest font-semibold mb-2" style="color:rgba(255,255,255,0.35);">Payload</p>
+          <p class="text-[10px] uppercase tracking-widest font-semibold mb-2" style="color:rgba(255,255,255,0.35);">Full payload</p>
           <pre id="jwt-payload" class="text-[12px] font-mono p-4 rounded-lg overflow-x-auto" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#E8B4B0;min-height:140px;"></pre>
         </div>
       </div>
@@ -60,16 +67,60 @@ const faqs = [
     }).join(''));
   }
 
+  var CLAIM_INFO = {
+    iss: 'Issuer, who created and signed this token',
+    sub: 'Subject, the entity this token is about (usually a user ID)',
+    aud: 'Audience, who this token is intended for',
+    exp: 'Expiration time, the token is invalid after this moment',
+    nbf: 'Not-before time, the token is invalid before this moment',
+    iat: 'Issued-at time, when this token was created',
+    jti: 'JWT ID, a unique identifier for this specific token',
+  };
+
   var input = document.getElementById('jwt-input');
   var statusEl = document.getElementById('jwt-status');
   var errorEl = document.getElementById('jwt-error');
   var outputEl = document.getElementById('jwt-output');
+  var claimsWrap = document.getElementById('jwt-claims-wrap');
+  var claimsEl = document.getElementById('jwt-claims');
+  var countdownEl = document.getElementById('jwt-countdown');
+  var countdownTimer = null;
+  var currentExp = null;
+
+  function fmtDuration(ms) {
+    var abs = Math.abs(ms);
+    var mins = Math.floor(abs / 60000);
+    var days = Math.floor(mins / 1440); mins %= 1440;
+    var hrs = Math.floor(mins / 60); mins %= 60;
+    var parts = [];
+    if (days) parts.push(days + 'd');
+    if (hrs) parts.push(hrs + 'h');
+    parts.push(mins + 'm');
+    return parts.join(' ');
+  }
+
+  function updateCountdown() {
+    if (!currentExp) { countdownEl.classList.add('hidden'); return; }
+    var diff = currentExp.getTime() - Date.now();
+    countdownEl.classList.remove('hidden');
+    if (diff < 0) {
+      countdownEl.style.color = '#f87171';
+      countdownEl.textContent = 'Expired ' + fmtDuration(diff) + ' ago';
+    } else {
+      countdownEl.style.color = '#4ADE80';
+      countdownEl.textContent = 'Expires in ' + fmtDuration(diff);
+    }
+  }
 
   function render() {
     var raw = input.value.trim();
     statusEl.classList.add('hidden');
     errorEl.classList.add('hidden');
     outputEl.classList.add('hidden');
+    claimsWrap.classList.add('hidden');
+    countdownEl.classList.add('hidden');
+    currentExp = null;
+    if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
     if (!raw) return;
 
     var parts = raw.split('.');
@@ -86,15 +137,30 @@ const faqs = [
       document.getElementById('jwt-payload').textContent = JSON.stringify(payload, null, 2);
       outputEl.classList.remove('hidden');
 
+      var knownKeys = Object.keys(CLAIM_INFO).filter(function(k) { return payload[k] !== undefined; });
+      if (knownKeys.length) {
+        claimsWrap.classList.remove('hidden');
+        claimsEl.innerHTML = knownKeys.map(function(k) {
+          var val = payload[k];
+          var display = (k === 'exp' || k === 'iat' || k === 'nbf') ? new Date(val * 1000).toLocaleString() + ' (' + val + ')' : String(val);
+          return '<div style="display:flex;justify-content:space-between;gap:12px;padding:8px 12px;background:rgba(255,255,255,0.04);border-radius:8px;">'
+            + '<div><span style="font-family:monospace;font-size:12px;color:#E8B4B0;font-weight:600;">' + k + '</span>'
+            + '<span style="font-size:10.5px;color:rgba(255,255,255,0.35);display:block;">' + CLAIM_INFO[k] + '</span></div>'
+            + '<span style="font-size:12px;color:#fff;text-align:right;font-variant-numeric:tabular-nums;">' + display + '</span></div>';
+        }).join('');
+      }
+
       if (payload.exp) {
-        var expDate = new Date(payload.exp * 1000);
+        currentExp = new Date(payload.exp * 1000);
         var now = new Date();
-        var expired = expDate < now;
+        var expired = currentExp < now;
         statusEl.classList.remove('hidden');
         statusEl.style.background = expired ? 'rgba(248,113,113,0.1)' : 'rgba(74,222,128,0.1)';
         statusEl.style.border = '1px solid ' + (expired ? 'rgba(248,113,113,0.3)' : 'rgba(74,222,128,0.3)');
         statusEl.style.color = expired ? '#f87171' : '#4ADE80';
-        statusEl.textContent = (expired ? 'Expired ' : 'Valid until ') + expDate.toLocaleString() + (expired ? ' (' + Math.round((now-expDate)/60000) + ' minutes ago)' : '');
+        statusEl.textContent = (expired ? 'Expired ' : 'Valid until ') + currentExp.toLocaleString();
+        updateCountdown();
+        countdownTimer = setInterval(updateCountdown, 1000);
       }
     } catch (e) {
       errorEl.textContent = 'Could not decode: ' + e.message + '. Check the token has no extra whitespace or line breaks.';

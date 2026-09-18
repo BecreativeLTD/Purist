@@ -98,6 +98,8 @@ const pages = [
   { url: '/pages/free-tools/n8n-expression-tester',                 lastmod: '2026-09-19' },
   { url: '/pages/free-tools/json-diff-checker',                     lastmod: '2026-09-19' },
   { url: '/pages/free-tools/business-hours-sla-calculator',         lastmod: '2026-09-19' },
+  { url: '/pages/free-tools/utm-link-builder',                      lastmod: '2026-09-19' },
+  { url: '/pages/free-tools/color-contrast-checker',                lastmod: '2026-09-19' },
   { url: '/pages/purist-vs-zapier',               lastmod: '2026-06-18' },
   { url: '/pages/purist-vs-make',                lastmod: '2026-06-18' },
   { url: '/pages/purist-vs-inhouse-hire',        lastmod: '2026-06-18' },

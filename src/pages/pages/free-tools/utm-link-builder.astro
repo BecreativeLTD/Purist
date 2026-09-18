@@ -1,0 +1,136 @@
+---
+import ToolPageShell from '~/components/tools/ToolPageShell.astro';
+
+const howItWorks = [
+  { title: 'Standard UTM parameters', body: 'Fills in source, medium, campaign, term, and content following Google Analytics\' standard UTM convention, so every link is trackable the same way across every channel.' },
+  { title: 'Live URL preview', body: 'The tagged URL updates as you type, with automatic URL-encoding of spaces and special characters so the link never breaks when pasted into an email or ad platform.' },
+  { title: 'Instant QR code', body: 'The same tagged URL is rendered as a scannable QR code in real time, ready to download for print material, no separate QR tool needed.' },
+];
+
+const faqs = [
+  { q: 'What is the difference between utm_source and utm_medium?', a: '"utm_source" identifies where the traffic comes from (e.g. "newsletter", "linkedin", "google"). "utm_medium" identifies the type of channel (e.g. "email", "social", "cpc"). Keeping these consistent across campaigns is what makes cross-channel reporting in Google Analytics actually usable.' },
+  { q: 'Do I need utm_term and utm_content for every link?', a: 'No, those two are optional and mainly useful for paid search (utm_term for the keyword) or A/B testing multiple creative variants of the same campaign (utm_content to distinguish "button-a" from "button-b"). Source, medium, and campaign cover most tracking needs on their own.' },
+  { q: 'Will UTM parameters break my link or affect SEO?', a: 'No, UTM parameters are standard query string parameters that do not affect how the destination page renders or ranks. Google explicitly ignores them for ranking purposes as long as the destination page has a proper canonical tag.' },
+  { q: 'Can I scan the QR code to test it before printing?', a: 'Yes, scan it directly with your phone camera before sending anything to print, to confirm both that the QR resolves correctly and that the destination URL and UTM tags are exactly what you intended.' },
+  { q: 'What resolution is the QR code generated at?', a: 'It renders as a scalable SVG-based image suitable for both screen use and print, download it and it will remain sharp at any size you scale it to for a flyer or poster.' },
+];
+---
+
+<ToolPageShell
+  slug="utm-link-builder"
+  name="UTM Campaign Link Builder & QR Code"
+  tagline="Build a fully-tagged campaign URL and get a scannable QR code for it in one step, ready for email, social, or print."
+  category="Marketing"
+  metaTitle="UTM Link Builder & QR Code Generator, Free Tool | PURIST"
+  metaDescription="Free UTM campaign link builder with instant QR code generation. Build trackable URLs with source, medium, and campaign parameters, ready for any channel."
+  howItWorks={howItWorks}
+  faqs={faqs}
+>
+  <div class="grid lg:grid-cols-[1fr_260px] gap-6 max-w-4xl mx-auto">
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Campaign details</span>
+      </div>
+      <div class="p-5 space-y-4">
+        <div>
+          <label class="text-[11px] uppercase tracking-widest font-semibold block mb-1.5" style="color:rgba(255,255,255,0.35);">Destination URL *</label>
+          <input id="utm-url" type="text" value="https://www.purist.online/pages/welcome" class="w-full px-3 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-3">
+          <div>
+            <label class="text-[11px] uppercase tracking-widest font-semibold block mb-1.5" style="color:rgba(255,255,255,0.35);">Source *</label>
+            <input id="utm-source" type="text" placeholder="newsletter" class="w-full px-3 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+          </div>
+          <div>
+            <label class="text-[11px] uppercase tracking-widest font-semibold block mb-1.5" style="color:rgba(255,255,255,0.35);">Medium *</label>
+            <input id="utm-medium" type="text" placeholder="email" class="w-full px-3 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+          </div>
+        </div>
+        <div>
+          <label class="text-[11px] uppercase tracking-widest font-semibold block mb-1.5" style="color:rgba(255,255,255,0.35);">Campaign *</label>
+          <input id="utm-campaign" type="text" placeholder="q4-launch" class="w-full px-3 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-3">
+          <div>
+            <label class="text-[11px] uppercase tracking-widest font-semibold block mb-1.5" style="color:rgba(255,255,255,0.35);">Term (optional)</label>
+            <input id="utm-term" type="text" class="w-full px-3 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+          </div>
+          <div>
+            <label class="text-[11px] uppercase tracking-widest font-semibold block mb-1.5" style="color:rgba(255,255,255,0.35);">Content (optional)</label>
+            <input id="utm-content" type="text" class="w-full px-3 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(255,255,255,0.35);">Tagged URL</label>
+            <button id="utm-copy" class="text-[11px] px-3 py-1 rounded-full border" style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);">Copy</button>
+          </div>
+          <textarea id="utm-output" rows="3" readonly class="w-full px-3 py-2.5 rounded-lg font-mono text-[12px] leading-relaxed outline-none resize-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#E8B4B0;"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-2xl border overflow-hidden flex flex-col items-center justify-start p-5" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <p class="text-[11px] uppercase tracking-widest font-semibold mb-4 self-start" style="color:rgba(232,180,176,0.7);">QR code</p>
+      <div id="utm-qr" class="rounded-lg overflow-hidden" style="background:#fff;width:180px;height:180px;display:flex;align-items:center;justify-content:center;"></div>
+      <a id="utm-download" download="qr-code.png" class="mt-4 text-[11.5px] font-semibold px-4 py-2 rounded-lg" style="background:#E8B4B0;color:#0a0a0a;">Download PNG</a>
+    </div>
+  </div>
+</ToolPageShell>
+
+<script>
+  import QRCode from 'qrcode';
+
+  var fields = ['utm-url','utm-source','utm-medium','utm-campaign','utm-term','utm-content'];
+  var output = document.getElementById('utm-output');
+  var qrContainer = document.getElementById('utm-qr');
+  var downloadLink = document.getElementById('utm-download');
+
+  function buildUrl() {
+    var base = document.getElementById('utm-url').value.trim();
+    if (!base) return '';
+    var params = [
+      ['utm_source', document.getElementById('utm-source').value.trim()],
+      ['utm_medium', document.getElementById('utm-medium').value.trim()],
+      ['utm_campaign', document.getElementById('utm-campaign').value.trim()],
+      ['utm_term', document.getElementById('utm-term').value.trim()],
+      ['utm_content', document.getElementById('utm-content').value.trim()],
+    ].filter(function(p) { return p[1]; });
+    if (params.length === 0) return base;
+    var sep = base.indexOf('?') === -1 ? '?' : '&';
+    return base + sep + params.map(function(p) { return p[0] + '=' + encodeURIComponent(p[1]); }).join('&');
+  }
+
+  async function render() {
+    var url = buildUrl();
+    output.value = url;
+    if (!url) { qrContainer.innerHTML = ''; return; }
+    try {
+      var canvas = document.createElement('canvas');
+      await QRCode.toCanvas(canvas, url, { width: 168, margin: 1, color: { dark: '#0A0A0A', light: '#FFFFFF' } });
+      qrContainer.innerHTML = '';
+      qrContainer.appendChild(canvas);
+      downloadLink.href = canvas.toDataURL('image/png');
+    } catch (e) {
+      qrContainer.innerHTML = '<span style="color:#0A0A0A;font-size:11px;padding:8px;text-align:center;">URL too long for QR</span>';
+    }
+  }
+
+  fields.forEach(function(id) {
+    document.getElementById(id).addEventListener('input', render);
+  });
+
+  document.getElementById('utm-copy').addEventListener('click', function() {
+    if (!output.value) return;
+    navigator.clipboard.writeText(output.value);
+    var btn = document.getElementById('utm-copy');
+    var orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(function() { btn.textContent = orig; }, 1200);
+  });
+
+  document.getElementById('utm-source').value = 'newsletter';
+  document.getElementById('utm-medium').value = 'email';
+  document.getElementById('utm-campaign').value = 'q4-launch';
+  render();
+</script>
