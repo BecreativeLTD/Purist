@@ -1,0 +1,144 @@
+---
+import ToolPageShell from '~/components/tools/ToolPageShell.astro';
+
+const howItWorks = [
+  { title: 'Live matching against real text', body: 'Type a pattern and sample text, matches highlight instantly as you type, using your browser\'s native JavaScript regex engine, the same one n8n\'s Code and Set nodes run on.' },
+  { title: 'Capture group breakdown', body: 'Every capture group in a match is listed separately, useful for confirming exactly what a Set node expression or a Code node\'s match.groups will actually extract.' },
+  { title: 'Plain-English pattern breakdown', body: 'Common regex syntax (anchors, character classes, quantifiers, groups) in your pattern is decoded into a short description, so you do not need to remember what \\d+? means at a glance.' },
+];
+
+const faqs = [
+  { q: 'Does this use the same regex engine as n8n?', a: 'Yes. n8n\'s Code node and expression fields run on Node.js, which uses the same JavaScript regex engine as your browser. A pattern that matches here will behave identically inside an n8n Code node.' },
+  { q: 'Why is my pattern not matching anything?', a: 'The most common causes are: forgetting the "g" flag when you expect multiple matches, using a capture group syntax not supported without a flag (like named groups needing correct (?<name>) syntax), or unescaped special characters like "." or "$" that need a backslash to be treated literally.' },
+  { q: 'What is the difference between .* and .*? (greedy vs lazy)?', a: 'By default, quantifiers are greedy: .* matches as much text as possible, then backtracks if needed. Adding a "?" makes it lazy: .*? matches as little as possible. This matters most when your pattern has multiple similar delimiters in the sample text, greedy vs lazy can produce very different match boundaries.' },
+  { q: 'Can this tool test multiline text?', a: 'Yes, paste multiline sample text directly. Add the "m" flag if you need ^ and $ to match the start and end of each line rather than only the start and end of the entire string.' },
+  { q: 'Does this tool store my pattern or sample text?', a: 'No, everything runs client-side in your browser. Nothing is transmitted or saved.' },
+];
+---
+
+<ToolPageShell
+  slug="regex-tester"
+  name="Regex Tester for Automation"
+  tagline="Test a regular expression against real sample text, see every match and capture group highlighted live, and get a plain-English breakdown of the pattern."
+  category="Development"
+  metaTitle="Regex Tester for Automation Workflows, Free Tool | PURIST"
+  metaDescription="Free regex tester built for automation builders. Test patterns against sample text with live highlighting, capture group breakdown, and plain-English explanation."
+  howItWorks={howItWorks}
+  faqs={faqs}
+>
+  <div class="grid lg:grid-cols-2 gap-6">
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Pattern</span>
+      </div>
+      <div class="p-5 space-y-3">
+        <div class="flex gap-2">
+          <span class="flex items-center px-3 rounded-lg font-mono text-[14px]" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.4);">/</span>
+          <input id="rx-pattern" type="text" value="(\w+)@(\w+)\.(\w+)" class="flex-1 px-3 py-2.5 rounded-lg font-mono text-[14px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+          <span class="flex items-center px-3 rounded-lg font-mono text-[14px]" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.4);">/</span>
+          <input id="rx-flags" type="text" value="g" placeholder="flags" class="w-16 px-3 py-2.5 rounded-lg font-mono text-[14px] outline-none text-center" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#E8B4B0;"/>
+        </div>
+        <div id="rx-explain" class="text-[12px] leading-relaxed p-3 rounded-lg" style="background:rgba(232,180,176,0.06);color:rgba(232,180,176,0.85);"></div>
+        <div>
+          <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Sample text</label>
+          <textarea id="rx-sample" rows="8" class="w-full px-3 py-2.5 rounded-lg font-mono text-[13px] leading-relaxed outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.75);">Contact james@acme.com or the backup address, support@acme-help.io, for anything urgent.</textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Highlighted matches</span>
+      </div>
+      <div id="rx-highlighted" class="p-5 font-mono text-[13px] leading-relaxed" style="color:rgba(255,255,255,0.6);white-space:pre-wrap;min-height:120px;"></div>
+      <div class="px-5 pb-5">
+        <p class="text-[11px] uppercase tracking-widest font-semibold mb-3" style="color:rgba(255,255,255,0.35);">Matches & capture groups</p>
+        <div id="rx-matches" class="space-y-2"></div>
+      </div>
+    </div>
+  </div>
+</ToolPageShell>
+
+<script is:inline>
+(function() {
+  var patternInput = document.getElementById('rx-pattern');
+  var flagsInput = document.getElementById('rx-flags');
+  var sampleInput = document.getElementById('rx-sample');
+  var highlighted = document.getElementById('rx-highlighted');
+  var matchesEl = document.getElementById('rx-matches');
+  var explainEl = document.getElementById('rx-explain');
+
+  function escapeHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function explainPattern(pattern) {
+    var notes = [];
+    if (/^\^/.test(pattern)) notes.push('^ anchors to the start');
+    if (/\$$/.test(pattern)) notes.push('$ anchors to the end');
+    if (/\\d/.test(pattern)) notes.push('\\d matches any digit');
+    if (/\\w/.test(pattern)) notes.push('\\w matches any word character (letters, digits, underscore)');
+    if (/\\s/.test(pattern)) notes.push('\\s matches whitespace');
+    if (/\.\*\?/.test(pattern)) notes.push('.*? is a lazy (non-greedy) match');
+    else if (/\.\*/.test(pattern)) notes.push('.* is a greedy match (as much as possible)');
+    if (/\+/.test(pattern)) notes.push('+ means one or more of the preceding token');
+    if (/\*/.test(pattern) && !/\.\*/.test(pattern)) notes.push('* means zero or more of the preceding token');
+    if (/\?/.test(pattern) && !/\.\*\?/.test(pattern)) notes.push('? means zero or one (optional)');
+    if (/\(\?:/.test(pattern)) notes.push('(?:...) is a non-capturing group');
+    else if (/\(\?</.test(pattern)) notes.push('(?<name>...) is a named capture group');
+    else if (/\(/.test(pattern)) notes.push('(...) creates a capture group');
+    if (/\[.*\]/.test(pattern)) notes.push('[...] matches any one character in the set');
+    if (/\|/.test(pattern)) notes.push('| means OR between alternatives');
+    return notes.length ? notes.join('. ') + '.' : 'No recognized special syntax detected, this pattern matches literal text.';
+  }
+
+  function render() {
+    var pattern = patternInput.value;
+    var flags = flagsInput.value;
+    var sample = sampleInput.value;
+    explainEl.textContent = explainPattern(pattern);
+
+    var regex;
+    try {
+      regex = new RegExp(pattern, flags.indexOf('g') === -1 ? flags + 'g' : flags);
+    } catch (e) {
+      highlighted.innerHTML = '<span style="color:#f87171;">Invalid pattern: ' + escapeHtml(e.message) + '</span>';
+      matchesEl.innerHTML = '';
+      return;
+    }
+
+    var lastIndex = 0;
+    var html = '';
+    var matches = [];
+    var m;
+    var safety = 0;
+    while ((m = regex.exec(sample)) !== null && safety < 500) {
+      safety++;
+      html += escapeHtml(sample.slice(lastIndex, m.index));
+      html += '<mark style="background:rgba(232,180,176,0.35);color:#fff;border-radius:3px;padding:0 2px;">' + escapeHtml(m[0]) + '</mark>';
+      lastIndex = m.index + m[0].length;
+      matches.push(m);
+      if (m[0] === '') { regex.lastIndex++; }
+      if (!regex.global) break;
+    }
+    html += escapeHtml(sample.slice(lastIndex));
+    highlighted.innerHTML = html || '<span style="color:rgba(255,255,255,0.3);">No sample text.</span>';
+
+    if (matches.length === 0) {
+      matchesEl.innerHTML = '<p style="font-size:12px;color:rgba(255,255,255,0.35);">No matches found.</p>';
+    } else {
+      matchesEl.innerHTML = matches.map(function(m, i) {
+        var groups = m.slice(1).map(function(g, gi) {
+          return '<div style="font-size:11px;color:rgba(255,255,255,0.45);padding-left:12px;">Group ' + (gi+1) + ': <span style="color:#E8B4B0;">' + escapeHtml(g || '(empty)') + '</span></div>';
+        }).join('');
+        return '<div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:8px 10px;">'
+          + '<div style="font-size:12px;color:#fff;font-weight:600;">Match ' + (i+1) + ': <span style="color:#E8B4B0;font-family:monospace;">' + escapeHtml(m[0]) + '</span></div>'
+          + groups + '</div>';
+      }).join('');
+    }
+  }
+
+  [patternInput, flagsInput, sampleInput].forEach(function(el) { el.addEventListener('input', render); });
+  render();
+})();
+</script>

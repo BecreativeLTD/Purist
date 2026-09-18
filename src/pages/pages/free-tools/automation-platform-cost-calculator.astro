@@ -1,0 +1,115 @@
+---
+import ToolPageShell from '~/components/tools/ToolPageShell.astro';
+
+const howItWorks = [
+  { title: 'Real published pricing tiers', body: 'Uses each platform\'s public pricing structure: Zapier bills per task, Make bills per operation, n8n Cloud bills per execution while self-hosted n8n is a flat infrastructure cost regardless of volume.' },
+  { title: 'You enter your actual volume', body: 'Tasks, operations, and executions are not the same unit across platforms, one multi-step workflow run can be 1 task on Zapier but 5+ operations on Make. Enter your monthly runs and typical step count for a fair comparison.' },
+  { title: 'Estimates, not quotes', body: 'Published tier pricing changes periodically and enterprise volume discounts are not reflected here. Treat this as a starting point for a real conversation with each vendor, not a final invoice.' },
+];
+
+const faqs = [
+  { q: 'Why does the same workflow cost differently across platforms?', a: 'Because the billing unit is different. Zapier counts one "task" per triggered action in a Zap. Make counts each individual module execution as an "operation," so a 5-step scenario uses 5 operations per run. n8n Cloud counts full workflow executions regardless of step count.' },
+  { q: 'Is self-hosted n8n really free?', a: 'The software license is free and open-source, but you still pay for hosting (typically $10-40/month for a small VPS) and your own time or a developer\'s time to maintain, monitor, and update it. It is not zero cost, just a different cost structure than per-task SaaS pricing.' },
+  { q: 'At what volume does n8n usually become cheaper than Zapier or Make?', a: 'Generally once monthly task or operation volume crosses a few thousand, since Zapier and Make both scale cost with volume while self-hosted n8n\'s cost stays flat regardless of how much you run through it.' },
+  { q: 'Does this calculator include the cost of building the workflows?', a: 'No, only platform subscription cost. Build cost (whether DIY time or an agency) is separate and varies by workflow complexity, see our n8n template library for examples of what production-grade workflows actually involve.' },
+  { q: 'Which platform is actually best, not just cheapest?', a: 'It depends on your team\'s technical comfort and workflow complexity, not just cost. See our full <a href="/pages/blog/n8n-vs-make-vs-zapier-honest-comparison">n8n vs Make vs Zapier comparison</a> for the non-cost tradeoffs.' },
+];
+---
+
+<ToolPageShell
+  slug="automation-platform-cost-calculator"
+  name="Zapier vs Make vs n8n: Real Cost Calculator"
+  tagline="Enter your actual monthly automation volume to see what you would really pay on each platform, not just the entry-tier price on the pricing page."
+  category="Cost"
+  metaTitle="Zapier vs Make vs n8n Cost Calculator, Free Tool | PURIST"
+  metaDescription="Free calculator comparing real monthly cost on Zapier, Make, and n8n based on your actual task volume. See published pricing tiers side by side."
+  howItWorks={howItWorks}
+  faqs={faqs}
+>
+  <div class="rounded-2xl border overflow-hidden max-w-3xl mx-auto" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+    <div class="px-6 py-4 border-b" style="border-color:rgba(255,255,255,0.06);">
+      <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Your monthly volume</span>
+    </div>
+    <div class="p-6 grid sm:grid-cols-2 gap-5">
+      <div>
+        <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Workflow runs per month</label>
+        <input id="calc-runs" type="number" min="1" value="2000" class="w-full px-4 py-3 rounded-lg text-[14px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+      </div>
+      <div>
+        <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Avg. steps per workflow</label>
+        <input id="calc-steps" type="number" min="1" value="4" class="w-full px-4 py-3 rounded-lg text-[14px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+      </div>
+    </div>
+    <div class="px-6 pb-6 grid sm:grid-cols-3 gap-4" id="calc-results"></div>
+    <p class="px-6 pb-6 text-[10.5px]" style="color:rgba(255,255,255,0.25);">Based on published entry/mid-tier pricing as of late 2026. Volume discounts, annual billing, and enterprise tiers are not reflected. Confirm current pricing directly with each vendor before deciding.</p>
+  </div>
+</ToolPageShell>
+
+<script is:inline>
+(function() {
+  function zapierCost(runs, steps) {
+    var tasks = runs * (steps - 1); // Zapier counts actions, not the trigger step
+    var tiers = [
+      { limit: 750, price: 19.99 }, { limit: 2000, price: 49 }, { limit: 5000, price: 69 },
+      { limit: 10000, price: 103.50 }, { limit: 20000, price: 184 }, { limit: 50000, price: 424 },
+      { limit: 100000, price: 799 }, { limit: Infinity, price: 799 + Math.ceil((tasks-100000)/50000)*400 },
+    ];
+    var tier = tiers.find(function(t) { return tasks <= t.limit; }) || tiers[tiers.length-1];
+    return { cost: tier.price, unit: tasks + ' tasks/mo' };
+  }
+  function makeCost(runs, steps) {
+    var ops = runs * steps;
+    var tiers = [
+      { limit: 1000, price: 9 }, { limit: 10000, price: 16 }, { limit: 20000, price: 29 },
+      { limit: 40000, price: 49 }, { limit: 80000, price: 89 }, { limit: 150000, price: 149 },
+      { limit: 300000, price: 259 }, { limit: Infinity, price: 259 + Math.ceil((ops-300000)/150000)*130 },
+    ];
+    var tier = tiers.find(function(t) { return ops <= t.limit; }) || tiers[tiers.length-1];
+    return { cost: tier.price, unit: ops + ' operations/mo' };
+  }
+  function n8nCloudCost(runs) {
+    var tiers = [
+      { limit: 2500, price: 24 }, { limit: 10000, price: 60 }, { limit: 40000, price: 120 },
+      { limit: Infinity, price: 120 + Math.ceil((runs-40000)/20000)*40 },
+    ];
+    var tier = tiers.find(function(t) { return runs <= t.limit; }) || tiers[tiers.length-1];
+    return { cost: tier.price, unit: runs + ' executions/mo' };
+  }
+  function n8nSelfHostedCost() {
+    return { cost: 25, unit: 'flat VPS cost, any volume' };
+  }
+
+  function render() {
+    var runs = Math.max(1, parseInt(document.getElementById('calc-runs').value) || 0);
+    var steps = Math.max(1, parseInt(document.getElementById('calc-steps').value) || 1);
+
+    var z = zapierCost(runs, steps);
+    var m = makeCost(runs, steps);
+    var nc = n8nCloudCost(runs);
+    var nsh = n8nSelfHostedCost();
+
+    var cheapest = Math.min(z.cost, m.cost, nc.cost, nsh.cost);
+
+    var platforms = [
+      { name: 'Zapier', data: z },
+      { name: 'Make', data: m },
+      { name: 'n8n Cloud', data: nc },
+      { name: 'n8n Self-Hosted', data: nsh },
+    ];
+
+    document.getElementById('calc-results').innerHTML = platforms.map(function(p) {
+      var isCheapest = p.data.cost === cheapest;
+      return '<div style="background:' + (isCheapest ? 'rgba(74,222,128,0.08)' : 'rgba(255,255,255,0.04)') + ';border:1px solid ' + (isCheapest ? 'rgba(74,222,128,0.3)' : 'rgba(255,255,255,0.08)') + ';border-radius:12px;padding:16px;">'
+        + (isCheapest ? '<p style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#4ADE80;margin-bottom:6px;">Cheapest</p>' : '')
+        + '<p style="font-size:11.5px;font-weight:600;color:#fff;margin-bottom:4px;">' + p.name + '</p>'
+        + '<p style="font-family:\'Fraunces\',Georgia,serif;font-size:24px;color:' + (isCheapest ? '#4ADE80' : '#E8B4B0') + ';">$' + p.data.cost.toLocaleString() + '<span style="font-size:12px;color:rgba(255,255,255,0.3);">/mo</span></p>'
+        + '<p style="font-size:10.5px;color:rgba(255,255,255,0.35);margin-top:4px;">' + p.data.unit + '</p>'
+        + '</div>';
+    }).join('');
+  }
+
+  document.getElementById('calc-runs').addEventListener('input', render);
+  document.getElementById('calc-steps').addEventListener('input', render);
+  render();
+})();
+</script>

@@ -1,0 +1,93 @@
+---
+import ToolPageShell from '~/components/tools/ToolPageShell.astro';
+
+const howItWorks = [
+  { title: 'Per-token pricing, not flat subscription', body: 'All major LLM APIs bill per token (roughly 4 characters of text), separately for input and output tokens, at different rates per model. This tool applies each model\'s published per-million-token rate to your estimated volume.' },
+  { title: 'You control the assumptions', body: 'Set your expected monthly request count and typical input/output length. Longer prompts (like a full document analysis) cost meaningfully more per call than a short classification task.' },
+  { title: 'Compare models side by side', body: 'See the same workload priced across Claude, GPT, and DeepSeek tiers at once, since the cost difference between a flagship and a smaller model is often 10-20x for similar output quality on straightforward tasks.' },
+];
+
+const faqs = [
+  { q: 'What counts as a token?', a: 'Roughly 4 characters of English text, so about 750 words is approximately 1,000 tokens. Other languages and code can tokenize less efficiently, sometimes using more tokens for the same character count.' },
+  { q: 'Why is output more expensive than input on most models?', a: 'Generating new text requires more computation per token than reading existing text, so nearly every provider prices output tokens at 3-5x the input token rate. A workflow that generates long responses (like drafting emails or reports) costs more per call than one that just classifies or extracts data.' },
+  { q: 'Do smaller models actually save meaningful money?', a: 'Yes, often 10-20x per token compared to flagship models. For high-volume, simple tasks (classification, routing, short extraction), a smaller or mid-tier model frequently produces equivalent results at a fraction of the cost, worth testing before defaulting to the most capable model.' },
+  { q: 'Does this estimate include the cost of the automation platform itself?', a: 'No, this is API token cost only. If you are calling these models from an n8n workflow, add your n8n hosting or execution cost on top, see our automation platform cost calculator for that separately.' },
+  { q: 'How accurate is this for a real production workload?', a: 'It is a reasonable planning estimate assuming your average prompt length stays consistent. Real costs vary with prompt engineering choices (system prompts, few-shot examples, retrieved context) that can add thousands of tokens per call beyond just the user\'s message.' },
+];
+
+const MODELS = [
+  { id: 'claude-opus', name: 'Claude Opus', inputPer1M: 15, outputPer1M: 75 },
+  { id: 'claude-sonnet', name: 'Claude Sonnet', inputPer1M: 3, outputPer1M: 15 },
+  { id: 'claude-haiku', name: 'Claude Haiku', inputPer1M: 0.80, outputPer1M: 4 },
+  { id: 'gpt-4o', name: 'GPT-4o', inputPer1M: 2.50, outputPer1M: 10 },
+  { id: 'gpt-4o-mini', name: 'GPT-4o mini', inputPer1M: 0.15, outputPer1M: 0.60 },
+  { id: 'deepseek-v3', name: 'DeepSeek-V3', inputPer1M: 0.27, outputPer1M: 1.10 },
+];
+---
+
+<ToolPageShell
+  slug="ai-api-cost-estimator"
+  name="AI API Cost Estimator"
+  tagline="Estimate your monthly Claude, GPT, and DeepSeek API cost from your expected call volume and typical prompt length, before you build the agent."
+  category="AI"
+  metaTitle="AI API Cost Estimator, Claude vs GPT vs DeepSeek | PURIST"
+  metaDescription="Free calculator to estimate monthly Claude, GPT, and DeepSeek API cost based on your request volume and token length. Compare models side by side."
+  howItWorks={howItWorks}
+  faqs={faqs}
+>
+  <div class="rounded-2xl border overflow-hidden max-w-3xl mx-auto" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+    <div class="px-6 py-4 border-b" style="border-color:rgba(255,255,255,0.06);">
+      <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Your expected workload</span>
+    </div>
+    <div class="p-6 grid sm:grid-cols-3 gap-5">
+      <div>
+        <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Requests / month</label>
+        <input id="ai-requests" type="number" min="1" value="10000" class="w-full px-4 py-3 rounded-lg text-[14px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+      </div>
+      <div>
+        <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Avg. input tokens</label>
+        <input id="ai-input-tokens" type="number" min="1" value="800" class="w-full px-4 py-3 rounded-lg text-[14px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+      </div>
+      <div>
+        <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Avg. output tokens</label>
+        <input id="ai-output-tokens" type="number" min="1" value="300" class="w-full px-4 py-3 rounded-lg text-[14px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+      </div>
+    </div>
+    <div class="px-6 pb-6" id="ai-results"></div>
+    <p class="px-6 pb-6 text-[10.5px]" style="color:rgba(255,255,255,0.25);">Per-token pricing as publicly listed by each provider as of late 2026, subject to change. Confirm current pricing directly with the provider before budgeting.</p>
+  </div>
+</ToolPageShell>
+
+<script define:vars={{ MODELS }}>
+(function() {
+  function render() {
+    var requests = Math.max(1, parseInt(document.getElementById('ai-requests').value) || 0);
+    var inTok = Math.max(1, parseInt(document.getElementById('ai-input-tokens').value) || 0);
+    var outTok = Math.max(1, parseInt(document.getElementById('ai-output-tokens').value) || 0);
+
+    var results = MODELS.map(function(m) {
+      var inCost = (requests * inTok / 1000000) * m.inputPer1M;
+      var outCost = (requests * outTok / 1000000) * m.outputPer1M;
+      return { name: m.name, cost: inCost + outCost };
+    });
+    var cheapest = Math.min.apply(null, results.map(function(r) { return r.cost; }));
+    var mostExpensive = Math.max.apply(null, results.map(function(r) { return r.cost; }));
+
+    document.getElementById('ai-results').innerHTML = '<div style="display:flex;flex-direction:column;gap:8px;">' + results.sort(function(a,b){return a.cost-b.cost;}).map(function(r) {
+      var pct = mostExpensive > 0 ? (r.cost / mostExpensive) * 100 : 0;
+      var isCheapest = r.cost === cheapest;
+      return '<div style="display:flex;align-items:center;gap:12px;">'
+        + '<span style="font-size:12.5px;color:' + (isCheapest ? '#4ADE80' : 'rgba(255,255,255,0.7)') + ';width:120px;flex-shrink:0;font-weight:' + (isCheapest?'600':'400') + ';">' + r.name + '</span>'
+        + '<div style="flex:1;height:18px;background:rgba(255,255,255,0.06);border-radius:6px;overflow:hidden;">'
+        + '<div style="width:' + Math.max(pct, 2) + '%;height:100%;background:' + (isCheapest ? '#4ADE80' : '#E8B4B0') + ';"></div>'
+        + '</div>'
+        + '<span style="font-family:\'Fraunces\',Georgia,serif;font-size:15px;color:#fff;width:90px;text-align:right;flex-shrink:0;">$' + r.cost.toLocaleString(undefined,{maximumFractionDigits: r.cost < 10 ? 2 : 0}) + '</span>'
+        + '</div>';
+    }).join('') + '</div>';
+  }
+  ['ai-requests','ai-input-tokens','ai-output-tokens'].forEach(function(id) {
+    document.getElementById(id).addEventListener('input', render);
+  });
+  render();
+})();
+</script>

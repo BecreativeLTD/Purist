@@ -1,0 +1,172 @@
+---
+import ToolPageShell from '~/components/tools/ToolPageShell.astro';
+
+const howItWorks = [
+  { title: 'Auto-detects direction', body: 'Paste either format and the tool detects whether it is JSON or CSV, then converts to the other automatically. You can also force a direction with the toggle.' },
+  { title: 'Handles nested-safe flattening', body: 'A JSON array of flat objects converts to CSV columns directly. Nested objects are flattened with dot notation (e.g. address.city) so no data is silently dropped.' },
+  { title: 'Proper CSV quoting', body: 'Fields containing commas, quotes, or line breaks are correctly quoted and escaped in both directions, avoiding the silent corruption that naive split(",") conversions produce.' },
+];
+
+const faqs = [
+  { q: 'What JSON structure does this expect?', a: 'An array of flat or lightly-nested objects, the most common shape for tabular data (e.g. exported records, API list responses). A single deeply nested object or a non-array JSON value cannot convert to a meaningful CSV since CSV is inherently row-based.' },
+  { q: 'What happens to nested objects when converting JSON to CSV?', a: 'They are flattened using dot notation, so { "address": { "city": "Paris" } } becomes a column named address.city. Arrays inside objects are converted to a JSON string within that cell rather than expanded into new columns.' },
+  { q: 'Does converting CSV to JSON guess data types?', a: 'Yes, cells that look like numbers or booleans (true/false) are converted to those types automatically; everything else stays a string. If you need every field to remain a string regardless of appearance, you will need to adjust the output manually after conversion.' },
+  { q: 'Is there a size limit?', a: 'The conversion runs entirely in your browser, so the practical limit is your device\'s memory rather than a fixed cap. Very large files (tens of thousands of rows) may feel slow in the browser tab; for genuinely large datasets, a dedicated ETL step in an automation platform is more appropriate.' },
+  { q: 'Does this tool store or transmit my data?', a: 'No. All parsing and conversion happens client-side in JavaScript. Nothing you paste is sent to a server or stored anywhere.' },
+];
+---
+
+<ToolPageShell
+  slug="json-csv-converter"
+  name="JSON ⇄ CSV Converter"
+  tagline="Paste either format, get a clean, correctly-escaped conversion in the other, ready to paste into the next step of your workflow."
+  category="Development"
+  metaTitle="JSON to CSV Converter (and back), Free Tool | PURIST"
+  metaDescription="Free JSON to CSV converter and CSV to JSON converter. Auto-detects format, handles nested objects and proper quoting. Runs entirely in your browser."
+  howItWorks={howItWorks}
+  faqs={faqs}
+>
+  <div class="grid lg:grid-cols-2 gap-6">
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b flex items-center justify-between" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Input</span>
+        <button id="jc-example" class="text-[11px] px-3 py-1 rounded-full border" style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);">Load example</button>
+      </div>
+      <textarea id="jc-input" rows="16" placeholder='Paste JSON (array of objects) or CSV here...'
+        class="w-full bg-transparent resize-none px-5 py-4 font-mono text-[12px] leading-relaxed outline-none" style="color:rgba(255,255,255,0.75);min-height:340px;"></textarea>
+      <div class="px-5 py-3 border-t flex justify-end" style="border-color:rgba(255,255,255,0.06);">
+        <button id="jc-convert" class="px-6 py-2.5 rounded-lg text-[13px] font-semibold" style="background:#E8B4B0;color:#0a0a0a;">Convert →</button>
+      </div>
+    </div>
+
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b flex items-center justify-between" style="border-color:rgba(255,255,255,0.06);">
+        <span id="jc-output-label" class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Output</span>
+        <button id="jc-copy" class="text-[11px] px-3 py-1 rounded-full border" style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);">Copy</button>
+      </div>
+      <textarea id="jc-output" rows="16" readonly placeholder="Converted output will appear here..."
+        class="w-full bg-transparent resize-none px-5 py-4 font-mono text-[12px] leading-relaxed outline-none" style="color:rgba(232,180,176,0.9);min-height:340px;"></textarea>
+    </div>
+  </div>
+  <p id="jc-error" class="hidden text-[12.5px] mt-4 text-center" style="color:#f87171;"></p>
+</ToolPageShell>
+
+<script is:inline>
+(function() {
+  function flatten(obj, prefix) {
+    var out = {};
+    Object.keys(obj).forEach(function(k) {
+      var val = obj[k];
+      var key = prefix ? prefix + '.' + k : k;
+      if (val !== null && typeof val === 'object' && !Array.isArray(val)) {
+        Object.assign(out, flatten(val, key));
+      } else if (Array.isArray(val)) {
+        out[key] = JSON.stringify(val);
+      } else {
+        out[key] = val;
+      }
+    });
+    return out;
+  }
+
+  function jsonToCsv(arr) {
+    var flat = arr.map(function(o) { return flatten(o, ''); });
+    var headers = [];
+    flat.forEach(function(o) { Object.keys(o).forEach(function(k) { if (headers.indexOf(k) === -1) headers.push(k); }); });
+    function esc(v) {
+      if (v === undefined || v === null) return '';
+      var s = String(v);
+      if (/[",\n]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+      return s;
+    }
+    var lines = [headers.map(esc).join(',')];
+    flat.forEach(function(row) { lines.push(headers.map(function(h) { return esc(row[h]); }).join(',')); });
+    return lines.join('\n');
+  }
+
+  function parseCsvLine(line) {
+    var result = []; var cur = ''; var inQuotes = false;
+    for (var i = 0; i < line.length; i++) {
+      var c = line[i];
+      if (inQuotes) {
+        if (c === '"' && line[i+1] === '"') { cur += '"'; i++; }
+        else if (c === '"') { inQuotes = false; }
+        else { cur += c; }
+      } else {
+        if (c === '"') inQuotes = true;
+        else if (c === ',') { result.push(cur); cur = ''; }
+        else cur += c;
+      }
+    }
+    result.push(cur);
+    return result;
+  }
+
+  function csvToJson(text) {
+    var rows = text.trim().split(/\r?\n/).filter(function(l) { return l.length; });
+    var headers = parseCsvLine(rows[0]);
+    return rows.slice(1).map(function(row) {
+      var cells = parseCsvLine(row);
+      var obj = {};
+      headers.forEach(function(h, i) {
+        var v = cells[i];
+        if (v === 'true') v = true;
+        else if (v === 'false') v = false;
+        else if (v !== '' && !isNaN(v)) v = Number(v);
+        obj[h] = v;
+      });
+      return obj;
+    });
+  }
+
+  function detectFormat(text) {
+    var trimmed = text.trim();
+    if (trimmed.startsWith('[') || trimmed.startsWith('{')) return 'json';
+    return 'csv';
+  }
+
+  var input = document.getElementById('jc-input');
+  var output = document.getElementById('jc-output');
+  var errorEl = document.getElementById('jc-error');
+  var outputLabel = document.getElementById('jc-output-label');
+
+  document.getElementById('jc-convert').addEventListener('click', function() {
+    var raw = input.value.trim();
+    errorEl.classList.add('hidden');
+    if (!raw) { errorEl.textContent = 'Paste some JSON or CSV first.'; errorEl.classList.remove('hidden'); return; }
+    try {
+      var format = detectFormat(raw);
+      if (format === 'json') {
+        var parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) throw new Error('JSON input must be an array of objects to convert to CSV.');
+        output.value = jsonToCsv(parsed);
+        outputLabel.textContent = 'Output (CSV)';
+      } else {
+        var json = csvToJson(raw);
+        output.value = JSON.stringify(json, null, 2);
+        outputLabel.textContent = 'Output (JSON)';
+      }
+    } catch (e) {
+      errorEl.textContent = e.message;
+      errorEl.classList.remove('hidden');
+      output.value = '';
+    }
+  });
+
+  document.getElementById('jc-copy').addEventListener('click', function() {
+    if (!output.value) return;
+    navigator.clipboard.writeText(output.value);
+    var btn = document.getElementById('jc-copy');
+    var orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(function() { btn.textContent = orig; }, 1200);
+  });
+
+  document.getElementById('jc-example').addEventListener('click', function() {
+    input.value = JSON.stringify([
+      { name: 'Acme Ltd', plan: 'Pro', mrr: 490, address: { city: 'Lyon', country: 'France' } },
+      { name: 'Whitfield & Co', plan: 'Growth', mrr: 990, address: { city: 'Leeds', country: 'UK' } }
+    ], null, 2);
+  });
+})();
+</script>

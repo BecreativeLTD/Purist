@@ -1,0 +1,125 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import { freeTools } from '~/data/free-tools';
+
+export interface Props {
+  slug: string;
+  name: string;
+  tagline: string;
+  category: string;
+  metaTitle: string;
+  metaDescription: string;
+  howItWorks: { title: string; body: string }[];
+  faqs: { q: string; a: string }[];
+}
+
+const { slug, name, tagline, category, metaTitle, metaDescription, howItWorks, faqs } = Astro.props;
+
+const otherTools = freeTools.filter(t => t.slug !== slug && t.status === 'live').slice(0, 3);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'SoftwareApplication',
+      '@id': `https://www.purist.online/pages/free-tools/${slug}#software`,
+      name,
+      applicationCategory: 'BusinessApplication',
+      operatingSystem: 'Any (runs in browser)',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      description: tagline,
+      url: `https://www.purist.online/pages/free-tools/${slug}`,
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: faqs.map(f => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.purist.online' },
+        { '@type': 'ListItem', position: 2, name: 'Free Tools', item: 'https://www.purist.online/pages/free-tools' },
+        { '@type': 'ListItem', position: 3, name, item: `https://www.purist.online/pages/free-tools/${slug}` },
+      ],
+    },
+  ],
+};
+---
+
+<ShopLayout title={metaTitle} description={metaDescription} canonical={`https://www.purist.online/pages/free-tools/${slug}`}>
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+<!-- Hero -->
+<header class="relative overflow-hidden" style="background:#0A0A0A;">
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 60% at 15% 10%,rgba(232,180,176,0.07) 0%,transparent 65%);"/>
+  <div class="container-x relative z-10 py-12 lg:py-16">
+    <p class="text-[10px] mb-4" style="color:rgba(255,255,255,0.30);">
+      <a href="/pages/free-tools" class="hover:text-white transition-colors" style="color:rgba(255,255,255,0.40);">Free Tools</a>
+      <span class="mx-2">/</span>{category}
+    </p>
+    <h1 class="font-display text-[1.9rem] lg:text-[2.6rem] leading-[1.1] tracking-[-0.02em] text-white mb-3 text-balance max-w-3xl">{name}</h1>
+    <p class="text-[14px] lg:text-[15px] leading-relaxed max-w-2xl" style="color:rgba(255,255,255,0.45);">{tagline}</p>
+  </div>
+</header>
+
+<!-- Tool slot -->
+<section style="background:#0A0A0A;" class="pb-14 lg:pb-20">
+  <div class="container-x">
+    <slot />
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="py-14 lg:py-16" style="background:#F8F6F1;">
+  <div class="container-x max-w-3xl">
+    <h2 class="font-display text-xl lg:text-2xl leading-tight mb-7">How this tool works</h2>
+    <div class="space-y-5">
+      {howItWorks.map((s, i) => (
+        <div class="flex gap-4">
+          <span class="font-display text-[11px] font-semibold tabular-nums pt-0.5 shrink-0 w-6 text-right" style="color:rgba(10,10,10,0.22);">{String(i + 1).padStart(2, '0')}</span>
+          <div>
+            <p class="text-[13.5px] font-semibold text-brand-black mb-1">{s.title}</p>
+            <p class="text-[12.5px] leading-relaxed" style="color:rgba(10,10,10,0.52);">{s.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="py-14 lg:py-16" style="background:#fff;border-top:1px solid rgba(10,10,10,0.06);">
+  <div class="container-x max-w-3xl">
+    <h2 class="font-display text-xl lg:text-2xl leading-tight mb-7">Frequently asked questions</h2>
+    <div class="space-y-4">
+      {faqs.map(f => (
+        <div class="rounded-[14px] p-5" style="background:#F8F6F1;border:1px solid rgba(10,10,10,0.06);">
+          <p class="text-[13.5px] font-semibold text-brand-black mb-1.5">{f.q}</p>
+          <p class="text-[12.5px] leading-relaxed" style="color:rgba(10,10,10,0.52);" set:html={f.a} />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- More free tools -->
+<section class="py-12" style="background:#F8F6F1;border-top:1px solid rgba(10,10,10,0.06);">
+  <div class="container-x">
+    <p class="text-[9.5px] uppercase tracking-[0.2em] font-semibold mb-5" style="color:rgba(10,10,10,0.32);">More free tools</p>
+    <div class="grid sm:grid-cols-3 gap-4">
+      {otherTools.map(t => (
+        <a href={`/pages/free-tools/${t.slug}`} class="rounded-[14px] p-4 block" style="background:#fff;border:1px solid rgba(10,10,10,0.07);">
+          <p class="text-[13px] font-semibold text-brand-black mb-1 hover:underline">{t.name}</p>
+          <p class="text-[11.5px]" style="color:rgba(10,10,10,0.45);">{t.tagline}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+</ShopLayout>

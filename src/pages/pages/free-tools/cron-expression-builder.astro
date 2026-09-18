@@ -1,0 +1,223 @@
+---
+import ToolPageShell from '~/components/tools/ToolPageShell.astro';
+
+const howItWorks = [
+  { title: 'Two-way translation', body: 'Type a cron expression to get a plain-English explanation, or use the builder tab to pick your schedule visually and generate the expression.' },
+  { title: 'Standard 5-field cron', body: 'Supports the format every scheduler uses: minute, hour, day-of-month, month, day-of-week, including wildcards (*), steps (*/5), ranges (1-5), and lists (1,15,30).' },
+  { title: 'Runs entirely in your browser', body: 'Nothing you type is sent anywhere. The parser and the explanation are computed client-side in JavaScript.' },
+];
+
+const faqs = [
+  { q: 'What is a cron expression?', a: 'A cron expression is a 5-field string that defines a recurring schedule: minute, hour, day of month, month, and day of week. It originated in Unix cron and is now the standard scheduling format in n8n, GitHub Actions, Kubernetes CronJobs, and most automation platforms.' },
+  { q: 'What does an asterisk (*) mean in cron?', a: 'An asterisk means "every value" for that field. "* * * * *" means every minute of every hour of every day. Replacing a field with a specific number restricts it to that value only.' },
+  { q: 'What is the difference between */5 and 0,5,10,15... in the minute field?', a: 'They produce the same result for a range starting at 0, but */5 is shorthand for "every 5th value starting from the field minimum" and is easier to read and maintain than spelling out every value in a list.' },
+  { q: 'Does cron use 24-hour time?', a: 'Yes. The hour field is always 0-23, so 2pm is written as 14, not 2. This is one of the most common cron mistakes.' },
+  { q: 'Can I combine day-of-month and day-of-week?', a: 'Most cron implementations treat day-of-month and day-of-week as OR when both are restricted (not wildcards), which produces confusing results. If you need "the 1st of the month AND a Monday," most platforms cannot express that in a single cron field and need two separate triggers instead.' },
+];
+---
+
+<ToolPageShell
+  slug="cron-expression-builder"
+  name="Cron Expression Builder & Explainer"
+  tagline="Paste a cron expression to see exactly what it means, or build one field by field and copy the result straight into your n8n Schedule Trigger."
+  category="Scheduling"
+  metaTitle="Cron Expression Builder & Explainer, Free Tool | PURIST"
+  metaDescription="Free cron expression builder and explainer. Paste a cron expression for a plain-English explanation, or build one visually. No signup required."
+  howItWorks={howItWorks}
+  faqs={faqs}
+>
+  <div class="grid lg:grid-cols-2 gap-6">
+
+    <!-- Explainer -->
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Explain a cron expression</span>
+      </div>
+      <div class="p-5">
+        <input id="cron-input" type="text" value="0 8 1 */3 *" placeholder="e.g. 0 8 1 */3 *"
+          class="w-full px-4 py-3 rounded-lg font-mono text-[14px] outline-none"
+          style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+        <div id="cron-error" class="hidden text-[12px] mt-3" style="color:#f87171;"></div>
+        <div id="cron-explanation" class="mt-4 p-4 rounded-lg" style="background:rgba(232,180,176,0.08);border:1px solid rgba(232,180,176,0.18);">
+          <p id="cron-explanation-text" class="text-[13.5px] leading-relaxed" style="color:#E8B4B0;"></p>
+        </div>
+        <div class="grid grid-cols-5 gap-2 mt-4" id="cron-field-breakdown"></div>
+      </div>
+    </div>
+
+    <!-- Builder -->
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b flex items-center justify-between" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Build a schedule</span>
+      </div>
+      <div class="p-5 space-y-4">
+        <div>
+          <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Frequency</label>
+          <select id="builder-freq" class="w-full px-4 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;">
+            <option value="hourly">Every hour</option>
+            <option value="daily" selected>Every day</option>
+            <option value="weekly">Every week</option>
+            <option value="monthly">Every month</option>
+            <option value="custom">Every N minutes</option>
+          </select>
+        </div>
+        <div id="builder-time-row" class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Hour (24h)</label>
+            <input id="builder-hour" type="number" min="0" max="23" value="8" class="w-full px-4 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+          </div>
+          <div>
+            <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Minute</label>
+            <input id="builder-minute" type="number" min="0" max="59" value="0" class="w-full px-4 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+          </div>
+        </div>
+        <div id="builder-weekday-row" class="hidden">
+          <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Day of week</label>
+          <select id="builder-weekday" class="w-full px-4 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;">
+            <option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option>
+            <option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option><option value="0">Sunday</option>
+          </select>
+        </div>
+        <div id="builder-monthday-row" class="hidden">
+          <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Day of month</label>
+          <input id="builder-monthday" type="number" min="1" max="28" value="1" class="w-full px-4 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+        </div>
+        <div id="builder-interval-row" class="hidden">
+          <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Every N minutes</label>
+          <input id="builder-interval" type="number" min="1" max="59" value="15" class="w-full px-4 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+        </div>
+
+        <div class="pt-2">
+          <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Result</label>
+          <div class="flex items-center gap-2">
+            <input id="builder-output" type="text" readonly class="flex-1 px-4 py-3 rounded-lg font-mono text-[14px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#E8B4B0;"/>
+            <button id="builder-copy" class="px-4 py-3 rounded-lg text-[12px] font-semibold shrink-0" style="background:#E8B4B0;color:#0a0a0a;">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ToolPageShell>
+
+<script is:inline>
+(function() {
+  var FIELD_NAMES = ['Minute', 'Hour', 'Day of month', 'Month', 'Day of week'];
+  var MONTHS = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+  function describeField(value, kind) {
+    if (value === '*') return 'every ' + kind;
+    if (/^\*\/\d+$/.test(value)) return 'every ' + value.split('/')[1] + ' ' + kind + (kind.endsWith('s') ? '' : 's');
+    if (/^\d+-\d+$/.test(value)) return kind + 's ' + value.replace('-', ' through ');
+    if (/^\d+(,\d+)+$/.test(value)) return kind + 's ' + value.split(',').join(', ');
+    if (/^\d+$/.test(value)) {
+      if (kind === 'month') return MONTHS[parseInt(value)] || value;
+      if (kind === 'day of week') return DAYS[parseInt(value)] || value;
+      return value;
+    }
+    return value;
+  }
+
+  function explainCron(expr) {
+    var parts = expr.trim().split(/\s+/);
+    if (parts.length !== 5) throw new Error('A cron expression needs exactly 5 fields (minute hour day-of-month month day-of-week). Found ' + parts.length + '.');
+    var invalid = parts.findIndex(function(p) { return !/^(\*|\*\/\d+|\d+(-\d+)?(,\d+(-\d+)?)*)$/.test(p); });
+    if (invalid !== -1) throw new Error('Field ' + (invalid + 1) + ' ("' + parts[invalid] + '") is not a valid cron field.');
+
+    var min = parts[0], hr = parts[1], dom = parts[2], mon = parts[3], dow = parts[4];
+    var pieces = [];
+
+    if (min === '*' && hr === '*') {
+      pieces.push('At every minute');
+    } else if (/^\*\/\d+$/.test(min) && hr === '*') {
+      pieces.push('Every ' + min.split('/')[1] + ' minutes');
+    } else if (/^\d+$/.test(min) && /^\d+$/.test(hr)) {
+      var h = parseInt(hr), m = parseInt(min);
+      var ampm = h >= 12 ? 'PM' : 'AM';
+      var h12 = h % 12 === 0 ? 12 : h % 12;
+      pieces.push('At ' + h12 + ':' + String(m).padStart(2,'0') + ' ' + ampm);
+    } else {
+      pieces.push('At minute(s) ' + describeField(min, 'minute') + ', hour(s) ' + describeField(hr, 'hour'));
+    }
+
+    if (dom !== '*') pieces.push('on ' + describeField(dom, 'day of month'));
+    if (mon !== '*') pieces.push('in ' + describeField(mon, 'month'));
+    if (dow !== '*') pieces.push('on ' + describeField(dow, 'day of week'));
+    if (dom === '*' && mon === '*' && dow === '*') pieces.push('every day');
+
+    return { sentence: pieces.join(', ') + '.', parts: parts };
+  }
+
+  var input = document.getElementById('cron-input');
+  var errorEl = document.getElementById('cron-error');
+  var explEl = document.getElementById('cron-explanation');
+  var explText = document.getElementById('cron-explanation-text');
+  var breakdown = document.getElementById('cron-field-breakdown');
+
+  function render() {
+    var val = input.value;
+    try {
+      var result = explainCron(val);
+      errorEl.classList.add('hidden');
+      explEl.classList.remove('hidden');
+      explText.textContent = result.sentence;
+      breakdown.innerHTML = result.parts.map(function(p, i) {
+        return '<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:8px 6px;text-align:center;">'
+          + '<div style="font-family:monospace;color:#E8B4B0;font-size:13px;">' + p + '</div>'
+          + '<div style="font-size:9px;color:rgba(255,255,255,0.3);margin-top:4px;text-transform:uppercase;letter-spacing:0.05em;">' + FIELD_NAMES[i] + '</div>'
+          + '</div>';
+      }).join('');
+    } catch (e) {
+      explEl.classList.add('hidden');
+      errorEl.textContent = e.message;
+      errorEl.classList.remove('hidden');
+    }
+  }
+  input.addEventListener('input', render);
+  render();
+
+  // Builder
+  var freqSel = document.getElementById('builder-freq');
+  var hourInput = document.getElementById('builder-hour');
+  var minuteInput = document.getElementById('builder-minute');
+  var weekdaySel = document.getElementById('builder-weekday');
+  var monthdayInput = document.getElementById('builder-monthday');
+  var intervalInput = document.getElementById('builder-interval');
+  var output = document.getElementById('builder-output');
+  var timeRow = document.getElementById('builder-time-row');
+  var weekdayRow = document.getElementById('builder-weekday-row');
+  var monthdayRow = document.getElementById('builder-monthday-row');
+  var intervalRow = document.getElementById('builder-interval-row');
+
+  function updateBuilder() {
+    var freq = freqSel.value;
+    timeRow.classList.toggle('hidden', freq === 'hourly' || freq === 'custom');
+    weekdayRow.classList.toggle('hidden', freq !== 'weekly');
+    monthdayRow.classList.toggle('hidden', freq !== 'monthly');
+    intervalRow.classList.toggle('hidden', freq !== 'custom');
+
+    var expr = '* * * * *';
+    var h = hourInput.value, m = minuteInput.value;
+    if (freq === 'hourly') expr = m + ' * * * *';
+    else if (freq === 'daily') expr = m + ' ' + h + ' * * *';
+    else if (freq === 'weekly') expr = m + ' ' + h + ' * * ' + weekdaySel.value;
+    else if (freq === 'monthly') expr = m + ' ' + h + ' ' + monthdayInput.value + ' * *';
+    else if (freq === 'custom') expr = '*/' + intervalInput.value + ' * * * *';
+    output.value = expr;
+  }
+  [freqSel, hourInput, minuteInput, weekdaySel, monthdayInput, intervalInput].forEach(function(el) {
+    el.addEventListener('input', updateBuilder);
+    el.addEventListener('change', updateBuilder);
+  });
+  updateBuilder();
+
+  document.getElementById('builder-copy').addEventListener('click', function() {
+    navigator.clipboard.writeText(output.value);
+    var btn = document.getElementById('builder-copy');
+    var orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(function() { btn.textContent = orig; }, 1200);
+  });
+})();
+</script>

@@ -1,0 +1,180 @@
+---
+import ToolPageShell from '~/components/tools/ToolPageShell.astro';
+
+const howItWorks = [
+  { title: 'Structural validation first', body: 'Confirms your pasted JSON is valid, then checks it has the two required top-level keys any n8n workflow needs: nodes and connections.' },
+  { title: 'Orphan detection', body: 'Flags any node that is never referenced as a source or target in connections, excluding trigger nodes, which are expected to have no incoming connection.' },
+  { title: 'Dangling reference detection', body: 'Catches the most common import failure: a connection object that points to a node name which does not exist in the nodes array (often from a renamed node).' },
+  { title: 'Complexity snapshot', body: 'Counts total nodes, unique node types, and flags workflows with unusually few connections relative to node count, a common sign of an incomplete export.' },
+];
+
+const faqs = [
+  { q: 'Does this tool send my workflow anywhere?', a: 'No. Validation runs entirely in your browser with client-side JavaScript. Your workflow JSON, which may contain business logic or internal system names, never leaves your device.' },
+  { q: 'Can this tool detect missing credentials?', a: 'It flags nodes of types that typically require credentials (HTTP Request, database nodes, most app-specific nodes) when no credential reference is present in the node, but it cannot verify the credential itself is valid or has the right permissions, since that requires connecting to n8n directly.' },
+  { q: 'Why does my workflow show an "orphaned node" that I know is connected?', a: 'This usually means the connection references the node by an ID that does not match its current name, most often after a node was renamed in the n8n editor without the connections being remapped. Re-saving the workflow in n8n typically fixes this automatically.' },
+  { q: 'Can I validate a workflow exported from Make or Zapier?', a: 'No, this tool is specific to n8n\'s JSON schema (nodes array with type/parameters/position, connections keyed by node name). Make and Zapier use entirely different internal formats that are not interchangeable.' },
+  { q: 'Does a clean validation mean my workflow will run correctly?', a: 'It means the workflow is structurally sound and importable without errors. It does not verify your node parameters are logically correct, your credentials are valid, or your API calls will succeed, those can only be confirmed by testing the live workflow.' },
+];
+---
+
+<ToolPageShell
+  slug="n8n-workflow-validator"
+  name="n8n Workflow JSON Validator"
+  tagline="Paste your exported n8n workflow JSON and catch structural problems, orphaned nodes, and dangling connections before you import it."
+  category="n8n"
+  metaTitle="n8n Workflow JSON Validator, Free Tool | PURIST"
+  metaDescription="Free n8n workflow JSON validator. Paste your workflow export to catch orphaned nodes, dangling connections, and missing credentials before import. No signup."
+  howItWorks={howItWorks}
+  faqs={faqs}
+>
+  <div class="grid lg:grid-cols-2 gap-6">
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b flex items-center justify-between" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Your workflow JSON</span>
+        <button id="v-load-example" class="text-[11px] px-3 py-1 rounded-full border" style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);">Load broken example</button>
+      </div>
+      <textarea id="v-input" rows="18" placeholder="Paste the full JSON exported from n8n here..."
+        class="w-full bg-transparent resize-none px-5 py-4 font-mono text-[12px] leading-relaxed outline-none" style="color:rgba(255,255,255,0.75);min-height:380px;"></textarea>
+      <div class="px-5 py-3 border-t flex justify-end" style="border-color:rgba(255,255,255,0.06);">
+        <button id="v-validate" class="px-6 py-2.5 rounded-lg text-[13px] font-semibold" style="background:#E8B4B0;color:#0a0a0a;">Validate workflow →</button>
+      </div>
+    </div>
+
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Results</span>
+      </div>
+      <div id="v-results" class="p-5">
+        <p class="text-[13px]" style="color:rgba(255,255,255,0.35);">Paste a workflow and click Validate to see results here.</p>
+      </div>
+    </div>
+  </div>
+</ToolPageShell>
+
+<script is:inline>
+(function() {
+  var CREDENTIAL_TYPE_HINTS = ['httpRequest', 'postgres', 'mysql', 'mongoDb', 'slack', 'gmail', 'googleSheets', 'hubspot', 'salesforce', 'stripe', 'airtable', 'notion'];
+
+  function validate(json) {
+    var issues = [];
+    var warnings = [];
+    var info = [];
+
+    if (!Array.isArray(json.nodes)) { issues.push('Missing or invalid "nodes" array at the top level.'); return { issues: issues, warnings: warnings, info: info }; }
+    if (typeof json.connections !== 'object' || json.connections === null) { issues.push('Missing or invalid "connections" object at the top level.'); return { issues: issues, warnings: warnings, info: info }; }
+
+    var nodeNames = json.nodes.map(function(n) { return n.name; });
+    var nodeNameSet = {};
+    nodeNames.forEach(function(n) { nodeNameSet[n] = true; });
+
+    var duplicates = nodeNames.filter(function(n, i) { return nodeNames.indexOf(n) !== i; });
+    if (duplicates.length) issues.push('Duplicate node name(s): ' + Array.from(new Set(duplicates)).join(', ') + '. Node names must be unique.');
+
+    // dangling connection targets/sources
+    var referencedTargets = {};
+    Object.keys(json.connections).forEach(function(sourceName) {
+      if (!nodeNameSet[sourceName]) issues.push('Connection source "' + sourceName + '" does not match any node name in the workflow.');
+      var outputs = json.connections[sourceName].main || [];
+      outputs.forEach(function(branch) {
+        (branch || []).forEach(function(conn) {
+          referencedTargets[conn.node] = true;
+          if (!nodeNameSet[conn.node]) issues.push('Connection target "' + conn.node + '" (from "' + sourceName + '") does not match any node name in the workflow.');
+        });
+      });
+    });
+
+    // orphan detection, excluding common trigger types
+    var triggerTypeHints = ['trigger', 'webhook', 'cron', 'schedule', 'manualTrigger'];
+    json.nodes.forEach(function(n) {
+      var isTrigger = triggerTypeHints.some(function(h) { return (n.type || '').toLowerCase().indexOf(h.toLowerCase()) !== -1; });
+      var hasOutgoing = !!json.connections[n.name];
+      var hasIncoming = !!referencedTargets[n.name];
+      if (!isTrigger && !hasIncoming && !hasOutgoing) {
+        warnings.push('Node "' + n.name + '" (' + n.type + ') has no incoming or outgoing connections, it will never execute.');
+      } else if (!isTrigger && !hasIncoming) {
+        warnings.push('Node "' + n.name + '" has no incoming connection. If this is not meant to be a trigger, it will never run.');
+      }
+    });
+
+    // credential heuristic
+    json.nodes.forEach(function(n) {
+      var typeLower = (n.type || '').toLowerCase();
+      var looksLikeCredNode = CREDENTIAL_TYPE_HINTS.some(function(h) { return typeLower.indexOf(h.toLowerCase()) !== -1; });
+      if (looksLikeCredNode && !n.credentials) {
+        warnings.push('Node "' + n.name + '" (' + n.type + ') looks like it needs credentials, but none are attached in the exported JSON. This is often normal for exports (credentials are not exported for security), but confirm it is connected before running.');
+      }
+    });
+
+    var typeCount = {};
+    json.nodes.forEach(function(n) { typeCount[n.type] = (typeCount[n.type] || 0) + 1; });
+    info.push(json.nodes.length + ' total nodes across ' + Object.keys(typeCount).length + ' unique node types.');
+    var connectionCount = Object.keys(json.connections).reduce(function(sum, k) {
+      return sum + (json.connections[k].main || []).reduce(function(s, b) { return s + (b ? b.length : 0); }, 0);
+    }, 0);
+    info.push(connectionCount + ' total connections.');
+    if (json.nodes.length > 5 && connectionCount < json.nodes.length - 2) {
+      warnings.push('Connection count (' + connectionCount + ') is low relative to node count (' + json.nodes.length + '). This can be normal for parallel branches, but worth double-checking for an incomplete export.');
+    }
+
+    return { issues: issues, warnings: warnings, info: info };
+  }
+
+  function renderResults(r, err) {
+    var el = document.getElementById('v-results');
+    if (err) {
+      el.innerHTML = '<div style="background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);border-radius:10px;padding:14px;"><p style="color:#f87171;font-size:13px;">Invalid JSON: ' + err + '</p></div>';
+      return;
+    }
+    var html = '';
+    if (r.issues.length === 0 && r.warnings.length === 0) {
+      html += '<div style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.25);border-radius:10px;padding:14px;margin-bottom:14px;"><p style="color:#4ADE80;font-size:13px;font-weight:600;">No structural issues found.</p></div>';
+    }
+    if (r.issues.length) {
+      html += '<p style="color:#f87171;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">' + r.issues.length + ' issue(s)</p>';
+      html += '<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">' + r.issues.map(function(i) {
+        return '<div style="background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.2);border-radius:8px;padding:10px 12px;font-size:12.5px;color:rgba(255,255,255,0.75);">' + i + '</div>';
+      }).join('') + '</div>';
+    }
+    if (r.warnings.length) {
+      html += '<p style="color:#E8B4B0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">' + r.warnings.length + ' warning(s)</p>';
+      html += '<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">' + r.warnings.map(function(w) {
+        return '<div style="background:rgba(232,180,176,0.08);border:1px solid rgba(232,180,176,0.2);border-radius:8px;padding:10px 12px;font-size:12.5px;color:rgba(255,255,255,0.7);">' + w + '</div>';
+      }).join('') + '</div>';
+    }
+    if (r.info.length) {
+      html += '<p style="color:rgba(255,255,255,0.3);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">Summary</p>';
+      html += '<div style="display:flex;flex-direction:column;gap:6px;">' + r.info.map(function(i) {
+        return '<div style="font-size:12px;color:rgba(255,255,255,0.45);">' + i + '</div>';
+      }).join('') + '</div>';
+    }
+    el.innerHTML = html;
+  }
+
+  document.getElementById('v-validate').addEventListener('click', function() {
+    var raw = document.getElementById('v-input').value.trim();
+    if (!raw) { renderResults(null, 'Paste a workflow JSON first.'); return; }
+    try {
+      var json = JSON.parse(raw);
+      renderResults(validate(json), null);
+    } catch (e) {
+      renderResults(null, e.message);
+    }
+  });
+
+  document.getElementById('v-load-example').addEventListener('click', function() {
+    var example = {
+      nodes: [
+        { id: '1', name: 'Webhook', type: 'n8n-nodes-base.webhook', typeVersion: 2, position: [0,0], parameters: {} },
+        { id: '2', name: 'Set Data', type: 'n8n-nodes-base.set', typeVersion: 3, position: [220,0], parameters: {} },
+        { id: '3', name: 'Send to Slack', type: 'n8n-nodes-base.slack', typeVersion: 2, position: [440,0], parameters: {} },
+        { id: '4', name: 'Unused Node', type: 'n8n-nodes-base.noOp', typeVersion: 1, position: [220,200], parameters: {} }
+      ],
+      connections: {
+        'Webhook': { main: [[{ node: 'Set Data', type: 'main', index: 0 }]] },
+        'Set Data': { main: [[{ node: 'Send To Slack', type: 'main', index: 0 }]] }
+      }
+    };
+    document.getElementById('v-input').value = JSON.stringify(example, null, 2);
+  });
+})();
+</script>

@@ -1,0 +1,114 @@
+---
+import ToolPageShell from '~/components/tools/ToolPageShell.astro';
+
+const howItWorks = [
+  { title: 'Five weighted questions', body: 'Frequency, time cost, error risk, process stability, and volume, the five factors that actually determine automation ROI, each weighted by how strongly it predicts payback speed.' },
+  { title: 'A score, not a guess', body: 'Your answers combine into a 0-100 score with a clear verdict: automate now, automate eventually, or leave it manual.' },
+  { title: 'Built from real audit patterns', body: 'The weighting reflects what we actually see across completed client audits, not an arbitrary point system.' },
+];
+
+const faqs = [
+  { q: 'Is this the same as the ROI calculator?', a: 'No. The ROI calculator estimates a dollar figure for a task you already know you want to automate. This tool answers the earlier question: should this specific task be automated at all, before you spend time estimating numbers for it.' },
+  { q: 'What score should trigger action?', a: 'Above 70 typically means the task is a strong automation candidate worth prioritizing. 40-70 means it is worth automating eventually but is not urgent. Below 40 usually means the effort of automating exceeds the benefit right now, revisit if the process changes or scales up.' },
+  { q: 'Why does process stability matter for the score?', a: 'A frequently-changing process is expensive to automate because the automation needs ongoing maintenance every time the process changes. A stable process that runs the same way every time returns the automation investment far faster.' },
+  { q: 'Can a low-volume task still score high?', a: 'Yes, if the error risk and time cost per instance are both high. A task done only twice a month can still be worth automating if getting it wrong is expensive (compliance, financial reconciliation) or if each instance eats hours of manual work.' },
+  { q: 'What do I do after getting my score?', a: 'For a high-scoring task, the next step is a free automation audit to scope exactly what the automation looks like and what it costs. For a low-scoring task, it is usually not worth the conversation yet, revisit once volume or complexity changes.' },
+];
+---
+
+<ToolPageShell
+  slug="automate-or-not"
+  name='"Automate or Not" Decision Score'
+  tagline="Answer 5 quick questions about one specific task and get a scored verdict on whether it is actually worth automating right now."
+  category="Strategy"
+  metaTitle='"Automate or Not" Decision Score, Free Tool | PURIST'
+  metaDescription="Free automation decision tool. Answer 5 questions about a business task to get a scored verdict: automate now, automate eventually, or leave it manual."
+  howItWorks={howItWorks}
+  faqs={faqs}
+>
+  <div class="max-w-2xl mx-auto rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+    <div class="px-6 py-4 border-b" style="border-color:rgba(255,255,255,0.06);">
+      <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Describe the task once, answer honestly</span>
+    </div>
+    <div class="p-6 space-y-6" id="aon-questions"></div>
+    <div id="aon-result" class="hidden px-6 pb-6"></div>
+  </div>
+</ToolPageShell>
+
+<script is:inline>
+(function() {
+  var QUESTIONS = [
+    { key: 'freq', label: 'How often does this task happen?', weight: 0.20,
+      opts: [ ['Rarely (a few times a year)', 1], ['Monthly', 2], ['Weekly', 3], ['Daily or more', 4] ] },
+    { key: 'time', label: 'How long does one instance take, done manually?', weight: 0.25,
+      opts: [ ['Under 5 minutes', 1], ['5-30 minutes', 2], ['30 minutes to 2 hours', 3], ['Over 2 hours', 4] ] },
+    { key: 'error', label: 'What happens when this task is done wrong?', weight: 0.25,
+      opts: [ ['Barely noticeable', 1], ['Minor rework needed', 2], ['Real cost, customer sees it', 3], ['Compliance, financial, or major customer impact', 4] ] },
+    { key: 'stability', label: 'How often does the process itself change?', weight: 0.15,
+      opts: [ ['Constantly, we are still figuring it out', 1], ['A few times a year', 2], ['Rarely', 3], ['Never, it has been the same for years', 4] ] },
+    { key: 'volume', label: 'How many people or instances does this touch per month?', weight: 0.15,
+      opts: [ ['1-5', 1], ['6-20', 2], ['21-100', 3], ['100+', 4] ] },
+  ];
+
+  var answers = {};
+  var container = document.getElementById('aon-questions');
+
+  QUESTIONS.forEach(function(q, qi) {
+    var div = document.createElement('div');
+    div.innerHTML = '<p style="font-size:13.5px;font-weight:600;color:#fff;margin-bottom:10px;">' + (qi+1) + '. ' + q.label + '</p>'
+      + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;" data-key="' + q.key + '">'
+      + q.opts.map(function(o) {
+          return '<button type="button" class="aon-opt" data-key="' + q.key + '" data-val="' + o[1] + '" style="text-align:left;padding:10px 14px;border-radius:10px;font-size:12.5px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.7);cursor:pointer;">' + o[0] + '</button>';
+        }).join('')
+      + '</div>';
+    container.appendChild(div);
+  });
+
+  container.addEventListener('click', function(e) {
+    var btn = e.target.closest('.aon-opt');
+    if (!btn) return;
+    var key = btn.getAttribute('data-key');
+    answers[key] = parseInt(btn.getAttribute('data-val'));
+    document.querySelectorAll('.aon-opt[data-key="' + key + '"]').forEach(function(b) {
+      var selected = b === btn;
+      b.style.background = selected ? '#E8B4B0' : 'rgba(255,255,255,0.04)';
+      b.style.color = selected ? '#0a0a0a' : 'rgba(255,255,255,0.7)';
+      b.style.borderColor = selected ? '#E8B4B0' : 'rgba(255,255,255,0.12)';
+      b.style.fontWeight = selected ? '600' : '400';
+    });
+    if (Object.keys(answers).length === QUESTIONS.length) computeResult();
+  });
+
+  function computeResult() {
+    var score = 0;
+    QUESTIONS.forEach(function(q) { score += (answers[q.key] / 4) * q.weight * 100; });
+    score = Math.round(score);
+
+    var verdict, color, advice;
+    if (score >= 70) {
+      verdict = 'Automate this now';
+      color = '#4ADE80';
+      advice = 'This task scores as a strong automation candidate: it happens often enough, costs enough time or risk when done manually, and the process is stable enough to automate reliably. This is the kind of task worth scoping in a free audit.';
+    } else if (score >= 40) {
+      verdict = 'Automate eventually';
+      color = '#E8B4B0';
+      advice = 'This task has real automation potential but is not the most urgent priority right now. Revisit it once volume grows, the process stabilizes further, or you have addressed higher-scoring tasks first.';
+    } else {
+      verdict = 'Leave it manual for now';
+      color = 'rgba(255,255,255,0.5)';
+      advice = 'Based on your answers, the effort of building and maintaining an automation likely exceeds the benefit at this task\'s current frequency, risk, and volume. Revisit if any of those change.';
+    }
+
+    var el = document.getElementById('aon-result');
+    el.classList.remove('hidden');
+    el.innerHTML = '<div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:20px;text-align:center;">'
+      + '<div style="font-family:\'Fraunces\',Georgia,serif;font-size:44px;color:' + color + ';line-height:1;">' + score + '</div>'
+      + '<p style="font-size:9px;text-transform:uppercase;letter-spacing:0.16em;color:rgba(255,255,255,0.3);margin-top:6px;">out of 100</p>'
+      + '<p style="font-size:16px;font-weight:600;color:#fff;margin-top:14px;">' + verdict + '</p>'
+      + '<p style="font-size:12.5px;color:rgba(255,255,255,0.5);line-height:1.6;margin-top:8px;max-width:440px;margin-left:auto;margin-right:auto;">' + advice + '</p>'
+      + (score >= 40 ? '<a href="/pages/welcome" style="display:inline-flex;margin-top:18px;padding:11px 22px;border-radius:10px;background:#E8B4B0;color:#0a0a0a;font-size:13px;font-weight:600;text-decoration:none;">Get a free automation audit →</a>' : '')
+      + '</div>';
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+})();
+</script>

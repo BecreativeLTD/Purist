@@ -266,6 +266,17 @@ Categories and example professions:
 - [Typeform vs Jotform vs Google Forms vs Tally](https://www.purist.online/pages/blog/typeform-vs-jotform-vs-google-forms-vs-tally-2026): Form builders ranked by conversion optimization, integration depth, and compliance readiness.
 - [Gusto vs Rippling vs ADP vs Paychex](https://www.purist.online/pages/blog/gusto-vs-rippling-vs-adp-vs-paychex-payroll-2026): Payroll platforms ranked by ease of use, complex-scenario handling, and pricing transparency.
 
+## Free Developer Tools (no signup, run in-browser)
+
+- [Free Tools Hub](https://www.purist.online/pages/free-tools): All tools listed with descriptions.
+- [Cron Expression Builder & Explainer](https://www.purist.online/pages/free-tools/cron-expression-builder): Two-way translation between cron syntax and plain English.
+- [n8n Workflow JSON Validator](https://www.purist.online/pages/free-tools/n8n-workflow-validator): Detects orphaned nodes, dangling connections, and missing credentials in exported n8n JSON.
+- [Automate or Not Decision Score](https://www.purist.online/pages/free-tools/automate-or-not): 5-question weighted score on whether a specific task is worth automating.
+- [Zapier vs Make vs n8n Cost Calculator](https://www.purist.online/pages/free-tools/automation-platform-cost-calculator): Real monthly cost across all three platforms based on actual task volume.
+- [AI API Cost Estimator](https://www.purist.online/pages/free-tools/ai-api-cost-estimator): Monthly cost estimate across Claude, GPT and DeepSeek models based on request volume and token length.
+- [JSON ⇄ CSV Converter](https://www.purist.online/pages/free-tools/json-csv-converter): Auto-detecting bidirectional converter with nested-object flattening and proper CSV quoting.
+- [Regex Tester for Automation](https://www.purist.online/pages/free-tools/regex-tester): Live match highlighting, capture group breakdown, and plain-English pattern explanation.
+
 ## Free n8n Workflow Templates (6 downloadable, 24-32 nodes each)
 
 - [n8n Templates Library](https://www.purist.online/pages/n8n-templates): Hub for all templates, each a real production-grade workflow, not a 3-node demo.

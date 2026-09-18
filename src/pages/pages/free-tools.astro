@@ -1,0 +1,123 @@
+---
+import ShopLayout from '~/layouts/ShopLayout.astro';
+import { freeTools } from '~/data/free-tools';
+
+const liveTools = freeTools.filter(t => t.status === 'live');
+const comingSoon = freeTools.filter(t => t.status === 'coming-soon');
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'CollectionPage',
+      '@id': 'https://www.purist.online/pages/free-tools#collectionpage',
+      url: 'https://www.purist.online/pages/free-tools',
+      name: 'Free Automation Tools',
+      description: 'Free, no-signup tools for building and debugging automation: cron builder, n8n workflow validator, cost calculators, and more.',
+      isPartOf: { '@id': 'https://www.purist.online/#website' },
+      datePublished: '2026-09-19',
+      dateModified: '2026-09-19',
+    },
+    {
+      '@type': 'ItemList',
+      '@id': 'https://www.purist.online/pages/free-tools#itemlist',
+      itemListElement: liveTools.map((t, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: `https://www.purist.online/pages/free-tools/${t.slug}`,
+        name: t.name,
+      })),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.purist.online' },
+        { '@type': 'ListItem', position: 2, name: 'Free Tools', item: 'https://www.purist.online/pages/free-tools' },
+      ],
+    },
+  ],
+};
+---
+
+<ShopLayout
+  title="Free Automation Tools, No Signup Required | PURIST"
+  description="Free tools for building and debugging automation: cron expression builder, n8n workflow validator, cost calculators, regex tester, JSON/CSV converter, and more. No account needed."
+  canonical="https://www.purist.online/pages/free-tools"
+>
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+<!-- Hero -->
+<header class="relative overflow-hidden" style="background:#0A0A0A;">
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 70% 90% at 20% 20%,rgba(232,180,176,0.07) 0%,transparent 65%);"/>
+  <div class="container-x relative z-10 py-16 lg:py-24 text-center">
+    <p class="text-[9.5px] uppercase tracking-[0.24em] font-bold mb-5" style="color:rgba(232,180,176,0.60);">Free · No signup · No email gate</p>
+    <h1 class="font-display text-[2.3rem] lg:text-[3.4rem] leading-[1.06] tracking-[-0.025em] text-white mb-5 text-balance max-w-3xl mx-auto">
+      The utilities we built for ourselves, <em class="font-medium" style="color:#E8B4B0;">now yours too.</em>
+    </h1>
+    <p class="text-[15px] lg:text-base leading-relaxed max-w-xl mx-auto" style="color:rgba(255,255,255,0.42);">
+      Nine focused tools for building, debugging and pricing out automation. Each one runs entirely in your browser, no account, no data stored, no catch.
+    </p>
+  </div>
+</header>
+
+<!-- Tool grid -->
+<section class="py-14 lg:py-20" style="background:#F8F6F1;">
+  <div class="container-x">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {liveTools.map(t => (
+        <a href={`/pages/free-tools/${t.slug}`} class="tool-card group rounded-[18px] p-6 flex flex-col" style="background:#fff;border:1px solid rgba(10,10,10,0.08);">
+          <div class="flex items-start justify-between mb-4">
+            <div class="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0" style="background:rgba(232,180,176,0.12);">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="#c4847e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d={t.icon}/></svg>
+            </div>
+            <span class="text-[9px] font-bold uppercase tracking-[0.12em] px-2.5 py-1 rounded-full" style="background:rgba(45,80,22,0.08);color:#2D5016;">{t.badge}</span>
+          </div>
+          <p class="text-[9.5px] uppercase tracking-[0.14em] font-semibold mb-1.5" style="color:rgba(10,10,10,0.32);">{t.category}</p>
+          <h2 class="text-[15.5px] font-semibold text-brand-black leading-snug mb-2 group-hover:underline">{t.name}</h2>
+          <p class="text-[12.5px] leading-relaxed flex-1" style="color:rgba(10,10,10,0.50);">{t.tagline}</p>
+          <span class="inline-flex items-center gap-1.5 text-[12px] font-semibold mt-4" style="color:#c4847e;">
+            Open tool
+            <svg class="w-3.5 h-3.5 transition-transform duration-150 group-hover:translate-x-0.5" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+          </span>
+        </a>
+      ))}
+    </div>
+
+    {comingSoon.length > 0 && (
+      <div class="mt-10">
+        <p class="text-[9.5px] uppercase tracking-[0.2em] font-semibold mb-4" style="color:rgba(10,10,10,0.32);">Coming soon</p>
+        <div class="grid sm:grid-cols-2 gap-4">
+          {comingSoon.map(t => (
+            <div class="rounded-[16px] p-5 flex items-start gap-4 opacity-60" style="background:#fff;border:1px dashed rgba(10,10,10,0.15);">
+              <div class="w-9 h-9 rounded-[9px] flex items-center justify-center shrink-0" style="background:rgba(10,10,10,0.05);">
+                <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="rgba(10,10,10,0.4)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d={t.icon}/></svg>
+              </div>
+              <div>
+                <h3 class="text-[13.5px] font-semibold text-brand-black mb-1">{t.name}</h3>
+                <p class="text-[12px] leading-relaxed" style="color:rgba(10,10,10,0.45);">{t.tagline}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</section>
+
+<!-- Why free -->
+<section class="py-14" style="background:#fff;border-top:1px solid rgba(10,10,10,0.06);">
+  <div class="container-x max-w-2xl mx-auto text-center">
+    <h2 class="font-display text-xl lg:text-2xl leading-tight mb-4">Why we built these for free</h2>
+    <p class="text-[13.5px] leading-relaxed" style="color:rgba(10,10,10,0.55);">
+      We built each of these to solve a problem our own team hit repeatedly while deploying automations for clients. Publishing them costs us nothing to maintain and saves you the search. If one of them saves you time, the <a href="/pages/welcome" class="underline" style="color:#c4847e;">free automation audit</a> is the natural next step, but there is no obligation either way.
+    </p>
+  </div>
+</section>
+
+</ShopLayout>
+
+<style>
+  .tool-card { transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s; }
+  .tool-card:hover { border-color: rgba(196,132,126,0.4); box-shadow: 0 8px 24px rgba(10,10,10,0.06); transform: translateY(-2px); }
+</style>
