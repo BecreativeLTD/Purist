@@ -1,0 +1,115 @@
+---
+import ToolPageShell from '~/components/tools/ToolPageShell.astro';
+
+const howItWorks = [
+  { title: 'Handles multiple data categories at once', body: 'Real compliance work rarely involves one deadline: support tickets, marketing consent, financial records, and employee data all carry different retention periods under one company\'s policy. This tool tracks all of them in one table.' },
+  { title: 'Flags what is already overdue', body: 'Any record whose deletion deadline has already passed is highlighted immediately, since an overdue deletion is an active compliance gap, not just a future to-do.' },
+  { title: 'Standard reference periods included', body: 'Comes pre-loaded with commonly-cited retention benchmarks (support data, marketing consent, financial/tax records, employee records) as a starting point, adjust any of them to match your actual documented policy.' },
+];
+
+const faqs = [
+  { q: 'Are these default retention periods legally required?', a: 'No, they are commonly-cited industry benchmarks, not legal requirements. GDPR itself does not specify fixed retention periods, it requires you to justify whatever period you choose against a legitimate purpose (contract, legal obligation, legitimate interest) and delete data once that purpose no longer applies. Financial record retention is often set by separate tax law, not GDPR, and varies by jurisdiction, always confirm your specific obligations with legal counsel rather than relying on generic defaults.' },
+  { q: 'What happens if a deletion deadline has already passed?', a: 'Under GDPR, holding personal data beyond its justified retention period without a valid ongoing purpose is itself a compliance gap. An overdue deadline should trigger immediate deletion (or an updated justification if a legitimate purpose to retain longer still exists) rather than being left indefinitely.' },
+  { q: 'Does this tool actually delete any data?', a: 'No, this is a date-calculation tool only. It tells you when deletion is due; the actual deletion still needs to happen in your systems, whether manually or through an automated retention-enforcement workflow.' },
+  { q: 'Can I automate the actual deletion once I know the deadline?', a: 'Yes, this is a common n8n use case, a scheduled workflow that queries records approaching or past their retention deadline and triggers deletion or an internal review task automatically, rather than relying on someone remembering to check a spreadsheet.' },
+  { q: 'Does this apply outside the EU?', a: 'The specific "GDPR" framing is EU-specific, but the underlying pattern (data collected on a date, retained for a defined period, then deleted) applies under most global privacy frameworks (CCPA, LGPD, and similar), only the specific required periods and legal justification differ by jurisdiction.' },
+];
+---
+
+<ToolPageShell
+  slug="gdpr-retention-calculator"
+  name="GDPR Data Retention Deadline Calculator"
+  tagline="Track multiple data categories with different retention periods at once, and see exactly which records are due for deletion, or already overdue."
+  category="Compliance"
+  metaTitle="GDPR Data Retention Deadline Calculator, Free Tool | PURIST"
+  metaDescription="Free GDPR data retention deadline calculator. Track multiple data categories with different retention periods and instantly see overdue or upcoming deletion deadlines."
+  howItWorks={howItWorks}
+  faqs={faqs}
+>
+  <div class="max-w-4xl mx-auto rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+    <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+      <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Data categories</span>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-[12.5px]" style="min-width:600px;">
+        <thead>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+            <th class="text-left px-4 py-2.5 font-medium" style="color:rgba(255,255,255,0.35);">Category</th>
+            <th class="text-left px-4 py-2.5 font-medium" style="color:rgba(255,255,255,0.35);">Collected on</th>
+            <th class="text-left px-4 py-2.5 font-medium" style="color:rgba(255,255,255,0.35);">Retention (months)</th>
+            <th class="text-left px-4 py-2.5 font-medium" style="color:rgba(255,255,255,0.35);">Deletion deadline</th>
+            <th class="px-4 py-2.5"></th>
+          </tr>
+        </thead>
+        <tbody id="gdpr-rows"></tbody>
+      </table>
+    </div>
+    <div class="p-4">
+      <button id="gdpr-add" class="text-[12px] px-4 py-2 rounded-lg font-semibold" style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.12);">+ Add category</button>
+    </div>
+  </div>
+</ToolPageShell>
+
+<script is:inline>
+(function() {
+  var DEFAULTS = [
+    { category: 'Support tickets', date: '', months: 24 },
+    { category: 'Marketing consent', date: '', months: 36 },
+    { category: 'Financial/tax records', date: '', months: 84 },
+    { category: 'Employee records', date: '', months: 72 },
+  ];
+
+  function todayStr() { return new Date().toISOString().slice(0,10); }
+  DEFAULTS.forEach(function(d) { if (!d.date) d.date = todayStr(); });
+
+  var rowsEl = document.getElementById('gdpr-rows');
+  var rows = DEFAULTS.map(function(d) { return Object.assign({}, d); });
+
+  function addDeadline(dateStr, months) {
+    var d = new Date(dateStr);
+    d.setMonth(d.getMonth() + months);
+    return d;
+  }
+
+  function render() {
+    rowsEl.innerHTML = rows.map(function(r, i) {
+      var deadline = addDeadline(r.date, r.months);
+      var overdue = deadline < new Date();
+      var daysUntil = Math.ceil((deadline - new Date()) / 86400000);
+      var color = overdue ? '#f87171' : daysUntil < 30 ? '#E8B4B0' : '#4ADE80';
+      var statusText = overdue ? 'OVERDUE by ' + Math.abs(daysUntil) + ' days' : daysUntil + ' days remaining';
+      return '<tr style="border-bottom:1px solid rgba(255,255,255,0.05);">'
+        + '<td class="px-4 py-2.5"><input data-i="' + i + '" data-field="category" value="' + r.category + '" style="background:transparent;border:none;color:#fff;width:100%;outline:none;font-size:12.5px;"/></td>'
+        + '<td class="px-4 py-2.5"><input type="date" data-i="' + i + '" data-field="date" value="' + r.date + '" style="background:transparent;border:none;color:rgba(255,255,255,0.7);outline:none;font-size:12px;"/></td>'
+        + '<td class="px-4 py-2.5"><input type="number" data-i="' + i + '" data-field="months" value="' + r.months + '" style="background:transparent;border:none;color:rgba(255,255,255,0.7);width:60px;outline:none;font-size:12.5px;"/></td>'
+        + '<td class="px-4 py-2.5"><span style="color:' + color + ';font-weight:600;">' + deadline.toLocaleDateString() + '</span><br/><span style="font-size:10px;color:' + color + ';">' + statusText + '</span></td>'
+        + '<td class="px-4 py-2.5"><button data-remove="' + i + '" style="color:rgba(255,255,255,0.3);font-size:16px;line-height:1;">×</button></td>'
+        + '</tr>';
+    }).join('');
+  }
+
+  rowsEl.addEventListener('input', function(e) {
+    var i = e.target.getAttribute('data-i');
+    var field = e.target.getAttribute('data-field');
+    if (i === null) return;
+    rows[i][field] = field === 'months' ? parseInt(e.target.value) || 0 : e.target.value;
+    render();
+    // restore focus after re-render
+    var sel = 'input[data-i="'+i+'"][data-field="'+field+'"]';
+    var el = rowsEl.querySelector(sel);
+    if (el) { el.focus(); }
+  });
+
+  rowsEl.addEventListener('click', function(e) {
+    var idx = e.target.getAttribute('data-remove');
+    if (idx !== null) { rows.splice(idx, 1); render(); }
+  });
+
+  document.getElementById('gdpr-add').addEventListener('click', function() {
+    rows.push({ category: 'New category', date: todayStr(), months: 24 });
+    render();
+  });
+
+  render();
+})();
+</script>

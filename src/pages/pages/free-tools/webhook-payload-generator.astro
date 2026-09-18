@@ -1,0 +1,132 @@
+---
+import ToolPageShell from '~/components/tools/ToolPageShell.astro';
+
+const howItWorks = [
+  { title: 'Real payload shapes, not guesses', body: 'Each sample matches the actual structure that service sends for that event type: field names, nesting, and typical data types, so your workflow logic is tested against something realistic.' },
+  { title: 'Multiple event types per service', body: 'Pick the specific event (new order vs. refund vs. subscription cancelled) rather than one generic shape, since your workflow branches differently for each.' },
+  { title: 'Send it live to your own test webhook', body: 'Paste your n8n test webhook URL and fire the generated payload directly at it with one click, no need to copy-paste into a separate tool or write a curl command by hand.' },
+];
+
+const faqs = [
+  { q: 'Will this exactly match what the real service sends?', a: 'It matches the commonly documented structure for that event as of when this tool was built. Providers occasionally add fields or restructure payloads; always validate against the specific version noted in that provider\'s current webhook documentation for anything going to production.' },
+  { q: 'Can I send this to any URL, or only n8n?', a: 'Any URL that accepts a POST request with a JSON body, including an n8n Webhook node\'s test URL, a webhook.site style inspector, or your own API endpoint. This is a standard browser fetch() call, not something n8n-specific.' },
+  { q: 'Why does my n8n workflow fail with this test payload even though it looks right?', a: 'Most commonly a signature verification step, some providers (Stripe especially) sign real webhook requests with a header your workflow checks. A synthetic test payload will not carry a valid signature, temporarily bypass or mock that check while testing with sample data.' },
+  { q: 'Does sending the payload from this page have any CORS restrictions?', a: 'Sending to a webhook endpoint that accepts requests from any origin (most n8n and webhook-testing tools do) works fine. An endpoint with strict CORS policy limited to specific origins will reject the browser-based request; use a tool like curl or Postman for those instead.' },
+  { q: 'Is my webhook URL or the payload data sent anywhere except my chosen destination?', a: 'No, the request goes directly from your browser to the URL you specify. This tool does not proxy, log, or store the request anywhere.' },
+];
+
+const PAYLOADS = {
+  'stripe-payment': {
+    label: 'Stripe · payment_intent.succeeded',
+    body: { id: 'evt_1P8x2K', type: 'payment_intent.succeeded', data: { object: { id: 'pi_3P8x2K', amount: 4900, currency: 'usd', status: 'succeeded', customer: 'cus_QwErTy', metadata: { order_id: 'ORD-1042' } } }, created: 1789660800 },
+  },
+  'stripe-subscription-cancelled': {
+    label: 'Stripe · customer.subscription.deleted',
+    body: { id: 'evt_1P8y3L', type: 'customer.subscription.deleted', data: { object: { id: 'sub_1P8y3L', customer: 'cus_QwErTy', status: 'canceled', cancel_at_period_end: false, canceled_at: 1789660800 } }, created: 1789660800 },
+  },
+  'shopify-order-created': {
+    label: 'Shopify · orders/create',
+    body: { id: 5544332211, order_number: 1042, email: 'james@acme.com', total_price: '49.00', currency: 'USD', financial_status: 'paid', line_items: [{ id: 1, title: 'Widget A', quantity: 2, price: '24.50' }], customer: { id: 998877, first_name: 'James', last_name: 'Whitfield', email: 'james@acme.com' } },
+  },
+  'shopify-order-refunded': {
+    label: 'Shopify · refunds/create',
+    body: { id: 887766, order_id: 5544332211, note: 'Customer requested refund', restock: true, refund_line_items: [{ line_item_id: 1, quantity: 1, subtotal: 24.50 }], created_at: '2026-09-19T10:00:00Z' },
+  },
+  'hubspot-contact-created': {
+    label: 'HubSpot · contact.creation',
+    body: [{ eventId: 1, subscriptionType: 'contact.creationChange', objectId: 501, changeSource: 'CRM', changeFlag: 'CREATED', occurredAt: 1789660800000 }],
+  },
+  'typeform-response': {
+    label: 'Typeform · form_response',
+    body: { event_id: '01HXYZ', event_type: 'form_response', form_response: { form_id: 'ABC123', token: 'tok_abc', submitted_at: '2026-09-19T10:00:00Z', answers: [{ field: { id: 'q1', type: 'email' }, email: 'james@acme.com' }, { field: { id: 'q2', type: 'short_text' }, text: 'Acme Ltd' }] } },
+  },
+};
+---
+
+<ToolPageShell
+  slug="webhook-payload-generator"
+  name="Webhook Sample Payload Generator"
+  tagline="Pick a real event type from Stripe, Shopify, HubSpot, or Typeform, get a realistic sample payload, and optionally fire it directly at your own test webhook URL."
+  category="Development"
+  metaTitle="Webhook Sample Payload Generator, Free Tool | PURIST"
+  metaDescription="Free webhook sample payload generator for Stripe, Shopify, HubSpot and Typeform events. Generate realistic test payloads and send them live to your own webhook URL."
+  howItWorks={howItWorks}
+  faqs={faqs}
+>
+  <div class="grid lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Event type</span>
+      </div>
+      <div class="p-5">
+        <select id="wp-select" class="w-full px-4 py-2.5 rounded-lg text-[13px] outline-none mb-4" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;">
+          {Object.entries(PAYLOADS).map(([key, val]) => (
+            <option value={key}>{val.label}</option>
+          ))}
+        </select>
+        <pre id="wp-payload" class="text-[11.5px] font-mono p-4 rounded-lg overflow-x-auto" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#E8B4B0;max-height:340px;overflow-y:auto;"></pre>
+        <button id="wp-copy" class="w-full mt-3 text-[12px] px-4 py-2.5 rounded-lg font-semibold" style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.12);">Copy payload</button>
+      </div>
+    </div>
+
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Send it live</span>
+      </div>
+      <div class="p-5 space-y-3">
+        <div>
+          <label class="text-[11px] uppercase tracking-widest font-semibold block mb-1.5" style="color:rgba(255,255,255,0.35);">Your webhook URL (e.g. n8n test URL)</label>
+          <input id="wp-url" type="text" placeholder="https://your-n8n-instance.com/webhook-test/..." class="w-full px-3 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+        </div>
+        <button id="wp-send" class="w-full px-4 py-3 rounded-lg text-[13px] font-semibold" style="background:#E8B4B0;color:#0a0a0a;">Send payload now →</button>
+        <div id="wp-result" class="hidden p-3 rounded-lg text-[12px]"></div>
+        <p class="text-[10.5px] mt-2" style="color:rgba(255,255,255,0.3);">Sends a real POST request with this JSON body directly from your browser to the URL above. Nothing passes through PURIST's servers.</p>
+      </div>
+    </div>
+  </div>
+</ToolPageShell>
+
+<script is:inline define:vars={{ PAYLOADS }}>
+(function() {
+  var select = document.getElementById('wp-select');
+  var payloadEl = document.getElementById('wp-payload');
+
+  function render() {
+    var data = PAYLOADS[select.value];
+    payloadEl.textContent = JSON.stringify(data.body, null, 2);
+  }
+  select.addEventListener('change', render);
+  render();
+
+  document.getElementById('wp-copy').addEventListener('click', function() {
+    navigator.clipboard.writeText(payloadEl.textContent);
+    var btn = document.getElementById('wp-copy');
+    var orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(function() { btn.textContent = orig; }, 1200);
+  });
+
+  document.getElementById('wp-send').addEventListener('click', async function() {
+    var url = document.getElementById('wp-url').value.trim();
+    var resultEl = document.getElementById('wp-result');
+    resultEl.classList.remove('hidden');
+    if (!url) {
+      resultEl.style.background = 'rgba(248,113,113,0.1)'; resultEl.style.border = '1px solid rgba(248,113,113,0.3)'; resultEl.style.color = '#f87171';
+      resultEl.textContent = 'Enter a destination URL first.';
+      return;
+    }
+    resultEl.style.background = 'rgba(255,255,255,0.05)'; resultEl.style.border = '1px solid rgba(255,255,255,0.1)'; resultEl.style.color = 'rgba(255,255,255,0.6)';
+    resultEl.textContent = 'Sending…';
+    try {
+      var res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payloadEl.textContent });
+      resultEl.style.background = res.ok ? 'rgba(74,222,128,0.1)' : 'rgba(248,113,113,0.1)';
+      resultEl.style.border = '1px solid ' + (res.ok ? 'rgba(74,222,128,0.3)' : 'rgba(248,113,113,0.3)');
+      resultEl.style.color = res.ok ? '#4ADE80' : '#f87171';
+      resultEl.textContent = 'Response: ' + res.status + ' ' + res.statusText;
+    } catch (e) {
+      resultEl.style.background = 'rgba(248,113,113,0.1)'; resultEl.style.border = '1px solid rgba(248,113,113,0.3)'; resultEl.style.color = '#f87171';
+      resultEl.textContent = 'Request failed: ' + e.message + '. This is often a CORS restriction on the destination, not a problem with your payload.';
+    }
+  });
+})();
+</script>

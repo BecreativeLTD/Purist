@@ -1,0 +1,146 @@
+---
+import ToolPageShell from '~/components/tools/ToolPageShell.astro';
+
+const howItWorks = [
+  { title: 'Live rendered preview, not just raw HTML', body: 'See exactly how the Markdown will actually look, not just the HTML source, before you paste it anywhere.' },
+  { title: 'Email-safe mode', body: 'Standard HTML from a Markdown converter often breaks in email clients because they strip external stylesheets. Email-safe mode inlines every style directly onto each tag instead, the format most email automation tools actually require.' },
+  { title: 'Covers the syntax that matters for business writing', body: 'Headings, bold, italic, links, bullet and numbered lists, and code spans, the subset of Markdown that covers nearly all client updates, proposals, and documentation.' },
+];
+
+const faqs = [
+  { q: 'Why does my HTML look fine in the browser but broken in an email client?', a: 'Most email clients (Outlook especially) strip <style> blocks and external CSS entirely, keeping only inline style="" attributes on individual tags. Standard HTML converters rely on stylesheets, which is why the same code renders perfectly in a browser preview but loses all formatting once delivered to an inbox.' },
+  { q: 'What Markdown syntax does this tool support?', a: 'Headings (# through ###), bold (**text**), italic (*text*), links ([text](url)), unordered lists (- item), ordered lists (1. item), and inline code (`code`). This covers the large majority of business writing; more advanced Markdown (tables, footnotes, nested blockquotes) is not converted.' },
+  { q: 'Can I convert HTML back to Markdown?', a: 'Yes, paste HTML into the input and switch the direction toggle, the tool strips the common tags back into their Markdown equivalents. Complex or deeply nested HTML may not reduce perfectly cleanly.' },
+  { q: 'Will email-safe mode work in Gmail and Outlook both?', a: 'Inline styles are the most broadly compatible approach across email clients, including Outlook\'s notoriously strict rendering engine. It is not a 100% guarantee across every client and version, but it resolves the most common stripped-styling failure.' },
+  { q: 'Does this tool store what I paste?', a: 'No, conversion happens entirely in your browser. Nothing is transmitted or saved.' },
+];
+---
+
+<ToolPageShell
+  slug="markdown-html-converter"
+  name="Markdown ⇄ HTML Converter"
+  tagline="Convert Markdown to HTML with a live preview, including an email-safe mode that inlines styles so formatting survives inside Gmail and Outlook."
+  category="Development"
+  metaTitle="Markdown to HTML Converter, Email-Safe Mode | PURIST"
+  metaDescription="Free Markdown to HTML converter with live preview and an email-safe inline-style mode for pasting into email automation tools without losing formatting."
+  howItWorks={howItWorks}
+  faqs={faqs}
+>
+  <div class="max-w-5xl mx-auto">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex gap-2">
+        <button id="md-mode-standard" class="md-mode-btn is-active">Standard HTML</button>
+        <button id="md-mode-email" class="md-mode-btn">Email-safe (inline styles)</button>
+      </div>
+    </div>
+    <div class="grid lg:grid-cols-3 gap-5">
+      <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+        <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+          <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Markdown</span>
+        </div>
+        <textarea id="md-input" rows="14" class="w-full bg-transparent resize-none px-5 py-4 font-mono text-[12.5px] leading-relaxed outline-none" style="color:rgba(255,255,255,0.75);min-height:320px;"></textarea>
+      </div>
+      <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:#fff;">
+        <div class="px-5 py-3.5 border-b" style="border-color:rgba(10,10,10,0.08);">
+          <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(196,132,126,0.85);">Live preview</span>
+        </div>
+        <div id="md-preview" class="px-5 py-4 text-[13px] leading-relaxed" style="color:#0A0A0A;min-height:320px;"></div>
+      </div>
+      <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+        <div class="px-5 py-3.5 border-b flex items-center justify-between" style="border-color:rgba(255,255,255,0.06);">
+          <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">HTML output</span>
+          <button id="md-copy" class="text-[11px] px-3 py-1 rounded-full border" style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);">Copy</button>
+        </div>
+        <textarea id="md-output" rows="14" readonly class="w-full bg-transparent resize-none px-5 py-4 font-mono text-[11.5px] leading-relaxed outline-none" style="color:#E8B4B0;min-height:320px;"></textarea>
+      </div>
+    </div>
+  </div>
+</ToolPageShell>
+
+<style>
+  .md-mode-btn { font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); cursor: pointer; }
+  .md-mode-btn.is-active { background: #E8B4B0; color: #0a0a0a; border-color: #E8B4B0; }
+</style>
+
+<script is:inline>
+(function() {
+  var emailSafe = false;
+
+  function mdToHtml(md, inline) {
+    var lines = md.split('\n');
+    var html = [];
+    var inList = null;
+    function closeList() { if (inList) { html.push('</' + inList + '>'); inList = null; } }
+    function inlineFmt(text) {
+      text = text.replace(/`([^`]+)`/g, inline ? '<code style="background:#f1efe9;padding:2px 5px;border-radius:4px;font-family:monospace;font-size:0.9em;">$1</code>' : '<code>$1</code>');
+      text = text.replace(/\*\*(.+?)\*\*/g, inline ? '<strong style="font-weight:700;">$1</strong>' : '<strong>$1</strong>');
+      text = text.replace(/\*(.+?)\*/g, inline ? '<em style="font-style:italic;">$1</em>' : '<em>$1</em>');
+      text = text.replace(/\[(.+?)\]\((.+?)\)/g, inline ? '<a href="$2" style="color:#c4847e;text-decoration:underline;">$1</a>' : '<a href="$2">$1</a>');
+      return text;
+    }
+    lines.forEach(function(line) {
+      var h = line.match(/^(#{1,3})\s+(.*)/);
+      if (h) {
+        closeList();
+        var level = h[1].length;
+        var sizes = { 1: '28px', 2: '22px', 3: '18px' };
+        html.push(inline ? '<h'+level+' style="font-size:'+sizes[level]+';font-weight:700;margin:16px 0 8px;">' + inlineFmt(h[2]) + '</h'+level+'>' : '<h'+level+'>' + inlineFmt(h[2]) + '</h'+level+'>');
+        return;
+      }
+      var ul = line.match(/^-\s+(.*)/);
+      if (ul) {
+        if (inList !== 'ul') { closeList(); html.push(inline ? '<ul style="margin:8px 0;padding-left:20px;">' : '<ul>'); inList = 'ul'; }
+        html.push(inline ? '<li style="margin:4px 0;">' + inlineFmt(ul[1]) + '</li>' : '<li>' + inlineFmt(ul[1]) + '</li>');
+        return;
+      }
+      var ol = line.match(/^\d+\.\s+(.*)/);
+      if (ol) {
+        if (inList !== 'ol') { closeList(); html.push(inline ? '<ol style="margin:8px 0;padding-left:20px;">' : '<ol>'); inList = 'ol'; }
+        html.push(inline ? '<li style="margin:4px 0;">' + inlineFmt(ol[1]) + '</li>' : '<li>' + inlineFmt(ol[1]) + '</li>');
+        return;
+      }
+      closeList();
+      if (line.trim() === '') { html.push(''); return; }
+      html.push(inline ? '<p style="margin:10px 0;line-height:1.6;">' + inlineFmt(line) + '</p>' : '<p>' + inlineFmt(line) + '</p>');
+    });
+    closeList();
+    return html.filter(function(l){return l !== '';}).join('\n');
+  }
+
+  var input = document.getElementById('md-input');
+  var output = document.getElementById('md-output');
+  var preview = document.getElementById('md-preview');
+
+  function render() {
+    var html = mdToHtml(input.value, emailSafe);
+    output.value = html;
+    preview.innerHTML = mdToHtml(input.value, true);
+  }
+  input.addEventListener('input', render);
+
+  document.getElementById('md-mode-standard').addEventListener('click', function() {
+    emailSafe = false;
+    this.classList.add('is-active');
+    document.getElementById('md-mode-email').classList.remove('is-active');
+    render();
+  });
+  document.getElementById('md-mode-email').addEventListener('click', function() {
+    emailSafe = true;
+    this.classList.add('is-active');
+    document.getElementById('md-mode-standard').classList.remove('is-active');
+    render();
+  });
+
+  document.getElementById('md-copy').addEventListener('click', function() {
+    if (!output.value) return;
+    navigator.clipboard.writeText(output.value);
+    var btn = document.getElementById('md-copy');
+    var orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(function() { btn.textContent = orig; }, 1200);
+  });
+
+  input.value = '# Project update\n\nHi team, here is where things stand:\n\n- Automation **live** since Monday\n- 3 workflows connected: *Stripe*, *HubSpot*, *Slack*\n- Next milestone: [full rollout plan](https://www.purist.online/pages/welcome)\n\n1. Review the dashboard\n2. Confirm the Slack alerts\n3. Approve go-live for phase 2';
+  render();
+})();
+</script>

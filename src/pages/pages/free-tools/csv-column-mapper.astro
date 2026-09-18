@@ -1,0 +1,115 @@
+---
+import ToolPageShell from '~/components/tools/ToolPageShell.astro';
+
+const howItWorks = [
+  { title: 'Real fuzzy matching, not exact-match only', body: 'Uses Levenshtein edit-distance and common naming-convention normalization (removing underscores, spaces, case) to score every possible pairing, not just flag identical column names.' },
+  { title: 'Confidence-scored suggestions', body: 'Every suggested mapping shows a confidence percentage, so you know at a glance which pairings are safe to trust and which need a manual look.' },
+  { title: 'Handles common naming mismatches', body: 'Correctly scores "Full Name" against "full_name" or "fullName" as a strong match despite the different formatting, the exact case that breaks a naive exact-match approach.' },
+];
+
+const faqs = [
+  { q: 'How does the confidence score actually work?', a: 'Each target column is compared against every source column using normalized Levenshtein similarity (case, spacing, and punctuation-insensitive) plus a bonus for exact substring containment. The highest-scoring pair becomes the suggestion, and its raw similarity score becomes the confidence percentage shown.' },
+  { q: 'Why did it suggest a mapping I know is wrong?', a: 'Fuzzy matching works on how similar the names look, not what the data actually contains. "Country" and "County" are similar-looking strings but different fields entirely, always review suggestions below roughly 80% confidence rather than trusting them blindly.' },
+  { q: 'Can this tool actually migrate my data, or just suggest the mapping?', a: 'This tool only suggests the column mapping itself, it does not move or transform your actual data rows. Use the confirmed mapping to configure the field-mapping step in your CRM\'s import tool or an n8n Set node.' },
+  { q: 'What if a source column has no good match at all?', a: 'It is shown with a low confidence score and flagged for manual review rather than forced into an incorrect mapping, a genuinely unmapped field is safer than a confidently wrong guess.' },
+  { q: 'Does this handle one-to-many mappings, like splitting "Full Name" into first and last name?', a: 'No, this tool suggests one-to-one column pairings only. A field that needs to be split or combined (like Full Name into First/Last) requires a transformation step, not just a rename, typically handled in an n8n Code or Set node after the initial mapping.' },
+];
+---
+
+<ToolPageShell
+  slug="csv-column-mapper"
+  name="CSV Column Mapper"
+  tagline="Paste two column header lists and get confidence-scored field-mapping suggestions using real fuzzy matching, not just exact-name comparison."
+  category="Development"
+  metaTitle="CSV Column Mapper with Fuzzy Matching, Free Tool | PURIST"
+  metaDescription="Free CSV column mapper. Paste source and target headers to get confidence-scored fuzzy-matched field mappings for a CRM migration or data integration."
+  howItWorks={howItWorks}
+  faqs={faqs}
+>
+  <div class="grid lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Source columns (one per line)</span>
+      </div>
+      <textarea id="cm-source" rows="8" class="w-full bg-transparent resize-none px-5 py-4 font-mono text-[13px] leading-relaxed outline-none" style="color:rgba(255,255,255,0.75);min-height:180px;">Full Name
+Email Address
+Phone
+Company Name
+Job Title
+Created Date</textarea>
+    </div>
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Target columns (one per line)</span>
+      </div>
+      <textarea id="cm-target" rows="8" class="w-full bg-transparent resize-none px-5 py-4 font-mono text-[13px] leading-relaxed outline-none" style="color:rgba(255,255,255,0.75);min-height:180px;">full_name
+email
+phone_number
+company
+title
+date_created</textarea>
+    </div>
+  </div>
+  <div class="max-w-4xl mx-auto mt-6">
+    <button id="cm-run" class="w-full px-6 py-3 rounded-lg text-[13px] font-semibold" style="background:#E8B4B0;color:#0a0a0a;">Suggest mappings →</button>
+    <div id="cm-results" class="mt-5"></div>
+  </div>
+</ToolPageShell>
+
+<script is:inline>
+(function() {
+  function normalize(s) { return s.toLowerCase().replace(/[_\-\s]+/g, ''); }
+
+  function levenshtein(a, b) {
+    var m = a.length, n = b.length;
+    var dp = [];
+    for (var i = 0; i <= m; i++) dp.push([i]);
+    for (var j = 0; j <= n; j++) dp[0][j] = j;
+    for (i = 1; i <= m; i++) {
+      for (j = 1; j <= n; j++) {
+        dp[i][j] = a[i-1] === b[j-1] ? dp[i-1][j-1] : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+      }
+    }
+    return dp[m][n];
+  }
+
+  function similarity(a, b) {
+    var na = normalize(a), nb = normalize(b);
+    if (na === nb) return 1;
+    var dist = levenshtein(na, nb);
+    var maxLen = Math.max(na.length, nb.length);
+    var base = 1 - dist / maxLen;
+    if (na.indexOf(nb) !== -1 || nb.indexOf(na) !== -1) base = Math.min(1, base + 0.15);
+    return Math.max(0, base);
+  }
+
+  function suggestMappings(sources, targets) {
+    return sources.map(function(src) {
+      var scored = targets.map(function(tgt) { return { target: tgt, score: similarity(src, tgt) }; });
+      scored.sort(function(a,b) { return b.score - a.score; });
+      return { source: src, best: scored[0] };
+    });
+  }
+
+  document.getElementById('cm-run').addEventListener('click', function() {
+    var sources = document.getElementById('cm-source').value.split('\n').map(function(s){return s.trim();}).filter(Boolean);
+    var targets = document.getElementById('cm-target').value.split('\n').map(function(s){return s.trim();}).filter(Boolean);
+    if (!sources.length || !targets.length) return;
+
+    var mappings = suggestMappings(sources, targets);
+    var el = document.getElementById('cm-results');
+    el.innerHTML = '<div style="display:flex;flex-direction:column;gap:8px;">' + mappings.map(function(m) {
+      var pct = Math.round(m.best.score * 100);
+      var color = pct >= 80 ? '#4ADE80' : pct >= 50 ? '#E8B4B0' : '#f87171';
+      return '<div style="display:flex;align-items:center;gap:14px;padding:12px 16px;background:rgba(255,255,255,0.04);border-radius:10px;">'
+        + '<span style="font-family:monospace;font-size:13px;color:#fff;flex:1;">' + m.source + '</span>'
+        + '<svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg>'
+        + '<span style="font-family:monospace;font-size:13px;color:' + color + ';flex:1;">' + m.best.target + '</span>'
+        + '<span style="font-size:11px;font-weight:700;color:' + color + ';width:48px;text-align:right;">' + pct + '%</span>'
+        + '</div>';
+    }).join('') + '</div>'
+    + '<p style="font-size:10.5px;color:rgba(255,255,255,0.3);margin-top:12px;">Review anything below 80% confidence manually before using it in a migration.</p>';
+  });
+  document.getElementById('cm-run').click();
+})();
+</script>

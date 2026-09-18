@@ -1,0 +1,131 @@
+---
+import ToolPageShell from '~/components/tools/ToolPageShell.astro';
+
+const howItWorks = [
+  { title: 'Infers a schema from your real data shape', body: 'Paste one sample record from your actual workflow, the generator detects each field\'s type and likely purpose from its name (email, name, phone, date, price, boolean, id) and generates realistic fake values matching that exact structure.' },
+  { title: 'Never touches real customer data', body: 'Every generated record is entirely synthetic, safe to run through a new automation, trigger real test emails against, or load-test a workflow, without any risk to a real customer.' },
+  { title: 'Bulk generation, ready for the next step', body: 'Generate 1 to 100 records at once as a JSON array, ready to paste into an n8n Set node, a test webhook payload, or a seed script.' },
+];
+
+const faqs = [
+  { q: 'How does the tool know a field is an email versus just a string?', a: 'It matches the field name against common naming patterns (containing "email," "mail") and, as a fallback, checks whether the sample value itself looks like an email. The same pattern-matching applies to names, phones, dates, prices, and booleans.' },
+  { q: 'What happens with a field name it does not recognize?', a: 'It falls back to generating a random string, number, or boolean matching the sample value\'s actual JavaScript type, so the shape of your data is always preserved even when the semantic meaning is not detected.' },
+  { q: 'Is this safe to use for testing a live automation that sends real emails or SMS?', a: 'The data itself is fake, but if your workflow actually sends to whatever email or phone number appears in the generated record, that would attempt real delivery to a fake, likely non-existent address. Point test workflows at a sandboxed environment or your own test inbox, not a live send path, regardless of the data being synthetic.' },
+  { q: 'Can I use this to seed a staging database?', a: 'Yes, this is one of the most common uses, generate 50-100 records matching your production schema shape to populate a staging environment without ever touching real customer records.' },
+  { q: 'Does this tool store the sample record I paste in?', a: 'No, everything runs in your browser. Your sample data (even though it is presumably not sensitive if you are using it as a test template) is never transmitted or stored.' },
+];
+---
+
+<ToolPageShell
+  slug="test-data-generator"
+  name="Fake Test Data Generator"
+  tagline="Paste one real sample record, the generator infers the schema and produces realistic fake records matching that exact shape, safe for testing any workflow."
+  category="Development"
+  metaTitle="Fake Test Data Generator, Schema-Aware | PURIST"
+  metaDescription="Free fake test data generator that infers a schema from your real sample record and generates realistic synthetic data matching that exact structure."
+  howItWorks={howItWorks}
+  faqs={faqs}
+>
+  <div class="grid lg:grid-cols-2 gap-6">
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b flex items-center justify-between" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Sample record (defines the schema)</span>
+      </div>
+      <textarea id="td-sample" rows="10" class="w-full bg-transparent resize-none px-5 py-4 font-mono text-[12px] leading-relaxed outline-none" style="color:rgba(255,255,255,0.75);min-height:220px;"></textarea>
+      <div class="px-5 py-3 border-t flex items-center justify-between gap-3" style="border-color:rgba(255,255,255,0.06);">
+        <div class="flex items-center gap-2">
+          <label class="text-[11px]" style="color:rgba(255,255,255,0.4);">Records:</label>
+          <input id="td-count" type="number" min="1" max="100" value="5" class="w-16 px-2 py-1.5 rounded-lg text-[12px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+        </div>
+        <button id="td-generate" class="px-6 py-2.5 rounded-lg text-[13px] font-semibold" style="background:#E8B4B0;color:#0a0a0a;">Generate →</button>
+      </div>
+    </div>
+
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b flex items-center justify-between" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Generated fake records</span>
+        <button id="td-copy" class="text-[11px] px-3 py-1 rounded-full border" style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);">Copy</button>
+      </div>
+      <textarea id="td-output" rows="10" readonly class="w-full bg-transparent resize-none px-5 py-4 font-mono text-[12px] leading-relaxed outline-none" style="color:#E8B4B0;min-height:220px;"></textarea>
+    </div>
+  </div>
+</ToolPageShell>
+
+<script is:inline>
+(function() {
+  var FIRST_NAMES = ['James','Sarah','Marcus','Elena','David','Priya','Tom','Aisha','Lucas','Nina','Oliver','Maya'];
+  var LAST_NAMES = ['Whitfield','Chen','Okafor','Rossi','Larsen','Patel','Novak','Silva','Dubois','Kim'];
+  var COMPANIES = ['Acme Ltd','Whitfield & Co','Northwind Group','Bluepeak Studio','Vertex Solutions','Harborline Inc'];
+  var DOMAINS = ['acme.com','example.com','mailbox.io','corp.net'];
+
+  function rand(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
+  function randInt(min, max) { return Math.floor(Math.random()*(max-min+1))+min; }
+  function randId() { return Math.random().toString(36).slice(2,10); }
+
+  function inferAndGenerate(key, sampleVal) {
+    var k = key.toLowerCase();
+    if (k.indexOf('email') !== -1) return rand(FIRST_NAMES).toLowerCase() + '.' + rand(LAST_NAMES).toLowerCase() + '@' + rand(DOMAINS);
+    if (k.indexOf('phone') !== -1) return '+1' + randInt(200,999) + randInt(200,999) + randInt(1000,9999);
+    if (k === 'name' || k.indexOf('fullname') !== -1 || k.indexOf('full_name') !== -1) return rand(FIRST_NAMES) + ' ' + rand(LAST_NAMES);
+    if (k.indexOf('firstname') !== -1 || k === 'first_name') return rand(FIRST_NAMES);
+    if (k.indexOf('lastname') !== -1 || k === 'last_name') return rand(LAST_NAMES);
+    if (k.indexOf('company') !== -1) return rand(COMPANIES);
+    if (k.indexOf('title') !== -1 || k.indexOf('role') !== -1 || k.indexOf('job') !== -1) return rand(['Marketing Manager','Operations Lead','Founder','Sales Director','Support Specialist']);
+    if (k === 'id' || k.endsWith('id')) return randId();
+    if (k.indexOf('date') !== -1 || k.indexOf('created') !== -1 || k.indexOf('updated') !== -1) {
+      var d = new Date(Date.now() - randInt(0, 365*24*3600000));
+      return d.toISOString();
+    }
+    if (k.indexOf('price') !== -1 || k.indexOf('amount') !== -1 || k.indexOf('total') !== -1 || k.indexOf('mrr') !== -1) return randInt(19, 4990);
+    if (k.indexOf('country') !== -1) return rand(['United States','United Kingdom','France','Germany','Canada']);
+    if (k.indexOf('city') !== -1) return rand(['London','Paris','Austin','Toronto','Berlin']);
+    if (k.indexOf('url') !== -1 || k.indexOf('website') !== -1) return 'https://www.' + rand(COMPANIES).toLowerCase().replace(/[^a-z]/g,'') + '.com';
+
+    // fallback by actual type of sample value
+    if (typeof sampleVal === 'boolean') return Math.random() > 0.5;
+    if (typeof sampleVal === 'number') return Number.isInteger(sampleVal) ? randInt(1, 1000) : Math.round(Math.random()*1000)/100;
+    if (Array.isArray(sampleVal)) return sampleVal;
+    if (typeof sampleVal === 'object' && sampleVal !== null) {
+      var nested = {};
+      Object.keys(sampleVal).forEach(function(k2) { nested[k2] = inferAndGenerate(k2, sampleVal[k2]); });
+      return nested;
+    }
+    return randId();
+  }
+
+  document.getElementById('td-generate').addEventListener('click', function() {
+    var raw = document.getElementById('td-sample').value.trim();
+    var count = Math.max(1, Math.min(100, parseInt(document.getElementById('td-count').value) || 1));
+    var output = document.getElementById('td-output');
+    try {
+      var sample = JSON.parse(raw);
+      var records = [];
+      for (var i = 0; i < count; i++) {
+        var record = {};
+        Object.keys(sample).forEach(function(key) { record[key] = inferAndGenerate(key, sample[key]); });
+        records.push(record);
+      }
+      output.value = JSON.stringify(records, null, 2);
+    } catch (e) {
+      output.value = 'Invalid JSON sample: ' + e.message;
+    }
+  });
+
+  document.getElementById('td-copy').addEventListener('click', function() {
+    var output = document.getElementById('td-output');
+    if (!output.value) return;
+    navigator.clipboard.writeText(output.value);
+    var btn = document.getElementById('td-copy');
+    var orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(function() { btn.textContent = orig; }, 1200);
+  });
+
+  document.getElementById('td-sample').value = JSON.stringify({
+    id: 1, name: 'James Whitfield', email: 'james@acme.com', phone: '+14155551234',
+    company: 'Acme Ltd', title: 'Marketing Manager', createdDate: '2026-01-15T10:00:00Z',
+    mrr: 490, active: true
+  }, null, 2);
+  document.getElementById('td-generate').click();
+})();
+</script>

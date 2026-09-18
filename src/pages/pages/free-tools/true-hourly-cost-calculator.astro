@@ -1,0 +1,139 @@
+---
+import ToolPageShell from '~/components/tools/ToolPageShell.astro';
+
+const howItWorks = [
+  { title: 'Starts from actual working hours, not 2,080', body: 'The naive salary ÷ 2080 calculation assumes 52 paid weeks of work. This calculator subtracts real PTO, holidays, and sick days first, since a fully-loaded cost has to be recovered across fewer actual working hours.' },
+  { title: 'Adds the real overhead employers carry', body: 'Payroll taxes, benefits, and general overhead (equipment, software, office space, management time) are rarely visible on a payslip but are real cash costs of employing someone.' },
+  { title: 'Shows the breakdown, not just the final number', body: 'See exactly how much of the true hourly cost comes from base pay versus taxes versus benefits versus overhead, useful for understanding where automation actually recovers value.' },
+];
+
+const faqs = [
+  { q: 'Why is my "true" hourly cost so much higher than salary ÷ 2080?', a: 'Two compounding effects: the denominator shrinks (real paid working hours are fewer than 2,080 once PTO and holidays are subtracted), and the numerator grows (payroll taxes, benefits, and overhead add real cost on top of salary). Both push the true hourly figure meaningfully above the naive calculation.' },
+  { q: 'What is a typical overhead percentage to use?', a: 'A common range is 15-30% of base salary for equipment, software licenses, office space allocation, and management/HR time, higher for smaller companies without economies of scale, lower for larger ones. If you do not have a precise figure, 20% is a reasonable default starting point.' },
+  { q: 'Why does this matter for an ROI calculation?', a: 'Automation ROI calculations that use raw salary ÷ 2080 as the "cost of manual work" systematically understate the real savings, since they ignore taxes, benefits, and overhead that also scale with hours worked. Using the true hourly cost gives an honest, defensible ROI figure.' },
+  { q: 'Does this apply to contractors the same way?', a: 'No, contractors are typically paid a flat rate that already reflects their business overhead; do not add employer payroll tax or benefits on top of a contractor rate, that double-counts costs the contractor already bears themselves.' },
+  { q: 'What payroll tax rate should I use?', a: 'This varies significantly by country and, in the US, by state. A commonly cited US employer-side estimate is roughly 7.65% for FICA plus unemployment insurance, but confirm your actual rate with payroll or an accountant rather than assuming a generic figure for a compliance-sensitive calculation.' },
+];
+---
+
+<ToolPageShell
+  slug="true-hourly-cost-calculator"
+  name="True Hourly Cost Calculator"
+  tagline="Calculate an employee's real fully-loaded hourly cost, including real working hours, payroll tax, benefits, and overhead, with a full breakdown of where the cost comes from."
+  category="Cost"
+  metaTitle="True Hourly Cost Calculator, Fully-Loaded | PURIST"
+  metaDescription="Free true hourly cost calculator. Get an employee's real fully-loaded hourly cost including payroll tax, benefits, overhead, and actual working hours, with a full breakdown."
+  howItWorks={howItWorks}
+  faqs={faqs}
+>
+  <div class="grid lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">Inputs</span>
+      </div>
+      <div class="p-5 space-y-4">
+        <div>
+          <label class="text-[11px] uppercase tracking-widest font-semibold block mb-1.5" style="color:rgba(255,255,255,0.35);">Annual salary ($)</label>
+          <input id="hc-salary" type="number" value="65000" class="w-full px-3 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-[11px] uppercase tracking-widest font-semibold block mb-1.5" style="color:rgba(255,255,255,0.35);">PTO + sick days/yr</label>
+            <input id="hc-pto" type="number" value="20" class="w-full px-3 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+          </div>
+          <div>
+            <label class="text-[11px] uppercase tracking-widest font-semibold block mb-1.5" style="color:rgba(255,255,255,0.35);">Public holidays/yr</label>
+            <input id="hc-holidays" type="number" value="10" class="w-full px-3 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+          </div>
+        </div>
+        <div>
+          <label class="text-[11px] uppercase tracking-widest font-semibold block mb-1.5" style="color:rgba(255,255,255,0.35);">Hours per work week</label>
+          <input id="hc-weekhours" type="number" value="40" class="w-full px-3 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-[11px] uppercase tracking-widest font-semibold block mb-1.5" style="color:rgba(255,255,255,0.35);">Payroll tax (%)</label>
+            <input id="hc-tax" type="number" value="8" class="w-full px-3 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+          </div>
+          <div>
+            <label class="text-[11px] uppercase tracking-widest font-semibold block mb-1.5" style="color:rgba(255,255,255,0.35);">Benefits (%)</label>
+            <input id="hc-benefits" type="number" value="12" class="w-full px-3 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+          </div>
+        </div>
+        <div>
+          <label class="text-[11px] uppercase tracking-widest font-semibold block mb-1.5" style="color:rgba(255,255,255,0.35);">Overhead, equipment/software/space (%)</label>
+          <input id="hc-overhead" type="number" value="20" class="w-full px-3 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);">
+      <div class="px-5 py-3.5 border-b" style="border-color:rgba(255,255,255,0.06);">
+        <span class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(232,180,176,0.7);">True cost</span>
+      </div>
+      <div class="p-5">
+        <div class="text-center mb-5">
+          <p id="hc-result" class="font-display text-[2.4rem]" style="color:#E8B4B0;line-height:1;"></p>
+          <p class="text-[10px] uppercase tracking-widest mt-1" style="color:rgba(255,255,255,0.3);">true cost per hour</p>
+          <p id="hc-naive" class="text-[11px] mt-2" style="color:rgba(255,255,255,0.35);"></p>
+        </div>
+        <div id="hc-bar" class="flex h-8 rounded-lg overflow-hidden mb-3"></div>
+        <div id="hc-legend" class="space-y-1.5"></div>
+        <p id="hc-hours-note" class="text-[10.5px] mt-4" style="color:rgba(255,255,255,0.3);"></p>
+      </div>
+    </div>
+  </div>
+</ToolPageShell>
+
+<script is:inline>
+(function() {
+  var ids = ['hc-salary','hc-pto','hc-holidays','hc-weekhours','hc-tax','hc-benefits','hc-overhead'];
+
+  function render() {
+    var salary = parseFloat(document.getElementById('hc-salary').value) || 0;
+    var pto = parseFloat(document.getElementById('hc-pto').value) || 0;
+    var holidays = parseFloat(document.getElementById('hc-holidays').value) || 0;
+    var weekHours = parseFloat(document.getElementById('hc-weekhours').value) || 40;
+    var taxPct = parseFloat(document.getElementById('hc-tax').value) || 0;
+    var benefitsPct = parseFloat(document.getElementById('hc-benefits').value) || 0;
+    var overheadPct = parseFloat(document.getElementById('hc-overhead').value) || 0;
+
+    var workDaysPerYear = 260 - pto - holidays; // 260 = 52 weeks * 5 days
+    var realHoursPerYear = workDaysPerYear * (weekHours / 5);
+    var naiveHourly = salary / 2080;
+
+    var taxCost = salary * taxPct / 100;
+    var benefitsCost = salary * benefitsPct / 100;
+    var overheadCost = salary * overheadPct / 100;
+    var totalCost = salary + taxCost + benefitsCost + overheadCost;
+    var trueHourly = totalCost / realHoursPerYear;
+
+    document.getElementById('hc-result').textContent = '$' + trueHourly.toFixed(2);
+    document.getElementById('hc-naive').textContent = 'vs. $' + naiveHourly.toFixed(2) + '/hr from the naive salary ÷ 2080 calculation';
+    document.getElementById('hc-hours-note').textContent = realHoursPerYear.toLocaleString() + ' real paid working hours/year, after ' + (pto+holidays) + ' PTO/holiday days.';
+
+    var segments = [
+      { label: 'Base salary', value: salary, color: '#E8B4B0' },
+      { label: 'Payroll tax', value: taxCost, color: '#c4847e' },
+      { label: 'Benefits', value: benefitsCost, color: '#8a5a54' },
+      { label: 'Overhead', value: overheadCost, color: '#4a3532' },
+    ];
+    var bar = document.getElementById('hc-bar');
+    bar.innerHTML = segments.map(function(s) {
+      var pct = (s.value / totalCost) * 100;
+      return '<div style="width:' + pct + '%;background:' + s.color + ';"></div>';
+    }).join('');
+
+    document.getElementById('hc-legend').innerHTML = segments.map(function(s) {
+      var pct = Math.round((s.value / totalCost) * 100);
+      return '<div style="display:flex;align-items:center;gap:8px;">'
+        + '<span style="width:9px;height:9px;border-radius:2px;background:' + s.color + ';flex-shrink:0;"></span>'
+        + '<span style="font-size:11.5px;color:rgba(255,255,255,0.6);flex:1;">' + s.label + '</span>'
+        + '<span style="font-size:11.5px;color:#fff;font-variant-numeric:tabular-nums;">$' + Math.round(s.value).toLocaleString() + ' (' + pct + '%)</span></div>';
+    }).join('');
+  }
+
+  ids.forEach(function(id) { document.getElementById(id).addEventListener('input', render); });
+  render();
+})();
+</script>

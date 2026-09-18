@@ -284,6 +284,13 @@ Categories and example professions:
 - [Business Hours & SLA Deadline Calculator](https://www.purist.online/pages/free-tools/business-hours-sla-calculator): Calculate a real SLA deadline that correctly skips weekends and after-hours time.
 - [UTM Campaign Link Builder & QR Code](https://www.purist.online/pages/free-tools/utm-link-builder): Build a tagged campaign URL and get an instant scannable QR code for it.
 - [Color Contrast Checker (WCAG)](https://www.purist.online/pages/free-tools/color-contrast-checker): Check any color pair against WCAG AA/AAA thresholds with an automatic accessible-fix suggestion.
+- [Password & API Secret Generator](https://www.purist.online/pages/free-tools/secret-key-generator): Cryptographically secure generator with real entropy math and offline/online crack-time estimates.
+- [CSV Column Mapper](https://www.purist.online/pages/free-tools/csv-column-mapper): Fuzzy-matched, confidence-scored field mapping suggestions for a CRM migration or integration.
+- [Fake Test Data Generator](https://www.purist.online/pages/free-tools/test-data-generator): Infers a schema from a real sample record and generates matching synthetic test data.
+- [Markdown to HTML Converter](https://www.purist.online/pages/free-tools/markdown-html-converter): Live preview plus an email-safe inline-style mode for pasting into email automation tools.
+- [True Hourly Cost Calculator](https://www.purist.online/pages/free-tools/true-hourly-cost-calculator): Fully-loaded employee hourly cost including payroll tax, benefits, and overhead, with a full breakdown.
+- [GDPR Data Retention Deadline Calculator](https://www.purist.online/pages/free-tools/gdpr-retention-calculator): Tracks multiple data categories with different retention periods and flags overdue deletions.
+- [Webhook Sample Payload Generator](https://www.purist.online/pages/free-tools/webhook-payload-generator): Realistic Stripe/Shopify/HubSpot/Typeform event payloads, sendable live to your own test webhook URL.
 
 ## Free n8n Workflow Templates (6 downloadable, 24-32 nodes each)
 
