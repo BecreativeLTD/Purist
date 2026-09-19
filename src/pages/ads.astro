@@ -983,7 +983,22 @@ const industries = [
     .lb-img { border-radius: 8px; }
   }
 
-  /* AI Ad Studio */
+
+</style>
+
+<!--
+  is:global is load-bearing here, not decorative. Astro scopes a normal
+  <style> block by appending a data-astro-cid-* attribute to both the CSS
+  selectors AND every matching element present in the component's template
+  at BUILD time. The AI Ad Studio's model cards, prompt chips, and frame
+  cards are all created client-side via innerHTML after page load, so they
+  never receive that attribute, a scoped rule like ".model-card[data-astro-cid-x]"
+  then matches zero real elements and silently does nothing. Confirmed by
+  fetching the deployed CSS directly and finding exactly that dead selector,
+  this is what made every earlier "fix" to these colors invisible in
+  production despite building and deploying correctly.
+-->
+<style is:global>
   .model-filter-btn, .prompt-cat-btn, .ag-key-tab {
     font-size: 11.5px; font-weight: 600; padding: 6px 13px; border-radius: 999px;
     border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04);
@@ -1015,8 +1030,7 @@ const industries = [
     background: #18181b; border: 1px solid rgba(255,255,255,0.14); box-shadow: 0 1px 3px rgba(0,0,0,0.4);
     transition: border-color 0.12s, background 0.12s, transform 0.12s;
   }
-  .prompt-chip:hover { transform: translateY(-1px); background: #201c1c; }
-  .prompt-chip:hover { border-color: rgba(232,180,176,0.35); }
+  .prompt-chip:hover { transform: translateY(-1px); background: #201c1c; border-color: rgba(232,180,176,0.35); }
   .prompt-chip.is-hidden { display: none; }
 
   .frame-card {
