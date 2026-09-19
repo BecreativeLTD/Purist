@@ -318,7 +318,44 @@ const industries = [
           </div>
         </div>
       </div>
-      <p class="text-[10.5px] mt-3 text-center" style="color:rgba(255,255,255,0.25);">Step 1 of the full studio: image generation is live. Video, motion transfer (Genjutsu-style), and more models are coming next.</p>
+      <p class="text-[10.5px] mt-3 text-center" style="color:rgba(255,255,255,0.25);">Step 1 of the full studio: image generation is live. Video and motion transfer are next.</p>
+
+      <!-- Text-to-Video, catalog preview, generation not yet verified -->
+      <div class="mt-8 rounded-[20px] overflow-hidden" style="background:#0d0d0d;border:1px solid rgba(255,255,255,0.08);">
+        <div class="px-6 sm:px-8 py-6 flex items-center justify-between flex-wrap gap-3" style="border-bottom:1px solid rgba(255,255,255,0.07);">
+          <div>
+            <p class="text-[9.5px] uppercase tracking-[0.22em] font-bold mb-1.5" style="color:rgba(232,180,176,0.75);">Step 2 · Text-to-Video</p>
+            <h3 class="font-display text-lg sm:text-xl text-white">The video side of KIE AI's catalog, real models, not yet live here.</h3>
+          </div>
+          <span class="text-[10px] uppercase tracking-[0.14em] px-3 py-1.5 rounded-full" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);">Preview only</span>
+        </div>
+        <div class="p-6 sm:p-8">
+          <p class="text-[12.5px] leading-relaxed mb-5" style="color:rgba(255,255,255,0.45);max-width:640px;">
+            These are real entries from KIE AI's Text-to-Video catalog, same account, same API. Video generation costs meaningfully more per run than image, and this account's test credits are nearly spent verifying the image models above, so nothing here is wired to a live "Generate" button yet, that comes as soon as credits allow proper testing rather than an unverified guess.
+          </p>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {[
+              { name: 'Kling 2.1 Master', provider: 'Kling', tag: 'Cinematic quality, motion fluidity, 1080p' },
+              { name: 'Seedance 1.0 Pro', provider: 'ByteDance', tag: 'High-fidelity text-to-video' },
+              { name: 'Seedance 1.0 Lite', provider: 'ByteDance', tag: 'Faster, lower-cost tier' },
+              { name: 'Wan 2.5', provider: 'Wan', tag: 'Text-to-video generation' },
+              { name: 'Hailuo 02 Pro', provider: 'Hailuo', tag: 'Higher-fidelity Hailuo tier' },
+              { name: 'Hailuo 02 Standard', provider: 'Hailuo', tag: 'Standard-tier text-to-video' },
+              { name: 'Kling V2.5 Turbo Pro', provider: 'Kling', tag: 'Faster Kling generation' },
+              { name: 'Veo 3', provider: 'Google', tag: 'Google\'s flagship video model' },
+              { name: 'Veo 3.1', provider: 'Google', tag: 'Latest Veo generation' },
+              { name: 'Grok Imagine — Text to Video', provider: 'Grok', tag: 'xAI\'s video model' },
+            ].map(v => (
+              <div class="rounded-[12px] p-4 opacity-60" style="background:#18181b;border:1px dashed rgba(255,255,255,0.18);">
+                <p style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:rgba(232,180,176,0.6);margin-bottom:4px;">{v.provider}</p>
+                <p style="font-size:12.5px;font-weight:600;color:#fff;margin-bottom:3px;">{v.name}</p>
+                <p style="font-size:10.5px;color:rgba(255,255,255,0.4);line-height:1.4;">{v.tag}</p>
+              </div>
+            ))}
+          </div>
+          <p class="text-[10.5px] mt-4" style="color:rgba(255,255,255,0.28);">25 more video models exist in KIE AI's catalog beyond this preview. <a href="https://kie.ai/market" target="_blank" rel="noopener" class="underline" style="color:rgba(255,255,255,0.4);">Browse them all →</a></p>
+        </div>
+      </div>
 
       <!-- Automations that pair with this -->
       <div class="mt-8 rounded-[20px] p-6 sm:p-8" style="background:#0d0d0d;border:1px solid rgba(255,255,255,0.08);">
