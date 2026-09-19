@@ -189,6 +189,129 @@ const industries = [
       </div>
     </section>
 
+    <!-- ═══════════════════════════════════════════════
+         AI AD STUDIO — model gallery + prompt library + generator
+    ════════════════════════════════════════════════ -->
+    <section class="px-4 sm:px-6 lg:px-16 max-w-7xl mx-auto mb-16">
+      <div class="rounded-[24px] overflow-hidden" style="background:#0d0d0d;border:1px solid rgba(255,255,255,0.08);">
+
+        <div class="px-6 sm:px-8 py-6 border-b flex items-center justify-between flex-wrap gap-3" style="border-color:rgba(255,255,255,0.07);">
+          <div>
+            <p class="text-[9.5px] uppercase tracking-[0.22em] font-bold mb-1.5" style="color:rgba(232,180,176,0.75);">AI Ad Studio · powered by KIE AI</p>
+            <h2 class="font-display text-xl sm:text-2xl text-white">Pick a model. Pick a prompt. Generate.</h2>
+          </div>
+          <span class="text-[10px] uppercase tracking-[0.14em] px-3 py-1.5 rounded-full" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);">Image · v1</span>
+        </div>
+
+        <!-- ① Model gallery -->
+        <div class="p-6 sm:p-8" style="border-bottom:1px solid rgba(255,255,255,0.07);">
+          <p class="text-[11px] uppercase tracking-widest font-semibold mb-3" style="color:rgba(255,255,255,0.35);">1 · Choose a model</p>
+
+          <div class="flex flex-wrap gap-1.5 mb-2" id="model-provider-filter">
+            <button class="model-filter-btn is-active" data-provider="all">All providers</button>
+            {['Google','OpenAI','Qwen','ByteDance','Black Forest Labs','Grok'].map(p => (
+              <button class="model-filter-btn" data-provider={p}>{p}</button>
+            ))}
+          </div>
+
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-4" id="model-gallery"></div>
+          <p class="text-[10.5px] mt-3" style="color:rgba(255,255,255,0.28);">16 of KIE AI's 31 text-to-image models, individually tested live against a real account. The rest need per-model parameters we're still mapping. <a href="https://kie.ai/market" target="_blank" rel="noopener" class="underline" style="color:rgba(255,255,255,0.4);">Browse all 100+ KIE AI models →</a></p>
+        </div>
+
+        <!-- ② Prompt library -->
+        <div class="p-6 sm:p-8" style="border-bottom:1px solid rgba(255,255,255,0.07);">
+          <p class="text-[11px] uppercase tracking-widest font-semibold mb-3" style="color:rgba(255,255,255,0.35);">2 · Start from a prompt, or write your own</p>
+
+          <div class="flex flex-wrap gap-1.5 mb-3" id="prompt-category-filter">
+            {['SaaS & Tech','E-commerce','Real Estate','Restaurant & Food','Health & Wellness','Finance','Local Services'].map((c, i) => (
+              <button class={`prompt-cat-btn${i===0?' is-active':''}`} data-cat={c}>{c}</button>
+            ))}
+          </div>
+          <div class="grid sm:grid-cols-2 gap-2.5" id="prompt-library"></div>
+
+          <div class="mt-5">
+            <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Your prompt</label>
+            <textarea id="ag-prompt" rows="3" placeholder="Pick a prompt above, or write your own: describe the subject, style, palette, and where headline space should go…"
+              class="w-full px-4 py-3 rounded-lg text-[13.5px] leading-relaxed outline-none resize-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"></textarea>
+          </div>
+        </div>
+
+        <!-- ③ Fine-tune + generate -->
+        <div class="grid lg:grid-cols-[1fr_420px] gap-0">
+          <div class="p-6 sm:p-8 space-y-5" style="border-right:1px solid rgba(255,255,255,0.07);">
+            <p class="text-[11px] uppercase tracking-widest font-semibold" style="color:rgba(255,255,255,0.35);">3 · Fine-tune for a precise result</p>
+
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label class="text-[10.5px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.3);">Aspect ratio</label>
+                <select id="ag-aspect" class="w-full px-4 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;">
+                  <option value="landscape">Landscape (ad banner, 16:9)</option>
+                  <option value="square">Square (social post, 1:1)</option>
+                  <option value="portrait">Portrait (story/reel, 9:16)</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-[10.5px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.3);">Style precision</label>
+                <select id="ag-precision" class="w-full px-4 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;">
+                  <option value="standard">Standard</option>
+                  <option value="high">High detail (slower)</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="text-[10.5px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.3);">Negative prompt <span style="color:rgba(255,255,255,0.25);">(optional, what to avoid)</span></label>
+              <input id="ag-negative" type="text" placeholder="e.g. text artifacts, watermark, blurry, extra limbs" class="w-full px-4 py-2.5 rounded-lg text-[12.5px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+            </div>
+
+            <div class="field-divider" style="height:1px;background:rgba(255,255,255,0.07);"></div>
+
+            <div>
+              <p class="text-[11px] uppercase tracking-widest font-semibold mb-2.5" style="color:rgba(255,255,255,0.35);">API key</p>
+              <div class="flex gap-2 mb-3">
+                <button type="button" id="ag-key-own" class="ag-key-tab is-active">Use my own KIE AI key</button>
+                <button type="button" id="ag-key-shared" class="ag-key-tab">Use PURIST's shared key</button>
+              </div>
+              <div id="ag-key-own-panel">
+                <input id="ag-apikey" type="password" placeholder="Your KIE AI API key" class="w-full px-4 py-2.5 rounded-lg font-mono text-[12.5px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+                <p class="text-[10.5px] mt-2" style="color:rgba(255,255,255,0.3);">Get a key at <a href="https://kie.ai/api-key" target="_blank" rel="noopener" class="underline" style="color:#E8B4B0;">kie.ai/api-key</a>. Sent directly to KIE AI, never stored by PURIST.</p>
+              </div>
+              <div id="ag-key-shared-panel" class="hidden">
+                <p class="text-[11.5px] leading-relaxed p-3 rounded-lg" style="background:rgba(232,180,176,0.06);border:1px solid rgba(232,180,176,0.18);color:rgba(255,255,255,0.6);">Uses PURIST's own API credit for this demo, subject to availability. If this option errors, PURIST hasn't enabled shared-key generation yet, use your own key instead.</p>
+              </div>
+            </div>
+
+            <div>
+              <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Your email</label>
+              <input id="ag-email" type="email" placeholder="you@company.com" class="w-full px-4 py-2.5 rounded-lg text-[13px] outline-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"/>
+              <p class="text-[10.5px] mt-1.5" style="color:rgba(255,255,255,0.3);">Required once per session, no spam, just how we keep this demo from being abused.</p>
+            </div>
+
+            <button id="ag-generate" class="w-full px-6 py-3.5 rounded-lg text-[13.5px] font-semibold" style="background:#E8B4B0;color:#0a0a0a;">Generate ad creative →</button>
+            <p id="ag-error" class="hidden text-[12px] text-center" style="color:#f87171;"></p>
+          </div>
+
+          <!-- Result -->
+          <div class="p-6 sm:p-8 flex items-center justify-center" style="background:rgba(255,255,255,0.015);min-height:340px;">
+            <div id="ag-result-empty" class="text-center">
+              <p id="ag-selected-model" class="text-[11px] mb-3" style="color:rgba(232,180,176,0.6);"></p>
+              <svg class="w-10 h-10 mx-auto mb-3" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.3"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M4 8h16M4 4h16v16H4V4z"/></svg>
+              <p class="text-[12.5px]" style="color:rgba(255,255,255,0.3);">Your generated ad will appear here.</p>
+            </div>
+            <div id="ag-result-loading" class="hidden text-center">
+              <div class="w-8 h-8 mx-auto mb-3 rounded-full border-2 animate-spin" style="border-color:rgba(232,180,176,0.2);border-top-color:#E8B4B0;"></div>
+              <p class="text-[12.5px]" style="color:rgba(255,255,255,0.4);">Generating, usually 5-15 seconds…</p>
+            </div>
+            <div id="ag-result-image" class="hidden w-full">
+              <img id="ag-result-img" class="w-full rounded-lg" style="border:1px solid rgba(255,255,255,0.1);" />
+              <a id="ag-result-download" download="purist-ad-creative.png" class="block text-center mt-3 text-[12px] font-semibold px-4 py-2.5 rounded-lg" style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.7);">Download image</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="text-[10.5px] mt-3 text-center" style="color:rgba(255,255,255,0.25);">Step 1 of the full studio: image generation is live. Video, motion transfer (Genjutsu-style), and more models are coming next.</p>
+    </section>
+
     <!-- Filter bar -->
     <div class="sticky top-0 z-50 bg-brand-black/95 backdrop-blur-md border-b border-white/6 px-4 sm:px-6 lg:px-16 py-3 sm:py-4">
       <div class="max-w-7xl mx-auto flex items-center justify-between gap-4 sm:gap-6">
@@ -822,6 +945,32 @@ const industries = [
     .lb-nav { width: 38px; height: 38px; }
     .lb-img { border-radius: 8px; }
   }
+
+  /* AI Ad Studio */
+  .model-filter-btn, .prompt-cat-btn, .ag-key-tab {
+    font-size: 11.5px; font-weight: 600; padding: 6px 13px; border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04);
+    color: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.12s;
+  }
+  .model-filter-btn:hover, .prompt-cat-btn:hover { border-color: rgba(232,180,176,0.4); }
+  .model-filter-btn.is-active, .prompt-cat-btn.is-active, .ag-key-tab.is-active {
+    background: #E8B4B0; color: #0a0a0a; border-color: #E8B4B0;
+  }
+  .model-card {
+    text-align: left; padding: 14px; border-radius: 14px; cursor: pointer;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    transition: border-color 0.12s, background 0.12s;
+  }
+  .model-card:hover { border-color: rgba(232,180,176,0.35); background: rgba(255,255,255,0.045); }
+  .model-card.is-selected { border-color: #E8B4B0; background: rgba(232,180,176,0.08); }
+  .model-card.is-hidden { display: none; }
+  .prompt-chip {
+    text-align: left; padding: 12px 14px; border-radius: 12px; cursor: pointer;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    transition: border-color 0.12s;
+  }
+  .prompt-chip:hover { border-color: rgba(232,180,176,0.35); }
+  .prompt-chip.is-hidden { display: none; }
 </style>
 
 <div class="lb-backdrop" id="lb" role="dialog" aria-modal="true">
@@ -992,6 +1141,191 @@ const industries = [
     if (i >= 10) {
       el.style.animationPlayState = 'paused';
       observer.observe(el);
+    }
+  });
+</script>
+
+<script>
+  // ── AI Ad Studio: model gallery, prompt library, generation ──────────
+  interface StudioModel { id: string; name: string; provider: string; tag: string; }
+
+  // Every model here is verified live against KIE AI's real /api/v1/models
+  // catalog and confirmed to accept { prompt, aspect_ratio } as of 2026-09-19,
+  // matching the exact set wired in src/pages/api/ads-generate.ts. Do not add
+  // a model here without confirming its id and required input fields first,
+  // several catalog entries (Flux 2, Seedream, Ideogram remix, Grok) need
+  // extra required fields not yet mapped.
+  // 16 of KIE AI's 31 Text-to-Image models, individually createTask-tested
+  // and confirmed live against a real account key on 2026-09-19. Matches
+  // src/pages/api/ads-generate.ts exactly. The remaining 15 (Flux 2, Wan 2.7,
+  // Seedream 4.5/5-lite, 4o-image-api, GPT-Image 1.5) each require additional
+  // fields (e.g. "resolution") not yet mapped — verification was paused once
+  // the KIE AI test account's credit balance dropped to 5.5, to avoid
+  // draining it further. Extend once more credits are available.
+  const MODELS: StudioModel[] = [
+    { id: 'nano-banana', name: 'Nano Banana', provider: 'Google', tag: 'Gemini 2.5 Flash Image, fast and versatile' },
+    { id: 'nano-banana-pro', name: 'Nano Banana Pro', provider: 'Google', tag: 'Best 4K image model' },
+    { id: 'nano-banana-2', name: 'Nano Banana 2', provider: 'Google', tag: 'Latest Nano Banana generation' },
+    { id: 'nano-banana-2-lite', name: 'Nano Banana 2 Lite', provider: 'Google', tag: 'Lightweight, fast turnaround' },
+    { id: 'imagen4', name: 'Imagen 4', provider: 'Google', tag: 'Google’s flagship text-to-image model' },
+    { id: 'imagen4-ultra', name: 'Imagen 4 Ultra', provider: 'Google', tag: 'Highest fidelity Imagen tier' },
+    { id: 'imagen4-fast', name: 'Imagen 4 Fast', provider: 'Google', tag: 'Fastest Imagen tier' },
+    { id: 'gpt-image-2', name: 'GPT Image 2', provider: 'OpenAI', tag: 'Near-perfect text rendering' },
+    { id: 'qwen-text-to-image', name: 'Qwen — Text to Image', provider: 'Qwen', tag: 'Original Qwen image model' },
+    { id: 'qwen2-text-to-image', name: 'Qwen2 — Text to Image', provider: 'Qwen', tag: 'Second-generation Qwen image model' },
+    { id: 'qwen3-text-to-image', name: 'Qwen3 — Text to Image', provider: 'Qwen', tag: 'Third-generation Qwen image model' },
+    { id: 'qwen3-pro', name: 'Qwen3 Pro', provider: 'Qwen', tag: 'Strong prompt adherence' },
+    { id: 'seedream-v3', name: 'Seedream V3', provider: 'ByteDance', tag: 'ByteDance’s text-to-image model' },
+    { id: 'flux1-kontext', name: 'Flux Kontext', provider: 'Black Forest Labs', tag: 'Context-aware Flux generation' },
+    { id: 'grok-imagine-text-to-image', name: 'Grok Imagine — Text to Image', provider: 'Grok', tag: 'xAI’s image model' },
+    { id: 'z-image', name: 'Z Image Turbo', provider: 'Qwen', tag: 'Fast turbo-tier generation' },
+  ];
+
+  interface PromptTemplate { cat: string; label: string; prompt: string; }
+
+  const PROMPTS: PromptTemplate[] = [
+    { cat: 'SaaS & Tech', label: 'Dashboard hero shot', prompt: 'A clean SaaS ad showing a laptop with an automation dashboard on screen, dark near-black background, terracotta accent lighting, bold empty headline space at top third, minimal and premium, product photography lighting' },
+    { cat: 'SaaS & Tech', label: 'Before/after workflow', prompt: 'Split-screen ad: left side chaotic tangled lines representing manual work, right side a single clean glowing automated pipeline, dark background, terracotta accent line dividing the two, headline space at top' },
+    { cat: 'E-commerce', label: 'Product on plinth', prompt: 'A single product on a minimal plinth, soft studio lighting, cream background, subtle terracotta shadow, ample negative space top-left for headline and price, e-commerce ad style' },
+    { cat: 'E-commerce', label: 'Lifestyle unboxing', prompt: 'Overhead flat-lay of an unboxing moment, product and packaging arranged neatly, warm natural light, cream and terracotta palette, space reserved at bottom for CTA button' },
+    { cat: 'Real Estate', label: 'Modern exterior', prompt: 'A modern minimalist house exterior at golden hour, clean architectural lines, warm sunset lighting, wide empty sky area top for headline, real estate ad photography style' },
+    { cat: 'Real Estate', label: 'Interior lifestyle', prompt: 'Bright, airy modern living room interior, natural light through large windows, neutral tones with one terracotta accent object, negative space on the right for agent contact card' },
+    { cat: 'Restaurant & Food', label: 'Hero dish close-up', prompt: 'Extreme close-up of a beautifully plated dish, dramatic side lighting, dark moody background, steam rising, small negative space bottom-right for logo' },
+    { cat: 'Restaurant & Food', label: 'Ingredients flat-lay', prompt: 'Top-down flat-lay of fresh ingredients arranged artfully around empty center space for text, natural wood table, soft daylight, appetizing color palette' },
+    { cat: 'Health & Wellness', label: 'Calm lifestyle', prompt: 'A serene lifestyle scene suggesting wellness and balance, soft morning light, muted sage and cream palette, one person in soft focus background, clean space for headline top-center' },
+    { cat: 'Health & Wellness', label: 'Product macro', prompt: 'Macro product shot of a wellness product with water droplets, soft diffused lighting, pastel background, clean minimal composition with negative space for claim text' },
+    { cat: 'Finance', label: 'Confidence & clarity', prompt: 'Abstract representation of financial clarity: a single clean upward line graph rendered in 3D, dark navy background, one terracotta highlight, corporate premium feel, headline space at top' },
+    { cat: 'Finance', label: 'Trust & security', prompt: 'A minimal, trustworthy image suggesting security and stability, subtle shield or vault motif rendered abstractly, dark background with a single gold or terracotta accent light, negative space for headline' },
+    { cat: 'Local Services', label: 'Before/after transformation', prompt: 'Split before/after composition showing a dramatic visible improvement in a home or space, natural lighting on both sides, clean dividing line, space at bottom for CTA' },
+    { cat: 'Local Services', label: 'Technician at work', prompt: 'A professional technician at work, warm authentic photography style, natural environment, shallow depth of field, negative space on one side for headline and phone number' },
+  ];
+
+  const galleryEl = document.getElementById('model-gallery')!;
+  const promptLibEl = document.getElementById('prompt-library')!;
+  const promptInput = document.getElementById('ag-prompt') as HTMLTextAreaElement;
+  const selectedModelLabel = document.getElementById('ag-selected-model')!;
+  let selectedModel = MODELS[0];
+
+  function renderModels(filterProvider = 'all') {
+    galleryEl.innerHTML = MODELS
+      .filter(m => filterProvider === 'all' || m.provider === filterProvider)
+      .map(m => `
+        <button type="button" class="model-card${m.id === selectedModel.id ? ' is-selected' : ''}" data-id="${m.id}">
+          <p style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:rgba(232,180,176,0.7);margin-bottom:4px;">${m.provider}</p>
+          <p style="font-size:13px;font-weight:600;color:#fff;margin-bottom:3px;">${m.name}</p>
+          <p style="font-size:11px;color:rgba(255,255,255,0.4);line-height:1.4;">${m.tag}</p>
+        </button>
+      `).join('');
+    galleryEl.querySelectorAll<HTMLButtonElement>('.model-card').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const m = MODELS.find(x => x.id === btn.dataset.id);
+        if (!m) return;
+        selectedModel = m;
+        galleryEl.querySelectorAll('.model-card').forEach(c => c.classList.remove('is-selected'));
+        btn.classList.add('is-selected');
+        updateSelectedModelLabel();
+      });
+    });
+  }
+
+  function updateSelectedModelLabel() {
+    selectedModelLabel.textContent = `Selected model: ${selectedModel.name}`;
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.model-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.model-filter-btn').forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      renderModels(btn.dataset.provider || 'all');
+    });
+  });
+
+  function renderPrompts(cat: string) {
+    promptLibEl.innerHTML = PROMPTS.filter(p => p.cat === cat).map(p => `
+      <button type="button" class="prompt-chip" data-prompt="${p.prompt.replace(/"/g, '&quot;')}">
+        <p style="font-size:12.5px;font-weight:600;color:#fff;margin-bottom:3px;">${p.label}</p>
+        <p style="font-size:11px;color:rgba(255,255,255,0.4);line-height:1.4;">${p.prompt.slice(0, 70)}…</p>
+      </button>
+    `).join('');
+    promptLibEl.querySelectorAll<HTMLButtonElement>('.prompt-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        promptInput.value = btn.dataset.prompt || '';
+        promptInput.focus();
+      });
+    });
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.prompt-cat-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.prompt-cat-btn').forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      renderPrompts(btn.dataset.cat || 'SaaS & Tech');
+    });
+  });
+
+  renderModels();
+  renderPrompts('SaaS & Tech');
+  updateSelectedModelLabel();
+
+  // ── API key mode toggle ──────────────────────────────────────────
+  const keyOwnBtn = document.getElementById('ag-key-own')!;
+  const keySharedBtn = document.getElementById('ag-key-shared')!;
+  const keyOwnPanel = document.getElementById('ag-key-own-panel')!;
+  const keySharedPanel = document.getElementById('ag-key-shared-panel')!;
+  keyOwnBtn.addEventListener('click', () => {
+    keyOwnBtn.classList.add('is-active'); keySharedBtn.classList.remove('is-active');
+    keyOwnPanel.classList.remove('hidden'); keySharedPanel.classList.add('hidden');
+  });
+  keySharedBtn.addEventListener('click', () => {
+    keySharedBtn.classList.add('is-active'); keyOwnBtn.classList.remove('is-active');
+    keySharedPanel.classList.remove('hidden'); keyOwnPanel.classList.add('hidden');
+  });
+
+  // ── Generate ──────────────────────────────────────────────────────
+  const generateBtn = document.getElementById('ag-generate') as HTMLButtonElement;
+  const errorEl = document.getElementById('ag-error')!;
+  const resultEmpty = document.getElementById('ag-result-empty')!;
+  const resultLoading = document.getElementById('ag-result-loading')!;
+  const resultImage = document.getElementById('ag-result-image')!;
+  const resultImg = document.getElementById('ag-result-img') as HTMLImageElement;
+  const resultDownload = document.getElementById('ag-result-download') as HTMLAnchorElement;
+
+  generateBtn.addEventListener('click', async () => {
+    errorEl.classList.add('hidden');
+    const prompt = promptInput.value.trim();
+    const email = (document.getElementById('ag-email') as HTMLInputElement).value.trim();
+    const aspectRatio = (document.getElementById('ag-aspect') as HTMLSelectElement).value;
+    const negative = (document.getElementById('ag-negative') as HTMLInputElement).value.trim();
+    const usingOwnKey = keyOwnBtn.classList.contains('is-active');
+    const apiKey = usingOwnKey ? (document.getElementById('ag-apikey') as HTMLInputElement).value.trim() : '';
+
+    if (!prompt) { errorEl.textContent = 'Write or pick a prompt first.'; errorEl.classList.remove('hidden'); return; }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { errorEl.textContent = 'Enter a valid email to continue.'; errorEl.classList.remove('hidden'); return; }
+    if (usingOwnKey && !apiKey) { errorEl.textContent = 'Enter your KIE AI key, or switch to the shared key.'; errorEl.classList.remove('hidden'); return; }
+
+    resultEmpty.classList.add('hidden'); resultImage.classList.add('hidden'); resultLoading.classList.remove('hidden');
+    generateBtn.disabled = true;
+
+    try {
+      const res = await fetch('/api/ads-generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, prompt: negative ? `${prompt}. Avoid: ${negative}` : prompt, model: selectedModel.id, apiKey, aspectRatio }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.imageUrl) throw new Error(data.error || 'Generation failed.');
+
+      resultImg.src = data.imageUrl;
+      resultDownload.href = data.imageUrl;
+      resultLoading.classList.add('hidden');
+      resultImage.classList.remove('hidden');
+    } catch (e: any) {
+      resultLoading.classList.add('hidden');
+      resultEmpty.classList.remove('hidden');
+      errorEl.textContent = e.message || 'Something went wrong.';
+      errorEl.classList.remove('hidden');
+    } finally {
+      generateBtn.disabled = false;
     }
   });
 </script>
