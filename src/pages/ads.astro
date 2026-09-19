@@ -200,7 +200,11 @@ const industries = [
             <p class="text-[9.5px] uppercase tracking-[0.22em] font-bold mb-1.5" style="color:rgba(232,180,176,0.75);">AI Ad Studio · powered by KIE AI</p>
             <h2 class="font-display text-xl sm:text-2xl text-white">Pick a model. Pick a prompt. Generate.</h2>
           </div>
-          <span class="text-[10px] uppercase tracking-[0.14em] px-3 py-1.5 rounded-full" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);">Image · v1</span>
+          <div class="flex gap-2">
+            <span class="text-[10px] uppercase tracking-[0.14em] px-3 py-1.5 rounded-full" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);">16 models</span>
+            <span class="text-[10px] uppercase tracking-[0.14em] px-3 py-1.5 rounded-full" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);">22 industries</span>
+            <span class="text-[10px] uppercase tracking-[0.14em] px-3 py-1.5 rounded-full" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);">Image · v1</span>
+          </div>
         </div>
 
         <!-- ① Model gallery -->
@@ -223,7 +227,7 @@ const industries = [
           <p class="text-[11px] uppercase tracking-widest font-semibold mb-3" style="color:rgba(255,255,255,0.35);">2 · Start from a prompt, or write your own</p>
 
           <div class="flex flex-wrap gap-1.5 mb-3" id="prompt-category-filter">
-            {['SaaS & Tech','E-commerce','Real Estate','Restaurant & Food','Health & Wellness','Finance','Local Services'].map((c, i) => (
+            {['SaaS & Tech','E-commerce','Real Estate','Restaurant & Food','Health & Wellness','Finance','Local Services','Legal','Dental & Healthcare','Marketing Agencies','Construction & Trades','Automotive','Fitness & Wellness','Education & Coaching','Insurance','Hotels & Hospitality','HR & Recruitment','Property Management','Beauty & Salons','Med Spa & Aesthetics','IT Services & MSP','Home Improvement'].map((c, i) => (
               <button class={`prompt-cat-btn${i===0?' is-active':''}`} data-cat={c}>{c}</button>
             ))}
           </div>
@@ -310,6 +314,26 @@ const industries = [
         </div>
       </div>
       <p class="text-[10.5px] mt-3 text-center" style="color:rgba(255,255,255,0.25);">Step 1 of the full studio: image generation is live. Video, motion transfer (Genjutsu-style), and more models are coming next.</p>
+
+      <!-- Automations that pair with this -->
+      <div class="mt-8 rounded-[20px] p-6 sm:p-8" style="background:#0d0d0d;border:1px solid rgba(255,255,255,0.08);">
+        <p class="text-[9.5px] uppercase tracking-[0.22em] font-bold mb-2" style="color:rgba(232,180,176,0.75);">Beyond the image itself</p>
+        <h3 class="font-display text-lg sm:text-xl text-white mb-6">A generated ad is not a running campaign. Here's what closes that gap.</h3>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            { title: 'Auto-tag every campaign link', body: 'Every ad you run needs consistent UTM tracking to know what actually converts. Build the tagged link and QR code for this creative right now.', cta: 'Open the UTM builder →', href: '/pages/free-tools/utm-link-builder', internal: true },
+            { title: 'Resize into every ad format', body: 'One creative, auto-resized into square, story, and banner formats the moment it is approved, no manual re-export per placement.', cta: 'Scope this with us →', href: '/pages/welcome', internal: true },
+            { title: 'Auto-post on a schedule', body: 'Approved creatives go out to Meta, Google, and LinkedIn automatically at the right time, PC off, nothing missed.', cta: 'Scope this with us →', href: '/pages/welcome', internal: true },
+            { title: 'A/B test and auto-pause losers', body: 'Run creative variants against each other and automatically shift budget away from the ones underperforming, without checking dashboards daily.', cta: 'Scope this with us →', href: '/pages/welcome', internal: true },
+          ].map(a => (
+            <div class="rounded-[14px] p-5" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);">
+              <p class="text-[13px] font-semibold text-white mb-2">{a.title}</p>
+              <p class="text-[11.5px] leading-relaxed mb-4" style="color:rgba(255,255,255,0.45);">{a.body}</p>
+              <a href={a.href} class="text-[11.5px] font-semibold" style="color:#E8B4B0;">{a.cta}</a>
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
 
     <!-- Filter bar -->
@@ -957,12 +981,20 @@ const industries = [
     background: #E8B4B0; color: #0a0a0a; border-color: #E8B4B0;
   }
   .model-card {
-    text-align: left; padding: 14px; border-radius: 14px; cursor: pointer;
-    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
-    transition: border-color 0.12s, background 0.12s;
+    position: relative; text-align: left; padding: 16px; border-radius: 14px; cursor: pointer;
+    background: rgba(255,255,255,0.03); border: 1.5px solid rgba(255,255,255,0.08);
+    transition: border-color 0.14s, background 0.14s, transform 0.14s;
   }
-  .model-card:hover { border-color: rgba(232,180,176,0.35); background: rgba(255,255,255,0.045); }
-  .model-card.is-selected { border-color: #E8B4B0; background: rgba(232,180,176,0.08); }
+  .model-card:hover { border-color: rgba(232,180,176,0.45); background: rgba(255,255,255,0.05); transform: translateY(-1px); }
+  .model-card.is-selected {
+    border-color: #E8B4B0; background: rgba(232,180,176,0.1);
+    box-shadow: 0 0 0 3px rgba(232,180,176,0.15);
+  }
+  .model-card.is-selected::after {
+    content: '✓'; position: absolute; top: 10px; right: 10px; width: 18px; height: 18px;
+    border-radius: 50%; background: #E8B4B0; color: #0a0a0a; font-size: 11px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+  }
   .model-card.is-hidden { display: none; }
   .prompt-chip {
     text-align: left; padding: 12px 14px; border-radius: 12px; cursor: pointer;
@@ -1198,6 +1230,36 @@ const industries = [
     { cat: 'Finance', label: 'Trust & security', prompt: 'A minimal, trustworthy image suggesting security and stability, subtle shield or vault motif rendered abstractly, dark background with a single gold or terracotta accent light, negative space for headline' },
     { cat: 'Local Services', label: 'Before/after transformation', prompt: 'Split before/after composition showing a dramatic visible improvement in a home or space, natural lighting on both sides, clean dividing line, space at bottom for CTA' },
     { cat: 'Local Services', label: 'Technician at work', prompt: 'A professional technician at work, warm authentic photography style, natural environment, shallow depth of field, negative space on one side for headline and phone number' },
+    { cat: 'Legal', label: 'Authority & trust', prompt: 'A minimal, authoritative image suggesting legal expertise: scales of justice rendered abstractly in 3D, dark navy or near-black background, one gold or terracotta accent light, corporate premium feel, headline space top-center' },
+    { cat: 'Legal', label: 'Consultation moment', prompt: 'A warm, professional consultation scene, two people at a clean modern desk, soft natural window light, muted neutral palette, negative space on the right for a headline and CTA' },
+    { cat: 'Dental & Healthcare', label: 'Clean clinical hero', prompt: 'A bright, spotless dental or medical office interior, soft even lighting, white and sage green palette, one subtle terracotta accent object, wide negative space at top for headline' },
+    { cat: 'Dental & Healthcare', label: 'Confident smile', prompt: 'Close-up of a genuine confident smile, soft natural lighting, warm skin tones, shallow depth of field, clean negative space on one side for headline and clinic name' },
+    { cat: 'Marketing Agencies', label: 'Creative chaos to clarity', prompt: 'Split-screen ad: left side a cluttered desk with scattered papers and sticky notes, right side a single clean glowing dashboard, dark background, terracotta dividing line, headline space at top' },
+    { cat: 'Marketing Agencies', label: 'Growth graph hero', prompt: 'A bold 3D upward-trending graph breaking through a dark background, terracotta and cream gradient lighting, premium agency aesthetic, large negative space at top for a punchy headline' },
+    { cat: 'Construction & Trades', label: 'Job site precision', prompt: 'A clean, well-organized construction job site at golden hour, one worker in sharp focus using a tool, dust particles catching warm light, negative space on the left for headline and logo' },
+    { cat: 'Construction & Trades', label: 'Before/after renovation', prompt: 'Split before/after of a home renovation, dramatic visible transformation, natural daylight on both sides, clean dividing line down the middle, CTA space at the bottom' },
+    { cat: 'Automotive', label: 'Showroom hero shot', prompt: 'A single vehicle under dramatic studio lighting in a dark showroom, reflective floor, one terracotta rim light, wide negative space at top for headline and price' },
+    { cat: 'Automotive', label: 'Service bay action', prompt: 'A clean, modern auto service bay, one technician working on a vehicle, warm overhead lighting, shallow depth of field, negative space on the right for headline and phone number' },
+    { cat: 'Fitness & Wellness', label: 'Energy & motion', prompt: 'A dynamic mid-motion shot of a person mid-workout, dramatic gym lighting, dark background with one terracotta rim light, strong sense of energy, negative space at top for a bold headline' },
+    { cat: 'Fitness & Wellness', label: 'Calm studio moment', prompt: 'A serene yoga or wellness studio interior, soft natural light through large windows, muted sage and cream palette, one person in soft focus, clean space for headline top-center' },
+    { cat: 'Education & Coaching', label: 'Breakthrough moment', prompt: 'A warm, inspiring image of a student or client having a breakthrough moment, soft natural lighting, notebook or laptop in frame, negative space on one side for headline and CTA' },
+    { cat: 'Education & Coaching', label: 'Before/after skill growth', prompt: 'Split composition showing progression from confusion to confidence, abstract visual metaphor (tangled lines becoming a clear path), dark background, terracotta accent, headline space at top' },
+    { cat: 'Insurance', label: 'Protection & peace of mind', prompt: 'A minimal, reassuring image suggesting protection: an abstract shield or umbrella motif rendered in soft 3D, warm cream background, one terracotta accent, wide negative space for headline' },
+    { cat: 'Insurance', label: 'Family security', prompt: 'A warm, authentic family moment at home, soft natural window light, muted neutral tones, shallow depth of field, negative space on one side for headline and CTA' },
+    { cat: 'Hotels & Hospitality', label: 'Suite hero shot', prompt: 'A beautifully lit hotel suite interior at golden hour, clean architectural lines, warm ambient lighting, wide empty space at top for headline, luxury travel ad photography style' },
+    { cat: 'Hotels & Hospitality', label: 'Poolside escape', prompt: 'A serene poolside or rooftop scene at sunset, warm golden light reflecting on water, minimal composition, negative space on one side for headline and booking CTA' },
+    { cat: 'HR & Recruitment', label: 'Team success', prompt: 'A genuine, warm moment of a diverse team celebrating a win in a modern office, natural daylight, shallow depth of field, negative space at top for headline' },
+    { cat: 'HR & Recruitment', label: 'Talent search visual', prompt: 'An abstract visual of a single glowing point being found among many dim points, dark background, terracotta highlight on the found point, premium recruitment ad style, headline space at top' },
+    { cat: 'Property Management', label: 'Well-maintained exterior', prompt: 'A clean, well-maintained apartment building exterior at golden hour, warm lighting, manicured landscaping, wide sky area at top for headline, property management ad style' },
+    { cat: 'Property Management', label: 'Tenant satisfaction', prompt: 'A warm, authentic moment of a tenant receiving keys or a friendly handoff, soft natural light, neutral modern interior, negative space on one side for headline and CTA' },
+    { cat: 'Beauty & Salons', label: 'Radiant close-up', prompt: 'A close-up beauty shot with radiant, glowing skin, soft diffused studio lighting, cream and terracotta palette, shallow depth of field, negative space on one side for headline' },
+    { cat: 'Beauty & Salons', label: 'Salon ambiance', prompt: 'A warm, inviting salon interior with soft ambient lighting, clean modern decor, one client in soft focus, negative space at top for headline and booking CTA' },
+    { cat: 'Med Spa & Aesthetics', label: 'Clinical elegance', prompt: 'A minimal, elegant clinical interior with soft even lighting, white and sage palette, one terracotta accent detail, wide negative space at top for headline, premium med spa ad aesthetic' },
+    { cat: 'Med Spa & Aesthetics', label: 'Confident transformation', prompt: 'A soft-focus portrait suggesting quiet confidence and renewal, warm natural light, muted neutral tones, shallow depth of field, negative space on one side for headline' },
+    { cat: 'IT Services & MSP', label: 'Server room precision', prompt: 'A clean, dimly lit server room with glowing blue and terracotta accent lights on the racks, sharp reflective floor, wide negative space at top for a bold technical headline' },
+    { cat: 'IT Services & MSP', label: 'Uptime confidence', prompt: 'An abstract visual of a single steady glowing line representing uninterrupted uptime against a dark background, terracotta accent glow, premium B2B tech ad aesthetic, headline space at top' },
+    { cat: 'Home Improvement', label: 'Dream kitchen reveal', prompt: 'A bright, beautifully finished modern kitchen interior, natural daylight through large windows, warm neutral tones, wide negative space at top for headline, home improvement ad style' },
+    { cat: 'Home Improvement', label: 'Craftsmanship detail', prompt: 'A macro shot of fine craftsmanship detail (wood joint, tile edge, or fixture), warm directional lighting, shallow depth of field, negative space on one side for headline and CTA' },
   ];
 
   const galleryEl = document.getElementById('model-gallery')!;
