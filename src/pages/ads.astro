@@ -238,6 +238,11 @@ const industries = [
             <textarea id="ag-prompt" rows="3" placeholder="Pick a prompt above, or write your own: describe the subject, style, palette, and where headline space should go…"
               class="w-full px-4 py-3 rounded-lg text-[13.5px] leading-relaxed outline-none resize-none" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;"></textarea>
           </div>
+
+          <div class="mt-5">
+            <label class="text-[11px] uppercase tracking-widest font-semibold block mb-2" style="color:rgba(255,255,255,0.35);">Ad frame <span style="color:rgba(255,255,255,0.25);">(composition layout, optional)</span></label>
+            <div class="grid sm:grid-cols-3 lg:grid-cols-5 gap-2" id="frame-picker"></div>
+          </div>
         </div>
 
         <!-- ③ Fine-tune + generate -->
@@ -321,16 +326,24 @@ const industries = [
         <h3 class="font-display text-lg sm:text-xl text-white mb-6">A generated ad is not a running campaign. Here's what closes that gap.</h3>
         <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { title: 'Auto-tag every campaign link', body: 'Every ad you run needs consistent UTM tracking to know what actually converts. Build the tagged link and QR code for this creative right now.', cta: 'Open the UTM builder →', href: '/pages/free-tools/utm-link-builder', internal: true },
-            { title: 'Resize into every ad format', body: 'One creative, auto-resized into square, story, and banner formats the moment it is approved, no manual re-export per placement.', cta: 'Scope this with us →', href: '/pages/welcome', internal: true },
-            { title: 'Auto-post on a schedule', body: 'Approved creatives go out to Meta, Google, and LinkedIn automatically at the right time, PC off, nothing missed.', cta: 'Scope this with us →', href: '/pages/welcome', internal: true },
-            { title: 'A/B test and auto-pause losers', body: 'Run creative variants against each other and automatically shift budget away from the ones underperforming, without checking dashboards daily.', cta: 'Scope this with us →', href: '/pages/welcome', internal: true },
+            { icon: 'M13.828 10.172a4 4 0 010 5.656l-4 4a4 4 0 01-5.656-5.656l1.5-1.5m4.312 1.5a4 4 0 010-5.656l4-4a4 4 0 015.656 5.656l-1.5 1.5', title: 'Auto-tag every campaign link', body: 'Every ad you run needs consistent UTM tracking to know what actually converts. Build the tagged link and QR code for this creative right now.', cta: 'Open the UTM builder', href: '/pages/free-tools/utm-link-builder' },
+            { icon: 'M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4', title: 'Resize into every ad format', body: 'One creative, auto-resized into square, story, and banner formats the moment it is approved, no manual re-export per placement.', cta: 'Scope this with us', href: '/pages/welcome' },
+            { icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z', title: 'Auto-post on a schedule', body: 'Approved creatives go out to Meta, Google, and LinkedIn automatically at the right time, PC off, nothing missed.', cta: 'Scope this with us', href: '/pages/welcome' },
+            { icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', title: 'A/B test and auto-pause losers', body: 'Run creative variants against each other and automatically shift budget away from the ones underperforming, without checking dashboards daily.', cta: 'Scope this with us', href: '/pages/welcome' },
           ].map(a => (
-            <div class="rounded-[14px] p-5" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);">
+            <a href={a.href} class="automation-card block rounded-[14px] p-5">
+              <div class="icon-shell mb-3">
+                <div class="icon-core">
+                  <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="#F8F6F1" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d={a.icon}/></svg>
+                </div>
+              </div>
               <p class="text-[13px] font-semibold text-white mb-2">{a.title}</p>
-              <p class="text-[11.5px] leading-relaxed mb-4" style="color:rgba(255,255,255,0.45);">{a.body}</p>
-              <a href={a.href} class="text-[11.5px] font-semibold" style="color:#E8B4B0;">{a.cta}</a>
-            </div>
+              <p class="text-[11.5px] leading-relaxed mb-4" style="color:rgba(255,255,255,0.5);">{a.body}</p>
+              <span class="inline-flex items-center gap-1.5 text-[11.5px] font-semibold" style="color:#E8B4B0;">
+                {a.cta}
+                <svg class="w-3 h-3" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+              </span>
+            </a>
           ))}
         </div>
       </div>
@@ -982,27 +995,49 @@ const industries = [
   }
   .model-card {
     position: relative; text-align: left; padding: 16px; border-radius: 14px; cursor: pointer;
-    background: rgba(255,255,255,0.03); border: 1.5px solid rgba(255,255,255,0.08);
-    transition: border-color 0.14s, background 0.14s, transform 0.14s;
+    background: #18181b; border: 1px solid rgba(255,255,255,0.14); width: 100%; display: block;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    transition: border-color 0.14s, background 0.14s, transform 0.14s, box-shadow 0.14s;
   }
-  .model-card:hover { border-color: rgba(232,180,176,0.45); background: rgba(255,255,255,0.05); transform: translateY(-1px); }
+  .model-card:hover { border-color: rgba(232,180,176,0.55); background: #201c1c; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.5); }
   .model-card.is-selected {
-    border-color: #E8B4B0; background: rgba(232,180,176,0.1);
-    box-shadow: 0 0 0 3px rgba(232,180,176,0.15);
+    border-color: #E8B4B0; background: #241b1a;
+    box-shadow: 0 0 0 2px rgba(232,180,176,0.35), 0 6px 20px rgba(232,180,176,0.15);
   }
   .model-card.is-selected::after {
-    content: '✓'; position: absolute; top: 10px; right: 10px; width: 18px; height: 18px;
-    border-radius: 50%; background: #E8B4B0; color: #0a0a0a; font-size: 11px; font-weight: 800;
-    display: flex; align-items: center; justify-content: center;
+    content: '✓'; position: absolute; top: 10px; right: 10px; width: 20px; height: 20px;
+    border-radius: 50%; background: #E8B4B0; color: #0a0a0a; font-size: 12px; font-weight: 900;
+    display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.4);
   }
   .model-card.is-hidden { display: none; }
   .prompt-chip {
-    text-align: left; padding: 12px 14px; border-radius: 12px; cursor: pointer;
-    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
-    transition: border-color 0.12s;
+    text-align: left; padding: 13px 15px; border-radius: 12px; cursor: pointer; width: 100%; display: block;
+    background: #18181b; border: 1px solid rgba(255,255,255,0.14); box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    transition: border-color 0.12s, background 0.12s, transform 0.12s;
   }
+  .prompt-chip:hover { transform: translateY(-1px); background: #201c1c; }
   .prompt-chip:hover { border-color: rgba(232,180,176,0.35); }
   .prompt-chip.is-hidden { display: none; }
+
+  .frame-card {
+    display: flex; flex-direction: column; align-items: center; padding: 10px 6px; border-radius: 10px; cursor: pointer;
+    background: #18181b; border: 1px solid rgba(255,255,255,0.14); transition: border-color 0.12s, background 0.12s;
+  }
+  .frame-card:hover { border-color: rgba(232,180,176,0.45); background: #201c1c; }
+  .frame-card.is-selected { border-color: #E8B4B0; background: #241b1a; box-shadow: 0 0 0 2px rgba(232,180,176,0.3); }
+  .automation-card {
+    background: #18181b; border: 1px solid rgba(255,255,255,0.14); box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    transition: border-color 0.14s, background 0.14s, transform 0.14s;
+  }
+  .automation-card:hover { border-color: rgba(232,180,176,0.5); background: #201c1c; transform: translateY(-2px); }
+  .icon-shell {
+    width: 40px; height: 40px; border-radius: 12px; padding: 3px; flex-shrink: 0;
+    background: linear-gradient(155deg, rgba(196,132,126,0.2), rgba(255,255,255,0.04));
+  }
+  .icon-core {
+    width: 100%; height: 100%; border-radius: 9px; display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(155deg, #1a1210 0%, #0A0A0A 100%);
+  }
 </style>
 
 <div class="lb-backdrop" id="lb" role="dialog" aria-modal="true">
@@ -1216,50 +1251,60 @@ const industries = [
   interface PromptTemplate { cat: string; label: string; prompt: string; }
 
   const PROMPTS: PromptTemplate[] = [
-    { cat: 'SaaS & Tech', label: 'Dashboard hero shot', prompt: 'A clean SaaS ad showing a laptop with an automation dashboard on screen, dark near-black background, terracotta accent lighting, bold empty headline space at top third, minimal and premium, product photography lighting' },
-    { cat: 'SaaS & Tech', label: 'Before/after workflow', prompt: 'Split-screen ad: left side chaotic tangled lines representing manual work, right side a single clean glowing automated pipeline, dark background, terracotta accent line dividing the two, headline space at top' },
-    { cat: 'E-commerce', label: 'Product on plinth', prompt: 'A single product on a minimal plinth, soft studio lighting, cream background, subtle terracotta shadow, ample negative space top-left for headline and price, e-commerce ad style' },
-    { cat: 'E-commerce', label: 'Lifestyle unboxing', prompt: 'Overhead flat-lay of an unboxing moment, product and packaging arranged neatly, warm natural light, cream and terracotta palette, space reserved at bottom for CTA button' },
-    { cat: 'Real Estate', label: 'Modern exterior', prompt: 'A modern minimalist house exterior at golden hour, clean architectural lines, warm sunset lighting, wide empty sky area top for headline, real estate ad photography style' },
-    { cat: 'Real Estate', label: 'Interior lifestyle', prompt: 'Bright, airy modern living room interior, natural light through large windows, neutral tones with one terracotta accent object, negative space on the right for agent contact card' },
-    { cat: 'Restaurant & Food', label: 'Hero dish close-up', prompt: 'Extreme close-up of a beautifully plated dish, dramatic side lighting, dark moody background, steam rising, small negative space bottom-right for logo' },
-    { cat: 'Restaurant & Food', label: 'Ingredients flat-lay', prompt: 'Top-down flat-lay of fresh ingredients arranged artfully around empty center space for text, natural wood table, soft daylight, appetizing color palette' },
-    { cat: 'Health & Wellness', label: 'Calm lifestyle', prompt: 'A serene lifestyle scene suggesting wellness and balance, soft morning light, muted sage and cream palette, one person in soft focus background, clean space for headline top-center' },
-    { cat: 'Health & Wellness', label: 'Product macro', prompt: 'Macro product shot of a wellness product with water droplets, soft diffused lighting, pastel background, clean minimal composition with negative space for claim text' },
-    { cat: 'Finance', label: 'Confidence & clarity', prompt: 'Abstract representation of financial clarity: a single clean upward line graph rendered in 3D, dark navy background, one terracotta highlight, corporate premium feel, headline space at top' },
-    { cat: 'Finance', label: 'Trust & security', prompt: 'A minimal, trustworthy image suggesting security and stability, subtle shield or vault motif rendered abstractly, dark background with a single gold or terracotta accent light, negative space for headline' },
-    { cat: 'Local Services', label: 'Before/after transformation', prompt: 'Split before/after composition showing a dramatic visible improvement in a home or space, natural lighting on both sides, clean dividing line, space at bottom for CTA' },
-    { cat: 'Local Services', label: 'Technician at work', prompt: 'A professional technician at work, warm authentic photography style, natural environment, shallow depth of field, negative space on one side for headline and phone number' },
-    { cat: 'Legal', label: 'Authority & trust', prompt: 'A minimal, authoritative image suggesting legal expertise: scales of justice rendered abstractly in 3D, dark navy or near-black background, one gold or terracotta accent light, corporate premium feel, headline space top-center' },
-    { cat: 'Legal', label: 'Consultation moment', prompt: 'A warm, professional consultation scene, two people at a clean modern desk, soft natural window light, muted neutral palette, negative space on the right for a headline and CTA' },
-    { cat: 'Dental & Healthcare', label: 'Clean clinical hero', prompt: 'A bright, spotless dental or medical office interior, soft even lighting, white and sage green palette, one subtle terracotta accent object, wide negative space at top for headline' },
-    { cat: 'Dental & Healthcare', label: 'Confident smile', prompt: 'Close-up of a genuine confident smile, soft natural lighting, warm skin tones, shallow depth of field, clean negative space on one side for headline and clinic name' },
-    { cat: 'Marketing Agencies', label: 'Creative chaos to clarity', prompt: 'Split-screen ad: left side a cluttered desk with scattered papers and sticky notes, right side a single clean glowing dashboard, dark background, terracotta dividing line, headline space at top' },
-    { cat: 'Marketing Agencies', label: 'Growth graph hero', prompt: 'A bold 3D upward-trending graph breaking through a dark background, terracotta and cream gradient lighting, premium agency aesthetic, large negative space at top for a punchy headline' },
-    { cat: 'Construction & Trades', label: 'Job site precision', prompt: 'A clean, well-organized construction job site at golden hour, one worker in sharp focus using a tool, dust particles catching warm light, negative space on the left for headline and logo' },
-    { cat: 'Construction & Trades', label: 'Before/after renovation', prompt: 'Split before/after of a home renovation, dramatic visible transformation, natural daylight on both sides, clean dividing line down the middle, CTA space at the bottom' },
-    { cat: 'Automotive', label: 'Showroom hero shot', prompt: 'A single vehicle under dramatic studio lighting in a dark showroom, reflective floor, one terracotta rim light, wide negative space at top for headline and price' },
-    { cat: 'Automotive', label: 'Service bay action', prompt: 'A clean, modern auto service bay, one technician working on a vehicle, warm overhead lighting, shallow depth of field, negative space on the right for headline and phone number' },
-    { cat: 'Fitness & Wellness', label: 'Energy & motion', prompt: 'A dynamic mid-motion shot of a person mid-workout, dramatic gym lighting, dark background with one terracotta rim light, strong sense of energy, negative space at top for a bold headline' },
-    { cat: 'Fitness & Wellness', label: 'Calm studio moment', prompt: 'A serene yoga or wellness studio interior, soft natural light through large windows, muted sage and cream palette, one person in soft focus, clean space for headline top-center' },
-    { cat: 'Education & Coaching', label: 'Breakthrough moment', prompt: 'A warm, inspiring image of a student or client having a breakthrough moment, soft natural lighting, notebook or laptop in frame, negative space on one side for headline and CTA' },
-    { cat: 'Education & Coaching', label: 'Before/after skill growth', prompt: 'Split composition showing progression from confusion to confidence, abstract visual metaphor (tangled lines becoming a clear path), dark background, terracotta accent, headline space at top' },
-    { cat: 'Insurance', label: 'Protection & peace of mind', prompt: 'A minimal, reassuring image suggesting protection: an abstract shield or umbrella motif rendered in soft 3D, warm cream background, one terracotta accent, wide negative space for headline' },
-    { cat: 'Insurance', label: 'Family security', prompt: 'A warm, authentic family moment at home, soft natural window light, muted neutral tones, shallow depth of field, negative space on one side for headline and CTA' },
-    { cat: 'Hotels & Hospitality', label: 'Suite hero shot', prompt: 'A beautifully lit hotel suite interior at golden hour, clean architectural lines, warm ambient lighting, wide empty space at top for headline, luxury travel ad photography style' },
-    { cat: 'Hotels & Hospitality', label: 'Poolside escape', prompt: 'A serene poolside or rooftop scene at sunset, warm golden light reflecting on water, minimal composition, negative space on one side for headline and booking CTA' },
-    { cat: 'HR & Recruitment', label: 'Team success', prompt: 'A genuine, warm moment of a diverse team celebrating a win in a modern office, natural daylight, shallow depth of field, negative space at top for headline' },
-    { cat: 'HR & Recruitment', label: 'Talent search visual', prompt: 'An abstract visual of a single glowing point being found among many dim points, dark background, terracotta highlight on the found point, premium recruitment ad style, headline space at top' },
-    { cat: 'Property Management', label: 'Well-maintained exterior', prompt: 'A clean, well-maintained apartment building exterior at golden hour, warm lighting, manicured landscaping, wide sky area at top for headline, property management ad style' },
-    { cat: 'Property Management', label: 'Tenant satisfaction', prompt: 'A warm, authentic moment of a tenant receiving keys or a friendly handoff, soft natural light, neutral modern interior, negative space on one side for headline and CTA' },
-    { cat: 'Beauty & Salons', label: 'Radiant close-up', prompt: 'A close-up beauty shot with radiant, glowing skin, soft diffused studio lighting, cream and terracotta palette, shallow depth of field, negative space on one side for headline' },
-    { cat: 'Beauty & Salons', label: 'Salon ambiance', prompt: 'A warm, inviting salon interior with soft ambient lighting, clean modern decor, one client in soft focus, negative space at top for headline and booking CTA' },
-    { cat: 'Med Spa & Aesthetics', label: 'Clinical elegance', prompt: 'A minimal, elegant clinical interior with soft even lighting, white and sage palette, one terracotta accent detail, wide negative space at top for headline, premium med spa ad aesthetic' },
-    { cat: 'Med Spa & Aesthetics', label: 'Confident transformation', prompt: 'A soft-focus portrait suggesting quiet confidence and renewal, warm natural light, muted neutral tones, shallow depth of field, negative space on one side for headline' },
-    { cat: 'IT Services & MSP', label: 'Server room precision', prompt: 'A clean, dimly lit server room with glowing blue and terracotta accent lights on the racks, sharp reflective floor, wide negative space at top for a bold technical headline' },
-    { cat: 'IT Services & MSP', label: 'Uptime confidence', prompt: 'An abstract visual of a single steady glowing line representing uninterrupted uptime against a dark background, terracotta accent glow, premium B2B tech ad aesthetic, headline space at top' },
-    { cat: 'Home Improvement', label: 'Dream kitchen reveal', prompt: 'A bright, beautifully finished modern kitchen interior, natural daylight through large windows, warm neutral tones, wide negative space at top for headline, home improvement ad style' },
-    { cat: 'Home Improvement', label: 'Craftsmanship detail', prompt: 'A macro shot of fine craftsmanship detail (wood joint, tile edge, or fixture), warm directional lighting, shallow depth of field, negative space on one side for headline and CTA' },
+    { cat: 'SaaS & Tech', label: 'Dashboard hero shot', prompt: 'Overhead 3/4 view of a laptop on a dark walnut desk, screen glowing with a live automation dashboard mid-workflow, thin terracotta light spilling from the left edge of frame, everything above the laptop left empty and unlit for a headline, shot like a Bloomberg product photo' },
+    { cat: 'SaaS & Tech', label: 'Manual chaos vs. automated flow', prompt: 'Diptych: left panel is a tangled mess of red string connecting sticky notes on a corkboard in harsh fluorescent light; right panel is the same corkboard now a single glowing terracotta circuit line on black glass, no strings, no notes. A hairline vertical seam separates the two' },
+    { cat: 'E-commerce', label: 'Product on plinth', prompt: 'A single skincare bottle centered on a raw travertine plinth, one hard key light from upper right casting a long soft shadow across a warm cream backdrop, dust motes visible in the light beam, top third of frame left bare' },
+    { cat: 'E-commerce', label: 'Lifestyle unboxing', prompt: 'Hands mid-motion lifting tissue paper out of an open shipping box on a linen tablecloth, morning window light raking across the scene, a half-peeled shipping label visible, bottom quarter of the frame kept plain and shadow-free' },
+    { cat: 'Real Estate', label: 'Modern exterior at dusk', prompt: 'A cantilevered concrete-and-glass house photographed from the front lawn at blue hour, interior lights already on and glowing warm against the cooling sky, no people, the upper third of sky left cloudless and dark for text' },
+    { cat: 'Real Estate', label: 'Interior lifestyle', prompt: 'A sun-washed living room shot from a low angle near the floor, a single terracotta ceramic vase on an otherwise bare oak console table, sheer curtains diffusing hard afternoon light, right third of the frame kept as a plain wall' },
+    { cat: 'Restaurant & Food', label: 'Hero dish close-up', prompt: 'Macro shot at a 30-degree angle of a seared dish still steaming, fork resting mid-frame with one bite missing, single warm spotlight from camera-left against a near-black backdrop, bottom-right corner left dark and empty' },
+    { cat: 'Restaurant & Food', label: 'Ingredients flat-lay', prompt: 'Directly-overhead flat-lay on a scarred wooden butcher block, raw ingredients scattered loosely around a deliberate empty circle in the center, one knife resting diagonally at the edge, natural window light from one side only' },
+    { cat: 'Health & Wellness', label: 'Calm morning ritual', prompt: 'A hand wrapped around a ceramic mug on a windowsill at first light, steam curling upward, soft sage linen curtain slightly out of focus behind it, the upper half of frame left as plain pale wall' },
+    { cat: 'Health & Wellness', label: 'Product macro with texture', prompt: 'Extreme macro of a supplement capsule resting on a single wet stone, water droplets caught mid-drip, diffused overhead softbox light, blush-pink seamless backdrop, generous empty margin along the bottom edge' },
+    { cat: 'Finance', label: 'Clarity from complexity', prompt: 'A single glowing terracotta line graph rising cleanly through a dense field of faded gray tickers and numbers, deep navy background, the line exits frame at the upper right, leaving the upper left corner untouched for a headline' },
+    { cat: 'Finance', label: 'Vault of trust', prompt: 'Close, low-angle shot of a brushed-steel vault door slightly ajar, a sliver of warm gold light escaping the gap, everything else in near-total darkness, wide black margin above for text' },
+    { cat: 'Local Services', label: 'Split-second transformation', prompt: 'A single frame bisected by a straight vertical line: left half in flat overcast light shows visible wear and neglect, right half in warm golden light shows the same spot restored, no gradient blend, a hard clean seam down the middle' },
+    { cat: 'Local Services', label: 'Technician mid-task', prompt: 'A technician\'s hands and forearms only, mid-repair with a single tool, shallow depth of field blurring the tool into a streak of motion, warm garage light from one side, left third of frame in soft shadow for a headline' },
+    { cat: 'Legal', label: 'Weight of authority', prompt: 'A single brass scale of justice photographed from below against a near-black backdrop, one hard rim light tracing its edge in warm gold, long shadow cast toward camera, top half of frame pure black and empty' },
+    { cat: 'Legal', label: 'The consultation table', prompt: 'Two hands, one on each side of a bare walnut conference table, a single closed folder resting exactly between them, soft window light from the side, faces out of frame, right third of the table left bare' },
+    { cat: 'Dental & Healthcare', label: 'The empty chair, ready', prompt: 'A reclined dental chair photographed straight-on in a spotless white room, one warm terracotta accent light glowing from an unseen source, no patient, no staff, upper third of frame plain white ceiling for text' },
+    { cat: 'Dental & Healthcare', label: 'Confident smile, candid', prompt: 'A genuine mid-laugh smile caught off-guard, natural window light from one side only, shallow depth of field softening everything behind the face, one side of frame left in soft shadow' },
+    { cat: 'Marketing Agencies', label: 'From desk chaos to one screen', prompt: 'A cluttered desk buried in sticky notes and coffee rings on the left, transitioning through a hard terracotta light seam into a single clean monitor showing one glowing metric on the right, no gradient, a sharp vertical cut' },
+    { cat: 'Marketing Agencies', label: 'Growth breaking through', prompt: 'A single 3D terracotta bar erupting upward through a flat black plane, cracks of warm light radiating from the point of impact, camera angled slightly upward, the top quarter of frame left completely dark' },
+    { cat: 'Construction & Trades', label: 'Dust and golden light', prompt: 'A single worker\'s gloved hand gripping a tool mid-motion, backlit by low golden-hour sun so dust hangs visible in the beam, background thrown fully out of focus, left third of frame in cool shadow' },
+    { cat: 'Construction & Trades', label: 'The hard seam of renovation', prompt: 'One continuous wall shot straight-on, the left half water-stained and cracked under flat gray light, the right half freshly finished under warm light, a single vertical taped-off line marking the exact boundary' },
+    { cat: 'Automotive', label: 'Showroom under one light', prompt: 'A single vehicle three-quarter rear view on a black mirror floor, one hard overhead light tracing the roofline in a thin terracotta highlight, everything else falling to pure black, top third of frame empty' },
+    { cat: 'Automotive', label: 'Hands on the engine', prompt: 'A close crop of hands and a wrench mid-turn over an engine bay, warm shop-light glow reflecting off chrome, background reduced to soft bokeh, right third of frame kept dark and uncluttered' },
+    { cat: 'Fitness & Wellness', label: 'Mid-motion energy', prompt: 'A body frozen mid-jump against a near-black gym backdrop, one hard terracotta rim light outlining the silhouette, sweat caught as sharp droplets in the air, top half of frame left in shadow' },
+    { cat: 'Fitness & Wellness', label: 'Stillness before the session', prompt: 'A rolled yoga mat and a single glass of water on a sunlit wooden floor, nobody in frame, soft directional morning light through a nearby window, the upper two-thirds left as plain wall' },
+    { cat: 'Education & Coaching', label: 'The moment it clicks', prompt: 'A hand mid-air having just set down a pen, notebook covered in crossed-out attempts finally giving way to one circled answer, warm desk-lamp light pooling on the page, the rest of the frame falling into soft shadow' },
+    { cat: 'Education & Coaching', label: 'The tangled path made clear', prompt: 'A single glowing terracotta thread winding cleanly out of a knotted mass of gray string on a black surface, shot directly overhead, the thread exits toward the top-left corner leaving it empty' },
+    { cat: 'Insurance', label: 'The umbrella that held', prompt: 'A single closed umbrella leaning against a doorframe in soft rain-lit blue light, one warm terracotta glow coming from just inside the open door behind it, the sky above left as flat, empty gray' },
+    { cat: 'Insurance', label: 'The quiet of being covered', prompt: 'A child asleep on a parent\'s shoulder in a dim, warmly lit room, both faces soft-focused and turned away from camera, one small lamp as the only light source, wide dark margin at the top of frame' },
+    { cat: 'Hotels & Hospitality', label: 'The suite at last light', prompt: 'A hotel bed shot from the foot of the frame at dusk, one bedside lamp lit against deep blue window light behind sheer curtains, nobody in frame, the upper third dominated by the darkening sky left empty' },
+    { cat: 'Hotels & Hospitality', label: 'The last swim of the day', prompt: 'A single pair of feet dangling into an infinity pool at golden hour, the horizon line cutting the frame exactly in half, warm light rippling across the water, the sky half left plain for a headline' },
+    { cat: 'HR & Recruitment', label: 'The offer accepted', prompt: 'A handshake caught mid-motion over a bare desk, both faces out of frame, warm office light from one side, everything behind the hands thrown into soft bokeh, the upper half of frame left plain' },
+    { cat: 'HR & Recruitment', label: 'Found in the noise', prompt: 'A single lit point glowing terracotta amid a dense grid of hundreds of identical dim gray points on black, shot directly overhead like a star field, the point sits slightly off-center leaving one corner empty' },
+    { cat: 'Property Management', label: 'The building at rest', prompt: 'A modern apartment block at blue hour, half the windows warmly lit and half dark, shot from street level looking up, the sky above the roofline left cloudless and empty for text' },
+    { cat: 'Property Management', label: 'Keys changing hands', prompt: 'A close crop on two hands mid-exchange of a single key, warm entryway light, background reduced to a soft blur of a doorframe, one side of the frame left in gentle shadow' },
+    { cat: 'Beauty & Salons', label: 'Skin under one soft light', prompt: 'An extreme close crop of a cheek and jawline under one large soft diffused light source, water droplets caught mid-fall, cream seamless backdrop, the top of frame left plain and unlit' },
+    { cat: 'Beauty & Salons', label: 'The chair between clients', prompt: 'An empty salon chair facing a lit mirror, warm bulb lighting around the frame, tools resting neatly on the counter below, nobody in the shot, the mirror\'s upper half left dark for text' },
+    { cat: 'Med Spa & Aesthetics', label: 'The quiet treatment room', prompt: 'A single treatment bed in a spotless white room, one soft sage-green accent light glowing low against the wall, no patient in frame, the upper two-thirds left as plain white ceiling' },
+    { cat: 'Med Spa & Aesthetics', label: 'Renewal, softly lit', prompt: 'A profile portrait with eyes closed, soft window light wrapping the side of the face, background thrown into a warm neutral blur, one side of the frame left in gentle shadow for a headline' },
+    { cat: 'IT Services & MSP', label: 'The rack that never sleeps', prompt: 'A close row of server racks shot at a slight angle, status LEDs blinking in cool blue against one warm terracotta accent light at the far end of the aisle, the ceiling above left in total darkness' },
+    { cat: 'IT Services & MSP', label: 'One unbroken line', prompt: 'A single steady horizontal line of light traveling across a dark grid of faint circuit traces, no interruption, no flicker, the line exits frame right leaving the left third of the image plain and dark' },
+    { cat: 'Home Improvement', label: 'The kitchen, finished', prompt: 'A wide-angle shot of a finished kitchen at mid-morning, one shaft of sunlight crossing the island counter, no people, tools, or clutter in frame, the upper third of the shot left as plain ceiling for a headline' },
+    { cat: 'Home Improvement', label: 'Where the craft shows', prompt: 'An extreme macro of a dovetail joint or tile grout line catching raking sidelight, every texture and edge sharp, background falling into soft blur within inches, one side of the frame left plain for text' },
+  ];
+
+  interface Frame { id: string; label: string; icon: string; modifier: string; }
+  const FRAMES: Frame[] = [
+    { id: 'none', label: 'No frame', icon: 'M4 4h16v16H4z', modifier: '' },
+    { id: 'hero-top', label: 'Hero, headline top', icon: 'M4 4h16v6H4zM4 12h16v8H4z', modifier: 'Composition: subject fills the lower two-thirds of frame, the top third left completely empty and unlit for a headline to be placed there.' },
+    { id: 'hero-bottom', label: 'Hero, CTA bottom', icon: 'M4 4h16v8H4zM4 14h16v6H4z', modifier: 'Composition: subject fills the upper two-thirds of frame, the bottom quarter left plain and empty for a call-to-action bar.' },
+    { id: 'split', label: 'Before / After split', icon: 'M4 4h7v16H4zM13 4h7v16h-7z', modifier: 'Composition: a hard vertical seam splits the frame exactly in half, contrasting states on each side, no gradient blend across the seam.' },
+    { id: 'center-product', label: 'Centered product', icon: 'M9 9h6v6H9z', modifier: 'Composition: the subject is small and centered with generous empty margin on all four sides, isolated against a plain uncluttered background.' },
+    { id: 'side-copy', label: 'Side panel for copy', icon: 'M4 4h10v16H4zM16 4h4v16h-4z', modifier: 'Composition: subject occupies the left two-thirds of frame, the right third left as a plain, unbroken vertical panel for headline and body copy.' },
   ];
 
   const galleryEl = document.getElementById('model-gallery')!;
@@ -1329,6 +1374,29 @@ const industries = [
   renderPrompts('SaaS & Tech');
   updateSelectedModelLabel();
 
+  // ── Frame picker ──────────────────────────────────────────────────
+  const framePickerEl = document.getElementById('frame-picker')!;
+  let selectedFrame = FRAMES[0];
+
+  function renderFrames() {
+    framePickerEl.innerHTML = FRAMES.map(f => `
+      <button type="button" class="frame-card${f.id === selectedFrame.id ? ' is-selected' : ''}" data-id="${f.id}">
+        <svg width="100%" height="28" viewBox="0 0 24 24" fill="none" stroke="#E8B4B0" stroke-width="1.3"><path d="${f.icon}"/></svg>
+        <p style="font-size:10.5px;color:rgba(255,255,255,0.6);margin-top:6px;">${f.label}</p>
+      </button>
+    `).join('');
+    framePickerEl.querySelectorAll<HTMLButtonElement>('.frame-card').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const f = FRAMES.find(x => x.id === btn.dataset.id);
+        if (!f) return;
+        selectedFrame = f;
+        framePickerEl.querySelectorAll('.frame-card').forEach(c => c.classList.remove('is-selected'));
+        btn.classList.add('is-selected');
+      });
+    });
+  }
+  renderFrames();
+
   // ── API key mode toggle ──────────────────────────────────────────
   const keyOwnBtn = document.getElementById('ag-key-own')!;
   const keySharedBtn = document.getElementById('ag-key-shared')!;
@@ -1369,10 +1437,12 @@ const industries = [
     generateBtn.disabled = true;
 
     try {
+      const framedPrompt = selectedFrame.modifier ? `${prompt}. ${selectedFrame.modifier}` : prompt;
+      const finalPrompt = negative ? `${framedPrompt}. Avoid: ${negative}` : framedPrompt;
       const res = await fetch('/api/ads-generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, prompt: negative ? `${prompt}. Avoid: ${negative}` : prompt, model: selectedModel.id, apiKey, aspectRatio }),
+        body: JSON.stringify({ email, prompt: finalPrompt, model: selectedModel.id, apiKey, aspectRatio }),
       });
       const data = await res.json();
       if (!res.ok || !data.imageUrl) throw new Error(data.error || 'Generation failed.');
